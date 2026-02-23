@@ -25,6 +25,153 @@
 #include <kernel/state.h>
 #include <util/log.h>
 
+#ifdef BUILD_LIBRETRO
+#include <libretro_input_state.h>
+std::array<ControllerBinding, 15> get_controller_bindings_ext(EmuEnvState &emuenv) {
+    return {};
+}
+
+SceCtrlExternalInputMode get_type_of_controller(const int idx) {
+    return SCE_CTRL_TYPE_DS3;
+}
+
+void refresh_controllers(CtrlState &state, EmuEnvState &emuenv) {
+}
+
+int ctrl_get(const SceUID thread_id, EmuEnvState &emuenv, int port, SceCtrlData2 *pData, SceUInt32 count, bool negative, bool is_peek, bool is_v2, bool from_ext) {
+    if (port > 1 && !emuenv.cfg.current_config.pstv_mode) {
+        const char *export_name = "sceCtrl*Buffer*";
+        return RET_ERROR(SCE_CTRL_ERROR_NO_DEVICE);
+    }
+
+    memset(pData, 0, sizeof(SceCtrlData2) * count);
+
+    CtrlState &state = emuenv.ctrl;
+
+    int nb_returned_data = 1;
+    if (is_peek) {
+        nb_returned_data = count;
+    } else {
+        uint64_t vbc_before = emuenv.display.vblank_count.load();
+        if (vbc_before <= state.last_vcount[port]) {
+            auto thread = emuenv.kernel.get_thread(thread_id);
+            wait_vblank(emuenv.display, thread, state.last_vcount[port] + 1, false);
+        }
+        uint64_t vblank_count = emuenv.display.vblank_count.load();
+        nb_returned_data = std::min<int32_t>(count, vblank_count - state.last_vcount[port]);
+        state.last_vcount[port] = vblank_count;
+    }
+
+    std::chrono::time_point<std::chrono::steady_clock> ts = std::chrono::steady_clock::now();
+    uint64_t timestamp = std::chrono::duration_cast<std::chrono::microseconds>(ts.time_since_epoch()).count();
+    pData->timeStamp = timestamp;
+
+    {
+        auto &inp = libretro_input_state();
+        std::lock_guard<std::mutex> lock(inp.mutex);
+        int lr_port = (port == 0) ? 0 : (port - 1);
+        if (lr_port < 0 || lr_port >= (int)LIBRETRO_MAX_PORTS)
+            lr_port = 0;
+
+        if (!emuenv.cfg.current_config.pstv_mode) {
+            uint32_t merged_buttons = 0;
+            for (uint32_t p = 0; p < LIBRETRO_MAX_PORTS; p++)
+                merged_buttons |= inp.ports[p].buttons;
+            pData->buttons = merged_buttons;
+            pData->lx = inp.ports[0].lx;
+            pData->ly = inp.ports[0].ly;
+            pData->rx = inp.ports[0].rx;
+            pData->ry = inp.ports[0].ry;
+        } else {
+            pData->buttons = inp.ports[lr_port].buttons;
+            pData->lx = inp.ports[lr_port].lx;
+            pData->ly = inp.ports[lr_port].ly;
+            pData->rx = inp.ports[lr_port].rx;
+            pData->ry = inp.ports[lr_port].ry;
+        }
+
+        // Mask ext-only buttons in non-ext/non-v2 mode.
+        if (!is_v2 && !from_ext) {
+            pData->buttons &= ~(uint32_t)(SCE_CTRL_L1 | SCE_CTRL_R1 | SCE_CTRL_L3 | SCE_CTRL_R3);
+        }
+
+    }
+
+    if (negative)
+        pData->buttons ^= ~0u;
+
+    SceCtrlPadInputMode mode = from_ext ? state.input_mode_ext : state.input_mode;
+    if (mode == SCE_CTRL_MODE_DIGITAL) {
+        pData->lx = 0x80;
+        pData->ly = 0x80;
+        pData->rx = 0x80;
+        pData->ry = 0x80;
+    }
+
+    for (int i = 1; i < nb_returned_data; i++) {
+        memcpy(&pData[i], &pData[0], sizeof(SceCtrlData2));
+        pData[i].timeStamp -= i * 16667ULL;
+    }
+
+    return nb_returned_data;
+}
+#else // !BUILD_LIBRETRO
+#include <SDL3/SDL_keyboard.h>
+
+#ifdef ANDROID
+#include <SDL3/SDL_joystick.h>
+#include <jni.h>
+
+static int virtual_joystick_id = -1;
+static SDL_Joystick *virtual_joystick = nullptr;
+
+extern "C" {
+
+JNIEXPORT void JNICALL
+Java_org_vita3k_emulator_overlay_InputOverlay_attachController(JNIEnv *env, jobject thiz) {
+    SDL_VirtualJoystickDesc desc;
+    SDL_INIT_INTERFACE(&desc);
+    desc.type = SDL_JOYSTICK_TYPE_GAMEPAD;
+    desc.naxes = SDL_GAMEPAD_AXIS_COUNT;
+    desc.nbuttons = SDL_GAMEPAD_BUTTON_COUNT;
+    desc.name = "Vita3K Virtual Controller";
+
+    virtual_joystick_id = SDL_AttachVirtualJoystick(&desc);
+    if (virtual_joystick_id == 0)
+        LOG_CRITICAL("Could not create overlay virtual controller: {}", SDL_GetError());
+    else {
+        virtual_joystick = SDL_OpenJoystick(virtual_joystick_id);
+        if (!virtual_joystick)
+            LOG_CRITICAL("Could not create virtual joystick: {}", SDL_GetError());
+    }
+}
+
+JNIEXPORT void JNICALL
+Java_org_vita3k_emulator_overlay_InputOverlay_detachController(JNIEnv *env, jobject thiz) {
+    SDL_CloseJoystick(virtual_joystick);
+    SDL_DetachVirtualJoystick(virtual_joystick_id);
+    virtual_joystick = nullptr;
+    virtual_joystick_id = -1;
+}
+
+JNIEXPORT void JNICALL
+Java_org_vita3k_emulator_overlay_InputOverlay_setAxis(JNIEnv *env, jobject thiz, jint axis, jshort value) {
+    SDL_SetJoystickVirtualAxis(virtual_joystick, axis, value);
+}
+
+JNIEXPORT void JNICALL
+Java_org_vita3k_emulator_overlay_InputOverlay_setButton(JNIEnv *env, jobject thiz, jint button, jboolean value) {
+    if (button < 0)
+        // l2/r2
+        SDL_SetJoystickVirtualAxis(virtual_joystick, -button, value ? SDL_MAX_SINT16 : 0);
+    else
+        SDL_SetJoystickVirtualButton(virtual_joystick, button, value);
+}
+}
+#endif
+
+static uint64_t timestamp;
+
 static int reserve_port(CtrlState &state) {
     for (int i = 0; i < SCE_CTRL_MAX_WIRELESS_NUM; i++) {
         if (state.free_ports[i]) {
@@ -321,3 +468,4 @@ int ctrl_get(const SceUID thread_id, EmuEnvState &emuenv, int port, SceCtrlData2
 
     return nb_returned_data;
 }
+#endif // !BUILD_LIBRETRO

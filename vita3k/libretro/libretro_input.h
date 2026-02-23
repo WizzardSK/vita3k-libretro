@@ -17,19 +17,8 @@
 
 #pragma once
 
-#include <kernel/thread/thread_state.h>
+#include "libretro.h"
 
-#include <cstdint>
-
-struct DisplayState;
-struct EmuEnvState;
-struct DisplayFrameInfo;
-
-void start_sync_thread(EmuEnvState &emuenv);
-#ifdef BUILD_LIBRETRO
-void libretro_vblank_tick(EmuEnvState &emuenv);
-#endif
-void wait_vblank(DisplayState &display, const ThreadStatePtr &wait_thread, const uint64_t target_vcount, const bool is_cb);
-// if the result is not nullptr, contain the predicted frame (pointer needs to be freed later)
-DisplayFrameInfo *predict_next_image(EmuEnvState &emuenv, Address sync_object);
-void update_prediction(EmuEnvState &emuenv, DisplayFrameInfo &frame);
+void libretro_init_input_descriptors();
+void libretro_setup_controller_info();
+void libretro_poll_input();

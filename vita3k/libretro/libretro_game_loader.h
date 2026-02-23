@@ -17,19 +17,21 @@
 
 #pragma once
 
-#include <kernel/thread/thread_state.h>
+#include <util/exit_code.h>
 
 #include <cstdint>
 
-struct DisplayState;
 struct EmuEnvState;
-struct DisplayFrameInfo;
+class Root;
 
-void start_sync_thread(EmuEnvState &emuenv);
-#ifdef BUILD_LIBRETRO
-void libretro_vblank_tick(EmuEnvState &emuenv);
-#endif
-void wait_vblank(DisplayState &display, const ThreadStatePtr &wait_thread, const uint64_t target_vcount, const bool is_cb);
-// if the result is not nullptr, contain the predicted frame (pointer needs to be freed later)
-DisplayFrameInfo *predict_next_image(EmuEnvState &emuenv, Address sync_object);
-void update_prediction(EmuEnvState &emuenv, DisplayFrameInfo &frame);
+// Initialize the emulator environment: paths, renderer, IO, memory, audio, NGS.
+// This calls app::init() + app::late_init() in sequence.
+bool libretro_init_emuenv(EmuEnvState &emuenv, const Root &root_paths);
+
+// Load the game binary (eboot.bin + preload modules) into the emulator.
+// Equivalent to standalone load_app().
+ExitCode libretro_load_app(int32_t &main_module_id, EmuEnvState &emuenv);
+
+// Start the game's main thread.
+// Equivalent to standalone run_app().
+ExitCode libretro_run_app(EmuEnvState &emuenv, int32_t main_module_id);

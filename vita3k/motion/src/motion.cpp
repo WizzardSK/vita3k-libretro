@@ -24,6 +24,10 @@
 #include <util/log.h>
 
 #include <SDL3/SDL_gamepad.h>
+
+#ifdef BUILD_LIBRETRO
+#include <libretro_input_state.h>
+#endif
 #include <numbers>
 
 void set_display_rotation(MotionState &state, int rotation) {
@@ -93,6 +97,11 @@ void MotionState::clear_device_motion_support() {
 
 void MotionState::refresh_device_motion_support() {
     clear_device_motion_support();
+#ifdef BUILD_LIBRETRO
+    // RetroArch's sensor interface (libretro_input.cpp), not SDL's sensors
+    has_device_motion_support = libretro_input_state().has_motion;
+    return;
+#endif
     detect_device_motion_support(*this);
 
     if (has_device_motion_support)
@@ -107,6 +116,9 @@ void MotionState::stop_sensor_sampling() {
 
 void MotionState::start_sensor_sampling() {
     is_sampling = true;
+#ifdef BUILD_LIBRETRO
+    return;
+#endif
     if (!has_device_motion_support)
         return;
 
@@ -264,9 +276,46 @@ void handle_motion_event(EmuEnvState &emuenv, int32_t sensor_type, const SDL_Gam
     handle_motion_event<SDL_GamepadSensorEvent>(emuenv, sensor_type, sensor);
 }
 
+#ifdef BUILD_LIBRETRO
+// RetroArch's accelerometer and gyroscope readings, which libretro_input.cpp
+// takes each frame, where the app gets SDL's sensor events
+static void libretro_update_motion(MotionState &state, CtrlState &ctrl_state) {
+    auto &inp = libretro_input_state();
+    if (!inp.has_motion || !inp.motion_enabled)
+        return;
+
+    state.has_device_motion_support = true;
+    ctrl_state.has_motion_support = true;
+
+    float ax, ay, az, gx, gy, gz;
+    {
+        std::lock_guard<std::mutex> lock(inp.mutex);
+        ax = inp.accel_x;
+        ay = inp.accel_y;
+        az = inp.accel_z;
+        gx = inp.gyro_x;
+        gy = inp.gyro_y;
+        gz = inp.gyro_z;
+    }
+
+    const uint64_t timestamp = std::chrono::duration_cast<std::chrono::microseconds>(
+        std::chrono::steady_clock::now().time_since_epoch())
+                                   .count();
+
+    state.motion_data.SetAcceleration({ ax, ay, az });
+    state.motion_data.SetGyroscope({ gx, gy, gz });
+    state.last_updated_accel_timestamp = timestamp;
+    state.last_updated_gyro_timestamp = timestamp;
+}
+#endif
+
 void refresh_motion(MotionState &state, CtrlState &ctrl_state) {
     if (!state.is_sampling)
         return;
+
+#ifdef BUILD_LIBRETRO
+    libretro_update_motion(state, ctrl_state);
+#endif
 
     if (!ctrl_state.has_motion_support && !state.has_device_motion_support)
         return;

@@ -74,8 +74,43 @@ static void vblank_sync_thread(EmuEnvState &emuenv) {
 }
 
 void start_sync_thread(EmuEnvState &emuenv) {
+#ifdef BUILD_LIBRETRO
+    // retro_run drives vblank instead of a background thread.
+    LOG_INFO("Libretro: vblank sync thread not started");
+#else
     emuenv.display.vblank_thread = std::make_unique<std::thread>(vblank_sync_thread, std::ref(emuenv));
+#endif
 }
+
+#ifdef BUILD_LIBRETRO
+// One vblank, as vblank_sync_thread's loop does it, for retro_run to call
+// once a frame instead of the thread's timer.
+void libretro_vblank_tick(EmuEnvState &emuenv) {
+    DisplayState &display = emuenv.display;
+
+    const std::lock_guard<std::mutex> guard(display.mutex);
+
+    {
+        const std::lock_guard<std::mutex> guard_info(display.display_info_mutex);
+        ++display.vblank_count;
+
+        if (emuenv.kernel.is_threads_paused() || (emuenv.common_dialog.status == SCE_COMMON_DIALOG_STATUS_RUNNING))
+            if (display.vblank_count % 2 == 0)
+                emuenv.renderer->should_display = true;
+    }
+
+    touch_vsync_update(emuenv);
+    refresh_motion(emuenv.motion, emuenv.ctrl);
+
+    // Notify Vblank callback in each VBLANK start
+    for (auto &[_, cb] : display.vblank_callbacks)
+        cb->event_notify(cb->get_notifier_id());
+
+    display.vblank_waiters.wake_if([&](auto &waiter) {
+        return waiter.entry.target_vcount <= display.vblank_count;
+    });
+}
+#endif
 
 void wait_vblank(DisplayState &display, const ThreadStatePtr &wait_thread, const uint64_t target_vcount, const bool is_cb) {
     if (!wait_thread) {

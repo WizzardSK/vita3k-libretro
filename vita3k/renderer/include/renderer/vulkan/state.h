@@ -122,6 +122,19 @@ struct VKState : public renderer::State {
     bool support_unix_fd_import = false;
 #endif
 
+#ifdef BUILD_LIBRETRO
+    // When true, instance and device are owned by the libretro frontend — do NOT destroy them
+    bool libretro_device_external = false;
+
+    // Queue locking for libretro — frontend owns the queue, all submissions must be locked
+    void *libretro_queue_handle = nullptr;
+    void (*libretro_lock_queue)(void *handle) = nullptr;
+    void (*libretro_unlock_queue)(void *handle) = nullptr;
+
+    // Locked queue submit helper — wraps lock/submit/unlock for libretro
+    void locked_queue_submit(vk::Queue queue, const vk::SubmitInfo &submit_info, vk::Fence fence = nullptr);
+#endif
+
     VKState(int gpu_idx);
 
     bool init() override;

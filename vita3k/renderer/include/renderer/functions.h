@@ -21,12 +21,35 @@
 #include <renderer/types.h>
 
 #include <string>
+#ifdef BUILD_LIBRETRO
+#include <vulkan/vulkan.h>
+#endif
 
 struct MemState;
 struct FeatureState;
 struct Config;
 struct DisplayState;
 struct GxmState;
+
+#ifdef BUILD_LIBRETRO
+struct LibretroVulkanHandles {
+    VkInstance instance = VK_NULL_HANDLE;
+    VkPhysicalDevice gpu = VK_NULL_HANDLE;
+    VkDevice device = VK_NULL_HANDLE;
+    VkQueue queue = VK_NULL_HANDLE;
+    uint32_t queue_family_index = 0;
+    PFN_vkGetInstanceProcAddr get_instance_proc_addr = nullptr;
+    PFN_vkGetDeviceProcAddr get_device_proc_addr = nullptr;
+};
+
+// Set before calling renderer::init in libretro builds
+void set_libretro_vulkan_handles(const LibretroVulkanHandles &handles);
+const LibretroVulkanHandles &get_libretro_vulkan_handles();
+
+// Set queue lock/unlock callbacks on VKState (frontend owns the queue)
+void set_libretro_queue_lock(renderer::State *state, void *handle,
+    void (*lock_queue)(void *), void (*unlock_queue)(void *));
+#endif
 
 namespace renderer {
 struct Context;

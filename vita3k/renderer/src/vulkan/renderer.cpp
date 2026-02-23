@@ -342,6 +342,115 @@ static std::string get_driver_version(uint32_t vendor_id, uint32_t version_raw) 
     return fmt::format("{}.{}.{}", (version_raw >> 22) & 0x3ff, (version_raw >> 12) & 0x3ff, version_raw & 0xfff);
 }
 
+#ifdef BUILD_LIBRETRO
+// The Vulkan objects RetroArch made and lends the core (libretro_vita3k.cpp):
+// the renderer draws with the frontend's device on the frontend's queue.
+static LibretroVulkanHandles s_libretro_vk_handles;
+} // namespace renderer::vulkan
+
+void set_libretro_vulkan_handles(const LibretroVulkanHandles &handles) {
+    s_libretro_vk_handles = handles;
+}
+
+const LibretroVulkanHandles &get_libretro_vulkan_handles() {
+    return renderer::vulkan::s_libretro_vk_handles;
+}
+
+void set_libretro_queue_lock(renderer::State *state, void *handle,
+    void (*lock_queue)(void *), void (*unlock_queue)(void *)) {
+    auto *vk_state = static_cast<renderer::vulkan::VKState *>(state);
+    vk_state->libretro_queue_handle = handle;
+    vk_state->libretro_lock_queue = lock_queue;
+    vk_state->libretro_unlock_queue = unlock_queue;
+}
+
+namespace renderer::vulkan {
+
+// RetroArch's queue is shared with the frontend, which must be told around
+// every submission (retro_hw_render_interface_vulkan::lock_queue)
+void VKState::locked_queue_submit(vk::Queue queue, const vk::SubmitInfo &submit_info, vk::Fence fence) {
+    if (libretro_lock_queue && libretro_queue_handle) {
+        libretro_lock_queue(libretro_queue_handle);
+        queue.submit(submit_info, fence);
+        libretro_unlock_queue(libretro_queue_handle);
+    } else {
+        queue.submit(submit_info, fence);
+    }
+}
+
+// The instance, physical device, device and queue of the frontend in place of
+// the ones VKState::create makes for a window, and what they support
+static bool libretro_adopt_device(VKState &s, bool &support_dedicated_allocations) {
+    const auto &lr = s_libretro_vk_handles;
+    if (!lr.instance || !lr.device || !lr.gpu || !lr.queue) {
+        LOG_ERROR("VKState::create (libretro): RetroArch has not handed over a Vulkan device");
+        return false;
+    }
+    s.libretro_device_external = true;
+
+    VULKAN_HPP_DEFAULT_DISPATCHER.init(lr.get_instance_proc_addr);
+    s.instance = vk::Instance(lr.instance);
+    VULKAN_HPP_DEFAULT_DISPATCHER.init(s.instance);
+    s.physical_device = vk::PhysicalDevice(lr.gpu);
+    s.device = vk::Device(lr.device);
+    VULKAN_HPP_DEFAULT_DISPATCHER.init(s.device);
+
+    s.physical_device_properties = s.physical_device.getProperties();
+    s.physical_device_features = s.physical_device.getFeatures();
+    s.physical_device_memory = s.physical_device.getMemoryProperties();
+    s.physical_device_queue_families = s.physical_device.getQueueFamilyProperties();
+    LOG_INFO("Vulkan device (RetroArch's): {}", s.physical_device_properties.deviceName.data());
+
+    s.general_family_index = lr.queue_family_index;
+    s.transfer_family_index = lr.queue_family_index;
+    s.general_queue = vk::Queue(lr.queue);
+    s.transfer_queue = vk::Queue(lr.queue);
+
+    // What the frontend's device was created with is not known here, only what
+    // the GPU offers; the core asks for these in its device negotiation
+    bool support_buffer_device_address = false;
+    for (const vk::ExtensionProperties &ext : s.physical_device.enumerateDeviceExtensionProperties()) {
+        const std::string_view name = ext.extensionName.data();
+        if (name == vk::KHRDedicatedAllocationExtensionName)
+            support_dedicated_allocations = true;
+        else if (name == vk::KHRBufferDeviceAddressExtensionName)
+            support_buffer_device_address = true;
+        else if (name == vk::KHRUniformBufferStandardLayoutExtensionName)
+            s.support_standard_layout = true;
+        else if (name == vk::KHRShaderFloat16Int8ExtensionName)
+            s.support_fsr = true;
+        else if (name == VK_EXT_RASTERIZATION_ORDER_ATTACHMENT_ACCESS_EXTENSION_NAME)
+            s.support_rasterized_order_access = true;
+    }
+    if (support_buffer_device_address) {
+        auto f2 = s.physical_device.getFeatures2<vk::PhysicalDeviceFeatures2, vk::PhysicalDeviceBufferDeviceAddressFeatures>();
+        support_buffer_device_address = f2.get<vk::PhysicalDeviceBufferDeviceAddressFeatures>().bufferDeviceAddress;
+    }
+    if (s.support_standard_layout) {
+        auto f2 = s.physical_device.getFeatures2<vk::PhysicalDeviceFeatures2, vk::PhysicalDeviceUniformBufferStandardLayoutFeatures>();
+        s.support_standard_layout = f2.get<vk::PhysicalDeviceUniformBufferStandardLayoutFeatures>().uniformBufferStandardLayout;
+    }
+    s.support_fsr &= static_cast<bool>(s.physical_device_features.shaderInt16);
+    if (s.support_fsr) {
+        auto f2 = s.physical_device.getFeatures2<vk::PhysicalDeviceFeatures2, vk::PhysicalDeviceShaderFloat16Int8Features>();
+        s.support_fsr = f2.get<vk::PhysicalDeviceShaderFloat16Int8Features>().shaderFloat16;
+    }
+    if (s.support_rasterized_order_access) {
+        auto f2 = s.physical_device.getFeatures2<vk::PhysicalDeviceFeatures2, vk::PhysicalDeviceRasterizationOrderAttachmentAccessFeaturesEXT>();
+        s.support_rasterized_order_access = f2.get<vk::PhysicalDeviceRasterizationOrderAttachmentAccessFeaturesEXT>().rasterizationOrderColorAttachmentAccess;
+    }
+
+    s.supported_mapping_methods_mask = (1 << static_cast<int>(MappingMethod::Disabled));
+    s.mapping_method = MappingMethod::Disabled;
+    if (support_buffer_device_address && s.support_standard_layout) {
+        s.mapping_method = MappingMethod::DoubleBuffer;
+        s.supported_mapping_methods_mask |= (1 << static_cast<int>(MappingMethod::DoubleBuffer));
+        s.supported_mapping_methods_mask |= (1 << static_cast<int>(MappingMethod::PageTable));
+    }
+    return true;
+}
+#endif
+
 bool create(std::unique_ptr<renderer::State> &state, const Config &config) {
     auto &vk_state = dynamic_cast<VKState &>(*state);
 
@@ -367,6 +476,11 @@ bool VKState::create(std::unique_ptr<renderer::State> &state, const Config &conf
     const bool custom_driver_requested = !config.current_config.custom_driver_name.empty();
 #endif
 
+#ifdef BUILD_LIBRETRO
+    bool support_dedicated_allocations = false;
+    if (!libretro_adopt_device(*this, support_dedicated_allocations))
+        return false;
+#else
     // Create Instance
     {
 #if defined(__ANDROID__) && defined(USE_ADRENO_TOOLS)
@@ -808,6 +922,7 @@ bool VKState::create(std::unique_ptr<renderer::State> &state, const Config &conf
     // Get Queues
     general_queue = device.getQueue(general_family_index, 0);
     transfer_queue = device.getQueue(transfer_family_index, 0);
+#endif // BUILD_LIBRETRO
 
     // Create Command Pools
     {
@@ -837,7 +952,9 @@ bool VKState::create(std::unique_ptr<renderer::State> &state, const Config &conf
 
         vma::AllocatorCreateInfo allocator_info = {
             // everything vma-related is done on one thread, no need for thread safety
+#ifndef BUILD_LIBRETRO
             .flags = vma::AllocatorCreateFlagBits::eExternallySynchronized,
+#endif
             .physicalDevice = physical_device,
             .device = device,
             .pVulkanFunctions = &vulkan_functions,
@@ -904,8 +1021,11 @@ bool VKState::create(std::unique_ptr<renderer::State> &state, const Config &conf
         frame.destroy_queue.init(device);
     }
 
+#ifndef BUILD_LIBRETRO
+    // the core shows frames through RetroArch, without a swapchain of its own
     if (!screen_renderer.setup())
         return false;
+#endif
 
     init_overlay_font_dirs();
 
@@ -913,7 +1033,9 @@ bool VKState::create(std::unique_ptr<renderer::State> &state, const Config &conf
         LOG_WARN("Failed to initialize Vulkan overlay renderer, overlays will be disabled");
     }
 
+#ifndef BUILD_LIBRETRO
     support_fsr &= static_cast<bool>(screen_renderer.surface_capabilities.supportedUsageFlags & vk::ImageUsageFlagBits::eStorage);
+#endif
 
     return true;
 }
@@ -1009,6 +1131,9 @@ void VKState::cleanup() {
     for (int i = 0; i < MAX_FRAMES_RENDERING; i++)
         frames[i].destroy_queue.destroy_objects();
 
+#ifdef BUILD_LIBRETRO
+    if (!libretro_device_external)
+#endif
     screen_renderer.cleanup();
 
     overlay_renderer.destroy();
@@ -1059,6 +1184,10 @@ void VKState::cleanup() {
 
     vkutil::deinit();
 
+#ifdef BUILD_LIBRETRO
+    // RetroArch's device and instance, not the core's to destroy
+    if (!libretro_device_external)
+#endif
     device.destroy();
 
     if (debug_messenger) {
@@ -1070,6 +1199,9 @@ void VKState::cleanup() {
         debug_report = nullptr;
     }
 
+#ifdef BUILD_LIBRETRO
+    if (!libretro_device_external)
+#endif
     instance.destroy();
 
     gxp_ptr_map.clear();

@@ -15,21 +15,24 @@
 // with this program; if not, write to the Free Software Foundation, Inc.,
 // 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
-#pragma once
+#include "libretro_log.h"
+#include "libretro_state.h"
 
-#include <kernel/thread/thread_state.h>
+#include <spdlog/spdlog.h>
 
-#include <cstdint>
+#include <vector>
 
-struct DisplayState;
-struct EmuEnvState;
-struct DisplayFrameInfo;
+void libretro_logging_init() {
+    std::vector<spdlog::sink_ptr> sinks;
+    sinks.push_back(std::make_shared<libretro_sink_mt>());
 
-void start_sync_thread(EmuEnvState &emuenv);
-#ifdef BUILD_LIBRETRO
-void libretro_vblank_tick(EmuEnvState &emuenv);
-#endif
-void wait_vblank(DisplayState &display, const ThreadStatePtr &wait_thread, const uint64_t target_vcount, const bool is_cb);
-// if the result is not nullptr, contain the predicted frame (pointer needs to be freed later)
-DisplayFrameInfo *predict_next_image(EmuEnvState &emuenv, Address sync_object);
-void update_prediction(EmuEnvState &emuenv, DisplayFrameInfo &frame);
+    auto logger = std::make_shared<spdlog::logger>("vita3k logger", sinks.begin(), sinks.end());
+    logger->set_pattern("%^[%H:%M:%S.%e] |%L| [%!]: %v%$");
+    logger->set_level(spdlog::level::trace);
+
+    spdlog::set_default_logger(logger);
+    spdlog::set_level(spdlog::level::trace);
+
+    if (libretro.log_cb)
+        libretro.log_cb(RETRO_LOG_INFO, "[Vita3K] spdlog -> libretro log sink initialized\n");
+}

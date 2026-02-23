@@ -219,6 +219,25 @@ void KernelState::process_exit() {
     thread_deleted_cond.wait(lock, [this] { return threads.empty(); });
 }
 
+#ifdef BUILD_LIBRETRO
+// Unloading the core, which is not a process exit: every guest thread is told
+// to go, and the core waits for them a bounded time rather than for good.
+void KernelState::exit_delete_all_threads() {
+    const std::lock_guard<std::mutex> lock(mutex);
+    for (auto &[_, thread] : threads)
+        thread->exit_delete(false);
+}
+
+bool KernelState::wait_for_all_threads_exit(uint32_t timeout_ms) {
+    std::unique_lock<std::mutex> lock(mutex);
+    if (!thread_deleted_cond.wait_for(lock, std::chrono::milliseconds(timeout_ms), [this] { return threads.empty(); })) {
+        LOG_WARN("Kernel wait_for_all_threads_exit: timed out with {} guest threads still active", threads.size());
+        return false;
+    }
+    return true;
+}
+#endif
+
 void KernelState::pause_threads() {
     const std::lock_guard<std::mutex> lock(mutex);
     for (auto &[_, thread] : threads) {

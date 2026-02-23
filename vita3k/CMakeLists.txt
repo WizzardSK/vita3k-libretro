@@ -96,6 +96,10 @@ if (USE_DISCORD_RICH_PRESENCE)
 	add_definitions(-DUSE_DISCORD)
 endif()
 
+if(BUILD_LIBRETRO)
+	add_definitions(-DBUILD_LIBRETRO)
+endif()
+
 set_property(GLOBAL PROPERTY USE_FOLDERS ON)
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
@@ -103,7 +107,7 @@ if(NOT MSVC)
 	add_compile_options(-Wformat -Werror=format-security)
 endif()
 
-if(NOT ANDROID)
+if(NOT ANDROID AND NOT BUILD_LIBRETRO)
 	include(${CMAKE_SOURCE_DIR}/cmake/qt6.cmake)
 endif()
 
@@ -120,9 +124,11 @@ add_subdirectory(dialog)
 add_subdirectory(display)
 add_subdirectory(features)
 add_subdirectory(glutil)
-add_subdirectory(updater)
-if(NOT ANDROID)
-	add_subdirectory(gui-qt)
+if(NOT BUILD_LIBRETRO)
+	add_subdirectory(updater)
+	if(NOT ANDROID)
+		add_subdirectory(gui-qt)
+	endif()
 endif()
 add_subdirectory(gxm)
 add_subdirectory(ime)
@@ -148,11 +154,15 @@ add_subdirectory(shader)
 add_subdirectory(threads)
 add_subdirectory(touch)
 add_subdirectory(util)
-add_subdirectory(gdbstub)
+if(NOT BUILD_LIBRETRO)
+	add_subdirectory(gdbstub)
+endif()
 add_subdirectory(packages)
 add_subdirectory(vkutil)
 
-if(ANDROID)
+if(BUILD_LIBRETRO)
+	add_subdirectory(libretro)
+elif(ANDROID)
 	add_library(vita3k SHARED
 		android/jni/android_state.cpp
 		android/jni/filesystem_android.cpp
@@ -204,6 +214,8 @@ if(ANDROID)
 else()
 	add_executable(vita3k MACOSX_BUNDLE main.cpp interface.cpp interface.h performance.cpp)
 endif()
+
+if(NOT BUILD_LIBRETRO)
 
 if(WIN32)
 	# This file is a bit special, it is run before anything else and must be added here
@@ -462,3 +474,5 @@ if(TRACY_ENABLE_ON_CORE_COMPONENTS)
 	# Enable Tracy profiling on the main compilation target
 	target_link_libraries(vita3k PRIVATE tracy)
 endif()
+
+endif() # NOT BUILD_LIBRETRO

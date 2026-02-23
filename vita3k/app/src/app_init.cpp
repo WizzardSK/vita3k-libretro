@@ -243,6 +243,16 @@ void set_current_config(EmuEnvState &emuenv, const std::string &app_path) {
 // Initializes paths to their respective defaults, to be changed later by settings or CLI
 // Returns true if in portable mode, false otherwise
 bool init_paths(Root &root_paths) {
+#ifdef BUILD_LIBRETRO
+    // The libretro core has set every path from RetroArch's directories
+    // already (libretro_vita3k.cpp); only make sure they exist.
+    fs::create_directories(root_paths.get_config_path());
+    fs::create_directories(root_paths.get_cache_path());
+    fs::create_directories(root_paths.get_log_path() / "shaderlog");
+    fs::create_directories(root_paths.get_log_path() / "texturelog");
+    fs::create_directories(root_paths.get_patch_path());
+    return false;
+#endif
     bool portable = false;
 #ifdef __ANDROID__
     fs::path internal_storage_path = fs::path(SDL_GetAndroidExternalStoragePath()) / "";
@@ -559,9 +569,14 @@ void reset_app_state(EmuEnvState &state) {
 bool late_init(EmuEnvState &state) {
     // note: mem is not initialized yet but that's not an issue
     // the renderer is not using it yet, just storing it for later uses
+#ifdef BUILD_LIBRETRO
+    // The core makes the renderer once RetroArch's context is up, which can
+    // come after this
+    if (state.renderer)
+#endif
     state.renderer->late_init(state.cfg, state.app_path, state.mem);
 
-    const bool need_page_table = state.renderer->mapping_method == MappingMethod::PageTable || state.renderer->mapping_method == MappingMethod::NativeBuffer;
+    const bool need_page_table = state.renderer && (state.renderer->mapping_method == MappingMethod::PageTable || state.renderer->mapping_method == MappingMethod::NativeBuffer);
     if (!init(state.mem, need_page_table)) {
         LOG_ERROR("Failed to initialize memory for emulator state!");
         return false;

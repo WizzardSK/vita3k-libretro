@@ -52,6 +52,7 @@ else()
 endif()
 
 option(FORCE_BUILD_OPENSSL_MAC OFF)
+option(BUILD_LIBRETRO "Build as a libretro core instead of standalone" OFF)
 
 if("${CMAKE_CXX_COMPILER_LAUNCHER}" STREQUAL "")
 	find_program(CCACHE_PROGRAM ccache)

@@ -27,6 +27,10 @@
 
 #include <SDL3/SDL_events.h>
 
+#ifdef BUILD_LIBRETRO
+#include <libretro_input_state.h>
+#endif
+
 #include <cstring>
 
 void set_rear_touchscreen(TouchState &state, bool is_back) {
@@ -93,6 +97,50 @@ void touch_vsync_update(EmuEnvState &emuenv) {
     auto &touch = emuenv.touch;
     std::chrono::time_point<std::chrono::steady_clock> ts = std::chrono::steady_clock::now();
     uint64_t timestamp = std::chrono::duration_cast<std::chrono::microseconds>(ts.time_since_epoch()).count();
+
+#ifdef BUILD_LIBRETRO
+    // RetroArch's pointer and touch input (libretro_input.cpp), rather than
+    // SDL's events and the mouse
+    {
+        SceTouchData *buffers = touch.touch_buffers[(touch.touch_buffer_idx + 1) % MAX_TOUCH_BUFFER_SAVED];
+        for (int port = 0; port < 2; port++) {
+            buffers[port].status = 0;
+            buffers[port].reportNum = 0;
+            buffers[port].timeStamp = timestamp;
+        }
+
+        auto &inp = libretro_input_state();
+        std::lock_guard<std::mutex> lock(inp.mutex);
+
+        // Front touchscreen
+        if (inp.front_touch_count > 0 && touch.touch_mode[SCE_TOUCH_PORT_FRONT]) {
+            SceTouchData &front = buffers[SCE_TOUCH_PORT_FRONT];
+            front.reportNum = std::min(inp.front_touch_count, (uint32_t)SCE_TOUCH_MAX_REPORT);
+            for (uint32_t i = 0; i < front.reportNum; i++) {
+                front.report[i].id = inp.front_touch[i].id;
+                front.report[i].x = inp.front_touch[i].x;
+                front.report[i].y = inp.front_touch[i].y;
+                front.report[i].force = touch.force_touch_enabled[SCE_TOUCH_PORT_FRONT] ? 128 : 0;
+            }
+        }
+
+        // Rear touchpad
+        if (inp.back_touch_count > 0 && touch.touch_mode[SCE_TOUCH_PORT_BACK]) {
+            SceTouchData &back = buffers[SCE_TOUCH_PORT_BACK];
+            back.reportNum = std::min(inp.back_touch_count, (uint32_t)SCE_TOUCH_MAX_REPORT);
+            for (uint32_t i = 0; i < back.reportNum; i++) {
+                back.report[i].id = inp.back_touch[i].id;
+                back.report[i].x = inp.back_touch[i].x;
+                back.report[i].y = inp.back_touch[i].y;
+                back.report[i].force = touch.force_touch_enabled[SCE_TOUCH_PORT_BACK] ? 128 : 0;
+            }
+        }
+    }
+
+    touch.touch_buffer_idx++;
+    touch.touch_buffer_idx %= MAX_TOUCH_BUFFER_SAVED;
+    return;
+#endif
 
     // disable mouse support on android because the touchscreen is considered as a mouse, and this creates a mess
 #ifdef __ANDROID__
