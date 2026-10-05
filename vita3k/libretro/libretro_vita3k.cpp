@@ -1060,7 +1060,7 @@ RETRO_API void retro_get_system_info(struct retro_system_info *info) {
     memset(info, 0, sizeof(*info));
     info->library_name = "Vita3K";
     info->library_version = app_version;
-    info->valid_extensions = NULL;
+    info->valid_extensions = "vpk|zip|bin";
     info->need_fullpath = true;
     info->block_extract = true;
 }

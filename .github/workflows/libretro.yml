@@ -39,7 +39,14 @@ jobs:
             runs_on: ubuntu-latest
             artifact: vita3k_libretro-android-arm64
             android: true
+            android_abi: arm64-v8a
             vcpkg_triplet: arm64-android
+          - name: Android x86_64
+            runs_on: ubuntu-latest
+            artifact: vita3k_libretro-android-x86_64
+            android: true
+            android_abi: x86_64
+            vcpkg_triplet: x64-android
     steps:
       - uses: actions/checkout@v6
         with:
@@ -85,7 +92,7 @@ jobs:
             extra="-DCMAKE_TOOLCHAIN_FILE=C:/vcpkg/scripts/buildsystems/vcpkg.cmake -DVCPKG_TARGET_TRIPLET=${{ matrix.vcpkg_triplet }} -DPERL_EXECUTABLE=C:/Strawberry/perl/bin/perl.exe"
           fi
           if [ "${{ matrix.android }}" = true ]; then
-            cmake -B build/android -G Ninja -DCMAKE_SYSTEM_NAME=Android -DANDROID_ABI=arm64-v8a \
+            cmake -B build/android -G Ninja -DCMAKE_SYSTEM_NAME=Android -DANDROID_ABI=${{ matrix.android_abi }} \
               -DANDROID_PLATFORM=android-28 -DANDROID_SUPPORT_FLEXIBLE_PAGE_SIZES=ON \
               -DCMAKE_BUILD_TYPE=Release -DBUILD_LIBRETRO=ON
             exit 0
@@ -107,7 +114,7 @@ jobs:
         shell: bash
         run: |
           dir=build/${{ matrix.preset || 'android' }}
-          core=$(find $dir -name 'vita3k_libretro.so' -o -name 'vita3k_libretro.dll' | grep -i release | head -1)
+          core=$(find $dir -name 'vita3k_libretro.so' -o -name 'vita3k_libretro.dll' | { grep -i release || true; } | head -1)
           [ -n "$core" ] || core=$(find $dir -name 'vita3k_libretro.so' -o -name 'vita3k_libretro.dll' | head -1)
           echo "core: $core"
           mkdir -p dist/cores dist/system/vita3k

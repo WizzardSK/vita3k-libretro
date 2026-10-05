@@ -1,0 +1,140 @@
+# DESCRIPTION: GitLab CI/CD for libRetro (NOT FOR GitLab-proper)
+
+# Linux x64, Linux aarch64, Android arm64-v8a and x86_64.
+#
+# Vita3K is C++20 and needs a recent Clang; the buildbot's Linux images (Ubuntu
+# 16.04, gcc 9) cannot build it, so the Linux jobs run in Ubuntu 24.04 with
+# the packages below, as cemu-libretro's do. Windows is not here: Vita3K builds
+# with MSVC, newer than the 2019 16.8 of the buildbot's Windows runner.
+
+##############################################################################
+################################# BOILERPLATE ################################
+##############################################################################
+
+variables:
+  GIT_SUBMODULE_STRATEGY: recursive
+
+.core-defs:
+  variables:
+    CORENAME: vita3k
+    # The core goes to <build>/lib (vita3k/libretro/CMakeLists.txt)
+    EXTRA_PATH: lib
+
+include:
+  # Linux
+  - project: 'libretro-infrastructure/ci-templates'
+    file: '/linux-cmake.yml'
+
+  # Android
+  - project: 'libretro-infrastructure/ci-templates'
+    file: '/android-cmake.yml'
+
+stages:
+  - build-prepare
+  - build-shared
+
+# A runner having a bad minute should not redden the pipeline; anything really
+# broken still fails three times over.
+default:
+  retry: 2
+
+##############################################################################
+#################################### STAGES ##################################
+##############################################################################
+
+# Defining before_script replaces the template's instead of adding to it, so
+# its NUMPROC is set again here.
+.core-defs-linux:
+  extends: .core-defs
+  image: ubuntu:24.04
+  # Boost is built from its submodule (VITA3K_FORCE_CUSTOM_BOOST), with
+  # everything else, which does not fit in the default hour.
+  timeout: 3h
+  variables:
+    # Position-independent code throughout and the core's own symbols bound
+    # inside it: everything goes into one shared object, the prebuilt ffmpeg's
+    # assembly and the static libstdc++ included. Boost is built here with
+    # -fPIC, as Ubuntu's static one is not position-independent.
+    CORE_ARGS: >-
+      -G Ninja
+      -DCMAKE_C_COMPILER=clang
+      -DCMAKE_CXX_COMPILER=clang++
+      -DCMAKE_LINKER_TYPE=LLD
+      -DCMAKE_POSITION_INDEPENDENT_CODE=ON
+      -DCMAKE_SHARED_LINKER_FLAGS=-Wl,-Bsymbolic
+      -DVITA3K_FORCE_CUSTOM_BOOST=ON
+      -DUSE_DISCORD_RICH_PRESENCE=OFF
+      -DBUILD_LIBRETRO=ON
+  before_script:
+    - export NUMPROC=$(($(nproc)/5))
+    # The X11, Wayland and D-Bus headers are for the SDL subproject, which
+    # configures even though the core does not open a window with it.
+    - apt-get update -qq
+    - apt-get install -y --no-install-recommends
+      clang lld ninja-build cmake git python3 pkg-config file ca-certificates
+      libssl-dev libx11-dev libxext-dev libxrandr-dev libxcursor-dev libxi-dev
+      libxss-dev libwayland-dev libxkbcommon-dev libegl-dev libdecor-0-dev
+      libdbus-1-dev
+
+# Linux 64-bit
+libretro-build-linux-x64:
+  extends:
+    - .libretro-linux-cmake-x86_64
+    - .core-defs-linux
+
+# Linux 64-bit (ARM)
+libretro-build-linux-aarch64:
+  extends:
+    - .libretro-linux-cmake-aarch64
+    - .core-defs-linux
+
+# Android
+#
+# The core alone, with CMake and the NDK, as upstream's gradle build does for
+# the app. Upstream takes Boost, OpenSSL and zlib for Android from vcpkg, and
+# cmake/vcpkg_android.cmake chains vcpkg's toolchain to the NDK's, so vcpkg is
+# set up here. NDK 27.3, the one upstream builds with (android/build.gradle).
+.core-defs-android:
+  extends: .core-defs
+  timeout: 3h
+  variables:
+    API_LEVEL: 28
+    CORE_ARGS: >-
+      -G Ninja
+      -DCMAKE_SYSTEM_NAME=Android
+      -DANDROID_SUPPORT_FLEXIBLE_PAGE_SIZES=ON
+      -DBUILD_LIBRETRO=ON
+  before_script:
+    - export NUMPROC=$(($(nproc)/5))
+    - export NDK_ROOT="${ANDROID_HOME}/ndk/27.3.13750724"
+    - export ANDROID_NDK_HOME="$NDK_ROOT"
+    # Into the folder the cache may already have brought back
+    - mkdir -p vcpkg
+    - git -C vcpkg init -q
+    - git -C vcpkg fetch -q --depth 1 https://github.com/microsoft/vcpkg.git master
+    - git -C vcpkg checkout -q -f FETCH_HEAD
+    - "$CI_PROJECT_DIR/vcpkg/bootstrap-vcpkg.sh -disableMetrics"
+    - export VCPKG_ROOT="$CI_PROJECT_DIR/vcpkg"
+    - "$VCPKG_ROOT/vcpkg install boost-system boost-filesystem boost-program-options boost-icl boost-variant openssl zlib --triplet=$VCPKG_TRIPLET"
+  # vcpkg's packages do not change between pipelines; built once, kept.
+  cache:
+    key: vcpkg-$VCPKG_TRIPLET-ndk27.3
+    paths:
+      - vcpkg/installed/
+      - vcpkg/packages/
+
+# Android 64-bit (ARM)
+android-arm64-v8a:
+  extends:
+    - .libretro-android-cmake-arm64-v8a
+    - .core-defs-android
+  variables:
+    VCPKG_TRIPLET: arm64-android
+
+# Android 64-bit (x86)
+android-x86_64:
+  extends:
+    - .libretro-android-cmake-x86_64
+    - .core-defs-android
+  variables:
+    VCPKG_TRIPLET: x64-android
