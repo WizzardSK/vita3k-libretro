@@ -349,7 +349,7 @@ static LibretroVulkanHandles s_libretro_vk_handles;
 } // namespace renderer::vulkan
 
 void set_libretro_vulkan_handles(const LibretroVulkanHandles &handles) {
-    s_libretro_vk_handles = handles;
+    renderer::vulkan::s_libretro_vk_handles = handles;
 }
 
 const LibretroVulkanHandles &get_libretro_vulkan_handles() {

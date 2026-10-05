@@ -18,6 +18,8 @@
 #pragma once
 
 #include "libretro.h"
+// vkutil first: it sets up Vulkan's headers for the rest of Vita3K
+#include <vkutil/vkutil.h>
 #include "libretro_vulkan.h"
 #include "libretro_input_state.h"
 

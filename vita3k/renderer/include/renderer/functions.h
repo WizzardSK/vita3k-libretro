@@ -22,7 +22,9 @@
 
 #include <string>
 #ifdef BUILD_LIBRETRO
-#include <vulkan/vulkan.h>
+// Through vkutil, so that Vulkan's headers are set up the same way (platform
+// macros, no prototypes) wherever they are included first
+#include <vkutil/vkutil.h>
 #endif
 
 struct MemState;
