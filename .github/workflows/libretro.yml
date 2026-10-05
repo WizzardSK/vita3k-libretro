@@ -64,7 +64,13 @@ jobs:
           if [ "$RUNNER_OS" = Windows ]; then
             # The static OpenSSL build wants a native Windows Perl, and the
             # first perl on the path is Git's (cygwin)
-            extra="-DCMAKE_TOOLCHAIN_FILE=C:/vcpkg/scripts/buildsystems/vcpkg.cmake -DVCPKG_TARGET_TRIPLET=${{ matrix.vcpkg_triplet }} -DPERL_EXECUTABLE=C:/Strawberry/perl/bin/perl.exe -DCMAKE_GENERATOR_INSTANCE=$(cygpath -m -s "$VSINSTALLDIR")"
+            extra="-DCMAKE_TOOLCHAIN_FILE=C:/vcpkg/scripts/buildsystems/vcpkg.cmake -DVCPKG_TARGET_TRIPLET=${{ matrix.vcpkg_triplet }} -DPERL_EXECUTABLE=C:/Strawberry/perl/bin/perl.exe"
+          fi
+          if [ "$RUNNER_OS" = Linux ]; then
+            # Everything into one shared object: position-independent code, and
+            # the core's own symbols bound inside it, which also lets the
+            # prebuilt ffmpeg's assembly and the static libstdc++ and Boost link
+            extra="-DCMAKE_POSITION_INDEPENDENT_CODE=ON -DCMAKE_SHARED_LINKER_FLAGS=-Wl,-Bsymbolic"
           fi
           cmake --preset ${{ matrix.preset }} -DBUILD_LIBRETRO=ON $extra
 
