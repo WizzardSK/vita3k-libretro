@@ -64,7 +64,7 @@ jobs:
           if [ "$RUNNER_OS" = Windows ]; then
             # The static OpenSSL build wants a native Windows Perl, and the
             # first perl on the path is Git's (cygwin)
-            extra="-DCMAKE_TOOLCHAIN_FILE=C:/vcpkg/scripts/buildsystems/vcpkg.cmake -DVCPKG_TARGET_TRIPLET=${{ matrix.vcpkg_triplet }} -DPERL_EXECUTABLE=C:/Strawberry/perl/bin/perl.exe -DCMAKE_GENERATOR_INSTANCE=$(cygpath -m "$VSINSTALLDIR")"
+            extra="-DCMAKE_TOOLCHAIN_FILE=C:/vcpkg/scripts/buildsystems/vcpkg.cmake -DVCPKG_TARGET_TRIPLET=${{ matrix.vcpkg_triplet }} -DPERL_EXECUTABLE=C:/Strawberry/perl/bin/perl.exe -DCMAKE_GENERATOR_INSTANCE=$(cygpath -m -s "$VSINSTALLDIR")"
           fi
           cmake --preset ${{ matrix.preset }} -DBUILD_LIBRETRO=ON $extra
 
