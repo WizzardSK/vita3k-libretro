@@ -2,8 +2,8 @@
 
 # Linux x64, Linux aarch64, Android arm64-v8a and x86_64.
 #
-# Vita3K is C++20 and needs a recent Clang; the buildbot's Linux images (Ubuntu
-# 16.04, gcc 9) cannot build it, so the Linux jobs run in Ubuntu 24.04 with
+# Vita3K is C++23 and needs a recent Clang; the buildbot's Linux images (Ubuntu
+# 16.04, gcc 9) cannot build it, so the Linux jobs run in Ubuntu 26.04 with
 # the packages below, as cemu-libretro's do. Windows is not here: Vita3K builds
 # with MSVC, newer than the 2019 16.8 of the buildbot's Windows runner.
 
@@ -46,7 +46,7 @@ default:
 # its NUMPROC is set again here.
 .core-defs-linux:
   extends: .core-defs
-  image: ubuntu:24.04
+  image: ubuntu:26.04
   # Boost is built from its submodule (VITA3K_FORCE_CUSTOM_BOOST), with
   # everything else, which does not fit in the default hour.
   timeout: 3h
