@@ -73,6 +73,16 @@ void init_default_cameras(Config &cfg) {
     cfg.front_camera_type = SolidColor;
     cfg.back_camera_type = SolidColor;
 }
+
+void CameraState::deinit() {
+    for (auto &cam : cameras) {
+        cam.is_opened = false;
+        cam.is_started = false;
+        cam.info = {};
+        cam.frame_idx = 0;
+    }
+    active_camera = SCE_CAMERA_DEVICE_UNKNOWN;
+}
 #else // !BUILD_LIBRETRO
 #include <SDL3/SDL_camera.h>
 #include <SDL3/SDL_timer.h>
