@@ -351,7 +351,7 @@ if(MSVC AND BUILD_LIBRETRO)
 			"if \"%1\"==\"configure\" (\r\n"
 			"  \"${VITA3K_PERL_EXECUTABLE_NATIVE}\" Configure VC-WIN64A no-shared no-tests \"--prefix=${VITA3K_OPENSSL_INSTALL_DIR_NATIVE}\" \"--openssldir=${VITA3K_OPENSSL_INSTALL_DIR_NATIVE}\"\r\n"
 			") else (\r\n"
-			"  \"${VITA3K_NMAKE_EXECUTABLE_NATIVE}\" %1\r\n"
+			"  nmake %1\r\n"
 			")\r\n")
 		file(TO_NATIVE_PATH "${VITA3K_OPENSSL_BAT}" VITA3K_OPENSSL_BAT_NATIVE)
 

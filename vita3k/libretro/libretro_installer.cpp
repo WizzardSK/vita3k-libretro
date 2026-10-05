@@ -16,6 +16,8 @@
 // 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 #include "libretro_installer.h"
+
+#include <cstdarg>
 #include "libretro_state.h"
 
 #include <packages/functions.h>
