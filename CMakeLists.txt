@@ -170,6 +170,12 @@ macro(boost_compile)
 		else()
 			message(STATUS "b2 output:\n${BOOST_B2_OUTPUT}")
 		endif()
+		# b2's compiler checks log their failures here, not to its output
+		file(GLOB_RECURSE BOOST_B2_CONFIG_LOG "${BOOST_INSTALLDIR}/*/config.log" "${BOOST_SOURCEDIR}/bin.v2/config.log")
+		foreach(log IN LISTS BOOST_B2_CONFIG_LOG)
+			file(READ "${log}" log_text LIMIT 6000)
+			message(STATUS "${log}:\n${log_text}")
+		endforeach()
 	endif()
 endmacro(boost_compile)
 
