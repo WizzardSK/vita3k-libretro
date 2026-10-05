@@ -15,7 +15,7 @@
 // with this program; if not, write to the Free Software Foundation, Inc.,
 // 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
-#ifdef __ANDROID__
+#if defined(__ANDROID__) && !defined(BUILD_LIBRETRO)
 // must be first
 #define __ANDROID_UNAVAILABLE_SYMBOLS_ARE_WEAK__
 #endif
@@ -45,7 +45,7 @@
 #include <MoltenVK/mvk_vulkan.h>
 #endif
 
-#ifdef __ANDROID__
+#if defined(__ANDROID__) && !defined(BUILD_LIBRETRO)
 #include <SDL3/SDL_system.h>
 #include <dlfcn.h>
 #include <sys/mman.h>
@@ -152,7 +152,7 @@ const static std::vector<const char *> required_device_extensions = {
 
 namespace renderer::vulkan {
 
-#if defined(__ANDROID__) && defined(USE_ADRENO_TOOLS)
+#if defined(__ANDROID__) && defined(USE_ADRENO_TOOLS) && !defined(BUILD_LIBRETRO)
 // need to avoid patching bcn per custom driver more than once
 static bool patch_bcn_once(void *function_to_patch) {
     static std::unordered_set<void *> patched_functions;
@@ -291,7 +291,7 @@ static bool select_queues(VKState &vk_state,
 
         // Only one DeviceQueueCreateInfo should be created per family.
         if (!found_graphics && (queue_family.queueFlags & vk::QueueFlagBits::eGraphics)
-#ifndef __ANDROID__
+#if !defined(__ANDROID__) || defined(BUILD_LIBRETRO)
             && (queue_family.queueFlags & vk::QueueFlagBits::eTransfer)
 #endif
             && vk_state.physical_device.getSurfaceSupportKHR(i, vk_state.screen_renderer.surface)) {
@@ -472,7 +472,7 @@ bool VKState::init() {
 }
 
 bool VKState::create(std::unique_ptr<renderer::State> &state, const Config &config) {
-#ifdef __ANDROID__
+#if defined(__ANDROID__) && !defined(BUILD_LIBRETRO)
     const bool custom_driver_requested = !config.current_config.custom_driver_name.empty();
 #endif
 
@@ -483,7 +483,7 @@ bool VKState::create(std::unique_ptr<renderer::State> &state, const Config &conf
 #else
     // Create Instance
     {
-#if defined(__ANDROID__) && defined(USE_ADRENO_TOOLS)
+#if defined(__ANDROID__) && defined(USE_ADRENO_TOOLS) && !defined(BUILD_LIBRETRO)
         PFN_vkGetInstanceProcAddr vk_get_instance_proc_addr = android_driver::resolve_vk_get_instance_proc_addr(config.current_config.custom_driver_name);
         if (!vk_get_instance_proc_addr)
             return false;
@@ -675,7 +675,7 @@ bool VKState::create(std::unique_ptr<renderer::State> &state, const Config &conf
         physical_device_memory = physical_device.getMemoryProperties();
         physical_device_queue_families = physical_device.getQueueFamilyProperties();
 
-#ifdef __ANDROID__
+#if defined(__ANDROID__) && !defined(BUILD_LIBRETRO)
         if (custom_driver_requested) {
             if (android_driver::is_custom_driver_loaded(
                     config.current_config.custom_driver_name,
@@ -692,7 +692,7 @@ bool VKState::create(std::unique_ptr<renderer::State> &state, const Config &conf
         LOG_INFO("Driver version: {}", get_driver_version(physical_device_properties.vendorID, physical_device_properties.driverVersion));
     }
 
-#ifdef __ANDROID__
+#if defined(__ANDROID__) && !defined(BUILD_LIBRETRO)
     if (support_custom_drivers()) {
         // First I was looking for "Turnip" in the device name, however some turnip driver do not have it in their name for whatever reason....
         // so as a ugly workaround, say it is a turnip driver if the major driver version is less than 100
@@ -762,7 +762,7 @@ bool VKState::create(std::unique_ptr<renderer::State> &state, const Config &conf
 #endif
             // used for coherent framebuffer fetch
             { VK_EXT_RASTERIZATION_ORDER_ATTACHMENT_ACCESS_EXTENSION_NAME, &support_rasterized_order_access },
-#ifdef __ANDROID__
+#if defined(__ANDROID__) && !defined(BUILD_LIBRETRO)
             // dependencies of VK_ANDROID_external_memory_android_hardware_buffer
             { VK_KHR_BIND_MEMORY_2_EXTENSION_NAME, &temp_bool },
             { VK_KHR_SAMPLER_YCBCR_CONVERSION_EXTENSION_NAME, &temp_bool },
@@ -800,7 +800,7 @@ bool VKState::create(std::unique_ptr<renderer::State> &state, const Config &conf
         support_memory_mapping = false;
 #endif
 
-#ifdef __ANDROID__
+#if defined(__ANDROID__) && !defined(BUILD_LIBRETRO)
         support_android_buffer_import &= SDL_GetAndroidSDKVersion() >= 26;
         support_unix_fd_import &= SDL_GetAndroidSDKVersion() >= 26;
 #endif
@@ -823,7 +823,7 @@ bool VKState::create(std::unique_ptr<renderer::State> &state, const Config &conf
             if (support_external_memory)
                 supported_mapping_methods_mask |= (1 << static_cast<int>(MappingMethod::ExernalHost));
 
-#ifdef __ANDROID__
+#if defined(__ANDROID__) && !defined(BUILD_LIBRETRO)
             if (support_android_buffer_import || support_unix_fd_import)
                 supported_mapping_methods_mask |= (1 << static_cast<int>(MappingMethod::NativeBuffer));
 #endif
@@ -1069,7 +1069,7 @@ void VKState::late_init(const Config &cfg, const std::string_view game_id, MemSt
         request_mapping = MappingMethod::ExernalHost;
     else if (config_mapping == "page-table")
         request_mapping = MappingMethod::PageTable;
-#ifdef __ANDROID__
+#if defined(__ANDROID__) && !defined(BUILD_LIBRETRO)
     else if (config_mapping == "native-buffer")
         request_mapping = MappingMethod::NativeBuffer;
 #endif
@@ -1081,7 +1081,7 @@ void VKState::late_init(const Config &cfg, const std::string_view game_id, MemSt
 
     features.enable_memory_mapping = mapping_method != MappingMethod::Disabled;
 
-#ifdef __ANDROID__
+#if defined(__ANDROID__) && !defined(BUILD_LIBRETRO)
     if (mapping_method == MappingMethod::NativeBuffer) {
         // dynamically load the symbols
         void *libandroid = dlopen("libandroid.so", RTLD_LAZY);
@@ -1146,7 +1146,7 @@ void VKState::cleanup() {
         if (auto *ext = std::get_if<ExternalBuffer>(&mapping.buffer_impl)) {
             device.destroyBuffer(mapping.buffer);
             device.freeMemory(ext->memory);
-#ifdef __ANDROID__
+#if defined(__ANDROID__) && !defined(BUILD_LIBRETRO)
             if (mapping_method == MappingMethod::NativeBuffer && ext->extra) {
                 AHardwareBuffer *hardware_buffer = reinterpret_cast<AHardwareBuffer *>(ext->extra);
                 _AHardwareBuffer_unlock(hardware_buffer, nullptr);
@@ -1442,7 +1442,7 @@ bool VKState::map_memory(MemState &mem, Ptr<void> address, uint32_t size) {
 
     switch (mapping_method) {
     case MappingMethod::NativeBuffer: {
-#ifdef __ANDROID__
+#if defined(__ANDROID__) && !defined(BUILD_LIBRETRO)
         // if we get there, this means we support the hardware buffer extension
         AHardwareBuffer_Desc buffer_desc{
             .width = static_cast<uint32_t>(size + KiB(4)),
@@ -1660,7 +1660,7 @@ void VKState::unmap_memory(MemState &mem, Ptr<void> address) {
         buffer_trapping.remove_range(address.address(), address.address() + ite->second.size);
         break;
 
-#ifdef __ANDROID__
+#if defined(__ANDROID__) && !defined(BUILD_LIBRETRO)
     case MappingMethod::NativeBuffer: {
         remove_external_mapping(mem, address.cast<uint8_t>().get(mem), ite->second.size);
         device.destroyBuffer(ite->second.buffer);
@@ -1743,7 +1743,7 @@ static int get_supported_mapping_methods_mask(const vk::PhysicalDevice &gpu, con
         bool support_buffer_device_address = false;
         bool support_standard_layout = false;
         bool support_external_memory = false;
-#ifdef __ANDROID__
+#if defined(__ANDROID__) && !defined(BUILD_LIBRETRO)
         bool support_android_buffer_import = false;
         bool support_unix_fd_import = false;
 #endif
@@ -1755,7 +1755,7 @@ static int get_supported_mapping_methods_mask(const vk::PhysicalDevice &gpu, con
                 support_standard_layout = true;
             else if (name == vk::EXTExternalMemoryHostExtensionName)
                 support_external_memory = true;
-#ifdef __ANDROID__
+#if defined(__ANDROID__) && !defined(BUILD_LIBRETRO)
             else if (name == VK_ANDROID_EXTERNAL_MEMORY_ANDROID_HARDWARE_BUFFER_EXTENSION_NAME)
                 support_android_buffer_import = true;
             else if (name == VK_KHR_EXTERNAL_MEMORY_FD_EXTENSION_NAME)
@@ -1776,7 +1776,7 @@ static int get_supported_mapping_methods_mask(const vk::PhysicalDevice &gpu, con
         }
         support_memory_mapping &= support_standard_layout;
 
-#ifdef __ANDROID__
+#if defined(__ANDROID__) && !defined(BUILD_LIBRETRO)
         support_android_buffer_import &= SDL_GetAndroidSDKVersion() >= 26;
         support_unix_fd_import &= SDL_GetAndroidSDKVersion() >= 26;
 #endif
@@ -1793,7 +1793,7 @@ static int get_supported_mapping_methods_mask(const vk::PhysicalDevice &gpu, con
             if (support_external_memory)
                 mask |= (1 << static_cast<int>(MappingMethod::ExernalHost));
 
-#ifdef __ANDROID__
+#if defined(__ANDROID__) && !defined(BUILD_LIBRETRO)
             if (support_android_buffer_import || support_unix_fd_import)
                 mask |= (1 << static_cast<int>(MappingMethod::NativeBuffer));
 #endif
@@ -1811,7 +1811,7 @@ renderer::VulkanDeviceInfo renderer::enumerate_vulkan_devices(const std::string 
 
     try {
         vk::detail::DispatchLoaderDynamic dispatch;
-#ifdef __ANDROID__
+#if defined(__ANDROID__) && !defined(BUILD_LIBRETRO)
         PFN_vkGetInstanceProcAddr vk_get_instance_proc_addr = android_driver::resolve_vk_get_instance_proc_addr(custom_driver_name);
         if (!vk_get_instance_proc_addr)
             return info;
@@ -1858,7 +1858,7 @@ renderer::VulkanDeviceInfo renderer::enumerate_vulkan_devices(const std::string 
             info.mapping_method_masks.push_back(get_supported_mapping_methods_mask(gpu, has_properties2, dispatch));
         }
 
-#ifdef __ANDROID__
+#if defined(__ANDROID__) && !defined(BUILD_LIBRETRO)
         if (info.custom_driver_requested && !physical_devices.empty())
             info.custom_driver_loaded = android_driver::is_custom_driver_loaded(
                 custom_driver_name,
@@ -1900,7 +1900,7 @@ void VKState::preclose_action() {
     pipeline_cache.save_pipeline_cache();
 }
 
-#ifdef __ANDROID__
+#if defined(__ANDROID__) && !defined(BUILD_LIBRETRO)
 bool VKState::support_custom_drivers() {
     // vendor ID 0x5143 is Qualcomm, being stock or turnip
     return physical_device_properties.vendorID == 0x5143;

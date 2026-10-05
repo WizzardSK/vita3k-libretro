@@ -117,7 +117,7 @@ struct VKState : public renderer::State {
     bool support_rasterized_order_access = false;
     LinuxSurfaceType linux_surface_type = LinuxSurfaceType::Unknown;
 
-#ifdef __ANDROID__
+#if defined(__ANDROID__) && !defined(BUILD_LIBRETRO)
     bool support_android_buffer_import = false;
     bool support_unix_fd_import = false;
 #endif
@@ -164,7 +164,7 @@ struct VKState : public renderer::State {
     std::tuple<vk::Buffer, uint32_t> get_matching_mapping(const Ptr<void> address);
     // return the GPU buffer device address matching this one
     uint64_t get_matching_device_address(const Address address);
-#ifdef __ANDROID__
+#if defined(__ANDROID__) && !defined(BUILD_LIBRETRO)
     bool support_custom_drivers() override;
     void set_turbo_mode(bool set) override;
 #endif

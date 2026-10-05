@@ -118,7 +118,7 @@ int ctrl_get(const SceUID thread_id, EmuEnvState &emuenv, int port, SceCtrlData2
 #else // !BUILD_LIBRETRO
 #include <SDL3/SDL_keyboard.h>
 
-#ifdef ANDROID
+#if defined(ANDROID) && !defined(BUILD_LIBRETRO)
 #include <SDL3/SDL_joystick.h>
 #include <jni.h>
 
@@ -221,7 +221,7 @@ void refresh_controllers(CtrlState &state, EmuEnvState &emuenv) {
             break;
         }
 
-#ifdef __ANDROID__
+#if defined(__ANDROID__) && !defined(BUILD_LIBRETRO)
         // for whatever reasons, fingerprint sensors are detected as controllers, filter them out
         const char *controller_name = SDL_GetGamepadNameForID(gamepad_id);
         if (controller_name != nullptr && (std::string_view(controller_name).starts_with("uinput-") || std::string_view(controller_name).starts_with("gf_")))

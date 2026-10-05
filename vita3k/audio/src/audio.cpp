@@ -20,9 +20,8 @@
 #include <audio/impl/cubeb_audio.h>
 #ifdef BUILD_LIBRETRO
 #include <audio/impl/libretro_audio.h>
-#else
-#include <audio/impl/sdl_audio.h>
 #endif
+#include <audio/impl/sdl_audio.h>
 
 #include <util/log.h>
 

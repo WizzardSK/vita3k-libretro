@@ -19,7 +19,9 @@
 
 #include <util/warning.h>
 
-#ifdef __ANDROID__
+// The libretro core draws into RetroArch's device and has no Android surface or
+// hardware buffers of its own; libretro.h's Vulkan header comes first, without them
+#if defined(__ANDROID__) && !defined(BUILD_LIBRETRO)
 #define VK_USE_PLATFORM_ANDROID_KHR
 #elif defined(__APPLE__)
 #define VK_ENABLE_BETA_EXTENSIONS

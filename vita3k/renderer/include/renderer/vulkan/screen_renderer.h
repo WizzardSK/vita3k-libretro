@@ -30,7 +30,7 @@ namespace renderer::vulkan {
 
 struct VKState;
 
-#ifdef __ANDROID__
+#if defined(__ANDROID__) && !defined(BUILD_LIBRETRO)
 bool has_android_surface();
 #endif
 
@@ -58,7 +58,7 @@ public:
     vk::RenderPass default_render_pass;
     // renderpass used after a post-processing pass clearing the swapchain, compatible with the default render pass
     vk::RenderPass post_filter_render_pass;
-#ifdef __ANDROID__
+#if defined(__ANDROID__) && !defined(BUILD_LIBRETRO)
     // renderpass used to (partially) prevent a driver bug using stock adreno drivers
     vk::RenderPass stock_adreno_pass;
 #endif

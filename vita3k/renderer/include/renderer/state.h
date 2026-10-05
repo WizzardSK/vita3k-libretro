@@ -203,7 +203,7 @@ struct State {
         return true;
     }
     virtual void unmap_memory(MemState &mem, Ptr<void> address) {}
-#ifdef __ANDROID__
+#if defined(__ANDROID__) && !defined(BUILD_LIBRETRO)
     virtual bool support_custom_drivers() {
         return false;
     }

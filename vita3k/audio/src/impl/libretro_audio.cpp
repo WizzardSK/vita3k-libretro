@@ -52,17 +52,19 @@ AudioOutPortPtr LibretroAudioAdapter::open_port(int nb_channels, int freq, int n
     return port;
 }
 
-void LibretroAudioAdapter::audio_output(ThreadState &thread, AudioOutPort &out_port, const void *buffer) {
+void LibretroAudioAdapter::audio_output(AudioOutPort &out_port, const void *buffer) {
     auto &port = static_cast<LibretroAudioOutPort &>(out_port);
 
     std::unique_lock<std::mutex> lock(port.mutex);
-    // If ring buffer is full, wait for drain (retro_run will consume)
+    // If the ring buffer is full, wait for retro_run to drain it - a bounded
+    // wait, as SDLAudioAdapter's, so that a stop (wake_all_ports) or a paused
+    // frontend does not hold the guest thread for good
     if (port.nb_buffers_ready >= static_cast<int>(port.audio_buffers.size())) {
-        thread.update_status(ThreadStatus::wait);
-        port.cond_var.wait(lock, [&]() {
+        port.cond_var.wait_for(lock, std::chrono::microseconds(port.len_microseconds * 2), [&]() {
             return port.nb_buffers_ready < static_cast<int>(port.audio_buffers.size());
         });
-        thread.update_status(ThreadStatus::run);
+        if (port.nb_buffers_ready >= static_cast<int>(port.audio_buffers.size()))
+            return;
     }
 
     if (buffer) {
@@ -78,6 +80,14 @@ void LibretroAudioAdapter::set_volume(AudioOutPort &out_port, float volume) {
 
 void LibretroAudioAdapter::switch_state(const bool pause) {
     // No-op for libretro — frontend controls pause
+}
+
+void LibretroAudioAdapter::wake_all_ports() {
+    const std::lock_guard<std::mutex> lock(state.mutex);
+    for (auto &[_, out_port] : state.out_ports) {
+        auto &port = static_cast<LibretroAudioOutPort &>(*out_port);
+        port.cond_var.notify_all();
+    }
 }
 
 int LibretroAudioAdapter::get_rest_sample(AudioOutPort &out_port) {

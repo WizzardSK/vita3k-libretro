@@ -174,7 +174,7 @@ bool create(std::unique_ptr<State> &state, const Config &config) {
 
     static renderer::FrameHost *s_frame = nullptr;
     s_frame = gl_state.frame;
-#ifdef __ANDROID__
+#if defined(__ANDROID__) && !defined(BUILD_LIBRETRO)
     gladLoadGLES2Loader([](const char *name) -> void * {
 #else
     gladLoadGLLoader([](const char *name) -> void * {
@@ -234,7 +234,7 @@ bool create(std::unique_ptr<State> &state, const Config &config) {
     }
 
     // always enabled in the opengl renderer
-#ifdef __ANDROID__
+#if defined(__ANDROID__) && !defined(BUILD_LIBRETRO)
     gl_state.features.use_mask_bit = false;
 #else
     gl_state.features.use_mask_bit = true;
@@ -729,7 +729,7 @@ void GLState::render_frame(DisplayState &display, const GxmState &gxm, MemState 
             const GLint standard_swizzle[4] = { GL_RED, GL_GREEN, GL_BLUE, GL_ALPHA };
 
             glBindTexture(GL_TEXTURE_2D, surface_handle);
-#ifdef __ANDROID__
+#if defined(__ANDROID__) && !defined(BUILD_LIBRETRO)
             for (int i = 0; i < 4; i++) {
                 glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_SWIZZLE_R + i, standard_swizzle[i]);
             }

@@ -41,7 +41,7 @@
 #endif
 #endif
 
-#ifdef __ANDROID__
+#if defined(__ANDROID__) && !defined(BUILD_LIBRETRO)
 #include <SDL3/SDL_vulkan.h>
 #include <jni.h>
 
@@ -64,7 +64,7 @@ bool window_has_drawable_size(const VKState &state) {
 
 } // namespace
 
-#ifdef __ANDROID__
+#if defined(__ANDROID__) && !defined(BUILD_LIBRETRO)
 bool has_android_surface() {
     return has_surface.load(std::memory_order_acquire);
 }
@@ -76,7 +76,7 @@ ScreenRenderer::ScreenRenderer(VKState &state)
 
 bool ScreenRenderer::create() {
     if (this->surface) {
-#ifdef __ANDROID__
+#if defined(__ANDROID__) && !defined(BUILD_LIBRETRO)
         SDL_Vulkan_DestroySurface(state.instance, this->surface, nullptr);
 #else
         state.instance.destroySurfaceKHR(this->surface);
@@ -111,7 +111,7 @@ bool ScreenRenderer::create() {
         surface_created = true;
 #endif
     } else if (const auto *handle = std::get_if<renderer::AndroidDisplayHandle>(&display_handle)) {
-#ifdef __ANDROID__
+#if defined(__ANDROID__) && !defined(BUILD_LIBRETRO)
         if (!handle->window) {
             LOG_WARN("Android SDL window is not ready yet; deferring Vulkan surface recreation");
             return false;
@@ -377,7 +377,7 @@ void ScreenRenderer::cleanup() {
     state.device.destroy(post_filter_render_pass);
     post_filter_render_pass = nullptr;
 
-#ifdef __ANDROID__
+#if defined(__ANDROID__) && !defined(BUILD_LIBRETRO)
     state.device.destroy(stock_adreno_pass);
     stock_adreno_pass = nullptr;
 #endif
@@ -402,7 +402,7 @@ void ScreenRenderer::cleanup() {
 
     command_buffers.clear();
 
-#ifdef __ANDROID__
+#if defined(__ANDROID__) && !defined(BUILD_LIBRETRO)
     SDL_Vulkan_DestroySurface(state.instance, surface, nullptr);
 #else
     state.instance.destroy(surface);
@@ -519,7 +519,7 @@ void ScreenRenderer::render(vk::ImageView image_view, vk::ImageLayout layout, co
 
     filter->render(false, image_view, layout, viewport);
 
-#ifdef __ANDROID__
+#if defined(__ANDROID__) && !defined(BUILD_LIBRETRO)
     // stock adreno driver bug
     // if there is too much load on the GPU, it just drops any render pass with ImGui graphics in it....
     // I still don't know exactly why
@@ -672,7 +672,7 @@ void ScreenRenderer::create_render_pass() {
         .setInitialLayout(vk::ImageLayout::eGeneral);
     post_filter_render_pass = state.device.createRenderPass(pass_info);
 
-#ifdef __ANDROID__
+#if defined(__ANDROID__) && !defined(BUILD_LIBRETRO)
     if (state.is_adreno_stock) {
         // used to fix an adreno driver bug
         color_attachment.setInitialLayout(vk::ImageLayout::ePresentSrcKHR);
@@ -717,7 +717,7 @@ bool ScreenRenderer::rebuild_swapchain_if_visible() {
     state.device.waitIdle();
     destroy_swapchain();
 
-#ifdef __ANDROID__
+#if defined(__ANDROID__) && !defined(BUILD_LIBRETRO)
     if (!create())
         return false;
 #else

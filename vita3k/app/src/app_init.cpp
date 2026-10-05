@@ -66,7 +66,7 @@
 #include <SDL3/SDL_filesystem.h>
 #include <SDL3/SDL_gamepad.h>
 
-#ifdef __ANDROID__
+#if defined(__ANDROID__) && !defined(BUILD_LIBRETRO)
 #include <SDL3/SDL_system.h>
 #endif
 
@@ -207,7 +207,7 @@ static Config::CurrentConfig get_runtime_current_config_after_save(
         case config::RestartRequiredSetting::GraphicsDevice:
             runtime_current.gpu_idx = previous_current.gpu_idx;
             break;
-#ifdef __ANDROID__
+#if defined(__ANDROID__) && !defined(BUILD_LIBRETRO)
         case config::RestartRequiredSetting::CustomDriver:
             runtime_current.custom_driver_name = previous_current.custom_driver_name;
             break;
@@ -254,7 +254,7 @@ bool init_paths(Root &root_paths) {
     return false;
 #endif
     bool portable = false;
-#ifdef __ANDROID__
+#if defined(__ANDROID__) && !defined(BUILD_LIBRETRO)
     fs::path internal_storage_path = fs::path(SDL_GetAndroidExternalStoragePath()) / "";
     fs::path vita_storage_path = internal_storage_path / "vita/";
 
@@ -607,7 +607,7 @@ void apply_renderer_config(EmuEnvState &emuenv) {
     r.stretch_hd_pixel_perfect(cc.fullscreen_hd_res_pixel_perfect);
     r.set_async_compilation(cc.async_pipeline_compilation);
     r.get_texture_cache()->set_replacement_state(cc.import_textures, cc.export_textures, cc.export_as_png);
-#ifdef __ANDROID__
+#if defined(__ANDROID__) && !defined(BUILD_LIBRETRO)
     if (r.support_custom_drivers())
         r.set_turbo_mode(emuenv.cfg.turbo_mode);
 #endif
@@ -700,7 +700,7 @@ void apply_runtime_settings(EmuEnvState &emuenv) {
     r.stretch_hd_pixel_perfect(cc.fullscreen_hd_res_pixel_perfect);
     r.set_async_compilation(cc.async_pipeline_compilation);
     r.get_texture_cache()->set_replacement_state(cc.import_textures, cc.export_textures, cc.export_as_png);
-#ifdef __ANDROID__
+#if defined(__ANDROID__) && !defined(BUILD_LIBRETRO)
     if (r.support_custom_drivers())
         r.set_turbo_mode(emuenv.cfg.turbo_mode);
 #endif

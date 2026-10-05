@@ -29,7 +29,7 @@
 #include <stb_image.h>
 #include <stb_image_write.h>
 
-#ifdef __ANDROID__
+#if defined(__ANDROID__) && !defined(BUILD_LIBRETRO)
 // for message popup
 #include <SDL3/SDL_system.h>
 #endif
@@ -511,7 +511,7 @@ bool TextureCache::import_configure_texture() {
 
         if (gxm::is_bcn_format(base_format) && !support_dxt) {
             LOG_ERROR_ONCE("BCn textures are not supported by this device");
-#ifdef __ANDROID__
+#if defined(__ANDROID__) && !defined(BUILD_LIBRETRO)
             // this issue is most likely to happen on android
             SDL_ShowAndroidToast("BCn textures are not supported by this device!", 1, -1, 0, 0);
 #endif

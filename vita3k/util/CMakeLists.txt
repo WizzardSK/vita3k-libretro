@@ -18,11 +18,7 @@ add_library(
 
 target_include_directories(util PUBLIC include)
 target_link_libraries(util PUBLIC ${Boost_LIBRARIES} fmt spdlog http mem)
-if(BUILD_LIBRETRO)
-	target_link_libraries(util PRIVATE libcurl crypto)
-else()
-	target_link_libraries(util PRIVATE libcurl crypto SDL3::SDL3)
-endif()
+target_link_libraries(util PRIVATE libcurl crypto SDL3::SDL3)
 if(ANDROID)
 	target_link_libraries(util PUBLIC emuenv android xxHash::xxhash)
 	target_link_libraries(util PRIVATE adrenotools)

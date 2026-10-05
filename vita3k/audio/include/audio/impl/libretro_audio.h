@@ -51,10 +51,11 @@ public:
 
     bool init() override;
     AudioOutPortPtr open_port(int nb_channels, int freq, int nb_sample) override;
-    void audio_output(ThreadState &thread, AudioOutPort &out_port, const void *buffer) override;
+    void audio_output(AudioOutPort &out_port, const void *buffer) override;
     void set_volume(AudioOutPort &out_port, float volume) override;
     void switch_state(const bool pause) override;
     int get_rest_sample(AudioOutPort &out_port) override;
+    void wake_all_ports() override;
 };
 
 // Drain all available audio from all ports into a single interleaved stereo
