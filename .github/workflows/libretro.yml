@@ -33,6 +33,13 @@ jobs:
             artifact: vita3k_libretro-windows-x86_64
             preset: windows-ninja
             vcpkg_triplet: x64-windows-static-md
+          # The core alone, built with CMake and the NDK as upstream's gradle
+          # build does for the app; the libraries from vcpkg, as upstream
+          - name: Android arm64
+            runs_on: ubuntu-latest
+            artifact: vita3k_libretro-android-arm64
+            android: true
+            vcpkg_triplet: arm64-android
     steps:
       - uses: actions/checkout@v6
         with:
@@ -40,7 +47,7 @@ jobs:
           submodules: recursive
 
       - name: Set up build environment (Linux)
-        if: runner.os == 'Linux'
+        if: runner.os == 'Linux' && !matrix.android
         run: |
           sudo add-apt-repository -y ppa:mhier/libboost-latest
           sudo add-apt-repository universe
@@ -54,6 +61,17 @@ jobs:
         if: runner.os == 'Windows'
         run: vcpkg install zlib boost-system boost-filesystem boost-program-options boost-icl boost-variant curl openssl --triplet=${{ matrix.vcpkg_triplet }}
 
+      - name: Set up build environment (Android)
+        if: matrix.android
+        run: |
+          sudo apt-get install -y ninja-build
+          ndk=27.3.13750724
+          [ -d "$ANDROID_SDK_ROOT/ndk/$ndk" ] || yes | "$ANDROID_SDK_ROOT/cmdline-tools/latest/bin/sdkmanager" "ndk;$ndk" >/dev/null
+          echo "ANDROID_NDK_HOME=$ANDROID_SDK_ROOT/ndk/$ndk" >> $GITHUB_ENV
+          echo "VCPKG_ROOT=$VCPKG_INSTALLATION_ROOT" >> $GITHUB_ENV
+          export ANDROID_NDK_HOME=$ANDROID_SDK_ROOT/ndk/$ndk
+          vcpkg install boost-system boost-filesystem boost-program-options boost-icl boost-variant openssl zlib --triplet=${{ matrix.vcpkg_triplet }}
+
       - uses: ilammy/msvc-dev-cmd@v1
         if: runner.os == 'Windows'
 
@@ -66,6 +84,12 @@ jobs:
             # first perl on the path is Git's (cygwin)
             extra="-DCMAKE_TOOLCHAIN_FILE=C:/vcpkg/scripts/buildsystems/vcpkg.cmake -DVCPKG_TARGET_TRIPLET=${{ matrix.vcpkg_triplet }} -DPERL_EXECUTABLE=C:/Strawberry/perl/bin/perl.exe"
           fi
+          if [ "${{ matrix.android }}" = true ]; then
+            cmake -B build/android -G Ninja -DCMAKE_SYSTEM_NAME=Android -DANDROID_ABI=arm64-v8a \
+              -DANDROID_PLATFORM=android-28 -DANDROID_SUPPORT_FLEXIBLE_PAGE_SIZES=ON \
+              -DCMAKE_BUILD_TYPE=Release -DBUILD_LIBRETRO=ON
+            exit 0
+          fi
           if [ "$RUNNER_OS" = Linux ]; then
             # Everything into one shared object: position-independent code, and
             # the core's own symbols bound inside it, which also lets the
@@ -77,20 +101,25 @@ jobs:
 
       - name: Build
         shell: bash
-        run: cmake --build build/${{ matrix.preset }} --config Release --target vita3k_libretro
+        run: cmake --build build/${{ matrix.preset || 'android' }} --config Release --target vita3k_libretro
 
       - name: Collect
         shell: bash
         run: |
-          core=$(find build/${{ matrix.preset }} -name 'vita3k_libretro.so' -o -name 'vita3k_libretro.dll' | grep -i release | head -1)
-          [ -n "$core" ] || core=$(find build/${{ matrix.preset }} -name 'vita3k_libretro.so' -o -name 'vita3k_libretro.dll' | head -1)
+          dir=build/${{ matrix.preset || 'android' }}
+          core=$(find $dir -name 'vita3k_libretro.so' -o -name 'vita3k_libretro.dll' | grep -i release | head -1)
+          [ -n "$core" ] || core=$(find $dir -name 'vita3k_libretro.so' -o -name 'vita3k_libretro.dll' | head -1)
           echo "core: $core"
           mkdir -p dist/cores dist/system/vita3k
           cp "$core" dist/cores/
           cp -r data lang dist/system/vita3k/
           cp -r vita3k/shaders-builtin dist/system/vita3k/
           ls -la dist/cores
-          if [ "$RUNNER_OS" = Linux ]; then
+          if [ "${{ matrix.android }}" = true ]; then
+            mv dist/cores/vita3k_libretro.so dist/cores/vita3k_libretro_android.so
+            $ANDROID_NDK_HOME/toolchains/llvm/prebuilt/linux-x86_64/bin/llvm-strip --strip-unneeded dist/cores/vita3k_libretro_android.so
+            $ANDROID_NDK_HOME/toolchains/llvm/prebuilt/linux-x86_64/bin/llvm-readelf -d dist/cores/vita3k_libretro_android.so | grep NEEDED
+          elif [ "$RUNNER_OS" = Linux ]; then
             strip --strip-unneeded dist/cores/vita3k_libretro.so
             readelf -d dist/cores/vita3k_libretro.so | grep NEEDED
           fi
