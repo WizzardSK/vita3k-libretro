@@ -52,6 +52,16 @@ if (NOT GIT_REPO STREQUAL "")
 	list(POP_BACK GIT_REPO)
 endif()
 
+# The core's version is upstream Vita3K's, the build number and commit of the
+# upstream it is built on (upstream.version, replaced with each merge of it),
+# not counted from this repository's own commits
+if(EXISTS "${CMAKE_SOURCE_DIR}/upstream.version")
+	file(STRINGS "${CMAKE_SOURCE_DIR}/upstream.version" UPSTREAM_VERSION LIMIT_COUNT 1)
+	string(REPLACE " " ";" UPSTREAM_VERSION "${UPSTREAM_VERSION}")
+	list(GET UPSTREAM_VERSION 0 GIT_COUNT)
+	list(GET UPSTREAM_VERSION 1 GIT_HASH)
+endif()
+
 if(GIT_HASH STREQUAL "")
 	set(VITA3K_GIT_REV "Development version")
 	set(GIT_COUNT 0)

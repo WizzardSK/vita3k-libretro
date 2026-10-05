@@ -27,6 +27,7 @@
 #include <config/functions.h>
 #include <config/state.h>
 #include <config/version.h>
+#include <fmt/format.h>
 #include <display/functions.h>
 #include <display/state.h>
 #include <emuenv/state.h>
@@ -1101,7 +1102,10 @@ RETRO_API unsigned retro_api_version(void) {
 RETRO_API void retro_get_system_info(struct retro_system_info *info) {
     memset(info, 0, sizeof(*info));
     info->library_name = "Vita3K";
-    info->library_version = app_version;
+    // Upstream Vita3K's version and build number, as its builds are named
+    // ("v0.2.1 4123"), and the upstream commit (upstream.version)
+    static const std::string version = fmt::format("{} {} {}", app_version, app_number, app_hash);
+    info->library_version = version.c_str();
     info->valid_extensions = "vpk|zip|bin";
     info->need_fullpath = true;
     info->block_extract = true;
