@@ -1,7 +1,7 @@
 # Software Information
 display_name = "Sony - PlayStation Vita (Vita3K)"
 authors = "Vita3K Team"
-supported_extensions = "vpk|zip|bin"
+supported_extensions = "vpk|zip|pkg|bin"
 corename = "Vita3K"
 categories = "Emulator"
 license = "GPLv2+"

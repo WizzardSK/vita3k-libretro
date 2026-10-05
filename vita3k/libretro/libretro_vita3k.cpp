@@ -1106,7 +1106,7 @@ RETRO_API void retro_get_system_info(struct retro_system_info *info) {
     // ("v0.2.1 4123"), and the upstream commit (upstream.version)
     static const std::string version = fmt::format("{} {} {}", app_version, app_number, app_hash);
     info->library_version = version.c_str();
-    info->valid_extensions = "vpk|zip|bin";
+    info->valid_extensions = "vpk|zip|pkg|bin";
     info->need_fullpath = true;
     info->block_extract = true;
 }

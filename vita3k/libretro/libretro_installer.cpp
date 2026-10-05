@@ -20,7 +20,9 @@
 #include <cstdarg>
 #include "libretro_state.h"
 
+#include <emuenv/state.h>
 #include <packages/functions.h>
+#include <packages/pkg.h>
 #include <packages/sfo.h>
 #include <util/fs.h>
 #include <util/log.h>
@@ -728,6 +730,128 @@ static GameInstallResult handle_folder_game(const fs::path &game_path, const fs:
     return result;
 }
 
+// The license of a PKG, as a zRIF: one installed already
+// (ux0/license/<title id>/<content id>.rif), or one next to the PKG - a
+// <pkg name>.zrif text file holding the zRIF (as NoPayStation lists them), or
+// a <pkg name>.rif, work.bin or <content id>.rif license file. Updates and
+// DLC without DRM need none.
+static std::string find_pkg_license(const fs::path &pkg_path, const fs::path &pref_path) {
+    std::string zrif = find_pkg_zrif(pkg_path, pref_path);
+    if (!zrif.empty())
+        return zrif;
+
+    const fs::path dir = pkg_path.parent_path();
+    const std::string stem = fs_utils::path_to_utf8(pkg_path.stem());
+    for (const fs::path &txt : { dir / (stem + ".zrif"), dir / (stem + ".zRIF"), dir / (stem + ".txt") }) {
+        fs::ifstream in(txt);
+        std::string line;
+        if (in && std::getline(in, line)) {
+            line = string_utils::trim_copy(line);
+            if (!line.empty()) {
+                lr_log(RETRO_LOG_INFO, "PKG license (zRIF) from %s\n", txt.generic_string().c_str());
+                return line;
+            }
+        }
+    }
+
+    std::vector<fs::path> rifs = { dir / (stem + ".rif"), dir / "work.bin" };
+    if (FILE *f = FOPEN(pkg_path.c_str(), "rb")) {
+        PkgHeader header{};
+        if (fread(&header, sizeof(header), 1, f) == 1) {
+            const std::string content_id(header.content_id, strnlen(header.content_id, sizeof(header.content_id)));
+            if (!content_id.empty())
+                rifs.push_back(dir / (content_id + ".rif"));
+        }
+        fclose(f);
+    }
+    for (const fs::path &rif : rifs) {
+        fs::ifstream bin(rif, std::ios::in | std::ios::binary | std::ios::ate);
+        if (bin) {
+            lr_log(RETRO_LOG_INFO, "PKG license from %s\n", rif.generic_string().c_str());
+            return rif2zrif(bin);
+        }
+    }
+    return {};
+}
+
+// A PKG - a game, its update or DLC - installed with upstream's installer,
+// which decrypts it with the license, into ux0/app, ux0/patch or ux0/addcont
+static GameInstallResult handle_pkg_game(const fs::path &pkg_path, const fs::path &pref_path, int sys_lang) {
+    GameInstallResult result;
+
+    // Installed once: a marker per package (content ID and size) under
+    // ux0/libretro_pkg, as an update or DLC installs into the same title ID
+    // as its game and so cannot be told from it by what is in ux0
+    std::string content_id;
+    if (FILE *f = FOPEN(pkg_path.c_str(), "rb")) {
+        PkgHeader header{};
+        if (fread(&header, sizeof(header), 1, f) == 1)
+            content_id.assign(header.content_id, strnlen(header.content_id, sizeof(header.content_id)));
+        fclose(f);
+    }
+    if (content_id.size() < 16) {
+        lr_log(RETRO_LOG_ERROR, "%s is not a PS Vita PKG\n", pkg_path.generic_string().c_str());
+        lr_msg("Not a PS Vita PKG!", 300);
+        return result;
+    }
+    const fs::path marker = pref_path / "ux0" / "libretro_pkg" / fmt::format("{}_{}", content_id, fs::file_size(pkg_path));
+    const std::string title_id = content_id.substr(7, 9);
+    if (fs::exists(marker) && fs::exists(pref_path / "ux0" / "app" / title_id / "eboot.bin")) {
+        lr_log(RETRO_LOG_INFO, "PKG %s is installed already.\n", content_id.c_str());
+        result.success = true;
+        result.title_id = title_id;
+        result.content_id = content_id;
+        vfs::FileBuffer sfo;
+        if (fs_utils::read_data(pref_path / "ux0" / "app" / title_id / "sce_sys" / "param.sfo", sfo)) {
+            sfo::SfoAppInfo info;
+            sfo::get_param_info(info, sfo, sys_lang);
+            result.title = info.app_title;
+            result.category = info.app_category;
+        }
+        return result;
+    }
+
+    auto emuenv = std::make_unique<EmuEnvState>();
+    emuenv->vita_fs_path = pref_path;
+    emuenv->cfg.sys_lang = sys_lang;
+
+    std::string zrif = find_pkg_license(pkg_path, pref_path);
+    lr_msg("Installing PKG... this may take a while", 600);
+    const bool ok = install_pkg(pkg_path, *emuenv, zrif, [](float progress) {
+        static int last = -1;
+        const int pct = static_cast<int>(progress);
+        if (pct / 10 != last / 10) {
+            last = pct;
+            lr_log(RETRO_LOG_INFO, "PKG install progress: %d%%\n", pct);
+        }
+    });
+    if (!ok) {
+        lr_log(RETRO_LOG_ERROR, "Could not install %s. A game's PKG needs its license: put the zRIF in %s.zrif, or work.bin / %s.rif, next to it.\n",
+            pkg_path.generic_string().c_str(), fs_utils::path_to_utf8(pkg_path.stem()).c_str(), fs_utils::path_to_utf8(pkg_path.stem()).c_str());
+        lr_msg("PKG install failed! A game needs its license (zRIF or work.bin) next to the PKG - see log", 600);
+        return result;
+    }
+
+    fs::create_directories(marker.parent_path());
+    fs::ofstream(marker).put('\n');
+
+    result.title_id = emuenv->app_info.app_title_id;
+    result.title = emuenv->app_info.app_title;
+    result.category = emuenv->app_info.app_category;
+    result.content_id = emuenv->app_info.app_content_id;
+
+    // An update or DLC on its own does not start; the game it is for does,
+    // if that is installed already
+    if (!fs::exists(pref_path / "ux0" / "app" / result.title_id / "eboot.bin")) {
+        lr_log(RETRO_LOG_ERROR, "Installed %s, but the game %s is not installed.\n", result.title.c_str(), result.title_id.c_str());
+        lr_msg("Installed. Start the game's own PKG or VPK to play.", 600);
+        return result;
+    }
+    lr_log(RETRO_LOG_INFO, "Installed %s [%s] from PKG\n", result.title.c_str(), result.title_id.c_str());
+    result.success = true;
+    return result;
+}
+
 GameInstallResult ensure_game_installed(const fs::path &game_path, const fs::path &pref_path, int sys_lang) {
     GameInstallResult result;
 
@@ -750,14 +874,16 @@ GameInstallResult ensure_game_installed(const fs::path &game_path, const fs::pat
     // Validate extension for archive files
     const auto extension = string_utils::tolower(game_path.extension().string());
     lr_log(RETRO_LOG_DEBUG, "Game file extension: %s\n", extension.c_str());
+    if (extension == ".pkg")
+        return handle_pkg_game(game_path, pref_path, sys_lang);
     if (extension != ".vpk" && extension != ".zip") {
         // Maybe it's an eboot.bin directly - check parent folder
         if (game_path.filename() == "eboot.bin") {
             lr_log(RETRO_LOG_INFO, "eboot.bin provided directly, using parent folder\n");
             return handle_folder_game(game_path.parent_path(), pref_path, sys_lang);
         }
-        lr_log(RETRO_LOG_ERROR, "Unsupported game format: %s (expected .vpk, .zip, or folder)\n", extension.c_str());
-        lr_msg("Unsupported format! Use .vpk, .zip, or game folder", 300);
+        lr_log(RETRO_LOG_ERROR, "Unsupported game format: %s (expected .vpk, .zip, .pkg, or folder)\n", extension.c_str());
+        lr_msg("Unsupported format! Use .vpk, .zip, .pkg, or game folder", 300);
         return result;
     }
 
