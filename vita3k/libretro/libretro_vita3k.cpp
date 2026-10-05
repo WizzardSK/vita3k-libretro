@@ -33,6 +33,7 @@
 #include <gxm/state.h>
 #include <io/state.h>
 #include <kernel/state.h>
+#include <renderer/frame_host.h>
 #include <renderer/functions.h>
 #include <renderer/gl/state.h>
 #include <renderer/state.h>
@@ -484,6 +485,47 @@ static void libretro_vk_destroy_presentation_resources() {
 
 }
 
+// What the renderer asks of the window it draws to (renderer/frame_host.h).
+// The core has none: frames go to RetroArch through the core's own
+// presentation (retro_run), so there is no display handle and no swapchain.
+// For OpenGL the frontend's context is current on the thread RetroArch calls
+// the core on, and its functions come from the frontend.
+class LibretroFrameHost final : public renderer::FrameHost {
+public:
+    renderer::DisplayHandle handle() const override {
+        return std::monostate{};
+    }
+
+    int drawable_width() const override {
+        return 960;
+    }
+
+    int drawable_height() const override {
+        return 544;
+    }
+
+    std::vector<std::string> font_dirs() const override {
+        return {};
+    }
+
+    void *get_proc_address(const char *name) const override {
+        return libretro.hw_render.get_proc_address ? reinterpret_cast<void *>(libretro.hw_render.get_proc_address(name)) : nullptr;
+    }
+
+    unsigned int default_fbo() const override {
+        return libretro.hw_render.get_current_framebuffer ? static_cast<unsigned int>(libretro.hw_render.get_current_framebuffer()) : 0;
+    }
+
+    bool make_current() override {
+        return true;
+    }
+};
+
+static renderer::FrameHost &libretro_frame_host() {
+    static LibretroFrameHost host;
+    return host;
+}
+
 static void context_reset_vulkan() {
     lr_trace("context_reset_vulkan.enter", "renderer_ready=%d emuenv=%d", libretro.renderer_ready ? 1 : 0, libretro.emuenv ? 1 : 0);
 
@@ -529,7 +571,7 @@ static void context_reset_vulkan() {
     if (libretro.emuenv) {
         EmuEnvState &emuenv = *libretro.emuenv;
         if (!emuenv.renderer) {
-            if (!renderer::init(emuenv.renderer, renderer::Backend::Vulkan, emuenv.cfg, *libretro.root_paths)) {
+            if (!renderer::init(libretro_frame_host(), emuenv.renderer, renderer::Backend::Vulkan, emuenv.cfg, *libretro.root_paths)) {
                 lr_log(RETRO_LOG_ERROR, "Failed to create Vulkan renderer!\n");
                 return;
             }
@@ -587,7 +629,7 @@ static void context_reset_opengl() {
         EmuEnvState &emuenv = *libretro.emuenv;
         if (!emuenv.renderer) {
             lr_trace("context_reset_opengl.creating_renderer", "backend=OpenGL");
-            if (!renderer::init(emuenv.renderer, renderer::Backend::OpenGL, emuenv.cfg, *libretro.root_paths)) {
+            if (!renderer::init(libretro_frame_host(), emuenv.renderer, renderer::Backend::OpenGL, emuenv.cfg, *libretro.root_paths)) {
                 lr_log(RETRO_LOG_ERROR, "Failed to create OpenGL renderer!\n");
                 lr_trace("context_reset_opengl.error", "renderer::init failed");
                 return;
@@ -1174,8 +1216,7 @@ RETRO_API bool retro_load_game(const struct retro_game_info *game) {
     libretro.root_paths = std::make_unique<Root>();
     Root &root = *libretro.root_paths;
 
-    root.set_base_path(pref_path);
-    root.set_pref_path(pref_path);
+        root.set_vita_fs_path(pref_path);
     root.set_log_path(pref_path / "log");
     root.set_config_path(pref_path / "config");
     root.set_cache_path(pref_path / "cache");
@@ -1197,7 +1238,7 @@ RETRO_API bool retro_load_game(const struct retro_game_info *game) {
 
     libretro.cfg = std::make_unique<Config>();
     Config &cfg = *libretro.cfg;
-    cfg.pref_path = root.get_pref_path().generic_string();
+    cfg.set_vita_fs_path(root.get_vita_fs_path());
     cfg.backend_renderer = (libretro.active_context == RETRO_HW_CONTEXT_VULKAN) ? "Vulkan" : "OpenGL";
     cfg.audio_backend = "Libretro";
     cfg.console = false;

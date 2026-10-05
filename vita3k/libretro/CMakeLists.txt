@@ -19,8 +19,13 @@ target_link_libraries(vita3k_libretro PRIVATE
 	config
 	cppcommon
 	ctrl
+	compat
+	dialog
 	display
 	glad
+	ime
+	lang
+	overlay
 	gxm
 	io
 	miniz

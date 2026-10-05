@@ -56,7 +56,7 @@ bool libretro_init_emuenv(EmuEnvState &emuenv, const Root &root_paths) {
 
     // Read param.sfo for additional app info
     vfs::FileBuffer param_sfo;
-    if (vfs::read_app_file(param_sfo, emuenv.pref_path, emuenv.io.app_path, "sce_sys/param.sfo")) {
+    if (vfs::read_app_file(param_sfo, emuenv.vita_fs_path, emuenv.io.app_path, "sce_sys/param.sfo")) {
         sfo::load(emuenv.sfo_handle, param_sfo);
         sfo::SfoAppInfo app_info;
         sfo::get_param_info(app_info, param_sfo, 1);
@@ -112,12 +112,12 @@ ExitCode libretro_load_app(int32_t &main_module_id, EmuEnvState &emuenv) {
     LOG_INFO("Resolution multiplier: {}", emuenv.cfg.resolution_multiplier);
 
     init_device_paths(emuenv.io);
-    init_savedata_app_path(emuenv.io, emuenv.pref_path);
+    init_savedata_app_path(emuenv.io, emuenv.vita_fs_path);
     LOG_INFO("Device paths and savedata initialized");
 
     // Reload param.sfo via VFS
     vfs::FileBuffer param_sfo;
-    if (vfs::read_app_file(param_sfo, emuenv.pref_path, emuenv.io.app_path, "sce_sys/param.sfo"))
+    if (vfs::read_app_file(param_sfo, emuenv.vita_fs_path, emuenv.io.app_path, "sce_sys/param.sfo"))
         sfo::load(emuenv.sfo_handle, param_sfo);
 
     init_exported_vars(emuenv);
@@ -145,7 +145,7 @@ ExitCode libretro_load_app(int32_t &main_module_id, EmuEnvState &emuenv) {
             process_preload_disabled = *preload_disabled_ptr.get(emuenv.mem);
         }
     }
-    const auto module_app_path{ emuenv.pref_path / "ux0/app" / emuenv.io.app_path / "sce_module" };
+    const auto module_app_path{ emuenv.vita_fs_path / "ux0/app" / emuenv.io.app_path / "sce_module" };
 
     std::vector<std::string> lib_load_list = {};
     auto add_preload_module = [&](uint32_t code, SceSysmoduleModuleId module_id, const std::string &name, bool load_from_app) {
@@ -154,7 +154,7 @@ ExitCode libretro_load_app(int32_t &main_module_id, EmuEnvState &emuenv) {
                 const auto module_name_file = fmt::format("{}.suprx", name);
                 if (load_from_app && fs::exists(module_app_path / module_name_file))
                     lib_load_list.emplace_back(fmt::format("app0:sce_module/{}", module_name_file));
-                else if (fs::exists(emuenv.pref_path / "vs0/sys/external" / module_name_file))
+                else if (fs::exists(emuenv.vita_fs_path / "vs0/sys/external" / module_name_file))
                     lib_load_list.emplace_back(fmt::format("vs0:sys/external/{}", module_name_file));
             }
 
