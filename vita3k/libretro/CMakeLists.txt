@@ -25,6 +25,7 @@ target_link_libraries(vita3k_libretro PRIVATE
 	compat
 	dialog
 	display
+	gdbstub
 	glad
 	ime
 	lang

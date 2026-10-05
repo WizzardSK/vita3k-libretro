@@ -167,6 +167,8 @@ macro(boost_compile)
 		# behind; say what b2 said instead
 		if(NOT BOOST_B2_RESULT EQUAL 0)
 			message(WARNING "b2 failed (${BOOST_B2_RESULT}):\n${BOOST_B2_OUTPUT}")
+		else()
+			message(STATUS "b2 output:\n${BOOST_B2_OUTPUT}")
 		endif()
 	endif()
 endmacro(boost_compile)

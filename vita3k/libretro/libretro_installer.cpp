@@ -20,6 +20,7 @@
 #include <cstdarg>
 #include "libretro_state.h"
 
+#include <config/state.h>
 #include <emuenv/state.h>
 #include <packages/functions.h>
 #include <packages/pkg.h>
