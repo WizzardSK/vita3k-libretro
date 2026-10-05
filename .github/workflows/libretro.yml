@@ -64,10 +64,6 @@ jobs:
           sudo apt -y install ccache ninja-build clang lld \
             libx11-dev libxext-dev libxrandr-dev libxcursor-dev libxi-dev libxss-dev libwayland-dev libxkbcommon-dev libegl-dev libdecor-0-dev libdbus-1-dev
 
-      - name: Set up build environment (Windows)
-        if: runner.os == 'Windows'
-        run: vcpkg install zlib boost-system boost-filesystem boost-program-options boost-icl boost-variant curl openssl --triplet=${{ matrix.vcpkg_triplet }}
-
       - name: Set up build environment (Android)
         if: matrix.android
         run: |
@@ -77,7 +73,8 @@ jobs:
           echo "ANDROID_NDK_HOME=$ANDROID_SDK_ROOT/ndk/$ndk" >> $GITHUB_ENV
           echo "VCPKG_ROOT=$VCPKG_INSTALLATION_ROOT" >> $GITHUB_ENV
           export ANDROID_NDK_HOME=$ANDROID_SDK_ROOT/ndk/$ndk
-          vcpkg install boost-system boost-filesystem boost-program-options boost-icl boost-variant openssl zlib --triplet=${{ matrix.vcpkg_triplet }}
+          # The libraries come from vcpkg.json (manifest mode), installed when
+          # CMake configures
 
       - uses: ilammy/msvc-dev-cmd@v1
         if: runner.os == 'Windows'

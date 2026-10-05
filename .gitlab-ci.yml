@@ -113,15 +113,18 @@ libretro-build-linux-aarch64:
     - git -C vcpkg init -q
     - git -C vcpkg fetch -q --depth 1 https://github.com/microsoft/vcpkg.git master
     - git -C vcpkg checkout -q -f FETCH_HEAD
+    # and the commit vcpkg.json takes its versions from (builtin-baseline)
+    - git -C vcpkg fetch -q --depth 1 https://github.com/microsoft/vcpkg.git $(sed -n 's/.*"builtin-baseline": *"\([0-9a-f]*\)".*/\1/p' vcpkg.json)
     - "$CI_PROJECT_DIR/vcpkg/bootstrap-vcpkg.sh -disableMetrics"
     - export VCPKG_ROOT="$CI_PROJECT_DIR/vcpkg"
-    - "$VCPKG_ROOT/vcpkg install boost-system boost-filesystem boost-program-options boost-icl boost-variant openssl zlib --triplet=$VCPKG_TRIPLET"
-  # vcpkg's packages do not change between pipelines; built once, kept.
+    - export VCPKG_DEFAULT_BINARY_CACHE="$CI_PROJECT_DIR/vcpkg-cache"
+    - mkdir -p "$VCPKG_DEFAULT_BINARY_CACHE"
+  # The libraries come from vcpkg.json (manifest mode) and are built when CMake
+  # configures; vcpkg's binary cache keeps them between pipelines.
   cache:
     key: vcpkg-$VCPKG_TRIPLET-ndk27.3
     paths:
-      - vcpkg/installed/
-      - vcpkg/packages/
+      - vcpkg-cache/
 
 # Android 64-bit (ARM)
 android-arm64-v8a:
