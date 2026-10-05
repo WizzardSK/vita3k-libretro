@@ -31,7 +31,7 @@ std::array<ControllerBinding, 15> get_controller_bindings_ext(EmuEnvState &emuen
     return {};
 }
 
-SceCtrlExternalInputMode get_type_of_controller(const int idx) {
+SceCtrlExternalInputMode get_type_of_controller(CtrlState &state, int port) {
     return SCE_CTRL_TYPE_DS3;
 }
 

@@ -75,6 +75,10 @@ default:
       libssl-dev libx11-dev libxext-dev libxrandr-dev libxcursor-dev libxi-dev
       libxss-dev libwayland-dev libxkbcommon-dev libegl-dev libdecor-0-dev
       libdbus-1-dev
+    # clang builds against the newest GCC under /usr/lib/gcc, whose libstdc++
+    # headers may not be installed (as on GitHub's ARM image)
+    - gcc_v=$(clang++ -v -x c++ -E /dev/null 2>&1 | sed -n 's|^Selected GCC installation: .*/\([0-9]*\)$|\1|p')
+    - if [ -n "$gcc_v" ]; then apt-get install -y --no-install-recommends libstdc++-$gcc_v-dev; fi
 
 # Linux 64-bit
 libretro-build-linux-x64:

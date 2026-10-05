@@ -491,6 +491,14 @@ static void libretro_vk_destroy_presentation_resources() {
 // presentation (retro_run), so there is no display handle and no swapchain.
 // For OpenGL the frontend's context is current on the thread RetroArch calls
 // the core on, and its functions come from the frontend.
+// The on-screen keyboard's visibility, which the Android app's Java side
+// implements (android/jni/ime.cpp, not in this repository) and the IME and
+// common dialog modules call on Android. The core has no keyboard of its own
+// to show: RetroArch's input reaches the guest's IME as key presses.
+namespace ime {
+void set_keyboard_active(bool) {}
+} // namespace ime
+
 class LibretroFrameHost final : public renderer::FrameHost {
 public:
     renderer::DisplayHandle handle() const override {

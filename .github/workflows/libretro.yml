@@ -61,10 +61,14 @@ jobs:
           # from its submodule. The X11/Wayland headers are for the SDL
           # subproject, which configures even though the core opens no window.
           sudo apt update
-          # g++ for libstdc++'s headers, which clang builds against; the ARM
-          # image lacks them, and Boost's b2 then quietly builds nothing
           sudo apt -y install ccache ninja-build clang lld g++ \
             libx11-dev libxext-dev libxrandr-dev libxcursor-dev libxi-dev libxss-dev libwayland-dev libxkbcommon-dev libegl-dev libdecor-0-dev libdbus-1-dev
+          # clang builds against the newest GCC under /usr/lib/gcc, which on the
+          # ARM image is one whose libstdc++ headers are not installed: clang then
+          # finds no <atomic>, and Boost's b2 quietly builds nothing
+          gcc_v=$(clang++ -v -x c++ -E /dev/null 2>&1 | sed -n 's|^Selected GCC installation: .*/\([0-9]*\)$|\1|p')
+          echo "clang uses GCC $gcc_v"
+          [ -z "$gcc_v" ] || sudo apt -y install libstdc++-$gcc_v-dev
 
       - name: Set up build environment (Android)
         if: matrix.android
@@ -78,12 +82,28 @@ jobs:
           # The libraries come from vcpkg.json (manifest mode), installed when
           # CMake configures
 
+      # vcpkg builds the libraries of vcpkg.json when CMake configures - Boost,
+      # OpenSSL, curl - which starved the Windows runner until it lost contact
+      # with GitHub. Its binary cache keeps them between runs, and the build is
+      # held to two jobs at a time.
+      - name: vcpkg cache
+        if: runner.os == 'Windows' || matrix.android
+        uses: actions/cache@v4
+        with:
+          path: ${{ github.workspace }}/vcpkg-cache
+          key: vcpkg-${{ matrix.vcpkg_triplet }}-${{ hashFiles('vcpkg.json') }}
+          restore-keys: vcpkg-${{ matrix.vcpkg_triplet }}-
+
       - uses: ilammy/msvc-dev-cmd@v1
         if: runner.os == 'Windows'
 
       - name: Configure
         shell: bash
+        env:
+          VCPKG_MAX_CONCURRENCY: 2
+          VCPKG_DEFAULT_BINARY_CACHE: ${{ github.workspace }}/vcpkg-cache
         run: |
+          mkdir -p "$VCPKG_DEFAULT_BINARY_CACHE"
           extra=""
           if [ "$RUNNER_OS" = Windows ]; then
             # The static OpenSSL build wants a native Windows Perl, and the
