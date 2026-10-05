@@ -6,7 +6,6 @@ add_library(vita3k_libretro SHARED
 	libretro_installer.cpp
 	libretro_log.cpp
 	libretro_game_loader.cpp
-	libretro_stb.cpp
 )
 
 target_include_directories(vita3k_libretro PRIVATE

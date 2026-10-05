@@ -71,7 +71,7 @@ default:
     # configures even though the core does not open a window with it.
     - apt-get update -qq
     - apt-get install -y --no-install-recommends
-      clang lld ninja-build cmake git python3 pkg-config file ca-certificates
+      clang lld g++ ninja-build cmake git python3 pkg-config file ca-certificates
       libssl-dev libx11-dev libxext-dev libxrandr-dev libxcursor-dev libxi-dev
       libxss-dev libwayland-dev libxkbcommon-dev libegl-dev libdecor-0-dev
       libdbus-1-dev

@@ -61,7 +61,9 @@ jobs:
           # from its submodule. The X11/Wayland headers are for the SDL
           # subproject, which configures even though the core opens no window.
           sudo apt update
-          sudo apt -y install ccache ninja-build clang lld \
+          # g++ for libstdc++'s headers, which clang builds against; the ARM
+          # image lacks them, and Boost's b2 then quietly builds nothing
+          sudo apt -y install ccache ninja-build clang lld g++ \
             libx11-dev libxext-dev libxrandr-dev libxcursor-dev libxi-dev libxss-dev libwayland-dev libxkbcommon-dev libegl-dev libdecor-0-dev libdbus-1-dev
 
       - name: Set up build environment (Android)
