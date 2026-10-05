@@ -83,6 +83,10 @@ add_subdirectory(libfat16)
 add_library(miniz STATIC miniz/miniz.c miniz/miniz.h)
 target_include_directories(miniz PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}/miniz")
 
+# The core opens no SDL window, and has no use for X11 input injection
+if(BUILD_LIBRETRO)
+	set(SDL_X11_XTEST OFF CACHE BOOL "" FORCE)
+endif()
 add_subdirectory(sdl)
 
 # Cubeb setup, from https://github.com/RPCS3/rpcs3/blob/master/3rdparty/cubeb/CMakeLists.txt
