@@ -1,4 +1,6 @@
 add_library(vita3k_libretro SHARED
+	# app loading and launch, shared with the standalone (app links it)
+	${CMAKE_CURRENT_SOURCE_DIR}/../interface.cpp
 	libretro_vita3k.cpp
 	libretro_input.cpp
 	libretro_installer.cpp
@@ -10,6 +12,7 @@ add_library(vita3k_libretro SHARED
 target_include_directories(vita3k_libretro PRIVATE
 	${CMAKE_CURRENT_SOURCE_DIR}
 	${CMAKE_SOURCE_DIR}/external/concurrentqueue
+	${CMAKE_CURRENT_SOURCE_DIR}/..
 )
 
 # Link against Vita3K static libraries (excluding gui and gdbstub)
@@ -62,11 +65,11 @@ if(LINUX)
 	target_link_libraries(vita3k_libretro PRIVATE -static-libgcc -static-libstdc++)
 endif()
 
-# Copy data/lang/shaders to output dir
+# Copy data and the built-in shaders to the output dir; the languages are
+# compiled in (lang/, from i18n/)
 add_custom_command(
 	TARGET vita3k_libretro
 	POST_BUILD
 	COMMAND ${CMAKE_COMMAND} -E copy_directory "${CMAKE_CURRENT_SOURCE_DIR}/../../data" "$<TARGET_FILE_DIR:vita3k_libretro>/data"
-	COMMAND ${CMAKE_COMMAND} -E copy_directory "${CMAKE_CURRENT_SOURCE_DIR}/../../lang" "$<TARGET_FILE_DIR:vita3k_libretro>/lang"
 	COMMAND ${CMAKE_COMMAND} -E copy_directory "${CMAKE_CURRENT_SOURCE_DIR}/../shaders-builtin" "$<TARGET_FILE_DIR:vita3k_libretro>/shaders-builtin"
 )

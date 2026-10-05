@@ -5,8 +5,4 @@ add_library(
 
 target_include_directories(emuenv INTERFACE include)
 target_link_libraries(emuenv PUBLIC mem)
-if(NOT BUILD_LIBRETRO)
-	target_link_libraries(emuenv PRIVATE app audio camera compat config ctrl dialog display ime io kernel motion net ngs nids np overlay regmgr renderer touch gdbstub packages http)
-else()
-	target_link_libraries(emuenv PRIVATE app audio camera compat config ctrl dialog display ime io kernel motion net ngs nids np overlay regmgr renderer touch packages http)
-endif()
+target_link_libraries(emuenv PRIVATE app audio camera compat config ctrl dialog display ime io kernel motion net ngs nids np overlay regmgr renderer touch gdbstub packages http)

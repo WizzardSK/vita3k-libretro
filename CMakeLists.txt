@@ -52,7 +52,12 @@ else()
 endif()
 
 option(FORCE_BUILD_OPENSSL_MAC OFF)
-option(BUILD_LIBRETRO "Build as a libretro core instead of standalone" OFF)
+# This repository builds the libretro core only: the standalone app's sources
+# are not in it (.upstream-excluded)
+option(BUILD_LIBRETRO "Build the libretro core" ON)
+if(NOT BUILD_LIBRETRO)
+	message(FATAL_ERROR "This repository builds the Vita3K libretro core only; the standalone Vita3K is at github.com/Vita3K/Vita3K")
+endif()
 
 if("${CMAKE_CXX_COMPILER_LAUNCHER}" STREQUAL "")
 	find_program(CCACHE_PROGRAM ccache)

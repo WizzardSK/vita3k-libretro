@@ -2,7 +2,7 @@ name: Build libretro core
 
 # vita3k_libretro (.so / .dll), built with -DBUILD_LIBRETRO=ON on the same
 # runners, dependencies and presets upstream builds Vita3K with. Each artifact
-# holds the core and system/vita3k/, the data, lang and builtin shaders the
+# holds the core and system/vita3k/, the data and builtin shaders the
 # core looks for in RetroArch's system directory.
 
 on:
@@ -119,7 +119,7 @@ jobs:
           echo "core: $core"
           mkdir -p dist/cores dist/system/vita3k
           cp "$core" dist/cores/
-          cp -r data lang dist/system/vita3k/
+          cp -r data dist/system/vita3k/
           cp -r vita3k/shaders-builtin dist/system/vita3k/
           ls -la dist/cores
           if [ "${{ matrix.android }}" = true ]; then

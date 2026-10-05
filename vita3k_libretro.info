@@ -41,6 +41,6 @@ firmware1_opt = "false"
 firmware2_desc = "PSP2UPDAT_FONT.PUP (PS Vita firmware fonts)"
 firmware2_path = "vita3k/PSP2UPDAT_FONT.PUP"
 firmware2_opt = "true"
-notes = "(!) PSP2UPDAT.PUP is the PS Vita system firmware, downloaded from PlayStation's website, and goes in system/vita3k/ in RetroArch's system directory, as do the preinst and font packages (preinst_fresh.pup / font_fresh.pup are accepted too). The core installs them on first start.|(!) Content: a .vpk or .zip of a game, a game folder's eboot.bin, or the folder itself. The game is installed into system/vita3k/ the first time it is started.|(!) The data, lang and shaders-builtin folders from the release go in system/vita3k/."
+notes = "(!) PSP2UPDAT.PUP is the PS Vita system firmware, downloaded from PlayStation's website, and goes in system/vita3k/ in RetroArch's system directory, as do the preinst and font packages (preinst_fresh.pup / font_fresh.pup are accepted too). The core installs them on first start.|(!) Content: a .vpk or .zip of a game, a game folder's eboot.bin, or the folder itself. The game is installed into system/vita3k/ the first time it is started.|(!) The data and shaders-builtin folders from the release go in system/vita3k/."
 
 description = "Vita3K is an experimental PlayStation Vita emulator. It runs commercial games and homebrew, rendering with Vulkan. This core is a libretro port of it: it installs the firmware and the games from RetroArch's system directory and draws into RetroArch's Vulkan device."
