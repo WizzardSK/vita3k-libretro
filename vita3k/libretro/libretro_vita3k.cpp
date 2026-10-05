@@ -1246,7 +1246,6 @@ RETRO_API bool retro_load_game(const struct retro_game_info *game) {
     cfg.backend_renderer = (libretro.active_context == RETRO_HW_CONTEXT_VULKAN) ? "Vulkan" : "OpenGL";
     cfg.audio_backend = "Libretro";
     cfg.console = false;
-    cfg.show_gui = false;
     cfg.overwrite_config = false;
     cfg.run_app_path = libretro.installed_title_id;
 
@@ -1681,7 +1680,6 @@ static void apply_config_changes() {
     cfg.sys_button = cfg.sys_button;
     cfg.fps_hack = cfg.current_config.fps_hack;
     cfg.file_loading_delay = cfg.current_config.file_loading_delay;
-    cfg.show_touchpad_cursor = cfg.current_config.show_touchpad_cursor;
     cfg.psn_signed_in = cfg.current_config.psn_signed_in;
     
     // Renderer-specific config
@@ -1795,10 +1793,6 @@ static void read_core_options() {
         if (delay > 30)
             delay = 30;
         libretro.cfg->current_config.file_loading_delay = delay;
-    });
-    
-    read_core_option("vita3k_touchpad_cursor", "enabled", [](const char *value) {
-        libretro.cfg->current_config.show_touchpad_cursor = parse_enabled_option(value, true);
     });
     
     // Audio Options

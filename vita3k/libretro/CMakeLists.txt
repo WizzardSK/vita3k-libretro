@@ -41,6 +41,7 @@ target_link_libraries(vita3k_libretro PRIVATE
 	shader
 	touch
 	util
+	pugixml::pugixml
 )
 
 # Output name: vita3k_libretro.dll / vita3k_libretro.so / vita3k_libretro.dylib

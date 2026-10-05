@@ -183,9 +183,6 @@ ExitCode libretro_load_app(int32_t &main_module_id, EmuEnvState &emuenv) {
 
     LOG_INFO("All modules loaded successfully");
 
-    if (!emuenv.cfg.show_gui)
-        emuenv.display.imgui_render = false;
-
     // Set renderer app context for shader cache (if renderer exists)
     if (emuenv.renderer)
         emuenv.renderer->set_app(emuenv.io.title_id.c_str(), emuenv.self_name.c_str());

@@ -313,20 +313,6 @@ static struct retro_core_option_v2_definition option_definitions[] = {
         },
         "0"
     },
-    {
-        "vita3k_touchpad_cursor",
-        "Touchpad Cursor",
-        NULL,
-        "Show touchpad cursor overlay for accessibility.",
-        NULL,
-        "system",
-        {
-            { "disabled", "Disabled" },
-            { "enabled", "Enabled" },
-            { NULL, NULL },
-        },
-        "enabled"
-    },
     { NULL, NULL, NULL, NULL, NULL, NULL, {{0}}, NULL },
 };
 

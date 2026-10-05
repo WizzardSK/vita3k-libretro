@@ -35,7 +35,7 @@ The core renders with Vulkan (1.1 or later) on RetroArch's own device, or with O
 
 - **GPU**: renderer, internal resolution, screen filter (bilinear, nearest, bicubic, FXAA, FSR), anisotropic filtering, asynchronous pipeline compilation, memory mapping, high-accuracy rendering, surface sync, V-Sync, FPS hack.
 - **CPU**: CPU optimizations.
-- **System**: PS TV mode, modules mode, confirm button, file loading delay, touchpad cursor.
+- **System**: PS TV mode, modules mode, confirm button, file loading delay.
 - **Audio**: volume, NGS audio engine.
 - **Network**: PSN signed in.
 
