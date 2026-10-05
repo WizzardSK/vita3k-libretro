@@ -159,8 +159,15 @@ macro(boost_compile)
 		execute_process(
 			COMMAND ${b2_cmd_line_common} --ignore-site-config toolset=${BOOST_TOOLSET} cxxflags=-fPIC stage
 			WORKING_DIRECTORY ${BOOST_SOURCEDIR}
-			OUTPUT_QUIET
+			RESULT_VARIABLE BOOST_B2_RESULT
+			OUTPUT_VARIABLE BOOST_B2_OUTPUT
+			ERROR_VARIABLE BOOST_B2_OUTPUT
 		)
+		# A failing b2 left only a "boost_headers not found" from find_package
+		# behind; say what b2 said instead
+		if(NOT BOOST_B2_RESULT EQUAL 0)
+			message(WARNING "b2 failed (${BOOST_B2_RESULT}):\n${BOOST_B2_OUTPUT}")
+		endif()
 	endif()
 endmacro(boost_compile)
 
