@@ -810,8 +810,8 @@ static void request_guest_shutdown(EmuEnvState &emuenv, const char *reason) {
         {
             std::lock_guard<std::mutex> lock(emuenv.kernel.mutex);
             for (auto &[id, thread] : emuenv.kernel.threads) {
-                lr_log(RETRO_LOG_WARN, "Guest shutdown (%s): force-terminating stuck thread '{}' (id={})\n",
-                    shutdown_reason, thread->name, id);
+                lr_log(RETRO_LOG_WARN, "Guest shutdown (%s): force-terminating stuck thread '%s' (id=%d)\n",
+                    shutdown_reason, thread->name.c_str(), id);
                 thread->exit_delete(false);
                 forced_count++;
             }
