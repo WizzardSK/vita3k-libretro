@@ -45,7 +45,10 @@ jobs:
           sudo add-apt-repository -y ppa:mhier/libboost-latest
           sudo add-apt-repository universe
           sudo apt update
-          sudo apt -y install ccache libboost-filesystem1.83-dev libboost-program-options1.83-dev libboost-system1.83-dev ninja-build clang lld
+          # X11/Wayland headers for the SDL subproject, which configures even
+          # though the core does not use it for a window
+          sudo apt -y install ccache libboost-filesystem1.83-dev libboost-program-options1.83-dev libboost-system1.83-dev ninja-build clang lld \
+            libx11-dev libxext-dev libxrandr-dev libxcursor-dev libxi-dev libxss-dev libwayland-dev libxkbcommon-dev libegl-dev libdecor-0-dev
 
       - name: Set up build environment (Windows)
         if: runner.os == 'Windows'
@@ -59,7 +62,9 @@ jobs:
         run: |
           extra=""
           if [ "$RUNNER_OS" = Windows ]; then
-            extra="-DCMAKE_TOOLCHAIN_FILE=C:/vcpkg/scripts/buildsystems/vcpkg.cmake -DVCPKG_TARGET_TRIPLET=${{ matrix.vcpkg_triplet }}"
+            # The static OpenSSL build wants a native Windows Perl, and the
+            # first perl on the path is Git's (cygwin)
+            extra="-DCMAKE_TOOLCHAIN_FILE=C:/vcpkg/scripts/buildsystems/vcpkg.cmake -DVCPKG_TARGET_TRIPLET=${{ matrix.vcpkg_triplet }} -DPERL_EXECUTABLE=C:/Strawberry/perl/bin/perl.exe"
           fi
           cmake --preset ${{ matrix.preset }} -DBUILD_LIBRETRO=ON $extra
 
