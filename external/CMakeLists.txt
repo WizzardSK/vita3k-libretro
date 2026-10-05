@@ -341,9 +341,23 @@ if(MSVC AND BUILD_LIBRETRO)
 		file(TO_NATIVE_PATH "${VITA3K_OPENSSL_INSTALL_DIR}" VITA3K_OPENSSL_INSTALL_DIR_NATIVE)
 		file(TO_NATIVE_PATH "${NMAKE_EXECUTABLE}" VITA3K_NMAKE_EXECUTABLE_NATIVE)
 
+		# Each step runs from a batch file: quotes inside a "cmd /c" command line
+		# reach cmd escaped, and it then takes the whole quoted path as the name
+		# of the command
+		set(VITA3K_OPENSSL_BAT "${VITA3K_OPENSSL_SOURCE_DIR}/vita3k_build.bat")
+		file(WRITE "${VITA3K_OPENSSL_BAT}"
+			"@echo off\r\n"
+			"call \"${VITA3K_VCVARSALL_BAT_NATIVE}\" x64 >nul || exit /b 1\r\n"
+			"if \"%1\"==\"configure\" (\r\n"
+			"  \"${VITA3K_PERL_EXECUTABLE_NATIVE}\" Configure VC-WIN64A no-shared no-tests \"--prefix=${VITA3K_OPENSSL_INSTALL_DIR_NATIVE}\" \"--openssldir=${VITA3K_OPENSSL_INSTALL_DIR_NATIVE}\"\r\n"
+			") else (\r\n"
+			"  \"${VITA3K_NMAKE_EXECUTABLE_NATIVE}\" %1\r\n"
+			")\r\n")
+		file(TO_NATIVE_PATH "${VITA3K_OPENSSL_BAT}" VITA3K_OPENSSL_BAT_NATIVE)
+
 		message(STATUS "Configuring OpenSSL static build for libretro...")
 		execute_process(
-			COMMAND cmd /c "call \"${VITA3K_VCVARSALL_BAT_NATIVE}\" x64 >nul && \"${VITA3K_PERL_EXECUTABLE_NATIVE}\" Configure VC-WIN64A no-shared no-tests --prefix=\"${VITA3K_OPENSSL_INSTALL_DIR_NATIVE}\" --openssldir=\"${VITA3K_OPENSSL_INSTALL_DIR_NATIVE}\""
+			COMMAND cmd /c "${VITA3K_OPENSSL_BAT_NATIVE}" configure
 			WORKING_DIRECTORY "${VITA3K_OPENSSL_SOURCE_DIR}"
 			RESULT_VARIABLE VITA3K_OPENSSL_CONFIGURE_RESULT)
 		if(NOT VITA3K_OPENSSL_CONFIGURE_RESULT EQUAL 0)
@@ -352,7 +366,7 @@ if(MSVC AND BUILD_LIBRETRO)
 
 		message(STATUS "Building OpenSSL static libraries for libretro...")
 		execute_process(
-			COMMAND cmd /c "call \"${VITA3K_VCVARSALL_BAT_NATIVE}\" x64 >nul && \"${VITA3K_NMAKE_EXECUTABLE_NATIVE}\""
+			COMMAND cmd /c "${VITA3K_OPENSSL_BAT_NATIVE}" build_libs
 			WORKING_DIRECTORY "${VITA3K_OPENSSL_SOURCE_DIR}"
 			RESULT_VARIABLE VITA3K_OPENSSL_BUILD_RESULT)
 		if(NOT VITA3K_OPENSSL_BUILD_RESULT EQUAL 0)
@@ -360,7 +374,7 @@ if(MSVC AND BUILD_LIBRETRO)
 		endif()
 
 		execute_process(
-			COMMAND cmd /c "call \"${VITA3K_VCVARSALL_BAT_NATIVE}\" x64 >nul && \"${VITA3K_NMAKE_EXECUTABLE_NATIVE}\" install_sw"
+			COMMAND cmd /c "${VITA3K_OPENSSL_BAT_NATIVE}" install_dev
 			WORKING_DIRECTORY "${VITA3K_OPENSSL_SOURCE_DIR}"
 			RESULT_VARIABLE VITA3K_OPENSSL_INSTALL_RESULT)
 		if(NOT VITA3K_OPENSSL_INSTALL_RESULT EQUAL 0)
