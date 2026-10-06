@@ -1799,7 +1799,7 @@ static void read_core_options() {
         libretro.cfg->current_config.high_accuracy = parse_enabled_option(value, false);
     });
     
-    read_core_option("vita3k_memory_mapping", "double-buffer", [](const char *value) {
+    read_core_option("vita3k_memory_mapping", "disabled", [](const char *value) {
         libretro.cfg->current_config.memory_mapping = canonical_memory_mapping_option(value);
     });
     

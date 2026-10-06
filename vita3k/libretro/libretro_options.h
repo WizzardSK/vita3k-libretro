@@ -127,7 +127,7 @@ static struct retro_core_option_v2_definition option_definitions[] = {
         "vita3k_memory_mapping",
         "Memory Mapping",
         NULL,
-        "GPU memory mapping method. Higher methods improve performance but require GPU support.",
+        "GPU memory mapping method. Higher methods improve performance but require GPU support. Disabled by default for now: Double Buffer and Page Table end in a lost GPU device on Turnip (Adreno 618).",
         NULL,
         "gpu",
         {
@@ -138,7 +138,7 @@ static struct retro_core_option_v2_definition option_definitions[] = {
             { "native-buffer", "Native Buffer" },
             { NULL, NULL },
         },
-        "double-buffer"
+        "disabled"
     },
     {
         "vita3k_high_accuracy",
