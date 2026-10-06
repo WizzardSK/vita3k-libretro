@@ -580,6 +580,13 @@ void ScreenRenderer::swap_window() {
 void ScreenRenderer::set_filter(const std::string_view &filter) {
     if (this->filter && filter == this->filter->get_name())
         return;
+#ifdef BUILD_LIBRETRO
+    // No swapchain: the core hands RetroArch the frame itself and never
+    // presents through a filter, which would size its descriptors and buffers
+    // by the swapchain's zero images and fail to allocate them
+    if (swapchain_size == 0)
+        return;
+#endif
 
     this->filter.reset();
     if (filter == "FSR")
