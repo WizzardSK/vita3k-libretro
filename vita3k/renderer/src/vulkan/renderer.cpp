@@ -949,6 +949,20 @@ bool VKState::create(std::unique_ptr<renderer::State> &state, const Config &conf
             .vkGetInstanceProcAddr = VULKAN_HPP_DEFAULT_DISPATCHER.vkGetInstanceProcAddr,
             .vkGetDeviceProcAddr = VULKAN_HPP_DEFAULT_DISPATCHER.vkGetDeviceProcAddr
         };
+#ifdef BUILD_LIBRETRO
+        // RetroArch's device is Vulkan 1.1 and was not created with the KHR
+        // extensions VMA looks its *2KHR functions up by, so those names come
+        // back null and the first buffer called through one; hand VMA the 1.1
+        // core functions under them instead
+        {
+            const auto &d = VULKAN_HPP_DEFAULT_DISPATCHER;
+            vulkan_functions.vkGetBufferMemoryRequirements2KHR = d.vkGetBufferMemoryRequirements2;
+            vulkan_functions.vkGetImageMemoryRequirements2KHR = d.vkGetImageMemoryRequirements2;
+            vulkan_functions.vkBindBufferMemory2KHR = d.vkBindBufferMemory2;
+            vulkan_functions.vkBindImageMemory2KHR = d.vkBindImageMemory2;
+            vulkan_functions.vkGetPhysicalDeviceMemoryProperties2KHR = d.vkGetPhysicalDeviceMemoryProperties2;
+        }
+#endif
 
         vma::AllocatorCreateInfo allocator_info = {
             // everything vma-related is done on one thread, no need for thread safety
@@ -959,7 +973,11 @@ bool VKState::create(std::unique_ptr<renderer::State> &state, const Config &conf
             .device = device,
             .pVulkanFunctions = &vulkan_functions,
             .instance = instance,
+#ifdef BUILD_LIBRETRO
+            .vulkanApiVersion = VK_API_VERSION_1_1,
+#else
             .vulkanApiVersion = VK_API_VERSION_1_0,
+#endif
         };
 
         if (support_dedicated_allocations)
