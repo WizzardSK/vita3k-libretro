@@ -37,6 +37,7 @@
 #include <renderer/frame_host.h>
 #include <renderer/functions.h>
 #include <renderer/gl/state.h>
+#include <renderer/shaders.h>
 #include <renderer/state.h>
 #include <renderer/vulkan/state.h>
 #include <vkutil/objects.h>
@@ -312,6 +313,11 @@ static struct {
     PFN_vkCmdClearColorImage CmdClearColorImage;
     PFN_vkCmdBlitImage CmdBlitImage;
     PFN_vkDeviceWaitIdle DeviceWaitIdle;
+    PFN_vkCreateFence CreateFence;
+    PFN_vkDestroyFence DestroyFence;
+    PFN_vkWaitForFences WaitForFences;
+    PFN_vkResetFences ResetFences;
+    PFN_vkQueueSubmit QueueSubmit;
 } vkfn = {};
 
 static void libretro_vk_load_functions(const struct retro_hw_render_interface_vulkan *vulkan) {
@@ -341,6 +347,11 @@ static void libretro_vk_load_functions(const struct retro_hw_render_interface_vu
     LOAD_VK_DEV(CmdClearColorImage);
     LOAD_VK_DEV(CmdBlitImage);
     LOAD_VK_DEV(DeviceWaitIdle);
+    LOAD_VK_DEV(CreateFence);
+    LOAD_VK_DEV(DestroyFence);
+    LOAD_VK_DEV(WaitForFences);
+    LOAD_VK_DEV(ResetFences);
+    LOAD_VK_DEV(QueueSubmit);
 #undef LOAD_VK_DEV
 #undef LOAD_VK_INST
 }
@@ -461,6 +472,12 @@ static void libretro_vk_create_presentation_resources() {
     cmd_alloc.commandBufferCount = vkp.num_images;
     vkfn.AllocateCommandBuffers(device, &cmd_alloc, vkp.cmd_buffers);
 
+    VkFenceCreateInfo fence_info = { VK_STRUCTURE_TYPE_FENCE_CREATE_INFO };
+    for (uint32_t i = 0; i < vkp.num_images; i++) {
+        vkfn.CreateFence(device, &fence_info, nullptr, &vkp.fences[i]);
+        vkp.fence_pending[i] = false;
+    }
+
 }
 
 static void libretro_vk_destroy_presentation_resources() {
@@ -471,6 +488,13 @@ static void libretro_vk_destroy_presentation_resources() {
 
     VkDevice device = vulkan->device;
     vkfn.DeviceWaitIdle(device);
+
+    for (uint32_t i = 0; i < vkp.num_images; i++) {
+        if (vkp.fences[i])
+            vkfn.DestroyFence(device, vkp.fences[i], nullptr);
+        vkp.fences[i] = VK_NULL_HANDLE;
+        vkp.fence_pending[i] = false;
+    }
 
     if (vkp.cmd_pool) {
         vkfn.FreeCommandBuffers(device, vkp.cmd_pool, vkp.num_images, vkp.cmd_buffers);
@@ -599,8 +623,15 @@ static void context_reset_vulkan() {
             // app start applies them: without it res_multiplier stayed
             // unset and the first render target was zero-sized
             app::apply_renderer_config(emuenv);
-            if (!emuenv.io.title_id.empty())
+            if (!emuenv.io.title_id.empty()) {
                 emuenv.renderer->set_app(emuenv.io.title_id.c_str(), emuenv.self_name.c_str());
+                // The shader cache is the title's; its hash list says which renderer
+                // features its shaders were built for, and reading it drops a cache
+                // built for others. Upstream reads it when it starts a title (the
+                // precompile, which the core does not run); without it the core took
+                // shaders built without memory mapping into pipelines with it.
+                renderer::get_shaders_cache_hashs(*emuenv.renderer);
+            }
         }
     }
 
@@ -665,6 +696,12 @@ static void context_reset_opengl() {
             if (!emuenv.io.title_id.empty()) {
                 lr_trace("context_reset_opengl.set_app", "title_id=%s", emuenv.io.title_id.c_str());
                 emuenv.renderer->set_app(emuenv.io.title_id.c_str(), emuenv.self_name.c_str());
+                // The shader cache is the title's; its hash list says which renderer
+                // features its shaders were built for, and reading it drops a cache
+                // built for others. Upstream reads it when it starts a title (the
+                // precompile, which the core does not run); without it the core took
+                // shaders built without memory mapping into pipelines with it.
+                renderer::get_shaders_cache_hashs(*emuenv.renderer);
             }
         } else {
             lr_trace("context_reset_opengl.renderer_exists", "skipping creation");
@@ -1564,6 +1601,14 @@ RETRO_API void retro_run(void) {
         }
 
         VkCommandBuffer cmd = vkp.cmd_buffers[index];
+        // RetroArch's sync index does not tell when the core's own work for
+        // it is done (the validation layer: the command buffer still in use
+        // when reset); the core's fence for that index does
+        if (vkp.fence_pending[index]) {
+            vkfn.WaitForFences(vulkan->device, 1, &vkp.fences[index], VK_TRUE, UINT64_MAX);
+            vkfn.ResetFences(vulkan->device, 1, &vkp.fences[index]);
+            vkp.fence_pending[index] = false;
+        }
 
         VkCommandBufferBeginInfo begin_info = { VK_STRUCTURE_TYPE_COMMAND_BUFFER_BEGIN_INFO };
         begin_info.flags = VK_COMMAND_BUFFER_USAGE_ONE_TIME_SUBMIT_BIT;
@@ -1594,7 +1639,8 @@ RETRO_API void retro_run(void) {
         barrier.subresourceRange = { VK_IMAGE_ASPECT_COLOR_BIT, 0, 1, 0, 1 };
         barrier.srcQueueFamilyIndex = VK_QUEUE_FAMILY_IGNORED;
         barrier.dstQueueFamilyIndex = VK_QUEUE_FAMILY_IGNORED;
-        vkfn.CmdPipelineBarrier(cmd, VK_PIPELINE_STAGE_TOP_OF_PIPE_BIT, VK_PIPELINE_STAGE_TRANSFER_BIT,
+        // after RetroArch's reads of this image from its last use
+        vkfn.CmdPipelineBarrier(cmd, VK_PIPELINE_STAGE_ALL_COMMANDS_BIT, VK_PIPELINE_STAGE_TRANSFER_BIT,
             0, 0, nullptr, 0, nullptr, 1, &barrier);
 
         if (src_image != VK_NULL_HANDLE && src_w > 0 && src_h > 0) {
@@ -1648,9 +1694,18 @@ RETRO_API void retro_run(void) {
 
         vkfn.EndCommandBuffer(cmd);
 
+        // Submitted here, ahead of RetroArch's frame on the same queue, whose
+        // read of the image the barrier above orders after the blit
+        VkSubmitInfo submit = { VK_STRUCTURE_TYPE_SUBMIT_INFO };
+        submit.commandBufferCount = 1;
+        submit.pCommandBuffers = &cmd;
+        vulkan->lock_queue(vulkan->handle);
+        vkfn.QueueSubmit(vulkan->queue, 1, &submit, vkp.fences[index]);
+        vulkan->unlock_queue(vulkan->handle);
+        vkp.fence_pending[index] = true;
+
         vkp.images[index].image_layout = VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL;
         vulkan->set_image(vulkan->handle, &vkp.images[index], 0, nullptr, VK_QUEUE_FAMILY_IGNORED);
-        vulkan->set_command_buffers(vulkan->handle, 1, &cmd);
         libretro.video_cb(RETRO_HW_FRAME_BUFFER_VALID, vkp.width, vkp.height, 0);
     } else if (libretro.renderer_ready
             && (libretro.active_context == RETRO_HW_CONTEXT_OPENGL_CORE

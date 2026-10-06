@@ -31,6 +31,7 @@
 #include <util/tracy.h>
 #include <packages/license.h>
 #include <packages/sfo.h>
+#include <renderer/shaders.h>
 #include <renderer/state.h>
 #include <util/log.h>
 #include <util/string_utils.h>
@@ -184,8 +185,15 @@ ExitCode libretro_load_app(int32_t &main_module_id, EmuEnvState &emuenv) {
     LOG_INFO("All modules loaded successfully");
 
     // Set renderer app context for shader cache (if renderer exists)
-    if (emuenv.renderer)
+    if (emuenv.renderer) {
         emuenv.renderer->set_app(emuenv.io.title_id.c_str(), emuenv.self_name.c_str());
+        // The shader cache is the title's; its hash list says which renderer
+        // features its shaders were built for, and reading it drops a cache
+        // built for others. Upstream reads it when it starts a title (the
+        // precompile, which the core does not run); without it the core took
+        // shaders built without memory mapping into pipelines with it.
+        renderer::get_shaders_cache_hashs(*emuenv.renderer);
+    }
 
     return Success;
 }

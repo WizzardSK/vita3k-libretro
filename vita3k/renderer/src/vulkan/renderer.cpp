@@ -607,6 +607,21 @@ static bool libretro_adopt_device(VKState &s, bool &support_dedicated_allocation
     if (!support.created)
         LOG_WARN("Vulkan: RetroArch made the device itself, so memory mapping and the optional extensions are off");
 
+    // The depth/stencil format every render target and depth surface is made
+    // with. ScreenRenderer::setup picks it along with the swapchain's format,
+    // and the core has no swapchain: without this it stayed unset, and render
+    // targets came with VK_FORMAT_UNDEFINED depth images (the validation layer)
+    // - Turnip made something of them, which lost the device now and then.
+    const auto depth_attachment = [&](vk::Format format) {
+        return static_cast<bool>(s.physical_device.getFormatProperties(format).optimalTilingFeatures & vk::FormatFeatureFlagBits::eDepthStencilAttachment);
+    };
+    if (depth_attachment(vk::Format::eD32SfloatS8Uint))
+        s.deep_stencil_use = vk::Format::eD32SfloatS8Uint;
+    else if (depth_attachment(vk::Format::eD24UnormS8Uint))
+        s.deep_stencil_use = vk::Format::eD24UnormS8Uint;
+    else
+        s.deep_stencil_use = vk::Format::eD16Unorm;
+
     s.supported_mapping_methods_mask = (1 << static_cast<int>(MappingMethod::Disabled));
     s.mapping_method = MappingMethod::Disabled;
     if (support.buffer_device_address) {

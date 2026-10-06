@@ -49,6 +49,10 @@ struct LibretroVulkanPresentation {
 
     VkCommandPool cmd_pool = VK_NULL_HANDLE;
     VkCommandBuffer cmd_buffers[LIBRETRO_MAX_SWAPCHAIN] = {};
+    // Signalled when the core's blit for that sync index has run; the core
+    // submits it itself, so it knows when the command buffer is free again
+    VkFence fences[LIBRETRO_MAX_SWAPCHAIN] = {};
+    bool fence_pending[LIBRETRO_MAX_SWAPCHAIN] = {};
 
     uint32_t width = 960;
     uint32_t height = 544;
