@@ -21,11 +21,11 @@ jobs:
       matrix:
         include:
           - name: Linux x86_64
-            runs_on: ubuntu-26.04
+            runs_on: ubuntu-24.04
             artifact: vita3k_libretro-linux-x86_64
             preset: linux-ninja-clang
           - name: Linux aarch64
-            runs_on: ubuntu-26.04-arm
+            runs_on: ubuntu-24.04-arm
             artifact: vita3k_libretro-linux-aarch64
             preset: linux-ninja-clang
           - name: Windows x86_64
@@ -56,19 +56,18 @@ jobs:
       - name: Set up build environment (Linux)
         if: runner.os == 'Linux' && !matrix.android
         run: |
-          # Ubuntu 26.04, as upstream: Vita3K is C++23 (std::expected), which
-          # 24.04's clang 18 cannot build against its libstdc++. Boost is built
-          # from its submodule. The X11/Wayland headers are for the SDL
-          # subproject, which configures even though the core opens no window.
+          # Ubuntu 24.04, for glibc 2.39: a core built on 26.04 needs glibc 2.43
+          # and does not load on most systems. Vita3K is C++23 (std::expected),
+          # which 24.04's clang 18 cannot build, so clang 20 comes from
+          # apt.llvm.org. Boost is built from its submodule. The X11/Wayland
+          # headers are for the SDL subproject, which configures even though the
+          # core opens no window.
           sudo apt update
-          sudo apt -y install ccache ninja-build clang lld g++ \
+          sudo apt -y install ccache ninja-build lld g++ wget lsb-release software-properties-common gnupg \
             libx11-dev libxext-dev libxrandr-dev libxcursor-dev libxi-dev libxss-dev libwayland-dev libxkbcommon-dev libegl-dev libdecor-0-dev libdbus-1-dev
-          # clang builds against the newest GCC under /usr/lib/gcc, which on the
-          # ARM image is one whose libstdc++ headers are not installed: clang then
-          # finds no <atomic>, and Boost's b2 quietly builds nothing
-          gcc_v=$(clang++ -v -x c++ -E /dev/null 2>&1 | sed -n 's|^Selected GCC installation: .*/\([0-9]*\)$|\1|p')
-          echo "clang uses GCC $gcc_v"
-          [ -z "$gcc_v" ] || sudo apt -y install libstdc++-$gcc_v-dev
+          wget -qO llvm.sh https://apt.llvm.org/llvm.sh
+          sudo bash llvm.sh 20
+          clang++-20 --version | head -1
 
       - name: Set up build environment (Android)
         if: matrix.android
@@ -121,7 +120,7 @@ jobs:
             # the core's own symbols bound inside it, which also lets the
             # prebuilt ffmpeg's assembly and the static libstdc++ link. Boost is
             # built here with -fPIC: Ubuntu's static one is not position-independent
-            extra="-DCMAKE_POSITION_INDEPENDENT_CODE=ON -DCMAKE_LINKER_TYPE=LLD -DCMAKE_SHARED_LINKER_FLAGS=-Wl,-Bsymbolic -DVITA3K_FORCE_CUSTOM_BOOST=ON"
+            extra="-DCMAKE_C_COMPILER=clang-20 -DCMAKE_CXX_COMPILER=clang++-20 -DCMAKE_POSITION_INDEPENDENT_CODE=ON -DCMAKE_LINKER_TYPE=LLD -DCMAKE_SHARED_LINKER_FLAGS=-Wl,-Bsymbolic -DVITA3K_FORCE_CUSTOM_BOOST=ON"
           fi
           cmake --preset ${{ matrix.preset }} -DBUILD_LIBRETRO=ON $extra
 

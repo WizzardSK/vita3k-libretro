@@ -3,7 +3,8 @@
 # Linux x64, Linux aarch64, Android arm64-v8a and x86_64.
 #
 # Vita3K is C++23 and needs a recent Clang; the buildbot's Linux images (Ubuntu
-# 16.04, gcc 9) cannot build it, so the Linux jobs run in Ubuntu 26.04 with
+# 16.04, gcc 9) cannot build it, so the Linux jobs run in Ubuntu 24.04 (glibc
+# 2.39, which most systems have) with clang 20 from apt.llvm.org and
 # the packages below, as cemu-libretro's do. Windows is not here: Vita3K builds
 # with MSVC, newer than the 2019 16.8 of the buildbot's Windows runner.
 
@@ -46,7 +47,7 @@ default:
 # its NUMPROC is set again here.
 .core-defs-linux:
   extends: .core-defs
-  image: ubuntu:26.04
+  image: ubuntu:24.04
   # Boost is built from its submodule (VITA3K_FORCE_CUSTOM_BOOST), with
   # everything else, which does not fit in the default hour.
   timeout: 3h
@@ -57,28 +58,29 @@ default:
     # -fPIC, as Ubuntu's static one is not position-independent.
     CORE_ARGS: >-
       -G Ninja
-      -DCMAKE_C_COMPILER=clang
-      -DCMAKE_CXX_COMPILER=clang++
-      -DCMAKE_LINKER_TYPE=LLD
+      -DCMAKE_C_COMPILER=clang-20
+      -DCMAKE_CXX_COMPILER=clang++-20
       -DCMAKE_POSITION_INDEPENDENT_CODE=ON
-      -DCMAKE_SHARED_LINKER_FLAGS=-Wl,-Bsymbolic
       -DVITA3K_FORCE_CUSTOM_BOOST=ON
       -DUSE_DISCORD_RICH_PRESENCE=OFF
       -DBUILD_LIBRETRO=ON
   before_script:
     - export NUMPROC=$(($(nproc)/5))
+    # lld, and the core's own symbols bound inside it; through LDFLAGS, as
+    # 24.04's CMake 3.28 has no CMAKE_LINKER_TYPE
+    - export LDFLAGS="-fuse-ld=lld -Wl,-Bsymbolic"
     # The X11, Wayland and D-Bus headers are for the SDL subproject, which
     # configures even though the core does not open a window with it.
     - apt-get update -qq
     - apt-get install -y --no-install-recommends
-      clang lld g++ ninja-build cmake git python3 pkg-config file ca-certificates
+      lld g++ ninja-build cmake git python3 pkg-config file ca-certificates
+      wget lsb-release software-properties-common gnupg
       libssl-dev libx11-dev libxext-dev libxrandr-dev libxcursor-dev libxi-dev
       libxss-dev libwayland-dev libxkbcommon-dev libegl-dev libdecor-0-dev
       libdbus-1-dev
-    # clang builds against the newest GCC under /usr/lib/gcc, whose libstdc++
-    # headers may not be installed (as on GitHub's ARM image)
-    - gcc_v=$(clang++ -v -x c++ -E /dev/null 2>&1 | sed -n 's|^Selected GCC installation: .*/\([0-9]*\)$|\1|p')
-    - if [ -n "$gcc_v" ]; then apt-get install -y --no-install-recommends libstdc++-$gcc_v-dev; fi
+    # Vita3K is C++23 (std::expected), which 24.04's clang 18 cannot build
+    - wget -qO llvm.sh https://apt.llvm.org/llvm.sh
+    - bash llvm.sh 20
 
 # Linux 64-bit
 libretro-build-linux-x64:

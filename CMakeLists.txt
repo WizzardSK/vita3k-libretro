@@ -231,9 +231,10 @@ macro(get_boost)
 						set(BOOST_TOOLSET "msvc")
 					endif()
 				elseif(CMAKE_HOST_SYSTEM_NAME STREQUAL "Linux")
-					if(CMAKE_CXX_COMPILER_ID STREQUAL "Clang" AND BUILD_LIBRETRO AND CMAKE_SYSTEM_PROCESSOR MATCHES "aarch64|arm64")
-						# b2's clang finds no libstdc++ headers on GitHub's ARM image
-						# (Ubuntu 26.04), where CMake's clang does; GCC builds the same
+					if(CMAKE_CXX_COMPILER_ID STREQUAL "Clang" AND BUILD_LIBRETRO)
+						# The libretro builds use a versioned clang (clang++-20, from
+						# apt.llvm.org), where b2 takes a plain clang++ from the path,
+						# which is not there or another one; GCC builds the same
 						# libstdc++-based Boost, which links with clang's objects
 						set(BOOST_TOOLSET "gcc")
 					elseif(CMAKE_CXX_COMPILER_ID STREQUAL "Clang")
