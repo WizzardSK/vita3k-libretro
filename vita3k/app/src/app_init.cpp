@@ -576,7 +576,20 @@ bool late_init(EmuEnvState &state) {
 #endif
     state.renderer->late_init(state.cfg, state.app_path, state.mem);
 
+#ifdef BUILD_LIBRETRO
+    // Without a renderer yet (see above), from what memory mapping is asked
+    // for: Page Table maps the GPU's buffers into the guest's memory through
+    // the page table, and without one the CPU kept writing to memory the GPU
+    // never saw - the lost device Page Table ran into at times. Should the
+    // renderer then fall back to another method, the page table only points
+    // at the guest's memory, as without it.
+    const std::string &requested_mapping = state.cfg.current_config.memory_mapping;
+    const bool need_page_table = state.renderer
+        ? (state.renderer->mapping_method == MappingMethod::PageTable || state.renderer->mapping_method == MappingMethod::NativeBuffer)
+        : (requested_mapping == "page-table" || requested_mapping == "native-buffer");
+#else
     const bool need_page_table = state.renderer && (state.renderer->mapping_method == MappingMethod::PageTable || state.renderer->mapping_method == MappingMethod::NativeBuffer);
+#endif
     if (!init(state.mem, need_page_table)) {
         LOG_ERROR("Failed to initialize memory for emulator state!");
         return false;
