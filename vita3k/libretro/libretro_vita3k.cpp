@@ -39,6 +39,8 @@
 #include <renderer/gl/state.h>
 #include <renderer/state.h>
 #include <renderer/vulkan/state.h>
+#include <vkutil/objects.h>
+#include <vkutil/vkutil.h>
 #include <util/fs.h>
 #include <util/log.h>
 #include <util/string_utils.h>
@@ -46,6 +48,8 @@
 #include <glad/glad.h>
 
 #include <algorithm>
+#include <limits>
+#include <array>
 #include <atomic>
 #include <cstdarg>
 #include <cmath>
@@ -690,6 +694,9 @@ static void context_reset_opengl() {
     lr_trace("context_reset_opengl.complete", "success renderer_ready=1");
 }
 
+static void libretro_copy_frame_for_presentation(renderer::vulkan::VKState &vk_state, vk::Image surface,
+    uint32_t ox, uint32_t oy, uint32_t w, uint32_t h);
+
 static void context_reset_finalize() {
     lr_trace("context_reset_finalize.enter",
         "app_started=%d pending_main_module_id=%d active_context=%d renderer_ready=%d",
@@ -761,15 +768,9 @@ static void context_reset_finalize() {
                         vk::ImageView surface_view = vk_state->surface_cache.sourcing_color_surface_for_presentation(
                             frame.base, frame.pitch, viewport, &surface_image);
 
-                        if (surface_view && surface_image) {
-                            std::lock_guard<std::mutex> lock(libretro.rendered_frame_mutex);
-                            libretro.vk_surface_image = static_cast<VkImage>(surface_image);
-                            libretro.vk_surface_width = viewport.width;
-                            libretro.vk_surface_height = viewport.height;
-                            libretro.vk_surface_offset_x = viewport.offset_x;
-                            libretro.vk_surface_offset_y = viewport.offset_y;
-                            libretro.has_new_frame = true;
-                        }
+                        if (surface_view && surface_image && viewport.width && viewport.height)
+                            libretro_copy_frame_for_presentation(*vk_state, surface_image,
+                                viewport.offset_x, viewport.offset_y, viewport.width, viewport.height);
                     }
                 }
             }
@@ -815,6 +816,125 @@ static void context_destroy() {
     lr_log(RETRO_LOG_INFO, "context_destroy\n");
 }
 
+// The frame the core hands RetroArch, in images of the core's own. The game's
+// surface is copied into one on the render thread, right where the surface
+// cache gives it out - as upstream's render_frame draws from it there - and
+// retro_run blits from that copy. Handing over the surface's own VkImage, as
+// before, left retro_run blitting from a surface the render thread may have
+// destroyed meanwhile, and from the last one handed over on every later
+// frame: with memory mapping, which recycles surfaces far more, that ended in
+// a lost device. Three images: the one retro_run reads, the newest one
+// published to it, and one to write the next frame into.
+static struct {
+    std::array<vkutil::Image, 3> images;
+    vk::CommandPool pool;
+    vk::CommandBuffer cmd;
+    vk::Fence fence;
+    int published = -1; // under rendered_frame_mutex
+    int reading = -1; // under rendered_frame_mutex
+} s_present;
+
+// Render thread: the surface's [offset, offset + size) into a free image of
+// s_present, and that published to retro_run.
+static void libretro_copy_frame_for_presentation(renderer::vulkan::VKState &vk_state, vk::Image surface,
+    uint32_t ox, uint32_t oy, uint32_t w, uint32_t h) {
+    if (!s_present.pool) {
+        s_present.pool = vk_state.device.createCommandPool({ .flags = vk::CommandPoolCreateFlagBits::eResetCommandBuffer,
+            .queueFamilyIndex = vk_state.general_family_index });
+        s_present.cmd = vk_state.device.allocateCommandBuffers({ .commandPool = s_present.pool,
+            .level = vk::CommandBufferLevel::ePrimary, .commandBufferCount = 1 })[0];
+        s_present.fence = vk_state.device.createFence({});
+    }
+
+    int target = 0;
+    {
+        std::lock_guard<std::mutex> lock(libretro.rendered_frame_mutex);
+        while (target == s_present.published || target == s_present.reading)
+            target++;
+    }
+    vkutil::Image &image = s_present.images[target];
+    if (!image.image || image.width != w || image.height != h) {
+        // free, so retro_run's last read of it has been submitted; waiting for
+        // the device covers it having run
+        if (image.image)
+            vk_state.device.waitIdle();
+        image = vkutil::Image(w, h, vk::Format::eR8G8B8A8Unorm);
+        image.init_image(vk::ImageUsageFlagBits::eTransferSrc | vk::ImageUsageFlagBits::eTransferDst);
+    }
+
+    vk::CommandBuffer cmd = s_present.cmd;
+    cmd.reset();
+    cmd.begin({ .flags = vk::CommandBufferUsageFlagBits::eOneTimeSubmit });
+    const vk::ImageSubresourceRange range{ vk::ImageAspectFlagBits::eColor, 0, 1, 0, 1 };
+    // the target, after any earlier read of it on the queue; the surface,
+    // after the game's rendering into it
+    const std::array<vk::ImageMemoryBarrier, 2> before{
+        vk::ImageMemoryBarrier{ .srcAccessMask = vk::AccessFlagBits::eTransferRead, .dstAccessMask = vk::AccessFlagBits::eTransferWrite,
+            .oldLayout = vk::ImageLayout::eUndefined, .newLayout = vk::ImageLayout::eGeneral,
+            .srcQueueFamilyIndex = VK_QUEUE_FAMILY_IGNORED, .dstQueueFamilyIndex = VK_QUEUE_FAMILY_IGNORED,
+            .image = image.image, .subresourceRange = range },
+        vk::ImageMemoryBarrier{ .srcAccessMask = vk::AccessFlagBits::eColorAttachmentWrite | vk::AccessFlagBits::eTransferWrite | vk::AccessFlagBits::eShaderWrite,
+            .dstAccessMask = vk::AccessFlagBits::eTransferRead,
+            .oldLayout = vk::ImageLayout::eGeneral, .newLayout = vk::ImageLayout::eGeneral,
+            .srcQueueFamilyIndex = VK_QUEUE_FAMILY_IGNORED, .dstQueueFamilyIndex = VK_QUEUE_FAMILY_IGNORED,
+            .image = surface, .subresourceRange = range }
+    };
+    cmd.pipelineBarrier(vk::PipelineStageFlagBits::eAllCommands, vk::PipelineStageFlagBits::eTransfer, {}, {}, {}, before);
+    // a blit, not a copy: the surface may be in another format than RGBA8
+    vk::ImageBlit region{
+        .srcSubresource = { vk::ImageAspectFlagBits::eColor, 0, 0, 1 },
+        .dstSubresource = { vk::ImageAspectFlagBits::eColor, 0, 0, 1 },
+    };
+    region.srcOffsets[0] = vk::Offset3D{ static_cast<int32_t>(ox), static_cast<int32_t>(oy), 0 };
+    region.srcOffsets[1] = vk::Offset3D{ static_cast<int32_t>(ox + w), static_cast<int32_t>(oy + h), 1 };
+    region.dstOffsets[0] = vk::Offset3D{ 0, 0, 0 };
+    region.dstOffsets[1] = vk::Offset3D{ static_cast<int32_t>(w), static_cast<int32_t>(h), 1 };
+    cmd.blitImage(surface, vk::ImageLayout::eGeneral, image.image, vk::ImageLayout::eGeneral, region, vk::Filter::eNearest);
+    const vk::ImageMemoryBarrier after{ .srcAccessMask = vk::AccessFlagBits::eTransferWrite, .dstAccessMask = vk::AccessFlagBits::eTransferRead,
+        .oldLayout = vk::ImageLayout::eGeneral, .newLayout = vk::ImageLayout::eGeneral,
+        .srcQueueFamilyIndex = VK_QUEUE_FAMILY_IGNORED, .dstQueueFamilyIndex = VK_QUEUE_FAMILY_IGNORED,
+        .image = image.image, .subresourceRange = range };
+    cmd.pipelineBarrier(vk::PipelineStageFlagBits::eTransfer, vk::PipelineStageFlagBits::eTransfer, {}, {}, {}, after);
+    cmd.end();
+
+    vk::SubmitInfo submit{};
+    submit.setCommandBuffers(cmd);
+    vk_state.locked_queue_submit(vk_state.general_queue, submit, s_present.fence);
+    // the copy is done before the surface may change again, and before the
+    // command buffer is recorded anew
+    (void)vk_state.device.waitForFences(s_present.fence, VK_TRUE, std::numeric_limits<uint64_t>::max());
+    vk_state.device.resetFences(s_present.fence);
+
+    std::lock_guard<std::mutex> lock(libretro.rendered_frame_mutex);
+    s_present.published = target;
+    libretro.vk_surface_image = static_cast<VkImage>(image.image);
+    libretro.vk_surface_width = w;
+    libretro.vk_surface_height = h;
+    libretro.vk_surface_offset_x = 0;
+    libretro.vk_surface_offset_y = 0;
+    libretro.has_new_frame = true;
+}
+
+static void libretro_free_presentation_images(renderer::vulkan::VKState *vk_state) {
+    if (vk_state)
+        vk_state->device.waitIdle();
+    {
+        std::lock_guard<std::mutex> lock(libretro.rendered_frame_mutex);
+        libretro.vk_surface_image = VK_NULL_HANDLE;
+        libretro.has_new_frame = false;
+        s_present.published = s_present.reading = -1;
+    }
+    for (auto &image : s_present.images)
+        image = vkutil::Image();
+    if (vk_state && s_present.pool) {
+        vk_state->device.destroyFence(s_present.fence);
+        vk_state->device.destroyCommandPool(s_present.pool);
+    }
+    s_present.pool = nullptr;
+    s_present.cmd = nullptr;
+    s_present.fence = nullptr;
+}
+
 static void stop_render_thread() {
     if (!libretro.render_thread)
         return;
@@ -829,6 +949,8 @@ static void stop_render_thread() {
         libretro.render_thread->join();
 
     libretro.render_thread.reset();
+    if (libretro.emuenv && libretro.emuenv->renderer)
+        libretro_free_presentation_images(dynamic_cast<renderer::vulkan::VKState *>(libretro.emuenv->renderer.get()));
     lr_log(RETRO_LOG_INFO, "Libretro render thread stopped\n");
 }
 
@@ -1453,6 +1575,8 @@ RETRO_API void retro_run(void) {
         {
             std::lock_guard<std::mutex> lock(libretro.rendered_frame_mutex);
             if (libretro.has_new_frame && libretro.vk_surface_image != VK_NULL_HANDLE) {
+                // the render thread does not write this one while it is ours
+                s_present.reading = s_present.published;
                 src_image = libretro.vk_surface_image;
                 src_w = libretro.vk_surface_width;
                 src_h = libretro.vk_surface_height;
@@ -1473,12 +1597,6 @@ RETRO_API void retro_run(void) {
         vkfn.CmdPipelineBarrier(cmd, VK_PIPELINE_STAGE_TOP_OF_PIPE_BIT, VK_PIPELINE_STAGE_TRANSFER_BIT,
             0, 0, nullptr, 0, nullptr, 1, &barrier);
 
-        // Debugging (memory mapping's lost device): VITA3K_LR_NO_BLIT leaves
-        // the game's surface alone and shows black
-        static const bool s_no_blit = getenv("VITA3K_LR_NO_BLIT") != nullptr;
-        if (s_no_blit)
-            src_image = VK_NULL_HANDLE;
-
         if (src_image != VK_NULL_HANDLE && src_w > 0 && src_h > 0) {
             if (trace_this_tick) {
                 lr_trace("retro_run.vk_blit",
@@ -1492,7 +1610,7 @@ RETRO_API void retro_run(void) {
             }
 
             VkImageMemoryBarrier src_barrier = { VK_STRUCTURE_TYPE_IMAGE_MEMORY_BARRIER };
-            src_barrier.srcAccessMask = VK_ACCESS_COLOR_ATTACHMENT_WRITE_BIT;
+            src_barrier.srcAccessMask = VK_ACCESS_TRANSFER_WRITE_BIT;
             src_barrier.dstAccessMask = VK_ACCESS_TRANSFER_READ_BIT;
             src_barrier.oldLayout = VK_IMAGE_LAYOUT_GENERAL;
             src_barrier.newLayout = VK_IMAGE_LAYOUT_GENERAL;
@@ -1500,7 +1618,7 @@ RETRO_API void retro_run(void) {
             src_barrier.subresourceRange = { VK_IMAGE_ASPECT_COLOR_BIT, 0, 1, 0, 1 };
             src_barrier.srcQueueFamilyIndex = VK_QUEUE_FAMILY_IGNORED;
             src_barrier.dstQueueFamilyIndex = VK_QUEUE_FAMILY_IGNORED;
-            vkfn.CmdPipelineBarrier(cmd, VK_PIPELINE_STAGE_COLOR_ATTACHMENT_OUTPUT_BIT, VK_PIPELINE_STAGE_TRANSFER_BIT,
+            vkfn.CmdPipelineBarrier(cmd, VK_PIPELINE_STAGE_TRANSFER_BIT, VK_PIPELINE_STAGE_TRANSFER_BIT,
                 0, 0, nullptr, 0, nullptr, 1, &src_barrier);
 
             VkImageBlit blit_region = {};

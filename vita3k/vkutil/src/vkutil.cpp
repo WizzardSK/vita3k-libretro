@@ -18,6 +18,9 @@
 #include "vkutil/vkutil.h"
 
 #include "util/fs.h"
+#include "util/log.h"
+
+#include <limits>
 
 namespace vkutil {
 
@@ -38,50 +41,19 @@ vk::CommandBuffer create_single_time_command(vk::Device device, vk::CommandPool 
     return buffer;
 }
 
-static void *s_queue_lock_handle = nullptr;
-static void (*s_queue_lock)(void *) = nullptr;
-static void (*s_queue_unlock)(void *) = nullptr;
-
-void set_queue_lock(void *handle, void (*lock)(void *), void (*unlock)(void *)) {
-    s_queue_lock_handle = handle;
-    s_queue_lock = lock;
-    s_queue_unlock = unlock;
-}
-
-void lock_queue() {
-    if (s_queue_lock && s_queue_lock_handle)
-        s_queue_lock(s_queue_lock_handle);
-}
-
-void unlock_queue() {
-    if (s_queue_unlock && s_queue_lock_handle)
-        s_queue_unlock(s_queue_lock_handle);
-}
-
-namespace {
-// Unlocks on the way out, a vk:: exception included: a lost device throws from
-// the wait, and a lock left held then hangs the frontend and the core
-struct QueueLock {
-    QueueLock() { lock_queue(); }
-    ~QueueLock() { unlock_queue(); }
-};
-} // namespace
-
-void device_wait_idle(vk::Device device) {
-    QueueLock lock;
-    device.waitIdle();
-}
-
 void end_single_time_command(vk::Device device, vk::Queue queue, vk::CommandPool cmd_pool, vk::CommandBuffer cmd_buffer) {
     cmd_buffer.end();
 
     vk::SubmitInfo submit_info{};
     submit_info.setCommandBuffers(cmd_buffer);
-    {
-        QueueLock lock;
-        queue.submit(submit_info);
-        queue.waitIdle();
-    }
+    // This one's fence waited for, not the whole queue: in the libretro core
+    // the queue is RetroArch's, and its frames are on it too
+    const vk::Fence fence = device.createFence({});
+    queue.submit(submit_info, fence);
+    const auto result = device.waitForFences(fence, VK_TRUE, std::numeric_limits<uint64_t>::max());
+    device.destroyFence(fence);
+    if (result != vk::Result::eSuccess)
+        LOG_ERROR("Could not wait for a single-time command: {}", vk::to_string(result));
 
     device.freeCommandBuffers(cmd_pool, cmd_buffer);
 }
