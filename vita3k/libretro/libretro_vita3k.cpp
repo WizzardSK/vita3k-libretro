@@ -1473,6 +1473,12 @@ RETRO_API void retro_run(void) {
         vkfn.CmdPipelineBarrier(cmd, VK_PIPELINE_STAGE_TOP_OF_PIPE_BIT, VK_PIPELINE_STAGE_TRANSFER_BIT,
             0, 0, nullptr, 0, nullptr, 1, &barrier);
 
+        // Debugging (memory mapping's lost device): VITA3K_LR_NO_BLIT leaves
+        // the game's surface alone and shows black
+        static const bool s_no_blit = getenv("VITA3K_LR_NO_BLIT") != nullptr;
+        if (s_no_blit)
+            src_image = VK_NULL_HANDLE;
+
         if (src_image != VK_NULL_HANDLE && src_w > 0 && src_h > 0) {
             if (trace_this_tick) {
                 lr_trace("retro_run.vk_blit",

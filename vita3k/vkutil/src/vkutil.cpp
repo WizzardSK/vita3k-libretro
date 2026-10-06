@@ -58,10 +58,18 @@ void unlock_queue() {
         s_queue_unlock(s_queue_lock_handle);
 }
 
+namespace {
+// Unlocks on the way out, a vk:: exception included: a lost device throws from
+// the wait, and a lock left held then hangs the frontend and the core
+struct QueueLock {
+    QueueLock() { lock_queue(); }
+    ~QueueLock() { unlock_queue(); }
+};
+} // namespace
+
 void device_wait_idle(vk::Device device) {
-    lock_queue();
+    QueueLock lock;
     device.waitIdle();
-    unlock_queue();
 }
 
 void end_single_time_command(vk::Device device, vk::Queue queue, vk::CommandPool cmd_pool, vk::CommandBuffer cmd_buffer) {
@@ -69,10 +77,11 @@ void end_single_time_command(vk::Device device, vk::Queue queue, vk::CommandPool
 
     vk::SubmitInfo submit_info{};
     submit_info.setCommandBuffers(cmd_buffer);
-    lock_queue();
-    queue.submit(submit_info);
-    queue.waitIdle();
-    unlock_queue();
+    {
+        QueueLock lock;
+        queue.submit(submit_info);
+        queue.waitIdle();
+    }
 
     device.freeCommandBuffers(cmd_pool, cmd_buffer);
 }

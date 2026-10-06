@@ -556,7 +556,12 @@ namespace renderer::vulkan {
 void VKState::locked_queue_submit(vk::Queue queue, const vk::SubmitInfo &submit_info, vk::Fence fence) {
     if (libretro_lock_queue && libretro_queue_handle) {
         libretro_lock_queue(libretro_queue_handle);
-        queue.submit(submit_info, fence);
+        try {
+            queue.submit(submit_info, fence);
+        } catch (...) {
+            libretro_unlock_queue(libretro_queue_handle);
+            throw;
+        }
         libretro_unlock_queue(libretro_queue_handle);
     } else {
         queue.submit(submit_info, fence);
@@ -1828,6 +1833,9 @@ void VKState::unmap_memory(MemState &mem, Ptr<void> address) {
         return;
     }
 
+#ifdef BUILD_LIBRETRO
+    LOG_INFO("unmap_memory 0x{:X}", address.address());
+#endif
     // we need to wait in case the buffer is being used
     vkutil::device_wait_idle(device);
 
