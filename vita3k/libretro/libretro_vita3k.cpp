@@ -587,6 +587,10 @@ static void context_reset_vulkan() {
             set_libretro_queue_lock(emuenv.renderer.get(), vulkan->handle,
                 vulkan->lock_queue, vulkan->unlock_queue);
             emuenv.renderer->late_init(emuenv.cfg, emuenv.io.app_path, emuenv.mem);
+            // Resolution multiplier, filters and the rest, as upstream's
+            // app start applies them: without it res_multiplier stayed
+            // unset and the first render target was zero-sized
+            app::apply_renderer_config(emuenv);
             if (!emuenv.io.title_id.empty())
                 emuenv.renderer->set_app(emuenv.io.title_id.c_str(), emuenv.self_name.c_str());
         }
@@ -647,6 +651,7 @@ static void context_reset_opengl() {
             
             lr_trace("context_reset_opengl.late_init", "calling renderer late_init");
             emuenv.renderer->late_init(emuenv.cfg, emuenv.io.app_path, emuenv.mem);
+            app::apply_renderer_config(emuenv);
             lr_trace("context_reset_opengl.late_init_complete", "success");
             
             if (!emuenv.io.title_id.empty()) {
