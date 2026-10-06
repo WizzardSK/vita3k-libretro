@@ -38,6 +38,8 @@
 #include <overlay/display_manager.h>
 
 #include <algorithm>
+#include <cstring>
+#include <map>
 #include <mutex>
 #include <unordered_set>
 
@@ -346,7 +348,189 @@ static std::string get_driver_version(uint32_t vendor_id, uint32_t version_raw) 
 // The Vulkan objects RetroArch made and lends the core (libretro_vita3k.cpp):
 // the renderer draws with the frontend's device on the frontend's queue.
 static LibretroVulkanHandles s_libretro_vk_handles;
+
+// What libretro_create_vulkan_device enabled on the device, which is all the
+// renderer may use: on a device RetroArch made itself (created stays false)
+// none of these were enabled, whatever the GPU offers.
+static struct {
+    bool created = false;
+    bool dedicated_allocations = false;
+    bool buffer_device_address = false;
+    bool standard_layout = false;
+    bool fsr = false;
+    bool rasterized_order_access = false;
+    bool shader_interlock = false;
+    bool image_format_list = false;
+    bool external_host = false;
+} s_libretro_device_support;
 } // namespace renderer::vulkan
+
+bool libretro_create_vulkan_device(LibretroVulkanDevice &out, VkInstance instance, VkPhysicalDevice gpu,
+    VkSurfaceKHR surface, PFN_vkGetInstanceProcAddr get_instance_proc_addr,
+    const char **required_extensions, unsigned num_required_extensions,
+    const VkPhysicalDeviceFeatures *required_features) {
+    auto &support = renderer::vulkan::s_libretro_device_support;
+    support = {};
+    try {
+        VULKAN_HPP_DEFAULT_DISPATCHER.init(get_instance_proc_addr);
+        const vk::Instance vk_instance(instance);
+        VULKAN_HPP_DEFAULT_DISPATCHER.init(vk_instance);
+
+        vk::PhysicalDevice physical_device(gpu);
+        if (!physical_device) {
+            const auto gpus = vk_instance.enumeratePhysicalDevices();
+            if (gpus.empty())
+                return false;
+            physical_device = gpus.front();
+        }
+
+        // One queue for graphics, compute and, when RetroArch has a surface,
+        // presenting: the frontend and the core share it
+        const auto families = physical_device.getQueueFamilyProperties();
+        uint32_t family = UINT32_MAX;
+        for (uint32_t i = 0; i < families.size(); i++) {
+            const auto flags = families[i].queueFlags;
+            if (!(flags & vk::QueueFlagBits::eGraphics) || !(flags & vk::QueueFlagBits::eCompute))
+                continue;
+            if (surface && !physical_device.getSurfaceSupportKHR(i, vk::SurfaceKHR(surface)))
+                continue;
+            family = i;
+            break;
+        }
+        if (family == UINT32_MAX)
+            return false;
+
+        const vk::PhysicalDeviceFeatures available = physical_device.getFeatures();
+        // As upstream (VKState::create): what the Vita's GPU uses, where there
+        vk::PhysicalDeviceFeatures enabled_features{
+            .fillModeNonSolid = available.fillModeNonSolid,
+            .wideLines = available.wideLines,
+            .samplerAnisotropy = available.samplerAnisotropy,
+            .occlusionQueryPrecise = available.occlusionQueryPrecise,
+            .fragmentStoresAndAtomics = available.fragmentStoresAndAtomics,
+            .shaderStorageImageExtendedFormats = available.shaderStorageImageExtendedFormats,
+            .shaderInt16 = available.shaderInt16,
+        };
+        // and whatever RetroArch requires on top
+        if (required_features) {
+            const VkBool32 *req = reinterpret_cast<const VkBool32 *>(required_features);
+            VkBool32 *dst = reinterpret_cast<VkBool32 *>(&enabled_features);
+            for (size_t i = 0; i < sizeof(VkPhysicalDeviceFeatures) / sizeof(VkBool32); i++)
+                dst[i] |= req[i];
+        }
+
+        std::vector<const char *> extensions;
+        const auto add = [&](const char *name) {
+            if (std::none_of(extensions.begin(), extensions.end(), [&](const char *e) { return strcmp(e, name) == 0; }))
+                extensions.push_back(name);
+        };
+        for (unsigned i = 0; i < num_required_extensions; i++)
+            add(required_extensions[i]);
+        for (const char *name : required_device_extensions)
+            add(name);
+
+        bool temp = false, buffer_device_address = false;
+        const std::map<std::string_view, bool *> optional_extensions = {
+            { vk::KHRGetMemoryRequirements2ExtensionName, &temp },
+            { vk::KHRDedicatedAllocationExtensionName, &support.dedicated_allocations },
+            { vk::KHRImageFormatListExtensionName, &support.image_format_list },
+            { vk::KHRExternalMemoryExtensionName, &temp },
+            { vk::KHRDeviceGroupExtensionName, &temp },
+            { vk::EXTExternalMemoryHostExtensionName, &support.external_host },
+            { vk::KHRBufferDeviceAddressExtensionName, &buffer_device_address },
+            { vk::KHRUniformBufferStandardLayoutExtensionName, &support.standard_layout },
+            { vk::KHRShaderFloat16Int8ExtensionName, &support.fsr },
+            { vk::EXTFragmentShaderInterlockExtensionName, &support.shader_interlock },
+            { VK_EXT_RASTERIZATION_ORDER_ATTACHMENT_ACCESS_EXTENSION_NAME, &support.rasterized_order_access },
+        };
+        for (const vk::ExtensionProperties &ext : physical_device.enumerateDeviceExtensionProperties()) {
+            auto it = optional_extensions.find(ext.extensionName.data());
+            if (it != optional_extensions.end()) {
+                *it->second = true;
+                add(it->first.data());
+            }
+        }
+
+        if (buffer_device_address) {
+            auto f = physical_device.getFeatures2<vk::PhysicalDeviceFeatures2, vk::PhysicalDeviceBufferDeviceAddressFeatures>();
+            buffer_device_address = f.get<vk::PhysicalDeviceBufferDeviceAddressFeatures>().bufferDeviceAddress;
+        }
+        if (support.standard_layout) {
+            auto f = physical_device.getFeatures2<vk::PhysicalDeviceFeatures2, vk::PhysicalDeviceUniformBufferStandardLayoutFeatures>();
+            support.standard_layout = f.get<vk::PhysicalDeviceUniformBufferStandardLayoutFeatures>().uniformBufferStandardLayout;
+        }
+        support.buffer_device_address = buffer_device_address && support.standard_layout;
+        if (support.external_host) {
+            auto p = physical_device.getProperties2<vk::PhysicalDeviceProperties2, vk::PhysicalDeviceExternalMemoryHostPropertiesEXT>();
+            support.external_host = p.get<vk::PhysicalDeviceExternalMemoryHostPropertiesEXT>().minImportedHostPointerAlignment <= 4096;
+        }
+        support.fsr &= static_cast<bool>(available.shaderInt16);
+        if (support.fsr) {
+            auto f = physical_device.getFeatures2<vk::PhysicalDeviceFeatures2, vk::PhysicalDeviceShaderFloat16Int8Features>();
+            support.fsr = f.get<vk::PhysicalDeviceShaderFloat16Int8Features>().shaderFloat16;
+        }
+        if (support.rasterized_order_access) {
+            auto f = physical_device.getFeatures2<vk::PhysicalDeviceFeatures2, vk::PhysicalDeviceRasterizationOrderAttachmentAccessFeaturesEXT>();
+            support.rasterized_order_access = f.get<vk::PhysicalDeviceRasterizationOrderAttachmentAccessFeaturesEXT>().rasterizationOrderColorAttachmentAccess;
+            support.shader_interlock = false;
+        }
+        support.shader_interlock &= static_cast<bool>(available.fragmentStoresAndAtomics);
+        if (support.shader_interlock) {
+            auto f = physical_device.getFeatures2<vk::PhysicalDeviceFeatures2, vk::PhysicalDeviceFragmentShaderInterlockFeaturesEXT>();
+            support.shader_interlock = f.get<vk::PhysicalDeviceFragmentShaderInterlockFeaturesEXT>().fragmentShaderSampleInterlock;
+        }
+
+        const float priority = 1.0f;
+        const vk::DeviceQueueCreateInfo queue_info{
+            .queueFamilyIndex = family,
+            .queueCount = 1,
+            .pQueuePriorities = &priority
+        };
+        vk::StructureChain<vk::DeviceCreateInfo,
+            vk::PhysicalDeviceBufferDeviceAddressFeatures,
+            vk::PhysicalDeviceUniformBufferStandardLayoutFeatures,
+            vk::PhysicalDeviceShaderFloat16Int8Features,
+            vk::PhysicalDeviceFragmentShaderInterlockFeaturesEXT,
+            vk::PhysicalDeviceRasterizationOrderAttachmentAccessFeaturesEXT>
+            device_info{
+                vk::DeviceCreateInfo{ .pEnabledFeatures = &enabled_features },
+                vk::PhysicalDeviceBufferDeviceAddressFeatures{ .bufferDeviceAddress = VK_TRUE },
+                vk::PhysicalDeviceUniformBufferStandardLayoutFeatures{ .uniformBufferStandardLayout = VK_TRUE },
+                vk::PhysicalDeviceShaderFloat16Int8Features{ .shaderFloat16 = VK_TRUE },
+                vk::PhysicalDeviceFragmentShaderInterlockFeaturesEXT{ .fragmentShaderSampleInterlock = VK_TRUE },
+                vk::PhysicalDeviceRasterizationOrderAttachmentAccessFeaturesEXT{ .rasterizationOrderColorAttachmentAccess = VK_TRUE }
+            };
+        device_info.get().setQueueCreateInfos(queue_info);
+        device_info.get().setPEnabledExtensionNames(extensions);
+        if (!support.buffer_device_address)
+            device_info.unlink<vk::PhysicalDeviceBufferDeviceAddressFeatures>();
+        if (!support.standard_layout)
+            device_info.unlink<vk::PhysicalDeviceUniformBufferStandardLayoutFeatures>();
+        if (!support.fsr)
+            device_info.unlink<vk::PhysicalDeviceShaderFloat16Int8Features>();
+        if (!support.shader_interlock)
+            device_info.unlink<vk::PhysicalDeviceFragmentShaderInterlockFeaturesEXT>();
+        if (!support.rasterized_order_access)
+            device_info.unlink<vk::PhysicalDeviceRasterizationOrderAttachmentAccessFeaturesEXT>();
+
+        const vk::Device device = physical_device.createDevice(device_info.get());
+        out.gpu = physical_device;
+        out.device = device;
+        out.queue_family_index = family;
+        out.queue = device.getQueue(family, 0);
+        support.created = true;
+
+        std::string names;
+        for (const char *e : extensions)
+            names += fmt::format("{}{}", names.empty() ? "" : ", ", e);
+        LOG_INFO("Vulkan device made for RetroArch with: {}", names);
+        return true;
+    } catch (const std::exception &e) {
+        LOG_ERROR("Could not make the Vulkan device ({}); RetroArch makes its own, without memory mapping", e.what());
+        support = {};
+        return false;
+    }
+}
 
 void set_libretro_vulkan_handles(const LibretroVulkanHandles &handles) {
     renderer::vulkan::s_libretro_vk_handles = handles;
@@ -406,46 +590,26 @@ static bool libretro_adopt_device(VKState &s, bool &support_dedicated_allocation
     s.general_queue = vk::Queue(lr.queue);
     s.transfer_queue = vk::Queue(lr.queue);
 
-    // What the frontend's device was created with is not known here, only what
-    // the GPU offers; the core asks for these in its device negotiation
-    bool support_buffer_device_address = false;
-    for (const vk::ExtensionProperties &ext : s.physical_device.enumerateDeviceExtensionProperties()) {
-        const std::string_view name = ext.extensionName.data();
-        if (name == vk::KHRDedicatedAllocationExtensionName)
-            support_dedicated_allocations = true;
-        else if (name == vk::KHRBufferDeviceAddressExtensionName)
-            support_buffer_device_address = true;
-        else if (name == vk::KHRUniformBufferStandardLayoutExtensionName)
-            s.support_standard_layout = true;
-        else if (name == vk::KHRShaderFloat16Int8ExtensionName)
-            s.support_fsr = true;
-        else if (name == VK_EXT_RASTERIZATION_ORDER_ATTACHMENT_ACCESS_EXTENSION_NAME)
-            s.support_rasterized_order_access = true;
-    }
-    if (support_buffer_device_address) {
-        auto f2 = s.physical_device.getFeatures2<vk::PhysicalDeviceFeatures2, vk::PhysicalDeviceBufferDeviceAddressFeatures>();
-        support_buffer_device_address = f2.get<vk::PhysicalDeviceBufferDeviceAddressFeatures>().bufferDeviceAddress;
-    }
-    if (s.support_standard_layout) {
-        auto f2 = s.physical_device.getFeatures2<vk::PhysicalDeviceFeatures2, vk::PhysicalDeviceUniformBufferStandardLayoutFeatures>();
-        s.support_standard_layout = f2.get<vk::PhysicalDeviceUniformBufferStandardLayoutFeatures>().uniformBufferStandardLayout;
-    }
-    s.support_fsr &= static_cast<bool>(s.physical_device_features.shaderInt16);
-    if (s.support_fsr) {
-        auto f2 = s.physical_device.getFeatures2<vk::PhysicalDeviceFeatures2, vk::PhysicalDeviceShaderFloat16Int8Features>();
-        s.support_fsr = f2.get<vk::PhysicalDeviceShaderFloat16Int8Features>().shaderFloat16;
-    }
-    if (s.support_rasterized_order_access) {
-        auto f2 = s.physical_device.getFeatures2<vk::PhysicalDeviceFeatures2, vk::PhysicalDeviceRasterizationOrderAttachmentAccessFeaturesEXT>();
-        s.support_rasterized_order_access = f2.get<vk::PhysicalDeviceRasterizationOrderAttachmentAccessFeaturesEXT>().rasterizationOrderColorAttachmentAccess;
-    }
+    // Only what libretro_create_vulkan_device enabled: on a device RetroArch
+    // made itself none of these were, whatever the GPU offers
+    const auto &support = s_libretro_device_support;
+    support_dedicated_allocations = support.dedicated_allocations;
+    s.support_standard_layout = support.standard_layout;
+    s.support_fsr = support.fsr;
+    s.support_rasterized_order_access = support.rasterized_order_access;
+    s.features.support_shader_interlock = support.shader_interlock;
+    s.surface_cache.support_image_format_specifier = support.image_format_list;
+    if (!support.created)
+        LOG_WARN("Vulkan: RetroArch made the device itself, so memory mapping and the optional extensions are off");
 
     s.supported_mapping_methods_mask = (1 << static_cast<int>(MappingMethod::Disabled));
     s.mapping_method = MappingMethod::Disabled;
-    if (support_buffer_device_address && s.support_standard_layout) {
+    if (support.buffer_device_address) {
         s.mapping_method = MappingMethod::DoubleBuffer;
         s.supported_mapping_methods_mask |= (1 << static_cast<int>(MappingMethod::DoubleBuffer));
         s.supported_mapping_methods_mask |= (1 << static_cast<int>(MappingMethod::PageTable));
+        if (support.external_host)
+            s.supported_mapping_methods_mask |= (1 << static_cast<int>(MappingMethod::ExernalHost));
     }
     return true;
 }

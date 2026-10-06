@@ -46,6 +46,21 @@ struct LibretroVulkanHandles {
 
 // Set before calling renderer::init in libretro builds
 void set_libretro_vulkan_handles(const LibretroVulkanHandles &handles);
+
+// RetroArch's create_device (the context negotiation interface): the device
+// made with upstream's extensions and features, those the GPU has, on top of
+// what RetroArch requires. False leaves RetroArch to make its own, on which
+// the renderer then uses none of them.
+struct LibretroVulkanDevice {
+    VkPhysicalDevice gpu = VK_NULL_HANDLE;
+    VkDevice device = VK_NULL_HANDLE;
+    VkQueue queue = VK_NULL_HANDLE;
+    uint32_t queue_family_index = 0;
+};
+bool libretro_create_vulkan_device(LibretroVulkanDevice &out, VkInstance instance, VkPhysicalDevice gpu,
+    VkSurfaceKHR surface, PFN_vkGetInstanceProcAddr get_instance_proc_addr,
+    const char **required_extensions, unsigned num_required_extensions,
+    const VkPhysicalDeviceFeatures *required_features);
 const LibretroVulkanHandles &get_libretro_vulkan_handles();
 
 // Set queue lock/unlock callbacks on VKState (frontend owns the queue)

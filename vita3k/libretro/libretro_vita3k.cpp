@@ -993,6 +993,28 @@ static const VkApplicationInfo *libretro_vk_get_application_info() {
     return &info;
 }
 
+// RetroArch's device made by the core, with what memory mapping and the
+// renderer's optional paths need (VK_KHR_buffer_device_address and the rest).
+// A device RetroArch makes itself has none of them, and memory mapping on it
+// called a null vkGetBufferDeviceAddress.
+static bool libretro_vk_create_device(struct retro_vulkan_context *context, VkInstance instance, VkPhysicalDevice gpu,
+    VkSurfaceKHR surface, PFN_vkGetInstanceProcAddr get_instance_proc_addr,
+    const char **required_device_extensions, unsigned num_required_device_extensions,
+    const char **required_device_layers, unsigned num_required_device_layers,
+    const VkPhysicalDeviceFeatures *required_features) {
+    LibretroVulkanDevice made;
+    if (!libretro_create_vulkan_device(made, instance, gpu, surface, get_instance_proc_addr,
+            required_device_extensions, num_required_device_extensions, required_features))
+        return false;
+    context->gpu = made.gpu;
+    context->device = made.device;
+    context->queue = made.queue;
+    context->queue_family_index = made.queue_family_index;
+    context->presentation_queue = made.queue;
+    context->presentation_queue_family_index = made.queue_family_index;
+    return true;
+}
+
 static bool try_set_hw_vulkan() {
     memset(&libretro.hw_render, 0, sizeof(libretro.hw_render));
     libretro.hw_render.context_type = RETRO_HW_CONTEXT_VULKAN;
@@ -1012,7 +1034,7 @@ static bool try_set_hw_vulkan() {
         RETRO_HW_RENDER_CONTEXT_NEGOTIATION_INTERFACE_VULKAN,
         RETRO_HW_RENDER_CONTEXT_NEGOTIATION_INTERFACE_VULKAN_VERSION,
         libretro_vk_get_application_info,
-        nullptr,
+        libretro_vk_create_device,
         nullptr,
     };
     libretro.environ_cb(RETRO_ENVIRONMENT_SET_HW_RENDER_CONTEXT_NEGOTIATION_INTERFACE, (void *)&negotiation);
