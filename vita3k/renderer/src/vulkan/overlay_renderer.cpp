@@ -384,7 +384,7 @@ void OverlayRenderer::destroy() {
         return;
 
     vk::Device device = m_state->device;
-    device.waitIdle();
+    vkutil::device_wait_idle(device);
 
     destroy_pipeline();
 

@@ -185,6 +185,16 @@ static constexpr vma::AllocationCreateInfo vma_host_visible = {
 vk::CommandBuffer create_single_time_command(vk::Device device, vk::CommandPool cmd_pool);
 void end_single_time_command(vk::Device device, vk::Queue queue, vk::CommandPool cmd_pool, vk::CommandBuffer cmd_buffer);
 
+// RetroArch's queue is the core's too, and Vulkan wants every submit to it and
+// every queue or device wait-idle held apart from the frontend's own submits
+// (retro_hw_render_interface_vulkan::lock_queue). Without the frontend's
+// callbacks set these just lock nothing.
+void set_queue_lock(void *handle, void (*lock)(void *), void (*unlock)(void *));
+void lock_queue();
+void unlock_queue();
+// device.waitIdle(), with the queue locked
+void device_wait_idle(vk::Device device);
+
 vk::ShaderModule load_shader(vk::Device device, const fs::path &shader_path);
 vk::ShaderModule load_shader(vk::Device device, const void *data, const uint32_t size);
 

@@ -38,13 +38,41 @@ vk::CommandBuffer create_single_time_command(vk::Device device, vk::CommandPool 
     return buffer;
 }
 
+static void *s_queue_lock_handle = nullptr;
+static void (*s_queue_lock)(void *) = nullptr;
+static void (*s_queue_unlock)(void *) = nullptr;
+
+void set_queue_lock(void *handle, void (*lock)(void *), void (*unlock)(void *)) {
+    s_queue_lock_handle = handle;
+    s_queue_lock = lock;
+    s_queue_unlock = unlock;
+}
+
+void lock_queue() {
+    if (s_queue_lock && s_queue_lock_handle)
+        s_queue_lock(s_queue_lock_handle);
+}
+
+void unlock_queue() {
+    if (s_queue_unlock && s_queue_lock_handle)
+        s_queue_unlock(s_queue_lock_handle);
+}
+
+void device_wait_idle(vk::Device device) {
+    lock_queue();
+    device.waitIdle();
+    unlock_queue();
+}
+
 void end_single_time_command(vk::Device device, vk::Queue queue, vk::CommandPool cmd_pool, vk::CommandBuffer cmd_buffer) {
     cmd_buffer.end();
 
     vk::SubmitInfo submit_info{};
     submit_info.setCommandBuffers(cmd_buffer);
+    lock_queue();
     queue.submit(submit_info);
     queue.waitIdle();
+    unlock_queue();
 
     device.freeCommandBuffers(cmd_pool, cmd_buffer);
 }

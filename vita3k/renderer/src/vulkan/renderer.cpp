@@ -546,6 +546,7 @@ void set_libretro_queue_lock(renderer::State *state, void *handle,
     vk_state->libretro_queue_handle = handle;
     vk_state->libretro_lock_queue = lock_queue;
     vk_state->libretro_unlock_queue = unlock_queue;
+    vkutil::set_queue_lock(handle, lock_queue, unlock_queue);
 }
 
 namespace renderer::vulkan {
@@ -1293,7 +1294,7 @@ void VKState::cleanup() {
         descriptor.descriptors_idx = 0;
     };
 
-    device.waitIdle();
+    vkutil::device_wait_idle(device);
 
     request_queue.abort();
 
@@ -1828,7 +1829,7 @@ void VKState::unmap_memory(MemState &mem, Ptr<void> address) {
     }
 
     // we need to wait in case the buffer is being used
-    device.waitIdle();
+    vkutil::device_wait_idle(device);
 
     switch (mapping_method) {
     case MappingMethod::ExernalHost:
