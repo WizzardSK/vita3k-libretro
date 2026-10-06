@@ -38,12 +38,13 @@ std::string wide_to_utf(const std::wstring &str) {
 }
 
 std::string trim_copy(std::string_view str) {
-    return str
-        | std::views::drop_while([](unsigned char ch) { return std::isspace(ch); })
-        | std::views::reverse
-        | std::views::drop_while([](unsigned char ch) { return std::isspace(ch); })
-        | std::views::reverse
-        | std::ranges::to<std::string>();
+    // Not through views and std::ranges::to: clang 20 cannot build that pipe
+    // with GCC 14's libstdc++ (forward_like), which the libretro Linux cores
+    // are built with on Ubuntu 24.04
+    const auto space = [](unsigned char ch) { return std::isspace(ch); };
+    const auto first = std::find_if_not(str.begin(), str.end(), space);
+    const auto last = std::find_if_not(str.rbegin(), std::make_reverse_iterator(first), space).base();
+    return std::string(first, last);
 }
 
 std::string remove_special_chars(std::string str) {
