@@ -521,6 +521,10 @@ public:
         return libretro.hw_render.get_proc_address ? reinterpret_cast<void *>(libretro.hw_render.get_proc_address(name)) : nullptr;
     }
 
+    // RetroArch owns the vsync; nothing for the core to turn on or off
+    bool set_vsync(bool) override {
+        return true;
+    }
     unsigned int default_fbo() const override {
         return libretro.hw_render.get_current_framebuffer ? static_cast<unsigned int>(libretro.hw_render.get_current_framebuffer()) : 0;
     }
