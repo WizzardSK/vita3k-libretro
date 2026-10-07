@@ -42,6 +42,12 @@ struct LibretroAudioOutPort : AudioOutPort {
     std::atomic<int> nb_buffers_ready{ 0 };
 
     int channels = 2;
+
+    // The port's rate taken to the 48 kHz the core reports, across drains:
+    // where the next output sample falls, past the last input sample, and
+    // that last sample
+    double resample_pos = 0.0;
+    float resample_prev[2] = { 0.0f, 0.0f };
 };
 
 class LibretroAudioAdapter : public AudioAdapter {
@@ -58,7 +64,7 @@ public:
     void wake_all_ports() override;
 };
 
-// Drain all available audio from all ports into a single interleaved stereo
-// int16_t buffer suitable for retro_audio_sample_batch_t.
+// Drain all available audio from all ports, each at 48 kHz, mixed into one
+// interleaved stereo int16_t buffer for retro_audio_sample_batch_t.
 // Returns the number of stereo frames (each frame = 2 int16_t samples).
 int libretro_audio_drain(AudioState &audio, std::vector<int16_t> &out_buffer);

@@ -22,6 +22,7 @@
 #include "util/log.h"
 
 #include <algorithm>
+#include <cmath>
 #include <cstring>
 
 static constexpr int NUM_AUDIO_BUFFERS = 8;
@@ -95,8 +96,19 @@ int LibretroAudioAdapter::get_rest_sample(AudioOutPort &out_port) {
     return port.nb_buffers_ready * port.len;
 }
 
+// The rate the core reports to the frontend
+static constexpr int LIBRETRO_AUDIO_RATE = 48000;
+
+// The ports play at the same time - a game's music on one, its voices and
+// sounds on others - so they are mixed: added up sample by sample, each from
+// the start of this drain. Each is first taken to 48 kHz, linearly, keeping
+// its position from one drain to the next.
 int libretro_audio_drain(AudioState &audio, std::vector<int16_t> &out_buffer) {
     out_buffer.clear();
+
+    static std::vector<float> mix; // stereo
+    static std::vector<float> input; // one port's stereo at its own rate
+    mix.clear();
 
     const std::lock_guard<std::mutex> lock(audio.mutex);
 
@@ -105,31 +117,26 @@ int libretro_audio_drain(AudioState &audio, std::vector<int16_t> &out_buffer) {
         if (!port)
             continue;
 
+        input.clear();
         std::unique_lock<std::mutex> plock(port->mutex);
+        const float vol = port->volume * audio.global_volume;
+        const float vol_l = vol * static_cast<float>(port->left_channel_volume) / static_cast<float>(SCE_AUDIO_OUT_MAX_VOL);
+        const float vol_r = vol * static_cast<float>(port->right_channel_volume) / static_cast<float>(SCE_AUDIO_OUT_MAX_VOL);
         while (port->nb_buffers_ready > 0) {
             const std::vector<uint8_t> &buf = port->audio_buffers[port->next_read_buffer];
             const int num_samples = port->len_bytes / static_cast<int>(sizeof(int16_t));
             const int16_t *samples = reinterpret_cast<const int16_t *>(buf.data());
 
-            // Apply volume scaling
-            const float vol_l = static_cast<float>(port->left_channel_volume) / static_cast<float>(SCE_AUDIO_OUT_MAX_VOL);
-            const float vol_r = static_cast<float>(port->right_channel_volume) / static_cast<float>(SCE_AUDIO_OUT_MAX_VOL);
-            const float vol = port->volume * audio.global_volume;
-
             if (port->channels == 2) {
-                // Stereo — already in the format libretro expects
-                for (int i = 0; i < num_samples; i += 2) {
-                    int16_t l = static_cast<int16_t>(std::clamp(static_cast<int>(samples[i] * vol_l * vol), -32768, 32767));
-                    int16_t r = static_cast<int16_t>(std::clamp(static_cast<int>(samples[i + 1] * vol_r * vol), -32768, 32767));
-                    out_buffer.push_back(l);
-                    out_buffer.push_back(r);
+                for (int i = 0; i + 1 < num_samples; i += 2) {
+                    input.push_back(samples[i] * vol_l);
+                    input.push_back(samples[i + 1] * vol_r);
                 }
             } else {
-                // Mono — duplicate to stereo
+                // Mono, to both sides
                 for (int i = 0; i < num_samples; i++) {
-                    int16_t s = static_cast<int16_t>(std::clamp(static_cast<int>(samples[i] * vol_l * vol), -32768, 32767));
-                    out_buffer.push_back(s);
-                    out_buffer.push_back(s);
+                    input.push_back(samples[i] * vol_l);
+                    input.push_back(samples[i] * vol_r);
                 }
             }
 
@@ -138,7 +145,50 @@ int libretro_audio_drain(AudioState &audio, std::vector<int16_t> &out_buffer) {
         }
         plock.unlock();
         port->cond_var.notify_all();
+
+        const size_t in_frames = input.size() / 2;
+        if (!in_frames)
+            continue;
+
+        size_t out_frame = 0;
+        const auto add = [&](float l, float r) {
+            if (mix.size() < (out_frame + 1) * 2)
+                mix.resize((out_frame + 1) * 2, 0.0f);
+            mix[out_frame * 2] += l;
+            mix[out_frame * 2 + 1] += r;
+            out_frame++;
+        };
+
+        if (port->freq == LIBRETRO_AUDIO_RATE || port->freq <= 0) {
+            for (size_t f = 0; f < in_frames; f++)
+                add(input[f * 2], input[f * 2 + 1]);
+        } else {
+            // Positions are in input frames, with frame -1 the previous
+            // drain's last one: an output sample between frames i-1 and i
+            const double step = static_cast<double>(port->freq) / LIBRETRO_AUDIO_RATE;
+            double pos = port->resample_pos;
+            while (pos < static_cast<double>(in_frames)) {
+                const double base = std::floor(pos);
+                const double frac = pos - base;
+                const long i = static_cast<long>(base); // between frame i-1 and i
+                if (i >= static_cast<long>(in_frames))
+                    break;
+                const float a_l = i == 0 ? port->resample_prev[0] : input[(i - 1) * 2];
+                const float a_r = i == 0 ? port->resample_prev[1] : input[(i - 1) * 2 + 1];
+                const float b_l = input[i * 2];
+                const float b_r = input[i * 2 + 1];
+                add(a_l + static_cast<float>(frac) * (b_l - a_l), a_r + static_cast<float>(frac) * (b_r - a_r));
+                pos += step;
+            }
+            port->resample_pos = pos - static_cast<double>(in_frames);
+            port->resample_prev[0] = input[(in_frames - 1) * 2];
+            port->resample_prev[1] = input[(in_frames - 1) * 2 + 1];
+        }
     }
+
+    out_buffer.resize(mix.size());
+    for (size_t i = 0; i < mix.size(); i++)
+        out_buffer[i] = static_cast<int16_t>(std::clamp(static_cast<int>(mix[i]), -32768, 32767));
 
     // Return number of stereo frames
     return static_cast<int>(out_buffer.size() / 2);

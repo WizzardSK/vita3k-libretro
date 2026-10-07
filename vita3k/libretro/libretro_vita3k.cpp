@@ -1835,12 +1835,11 @@ RETRO_API void retro_run(void) {
     {
         static std::vector<int16_t> audio_buf;
         int num_frames = libretro_audio_drain(emuenv.audio, audio_buf);
-        if (num_frames > 0 && libretro.audio_batch_cb) {
+        // Only what the game played: silence made up for a frame without
+        // audio is time the game's audio did not take, heard as gaps and a
+        // tempo that wanders (sco)
+        if (num_frames > 0 && libretro.audio_batch_cb)
             libretro.audio_batch_cb(audio_buf.data(), num_frames);
-        } else if (libretro.audio_batch_cb) {
-            static int16_t silence[1600] = {};
-            libretro.audio_batch_cb(silence, 800);
-        }
     }
 }
 
