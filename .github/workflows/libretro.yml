@@ -47,6 +47,16 @@ jobs:
             android: true
             android_abi: x86_64
             vcpkg_triplet: x64-android
+          # Upstream's macOS presets: Apple clang, Boost and OpenSSL built here;
+          # x86_64 cross-built on the arm64 runner, as upstream does
+          - name: macOS arm64
+            runs_on: macos-15
+            artifact: vita3k_libretro-macos-arm64
+            preset: ci-macos-arm64
+          - name: macOS x86_64
+            runs_on: macos-15
+            artifact: vita3k_libretro-macos-x86_64
+            preset: ci-macos-x64
     steps:
       - uses: actions/checkout@v6
         with:
@@ -68,6 +78,12 @@ jobs:
           wget -qO llvm.sh https://apt.llvm.org/llvm.sh
           sudo bash llvm.sh 20
           clang++-20 --version | head -1
+
+      - name: Set up build environment (macOS)
+        if: runner.os == 'macOS'
+        run: |
+          brew install ccache ninja >/dev/null
+          echo "$(brew --prefix ccache)/libexec" >> "$GITHUB_PATH"
 
       - name: Set up build environment (Android)
         if: matrix.android
@@ -132,8 +148,8 @@ jobs:
         shell: bash
         run: |
           dir=build/${{ matrix.preset || 'android' }}
-          core=$(find $dir -name 'vita3k_libretro.so' -o -name 'vita3k_libretro.dll' | { grep -i release || true; } | head -1)
-          [ -n "$core" ] || core=$(find $dir -name 'vita3k_libretro.so' -o -name 'vita3k_libretro.dll' | head -1)
+          core=$(find $dir -name 'vita3k_libretro.so' -o -name 'vita3k_libretro.dll' -o -name 'vita3k_libretro.dylib' | { grep -i release || true; } | head -1)
+          [ -n "$core" ] || core=$(find $dir -name 'vita3k_libretro.so' -o -name 'vita3k_libretro.dll' -o -name 'vita3k_libretro.dylib' | head -1)
           echo "core: $core"
           mkdir -p dist/cores dist/system/vita3k
           cp "$core" dist/cores/
@@ -147,6 +163,11 @@ jobs:
           elif [ "$RUNNER_OS" = Linux ]; then
             strip --strip-unneeded dist/cores/vita3k_libretro.so
             readelf -d dist/cores/vita3k_libretro.so | grep NEEDED
+          elif [ "$RUNNER_OS" = macOS ]; then
+            strip -x dist/cores/vita3k_libretro.dylib
+            codesign -f -s - dist/cores/vita3k_libretro.dylib
+            otool -L dist/cores/vita3k_libretro.dylib
+            lipo -info dist/cores/vita3k_libretro.dylib
           fi
 
       - uses: actions/upload-artifact@v4
