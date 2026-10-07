@@ -994,6 +994,18 @@ static void stop_render_thread() {
     lr_log(RETRO_LOG_INFO, "Libretro render thread stopped\n");
 }
 
+// The renderer as upstream's shutdown leaves it (shutdown_app_runtime, and
+// AppSession for a renderer without a runtime): cleaned up - which stops and
+// joins the pipeline compiler threads, among the rest - before it is freed.
+// Freed without that, the threads were still joinable and std::thread's
+// destructor ended RetroArch at close (sco).
+static void release_renderer(EmuEnvState &emuenv) {
+    if (!emuenv.renderer)
+        return;
+    emuenv.renderer->cleanup();
+    emuenv.renderer.reset();
+}
+
 static void request_guest_shutdown(EmuEnvState &emuenv, const char *reason) {
     const char *shutdown_reason = reason ? reason : "unknown";
 
@@ -1105,6 +1117,8 @@ static bool perform_core_reset() {
 
     stop_render_thread();
     request_guest_shutdown(*libretro.emuenv, "retro_reset");
+    // A reset is a close and a load: the renderer goes the same way
+    release_renderer(*libretro.emuenv);
     context_destroy();
 
     libretro.emuenv.reset();
@@ -1521,6 +1535,7 @@ RETRO_API void retro_unload_game(void) {
     if (libretro.emuenv) {
         stop_render_thread();
         request_guest_shutdown(*libretro.emuenv, "retro_unload_game");
+        release_renderer(*libretro.emuenv);
     }
 
     libretro.emuenv.reset();
