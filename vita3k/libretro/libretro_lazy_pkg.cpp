@@ -152,13 +152,21 @@ public:
         return true;
     }
 
+    int seek(std::uint64_t at) {
+#ifdef _WIN32
+        return _fseeki64(m_file, static_cast<__int64>(at), SEEK_SET);
+#else
+        return fseeko(m_file, static_cast<off_t>(at), SEEK_SET);
+#endif
+    }
+
     // Decrypted bytes of the data area, from offset
     bool read(std::uint64_t offset, void *out, std::size_t size) {
         std::lock_guard lock(m_mutex);
         const std::uint64_t aligned = offset & ~std::uint64_t(15);
         const std::size_t skip = static_cast<std::size_t>(offset - aligned);
         std::vector<std::uint8_t> buf(skip + size);
-        if (fseeko(m_file, static_cast<off_t>(m_data_offset + aligned), SEEK_SET) != 0
+        if (seek(m_data_offset + aligned) != 0
             || fread(buf.data(), buf.size(), 1, m_file) != 1)
             return false;
         std::uint8_t counter[16];
