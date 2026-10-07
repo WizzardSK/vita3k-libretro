@@ -49,6 +49,8 @@
 
 #include <glad/glad.h>
 
+#include <SDL3/SDL_hints.h>
+
 #include <algorithm>
 #include <limits>
 #include <array>
@@ -1325,6 +1327,13 @@ RETRO_API void retro_get_system_av_info(struct retro_system_av_info *info) {
 RETRO_API void retro_init(void) {
     libretro_log_init();
     libretro_logging_init();
+
+    // SDL looks up the app's name when it makes its first thread, the guest's
+    // main thread here. Without a name it asks for the executable's, which on
+    // Android is the package name, read through Java: SDL's Java side is not
+    // set up in a core, and that read crashed every game at start. A name
+    // given as a hint is taken without asking.
+    SDL_SetHint(SDL_HINT_APP_NAME, "Vita3K");
 
     libretro_init_paths();
 #ifdef _WIN32
