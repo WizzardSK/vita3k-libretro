@@ -171,6 +171,20 @@ static struct retro_core_option_v2_definition option_definitions[] = {
     },
     // ── System ───────────────────────────────────────────────────────────
     {
+        "vita3k_pkg_mode",
+        "Game PKG",
+        NULL,
+        "How a game's PKG is run. Run Without Installing: the game starts in seconds, and a file is decrypted from the PKG the first time the game reads it, into the system folder; it is all removed when the game is closed. Install: the whole game is decrypted and installed into ux0/app the first time, as Vita3K does, which takes as long as the game is big and uses its size on disk. A game installed already runs from its installation either way. Updates and DLC are always installed.",
+        NULL,
+        "system",
+        {
+            { "run", "Run Without Installing" },
+            { "install", "Install" },
+            { NULL, NULL },
+        },
+        "run"
+    },
+    {
         "vita3k_pstv_mode",
         "PS TV Mode",
         NULL,

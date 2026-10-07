@@ -19,6 +19,7 @@
 #include "libretro_options.h"
 #include "libretro_input.h"
 #include "libretro_installer.h"
+#include "libretro_lazy_pkg.h"
 #include "libretro_log.h"
 #include "libretro_game_loader.h"
 
@@ -1399,7 +1400,8 @@ RETRO_API bool retro_load_game(const struct retro_game_info *game) {
     }
 
     const int sys_lang = 1;
-    GameInstallResult install_result = ensure_game_installed(game_path, pref_path, sys_lang);
+    const char *pkg_mode = get_core_option_value("vita3k_pkg_mode", "run");
+    GameInstallResult install_result = ensure_game_installed(game_path, pref_path, sys_lang, std::string(pkg_mode) == "run");
 
     if (!install_result.success) {
         lr_log(RETRO_LOG_ERROR, "Game installation/verification failed.\n");
@@ -1507,6 +1509,13 @@ RETRO_API void retro_unload_game(void) {
     }
 
     libretro.emuenv.reset();
+    // A PKG run without installing: what it laid out goes with it
+    if (lazy_pkg::mounted()) {
+        const fs::path marker = fs::path(libretro.system_dir) / "ux0" / "libretro_pkg" / ("lazy_" + libretro.installed_title_id);
+        lazy_pkg::unmount();
+        boost::system::error_code ec;
+        fs::remove(marker, ec);
+    }
     libretro.game_loaded = false;
     libretro.app_started = false;
     libretro.pending_main_module_id = -1;

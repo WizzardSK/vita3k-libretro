@@ -4,6 +4,7 @@ add_library(vita3k_libretro SHARED
 	libretro_vita3k.cpp
 	libretro_input.cpp
 	libretro_installer.cpp
+	libretro_lazy_pkg.cpp
 	libretro_log.cpp
 	libretro_game_loader.cpp
 )

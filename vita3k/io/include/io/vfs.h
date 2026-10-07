@@ -20,11 +20,18 @@
 #include <util/fs.h>
 #include <util/types.h>
 
+#include <functional>
+
 enum class VitaIoDevice : int;
 
 namespace vfs {
 
 using FileBuffer = std::vector<SceUInt8>;
+
+// Called with the host path of a file about to be opened or read, if set. The
+// libretro core runs a PKG without installing it: its files are placeholders
+// until first read, and this is where one is decrypted.
+extern std::function<void(const fs::path &)> host_file_hook;
 
 bool read_file(VitaIoDevice device, FileBuffer &buf, const fs::path &vita_fs_path, const fs::path &vfs_file_path);
 bool read_app_file(FileBuffer &buf, const fs::path &vita_fs_path, const std::string &app_path, const fs::path &vfs_file_path);

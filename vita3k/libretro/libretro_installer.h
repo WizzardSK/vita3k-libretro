@@ -66,4 +66,5 @@ struct GameInstallResult {
 ///   2. If game_path is a VPK/ZIP, extract and install.
 ///   3. If game_path is eboot.bin, use parent folder.
 ///   4. Check if already installed via ux0/app/{title_id}/eboot.bin.
-GameInstallResult ensure_game_installed(const fs::path &game_path, const fs::path &pref_path, int sys_lang);
+// run_pkg: a game's PKG is run without installing it (lazy_pkg)
+GameInstallResult ensure_game_installed(const fs::path &game_path, const fs::path &pref_path, int sys_lang, bool run_pkg = false);
