@@ -77,7 +77,7 @@ add_custom_command(
 )
 
 # libretro_lazy_pkg.cpp decrypts the PKG layer itself, with OpenSSL; on macOS
-# the headers are those of the OpenSSL built in external/, not the system's
-if(TARGET OpenSSL::Crypto)
-	target_link_libraries(vita3k_libretro PRIVATE OpenSSL::Crypto)
-endif()
+# the headers are those of the OpenSSL external/ finds or builds, not the
+# system's. Through external/'s crypto target: OpenSSL::Crypto, an imported
+# target, is seen only in the directory that found it
+target_link_libraries(vita3k_libretro PRIVATE crypto)
