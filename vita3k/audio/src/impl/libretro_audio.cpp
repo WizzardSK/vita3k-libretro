@@ -25,7 +25,8 @@
 #include <cmath>
 #include <cstring>
 
-static constexpr int NUM_AUDIO_BUFFERS = 8;
+// Enough for a couple of frontend frames of a port's buffers
+static constexpr int NUM_AUDIO_BUFFERS = 16;
 
 LibretroAudioAdapter::LibretroAudioAdapter(AudioState &audio_state)
     : AudioAdapter(audio_state) {}
@@ -57,16 +58,16 @@ void LibretroAudioAdapter::audio_output(AudioOutPort &out_port, const void *buff
     auto &port = static_cast<LibretroAudioOutPort &>(out_port);
 
     std::unique_lock<std::mutex> lock(port.mutex);
-    // If the ring buffer is full, wait for retro_run to drain it - a bounded
-    // wait, as SDLAudioAdapter's, so that a stop (wake_all_ports) or a paused
-    // frontend does not hold the guest thread for good
-    if (port.nb_buffers_ready >= static_cast<int>(port.audio_buffers.size())) {
-        port.cond_var.wait_for(lock, std::chrono::microseconds(port.len_microseconds * 2), [&]() {
-            return port.nb_buffers_ready < static_cast<int>(port.audio_buffers.size());
-        });
-        if (port.nb_buffers_ready >= static_cast<int>(port.audio_buffers.size()))
-            return;
-    }
+    // A full ring waits for retro_run to drain it, as SDL's audio callback
+    // holds the guest in standalone: the game's audio thread runs at the
+    // rate its audio is played. Giving up after a while dropped the audio
+    // and let the game run ahead of it - played faster (sco). Only a stop
+    // (stop_all_ports, at close) lets it go without room.
+    port.cond_var.wait(lock, [&]() {
+        return port.nb_buffers_ready < static_cast<int>(port.audio_buffers.size()) || port.stopping.load();
+    });
+    if (port.nb_buffers_ready >= static_cast<int>(port.audio_buffers.size()))
+        return;
 
     if (buffer) {
         memcpy(port.audio_buffers[port.next_write_buffer].data(), buffer, port.len_bytes);
@@ -87,6 +88,8 @@ void LibretroAudioAdapter::wake_all_ports() {
     const std::lock_guard<std::mutex> lock(state.mutex);
     for (auto &[_, out_port] : state.out_ports) {
         auto &port = static_cast<LibretroAudioOutPort &>(*out_port);
+        // stop_all_ports has set the port's stopping flag
+        { const std::lock_guard<std::mutex> port_lock(port.mutex); }
         port.cond_var.notify_all();
     }
 }

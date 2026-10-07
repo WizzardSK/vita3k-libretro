@@ -1327,6 +1327,8 @@ RETRO_API void retro_get_system_av_info(struct retro_system_av_info *info) {
 RETRO_API void retro_init(void) {
     libretro_log_init();
     libretro_logging_init();
+    lr_log(RETRO_LOG_INFO, "Vita3K libretro core %s %d (upstream %s), built from commit %s\n",
+        app_version, app_number, app_hash, VITA3K_LIBRETRO_COMMIT);
 
     // SDL looks up the app's name when it makes its first thread, the guest's
     // main thread here. Without a name it asks for the executable's, which on

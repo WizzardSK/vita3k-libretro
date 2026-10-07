@@ -158,13 +158,11 @@ jobs:
           cp -r data dist/system/vita3k/
           cp -r vita3k/shaders-builtin dist/system/vita3k/
           # The core info, for RetroArch to load content with the core before
-          # it is loaded (its name follows the core's: _android on Android)
+          # it is loaded
           mkdir -p dist/info
-          if [ "${{ matrix.android }}" = true ]; then
-            sed 's/^display_name = .*/&/' vita3k_libretro.info > dist/info/vita3k_libretro_android.info
-          else
-            cp vita3k_libretro.info dist/info/
-          fi
+          # RetroArch names it after the core without the platform: also
+          # vita3k_libretro.info for vita3k_libretro_android.so (sco)
+          cp vita3k_libretro.info dist/info/
           ls -la dist/cores
           if [ "${{ matrix.android }}" = true ]; then
             mv dist/cores/vita3k_libretro.so dist/cores/vita3k_libretro_android.so

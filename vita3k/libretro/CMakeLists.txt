@@ -81,3 +81,17 @@ add_custom_command(
 # system's. Through external/'s crypto target: OpenSSL::Crypto, an imported
 # target, is seen only in the directory that found it
 target_link_libraries(vita3k_libretro PRIVATE crypto)
+
+# The commit of this repository the core is built from, for the log: testers'
+# logs then say which build they come from
+execute_process(
+	COMMAND git rev-parse --short=8 HEAD
+	WORKING_DIRECTORY "${CMAKE_SOURCE_DIR}"
+	OUTPUT_VARIABLE VITA3K_LIBRETRO_COMMIT
+	OUTPUT_STRIP_TRAILING_WHITESPACE
+	ERROR_QUIET)
+if(NOT VITA3K_LIBRETRO_COMMIT)
+	set(VITA3K_LIBRETRO_COMMIT "unknown")
+endif()
+set_source_files_properties(libretro_vita3k.cpp PROPERTIES
+	COMPILE_DEFINITIONS "VITA3K_LIBRETRO_COMMIT=\"${VITA3K_LIBRETRO_COMMIT}\"")
