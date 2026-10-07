@@ -893,6 +893,11 @@ static GameInstallResult handle_pkg_game(const fs::path &pkg_path, const fs::pat
     auto emuenv = std::make_unique<EmuEnvState>();
     emuenv->vita_fs_path = pref_path;
     emuenv->cfg.sys_lang = sys_lang;
+    // install_pkg ends with create_license, which writes a temporary license
+    // into the cache folder; left empty, that is create_directories("") and an
+    // uncaught "Invalid argument" right after the PFS was decrypted (sco: every
+    // PKG install crashed at 80%)
+    emuenv->cache_path = pref_path / "cache";
     lr_msg("Installing PKG... this may take a while", 600);
     const bool ok = install_pkg(pkg_path, *emuenv, zrif, [](float progress) {
         static int last = -1;
