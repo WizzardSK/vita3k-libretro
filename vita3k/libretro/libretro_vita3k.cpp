@@ -1019,6 +1019,10 @@ static void request_guest_shutdown(EmuEnvState &emuenv, const char *reason) {
         lr_log(RETRO_LOG_INFO, "Guest shutdown (%s): renderer already null before preclose\n", shutdown_reason);
     }
 
+    // A guest audio thread waiting for room in its port leaves only when the
+    // ports are stopped, which upstream's shutdown_app_runtime does first too
+    emuenv.audio.stop_all_ports();
+
     emuenv.kernel.exit_delete_all_threads();
     lr_log(RETRO_LOG_INFO, "Guest shutdown (%s): exit_delete_all_threads issued\n", shutdown_reason);
 
