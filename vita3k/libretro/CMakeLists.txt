@@ -75,3 +75,9 @@ add_custom_command(
 	COMMAND ${CMAKE_COMMAND} -E copy_directory "${CMAKE_CURRENT_SOURCE_DIR}/../../data" "$<TARGET_FILE_DIR:vita3k_libretro>/data"
 	COMMAND ${CMAKE_COMMAND} -E copy_directory "${CMAKE_CURRENT_SOURCE_DIR}/../shaders-builtin" "$<TARGET_FILE_DIR:vita3k_libretro>/shaders-builtin"
 )
+
+# libretro_lazy_pkg.cpp decrypts the PKG layer itself, with OpenSSL; on macOS
+# the headers are those of the OpenSSL built in external/, not the system's
+if(TARGET OpenSSL::Crypto)
+	target_link_libraries(vita3k_libretro PRIVATE OpenSSL::Crypto)
+endif()
