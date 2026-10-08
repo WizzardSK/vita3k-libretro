@@ -27,6 +27,8 @@
 
 // Enough for a couple of frontend frames of a port's buffers
 static constexpr int NUM_AUDIO_BUFFERS = 16;
+// How much audio the guest may have queued before its audio thread waits
+static constexpr int QUEUED_AUDIO_MS = 64;
 
 LibretroAudioAdapter::LibretroAudioAdapter(AudioState &audio_state)
     : AudioAdapter(audio_state) {}
@@ -63,8 +65,11 @@ void LibretroAudioAdapter::audio_output(AudioOutPort &out_port, const void *buff
     // rate its audio is played. Giving up after a while dropped the audio
     // and let the game run ahead of it - played faster (sco). Only a stop
     // (stop_all_ports, at close) lets it go without room.
+    // About QUEUED_AUDIO_MS waiting, at least two buffers, not the whole
+    // ring: what is queued is latency, and it is always full
+    const int max_queued = std::max(2 * port.len, port.freq * QUEUED_AUDIO_MS / 1000);
     port.cond_var.wait(lock, [&]() {
-        return port.nb_buffers_ready < static_cast<int>(port.audio_buffers.size()) || port.stopping.load();
+        return port.nb_buffers_ready * port.len < max_queued || port.stopping.load();
     });
     if (port.nb_buffers_ready >= static_cast<int>(port.audio_buffers.size()))
         return;
@@ -96,11 +101,13 @@ void LibretroAudioAdapter::wake_all_ports() {
 
 int LibretroAudioAdapter::get_rest_sample(AudioOutPort &out_port) {
     auto &port = static_cast<LibretroAudioOutPort &>(out_port);
-    return port.nb_buffers_ready * port.len;
+    return port.nb_buffers_ready * port.len - port.read_frames;
 }
 
 // The rate the core reports to the frontend
 static constexpr int LIBRETRO_AUDIO_RATE = 48000;
+// and the frame rate, retro_run's rate
+static constexpr double LIBRETRO_FPS = 60.0;
 
 // The ports play at the same time - a game's music on one, its voices and
 // sounds on others - so they are mixed: added up sample by sample, each from
@@ -125,26 +132,46 @@ int libretro_audio_drain(AudioState &audio, std::vector<int16_t> &out_buffer) {
         const float vol = port->volume * audio.global_volume;
         const float vol_l = vol * static_cast<float>(port->left_channel_volume) / static_cast<float>(SCE_AUDIO_OUT_MAX_VOL);
         const float vol_r = vol * static_cast<float>(port->right_channel_volume) / static_cast<float>(SCE_AUDIO_OUT_MAX_VOL);
-        while (port->nb_buffers_ready > 0) {
+        // One frontend frame of the port's audio a drain, no more. Whatever
+        // a call hands RetroArch, its audio sync holds retro_run until about
+        // that much has played: the whole ring at once (170 ms) held it to 6
+        // calls a second, and taking an eighth of the backlog on top - always
+        // there, since the guest's audio thread waits on a full ring - to 30
+        // (sco's run stats). The guest waiting on the ring paces the game to
+        // the audio, as SDL's callback does in standalone.
+        {
+            const double per_frame = port->freq > 0 ? port->freq / LIBRETRO_FPS : port->len;
+            port->drain_credit += per_frame;
+            // Not more than two frames' worth saved up while the ring is empty
+            port->drain_credit = std::min(port->drain_credit, 2 * per_frame);
+        }
+        // By sample frames, from inside a buffer if need be: whole buffers
+        // were taken before, and a port with large ones (vitaSnake's: 100 ms)
+        // handed over a buffer a call however little was due, which held
+        // retro_run to 10 a second
+        int want = static_cast<int>(port->drain_credit);
+        while (want > 0 && port->nb_buffers_ready > 0) {
             const std::vector<uint8_t> &buf = port->audio_buffers[port->next_read_buffer];
-            const int num_samples = port->len_bytes / static_cast<int>(sizeof(int16_t));
             const int16_t *samples = reinterpret_cast<const int16_t *>(buf.data());
-
-            if (port->channels == 2) {
-                for (int i = 0; i + 1 < num_samples; i += 2) {
-                    input.push_back(samples[i] * vol_l);
-                    input.push_back(samples[i + 1] * vol_r);
-                }
-            } else {
-                // Mono, to both sides
-                for (int i = 0; i < num_samples; i++) {
-                    input.push_back(samples[i] * vol_l);
-                    input.push_back(samples[i] * vol_r);
+            const int take = std::min(want, port->len - port->read_frames);
+            for (int f = port->read_frames; f < port->read_frames + take; f++) {
+                if (port->channels == 2) {
+                    input.push_back(samples[f * 2] * vol_l);
+                    input.push_back(samples[f * 2 + 1] * vol_r);
+                } else {
+                    // Mono, to both sides
+                    input.push_back(samples[f] * vol_l);
+                    input.push_back(samples[f] * vol_r);
                 }
             }
-
-            port->next_read_buffer = (port->next_read_buffer + 1) % port->audio_buffers.size();
-            port->nb_buffers_ready--;
+            want -= take;
+            port->drain_credit -= take;
+            port->read_frames += take;
+            if (port->read_frames >= port->len) {
+                port->read_frames = 0;
+                port->next_read_buffer = (port->next_read_buffer + 1) % port->audio_buffers.size();
+                port->nb_buffers_ready--;
+            }
         }
         plock.unlock();
         port->cond_var.notify_all();

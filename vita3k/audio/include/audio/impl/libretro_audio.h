@@ -48,6 +48,12 @@ struct LibretroAudioOutPort : AudioOutPort {
     // that last sample
     double resample_pos = 0.0;
     float resample_prev[2] = { 0.0f, 0.0f };
+
+    // How many of the port's samples a drain may still take (see
+    // libretro_audio_drain)
+    double drain_credit = 0.0;
+    // Frames of the buffer at next_read_buffer already drained
+    int read_frames = 0;
 };
 
 class LibretroAudioAdapter : public AudioAdapter {
