@@ -417,6 +417,87 @@ static fs::path resolve_game_folder(const fs::path &game_path) {
     return {}; // Not found
 }
 
+// A NoNpDrm app (sce_sys/package/work.bin beside its encrypted PFS): decrypts it
+// in place with the zRIF made from work.bin, and keeps work.bin as the app's
+// license in ux0/license/<title id>/. Hands back work.bin and the zRIF, which
+// a patch that shares the app's license is decrypted with.
+static bool decrypt_nonpdrm_app(const fs::path &install_path, const fs::path &pref_path, const GameInstallResult &result,
+    std::vector<uint8_t> &work_bin_data, std::string &app_zRIF) {
+    const auto work_bin = install_path / "sce_sys" / "package" / "work.bin";
+    lr_log(RETRO_LOG_INFO, "Detected NoNpDrm encrypted content, decrypting PFS layer...\n");
+    {
+        char msg[256];
+        snprintf(msg, sizeof(msg), "Decrypting %s...", result.title.c_str());
+        lr_msg(msg, 600);
+    }
+
+    // Save work.bin before decryption (decryption replaces the directory)
+    {
+        std::ifstream wf(work_bin.string(), std::ios::binary);
+        work_bin_data.assign(std::istreambuf_iterator<char>(wf), std::istreambuf_iterator<char>());
+    }
+
+    std::string src_str = install_path.generic_string();
+    std::string dst_str = src_str + "_dec";
+
+    {
+        std::ifstream binfile(work_bin.string(), std::ios::in | std::ios::binary | std::ios::ate);
+        app_zRIF = rif2zrif(binfile);
+    }
+    F00DEncryptorTypes f00d_enc_type = F00DEncryptorTypes::native;
+    std::string f00d_arg;
+
+    lr_log(RETRO_LOG_INFO, "Running PFS decryption: %s -> %s\n", src_str.c_str(), dst_str.c_str());
+    lr_log(RETRO_LOG_DEBUG, "zRIF length: %d, work.bin size: %d bytes\n", (int)app_zRIF.size(), (int)work_bin_data.size());
+    int dec_result = execute(app_zRIF, src_str, dst_str, f00d_enc_type, f00d_arg);
+    if (dec_result < 0) {
+        lr_log(RETRO_LOG_ERROR, "PFS decryption failed (error %d)!\n", dec_result);
+        lr_msg("NoNpDrm decryption failed!", 300);
+        fs::path dst_path(dst_str);
+        if (fs::exists(dst_path))
+            fs::remove_all(dst_path);
+        return false;
+    }
+
+    lr_log(RETRO_LOG_INFO, "PFS decryption succeeded, replacing encrypted files...\n");
+    try {
+        fs::remove_all(install_path);
+        fs::rename(fs::path(dst_str), install_path);
+    } catch (const fs::filesystem_error &e) {
+        lr_log(RETRO_LOG_ERROR, "Failed to replace decrypted files: %s\n", e.what());
+        return false;
+    }
+
+    // Copy license to ux0/license/{title_id}/{content_id}.rif
+    const auto license_dir = pref_path / "ux0" / "license" / result.title_id;
+    fs::create_directories(license_dir);
+    try {
+        // Save as {content_id}.rif (what get_license() expects)
+        std::string lic_filename = result.content_id.empty() ? "work.bin" : (result.content_id + ".rif");
+        const auto dst_license = license_dir / lic_filename;
+        std::ofstream lf(dst_license.string(), std::ios::binary);
+        lf.write(reinterpret_cast<const char *>(work_bin_data.data()), work_bin_data.size());
+        lr_log(RETRO_LOG_INFO, "License saved to: %s\n", dst_license.generic_string().c_str());
+        // Also save as work.bin for compatibility
+        const auto dst_workbin = license_dir / "work.bin";
+        if (dst_license != dst_workbin) {
+            std::ofstream wf(dst_workbin.string(), std::ios::binary);
+            wf.write(reinterpret_cast<const char *>(work_bin_data.data()), work_bin_data.size());
+        }
+    } catch (const std::exception &e) {
+        lr_log(RETRO_LOG_DEBUG, "License copy failed: %s\n", e.what());
+    }
+
+    lr_log(RETRO_LOG_INFO, "NoNpDrm app decryption completed.\n");
+    return true;
+}
+
+// An install left encrypted: its PFS and license are still in the app folder,
+// as an earlier install that did not decrypt it left them
+static bool install_still_encrypted(const fs::path &path) {
+    return fs::exists(path / "sce_pfs") && fs::exists(path / "sce_sys" / "package" / "work.bin");
+}
+
 // Handle an extracted game folder (NoNpDrm dump, extracted VPK, etc.)
 static GameInstallResult handle_folder_game(const fs::path &game_path, const fs::path &pref_path, int sys_lang) {
     GameInstallResult result;
@@ -507,7 +588,7 @@ static GameInstallResult handle_folder_game(const fs::path &game_path, const fs:
     // Check if this specific content is already installed
     if (fs::exists(install_path) && !fs::is_empty(install_path)) {
         if (app_info.app_category.find("gd") != std::string::npos
-            && fs::exists(app_path / "eboot.bin")) {
+            && fs::exists(app_path / "eboot.bin") && !install_still_encrypted(app_path)) {
             lr_log(RETRO_LOG_INFO, "Game '%s' [%s] is already installed.\n",
                 result.title.c_str(), result.title_id.c_str());
             result.success = true;
@@ -562,73 +643,8 @@ static GameInstallResult handle_folder_game(const fs::path &game_path, const fs:
     std::vector<uint8_t> work_bin_data; // saved for patch decrypt
     std::string app_zRIF; // saved for patch decrypt
 
-    if (is_nonpdrm) {
-        lr_log(RETRO_LOG_INFO, "Detected NoNpDrm encrypted content, decrypting PFS layer...\n");
-        {
-            char msg[256];
-            snprintf(msg, sizeof(msg), "Decrypting %s...", result.title.c_str());
-            lr_msg(msg, 600);
-        }
-
-        // Save work.bin before decryption (decryption replaces the directory)
-        {
-            std::ifstream wf(work_bin.string(), std::ios::binary);
-            work_bin_data.assign(std::istreambuf_iterator<char>(wf), std::istreambuf_iterator<char>());
-        }
-
-        std::string src_str = install_path.generic_string();
-        std::string dst_str = src_str + "_dec";
-
-        {
-            std::ifstream binfile(work_bin.string(), std::ios::in | std::ios::binary | std::ios::ate);
-            app_zRIF = rif2zrif(binfile);
-        }
-        F00DEncryptorTypes f00d_enc_type = F00DEncryptorTypes::native;
-        std::string f00d_arg;
-
-        lr_log(RETRO_LOG_INFO, "Running PFS decryption: %s -> %s\n", src_str.c_str(), dst_str.c_str());
-        lr_log(RETRO_LOG_DEBUG, "zRIF length: %d, work.bin size: %d bytes\n", (int)app_zRIF.size(), (int)work_bin_data.size());
-        int dec_result = execute(app_zRIF, src_str, dst_str, f00d_enc_type, f00d_arg);
-        if (dec_result < 0) {
-            lr_log(RETRO_LOG_ERROR, "PFS decryption failed (error %d)!\n", dec_result);
-            lr_msg("NoNpDrm decryption failed!", 300);
-            fs::path dst_path(dst_str);
-            if (fs::exists(dst_path))
-                fs::remove_all(dst_path);
-            return result;
-        }
-
-        lr_log(RETRO_LOG_INFO, "PFS decryption succeeded, replacing encrypted files...\n");
-        try {
-            fs::remove_all(install_path);
-            fs::rename(fs::path(dst_str), install_path);
-        } catch (const fs::filesystem_error &e) {
-            lr_log(RETRO_LOG_ERROR, "Failed to replace decrypted files: %s\n", e.what());
-            return result;
-        }
-
-        // Copy license to ux0/license/{title_id}/{content_id}.rif
-        const auto license_dir = pref_path / "ux0" / "license" / result.title_id;
-        fs::create_directories(license_dir);
-        try {
-            // Save as {content_id}.rif (what get_license() expects)
-            std::string lic_filename = result.content_id.empty() ? "work.bin" : (result.content_id + ".rif");
-            const auto dst_license = license_dir / lic_filename;
-            std::ofstream lf(dst_license.string(), std::ios::binary);
-            lf.write(reinterpret_cast<const char *>(work_bin_data.data()), work_bin_data.size());
-            lr_log(RETRO_LOG_INFO, "License saved to: %s\n", dst_license.generic_string().c_str());
-            // Also save as work.bin for compatibility
-            const auto dst_workbin = license_dir / "work.bin";
-            if (dst_license != dst_workbin) {
-                std::ofstream wf(dst_workbin.string(), std::ios::binary);
-                wf.write(reinterpret_cast<const char *>(work_bin_data.data()), work_bin_data.size());
-            }
-        } catch (const std::exception &e) {
-            lr_log(RETRO_LOG_DEBUG, "License copy failed: %s\n", e.what());
-        }
-
-        lr_log(RETRO_LOG_INFO, "NoNpDrm app decryption completed.\n");
-    }
+    if (is_nonpdrm && !decrypt_nonpdrm_app(install_path, pref_path, result, work_bin_data, app_zRIF))
+        return result;
 
     // ── Step C: Copy and decrypt patch ─────────────────────────────────────
     bool patch_decrypted = false;
@@ -1059,7 +1075,7 @@ GameInstallResult ensure_game_installed(const fs::path &game_path, const fs::pat
 
     // Check if this specific content is already installed
     if (fs::exists(output_path) && !fs::is_empty(output_path)) {
-        if (app_info.app_category.find("gd") != std::string::npos) {
+        if (app_info.app_category.find("gd") != std::string::npos && !install_still_encrypted(output_path)) {
             // Game: skip if already installed
             lr_log(RETRO_LOG_INFO, "Game '%s' [%s] is already installed.\n",
                 result.title.c_str(), result.title_id.c_str());
@@ -1138,13 +1154,13 @@ GameInstallResult ensure_game_installed(const fs::path &game_path, const fs::pat
 
     fclose(fp);
 
-    // Handle NonPDRM decryption if needed
-    if (fs::exists(output_path / "sce_sys/package/work.bin") && result.title_id.starts_with("PCS")) {
-        lr_log(RETRO_LOG_INFO, "NonPDRM content detected, attempting decryption...\n");
-        lr_log(RETRO_LOG_WARN, "NonPDRM decryption in libretro requires EmuEnvState (deferred to load time)\n");
-        // NonPDRM decryption requires EmuEnvState which we may not have yet.
-        // This will be handled during the actual game load process.
-        // For now, mark the install as successful - the decryption happens later.
+    // A NoNpDrm game is decrypted now, as a folder of one is
+    if (app_info.app_category.find("gd") != std::string::npos
+        && fs::exists(output_path / "sce_sys" / "package" / "work.bin")) {
+        std::vector<uint8_t> work_bin_data;
+        std::string app_zRIF;
+        if (!decrypt_nonpdrm_app(output_path, pref_path, result, work_bin_data, app_zRIF))
+            return result;
     }
 
     // Handle patch copy (gp category moves files into app dir)

@@ -32,6 +32,7 @@
 #include <display/functions.h>
 #include <display/state.h>
 #include <emuenv/state.h>
+#include <gxm/functions.h>
 #include <gxm/state.h>
 #include <io/state.h>
 #include <kernel/state.h>
@@ -1035,6 +1036,17 @@ static void request_guest_shutdown(EmuEnvState &emuenv, const char *reason) {
     // ports are stopped, which upstream's shutdown_app_runtime does first too
     emuenv.audio.stop_all_ports();
 
+    // GXM stopped before the guest threads, in upstream's order
+    // (shutdown_app_runtime: gxm::shutdown, then process_exit): it wakes the
+    // display thread and everything waiting on GXM sync objects
+    if (emuenv.renderer) {
+        emuenv.renderer->should_display = true;
+        gxm::shutdown(emuenv);
+    } else {
+        emuenv.display.abort = true;
+        emuenv.gxm.display_queue.abort();
+    }
+
     emuenv.kernel.exit_delete_all_threads();
     lr_log(RETRO_LOG_INFO, "Guest shutdown (%s): exit_delete_all_threads issued\n", shutdown_reason);
 
@@ -1075,19 +1087,13 @@ static void request_guest_shutdown(EmuEnvState &emuenv, const char *reason) {
         shutdown_reason,
         guest_thread_count_after);
 
-    emuenv.gxm.display_queue.abort();
-    lr_log(RETRO_LOG_INFO, "Guest shutdown (%s): gxm display queue aborted\n", shutdown_reason);
-
-    emuenv.display.abort = true;
-    lr_log(RETRO_LOG_INFO, "Guest shutdown (%s): display.abort set to true\n", shutdown_reason);
-
-    if (emuenv.renderer) {
-        emuenv.renderer->should_display = true;
-        emuenv.renderer->notification_ready.notify_all();
-        lr_log(RETRO_LOG_INFO, "Guest shutdown (%s): renderer notifications broadcast\n", shutdown_reason);
-    } else {
-        lr_log(RETRO_LOG_INFO, "Guest shutdown (%s): renderer already null\n", shutdown_reason);
-    }
+    // GXM's display thread joined, as GxmState::deinit does at the end of
+    // upstream's shutdown_app_runtime: only aborted, it was still joinable
+    // when EmuEnvState was freed and std::thread's destructor ended RetroArch
+    // at close (sco, tombstone_13)
+    if (emuenv.gxm.display_host_thread.joinable())
+        emuenv.gxm.display_host_thread.join();
+    lr_log(RETRO_LOG_INFO, "Guest shutdown (%s): gxm display thread joined\n", shutdown_reason);
 
     {
         std::lock_guard<std::mutex> lock(libretro.rendered_frame_mutex);
