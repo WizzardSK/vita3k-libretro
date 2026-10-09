@@ -174,7 +174,7 @@ static struct retro_core_option_v2_definition option_definitions[] = {
         "vita3k_pkg_mode",
         "Game Preload",
         NULL,
-        "How a game's PKG is run. Install (default, as Vita3K does): the whole game is decrypted and installed into ux0/app the first time, which takes as long as the game is big and uses its size on disk. Persistent Cache: the game starts in seconds and is read straight out of the PKG, decrypted as it is read; every part read is also kept in system/vita3k/cache/pkg and read from there the next time, and parts never read take no space. Run Without Installing: the same without keeping anything - only the game's metadata, executables and small files are written out, and removed when the game is closed. A game installed already runs from its installation either way. Updates and DLC are always installed.",
+        "Install: decrypted into ux0/app once, like Vita3K. Persistent Cache: started at once and read out of the PKG; what is read is kept for next time. Run Without Installing: the same, keeping nothing. With either, an update or DLC PKG in the game's folder is used without installing.",
         NULL,
         "system",
         {
