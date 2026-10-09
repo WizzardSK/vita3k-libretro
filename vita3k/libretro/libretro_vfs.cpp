@@ -71,6 +71,11 @@ int vfs_close(void *c) {
 int apple_read(void *c, char *buf, int size) { return static_cast<int>(vfs_read(c, buf, size)); }
 int apple_write(void *c, const char *buf, int size) { return static_cast<int>(vfs_write(c, buf, size)); }
 fpos_t apple_seek(void *c, fpos_t offset, int whence) { return vfs_seek(c, offset, whence); }
+#elif defined(__ANDROID__)
+// bionic has fopencookie only from API 32; funopen64 from 24
+int bionic_read(void *c, char *buf, int size) { return static_cast<int>(vfs_read(c, buf, size)); }
+int bionic_write(void *c, const char *buf, int size) { return static_cast<int>(vfs_write(c, buf, size)); }
+off64_t bionic_seek(void *c, off64_t offset, int whence) { return vfs_seek(c, offset, whence); }
 #else
 ssize_t cookie_read(void *c, char *buf, size_t size) { return vfs_read(c, buf, size); }
 ssize_t cookie_write(void *c, const char *buf, size_t size) { return vfs_write(c, buf, size); }
@@ -100,6 +105,8 @@ static FILE *lr_vfs_fopen(const char *path, const char *mode) {
     VfsCookie *cookie = new VfsCookie{ handle };
 #if defined(__APPLE__)
     FILE *file = funopen(cookie, apple_read, apple_write, apple_seek, vfs_close);
+#elif defined(__ANDROID__)
+    FILE *file = funopen64(cookie, bionic_read, bionic_write, bionic_seek, vfs_close);
 #else
     cookie_io_functions_t io{ cookie_read, cookie_write, cookie_seek, vfs_close };
     FILE *file = fopencookie(cookie, mode, io);
