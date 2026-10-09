@@ -9,7 +9,7 @@ on:
   workflow_dispatch:
     inputs:
       platforms:
-        description: 'Platforms to build besides Linux, comma-separated (windows, android, macos), or all'
+        description: 'Platforms to build, comma-separated (linux, windows, android, macos), or all'
         type: string
         default: all
   push:
@@ -19,9 +19,8 @@ on:
 
 jobs:
   # Which of the platforms below to build: all of them on a push, on a
-  # dispatch only Linux (always, as a quick check that it compiles) and the
-  # ones named in the platforms input, so a test build is for its testers'
-  # platforms. The list is JSON because a matrix cannot be filtered in YAML.
+  # dispatch the ones named in the platforms input, so a test build is for
+  # its testers' platforms. The list is JSON because a matrix cannot be filtered in YAML.
   # Android: the core alone, built with CMake and the NDK as upstream's gradle
   # build does for the app; the libraries from vcpkg, as upstream. macOS:
   # upstream's presets, Apple clang, Boost and OpenSSL built here; x86_64
@@ -36,7 +35,7 @@ jobs:
           PLATFORMS: ${{ github.event_name == 'workflow_dispatch' && inputs.platforms || 'all' }}
           ALL: '[{"name": "Linux x86_64", "runs_on": "ubuntu-24.04", "artifact": "vita3k_libretro-linux-x86_64", "preset": "linux-ninja-clang", "platform": "linux"}, {"name": "Linux aarch64", "runs_on": "ubuntu-24.04-arm", "artifact": "vita3k_libretro-linux-aarch64", "preset": "linux-ninja-clang", "platform": "linux"}, {"name": "Windows x86_64", "runs_on": "windows-latest", "artifact": "vita3k_libretro-windows-x86_64", "preset": "windows-ninja", "vcpkg_triplet": "x64-windows-static-md", "platform": "windows"}, {"name": "Android arm64", "runs_on": "ubuntu-latest", "artifact": "vita3k_libretro-android-arm64", "android": true, "android_abi": "arm64-v8a", "vcpkg_triplet": "arm64-android", "platform": "android"}, {"name": "Android x86_64", "runs_on": "ubuntu-latest", "artifact": "vita3k_libretro-android-x86_64", "android": true, "android_abi": "x86_64", "vcpkg_triplet": "x64-android", "platform": "android"}, {"name": "macOS arm64", "runs_on": "macos-15", "artifact": "vita3k_libretro-macos-arm64", "preset": "ci-macos-arm64", "platform": "macos"}, {"name": "macOS x86_64", "runs_on": "macos-15", "artifact": "vita3k_libretro-macos-x86_64", "preset": "ci-macos-x64", "platform": "macos"}]'
         run: |
-          echo "include=$(jq -c --arg sel "$PLATFORMS" '[.[] | . as $e | select($sel == "all" or $e.platform == "linux" or (($sel | ascii_downcase | split(",") | map(gsub(" "; "")) | index($e.platform)) != null))]' <<< "$ALL")" >> "$GITHUB_OUTPUT"
+          echo "include=$(jq -c --arg sel "$PLATFORMS" '[.[] | . as $e | select($sel == "all" or (($sel | ascii_downcase | split(",") | map(gsub(" "; "")) | index($e.platform)) != null))]' <<< "$ALL")" >> "$GITHUB_OUTPUT"
 
   build:
     needs: plan
