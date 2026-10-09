@@ -62,7 +62,7 @@ constexpr bool log_file_read = false;
 constexpr bool log_file_seek = false;
 constexpr bool log_file_stat = false;
 
-FILE *(*open_file_hook)(const fs::path &path, int open_mode) = nullptr;
+std::shared_ptr<ServedFile> (*open_file_hook)(const fs::path &path, int open_mode) = nullptr;
 
 namespace vfs {
 

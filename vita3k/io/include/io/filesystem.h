@@ -25,14 +25,23 @@
 
 #include <dirent.h>
 
+#include <cstdint>
 #include <memory>
 
 typedef std::shared_ptr<FILE> FilePtr;
 
-// A FILE* the libretro core serves for a host path in place of the file on
+// A file the libretro core serves for a host path in place of the one on
 // disk (a game's PKG run without installing it: the file decrypted as it is
-// read); null when the path is not one of its own
-extern FILE *(*open_file_hook)(const fs::path &path, int open_mode);
+// read). Read-only; FileStats reads, seeks and tells through it.
+struct ServedFile {
+    virtual ~ServedFile() = default;
+    // Bytes read, or -1
+    virtual std::int64_t read(void *data, std::size_t size) = 0;
+    // The new position, or -1. whence is SEEK_SET, SEEK_CUR or SEEK_END
+    virtual std::int64_t seek(std::int64_t offset, int whence) = 0;
+};
+// Null when the path is not one of the core's own
+extern std::shared_ptr<ServedFile> (*open_file_hook)(const fs::path &path, int open_mode);
 
 // For opening Boost.Filesystem files, Boost returns wide strings for Windows, normal strings for other OS
 // Dirent and FILE only accept and return wide char strings for Windows, and normal for other OS
@@ -40,9 +49,6 @@ extern FILE *(*open_file_hook)(const fs::path &path, int open_mode);
 const wchar_t *translate_open_mode(const int flags);
 
 inline FilePtr create_shared_file(const fs::path &path, const int open_mode) {
-    if (open_file_hook)
-        if (FILE *served = open_file_hook(path, open_mode))
-            return FilePtr(served, std::fclose);
     const auto file = _wfopen(path.generic_path().wstring().c_str(), translate_open_mode(open_mode));
     return file ? FilePtr(file, std::fclose) : FilePtr();
 }
@@ -64,9 +70,6 @@ inline _wdirent *get_system_dir_ptr(const DirPtr &dir) {
 const char *translate_open_mode(const int flags);
 
 inline FilePtr create_shared_file(const fs::path &path, const int open_mode) {
-    if (open_file_hook)
-        if (FILE *served = open_file_hook(path, open_mode))
-            return FilePtr(served, std::fclose);
     const auto file = fopen(path.generic_path().string().c_str(), translate_open_mode(open_mode));
     return file ? FilePtr(file, std::fclose) : FilePtr();
 }

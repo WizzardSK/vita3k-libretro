@@ -3,6 +3,7 @@
 #include "libretro_state.h"
 
 #include <io/filesystem.h>
+#include <io/util.h>
 #include <io/vfs.h>
 #include <packages/pkg.h>
 #include <util/bytes.h>
@@ -31,10 +32,6 @@
 #include <set>
 #include <sstream>
 #include <vector>
-
-#if !defined(_WIN32)
-#include <sys/types.h>
-#endif
 
 namespace lazy_pkg {
 
@@ -283,11 +280,6 @@ bool Mount::materialize(Pending &p) {
 }
 
 bool Mount::streamable(const Pending &p) const {
-#if defined(_WIN32)
-    // No FILE* over our own reads there (no fopencookie or funopen)
-    (void)p;
-    return false;
-#else
     if (!p.file || !is_encrypted(p.file->file.m_info.header.type))
         return true;
     if (!p.table)
@@ -296,7 +288,6 @@ bool Mount::streamable(const Pending &p) const {
     const auto mode_index = img_spec_to_mode_index(ngpfs.image_spec);
     const auto db_type = settings_to_db_type(mode_index, p.file->file.m_info.get_original_type());
     return db_type_to_is_unicv(db_type);
-#endif
 }
 
 // What PfsFile::decrypt_unicv_file does for each block of a file, for one
@@ -377,11 +368,11 @@ bool Mount::decrypt_block(const Pending &p, std::uint32_t index, std::vector<std
     return work.error >= 0;
 }
 
-#if !defined(_WIN32)
-// A pending file read straight out of the PKG: FILE* over the blocks it
-// decrypts, the last few kept. Holds the mount, so a file the game still has
-// open outlives unmount().
-struct Stream {
+// A pending file read straight out of the PKG: what FileStats reads through
+// in place of the file on disk (open_file_hook), decrypting the blocks it is
+// asked for and keeping the last few. Holds the mount, so a file the game
+// still has open outlives unmount().
+struct Stream final : ServedFile {
     std::shared_ptr<Mount> mount;
     Mount::Pending pending;
     std::uint64_t position = 0;
@@ -411,101 +402,60 @@ struct Stream {
         cache.push_back(std::move(c));
         return &cache.back().data;
     }
+
+    std::int64_t read(void *data, std::size_t size) override {
+        char *buf = static_cast<char *>(data);
+        const std::uint64_t file_size = pending.entry->size;
+        std::size_t done = 0;
+        while (done < size && position < file_size) {
+            const std::uint32_t index = static_cast<std::uint32_t>(position / block_bytes);
+            const std::vector<std::uint8_t> *bytes = block(index);
+            if (!bytes)
+                return done ? static_cast<std::int64_t>(done) : -1;
+            const std::uint64_t in_block = position - std::uint64_t(index) * block_bytes;
+            if (in_block >= bytes->size())
+                break;
+            const std::size_t n = static_cast<std::size_t>(std::min<std::uint64_t>(size - done, bytes->size() - in_block));
+            memcpy(buf + done, bytes->data() + in_block, n);
+            done += n;
+            position += n;
+        }
+        return static_cast<std::int64_t>(done);
+    }
+
+    std::int64_t seek(std::int64_t offset, int whence) override {
+        const std::int64_t base = whence == SEEK_SET ? 0
+            : whence == SEEK_CUR                     ? static_cast<std::int64_t>(position)
+                                                     : static_cast<std::int64_t>(pending.entry->size);
+        if (base + offset < 0)
+            return -1;
+        position = static_cast<std::uint64_t>(base + offset);
+        return static_cast<std::int64_t>(position);
+    }
 };
 
-std::int64_t stream_read(void *c, char *buf, std::size_t size) {
-    Stream *s = static_cast<Stream *>(c);
-    const std::uint64_t file_size = s->pending.entry->size;
-    std::size_t done = 0;
-    while (done < size && s->position < file_size) {
-        const std::uint32_t index = static_cast<std::uint32_t>(s->position / s->block_bytes);
-        const std::vector<std::uint8_t> *data = s->block(index);
-        if (!data)
-            return done ? static_cast<std::int64_t>(done) : -1;
-        const std::uint64_t in_block = s->position - std::uint64_t(index) * s->block_bytes;
-        if (in_block >= data->size())
-            break;
-        const std::size_t n = static_cast<std::size_t>(std::min<std::uint64_t>(size - done, data->size() - in_block));
-        memcpy(buf + done, data->data() + in_block, n);
-        done += n;
-        s->position += n;
-    }
-    return static_cast<std::int64_t>(done);
-}
-
-std::int64_t stream_seek(void *c, std::int64_t offset, int whence) {
-    Stream *s = static_cast<Stream *>(c);
-    std::int64_t base = whence == SEEK_SET ? 0 : whence == SEEK_CUR ? static_cast<std::int64_t>(s->position) : static_cast<std::int64_t>(s->pending.entry->size);
-    if (base + offset < 0)
-        return -1;
-    s->position = static_cast<std::uint64_t>(base + offset);
-    return static_cast<std::int64_t>(s->position);
-}
-
-int stream_close(void *c) {
-    delete static_cast<Stream *>(c);
-    return 0;
-}
-
-#if defined(__APPLE__)
-int apple_read(void *c, char *buf, int size) { return static_cast<int>(stream_read(c, buf, size)); }
-fpos_t apple_seek(void *c, fpos_t offset, int whence) { return stream_seek(c, offset, whence); }
-#elif defined(__ANDROID__)
-// bionic has fopencookie only from API 32; funopen64 from 24
-int bionic_read(void *c, char *buf, int size) { return static_cast<int>(stream_read(c, buf, size)); }
-off64_t bionic_seek(void *c, off64_t offset, int whence) { return stream_seek(c, offset, whence); }
-#else
-ssize_t cookie_read(void *c, char *buf, size_t size) { return stream_read(c, buf, size); }
-int cookie_seek(void *c, off64_t *offset, int whence) {
-    const std::int64_t position = stream_seek(c, *offset, whence);
-    if (position < 0)
-        return -1;
-    *offset = position;
-    return 0;
-}
-#endif
-
-bool read_only(int open_mode) {
-    const char *mode = translate_open_mode(open_mode);
-    return mode && !std::strchr(mode, 'w') && !std::strchr(mode, 'a') && !std::strchr(mode, '+');
-}
-
 // open_file_hook: a pending file opened to read is served from the PKG
-FILE *on_open_file(const fs::path &host, int open_mode) {
+std::shared_ptr<ServedFile> on_open_file(const fs::path &host, int open_mode) {
     std::shared_ptr<Mount> m = s_mount;
-    if (!m || !read_only(open_mode))
+    if (!m || can_write(open_mode))
         return nullptr;
-    Stream *s = nullptr;
-    {
-        std::lock_guard lock(m->mutex);
-        auto it = m->pending.find(upper(host.lexically_normal().generic_string()));
-        if (it == m->pending.end() || !m->streamable(it->second))
-            return nullptr;
-        s = new Stream;
-        s->mount = m;
-        s->pending = it->second;
-        if (!s->pending.file || !is_encrypted(s->pending.file->file.m_info.header.type))
-            s->block_bytes = 1 << 20;
-        else {
-            const auto header = s->pending.table->get_header();
-            s->block_bytes = header->get_numSectors() <= header->get_binTreeNumMaxAvail()
-                ? std::max<std::uint64_t>(s->pending.entry->size, 1)
-                : std::uint64_t(header->get_binTreeNumMaxAvail()) * header->get_fileSectorSize();
-        }
+    std::lock_guard lock(m->mutex);
+    auto it = m->pending.find(upper(host.lexically_normal().generic_string()));
+    if (it == m->pending.end() || !m->streamable(it->second))
+        return nullptr;
+    auto s = std::make_shared<Stream>();
+    s->mount = m;
+    s->pending = it->second;
+    if (!s->pending.file || !is_encrypted(s->pending.file->file.m_info.header.type))
+        s->block_bytes = 1 << 20;
+    else {
+        const auto header = s->pending.table->get_header();
+        s->block_bytes = header->get_numSectors() <= header->get_binTreeNumMaxAvail()
+            ? std::max<std::uint64_t>(s->pending.entry->size, 1)
+            : std::uint64_t(header->get_binTreeNumMaxAvail()) * header->get_fileSectorSize();
     }
-#if defined(__APPLE__)
-    FILE *file = funopen(s, apple_read, nullptr, apple_seek, stream_close);
-#elif defined(__ANDROID__)
-    FILE *file = funopen64(s, bionic_read, nullptr, bionic_seek, stream_close);
-#else
-    cookie_io_functions_t io{ cookie_read, nullptr, cookie_seek, stream_close };
-    FILE *file = fopencookie(s, "rb", io);
-#endif
-    if (!file)
-        stream_close(s);
-    return file;
+    return s;
 }
-#endif
 
 void on_host_file(const fs::path &host) {
     Mount *m = s_mount.get();
@@ -534,12 +484,8 @@ void on_host_open(const fs::path &host, int open_mode) {
         auto it = m->pending.find(upper(host.lexically_normal().generic_string()));
         if (it == m->pending.end())
             return;
-#if !defined(_WIN32)
-        if (read_only(open_mode) && m->streamable(it->second))
+        if (!can_write(open_mode) && m->streamable(it->second))
             return;
-#else
-        (void)open_mode;
-#endif
     }
     on_host_file(host);
 }
@@ -676,9 +622,7 @@ bool mount(const fs::path &pkg_path, const fs::path &app_dir, const std::string 
     s_mount = std::move(m);
     vfs::host_file_hook = on_host_file;
     vfs::host_open_hook = on_host_open;
-#if !defined(_WIN32)
     open_file_hook = on_open_file;
-#endif
     return true;
 }
 

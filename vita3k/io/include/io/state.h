@@ -28,12 +28,17 @@
 class FileStats : public VitaStats {
     // Shared file pointer
     FilePtr wrapped_file;
+    // Or the file the libretro core serves in its place (open_file_hook)
+    std::shared_ptr<ServedFile> served_file;
 
 public:
     // Constructor used for files
     // Based on https://codereview.stackexchange.com/questions/4679/
     explicit FileStats(const char *vita, const std::string &t, const fs::path &file, const int open) {
-        wrapped_file = create_shared_file(file, open);
+        if (open_file_hook)
+            served_file = open_file_hook(file, open);
+        if (!served_file)
+            wrapped_file = create_shared_file(file, open);
 
         file_info.vita_loc = vita;
         file_info.translated = t;
