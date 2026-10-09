@@ -28,6 +28,7 @@ struct PkgInfo {
     std::string title_id;
     std::string category;
     std::string version;
+    std::string content_id;
 };
 bool pkg_info(const fs::path &pkg_path, PkgInfo &info);
 
@@ -35,6 +36,10 @@ bool pkg_info(const fs::path &pkg_path, PkgInfo &info);
 // (decrypted as they are read, with the game's license) in place of the
 // game's, nothing installed
 bool mount_update(const fs::path &pkg_path, const std::string &zrif, std::string &error);
+
+// A DLC's PKG laid out in ux0/addcont/<title id>/<DLC id> the same way, read
+// out of its PKG with its own license; not if that DLC is installed already
+bool mount_dlc(const fs::path &pkg_path, const std::string &content_id, const std::string &zrif, std::string &error);
 
 // Removes what mount() laid out, and stops decrypting on open
 void unmount();

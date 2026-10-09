@@ -99,6 +99,9 @@ public:
             fclose(m_file);
     }
 
+    // Also a DLC's PKG (content type 0x16), for mount_dlc and pkg_info
+    bool allow_dlc = false;
+
     bool open(const fs::path &path, std::string &error) {
         m_file = FOPEN(path.c_str(), "rb");
         if (!m_file) {
@@ -134,7 +137,7 @@ public:
             }
             info_offset += 2 * sizeof(std::uint32_t) + size;
         }
-        if (content_type != 0x15) {
+        if (content_type != 0x15 && !(allow_dlc && content_type == 0x16)) {
             error = "not a game's PKG (an update, DLC or theme is installed)";
             return false;
         }
@@ -290,6 +293,8 @@ struct Mount {
     // Persistent Cache (set_cache_root): one sparse file per PKG entry with
     // the blocks decrypted so far at their place, and a list of which
     fs::path cache_dir;
+    // A DLC's: says its folder in ux0/addcont is this run's, not an install
+    fs::path marker;
     struct DiskFile {
         bool loaded = false;
         std::set<std::uint32_t> blocks;
@@ -312,6 +317,18 @@ struct Mount {
 std::shared_ptr<Mount> s_mount;
 // Updates laid over the game (mount_update), each read out of its own PKG
 std::vector<std::shared_ptr<Mount>> s_layers;
+// DLC laid out lazily in ux0/addcont (mount_dlc), read where they lie
+std::vector<std::shared_ptr<Mount>> s_dlcs;
+
+// The DLC mount with a placeholder at key still to be read out of its PKG
+std::shared_ptr<Mount> dlc_pending(const std::string &key) {
+    for (const auto &dlc : s_dlcs) {
+        std::lock_guard lock(dlc->mutex);
+        if (dlc->pending.contains(key))
+            return dlc;
+    }
+    return nullptr;
+}
 fs::path s_cache_root;
 
 std::uint32_t fnv1a(const std::string &text) {
@@ -660,9 +677,30 @@ std::shared_ptr<ServedFile> on_open_file(const fs::path &host, int open_mode) {
         return f->file ? f : nullptr;
     }
     auto it = m->pending.find(key);
-    if (it == m->pending.end() || !m->streamable(it->second))
-        return nullptr;
-    return make_stream(m, it->second);
+    if (it != m->pending.end())
+        return m->streamable(it->second) ? make_stream(m, it->second) : nullptr;
+    if (std::shared_ptr<Mount> dlc = dlc_pending(key)) {
+        std::lock_guard dlc_lock(dlc->mutex);
+        auto d = dlc->pending.find(key);
+        if (d != dlc->pending.end() && dlc->streamable(d->second))
+            return make_stream(dlc, d->second);
+    }
+    return nullptr;
+}
+
+// A DLC's file decrypted in full where it lies
+void materialize_dlc(const std::string &key) {
+    std::shared_ptr<Mount> dlc = dlc_pending(key);
+    if (!dlc)
+        return;
+    std::lock_guard lock(dlc->mutex);
+    auto it = dlc->pending.find(key);
+    if (it == dlc->pending.end())
+        return;
+    Mount::Pending p = it->second;
+    dlc->pending.erase(it);
+    if (!dlc->materialize(p))
+        lr_log(RETRO_LOG_ERROR, "PKG: could not decrypt the DLC's %s\n", p.entry->name.c_str());
 }
 
 void on_host_file(const fs::path &host) {
@@ -674,8 +712,10 @@ void on_host_file(const fs::path &host) {
     if (m->take_redirect(key, host))
         return;
     auto it = m->pending.find(key);
-    if (it == m->pending.end())
+    if (it == m->pending.end()) {
+        materialize_dlc(key);
         return;
+    }
     Mount::Pending p = it->second;
     m->pending.erase(it);
     if (m->materialize(p))
@@ -699,8 +739,19 @@ void on_host_open(const fs::path &host, int open_mode) {
             return;
         }
         auto it = m->pending.find(key);
-        if (it == m->pending.end())
+        if (it == m->pending.end()) {
+            if (std::shared_ptr<Mount> dlc = dlc_pending(key)) {
+                bool stream = false;
+                {
+                    std::lock_guard dlc_lock(dlc->mutex);
+                    auto d = dlc->pending.find(key);
+                    stream = d != dlc->pending.end() && !can_write(open_mode) && dlc->streamable(d->second);
+                }
+                if (!stream)
+                    materialize_dlc(key);
+            }
             return;
+        }
         if (!can_write(open_mode) && m->streamable(it->second))
             return;
     }
@@ -711,8 +762,9 @@ void on_host_open(const fs::path &host, int open_mode) {
 // rest placeholders served out of the PKG. cache_name names its Persistent
 // Cache folder.
 std::shared_ptr<Mount> build(const fs::path &pkg_path, const fs::path &app_dir, const std::string &zrif,
-    const std::string &cache_name, std::string &error) {
+    const std::string &cache_name, std::string &error, bool allow_dlc = false) {
     auto m = std::make_shared<Mount>();
+    m->pkg.allow_dlc = allow_dlc;
     if (!m->pkg.open(pkg_path, error))
         return nullptr;
 
@@ -932,6 +984,7 @@ bool mount(const fs::path &pkg_path, const fs::path &app_dir, const std::string 
 
 bool pkg_info(const fs::path &pkg_path, PkgInfo &info) {
     PkgReader reader;
+    reader.allow_dlc = true;
     std::string error;
     if (!reader.open(pkg_path, error))
         return false;
@@ -940,7 +993,43 @@ bool pkg_info(const fs::path &pkg_path, PkgInfo &info) {
     info.title_id = sfo_info.app_title_id;
     info.category = sfo_info.app_category;
     info.version = sfo_info.app_version;
+    info.content_id = sfo_info.app_content_id;
     return !info.title_id.empty();
+}
+
+bool mount_dlc(const fs::path &pkg_path, const std::string &content_id, const std::string &zrif, std::string &error) {
+    if (!s_mount) {
+        error = "no game mounted";
+        return false;
+    }
+    const std::string title = s_mount->app_host.filename().string();
+    const std::string dlc_id = content_id.size() > 20 ? content_id.substr(20) : content_id;
+    const fs::path dir = s_mount->app_host.parent_path().parent_path() / "addcont" / title / dlc_id;
+    boost::system::error_code ec;
+    // Left by a run the frontend did not end (its marker still there): no
+    // installation, it goes
+    const fs::path marker = s_mount->app_host.parent_path().parent_path() / "libretro_pkg" / ("dlc_" + title + "_" + dlc_id);
+    if (fs::exists(marker, ec)) {
+        fs::remove_all(dir, ec);
+        fs::remove(marker, ec);
+    }
+    // Installed already: that installation is used
+    if (fs::exists(dir, ec)) {
+        error = "installed already";
+        return false;
+    }
+    std::shared_ptr<Mount> dlc = build(pkg_path, dir, zrif, title + "_" + dlc_id, error, true);
+    if (!dlc) {
+        fs::remove_all(dir, ec);
+        return false;
+    }
+    lr_log(RETRO_LOG_INFO, "PKG: DLC %s laid out in %s, read out of its PKG\n", pkg_path.generic_string().c_str(),
+        dir.generic_string().c_str());
+    fs::create_directories(marker.parent_path(), ec);
+    std::ofstream(marker.string()).put('\n');
+    dlc->marker = marker;
+    s_dlcs.push_back(std::move(dlc));
+    return true;
 }
 
 bool mount_update(const fs::path &pkg_path, const std::string &zrif, std::string &error) {
@@ -975,6 +1064,12 @@ void unmount() {
         fs::remove_all(layer->dec_host, ec);
     }
     s_layers.clear();
+    for (const auto &dlc : s_dlcs) {
+        fs::remove_all(dlc->app_host, ec);
+        fs::remove_all(dlc->dec_host, ec);
+        fs::remove(dlc->marker, ec);
+    }
+    s_dlcs.clear();
     if (!s_mount)
         return;
     fs::remove_all(s_mount->app_host, ec);

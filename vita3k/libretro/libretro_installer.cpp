@@ -826,7 +826,12 @@ static std::string license_to_zrif(const fs::path &license, const fs::path &pref
 // The game's update, if its PKG lies next to the game's (sco8487: everything
 // for a game in one folder): the newest one for this title ID laid over the
 // game, read out of its own PKG with the game's license - nothing installed
-static void mount_update_beside(const fs::path &pkg_path, const std::string &title_id, const std::string &zrif) {
+static std::string find_pkg_license(const fs::path &pkg_path, const fs::path &pref_path);
+
+// And its DLC from the same folder, each laid out in ux0/addcont the same way
+// with its own license (one installed already is used as it is)
+static void mount_update_beside(const fs::path &pkg_path, const std::string &title_id, const std::string &zrif,
+    const fs::path &pref_path) {
     const std::string game = pkg_path.generic_string();
     std::vector<std::string> candidates;
     if (lr_vfs_is_uri(game)) {
@@ -847,8 +852,23 @@ static void mount_update_beside(const fs::path &pkg_path, const std::string &tit
             || string_utils::tolower(candidate.substr(candidate.size() - 4)) != ".pkg")
             continue;
         lazy_pkg::PkgInfo info;
-        if (!lazy_pkg::pkg_info(fs::path(candidate), info) || info.title_id != title_id
-            || info.category.find("gp") == std::string::npos)
+        if (!lazy_pkg::pkg_info(fs::path(candidate), info) || info.title_id != title_id)
+            continue;
+        if (info.category.find("ac") != std::string::npos) {
+            const std::string dlc_zrif = find_pkg_license(fs::path(candidate), pref_path);
+            std::string error;
+            if (dlc_zrif.empty())
+                lr_log(RETRO_LOG_WARN, "PKG: DLC %s has no license next to it\n", candidate.c_str());
+            else if (lazy_pkg::mount_dlc(fs::path(candidate), info.content_id, dlc_zrif, error)) {
+                const fs::path lic_dir = pref_path / "ux0" / "license" / title_id;
+                fs::create_directories(lic_dir);
+                std::ofstream lic((lic_dir / (info.content_id + ".rif")).string(), std::ios::binary);
+                zrif2rif(dlc_zrif, lic);
+            } else
+                lr_log(RETRO_LOG_INFO, "PKG: DLC %s not laid out: %s\n", candidate.c_str(), error.c_str());
+            continue;
+        }
+        if (info.category.find("gp") == std::string::npos)
             continue;
         if (best.empty() || info.version > best_version) {
             best = candidate;
@@ -1009,7 +1029,7 @@ static GameInstallResult handle_pkg_game(const fs::path &pkg_path, const fs::pat
                 result.title = info.app_title;
                 result.category = info.app_category;
             }
-            mount_update_beside(pkg_path, title_id, zrif);
+            mount_update_beside(pkg_path, title_id, zrif, pref_path);
             return result;
         }
         fs::remove(lazy_marker);
