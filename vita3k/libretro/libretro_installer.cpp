@@ -984,6 +984,10 @@ static GameInstallResult handle_pkg_game(const fs::path &pkg_path, const fs::pat
     // PKG install crashed at 80%)
     emuenv->cache_path = pref_path / "cache";
     lr_msg("Installing PKG... this may take a while", 600);
+    // Whether the game this may be an update for is installed: Vita3K merges
+    // an update into the game's ux0/app folder, which for a game run without
+    // installing is laid out anew at each start and removed after
+    const bool game_installed = fs::exists(pref_path / "ux0" / "app" / title_id / "eboot.bin");
     const bool ok = install_pkg(pkg_path, *emuenv, zrif, [](float progress) {
         static int last = -1;
         const int pct = static_cast<int>(progress);
@@ -1006,6 +1010,24 @@ static GameInstallResult handle_pkg_game(const fs::path &pkg_path, const fs::pat
     result.title = emuenv->app_info.app_title;
     result.category = emuenv->app_info.app_category;
     result.content_id = emuenv->app_info.app_content_id;
+
+    // An update for a game that is not installed (run without installing, or
+    // not yet started): kept in ux0/patch/<title id> instead, where the next
+    // run without installing lays it over the game's files. Left in ux0/app
+    // it was removed with the game's files at the end of the run - and, with
+    // the update's eboot.bin there, taken for an installed game.
+    if (result.category.find("gp") != std::string::npos && !game_installed) {
+        const fs::path app = pref_path / "ux0" / "app" / result.title_id;
+        const fs::path patch = pref_path / "ux0" / "patch" / result.title_id;
+        boost::system::error_code ec;
+        fs::create_directories(patch, ec);
+        fs_utils::copy_directory_contents(app, patch);
+        fs::remove_all(app, ec);
+        lr_log(RETRO_LOG_INFO, "Update %s kept in %s for the game run without installing\n",
+            result.title.c_str(), patch.generic_string().c_str());
+        lr_msg("Update installed. It is applied when the game is started.", 600);
+        return result;
+    }
 
     // An update or DLC on its own does not start; the game it is for does,
     // if that is installed already

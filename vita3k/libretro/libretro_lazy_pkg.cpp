@@ -732,6 +732,26 @@ bool mount(const fs::path &pkg_path, const fs::path &app_dir, const std::string 
         }
     }
 
+    // An update kept for this game (ux0/patch/<title id>, see the installer):
+    // its files over the game's, and those are no longer read from the PKG
+    const fs::path patch_dir = app_dir.parent_path().parent_path() / "patch" / app_dir.filename();
+    if (fs::is_directory(patch_dir, ec)) {
+        unsigned replaced = 0;
+        for (fs::recursive_directory_iterator it(patch_dir, ec), end; it != end; it.increment(ec)) {
+            if (ec)
+                break;
+            if (!fs::is_regular_file(it->path(), ec))
+                continue;
+            const fs::path rel = it->path().lexically_relative(patch_dir);
+            const fs::path to = app_dir / rel;
+            fs::create_directories(to.parent_path(), ec);
+            fs::copy_file(it->path(), to, fs::copy_options::overwrite_existing, ec);
+            m->pending.erase(upper(to.lexically_normal().generic_string()));
+            replaced++;
+        }
+        lr_log(RETRO_LOG_INFO, "PKG: update from %s laid over the game, %u files\n", patch_dir.generic_string().c_str(), replaced);
+    }
+
     lr_log(RETRO_LOG_INFO, "PKG: running without installing, %u of %u files decrypted at start\n",
         static_cast<unsigned>(m->pkg.entries().size() - m->pending.size()), static_cast<unsigned>(m->pkg.entries().size()));
     if (!s_cache_root.empty()) {
