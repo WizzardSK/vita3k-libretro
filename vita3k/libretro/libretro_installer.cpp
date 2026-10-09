@@ -823,6 +823,47 @@ static std::string license_to_zrif(const fs::path &license, const fs::path &pref
     return zrif;
 }
 
+// The game's update, if its PKG lies next to the game's (sco8487: everything
+// for a game in one folder): the newest one for this title ID laid over the
+// game, read out of its own PKG with the game's license - nothing installed
+static void mount_update_beside(const fs::path &pkg_path, const std::string &title_id, const std::string &zrif) {
+    const std::string game = pkg_path.generic_string();
+    std::vector<std::string> candidates;
+    if (lr_vfs_is_uri(game)) {
+        const size_t slash = game.find_last_of('/');
+        if (slash != std::string::npos)
+            candidates = lr_vfs_list(game.substr(0, slash));
+    } else {
+        boost::system::error_code ec;
+        for (fs::directory_iterator it(pkg_path.parent_path(), ec), end; it != end; it.increment(ec)) {
+            if (ec)
+                break;
+            candidates.push_back(it->path().generic_string());
+        }
+    }
+    std::string best, best_version;
+    for (const std::string &candidate : candidates) {
+        if (candidate == game || candidate.size() < 4
+            || string_utils::tolower(candidate.substr(candidate.size() - 4)) != ".pkg")
+            continue;
+        lazy_pkg::PkgInfo info;
+        if (!lazy_pkg::pkg_info(fs::path(candidate), info) || info.title_id != title_id
+            || info.category.find("gp") == std::string::npos)
+            continue;
+        if (best.empty() || info.version > best_version) {
+            best = candidate;
+            best_version = info.version;
+        }
+    }
+    if (best.empty())
+        return;
+    std::string error;
+    if (lazy_pkg::mount_update(fs::path(best), zrif, error))
+        lr_log(RETRO_LOG_INFO, "PKG: update %s (version %s) laid over the game\n", best.c_str(), best_version.c_str());
+    else
+        lr_log(RETRO_LOG_WARN, "PKG: update %s could not be laid over the game: %s\n", best.c_str(), error.c_str());
+}
+
 static std::string find_pkg_license(const fs::path &pkg_path, const fs::path &pref_path) {
     std::string zrif = find_pkg_zrif(pkg_path, pref_path);
     if (!zrif.empty())
@@ -968,6 +1009,7 @@ static GameInstallResult handle_pkg_game(const fs::path &pkg_path, const fs::pat
                 result.title = info.app_title;
                 result.category = info.app_category;
             }
+            mount_update_beside(pkg_path, title_id, zrif);
             return result;
         }
         fs::remove(lazy_marker);

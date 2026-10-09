@@ -6,6 +6,7 @@
 #include <io/util.h>
 #include <io/vfs.h>
 #include <packages/pkg.h>
+#include <packages/sfo.h>
 #include <util/bytes.h>
 #include <util/string_utils.h>
 
@@ -241,6 +242,7 @@ public:
     }
 
     const std::vector<Entry> &entries() const { return m_entries; }
+    const std::vector<std::uint8_t> &sfo() const { return m_sfo; }
 
 private:
     FILE *m_file = nullptr;
@@ -308,6 +310,8 @@ struct Mount {
 };
 
 std::shared_ptr<Mount> s_mount;
+// Updates laid over the game (mount_update), each read out of its own PKG
+std::vector<std::shared_ptr<Mount>> s_layers;
 fs::path s_cache_root;
 
 std::uint32_t fnv1a(const std::string &text) {
@@ -578,15 +582,58 @@ struct PlainFile final : ServedFile {
     }
 };
 
+std::shared_ptr<ServedFile> make_stream(const std::shared_ptr<Mount> &m, const Mount::Pending &pending) {
+    auto s = std::make_shared<Stream>();
+    s->mount = m;
+    s->pending = pending;
+    if (!s->pending.file || !is_encrypted(s->pending.file->file.m_info.header.type))
+        s->block_bytes = 1 << 20;
+    else {
+        const auto header = s->pending.table->get_header();
+        s->block_bytes = header->get_numSectors() <= header->get_binTreeNumMaxAvail()
+            ? std::max<std::uint64_t>(s->pending.entry->size, 1)
+            : std::uint64_t(header->get_binTreeNumMaxAvail()) * header->get_fileSectorSize();
+    }
+    return s;
+}
+
+// The update layer whose not yet decrypted file a redirect points to
+std::shared_ptr<Mount> layer_pending(const std::string &key) {
+    for (const auto &layer : s_layers) {
+        std::lock_guard lock(layer->mutex);
+        if (layer->pending.contains(key))
+            return layer;
+    }
+    return nullptr;
+}
+
+// An update layer's file decrypted in full where its layer laid it out
+void materialize_in_layer(const fs::path &target) {
+    const std::string key = upper(target.lexically_normal().generic_string());
+    std::shared_ptr<Mount> layer = layer_pending(key);
+    if (!layer)
+        return;
+    std::lock_guard lock(layer->mutex);
+    auto it = layer->pending.find(key);
+    if (it == layer->pending.end())
+        return;
+    Mount::Pending p = it->second;
+    layer->pending.erase(it);
+    if (!layer->materialize(p))
+        lr_log(RETRO_LOG_ERROR, "PKG: could not decrypt the update's %s\n", p.entry->name.c_str());
+}
+
 // A file opened to write, or read whole (read_file): the update's copy put in
 // the placeholder's place, and no longer redirected
 bool Mount::take_redirect(const std::string &key, const fs::path &host) {
     auto it = redirects.find(key);
     if (it == redirects.end())
         return false;
-    boost::system::error_code ec;
-    fs::copy_file(it->second, host, fs::copy_options::overwrite_existing, ec);
+    const fs::path target = it->second;
     redirects.erase(it);
+    materialize_in_layer(target);
+    boost::system::error_code ec;
+    fs::copy_file(target, host, fs::copy_options::overwrite_existing, ec);
     return true;
 }
 
@@ -597,25 +644,25 @@ std::shared_ptr<ServedFile> on_open_file(const fs::path &host, int open_mode) {
     std::lock_guard lock(m->mutex);
     const std::string key = upper(host.lexically_normal().generic_string());
     if (auto r = m->redirects.find(key); r != m->redirects.end()) {
+        // An update's file: out of the update's PKG while it is not decrypted,
+        // from where it lies once it is
+        const fs::path target = r->second;
+        const std::string target_key = upper(target.lexically_normal().generic_string());
+        if (std::shared_ptr<Mount> layer = layer_pending(target_key)) {
+            std::lock_guard layer_lock(layer->mutex);
+            auto lp = layer->pending.find(target_key);
+            if (lp != layer->pending.end() && layer->streamable(lp->second))
+                return make_stream(layer, lp->second);
+        }
+        materialize_in_layer(target);
         auto f = std::make_shared<PlainFile>();
-        f->file = FOPEN(r->second.c_str(), "rb");
+        f->file = FOPEN(target.c_str(), "rb");
         return f->file ? f : nullptr;
     }
     auto it = m->pending.find(key);
     if (it == m->pending.end() || !m->streamable(it->second))
         return nullptr;
-    auto s = std::make_shared<Stream>();
-    s->mount = m;
-    s->pending = it->second;
-    if (!s->pending.file || !is_encrypted(s->pending.file->file.m_info.header.type))
-        s->block_bytes = 1 << 20;
-    else {
-        const auto header = s->pending.table->get_header();
-        s->block_bytes = header->get_numSectors() <= header->get_binTreeNumMaxAvail()
-            ? std::max<std::uint64_t>(s->pending.entry->size, 1)
-            : std::uint64_t(header->get_binTreeNumMaxAvail()) * header->get_fileSectorSize();
-    }
-    return s;
+    return make_stream(m, it->second);
 }
 
 void on_host_file(const fs::path &host) {
@@ -660,18 +707,19 @@ void on_host_open(const fs::path &host, int open_mode) {
     on_host_file(host);
 }
 
-} // namespace
-
-bool mount(const fs::path &pkg_path, const fs::path &app_dir, const std::string &zrif, std::string &error) {
-    unmount();
+// A PKG laid out lazily in dir: its metadata and small files decrypted, the
+// rest placeholders served out of the PKG. cache_name names its Persistent
+// Cache folder.
+std::shared_ptr<Mount> build(const fs::path &pkg_path, const fs::path &app_dir, const std::string &zrif,
+    const std::string &cache_name, std::string &error) {
     auto m = std::make_shared<Mount>();
     if (!m->pkg.open(pkg_path, error))
-        return false;
+        return nullptr;
 
     const auto lic = decode_license_np(zrif);
     if (!lic) {
         error = "no license (zRIF) for the PKG";
-        return false;
+        return nullptr;
     }
     memcpy(m->klicensee, lic->key, sizeof(m->klicensee));
 
@@ -700,7 +748,7 @@ bool mount(const fs::path &pkg_path, const fs::path &app_dir, const std::string 
         if (eager) {
             if (!m->pkg.write_entry(e, host, e.size)) {
                 error = "cannot write " + e.name;
-                return false;
+                return nullptr;
             }
         } else
             rest.push_back(&e);
@@ -711,7 +759,7 @@ bool mount(const fs::path &pkg_path, const fs::path &app_dir, const std::string 
     m->unicv_db = std::make_unique<UnicvDbParser>(m->app_dir, m->log);
     if (m->unicv_db->parse() < 0) {
         error = "cannot read the PFS (unicv.db)";
-        return false;
+        return nullptr;
     }
 
     // The rest as placeholders: as much as the page mapper reads to tell which
@@ -724,7 +772,7 @@ bool mount(const fs::path &pkg_path, const fs::path &app_dir, const std::string 
     for (const PkgReader::Entry *e : rest) {
         if (!m->pkg.write_entry(*e, app_dir / e->name, std::min(sector, e->size))) {
             error = "cannot write " + e->name;
-            return false;
+            return nullptr;
         }
     }
 
@@ -733,7 +781,7 @@ bool mount(const fs::path &pkg_path, const fs::path &app_dir, const std::string 
     if (m->files_db->parse() < 0 || m->pages->bruteforce_map(m->files_db, m->unicv_db) < 0) {
         lr_log(RETRO_LOG_ERROR, "PKG: PFS mount failed:\n%s\n", m->log.str().c_str());
         error = "cannot mount the PFS (a wrong license?)";
-        return false;
+        return nullptr;
     }
 
     // Which PFS file and table each placeholder is
@@ -773,7 +821,7 @@ bool mount(const fs::path &pkg_path, const fs::path &app_dir, const std::string 
         m->pending.erase(key);
         if (!m->materialize(p)) {
             error = "cannot decrypt " + p.entry->name;
-            return false;
+            return nullptr;
         }
     }
     // Files the PFS lists without data are only what the PKG holds; anything
@@ -787,42 +835,11 @@ bool mount(const fs::path &pkg_path, const fs::path &app_dir, const std::string 
         }
     }
 
-    // An update kept for this game (ux0/patch/<title id>, see the installer):
-    // its files over the game's, and those are no longer read from the PKG
-    const fs::path patch_dir = app_dir.parent_path().parent_path() / "patch" / app_dir.filename();
-    if (fs::is_directory(patch_dir, ec)) {
-        unsigned replaced = 0;
-        for (fs::recursive_directory_iterator it(patch_dir, ec), end; it != end; it.increment(ec)) {
-            if (ec)
-                break;
-            if (!fs::is_regular_file(it->path(), ec))
-                continue;
-            const fs::path rel = it->path().lexically_relative(patch_dir);
-            const fs::path to = app_dir / rel;
-            fs::create_directories(to.parent_path(), ec);
-            // A placeholder of the update file's size, read through from the
-            // update (open_file_hook) - the overlay, nothing copied
-            {
-                fs::ofstream create(to, std::ios::binary | std::ios::trunc);
-            }
-            mark_sparse(to);
-            fs::resize_file(to, fs::file_size(it->path(), ec), ec);
-            const std::string key = upper(to.lexically_normal().generic_string());
-            m->pending.erase(key);
-            m->redirects[key] = it->path();
-            replaced++;
-        }
-        lr_log(RETRO_LOG_INFO, "PKG: update from %s laid over the game, %u files read from there\n", patch_dir.generic_string().c_str(), replaced);
-    }
-
-    lr_log(RETRO_LOG_INFO, "PKG: running without installing, %u of %u files decrypted at start\n",
-        static_cast<unsigned>(m->pkg.entries().size() - m->pending.size()), static_cast<unsigned>(m->pkg.entries().size()));
     if (!s_cache_root.empty()) {
         // Kept across sessions for this PKG only: another file under the same
-        // title (an update, a re-dump) starts the cache over
-        m->cache_dir = s_cache_root / app_dir.filename();
+        // name (a re-dump) starts the cache over
+        m->cache_dir = s_cache_root / cache_name;
         const fs::path id_file = m->cache_dir / "pkg.id";
-        boost::system::error_code ec;
         const std::string id = std::to_string(fs::file_size(pkg_path, ec)) + " " + std::to_string(m->pkg.entries().size());
         std::string had;
         {
@@ -837,6 +854,75 @@ bool mount(const fs::path &pkg_path, const fs::path &app_dir, const std::string 
         }
         lr_log(RETRO_LOG_INFO, "PKG: persistent cache in %s\n", m->cache_dir.string().c_str());
     }
+    return m;
+}
+
+// Lays src_dir's files over the game's: a placeholder of each file's size in
+// the game's folder, its reads redirected to the file in src_dir (an update,
+// kept or read out of its own PKG). Nothing is copied. Returns the count.
+unsigned overlay_dir(Mount &game, const fs::path &src_dir, bool skip_pfs) {
+    boost::system::error_code ec;
+    unsigned replaced = 0;
+    for (fs::recursive_directory_iterator it(src_dir, ec), end; it != end; it.increment(ec)) {
+        if (ec)
+            break;
+        const fs::path rel = it->path().lexically_relative(src_dir);
+        const std::string first = string_utils::tolower(rel.begin()->string());
+        // Each package's own PFS metadata stays its own; _dec is a layer's
+        // decrypting scratch
+        if (first == "_dec" || (skip_pfs && first == "sce_pfs")) {
+            if (fs::is_directory(it->path(), ec))
+                it.disable_recursion_pending();
+            continue;
+        }
+        if (!fs::is_regular_file(it->path(), ec))
+            continue;
+        const fs::path to = game.app_host / rel;
+        fs::create_directories(to.parent_path(), ec);
+        {
+            fs::ofstream create(to, std::ios::binary | std::ios::trunc);
+        }
+        mark_sparse(to);
+        fs::resize_file(to, fs::file_size(it->path(), ec), ec);
+        const std::string key = upper(to.lexically_normal().generic_string());
+        game.pending.erase(key);
+        game.redirects[key] = it->path();
+        replaced++;
+    }
+    return replaced;
+}
+
+} // namespace
+
+bool mount(const fs::path &pkg_path, const fs::path &app_dir, const std::string &zrif, std::string &error) {
+    unmount();
+    {
+        // An update's PKG is installed, not run (an update loaded on its own)
+        PkgReader probe;
+        if (!probe.open(pkg_path, error))
+            return false;
+        sfo::SfoAppInfo info;
+        sfo::get_param_info(info, probe.sfo(), 1);
+        if (info.app_category.find("gp") != std::string::npos) {
+            error = "an update, not a game";
+            return false;
+        }
+    }
+    std::shared_ptr<Mount> m = build(pkg_path, app_dir, zrif, app_dir.filename().string(), error);
+    if (!m)
+        return false;
+    boost::system::error_code ec;
+
+    // An update kept for this game (ux0/patch/<title id>, see the installer):
+    // its files over the game's, and those are no longer read from the PKG
+    const fs::path patch_dir = app_dir.parent_path().parent_path() / "patch" / app_dir.filename();
+    if (fs::is_directory(patch_dir, ec)) {
+        const unsigned replaced = overlay_dir(*m, patch_dir, false);
+        lr_log(RETRO_LOG_INFO, "PKG: update from %s laid over the game, %u files read from there\n", patch_dir.generic_string().c_str(), replaced);
+    }
+
+    lr_log(RETRO_LOG_INFO, "PKG: running without installing, %u of %u files decrypted at start\n",
+        static_cast<unsigned>(m->pkg.entries().size() - m->pending.size()), static_cast<unsigned>(m->pkg.entries().size()));
     s_mount = std::move(m);
     vfs::host_file_hook = on_host_file;
     vfs::host_open_hook = on_host_open;
@@ -844,13 +930,53 @@ bool mount(const fs::path &pkg_path, const fs::path &app_dir, const std::string 
     return true;
 }
 
+bool pkg_info(const fs::path &pkg_path, PkgInfo &info) {
+    PkgReader reader;
+    std::string error;
+    if (!reader.open(pkg_path, error))
+        return false;
+    sfo::SfoAppInfo sfo_info;
+    sfo::get_param_info(sfo_info, reader.sfo(), 1);
+    info.title_id = sfo_info.app_title_id;
+    info.category = sfo_info.app_category;
+    info.version = sfo_info.app_version;
+    return !info.title_id.empty();
+}
+
+bool mount_update(const fs::path &pkg_path, const std::string &zrif, std::string &error) {
+    if (!s_mount) {
+        error = "no game mounted";
+        return false;
+    }
+    const std::string title = s_mount->app_host.filename().string();
+    // Laid out next to the game's lazy marker, removed with the game
+    const fs::path dir = s_mount->app_host.parent_path().parent_path() / "libretro_pkg" / ("update_" + title);
+    std::shared_ptr<Mount> layer = build(pkg_path, dir, zrif, title + "_update", error);
+    if (!layer)
+        return false;
+    unsigned replaced;
+    {
+        std::lock_guard lock(s_mount->mutex);
+        replaced = overlay_dir(*s_mount, layer->app_host, true);
+    }
+    lr_log(RETRO_LOG_INFO, "PKG: update %s laid over the game, %u files read out of it\n",
+        pkg_path.generic_string().c_str(), replaced);
+    s_layers.push_back(std::move(layer));
+    return true;
+}
+
 void unmount() {
     vfs::host_file_hook = nullptr;
     vfs::host_open_hook = nullptr;
     open_file_hook = nullptr;
+    boost::system::error_code ec;
+    for (const auto &layer : s_layers) {
+        fs::remove_all(layer->app_host, ec);
+        fs::remove_all(layer->dec_host, ec);
+    }
+    s_layers.clear();
     if (!s_mount)
         return;
-    boost::system::error_code ec;
     fs::remove_all(s_mount->app_host, ec);
     fs::remove_all(s_mount->dec_host, ec);
     s_mount.reset();

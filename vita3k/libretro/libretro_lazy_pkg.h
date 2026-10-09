@@ -22,6 +22,20 @@ bool mount(const fs::path &pkg_path, const fs::path &app_dir, const std::string 
 // sessions; empty for none (Run Without Installing). Set before mount().
 void set_cache_root(const fs::path &cache_root);
 
+// What a PKG is, from its param.sfo: title ID, category ("gd" a game, "gp"
+// an update, "ac" DLC) and version
+struct PkgInfo {
+    std::string title_id;
+    std::string category;
+    std::string version;
+};
+bool pkg_info(const fs::path &pkg_path, PkgInfo &info);
+
+// An update's PKG laid over the mounted game: its files are read out of it
+// (decrypted as they are read, with the game's license) in place of the
+// game's, nothing installed
+bool mount_update(const fs::path &pkg_path, const std::string &zrif, std::string &error);
+
 // Removes what mount() laid out, and stops decrypting on open
 void unmount();
 
