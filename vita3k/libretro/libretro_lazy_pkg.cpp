@@ -38,6 +38,7 @@
 #include <memory>
 #include <mutex>
 #include <set>
+#include <fstream>
 #include <sstream>
 #include <vector>
 
@@ -64,6 +65,22 @@ constexpr std::uint64_t EAGER_SIZE = 1024 * 1024;
 std::string upper(std::string s) {
     std::transform(s.begin(), s.end(), s.begin(), [](unsigned char c) { return static_cast<char>(std::toupper(c)); });
     return s;
+}
+
+// NTFS leaves holes only in a file marked sparse; elsewhere every file can
+// have them
+void mark_sparse(const fs::path &path) {
+#ifdef _WIN32
+    HANDLE h = CreateFileW(path.wstring().c_str(), GENERIC_READ | GENERIC_WRITE, FILE_SHARE_READ, nullptr,
+        OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, nullptr);
+    if (h != INVALID_HANDLE_VALUE) {
+        DWORD returned = 0;
+        DeviceIoControl(h, FSCTL_SET_SPARSE, nullptr, 0, nullptr, 0, &returned, nullptr);
+        CloseHandle(h);
+    }
+#else
+    (void)path;
+#endif
 }
 
 // The outer layer: the PKG's own AES-128-CTR, which can start at any offset
@@ -217,15 +234,7 @@ public:
         // NTFS makes one only for a file marked sparse; without it extending
         // the file allocates all of it
         if (length < e.size) {
-#ifdef _WIN32
-            HANDLE h = CreateFileW(to.wstring().c_str(), GENERIC_READ | GENERIC_WRITE, FILE_SHARE_READ, nullptr,
-                OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, nullptr);
-            if (h != INVALID_HANDLE_VALUE) {
-                DWORD returned = 0;
-                DeviceIoControl(h, FSCTL_SET_SPARSE, nullptr, 0, nullptr, 0, &returned, nullptr);
-                CloseHandle(h);
-            }
-#endif
+            mark_sparse(to);
             fs::resize_file(to, e.size);
         }
         return true;
@@ -272,6 +281,19 @@ struct Mount {
 
     bool materialize(Pending &p);
 
+    // Persistent Cache (set_cache_root): one sparse file per PKG entry with
+    // the blocks decrypted so far at their place, and a list of which
+    fs::path cache_dir;
+    struct DiskFile {
+        bool loaded = false;
+        std::set<std::uint32_t> blocks;
+    };
+    std::map<std::string, DiskFile> disk;
+    fs::path disk_path(const Pending &p, const char *ext) const;
+    DiskFile &disk_file(const Pending &p);
+    bool disk_read(const Pending &p, std::uint32_t index, std::uint64_t at, std::vector<std::uint8_t> &out);
+    void disk_write(const Pending &p, std::uint32_t index, std::uint64_t at, const std::vector<std::uint8_t> &data);
+
     // Whether a pending file can be read straight out of the PKG, decrypted a
     // signature block at a time: a unicv (game data) file or one the PFS
     // keeps unencrypted. An icv file has one hash tree over all of it, and is
@@ -282,6 +304,69 @@ struct Mount {
 };
 
 std::shared_ptr<Mount> s_mount;
+fs::path s_cache_root;
+
+std::uint32_t fnv1a(const std::string &text) {
+    std::uint32_t h = 2166136261u;
+    for (unsigned char c : text) {
+        h ^= c;
+        h *= 16777619u;
+    }
+    return h;
+}
+
+fs::path Mount::disk_path(const Pending &p, const char *ext) const {
+    char name[32];
+    snprintf(name, sizeof(name), "%08x%s", fnv1a(p.entry->name), ext);
+    return cache_dir / name;
+}
+
+Mount::DiskFile &Mount::disk_file(const Pending &p) {
+    DiskFile &f = disk[p.entry->name];
+    if (!f.loaded) {
+        f.loaded = true;
+        std::ifstream in(disk_path(p, ".idx").string());
+        std::uint32_t index;
+        while (in >> index)
+            f.blocks.insert(index);
+    }
+    return f;
+}
+
+bool Mount::disk_read(const Pending &p, std::uint32_t index, std::uint64_t at, std::vector<std::uint8_t> &out) {
+    if (cache_dir.empty() || !disk_file(p).blocks.count(index))
+        return false;
+    std::ifstream in(disk_path(p, ".bin").string(), std::ios::binary);
+    in.seekg(static_cast<std::streamoff>(at));
+    in.read(reinterpret_cast<char *>(out.data()), static_cast<std::streamsize>(out.size()));
+    return static_cast<std::size_t>(in.gcount()) == out.size();
+}
+
+void Mount::disk_write(const Pending &p, std::uint32_t index, std::uint64_t at, const std::vector<std::uint8_t> &data) {
+    if (cache_dir.empty())
+        return;
+    DiskFile &f = disk_file(p);
+    if (f.blocks.count(index))
+        return;
+    const fs::path bin = disk_path(p, ".bin");
+    boost::system::error_code ec;
+    if (!fs::exists(bin, ec)) {
+        { std::ofstream create(bin.string(), std::ios::binary); }
+        mark_sparse(bin);
+    }
+    {
+        std::fstream out(bin.string(), std::ios::binary | std::ios::in | std::ios::out);
+        if (!out)
+            return;
+        out.seekp(static_cast<std::streamoff>(at));
+        out.write(reinterpret_cast<const char *>(data.data()), static_cast<std::streamsize>(data.size()));
+        if (!out)
+            return;
+    }
+    std::ofstream idx(disk_path(p, ".idx").string(), std::ios::app);
+    idx << index << "\n";
+    f.blocks.insert(index);
+}
 
 bool Mount::materialize(Pending &p) {
     const fs::path host = app_host / p.entry->name;
@@ -321,7 +406,12 @@ bool Mount::decrypt_block(const Pending &p, std::uint32_t index, std::vector<std
         if (at >= size)
             return false;
         out.resize(static_cast<std::size_t>(std::min<std::uint64_t>(1 << 20, size - at)));
-        return pkg.read(p.entry->offset + at, out.data(), out.size());
+        if (disk_read(p, index, at, out))
+            return true;
+        if (!pkg.read(p.entry->offset + at, out.data(), out.size()))
+            return false;
+        disk_write(p, index, at, out);
+        return true;
     }
     const auto header = p.table->get_header();
     const std::uint64_t sector_size = header->get_fileSectorSize();
@@ -333,6 +423,8 @@ bool Mount::decrypt_block(const Pending &p, std::uint32_t index, std::vector<std
         return false;
     const std::uint64_t length = single ? size : std::min(block_bytes, size - at);
     out.resize(static_cast<std::size_t>(length));
+    if (disk_read(p, index, at, out))
+        return true;
     if (!pkg.read(p.entry->offset + at, out.data(), out.size()))
         return false;
     std::uint32_t tail = static_cast<std::uint32_t>(length % sector_size);
@@ -385,7 +477,10 @@ bool Mount::decrypt_block(const Pending &p, std::uint32_t index, std::vector<std
         lr_log(RETRO_LOG_ERROR, "PKG: %s, block %u: %s\n", p.entry->name.c_str(), index, e.what());
         return false;
     }
-    return work.error >= 0;
+    if (work.error < 0)
+        return false;
+    disk_write(p, index, at, out);
+    return true;
 }
 
 // A pending file read straight out of the PKG: what FileStats reads through
@@ -639,6 +734,26 @@ bool mount(const fs::path &pkg_path, const fs::path &app_dir, const std::string 
 
     lr_log(RETRO_LOG_INFO, "PKG: running without installing, %u of %u files decrypted at start\n",
         static_cast<unsigned>(m->pkg.entries().size() - m->pending.size()), static_cast<unsigned>(m->pkg.entries().size()));
+    if (!s_cache_root.empty()) {
+        // Kept across sessions for this PKG only: another file under the same
+        // title (an update, a re-dump) starts the cache over
+        m->cache_dir = s_cache_root / app_dir.filename();
+        const fs::path id_file = m->cache_dir / "pkg.id";
+        boost::system::error_code ec;
+        const std::string id = std::to_string(fs::file_size(pkg_path, ec)) + " " + std::to_string(m->pkg.entries().size());
+        std::string had;
+        {
+            std::ifstream in(id_file.string());
+            std::getline(in, had);
+        }
+        if (had != id) {
+            fs::remove_all(m->cache_dir, ec);
+            fs::create_directories(m->cache_dir, ec);
+            std::ofstream out(id_file.string());
+            out << id << "\n";
+        }
+        lr_log(RETRO_LOG_INFO, "PKG: persistent cache in %s\n", m->cache_dir.string().c_str());
+    }
     s_mount = std::move(m);
     vfs::host_file_hook = on_host_file;
     vfs::host_open_hook = on_host_open;
@@ -656,6 +771,10 @@ void unmount() {
     fs::remove_all(s_mount->app_host, ec);
     fs::remove_all(s_mount->dec_host, ec);
     s_mount.reset();
+}
+
+void set_cache_root(const fs::path &cache_root) {
+    s_cache_root = cache_root;
 }
 
 bool mounted() {

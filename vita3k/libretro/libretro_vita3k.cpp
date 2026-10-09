@@ -1465,7 +1465,9 @@ RETRO_API bool retro_load_game(const struct retro_game_info *game) {
 
     const int sys_lang = 1;
     const char *pkg_mode = get_core_option_value("vita3k_pkg_mode", "run");
-    GameInstallResult install_result = ensure_game_installed(game_path, pref_path, sys_lang, std::string(pkg_mode) == "run");
+    const std::string pkg_mode_name(pkg_mode);
+    lazy_pkg::set_cache_root(pkg_mode_name == "cache" ? pref_path / "cache" / "pkg" : fs::path());
+    GameInstallResult install_result = ensure_game_installed(game_path, pref_path, sys_lang, pkg_mode_name == "run" || pkg_mode_name == "cache");
 
     if (!install_result.success) {
         lr_log(RETRO_LOG_ERROR, "Game installation/verification failed.\n");

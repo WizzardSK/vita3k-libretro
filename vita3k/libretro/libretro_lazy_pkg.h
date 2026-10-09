@@ -17,6 +17,11 @@ namespace lazy_pkg {
 // caller then installs it as usual.
 bool mount(const fs::path &pkg_path, const fs::path &app_dir, const std::string &zrif, std::string &error);
 
+// Persistent Cache: the blocks decrypted while a game runs are also written
+// under cache_root/<title id>, and read from there the next time, across
+// sessions; empty for none (Run Without Installing). Set before mount().
+void set_cache_root(const fs::path &cache_root);
+
 // Removes what mount() laid out, and stops decrypting on open
 void unmount();
 
