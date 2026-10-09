@@ -172,18 +172,18 @@ static struct retro_core_option_v2_definition option_definitions[] = {
     // ── System ───────────────────────────────────────────────────────────
     {
         "vita3k_pkg_mode",
-        "Game PKG",
+        "Game Preload",
         NULL,
-        "How a game's PKG is run. Run Without Installing: the game starts in seconds and is read straight out of the PKG, decrypted as it is read - only its metadata, executables and small files are written out; it is all removed when the game is closed. Persistent Cache: the same, and every part of the game read is also kept, decrypted, in system/vita3k/cache/pkg, so it is read from there the next time instead of out of the PKG (for a PKG on a slow network share); the parts never read take no space. Install: the whole game is decrypted and installed into ux0/app the first time, as Vita3K does, which takes as long as the game is big and uses its size on disk. A game installed already runs from its installation either way. Updates and DLC are always installed.",
+        "How a game's PKG is run. Install (default, as Vita3K does): the whole game is decrypted and installed into ux0/app the first time, which takes as long as the game is big and uses its size on disk. Persistent Cache: the game starts in seconds and is read straight out of the PKG, decrypted as it is read; every part read is also kept in system/vita3k/cache/pkg and read from there the next time, and parts never read take no space. Run Without Installing: the same without keeping anything - only the game's metadata, executables and small files are written out, and removed when the game is closed. A game installed already runs from its installation either way. Updates and DLC are always installed.",
         NULL,
         "system",
         {
-            { "run", "Run Without Installing" },
-            { "cache", "Persistent Cache" },
             { "install", "Install" },
+            { "cache", "Persistent Cache" },
+            { "run", "Run Without Installing" },
             { NULL, NULL },
         },
-        "run"
+        "install"
     },
     {
         "vita3k_pstv_mode",
