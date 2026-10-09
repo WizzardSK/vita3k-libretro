@@ -25,6 +25,7 @@
 #include <packages/functions.h>
 #include <packages/pkg.h>
 #include "libretro_lazy_pkg.h"
+#include "libretro_vfs.h"
 #include <zrif2rif.h>
 #include <packages/sfo.h>
 #include <util/fs.h>
@@ -39,6 +40,8 @@
 
 #include <cstring>
 #include <fstream>
+#include <iterator>
+#include <vector>
 
 // ─── Known firmware download URLs ───────────────────────────────────────────
 // These URLs redirect to downloadable firmware files.
@@ -754,6 +757,72 @@ static GameInstallResult handle_folder_game(const fs::path &game_path, const fs:
 // <pkg name>.zrif text file holding the zRIF (as NoPayStation lists them), or
 // a <pkg name>.rif, work.bin or <content id>.rif license file. Updates and
 // DLC without DRM need none.
+// The content's own files - the archive or PKG and the licenses beside it -
+// through the frontend's VFS when the path is a URI (saf://, which the OS
+// cannot open), with the OS otherwise.
+static bool content_stat(const fs::path &path, bool *is_directory, std::uint64_t *size) {
+    const std::string p = path.string();
+    if (lr_vfs_is_uri(p))
+        return lr_vfs_stat(p, is_directory, size);
+    boost::system::error_code ec;
+    if (!fs::exists(path, ec))
+        return false;
+    const bool directory = fs::is_directory(path, ec);
+    if (is_directory)
+        *is_directory = directory;
+    if (size)
+        *size = directory ? 0 : fs::file_size(path, ec);
+    return true;
+}
+
+static bool content_read(const fs::path &path, std::string &out) {
+    const std::string p = path.string();
+    if (lr_vfs_is_uri(p))
+        return lr_vfs_read_file(p, out);
+    fs::ifstream in(path, std::ios::in | std::ios::binary);
+    if (!in)
+        return false;
+    out.assign(std::istreambuf_iterator<char>(in), std::istreambuf_iterator<char>());
+    return true;
+}
+
+static std::vector<fs::path> content_list(const fs::path &dir) {
+    std::vector<fs::path> entries;
+    const std::string d = dir.string();
+    if (lr_vfs_is_uri(d)) {
+        for (const std::string &e : lr_vfs_list(d))
+            entries.emplace_back(e);
+        return entries;
+    }
+    boost::system::error_code ec;
+    for (fs::directory_iterator it(dir, ec), end; !ec && it != end; it.increment(ec))
+        entries.push_back(it->path());
+    return entries;
+}
+
+// rif2zrif reads a license from a file; one read through the VFS is written
+// to a scratch file in the emulator's folder first.
+static std::string license_to_zrif(const fs::path &license, const fs::path &pref_path) {
+    std::string bytes;
+    if (!content_read(license, bytes) || bytes.empty())
+        return {};
+    const fs::path scratch = pref_path / "ux0" / "libretro_license.tmp";
+    boost::system::error_code ec;
+    fs::create_directories(scratch.parent_path(), ec);
+    {
+        fs::ofstream out(scratch, std::ios::out | std::ios::binary | std::ios::trunc);
+        out.write(bytes.data(), bytes.size());
+    }
+    std::string zrif;
+    {
+        std::ifstream bin(scratch.string(), std::ios::in | std::ios::binary | std::ios::ate);
+        if (bin)
+            zrif = rif2zrif(bin);
+    }
+    fs::remove(scratch, ec);
+    return zrif;
+}
+
 static std::string find_pkg_license(const fs::path &pkg_path, const fs::path &pref_path) {
     std::string zrif = find_pkg_zrif(pkg_path, pref_path);
     if (!zrif.empty())
@@ -762,9 +831,9 @@ static std::string find_pkg_license(const fs::path &pkg_path, const fs::path &pr
     const fs::path dir = pkg_path.parent_path();
     const std::string stem = fs_utils::path_to_utf8(pkg_path.stem());
     for (const fs::path &txt : { dir / (stem + ".zrif"), dir / (stem + ".zRIF"), dir / (stem + ".txt") }) {
-        fs::ifstream in(txt);
-        std::string line;
-        if (in && std::getline(in, line)) {
+        std::string text;
+        if (content_read(txt, text)) {
+            std::string line = text.substr(0, text.find_first_of("\r\n"));
             line = string_utils::trim_copy(line);
             if (!line.empty()) {
                 lr_log(RETRO_LOG_INFO, "PKG license (zRIF) from %s\n", txt.generic_string().c_str());
@@ -785,10 +854,12 @@ static std::string find_pkg_license(const fs::path &pkg_path, const fs::path &pr
         fclose(f);
     }
     for (const fs::path &rif : rifs) {
-        fs::ifstream bin(rif, std::ios::in | std::ios::binary | std::ios::ate);
-        if (bin) {
-            lr_log(RETRO_LOG_INFO, "PKG license from %s\n", rif.generic_string().c_str());
-            return rif2zrif(bin);
+        if (content_stat(rif, nullptr, nullptr)) {
+            const std::string zrif = license_to_zrif(rif, pref_path);
+            if (!zrif.empty()) {
+                lr_log(RETRO_LOG_INFO, "PKG license from %s\n", rif.generic_string().c_str());
+                return zrif;
+            }
         }
     }
 
@@ -800,29 +871,25 @@ static std::string find_pkg_license(const fs::path &pkg_path, const fs::path &pr
         return {};
     std::vector<fs::path> candidates;
     for (const fs::path &folder : { dir, dir.parent_path() }) {
-        boost::system::error_code ec;
-        for (fs::directory_iterator it(folder, ec), end; !ec && it != end; it.increment(ec)) {
-            const fs::path &p = it->path();
-            if (string_utils::tolower(p.extension().string()) != ".bin" || !fs::is_regular_file(p, ec) || fs::file_size(p, ec) != 512)
+        for (const fs::path &p : content_list(folder)) {
+            bool directory = false;
+            std::uint64_t size = 0;
+            if (string_utils::tolower(p.extension().string()) != ".bin" || !content_stat(p, &directory, &size) || directory || size != 512)
                 continue;
             candidates.push_back(p);
-            char id[0x30] = {};
-            if (FILE *f = FOPEN(p.c_str(), "rb")) {
-                if (fseek(f, 0x10, SEEK_SET) == 0 && fread(id, 1, sizeof(id), f) == sizeof(id)
-                    && content_id.compare(0, std::string::npos, id, strnlen(id, sizeof(id))) == 0) {
-                    fclose(f);
-                    fs::ifstream bin(p, std::ios::in | std::ios::binary | std::ios::ate);
+            std::string bytes;
+            if (content_read(p, bytes) && bytes.size() >= 0x10 + 0x30) {
+                const char *id = bytes.data() + 0x10;
+                if (content_id.compare(0, std::string::npos, id, strnlen(id, 0x30)) == 0) {
                     lr_log(RETRO_LOG_INFO, "PKG license from %s (its content ID)\n", p.generic_string().c_str());
-                    return rif2zrif(bin);
+                    return license_to_zrif(p, pref_path);
                 }
-                fclose(f);
             }
         }
     }
     if (candidates.size() == 1) {
-        fs::ifstream bin(candidates.front(), std::ios::in | std::ios::binary | std::ios::ate);
         lr_log(RETRO_LOG_INFO, "PKG license from %s (the only one there)\n", candidates.front().generic_string().c_str());
-        return rif2zrif(bin);
+        return license_to_zrif(candidates.front(), pref_path);
     }
     return {};
 }
@@ -847,7 +914,9 @@ static GameInstallResult handle_pkg_game(const fs::path &pkg_path, const fs::pat
         lr_msg("Not a PS Vita PKG!", 300);
         return result;
     }
-    const fs::path marker = pref_path / "ux0" / "libretro_pkg" / fmt::format("{}_{}", content_id, fs::file_size(pkg_path));
+    std::uint64_t pkg_size = 0;
+    content_stat(pkg_path, nullptr, &pkg_size);
+    const fs::path marker = pref_path / "ux0" / "libretro_pkg" / fmt::format("{}_{}", content_id, pkg_size);
     const std::string title_id = content_id.substr(7, 9);
     if (fs::exists(marker) && fs::exists(pref_path / "ux0" / "app" / title_id / "eboot.bin")) {
         lr_log(RETRO_LOG_INFO, "PKG %s is installed already.\n", content_id.c_str());
@@ -958,14 +1027,22 @@ GameInstallResult ensure_game_installed(const fs::path &game_path, const fs::pat
     lr_log(RETRO_LOG_INFO, "Pref path: %s\n", pref_path.generic_string().c_str());
 
     // Validate game path exists
-    if (!fs::exists(game_path)) {
+    bool game_is_directory = false;
+    if (!content_stat(game_path, &game_is_directory, nullptr)) {
         lr_log(RETRO_LOG_ERROR, "Game path does not exist: %s\n", game_path.generic_string().c_str());
         lr_msg("Game path not found!", 300);
         return result;
     }
 
-    // If it's a directory, handle as extracted/NoNpDrm game folder
-    if (fs::is_directory(game_path)) {
+    // If it's a directory, handle as extracted/NoNpDrm game folder. A folder
+    // behind a URI cannot be walked by the installer, which copies with the
+    // OS; an archive or PKG there is read through the VFS.
+    if (game_is_directory) {
+        if (lr_vfs_is_uri(game_path.string())) {
+            lr_log(RETRO_LOG_ERROR, "A game folder through the frontend's VFS is not supported: %s\n", game_path.generic_string().c_str());
+            lr_msg("A game folder picked through Android's file picker is not supported; load the .vpk, .zip or .pkg", 400);
+            return result;
+        }
         return handle_folder_game(game_path, pref_path, sys_lang);
     }
 

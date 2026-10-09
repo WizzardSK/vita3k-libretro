@@ -15,6 +15,8 @@
 // with this program; if not, write to the Free Software Foundation, Inc.,
 // 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
+#include <cstdio>
+#include <cstring>
 #include <util/fs.h>
 #include <util/string_utils.h>
 
@@ -116,3 +118,13 @@ bool copy_directory_contents(const fs::path &src_path, const fs::path &dst_path,
 }
 
 } // namespace fs_utils
+
+#if defined(BUILD_LIBRETRO) && !defined(_WIN32)
+FILE *(*libretro_fopen_hook)(const char *filename, const char *mode) = nullptr;
+
+FILE *libretro_fopen(const char *filename, const char *mode) {
+    if (libretro_fopen_hook && std::strstr(filename, "://"))
+        return libretro_fopen_hook(filename, mode);
+    return fopen(filename, mode);
+}
+#endif

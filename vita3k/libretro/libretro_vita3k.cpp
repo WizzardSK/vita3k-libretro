@@ -19,6 +19,7 @@
 #include "libretro_options.h"
 #include "libretro_input.h"
 #include "libretro_installer.h"
+#include "libretro_vfs.h"
 #include "libretro_lazy_pkg.h"
 #include "libretro_log.h"
 #include "libretro_game_loader.h"
@@ -1292,6 +1293,10 @@ static bool libretro_init_hw_render() {
 
 RETRO_API void retro_set_environment(retro_environment_t cb) {
     libretro.environ_cb = cb;
+
+    // Content behind a URI (saf://, the Play Store build) through the
+    // frontend's VFS
+    lr_vfs_init(cb);
 
     bool no_game = false;
     cb(RETRO_ENVIRONMENT_SET_SUPPORT_NO_GAME, &no_game);

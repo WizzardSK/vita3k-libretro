@@ -17,6 +17,8 @@
 
 #pragma once
 
+#include <cstdio>
+
 #include <boost/filesystem.hpp>
 #include <boost/filesystem/fstream.hpp>
 #include <fmt/format.h>
@@ -31,6 +33,11 @@ namespace fs = boost::filesystem;
 
 #ifdef _WIN32
 #define FOPEN(filename, params) _wfopen(filename, L##params)
+#elif defined(BUILD_LIBRETRO)
+// The libretro core opens a URI (saf://...) through the frontend's VFS
+// (libretro_vfs.cpp sets the hook); every other path with fopen.
+FILE *libretro_fopen(const char *filename, const char *mode);
+#define FOPEN(filename, params) libretro_fopen(filename, params)
 #else
 #define FOPEN(filename, params) fopen(filename, params)
 #endif
