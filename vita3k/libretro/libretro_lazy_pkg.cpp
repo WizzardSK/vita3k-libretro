@@ -277,6 +277,10 @@ struct Mount {
     };
     // Placeholders still to be decrypted, by upper-case host path
     std::map<std::string, Pending> pending;
+    // Placeholders whose file an update replaces, by upper-case host path:
+    // read from the update's own file in ux0/patch, never copied
+    std::map<std::string, fs::path> redirects;
+    bool take_redirect(const std::string &key, const fs::path &host);
     std::recursive_mutex mutex;
 
     bool materialize(Pending &p);
@@ -550,12 +554,54 @@ struct Stream final : ServedFile {
 };
 
 // open_file_hook: a pending file opened to read is served from the PKG
+// An update's file in ux0/patch, served for the game's placeholder
+struct PlainFile final : ServedFile {
+    FILE *file = nullptr;
+    ~PlainFile() override {
+        if (file)
+            fclose(file);
+    }
+    std::int64_t read(void *data, std::size_t size) override {
+        const std::size_t n = fread(data, 1, size, file);
+        return n == 0 && ferror(file) ? -1 : static_cast<std::int64_t>(n);
+    }
+    std::int64_t seek(std::int64_t offset, int whence) override {
+#ifdef _WIN32
+        if (_fseeki64(file, offset, whence) != 0)
+            return -1;
+        return _ftelli64(file);
+#else
+        if (fseeko(file, static_cast<off_t>(offset), whence) != 0)
+            return -1;
+        return static_cast<std::int64_t>(ftello(file));
+#endif
+    }
+};
+
+// A file opened to write, or read whole (read_file): the update's copy put in
+// the placeholder's place, and no longer redirected
+bool Mount::take_redirect(const std::string &key, const fs::path &host) {
+    auto it = redirects.find(key);
+    if (it == redirects.end())
+        return false;
+    boost::system::error_code ec;
+    fs::copy_file(it->second, host, fs::copy_options::overwrite_existing, ec);
+    redirects.erase(it);
+    return true;
+}
+
 std::shared_ptr<ServedFile> on_open_file(const fs::path &host, int open_mode) {
     std::shared_ptr<Mount> m = s_mount;
     if (!m || can_write(open_mode))
         return nullptr;
     std::lock_guard lock(m->mutex);
-    auto it = m->pending.find(upper(host.lexically_normal().generic_string()));
+    const std::string key = upper(host.lexically_normal().generic_string());
+    if (auto r = m->redirects.find(key); r != m->redirects.end()) {
+        auto f = std::make_shared<PlainFile>();
+        f->file = FOPEN(r->second.c_str(), "rb");
+        return f->file ? f : nullptr;
+    }
+    auto it = m->pending.find(key);
     if (it == m->pending.end() || !m->streamable(it->second))
         return nullptr;
     auto s = std::make_shared<Stream>();
@@ -577,7 +623,10 @@ void on_host_file(const fs::path &host) {
     if (!m)
         return;
     std::lock_guard lock(m->mutex);
-    auto it = m->pending.find(upper(host.lexically_normal().generic_string()));
+    const std::string key = upper(host.lexically_normal().generic_string());
+    if (m->take_redirect(key, host))
+        return;
+    auto it = m->pending.find(key);
     if (it == m->pending.end())
         return;
     Mount::Pending p = it->second;
@@ -596,7 +645,13 @@ void on_host_open(const fs::path &host, int open_mode) {
         return;
     {
         std::lock_guard lock(m->mutex);
-        auto it = m->pending.find(upper(host.lexically_normal().generic_string()));
+        const std::string key = upper(host.lexically_normal().generic_string());
+        if (m->redirects.count(key)) {
+            if (can_write(open_mode))
+                m->take_redirect(key, host);
+            return;
+        }
+        auto it = m->pending.find(key);
         if (it == m->pending.end())
             return;
         if (!can_write(open_mode) && m->streamable(it->second))
@@ -745,11 +800,19 @@ bool mount(const fs::path &pkg_path, const fs::path &app_dir, const std::string 
             const fs::path rel = it->path().lexically_relative(patch_dir);
             const fs::path to = app_dir / rel;
             fs::create_directories(to.parent_path(), ec);
-            fs::copy_file(it->path(), to, fs::copy_options::overwrite_existing, ec);
-            m->pending.erase(upper(to.lexically_normal().generic_string()));
+            // A placeholder of the update file's size, read through from the
+            // update (open_file_hook) - the overlay, nothing copied
+            {
+                fs::ofstream create(to, std::ios::binary | std::ios::trunc);
+            }
+            mark_sparse(to);
+            fs::resize_file(to, fs::file_size(it->path(), ec), ec);
+            const std::string key = upper(to.lexically_normal().generic_string());
+            m->pending.erase(key);
+            m->redirects[key] = it->path();
             replaced++;
         }
-        lr_log(RETRO_LOG_INFO, "PKG: update from %s laid over the game, %u files\n", patch_dir.generic_string().c_str(), replaced);
+        lr_log(RETRO_LOG_INFO, "PKG: update from %s laid over the game, %u files read from there\n", patch_dir.generic_string().c_str(), replaced);
     }
 
     lr_log(RETRO_LOG_INFO, "PKG: running without installing, %u of %u files decrypted at start\n",
