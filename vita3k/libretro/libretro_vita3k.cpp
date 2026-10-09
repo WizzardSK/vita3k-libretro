@@ -1336,10 +1336,34 @@ RETRO_API void retro_get_system_info(struct retro_system_info *info) {
     info->block_extract = true;
 }
 
+// The size of the frame handed over follows Internal Resolution Multiplier
+// (1920x1088 at 2x), and the frontend has to be told: its integer scaling,
+// screenshots and shaders read the size from the geometry, not from the
+// frame (the bug NNshi found in cemu with resolution packs).
+static unsigned s_reported_width = 0, s_reported_height = 0;
+
+static void report_frame_size(unsigned width, unsigned height) {
+    if (width == s_reported_width && height == s_reported_height)
+        return;
+    s_reported_width = width;
+    s_reported_height = height;
+    retro_game_geometry geometry{};
+    geometry.base_width = width;
+    geometry.base_height = height;
+    geometry.max_width = 960 * 4;
+    geometry.max_height = 544 * 4;
+    geometry.aspect_ratio = 960.0f / 544.0f;
+    libretro.environ_cb(RETRO_ENVIRONMENT_SET_GEOMETRY, &geometry);
+    lr_log(RETRO_LOG_INFO, "output is now %ux%u\n", width, height);
+}
+
 RETRO_API void retro_get_system_av_info(struct retro_system_av_info *info) {
     memset(info, 0, sizeof(*info));
-    info->geometry.base_width = 960;
-    info->geometry.base_height = 544;
+    float multiplier = libretro.cfg ? libretro.cfg->current_config.resolution_multiplier : 1.0f;
+    if (multiplier < 1.0f || multiplier > 4.0f)
+        multiplier = 1.0f;
+    info->geometry.base_width = s_reported_width = static_cast<unsigned>(960 * multiplier);
+    info->geometry.base_height = s_reported_height = static_cast<unsigned>(544 * multiplier);
     info->geometry.max_width = 960 * 4;
     info->geometry.max_height = 544 * 4;
     info->geometry.aspect_ratio = 960.0f / 544.0f;
@@ -1630,6 +1654,27 @@ RETRO_API void retro_run(void) {
             libretro_vk_create_presentation_resources();
         }
 
+        // The images handed over take the size of the game's rendered
+        // surface, which Internal Resolution Multiplier scales. They were
+        // fixed at 960x544, so a 2x-4x render was shrunk back to 960x544 on
+        // its way to the frontend and the multiplier showed nothing.
+        {
+            uint32_t surface_w, surface_h;
+            {
+                std::lock_guard<std::mutex> lock(libretro.rendered_frame_mutex);
+                surface_w = libretro.vk_surface_width;
+                surface_h = libretro.vk_surface_height;
+            }
+            if (surface_w && surface_h && surface_w <= 960 * 4 && surface_h <= 544 * 4
+                && (surface_w != vkp.width || surface_h != vkp.height)) {
+                lr_log(RETRO_LOG_INFO, "presentation images %ux%u -> %ux%u\n", vkp.width, vkp.height, surface_w, surface_h);
+                libretro_vk_destroy_presentation_resources();
+                vkp.width = surface_w;
+                vkp.height = surface_h;
+                libretro_vk_create_presentation_resources();
+            }
+        }
+
         vulkan->wait_sync_index(vulkan->handle);
         uint32_t index = vulkan->get_sync_index(vulkan->handle);
         if (index >= vkp.num_images)
@@ -1751,6 +1796,7 @@ RETRO_API void retro_run(void) {
 
         vkp.images[index].image_layout = VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL;
         vulkan->set_image(vulkan->handle, &vkp.images[index], 0, nullptr, VK_QUEUE_FAMILY_IGNORED);
+        report_frame_size(vkp.width, vkp.height);
         libretro.video_cb(RETRO_HW_FRAME_BUFFER_VALID, vkp.width, vkp.height, 0);
     } else if (libretro.renderer_ready
             && (libretro.active_context == RETRO_HW_CONTEXT_OPENGL_CORE
@@ -1817,6 +1863,7 @@ RETRO_API void retro_run(void) {
             glBindFramebuffer(GL_FRAMEBUFFER, 0);
         }
 
+        report_frame_size(width, height);
         libretro.video_cb(RETRO_HW_FRAME_BUFFER_VALID, width, height, 0);
     } else {
         const int width = 960;
