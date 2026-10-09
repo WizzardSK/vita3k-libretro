@@ -32,6 +32,9 @@ using FileBuffer = std::vector<SceUInt8>;
 // libretro core runs a PKG without installing it: its files are placeholders
 // until first read, and this is where one is decrypted.
 extern std::function<void(const fs::path &)> host_file_hook;
+// Called as a file is opened through the IO functions (open_file), with its
+// SCE_O_* flags; host_file_hook is for whole-file reads (read_file)
+extern std::function<void(const fs::path &, int)> host_open_hook;
 
 bool read_file(VitaIoDevice device, FileBuffer &buf, const fs::path &vita_fs_path, const fs::path &vfs_file_path);
 bool read_app_file(FileBuffer &buf, const fs::path &vita_fs_path, const std::string &app_path, const fs::path &vfs_file_path);

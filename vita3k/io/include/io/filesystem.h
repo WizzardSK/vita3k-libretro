@@ -29,12 +29,20 @@
 
 typedef std::shared_ptr<FILE> FilePtr;
 
+// A FILE* the libretro core serves for a host path in place of the file on
+// disk (a game's PKG run without installing it: the file decrypted as it is
+// read); null when the path is not one of its own
+extern FILE *(*open_file_hook)(const fs::path &path, int open_mode);
+
 // For opening Boost.Filesystem files, Boost returns wide strings for Windows, normal strings for other OS
 // Dirent and FILE only accept and return wide char strings for Windows, and normal for other OS
 #ifdef _WIN32
 const wchar_t *translate_open_mode(const int flags);
 
 inline FilePtr create_shared_file(const fs::path &path, const int open_mode) {
+    if (open_file_hook)
+        if (FILE *served = open_file_hook(path, open_mode))
+            return FilePtr(served, std::fclose);
     const auto file = _wfopen(path.generic_path().wstring().c_str(), translate_open_mode(open_mode));
     return file ? FilePtr(file, std::fclose) : FilePtr();
 }
@@ -56,6 +64,9 @@ inline _wdirent *get_system_dir_ptr(const DirPtr &dir) {
 const char *translate_open_mode(const int flags);
 
 inline FilePtr create_shared_file(const fs::path &path, const int open_mode) {
+    if (open_file_hook)
+        if (FILE *served = open_file_hook(path, open_mode))
+            return FilePtr(served, std::fclose);
     const auto file = fopen(path.generic_path().string().c_str(), translate_open_mode(open_mode));
     return file ? FilePtr(file, std::fclose) : FilePtr();
 }

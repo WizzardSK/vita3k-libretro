@@ -62,9 +62,12 @@ constexpr bool log_file_read = false;
 constexpr bool log_file_seek = false;
 constexpr bool log_file_stat = false;
 
+FILE *(*open_file_hook)(const fs::path &path, int open_mode) = nullptr;
+
 namespace vfs {
 
 std::function<void(const fs::path &)> host_file_hook;
+std::function<void(const fs::path &, int)> host_open_hook;
 
 bool read_file(const VitaIoDevice device, FileBuffer &buf, const fs::path &vita_fs_path, const fs::path &vfs_file_path) {
     const auto host_file_path = device::construct_emulated_path(device, vfs_file_path, vita_fs_path).generic_path();
@@ -383,8 +386,8 @@ SceUID open_file(IOState &io, const char *path, const int flags, const fs::path 
 
     const auto normalized_path = device::construct_normalized_path(device, translated_path);
 
-    if (vfs::host_file_hook)
-        vfs::host_file_hook(system_path);
+    if (vfs::host_open_hook)
+        vfs::host_open_hook(system_path, flags);
 
     FileStats f{ path, normalized_path, system_path, flags };
     const auto fd = io.next_fd++;

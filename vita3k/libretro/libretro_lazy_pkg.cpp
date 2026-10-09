@@ -2,6 +2,7 @@
 
 #include "libretro_state.h"
 
+#include <io/filesystem.h>
 #include <io/vfs.h>
 #include <packages/pkg.h>
 #include <util/bytes.h>
@@ -10,6 +11,9 @@
 #include <CryptoOperationsFactory.h>
 #include <F00DKeyEncryptorFactory.h>
 #include <FilesDbParser.h>
+#include <FlagOperations.h>
+#include <PfsCryptEngine.h>
+#include <PfsKeyGenerator.h>
 #include <PfsFile.h>
 #include <PfsPageMapper.h>
 #include <UnicvDbParser.h>
@@ -20,12 +24,17 @@
 #include <algorithm>
 #include <cstdarg>
 #include <cstdio>
+#include <cstring>
 #include <map>
 #include <memory>
 #include <mutex>
 #include <set>
 #include <sstream>
 #include <vector>
+
+#if !defined(_WIN32)
+#include <sys/types.h>
+#endif
 
 namespace lazy_pkg {
 
@@ -245,9 +254,17 @@ struct Mount {
     std::recursive_mutex mutex;
 
     bool materialize(Pending &p);
+
+    // Whether a pending file can be read straight out of the PKG, decrypted a
+    // signature block at a time: a unicv (game data) file or one the PFS
+    // keeps unencrypted. An icv file has one hash tree over all of it, and is
+    // decrypted whole on first open as before.
+    bool streamable(const Pending &p) const;
+    // Signature block `index` of a pending file, decrypted
+    bool decrypt_block(const Pending &p, std::uint32_t index, std::vector<std::uint8_t> &out);
 };
 
-std::unique_ptr<Mount> s_mount;
+std::shared_ptr<Mount> s_mount;
 
 bool Mount::materialize(Pending &p) {
     const fs::path host = app_host / p.entry->name;
@@ -265,6 +282,231 @@ bool Mount::materialize(Pending &p) {
     return !ec;
 }
 
+bool Mount::streamable(const Pending &p) const {
+#if defined(_WIN32)
+    // No FILE* over our own reads there (no fopencookie or funopen)
+    (void)p;
+    return false;
+#else
+    if (!p.file || !is_encrypted(p.file->file.m_info.header.type))
+        return true;
+    if (!p.table)
+        return false;
+    const sce_ng_pfs_header_t &ngpfs = files_db->get_header();
+    const auto mode_index = img_spec_to_mode_index(ngpfs.image_spec);
+    const auto db_type = settings_to_db_type(mode_index, p.file->file.m_info.get_original_type());
+    return db_type_to_is_unicv(db_type);
+#endif
+}
+
+// What PfsFile::decrypt_unicv_file does for each block of a file, for one
+// block: block `index` covers sectors index * binTreeNumMaxAvail on, has its
+// own signature table, and the last one may end in a part sector
+bool Mount::decrypt_block(const Pending &p, std::uint32_t index, std::vector<std::uint8_t> &out) {
+    const std::uint64_t size = p.entry->size;
+    if (!p.file || !is_encrypted(p.file->file.m_info.header.type)) {
+        // The PKG's bytes are the file; blocks of 1 MB
+        const std::uint64_t at = std::uint64_t(index) << 20;
+        if (at >= size)
+            return false;
+        out.resize(static_cast<std::size_t>(std::min<std::uint64_t>(1 << 20, size - at)));
+        return pkg.read(p.entry->offset + at, out.data(), out.size());
+    }
+    const auto header = p.table->get_header();
+    const std::uint64_t sector_size = header->get_fileSectorSize();
+    const std::uint64_t per_block = header->get_binTreeNumMaxAvail();
+    const std::uint64_t block_bytes = per_block * sector_size;
+    const bool single = header->get_numSectors() <= per_block;
+    const std::uint64_t at = single ? 0 : index * block_bytes;
+    if (at >= size || (single && index != 0) || index >= p.table->m_blocks.size())
+        return false;
+    const std::uint64_t length = single ? size : std::min(block_bytes, size - at);
+    out.resize(static_cast<std::size_t>(length));
+    if (!pkg.read(p.entry->offset + at, out.data(), out.size()))
+        return false;
+    std::uint32_t tail = static_cast<std::uint32_t>(length % sector_size);
+    if (tail == 0)
+        tail = static_cast<std::uint32_t>(sector_size);
+
+    // PfsFile::init_crypt_ctx for a unicv file
+    const sce_ng_pfs_header_t &ngpfs = files_db->get_header();
+    sig_tbl_t &block = p.table->m_blocks[index];
+    CryptEngineData data;
+    memset(&data, 0, sizeof(data));
+    data.klicensee = klicensee;
+    data.files_salt = ngpfs.files_salt;
+    data.icv_salt = p.table->get_icv_salt();
+    data.mode_index = img_spec_to_mode_index(ngpfs.image_spec);
+    data.crypto_engine_flag = img_spec_to_crypto_engine_flag(ngpfs.image_spec) | CRYPTO_ENGINE_THROW_ERROR;
+    data.key_id = ngpfs.key_id;
+    data.fs_attr = p.file->file.m_info.get_original_type();
+    data.block_size = static_cast<std::uint32_t>(sector_size);
+    derive_keys_ctx drv;
+    memset(&drv, 0, sizeof(drv));
+    drv.db_type = settings_to_db_type(data.mode_index, data.fs_attr);
+    drv.icv_version = header->get_version();
+    if (is_gamedata(data.mode_index) && has_dbseed(drv.db_type, drv.icv_version))
+        memcpy(drv.dbseed, header->get_dbseed(), 0x14);
+    setup_crypt_packet_keys(cryptops, f00d, &data, &drv);
+
+    std::vector<std::uint8_t> signatures(block.m_signatures.size() * block.get_header()->get_sigSize());
+    std::size_t sig_at = 0;
+    for (const auto &sig : block.m_signatures) {
+        memcpy(signatures.data() + sig_at, sig.m_data.data(), block.get_header()->get_sigSize());
+        sig_at += block.get_header()->get_sigSize();
+    }
+    CryptEngineSubctx sub;
+    memset(&sub, 0, sizeof(sub));
+    sub.opt_code = CRYPT_ENGINE_READ;
+    sub.data = &data;
+    sub.nBlocks = block.get_header()->get_nSignatures();
+    sub.sector_base = static_cast<std::uint32_t>(single ? 0 : index * per_block);
+    sub.tail_size = tail;
+    sub.signature_table = signatures.data();
+    sub.work_buffer0 = out.data();
+    sub.work_buffer1 = out.data();
+    CryptEngineWorkCtx work;
+    work.subctx = &sub;
+    work.error = 0;
+    try {
+        pfs_decrypt(cryptops, f00d, &work);
+    } catch (const std::exception &e) {
+        lr_log(RETRO_LOG_ERROR, "PKG: %s, block %u: %s\n", p.entry->name.c_str(), index, e.what());
+        return false;
+    }
+    return work.error >= 0;
+}
+
+#if !defined(_WIN32)
+// A pending file read straight out of the PKG: FILE* over the blocks it
+// decrypts, the last few kept. Holds the mount, so a file the game still has
+// open outlives unmount().
+struct Stream {
+    std::shared_ptr<Mount> mount;
+    Mount::Pending pending;
+    std::uint64_t position = 0;
+    std::uint64_t block_bytes = 0;
+    struct Cached {
+        std::uint32_t index;
+        std::vector<std::uint8_t> data;
+    };
+    std::vector<Cached> cache; // most recent last
+
+    const std::vector<std::uint8_t> *block(std::uint32_t index) {
+        for (std::size_t i = 0; i < cache.size(); i++) {
+            if (cache[i].index == index) {
+                if (i + 1 != cache.size())
+                    std::rotate(cache.begin() + i, cache.begin() + i + 1, cache.end());
+                return &cache.back().data;
+            }
+        }
+        Cached c{ index, {} };
+        {
+            std::lock_guard lock(mount->mutex);
+            if (!mount->decrypt_block(pending, index, c.data))
+                return nullptr;
+        }
+        if (cache.size() >= 4)
+            cache.erase(cache.begin());
+        cache.push_back(std::move(c));
+        return &cache.back().data;
+    }
+};
+
+std::int64_t stream_read(void *c, char *buf, std::size_t size) {
+    Stream *s = static_cast<Stream *>(c);
+    const std::uint64_t file_size = s->pending.entry->size;
+    std::size_t done = 0;
+    while (done < size && s->position < file_size) {
+        const std::uint32_t index = static_cast<std::uint32_t>(s->position / s->block_bytes);
+        const std::vector<std::uint8_t> *data = s->block(index);
+        if (!data)
+            return done ? static_cast<std::int64_t>(done) : -1;
+        const std::uint64_t in_block = s->position - std::uint64_t(index) * s->block_bytes;
+        if (in_block >= data->size())
+            break;
+        const std::size_t n = static_cast<std::size_t>(std::min<std::uint64_t>(size - done, data->size() - in_block));
+        memcpy(buf + done, data->data() + in_block, n);
+        done += n;
+        s->position += n;
+    }
+    return static_cast<std::int64_t>(done);
+}
+
+std::int64_t stream_seek(void *c, std::int64_t offset, int whence) {
+    Stream *s = static_cast<Stream *>(c);
+    std::int64_t base = whence == SEEK_SET ? 0 : whence == SEEK_CUR ? static_cast<std::int64_t>(s->position) : static_cast<std::int64_t>(s->pending.entry->size);
+    if (base + offset < 0)
+        return -1;
+    s->position = static_cast<std::uint64_t>(base + offset);
+    return static_cast<std::int64_t>(s->position);
+}
+
+int stream_close(void *c) {
+    delete static_cast<Stream *>(c);
+    return 0;
+}
+
+#if defined(__APPLE__)
+int apple_read(void *c, char *buf, int size) { return static_cast<int>(stream_read(c, buf, size)); }
+fpos_t apple_seek(void *c, fpos_t offset, int whence) { return stream_seek(c, offset, whence); }
+#elif defined(__ANDROID__)
+// bionic has fopencookie only from API 32; funopen64 from 24
+int bionic_read(void *c, char *buf, int size) { return static_cast<int>(stream_read(c, buf, size)); }
+off64_t bionic_seek(void *c, off64_t offset, int whence) { return stream_seek(c, offset, whence); }
+#else
+ssize_t cookie_read(void *c, char *buf, size_t size) { return stream_read(c, buf, size); }
+int cookie_seek(void *c, off64_t *offset, int whence) {
+    const std::int64_t position = stream_seek(c, *offset, whence);
+    if (position < 0)
+        return -1;
+    *offset = position;
+    return 0;
+}
+#endif
+
+bool read_only(int open_mode) {
+    const char *mode = translate_open_mode(open_mode);
+    return mode && !std::strchr(mode, 'w') && !std::strchr(mode, 'a') && !std::strchr(mode, '+');
+}
+
+// open_file_hook: a pending file opened to read is served from the PKG
+FILE *on_open_file(const fs::path &host, int open_mode) {
+    std::shared_ptr<Mount> m = s_mount;
+    if (!m || !read_only(open_mode))
+        return nullptr;
+    Stream *s = nullptr;
+    {
+        std::lock_guard lock(m->mutex);
+        auto it = m->pending.find(upper(host.lexically_normal().generic_string()));
+        if (it == m->pending.end() || !m->streamable(it->second))
+            return nullptr;
+        s = new Stream;
+        s->mount = m;
+        s->pending = it->second;
+        if (!s->pending.file || !is_encrypted(s->pending.file->file.m_info.header.type))
+            s->block_bytes = 1 << 20;
+        else {
+            const auto header = s->pending.table->get_header();
+            s->block_bytes = header->get_numSectors() <= header->get_binTreeNumMaxAvail()
+                ? std::max<std::uint64_t>(s->pending.entry->size, 1)
+                : std::uint64_t(header->get_binTreeNumMaxAvail()) * header->get_fileSectorSize();
+        }
+    }
+#if defined(__APPLE__)
+    FILE *file = funopen(s, apple_read, nullptr, apple_seek, stream_close);
+#elif defined(__ANDROID__)
+    FILE *file = funopen64(s, bionic_read, nullptr, bionic_seek, stream_close);
+#else
+    cookie_io_functions_t io{ cookie_read, nullptr, cookie_seek, stream_close };
+    FILE *file = fopencookie(s, "rb", io);
+#endif
+    if (!file)
+        stream_close(s);
+    return file;
+}
+#endif
+
 void on_host_file(const fs::path &host) {
     Mount *m = s_mount.get();
     if (!m)
@@ -281,11 +523,32 @@ void on_host_file(const fs::path &host) {
         lr_log(RETRO_LOG_ERROR, "PKG: could not decrypt %s\n", p.entry->name.c_str());
 }
 
+// host_open_hook: a file opened to write, or one that cannot be read out of
+// the PKG as it goes, is decrypted whole first, as before
+void on_host_open(const fs::path &host, int open_mode) {
+    Mount *m = s_mount.get();
+    if (!m)
+        return;
+    {
+        std::lock_guard lock(m->mutex);
+        auto it = m->pending.find(upper(host.lexically_normal().generic_string()));
+        if (it == m->pending.end())
+            return;
+#if !defined(_WIN32)
+        if (read_only(open_mode) && m->streamable(it->second))
+            return;
+#else
+        (void)open_mode;
+#endif
+    }
+    on_host_file(host);
+}
+
 } // namespace
 
 bool mount(const fs::path &pkg_path, const fs::path &app_dir, const std::string &zrif, std::string &error) {
     unmount();
-    auto m = std::make_unique<Mount>();
+    auto m = std::make_shared<Mount>();
     if (!m->pkg.open(pkg_path, error))
         return false;
 
@@ -412,11 +675,17 @@ bool mount(const fs::path &pkg_path, const fs::path &app_dir, const std::string 
         static_cast<unsigned>(m->pkg.entries().size() - m->pending.size()), static_cast<unsigned>(m->pkg.entries().size()));
     s_mount = std::move(m);
     vfs::host_file_hook = on_host_file;
+    vfs::host_open_hook = on_host_open;
+#if !defined(_WIN32)
+    open_file_hook = on_open_file;
+#endif
     return true;
 }
 
 void unmount() {
     vfs::host_file_hook = nullptr;
+    vfs::host_open_hook = nullptr;
+    open_file_hook = nullptr;
     if (!s_mount)
         return;
     boost::system::error_code ec;
