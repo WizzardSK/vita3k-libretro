@@ -22,6 +22,11 @@
 
 #include <openssl/evp.h>
 
+#ifdef _WIN32
+#include <windows.h>
+#include <winioctl.h>
+#endif
+
 #include <algorithm>
 #include <cstdarg>
 #include <cstdio>
@@ -205,9 +210,21 @@ public:
             done += n;
         }
         out.close();
-        // The rest of a placeholder is a hole: the right size, no disk space
-        if (length < e.size)
+        // The rest of a placeholder is a hole: the right size, no disk space.
+        // NTFS makes one only for a file marked sparse; without it extending
+        // the file allocates all of it
+        if (length < e.size) {
+#ifdef _WIN32
+            HANDLE h = CreateFileW(to.wstring().c_str(), GENERIC_READ | GENERIC_WRITE, FILE_SHARE_READ, nullptr,
+                OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, nullptr);
+            if (h != INVALID_HANDLE_VALUE) {
+                DWORD returned = 0;
+                DeviceIoControl(h, FSCTL_SET_SPARSE, nullptr, 0, nullptr, 0, &returned, nullptr);
+                CloseHandle(h);
+            }
+#endif
             fs::resize_file(to, e.size);
+        }
         return true;
     }
 
