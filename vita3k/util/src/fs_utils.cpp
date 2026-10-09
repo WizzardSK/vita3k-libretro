@@ -22,6 +22,9 @@
 
 #include <SDL3/SDL_iostream.h>
 
+#include <cstdio>
+#include <cstring>
+
 namespace fs_utils {
 
 fs::path construct_file_name(const fs::path &base_path, const fs::path &folder_path, const fs::path &file_name, const fs::path &extension) {
@@ -62,6 +65,26 @@ void dump_data(const fs::path &path, const void *data, const std::streamsize siz
 template <typename T>
 static bool read_data(const fs::path &path, std::vector<T> &data) {
     data.clear();
+#ifdef BUILD_LIBRETRO
+    // Plain stdio in the core: on Android SDL_IOFromFile takes a file that
+    // fopen cannot open to the app's internal storage through JNI, which a
+    // core has none of set up - a missing built-in shader in system/vita3k
+    // brought RetroArch down with SIGTRAP instead of failing (sco8487)
+    FILE *f = FOPEN(path.c_str(), "rb");
+    if (!f)
+        return false;
+    char chunk[65536];
+    size_t n;
+    std::vector<char> bytes;
+    while ((n = fread(chunk, 1, sizeof(chunk), f)) > 0)
+        bytes.insert(bytes.end(), chunk, chunk + n);
+    fclose(f);
+    if (bytes.empty() || bytes.size() % sizeof(T))
+        return false;
+    data.resize(bytes.size() / sizeof(T));
+    memcpy(data.data(), bytes.data(), bytes.size());
+    return true;
+#endif
     SDL_IOStream *file = SDL_IOFromFile(fs_utils::path_to_utf8(path).c_str(), "rb");
     if (!file) {
         return false;
