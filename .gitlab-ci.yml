@@ -120,7 +120,9 @@ libretro-build-linux-aarch64:
     - git -C vcpkg fetch -q --depth 1 https://github.com/microsoft/vcpkg.git master
     - git -C vcpkg checkout -q -f FETCH_HEAD
     # and the commit vcpkg.json takes its versions from (builtin-baseline)
-    - git -C vcpkg fetch -q --depth 1 https://github.com/microsoft/vcpkg.git $(sed -n 's/.*"builtin-baseline": *"\([0-9a-f]*\)".*/\1/p' vcpkg.json)
+    # (a block scalar: the ": *" in the sed expression is YAML syntax otherwise)
+    - |
+      git -C vcpkg fetch -q --depth 1 https://github.com/microsoft/vcpkg.git $(sed -n 's/.*"builtin-baseline": *"\([0-9a-f]*\)".*/\1/p' vcpkg.json)
     - "$CI_PROJECT_DIR/vcpkg/bootstrap-vcpkg.sh -disableMetrics"
     - export VCPKG_ROOT="$CI_PROJECT_DIR/vcpkg"
     - export VCPKG_DEFAULT_BINARY_CACHE="$CI_PROJECT_DIR/vcpkg-cache"
