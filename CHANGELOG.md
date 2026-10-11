@@ -4,6 +4,7 @@ What changed in the libretro core of this fork, newest first. Changes that come 
 
 ## Unreleased
 
+- The core option texts can be translated through libretro's Crowdin project: the options header is on the standard template, with the `intl/` scripts and the upload and sync workflows. All texts are English until the first sync.
 - Internal Resolution Multiplier reaches RetroArch: the images handed over take the size the picture was rendered at (they were fixed at 960x544, shrinking a 2x to 4x render back), and RetroArch is told the size when it changes.
 - Audio: RetroArch gets one frame's worth per call, and the game's audio waits once about 64 ms is queued.
 - Closing content and Reset stop GXM before the guest threads and join its display thread, clean the renderer up before it is freed and stop the audio ports first, as upstream's shutdown does.

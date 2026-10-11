@@ -16,7 +16,7 @@
 // 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 #include "libretro_state.h"
-#include "libretro_options.h"
+#include "libretro_core_options.h"
 #include "libretro_input.h"
 #include "libretro_installer.h"
 #include "libretro_lazy_pkg.h"
@@ -1296,7 +1296,8 @@ RETRO_API void retro_set_environment(retro_environment_t cb) {
     bool no_game = false;
     cb(RETRO_ENVIRONMENT_SET_SUPPORT_NO_GAME, &no_game);
 
-    libretro_set_core_options();
+    bool categories_supported = false;
+    libretro_set_core_options(libretro.environ_cb, &categories_supported);
     libretro_log_init();
 }
 
