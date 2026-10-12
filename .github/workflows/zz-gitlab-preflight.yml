@@ -1,0 +1,32 @@
+# Replays the buildbot's Windows job (.gitlab-ci.yml, .ci/build-windows-cross.sh)
+# in the same ubuntu:24.04 image, since the buildbot's pipelines cannot be
+# started from here. Run by hand after a change to the job or its script.
+name: GitLab Windows preflight
+on:
+  workflow_dispatch:
+jobs:
+  windows-cross:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 300
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          submodules: recursive
+          fetch-depth: 0
+      - name: Replay the job in ubuntu:24.04
+        run: |
+          docker run --rm -v "$PWD":/src -w /src -e V3K_CROSS_KEEP_GOING=1 ubuntu:24.04 bash -euxc '
+            apt-get update -qq
+            apt-get install -y --no-install-recommends git ca-certificates
+            BUILD_DIR=build/windows-x86_64 NUMPROC=$(nproc) .ci/build-windows-cross.sh
+          ' 2>&1 | tee build.log | grep -E "error|FAILED|warning: unknown|CMake Error|^\[|^\+ |case links|DLL Name|PE32|ninja:" | grep -v "^\[" | tail -200
+          test -f build/windows-x86_64/vita3k_libretro.dll
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: preflight-log
+          path: build.log
+      - uses: actions/upload-artifact@v4
+        with:
+          name: vita3k_libretro-windows-x86_64-gitlab
+          path: build/windows-x86_64/vita3k_libretro.dll

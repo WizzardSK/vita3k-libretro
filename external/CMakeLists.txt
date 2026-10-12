@@ -57,6 +57,11 @@ set(SPDLOG_FMT_EXTERNAL ON CACHE BOOL "")
 add_subdirectory(spdlog EXCLUDE_FROM_ALL)
 
 add_subdirectory(substitute EXCLUDE_FROM_ALL)
+if(MSVC AND CMAKE_C_COMPILER_ID STREQUAL "Clang")
+	# substitute defines __builtin_ctz itself under _MSC_VER, which clang-cl
+	# sets while having the builtin: its own one under another name there
+	target_compile_definitions(substitute PRIVATE __builtin_ctz=substitute_builtin_ctz)
+endif()
 
 add_library(stb INTERFACE)
 target_include_directories(stb INTERFACE "${CMAKE_CURRENT_SOURCE_DIR}/stb")
