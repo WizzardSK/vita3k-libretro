@@ -74,17 +74,14 @@ default:
     # lld, and the core's own symbols bound inside it; through LDFLAGS, as
     # 24.04's CMake 3.28 has no CMAKE_LINKER_TYPE
     - export LDFLAGS="-fuse-ld=lld -Wl,-Bsymbolic"
-    # The X11, Wayland and D-Bus headers are for the SDL subproject, which
-    # configures even though the core does not open a window with it.
+    # No X11 or Wayland headers: the core opens no window and links neither.
     # zlib for psvpfstools: without it, its CMake falls back to the libz.a
     # committed in its zlib submodule, which is x86-64 (aarch64 failed to link).
     - apt-get update -qq
     - apt-get install -y --no-install-recommends
       lld g++ ninja-build cmake git python3 pkg-config file ca-certificates
       wget lsb-release software-properties-common gnupg
-      libssl-dev libx11-dev libxext-dev libxrandr-dev libxcursor-dev libxi-dev
-      libxss-dev libwayland-dev libxkbcommon-dev libegl-dev libdecor-0-dev
-      libdbus-1-dev zlib1g-dev
+      libssl-dev libegl-dev libdbus-1-dev zlib1g-dev
     # Vita3K is C++23 (std::expected), which 24.04's clang 18 cannot build
     - wget -qO llvm.sh https://apt.llvm.org/llvm.sh
     - bash llvm.sh 20

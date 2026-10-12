@@ -57,12 +57,11 @@ jobs:
           # Ubuntu 24.04, for glibc 2.39: a core built on 26.04 needs glibc 2.43
           # and does not load on most systems. Vita3K is C++23 (std::expected),
           # which 24.04's clang 18 cannot build, so clang 20 comes from
-          # apt.llvm.org. Boost is built from its submodule. The X11/Wayland
-          # headers are for the SDL subproject, which configures even though the
-          # core opens no window.
+          # apt.llvm.org. Boost is built from its submodule. No X11 or
+          # Wayland headers: the core opens no window and links neither.
           sudo apt update
           sudo apt -y install ccache ninja-build lld g++ wget lsb-release software-properties-common gnupg \
-            libx11-dev libxext-dev libxrandr-dev libxcursor-dev libxi-dev libxss-dev libwayland-dev libxkbcommon-dev libegl-dev libdecor-0-dev libdbus-1-dev
+            libegl-dev libdbus-1-dev
           wget -qO llvm.sh https://apt.llvm.org/llvm.sh
           sudo bash llvm.sh 20
           clang++-20 --version | head -1

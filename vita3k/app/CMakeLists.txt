@@ -24,7 +24,7 @@ if(WIN32)
 	target_link_libraries(app PRIVATE dwmapi)
 endif()
 
-if (LINUX)
+if (LINUX AND NOT BUILD_LIBRETRO)
     find_package(X11 REQUIRED)
     target_link_libraries(app PRIVATE ${X11_LIBRARIES})
 endif()

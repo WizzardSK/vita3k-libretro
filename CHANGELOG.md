@@ -4,6 +4,7 @@ What changed in the libretro core of this fork, newest first. Changes that come 
 
 ## Unreleased
 
+- Linux: the core no longer links libX11, libXext and libwayland-client, and builds without their headers: they were for the window surface the standalone makes, and the core makes none. It now loads where those libraries are absent.
 - The libretro buildbot builds the Windows core too: its MSVC is too old for Vita3K, so the job cross-builds on Linux with clang-cl against the MSVC runtime and Windows SDK (`.ci/build-windows-cross.sh`), with OpenSSL, zlib and Boost.Filesystem built by the script instead of taken from vcpkg; OpenSSL there is built without its assembly. A GitHub workflow replays the job. The Windows builds on the Releases page are still made with MSVC.
 - The core option texts can be translated through libretro's Crowdin project: the options header is on the standard template, with the `intl/` scripts and the upload and sync workflows. All texts are English until the first sync.
 - Internal Resolution Multiplier reaches RetroArch: the images handed over take the size the picture was rendered at (they were fixed at 960x544, shrinking a 2x to 4x render back), and RetroArch is told the size when it changes.

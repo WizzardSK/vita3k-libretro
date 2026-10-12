@@ -88,9 +88,12 @@ add_subdirectory(libfat16)
 add_library(miniz STATIC miniz/miniz.c miniz/miniz.h)
 target_include_directories(miniz PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}/miniz")
 
-# The core opens no SDL window, and has no use for X11 input injection
+# The core opens no SDL window: SDL is built without the X11 and Wayland
+# video backends, so their headers are not needed to build it
 if(BUILD_LIBRETRO)
-	set(SDL_X11_XTEST OFF CACHE BOOL "" FORCE)
+	set(SDL_X11 OFF CACHE BOOL "" FORCE)
+	set(SDL_WAYLAND OFF CACHE BOOL "" FORCE)
+	set(SDL_UNIX_CONSOLE_BUILD ON CACHE BOOL "" FORCE)
 endif()
 add_subdirectory(sdl)
 
