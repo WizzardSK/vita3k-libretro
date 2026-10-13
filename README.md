@@ -1,16 +1,16 @@
 # Vita3K libretro core
 
-A [libretro](https://www.libretro.com/) core of [Vita3K](https://github.com/Vita3K/Vita3K), the experimental PlayStation Vita emulator, for RetroArch and other libretro frontends. It is built on current upstream Vita3K and on [danprice142's libretro port](https://github.com/danprice142/Vita3K-libretro).
+A [libretro](https://www.libretro.com/) core of [Vita3K](https://github.com/Vita3K/Vita3K), the experimental PlayStation Vita emulator, for RetroArch and other libretro frontends. It is built on upstream Vita3K and on [danprice142's libretro port](https://github.com/danprice142/Vita3K-libretro). The core is currently on Vita3K v0.2.1 build 4123, commit a5aa96572 of 5 October 2026.
 
 This repository is the core only: the standalone Vita3K (its Qt interface, updater and Android app) is not part of it. For that, and for compatibility lists, see [Vita3K](https://vita3k.org/).
 
 ## Downloads
 
-Test builds for Linux x86_64 and aarch64, Windows x86_64 and Android arm64 and x86_64 are on the [releases page](https://github.com/WizzardSK/vita3k-libretro/releases). Every push to the `libretro` branch also builds them in [Actions](https://github.com/WizzardSK/vita3k-libretro/actions/workflows/libretro.yml).
+The core is built by libretro's buildbot for Linux (x86_64, aarch64) and Android (arm64, x86_64), and is installed from RetroArch: Online Updater > Core Downloader. Every push to the `libretro` branch is also built in [Actions](https://github.com/WizzardSK/vita3k-libretro/actions/workflows/libretro.yml), Windows x86_64 included; the builds are the artifacts of a run, and downloading them needs a GitHub login.
 
 ## Installation
 
-Each release zip has two folders:
+Each build from Actions has two folders:
 
 - `cores/` - the core (`vita3k_libretro.so`, `vita3k_libretro.dll` or `vita3k_libretro_android.so`), for RetroArch's cores directory.
 - `system/vita3k/` - the emulator's data and built-in shaders, for RetroArch's system directory.
@@ -55,7 +55,7 @@ cmake --build build/linux-ninja-clang --config Release --target vita3k_libretro
 
 ## Updating from upstream
 
-Upstream Vita3K is merged in as it is. `upstream.version` holds the build number and commit of the upstream the core is built on, which is the core's version ("v0.2.1 4123"); update it with every merge (`git rev-list --count` and `git rev-parse --short=9` of the merged upstream commit), along with `display_version` in `vita3k_libretro.info`. One rule for the merge itself: the paths in `.upstream-excluded` (the standalone app's parts) were deleted on purpose and stay deleted. Right after merging, run `git rm -r -q --ignore-unmatch --pathspec-from-file=.upstream-excluded`, and never resolve a conflict on one of those paths by restoring the file.
+Upstream Vita3K is merged in as it is. `upstream.version` holds the build number and commit of the upstream the core is built on, which is the core's version ("v0.2.1 4123"); update it with every merge (`git rev-list --count` and `git rev-parse --short=9` of the merged upstream commit), along with `display_version` in `vita3k_libretro.info` and the version named at the top of this file. One rule for the merge itself: the paths in `.upstream-excluded` (the standalone app's parts) were deleted on purpose and stay deleted. Right after merging, run `git rm -r -q --ignore-unmatch --pathspec-from-file=.upstream-excluded`, and never resolve a conflict on one of those paths by restoring the file.
 
 ## License
 
