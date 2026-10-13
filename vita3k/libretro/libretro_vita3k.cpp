@@ -178,7 +178,6 @@ void lr_log(enum retro_log_level level, const char *fmt, ...) {
 }
 
 static std::atomic<uint64_t> g_lr_trace_seq{ 0 };
-static std::mutex g_lr_trace_file_mutex;
 
 #ifdef _WIN32
 static PVOID g_lr_vectored_exception_handler_handle = nullptr;
@@ -201,25 +200,6 @@ static void lr_trace(const char *tag, const char *fmt = nullptr, ...) {
     else
         lr_log(RETRO_LOG_INFO, "[TRACE %llu] %s\n", static_cast<unsigned long long>(seq), safe_tag);
 
-    if (libretro.save_dir.empty())
-        return;
-
-    try {
-        const fs::path trace_path = fs_utils::utf8_to_path(libretro.save_dir) / "libretro_trace_uwp.log";
-        std::lock_guard<std::mutex> lock(g_lr_trace_file_mutex);
-        fs::create_directories(trace_path.parent_path());
-
-        std::ofstream trace_stream(trace_path.string(), std::ios::out | std::ios::app);
-        if (!trace_stream.is_open())
-            return;
-
-        if (details[0])
-            trace_stream << seq << "|" << safe_tag << "|" << details << "\n";
-        else
-            trace_stream << seq << "|" << safe_tag << "\n";
-        trace_stream.flush();
-    } catch (...) {
-    }
 }
 
 #ifdef _WIN32
@@ -278,23 +258,12 @@ static void lr_remove_vectored_exception_handler() {
 
 static void libretro_init_paths() {
     const char *sys = nullptr;
-    const char *save = nullptr;
-    const char *content = nullptr;
 
     if (libretro.environ_cb(RETRO_ENVIRONMENT_GET_SYSTEM_DIRECTORY, &sys) && sys)
         libretro.system_dir = std::string(sys) + "/vita3k";
     else
         libretro.system_dir = ".";
 
-    if (libretro.environ_cb(RETRO_ENVIRONMENT_GET_SAVE_DIRECTORY, &save) && save)
-        libretro.save_dir = std::string(save) + "/vita3k";
-    else
-        libretro.save_dir = ".";
-
-    if (libretro.environ_cb(RETRO_ENVIRONMENT_GET_CONTENT_DIRECTORY, &content) && content)
-        libretro.content_dir = std::string(content);
-    else
-        libretro.content_dir = ".";
 }
 
 static struct {
@@ -1486,7 +1455,7 @@ RETRO_API void retro_init(void) {
     libretro_init_input_descriptors();
     libretro_setup_controller_info();
 
-    lr_trace("retro_init", "system_dir=%s save_dir=%s content_dir=%s", libretro.system_dir.c_str(), libretro.save_dir.c_str(), libretro.content_dir.c_str());
+    lr_trace("retro_init", "system_dir=%s", libretro.system_dir.c_str());
 
     libretro.initialized = true;
 }

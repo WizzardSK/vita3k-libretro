@@ -75,8 +75,6 @@ struct LibretroState {
     std::vector<int16_t> audio_buffer;
 
     std::string system_dir;
-    std::string save_dir;
-    std::string content_dir;
 
     std::string game_path;
     std::string installed_title_id;
