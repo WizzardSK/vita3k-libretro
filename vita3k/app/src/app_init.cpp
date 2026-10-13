@@ -57,6 +57,10 @@
 #include <util/log.h>
 #include <util/string_utils.h>
 
+#ifdef BUILD_LIBRETRO
+#include <libretro/libretro_input_state.h>
+#endif
+
 #if USE_DISCORD
 #include <app/discord.h>
 #endif
@@ -79,17 +83,34 @@
 
 namespace app {
 
+#ifndef BUILD_LIBRETRO
 static float sdl_axis_to_float(int16_t axis, float mult) {
     const float unsigned_axis = static_cast<float>(axis - INT16_MIN);
     const float f = unsigned_axis / static_cast<float>(UINT16_MAX);
     return std::clamp(((f * 2.0f) - 1.0f) * mult, -1.0f, 1.0f);
 }
+#endif
 
 static overlay::button_states poll_overlay_input(EmuEnvState &emuenv) {
     overlay::button_states states{};
     uint32_t buttons = 0;
     float axes[4] = {};
 
+#ifdef BUILD_LIBRETRO
+    // RetroArch's pads, as ctrl_get reads them for the game: there is no SDL
+    // gamepad or keyboard in the core
+    {
+        auto &inp = libretro_input_state();
+        std::lock_guard<std::mutex> lock(inp.mutex);
+        for (uint32_t p = 0; p < LIBRETRO_MAX_PORTS; p++)
+            buttons |= inp.ports[p].buttons;
+        const auto byte_to_float = [](uint8_t v) { return std::clamp((static_cast<float>(v) - 128.0f) / 127.0f, -1.0f, 1.0f); };
+        axes[0] = byte_to_float(inp.ports[0].lx);
+        axes[1] = byte_to_float(inp.ports[0].ly);
+        axes[2] = byte_to_float(inp.ports[0].rx);
+        axes[3] = byte_to_float(inp.ports[0].ry);
+    }
+#else
     std::lock_guard<std::mutex> lock(emuenv.ctrl.mutex);
 
     auto &kb = emuenv.ctrl.keyboard_state;
@@ -122,6 +143,7 @@ static overlay::button_states poll_overlay_input(EmuEnvState &emuenv) {
             axes[3] += sdl_axis_to_float(SDL_GetGamepadAxis(gp, static_cast<SDL_GamepadAxis>(axis_binds[3])), mult);
         }
     }
+#endif
 
     auto set = [&](uint32_t mask, overlay::pad_button btn) {
         if (buttons & mask)

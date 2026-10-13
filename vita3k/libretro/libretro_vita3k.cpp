@@ -793,7 +793,15 @@ static void context_reset_finalize() {
                 emuenv.renderer->should_display = false;
                 renderer::process_batches(*emuenv.renderer, emuenv.renderer->features, emuenv.mem, emuenv.cfg);
 
-                if (emuenv.renderer->should_display) {
+                // An overlay asking to be drawn again (a dialog's animation,
+                // its next state) ends process_batches like a frame to show
+                // does, and upstream's loop presents after either. Left set,
+                // the request ended every later call at once: this loop spun,
+                // cleared should_display each time round, and nothing was
+                // shown any more - a dialog froze halfway into its fade
+                // (lim2222).
+                const bool overlay_flip = emuenv.renderer->async_flip_requested.exchange(false, std::memory_order_relaxed);
+                if (emuenv.renderer->should_display || overlay_flip) {
                     DisplayFrameInfo frame;
                     {
                         std::lock_guard<std::mutex> guard(emuenv.display.display_info_mutex);
@@ -874,12 +882,26 @@ static struct {
     vk::Fence fence;
     int published = -1; // under rendered_frame_mutex
     int reading = -1; // under rendered_frame_mutex
+    // For Vita3K's overlays, drawn over the copy: a pass that keeps what is
+    // in the image, and a framebuffer for each image
+    vk::RenderPass overlay_pass;
+    std::array<vk::Framebuffer, 3> overlay_framebuffers;
 } s_present;
 
 // Render thread: the surface's [offset, offset + size) into a free image of
-// s_present, and that published to retro_run.
+// s_present, Vita3K's overlays over it when any is shown (the system dialogs,
+// trophy and shader notices: upstream's render_frame draws them over the frame
+// in the same place), and that published to retro_run.
 static void libretro_copy_frame_for_presentation(renderer::vulkan::VKState &vk_state, vk::Image surface,
     uint32_t ox, uint32_t oy, uint32_t w, uint32_t h) {
+    vk_state.update_overlays();
+    bool has_overlays = false;
+    if (vk_state.overlay_manager) {
+        vk_state.overlay_manager->lock_shared();
+        has_overlays = vk_state.overlay_manager->has_visible();
+        vk_state.overlay_manager->unlock_shared();
+    }
+
     if (!s_present.pool) {
         s_present.pool = vk_state.device.createCommandPool({ .flags = vk::CommandPoolCreateFlagBits::eResetCommandBuffer,
             .queueFamilyIndex = vk_state.general_family_index });
@@ -900,8 +922,42 @@ static void libretro_copy_frame_for_presentation(renderer::vulkan::VKState &vk_s
         // the device covers it having run
         if (image.image)
             vk_state.device.waitIdle();
+        if (s_present.overlay_framebuffers[target]) {
+            vk_state.device.destroyFramebuffer(s_present.overlay_framebuffers[target]);
+            s_present.overlay_framebuffers[target] = nullptr;
+        }
         image = vkutil::Image(w, h, vk::Format::eR8G8B8A8Unorm);
-        image.init_image(vk::ImageUsageFlagBits::eTransferSrc | vk::ImageUsageFlagBits::eTransferDst);
+        image.init_image(vk::ImageUsageFlagBits::eTransferSrc | vk::ImageUsageFlagBits::eTransferDst | vk::ImageUsageFlagBits::eColorAttachment);
+    }
+
+    if (has_overlays && !s_present.overlay_pass) {
+        const vk::AttachmentDescription attachment{
+            .format = vk::Format::eR8G8B8A8Unorm,
+            .samples = vk::SampleCountFlagBits::e1,
+            .loadOp = vk::AttachmentLoadOp::eLoad,
+            .storeOp = vk::AttachmentStoreOp::eStore,
+            .stencilLoadOp = vk::AttachmentLoadOp::eDontCare,
+            .stencilStoreOp = vk::AttachmentStoreOp::eDontCare,
+            .initialLayout = vk::ImageLayout::eGeneral,
+            .finalLayout = vk::ImageLayout::eGeneral,
+        };
+        const vk::AttachmentReference color_ref{ .attachment = 0, .layout = vk::ImageLayout::eGeneral };
+        vk::SubpassDescription subpass{ .pipelineBindPoint = vk::PipelineBindPoint::eGraphics };
+        subpass.setColorAttachments(color_ref);
+        vk::RenderPassCreateInfo pass_info{};
+        pass_info.setAttachments(attachment);
+        pass_info.setSubpasses(subpass);
+        s_present.overlay_pass = vk_state.device.createRenderPass(pass_info);
+    }
+    if (has_overlays && !s_present.overlay_framebuffers[target]) {
+        vk::FramebufferCreateInfo fb_info{
+            .renderPass = s_present.overlay_pass,
+            .width = w,
+            .height = h,
+            .layers = 1,
+        };
+        fb_info.setAttachments(image.view);
+        s_present.overlay_framebuffers[target] = vk_state.device.createFramebuffer(fb_info);
     }
 
     vk::CommandBuffer cmd = s_present.cmd;
@@ -932,11 +988,35 @@ static void libretro_copy_frame_for_presentation(renderer::vulkan::VKState &vk_s
     region.dstOffsets[0] = vk::Offset3D{ 0, 0, 0 };
     region.dstOffsets[1] = vk::Offset3D{ static_cast<int32_t>(w), static_cast<int32_t>(h), 1 };
     cmd.blitImage(surface, vk::ImageLayout::eGeneral, image.image, vk::ImageLayout::eGeneral, region, vk::Filter::eNearest);
-    const vk::ImageMemoryBarrier after{ .srcAccessMask = vk::AccessFlagBits::eTransferWrite, .dstAccessMask = vk::AccessFlagBits::eTransferRead,
+    if (has_overlays) {
+        // their textures and vertices first: uploads cannot be recorded
+        // inside the pass
+        vk_state.overlay_renderer.prepare(cmd, *vk_state.overlay_manager, static_cast<float>(w), static_cast<float>(h), target);
+
+        const vk::ImageMemoryBarrier to_draw{ .srcAccessMask = vk::AccessFlagBits::eTransferWrite,
+            .dstAccessMask = vk::AccessFlagBits::eColorAttachmentRead | vk::AccessFlagBits::eColorAttachmentWrite,
+            .oldLayout = vk::ImageLayout::eGeneral, .newLayout = vk::ImageLayout::eGeneral,
+            .srcQueueFamilyIndex = VK_QUEUE_FAMILY_IGNORED, .dstQueueFamilyIndex = VK_QUEUE_FAMILY_IGNORED,
+            .image = image.image, .subresourceRange = range };
+        cmd.pipelineBarrier(vk::PipelineStageFlagBits::eTransfer, vk::PipelineStageFlagBits::eColorAttachmentOutput, {}, {}, {}, to_draw);
+
+        const vk::RenderPassBeginInfo pass_begin{
+            .renderPass = s_present.overlay_pass,
+            .framebuffer = s_present.overlay_framebuffers[target],
+            .renderArea = { { 0, 0 }, { w, h } },
+        };
+        cmd.beginRenderPass(pass_begin, vk::SubpassContents::eInline);
+        vk_state.overlay_renderer.render(cmd, s_present.overlay_pass, vk::Extent2D{ w, h },
+            0.0f, 0.0f, static_cast<float>(w), static_cast<float>(h));
+        cmd.endRenderPass();
+    }
+    const vk::ImageMemoryBarrier after{ .srcAccessMask = has_overlays ? vk::AccessFlagBits::eColorAttachmentWrite : vk::AccessFlagBits::eTransferWrite,
+        .dstAccessMask = vk::AccessFlagBits::eTransferRead,
         .oldLayout = vk::ImageLayout::eGeneral, .newLayout = vk::ImageLayout::eGeneral,
         .srcQueueFamilyIndex = VK_QUEUE_FAMILY_IGNORED, .dstQueueFamilyIndex = VK_QUEUE_FAMILY_IGNORED,
         .image = image.image, .subresourceRange = range };
-    cmd.pipelineBarrier(vk::PipelineStageFlagBits::eTransfer, vk::PipelineStageFlagBits::eTransfer, {}, {}, {}, after);
+    cmd.pipelineBarrier(has_overlays ? vk::PipelineStageFlagBits::eColorAttachmentOutput : vk::PipelineStageFlagBits::eTransfer,
+        vk::PipelineStageFlagBits::eTransfer, {}, {}, {}, after);
     cmd.end();
 
     vk::SubmitInfo submit{};
@@ -966,6 +1046,14 @@ static void libretro_free_presentation_images(renderer::vulkan::VKState *vk_stat
         libretro.has_new_frame = false;
         s_present.published = s_present.reading = -1;
     }
+    for (auto &framebuffer : s_present.overlay_framebuffers) {
+        if (vk_state && framebuffer)
+            vk_state->device.destroyFramebuffer(framebuffer);
+        framebuffer = nullptr;
+    }
+    if (vk_state && s_present.overlay_pass)
+        vk_state->device.destroyRenderPass(s_present.overlay_pass);
+    s_present.overlay_pass = nullptr;
     for (auto &image : s_present.images)
         image = vkutil::Image();
     if (vk_state && s_present.pool) {

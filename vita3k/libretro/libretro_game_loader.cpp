@@ -27,6 +27,7 @@
 #include <io/vfs.h>
 #include <kernel/state.h>
 #include <modules/module_parent.h>
+#include <util/fs.h>
 #include <util/log.h>
 #include <util/tracy.h>
 #include <packages/license.h>
@@ -37,6 +38,30 @@
 #include <util/string_utils.h>
 
 #include <module/load_module.h>
+
+// Earlier builds of the core kept every title's save data in ux0/user/savedata
+// and the trophies in ux0/user/trophy, with no user and no title in the path.
+// A title started for the first time with the proper folders takes a copy of
+// what is there, so nothing saved with those builds is lost: the old folder
+// holds every title's files together and cannot be told apart, and a title
+// only reads its own. The old folders are left as they are.
+static void libretro_adopt_flat_user_data(EmuEnvState &emuenv) {
+    const fs::path user_root = emuenv.vita_fs_path / "ux0" / "user";
+    const fs::path user_path = user_root / emuenv.io.user_id;
+    const auto adopt = [](const fs::path &from, const fs::path &to) {
+        boost::system::error_code ec;
+        if (!fs::is_directory(from, ec) || fs::is_empty(from, ec) || fs::exists(to, ec))
+            return;
+        fs::create_directories(to.parent_path(), ec);
+        fs::copy(from, to, fs::copy_options::recursive, ec);
+        if (ec)
+            LOG_WARN("Could not copy {} to {}: {}", from.generic_string(), to.generic_string(), ec.message());
+        else
+            LOG_INFO("Copied {} to {}", from.generic_string(), to.generic_string());
+    };
+    adopt(user_root / "savedata", user_path / "savedata" / emuenv.io.savedata);
+    adopt(user_root / "trophy", user_path / "trophy");
+}
 
 bool libretro_init_emuenv(EmuEnvState &emuenv, const Root &root_paths) {
     LOG_INFO("=== Initializing EmuEnvState (libretro) ===");
@@ -67,12 +92,29 @@ bool libretro_init_emuenv(EmuEnvState &emuenv, const Root &root_paths) {
             emuenv.app_info.app_category = app_info.app_category;
         if (!app_info.app_content_id.empty())
             emuenv.io.content_id = app_info.app_content_id;
+        if (!app_info.app_savedata.empty())
+            emuenv.io.savedata = app_info.app_savedata;
+        if (!app_info.app_addcont.empty())
+            emuenv.io.addcont = app_info.app_addcont;
         LOG_INFO("param.sfo loaded: title='{}' id='{}' ver='{}' cat='{}'",
             emuenv.app_info.app_title, emuenv.app_info.app_title_id,
             emuenv.app_info.app_version, emuenv.app_info.app_category);
     } else {
         LOG_WARN("Could not read param.sfo for {}", emuenv.io.app_path);
     }
+
+    // The user, and the title's save data and add-on content folders, which the
+    // standalone sets when a user logs in and a title is picked from its list.
+    // Left empty, savedata0: was ux0/user/savedata for every title - all games'
+    // saves in one folder, and none where the standalone keeps them - and
+    // addcont0: was ux0/addcont itself, so a title saw every other title's
+    // add-on folder as an add-on of its own (lim2222).
+    emuenv.io.user_id = emuenv.cfg.user_id.empty() ? std::string("00") : emuenv.cfg.user_id;
+    if (emuenv.io.savedata.empty())
+        emuenv.io.savedata = emuenv.io.title_id;
+    if (emuenv.io.addcont.empty())
+        emuenv.io.addcont = emuenv.io.title_id;
+    libretro_adopt_flat_user_data(emuenv);
 
     // Load license key for FSELF decryption (NoNpDrm games)
     get_license(emuenv, emuenv.io.title_id, emuenv.io.content_id);

@@ -66,6 +66,19 @@ int ctrl_get(const SceUID thread_id, EmuEnvState &emuenv, int port, SceCtrlData2
     uint64_t timestamp = std::chrono::duration_cast<std::chrono::microseconds>(ts.time_since_epoch()).count();
     pData->timeStamp = timestamp;
 
+    // While one of Vita3K's overlays takes the pad (a system dialog), the
+    // game sees none of it, as in the standalone's ctrl_get
+    if (state.overlay_input_intercepted.load(std::memory_order_relaxed)) {
+        pData->lx = pData->ly = pData->rx = pData->ry = 0x80;
+        if (negative)
+            pData->buttons ^= ~0u;
+        for (int i = 1; i < nb_returned_data; i++) {
+            memcpy(&pData[i], &pData[0], sizeof(SceCtrlData2));
+            pData[i].timeStamp -= i * 16667ULL;
+        }
+        return nb_returned_data;
+    }
+
     {
         auto &inp = libretro_input_state();
         std::lock_guard<std::mutex> lock(inp.mutex);

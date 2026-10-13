@@ -144,6 +144,8 @@ jobs:
           mkdir -p symbols && cp "$core" symbols/
           cp -r data dist/system/vita3k/
           cp -r vita3k/shaders-builtin dist/system/vita3k/
+          # The icons of Vita3K's system dialogs and trophy notices
+          cp -r vita3k/icons dist/system/vita3k/
           # The core info, for RetroArch to load content with the core before
           # it is loaded
           mkdir -p dist/info

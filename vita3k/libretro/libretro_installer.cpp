@@ -38,26 +38,21 @@
 
 #include <miniz.h>
 
+#include <algorithm>
+#include <cctype>
 #include <cstring>
 #include <fstream>
 #include <iterator>
 #include <vector>
 
-// ─── Known firmware download URLs ───────────────────────────────────────────
-// These URLs redirect to downloadable firmware files.
-// The preinst firmware and font package are hosted externally.
-// The main firmware PUP must be obtained from PlayStation's website or
-// placed manually in the system directory as PSP2UPDAT.PUP.
+// ─── Firmware files ──────────────────────────────────────────────────────────
+// The three packages are told apart by their names, whatever the case: a
+// .pup with "preinst" in its name is the preinstalled package, one with
+// "font" in it the fonts, and any other .pup the system firmware. Sony's
+// downloads all carry the same name (PSP2UPDAT.PUP), so the two smaller ones
+// have to be renamed by the user either way.
 
-static constexpr const char *FW_PUP_FILENAME = "PSP2UPDAT.PUP";
-
-// Known PUP search filenames (user may place these in system_dir)
-static const std::vector<std::string> PUP_SEARCH_NAMES = {
-    "PSP2UPDAT.PUP",
-    "psp2updat.pup",
-    "PSVUPDAT.PUP",
-    "firmware.pup",
-};
+enum class PupKind { Firmware, Preinst, Font };
 
 // ─── Logging helpers ────────────────────────────────────────────────────────
 
@@ -104,29 +99,47 @@ FirmwareStatus check_firmware_status(const fs::path &pref_path) {
 
 // ─── Firmware installation ──────────────────────────────────────────────────
 
-static fs::path find_pup_file(const fs::path &search_dir) {
-    lr_log(RETRO_LOG_DEBUG, "Searching for PUP file in: %s\n", search_dir.generic_string().c_str());
+static std::string lower_case(std::string text) {
+    for (char &c : text)
+        c = static_cast<char>(std::tolower(static_cast<unsigned char>(c)));
+    return text;
+}
 
-    if (!fs::exists(search_dir) || !fs::is_directory(search_dir)) {
-        lr_log(RETRO_LOG_DEBUG, "Search directory does not exist: %s\n", search_dir.generic_string().c_str());
+static PupKind pup_kind(const fs::path &path) {
+    const std::string name = lower_case(path.filename().string());
+    if (name.find("preinst") != std::string::npos)
+        return PupKind::Preinst;
+    if (name.find("font") != std::string::npos)
+        return PupKind::Font;
+    return PupKind::Firmware;
+}
+
+// The first .pup of a kind in a folder, by name, so that the choice between
+// two of them does not depend on the order the folder lists them in. Outside
+// the core's own folders only the names a PS Vita firmware comes with count:
+// RetroArch's system directory holds other consoles' .pup files too.
+static fs::path find_pup_file(const fs::path &search_dir, PupKind kind, bool vita_names_only = false) {
+    boost::system::error_code ec;
+    if (!fs::is_directory(search_dir, ec))
         return {};
+
+    std::vector<fs::path> found;
+    for (fs::directory_iterator it(search_dir, ec), end; !ec && it != end; it.increment(ec)) {
+        const fs::path &path = it->path();
+        const std::string name = lower_case(path.filename().string());
+        if (lower_case(path.extension().string()) != ".pup" || pup_kind(path) != kind)
+            continue;
+        if (vita_names_only && name != "psp2updat.pup" && name != "psvupdat.pup")
+            continue;
+        boost::system::error_code file_ec;
+        if (fs::is_regular_file(path, file_ec) && fs::file_size(path, file_ec) > 0)
+            found.push_back(path);
     }
-
-    // Check known filenames first
-    for (const auto &name : PUP_SEARCH_NAMES) {
-        const auto path = search_dir / name;
-        lr_log(RETRO_LOG_DEBUG, "Checking for PUP at: %s\n", path.generic_string().c_str());
-        if (fs::exists(path) && fs::file_size(path) > 0) {
-            lr_log(RETRO_LOG_INFO, "Found PUP file: %s\n", path.generic_string().c_str());
-            return path;
-        }
-    }
-
-    // Do NOT scan for arbitrary .pup files — that would match preinst/font PUPs.
-    // Only match the known main firmware PUP names above.
-
-    lr_log(RETRO_LOG_DEBUG, "No PUP file found in: %s\n", search_dir.generic_string().c_str());
-    return {};
+    if (found.empty())
+        return {};
+    std::sort(found.begin(), found.end());
+    lr_log(RETRO_LOG_INFO, "Found PUP file: %s\n", found.front().generic_string().c_str());
+    return found.front();
 }
 
 static bool install_pup_file(const fs::path &pref_path, const fs::path &pup_path, const char *label) {
@@ -159,25 +172,6 @@ static bool install_pup_file(const fs::path &pref_path, const fs::path &pup_path
     return true;
 }
 
-// Known PUP filenames for each firmware component
-static const std::vector<std::string> PREINST_PUP_NAMES = {
-    "preinst_fresh.pup", "preinst.pup", "PSP2UPDAT_PREINST.PUP",
-};
-static const std::vector<std::string> FONT_PUP_NAMES = {
-    "font_fresh.pup", "font.pup", "PSP2UPDAT_FONT.PUP", "PSVITAFONT.PUP",
-};
-
-static fs::path find_named_pup(const fs::path &dir, const std::vector<std::string> &names) {
-    for (const auto &name : names) {
-        const auto path = dir / name;
-        if (fs::exists(path) && fs::file_size(path) > 0) {
-            lr_log(RETRO_LOG_INFO, "Found PUP: %s\n", path.generic_string().c_str());
-            return path;
-        }
-    }
-    return {};
-}
-
 bool ensure_firmware_installed(const fs::path &pref_path, const fs::path &system_dir) {
     lr_log(RETRO_LOG_INFO, "=== Checking firmware installation ===\n");
     lr_log(RETRO_LOG_INFO, "pref_path: %s\n", pref_path.generic_string().c_str());
@@ -195,59 +189,70 @@ bool ensure_firmware_installed(const fs::path &pref_path, const fs::path &system
 
     // ── Install preinst firmware (pd0/) ──
     if (!status.preinst_installed) {
-        fs::path preinst_pup = find_named_pup(system_dir, PREINST_PUP_NAMES);
+        fs::path preinst_pup = find_pup_file(system_dir, PupKind::Preinst);
         if (preinst_pup.empty() && system_dir != pref_path)
-            preinst_pup = find_named_pup(pref_path, PREINST_PUP_NAMES);
+            preinst_pup = find_pup_file(pref_path, PupKind::Preinst);
         if (!preinst_pup.empty()) {
             install_pup_file(pref_path, preinst_pup, "Preinst firmware");
         } else {
             lr_log(RETRO_LOG_WARN, "No preinst PUP found. Download from: https://bit.ly/4hlePsX\n");
-            lr_log(RETRO_LOG_WARN, "Save as 'preinst.pup' in: %s\n", system_dir.generic_string().c_str());
+            lr_log(RETRO_LOG_WARN, "Save it with \"preinst\" in its name (preinst.pup) in: %s\n", system_dir.generic_string().c_str());
         }
     }
 
     // ── Install main firmware (vs0/) ──
     if (!status.firmware_installed) {
-        fs::path fw_pup = find_pup_file(system_dir);
+        fs::path fw_pup = find_pup_file(system_dir, PupKind::Firmware);
         if (fw_pup.empty() && system_dir != pref_path)
-            fw_pup = find_pup_file(pref_path);
+            fw_pup = find_pup_file(pref_path, PupKind::Firmware);
         if (fw_pup.empty() && system_dir.has_parent_path())
-            fw_pup = find_pup_file(system_dir.parent_path());
+            fw_pup = find_pup_file(system_dir.parent_path(), PupKind::Firmware, true);
         if (!fw_pup.empty()) {
             install_pup_file(pref_path, fw_pup, "Main firmware");
         } else {
             lr_log(RETRO_LOG_WARN, "No main firmware PUP found.\n");
             lr_log(RETRO_LOG_WARN, "Download from: https://www.playstation.com/en-us/support/hardware/psvita/system-software\n");
-            lr_log(RETRO_LOG_WARN, "Save as 'PSP2UPDAT.PUP' in: %s\n", system_dir.generic_string().c_str());
+            lr_log(RETRO_LOG_WARN, "Save it as a .pup (PSP2UPDAT.PUP, PSVUPDAT.PUP) in: %s\n", system_dir.generic_string().c_str());
         }
     }
 
     // ── Install font package (sa0/) ──
     if (!status.font_installed) {
-        fs::path font_pup = find_named_pup(system_dir, FONT_PUP_NAMES);
+        fs::path font_pup = find_pup_file(system_dir, PupKind::Font);
         if (font_pup.empty() && system_dir != pref_path)
-            font_pup = find_named_pup(pref_path, FONT_PUP_NAMES);
+            font_pup = find_pup_file(pref_path, PupKind::Font);
         if (!font_pup.empty()) {
             install_pup_file(pref_path, font_pup, "Font package");
         } else {
             lr_log(RETRO_LOG_WARN, "No font PUP found. Download from: https://bit.ly/48ouDaa\n");
-            lr_log(RETRO_LOG_WARN, "Save as 'font.pup' in: %s\n", system_dir.generic_string().c_str());
+            lr_log(RETRO_LOG_WARN, "Save it with \"font\" in its name (font.pup) in: %s\n", system_dir.generic_string().c_str());
         }
     }
 
     // ── Final status check ──
     status = check_firmware_status(pref_path);
     if (!status.all_installed()) {
-        lr_log(RETRO_LOG_ERROR, "=== FIRMWARE MISSING ===\n");
-        lr_log(RETRO_LOG_ERROR, "Vita3K requires PS Vita firmware to run games.\n");
-        lr_log(RETRO_LOG_ERROR, "Place the following PUP files in: %s\n", system_dir.generic_string().c_str());
+        // The system firmware missing is the case games do not start in. With it
+        // there and another part missing (the fonts, say, in folders copied from
+        // the standalone) most games run: said as what it is, not as no firmware.
+        const enum retro_log_level level = status.firmware_installed ? RETRO_LOG_WARN : RETRO_LOG_ERROR;
+        if (status.firmware_installed) {
+            lr_log(level, "=== FIRMWARE INCOMPLETE ===\n");
+            lr_log(level, "The system firmware is installed; a part some games need is not.\n");
+        } else {
+            lr_log(level, "=== FIRMWARE MISSING ===\n");
+            lr_log(level, "Vita3K requires PS Vita firmware to run games.\n");
+        }
+        lr_log(level, "Place the following PUP files in: %s\n", system_dir.generic_string().c_str());
         if (!status.preinst_installed)
-            lr_log(RETRO_LOG_ERROR, "  - preinst.pup (pd0/) → https://bit.ly/4hlePsX\n");
+            lr_log(level, "  - preinst.pup, or any .pup name with preinst in it (pd0/) → https://bit.ly/4hlePsX\n");
         if (!status.firmware_installed)
-            lr_log(RETRO_LOG_ERROR, "  - PSP2UPDAT.PUP (vs0/) → https://www.playstation.com/en-us/support/hardware/psvita/system-software\n");
+            lr_log(level, "  - the system firmware, any .pup name without preinst or font in it (vs0/) → https://www.playstation.com/en-us/support/hardware/psvita/system-software\n");
         if (!status.font_installed)
-            lr_log(RETRO_LOG_ERROR, "  - font.pup (sa0/) → https://bit.ly/48ouDaa\n");
+            lr_log(level, "  - font.pup, or any .pup name with font in it (sa0/) → https://bit.ly/48ouDaa\n");
 
+        if (status.firmware_installed)
+            return true;
         lr_msg("Firmware missing! See log for download instructions.", 600);
         return false;
     }

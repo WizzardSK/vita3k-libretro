@@ -75,6 +75,7 @@ add_custom_command(
 	POST_BUILD
 	COMMAND ${CMAKE_COMMAND} -E copy_directory "${CMAKE_CURRENT_SOURCE_DIR}/../../data" "$<TARGET_FILE_DIR:vita3k_libretro>/data"
 	COMMAND ${CMAKE_COMMAND} -E copy_directory "${CMAKE_CURRENT_SOURCE_DIR}/../shaders-builtin" "$<TARGET_FILE_DIR:vita3k_libretro>/shaders-builtin"
+	COMMAND ${CMAKE_COMMAND} -E copy_directory "${CMAKE_CURRENT_SOURCE_DIR}/../icons" "$<TARGET_FILE_DIR:vita3k_libretro>/icons"
 )
 
 # libretro_lazy_pkg.cpp decrypts the PKG layer itself, with OpenSSL; on macOS

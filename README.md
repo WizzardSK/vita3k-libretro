@@ -13,13 +13,15 @@ The core is built by libretro's buildbot for Linux (x86_64, aarch64) and Android
 Each build from Actions has two folders:
 
 - `cores/` - the core (`vita3k_libretro.so`, `vita3k_libretro.dll` or `vita3k_libretro_android.so`), for RetroArch's cores directory.
-- `system/vita3k/` - the emulator's data and built-in shaders, for RetroArch's system directory.
+- `system/vita3k/` - the emulator's data, built-in shaders and the icons of its system dialogs, for RetroArch's system directory.
 
-The PS Vita firmware is required. Download it from PlayStation's website and put it in `system/vita3k/`:
+The PS Vita firmware is required. Download it from PlayStation's website and put it in `system/vita3k/`. The three packages are told apart by their file names, in any case:
 
-- `PSP2UPDAT.PUP` - the system firmware
-- `PSP2UPDAT_PREINST.PUP` (or `preinst_fresh.pup`) - the preinstalled package
-- `PSP2UPDAT_FONT.PUP` (or `font_fresh.pup`) - the fonts, optional
+- the system firmware - any `.pup` without `preinst` or `font` in its name (`PSP2UPDAT.PUP`, `PSVUPDAT.PUP`, `firmware.pup`)
+- the preinstalled package - a `.pup` with `preinst` in its name (`preinst.pup`, `PSP2UPDAT_PREINST.PUP`)
+- the fonts, optional - a `.pup` with `font` in its name (`font.pup`, `PSP2UPDAT_FONT.PUP`)
+
+All three download under the same name, so rename the preinstalled package and the fonts as you save them.
 
 The core installs them the first time it starts.
 
