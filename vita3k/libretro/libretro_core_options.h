@@ -175,6 +175,20 @@ struct retro_core_option_v2_definition option_defs_us[] = {
         "enabled"
     },
     {
+        "vita3k_compile_overlay",
+        "Shader Compilation Overlay",
+        NULL,
+        NULL,
+        NULL,
+        "gpu",
+        {
+            { "enabled", NULL },
+            { "disabled", NULL },
+            { NULL, NULL },
+        },
+        "enabled"
+    },
+    {
         "vita3k_memory_mapping",
         "Memory Mapping",
         NULL,

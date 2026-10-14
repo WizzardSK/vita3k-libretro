@@ -36,6 +36,8 @@
 #include <gxm/functions.h>
 #include <gxm/state.h>
 #include <io/state.h>
+#include <overlay/display_manager.h>
+#include <overlay/shader_compile_notice.h>
 #include <kernel/state.h>
 #include <renderer/frame_host.h>
 #include <renderer/functions.h>
@@ -2071,6 +2073,11 @@ static void apply_config_changes() {
         emuenv->renderer->set_screen_filter(cfg.current_config.screen_filter);
         emuenv->renderer->set_anisotropic_filtering(cfg.current_config.anisotropic_filtering);
         emuenv->renderer->set_async_compilation(cfg.current_config.async_pipeline_compilation);
+        emuenv->renderer->show_compile_shaders = cfg.show_compile_shaders;
+        // update_overlays leaves the notice alone while the option is off, so
+        // one on screen when it is turned off would stay there
+        if (!cfg.show_compile_shaders && emuenv->renderer->overlay_manager)
+            emuenv->renderer->overlay_manager->remove<overlay::shader_compile_notice>();
 
         // Resolution changes are restart-sensitive while ingame; apply immediately only before app start.
         if (!libretro.app_started)
@@ -2123,6 +2130,11 @@ static void read_core_options() {
         libretro.cfg->current_config.async_pipeline_compilation = parse_enabled_option(value, true);
     });
     
+    // The notice of shaders being compiled in the lower left corner (sco8487)
+    read_core_option("vita3k_compile_overlay", "enabled", [](const char *value) {
+        libretro.cfg->show_compile_shaders = parse_enabled_option(value, true);
+    });
+
     read_core_option("vita3k_surface_sync", "enabled", [](const char *value) {
         // Inverted logic: disable_surface_sync = !surface_sync_enabled
         libretro.cfg->current_config.disable_surface_sync = !parse_enabled_option(value, true);
