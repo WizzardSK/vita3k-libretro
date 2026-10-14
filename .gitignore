@@ -90,3 +90,5 @@ fastlane/readme.md
 
 # Copilot local config
 .github/copilot-instructions.md
+# the Windows cross build's tools (.ci/build-windows-cross.sh in CI)
+.cross-tools/
