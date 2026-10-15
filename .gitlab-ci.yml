@@ -136,7 +136,8 @@ libretro-build-windows-x64:
 # The core alone, with CMake and the NDK, as upstream's gradle build does for
 # the app. Upstream takes Boost, OpenSSL and zlib for Android from vcpkg, and
 # cmake/vcpkg_android.cmake chains vcpkg's toolchain to the NDK's, so vcpkg is
-# set up here. NDK 27.3, the one upstream builds with (android/build.gradle).
+# set up here. NDK 29.0, the one the buildbot's Android image has: upstream
+# builds with 27.3 (android/build.gradle), which the image no longer carries.
 .core-defs-android:
   extends: .core-defs
   timeout: 3h
@@ -149,7 +150,7 @@ libretro-build-windows-x64:
       -DBUILD_LIBRETRO=ON
   before_script:
     - export NUMPROC=$(($(nproc)/5))
-    - export NDK_ROOT="${ANDROID_HOME}/ndk/27.3.13750724"
+    - export NDK_ROOT="${ANDROID_HOME}/ndk/29.0.14206865"
     - export ANDROID_NDK_HOME="$NDK_ROOT"
     # Into the folder the cache may already have brought back
     - mkdir -p vcpkg
@@ -166,7 +167,7 @@ libretro-build-windows-x64:
   # The libraries come from vcpkg.json (manifest mode) and are built when CMake
   # configures; vcpkg's binary cache keeps them between pipelines.
   cache:
-    key: vcpkg-$VCPKG_TRIPLET-ndk27.3
+    key: vcpkg-$VCPKG_TRIPLET-ndk29.0
     paths:
       - vcpkg-cache/
 
