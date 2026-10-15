@@ -35,6 +35,10 @@ A game, update or DLC can also be loaded as a `.pkg`, with its license next to i
 
 The core renders with Vulkan (1.1 or later) on RetroArch's own device, or with OpenGL. Set RetroArch's video driver to `vulkan` (or `glcore`).
 
+## Controls
+
+The pad is the Vita's buttons and sticks. Games that use the gyroscope and accelerometer (Gravity Rush, for one) get them from RetroArch's sensor interface wherever RetroArch has sensors to give: on Android devices and with controllers whose driver reports them. Elsewhere those games see a Vita lying still.
+
 ## Core options
 
 - **GPU**: renderer, internal resolution, screen filter (bilinear, nearest, bicubic, FXAA, FSR), anisotropic filtering, asynchronous pipeline compilation, the shader compile overlay, memory mapping, high-accuracy rendering, surface sync, V-Sync, FPS hack.
