@@ -4,6 +4,7 @@ What changed in the libretro core of this fork, newest first. Changes that come 
 
 ## Unreleased
 
+- A file next to a PKG under a license's name (`work.bin`, `<name>.rif`, `<content ID>.rif`) that is not the size of a license is no longer read as one: one larger than 2 KB overran a buffer and crashed RetroArch at once (Shoegzer, #1).
 - New option GPU > Shader Compilation Overlay (on by default): turned off, the notice of shaders being compiled is no longer shown in the lower left corner of the picture. Other overlays stay (sco8487).
 - The core no longer writes `libretro_trace_uwp.log`: a debugging aid of the original port that was appended to at every start and never trimmed, in a `vita3k` folder inside RetroArch's save directory that nothing else used. The same lines are in RetroArch's log. The core no longer asks for the save directory or the downloads directory, which it had no other use for (sco8487).
 - The system dialogs are shown and answered with the pad (Vulkan): the save data list, system messages and the other dialogs a game opens through the Vita's common dialog, drawn over the picture by Vita3K's own overlay as in the standalone. The core never drew them, so a game that opened one waited for an answer forever (lim2222: a save list that never appeared). While a dialog is open the game gets no pad input. The same overlay brings the trophy and shader compilation notices. The dialogs' icons are in `system/vita3k/icons`, which the builds now ship. Not drawn with OpenGL yet, and a dialog cannot be answered by touch.

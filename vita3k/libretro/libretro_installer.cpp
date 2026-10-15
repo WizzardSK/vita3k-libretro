@@ -811,6 +811,13 @@ static std::string license_to_zrif(const fs::path &license, const fs::path &pref
     std::string bytes;
     if (!content_read(license, bytes) || bytes.empty())
         return {};
+    // A license is 512 bytes (up to 2048): rif2zrif reads the whole file into a buffer of
+    // that size on the stack, and a larger file next to the PKG under a license's name
+    // overran it and crashed the frontend (Shoegzer)
+    if (bytes.size() < 512 || bytes.size() > 2048) {
+        lr_log(RETRO_LOG_WARN, "%s is not a license: %u bytes\n", license.generic_string().c_str(), static_cast<unsigned>(bytes.size()));
+        return {};
+    }
     const fs::path scratch = pref_path / "ux0" / "libretro_license.tmp";
     boost::system::error_code ec;
     fs::create_directories(scratch.parent_path(), ec);
