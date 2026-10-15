@@ -43,11 +43,11 @@ extern "C" {
 #define CATEGORY_GPU_INFO_0_AR NULL
 #define CATEGORY_CPU_LABEL_AR NULL
 #define CATEGORY_CPU_INFO_0_AR NULL
-#define CATEGORY_SYSTEM_LABEL_AR NULL
+#define CATEGORY_SYSTEM_LABEL_AR "نظام"
 #define CATEGORY_SYSTEM_INFO_0_AR NULL
-#define CATEGORY_AUDIO_LABEL_AR NULL
+#define CATEGORY_AUDIO_LABEL_AR "الصوت"
 #define CATEGORY_AUDIO_INFO_0_AR NULL
-#define CATEGORY_NETWORK_LABEL_AR NULL
+#define CATEGORY_NETWORK_LABEL_AR "الشبكة"
 #define CATEGORY_NETWORK_INFO_0_AR NULL
 #define VITA3K_BACKEND_RENDERER_LABEL_AR NULL
 #define VITA3K_BACKEND_RENDERER_INFO_0_AR NULL
@@ -61,9 +61,9 @@ extern "C" {
 #define OPTION_VAL_4_AR NULL
 #define VITA3K_SCREEN_FILTER_LABEL_AR NULL
 #define VITA3K_SCREEN_FILTER_INFO_0_AR NULL
-#define OPTION_VAL_BILINEAR_AR NULL
-#define OPTION_VAL_NEAREST_AR NULL
-#define OPTION_VAL_BICUBIC_AR NULL
+#define OPTION_VAL_BILINEAR_AR "ثنائي"
+#define OPTION_VAL_NEAREST_AR "أقرب"
+#define OPTION_VAL_BICUBIC_AR "ثنائي تكعيبي"
 #define OPTION_VAL_FXAA_AR NULL
 #define OPTION_VAL_FSR_AR NULL
 #define VITA3K_ANISOTROPIC_FILTERING_LABEL_AR NULL
@@ -77,6 +77,7 @@ extern "C" {
 #define VITA3K_V_SYNC_INFO_0_AR NULL
 #define VITA3K_ASYNC_PIPELINE_LABEL_AR NULL
 #define VITA3K_ASYNC_PIPELINE_INFO_0_AR NULL
+#define VITA3K_COMPILE_OVERLAY_LABEL_AR NULL
 #define VITA3K_MEMORY_MAPPING_LABEL_AR NULL
 #define VITA3K_MEMORY_MAPPING_INFO_0_AR NULL
 #define OPTION_VAL_DOUBLE_BUFFER_AR NULL
@@ -95,9 +96,9 @@ extern "C" {
 #define VITA3K_PSTV_MODE_INFO_0_AR NULL
 #define VITA3K_MODULES_MODE_LABEL_AR NULL
 #define VITA3K_MODULES_MODE_INFO_0_AR NULL
-#define OPTION_VAL_0_AR NULL
+#define OPTION_VAL_0_AR "تلقائي"
 #define OPTION_VAL_1_VITA3K_MODULES_MODE_AR NULL
-#define OPTION_VAL_2_VITA3K_MODULES_MODE_AR NULL
+#define OPTION_VAL_2_VITA3K_MODULES_MODE_AR "يدوي"
 #define VITA3K_FPS_HACK_LABEL_AR NULL
 #define VITA3K_FPS_HACK_INFO_0_AR NULL
 #define VITA3K_SYS_BUTTON_LABEL_AR NULL
@@ -228,6 +229,20 @@ struct retro_core_option_v2_definition option_defs_ar[] = {
         VITA3K_ASYNC_PIPELINE_LABEL_AR,
         NULL,
         VITA3K_ASYNC_PIPELINE_INFO_0_AR,
+        NULL,
+        "gpu",
+        {
+            { "enabled", NULL },
+            { "disabled", NULL },
+            { NULL, NULL },
+        },
+        "enabled"
+    },
+    {
+        "vita3k_compile_overlay",
+        VITA3K_COMPILE_OVERLAY_LABEL_AR,
+        NULL,
+        NULL,
         NULL,
         "gpu",
         {
@@ -454,11 +469,11 @@ struct retro_core_options_v2 options_ar = {
 #define CATEGORY_GPU_INFO_0_AST NULL
 #define CATEGORY_CPU_LABEL_AST NULL
 #define CATEGORY_CPU_INFO_0_AST NULL
-#define CATEGORY_SYSTEM_LABEL_AST NULL
+#define CATEGORY_SYSTEM_LABEL_AST "Sistema"
 #define CATEGORY_SYSTEM_INFO_0_AST NULL
-#define CATEGORY_AUDIO_LABEL_AST NULL
+#define CATEGORY_AUDIO_LABEL_AST "Audiu"
 #define CATEGORY_AUDIO_INFO_0_AST NULL
-#define CATEGORY_NETWORK_LABEL_AST NULL
+#define CATEGORY_NETWORK_LABEL_AST "Rede"
 #define CATEGORY_NETWORK_INFO_0_AST NULL
 #define VITA3K_BACKEND_RENDERER_LABEL_AST NULL
 #define VITA3K_BACKEND_RENDERER_INFO_0_AST NULL
@@ -472,22 +487,23 @@ struct retro_core_options_v2 options_ar = {
 #define OPTION_VAL_4_AST NULL
 #define VITA3K_SCREEN_FILTER_LABEL_AST NULL
 #define VITA3K_SCREEN_FILTER_INFO_0_AST NULL
-#define OPTION_VAL_BILINEAR_AST NULL
+#define OPTION_VAL_BILINEAR_AST "Billinial"
 #define OPTION_VAL_NEAREST_AST NULL
-#define OPTION_VAL_BICUBIC_AST NULL
+#define OPTION_VAL_BICUBIC_AST "Bicúbicu"
 #define OPTION_VAL_FXAA_AST NULL
 #define OPTION_VAL_FSR_AST NULL
-#define VITA3K_ANISOTROPIC_FILTERING_LABEL_AST NULL
+#define VITA3K_ANISOTROPIC_FILTERING_LABEL_AST "Filtru anisotrópicu"
 #define VITA3K_ANISOTROPIC_FILTERING_INFO_0_AST NULL
 #define OPTION_VAL_1_VITA3K_ANISOTROPIC_FILTERING_AST NULL
-#define OPTION_VAL_2_VITA3K_ANISOTROPIC_FILTERING_AST NULL
-#define OPTION_VAL_4_VITA3K_ANISOTROPIC_FILTERING_AST NULL
-#define OPTION_VAL_8_AST NULL
-#define OPTION_VAL_16_AST NULL
+#define OPTION_VAL_2_VITA3K_ANISOTROPIC_FILTERING_AST "x2"
+#define OPTION_VAL_4_VITA3K_ANISOTROPIC_FILTERING_AST "x4"
+#define OPTION_VAL_8_AST "x8"
+#define OPTION_VAL_16_AST "x16"
 #define VITA3K_V_SYNC_LABEL_AST NULL
 #define VITA3K_V_SYNC_INFO_0_AST NULL
 #define VITA3K_ASYNC_PIPELINE_LABEL_AST NULL
 #define VITA3K_ASYNC_PIPELINE_INFO_0_AST NULL
+#define VITA3K_COMPILE_OVERLAY_LABEL_AST NULL
 #define VITA3K_MEMORY_MAPPING_LABEL_AST NULL
 #define VITA3K_MEMORY_MAPPING_INFO_0_AST NULL
 #define OPTION_VAL_DOUBLE_BUFFER_AST NULL
@@ -639,6 +655,20 @@ struct retro_core_option_v2_definition option_defs_ast[] = {
         VITA3K_ASYNC_PIPELINE_LABEL_AST,
         NULL,
         VITA3K_ASYNC_PIPELINE_INFO_0_AST,
+        NULL,
+        "gpu",
+        {
+            { "enabled", NULL },
+            { "disabled", NULL },
+            { NULL, NULL },
+        },
+        "enabled"
+    },
+    {
+        "vita3k_compile_overlay",
+        VITA3K_COMPILE_OVERLAY_LABEL_AST,
+        NULL,
+        NULL,
         NULL,
         "gpu",
         {
@@ -865,11 +895,11 @@ struct retro_core_options_v2 options_ast = {
 #define CATEGORY_GPU_INFO_0_BE NULL
 #define CATEGORY_CPU_LABEL_BE NULL
 #define CATEGORY_CPU_INFO_0_BE NULL
-#define CATEGORY_SYSTEM_LABEL_BE NULL
+#define CATEGORY_SYSTEM_LABEL_BE "Сістэма"
 #define CATEGORY_SYSTEM_INFO_0_BE NULL
-#define CATEGORY_AUDIO_LABEL_BE NULL
+#define CATEGORY_AUDIO_LABEL_BE "Аўдыя"
 #define CATEGORY_AUDIO_INFO_0_BE NULL
-#define CATEGORY_NETWORK_LABEL_BE NULL
+#define CATEGORY_NETWORK_LABEL_BE "Сеціва"
 #define CATEGORY_NETWORK_INFO_0_BE NULL
 #define VITA3K_BACKEND_RENDERER_LABEL_BE NULL
 #define VITA3K_BACKEND_RENDERER_INFO_0_BE NULL
@@ -883,12 +913,12 @@ struct retro_core_options_v2 options_ast = {
 #define OPTION_VAL_4_BE NULL
 #define VITA3K_SCREEN_FILTER_LABEL_BE NULL
 #define VITA3K_SCREEN_FILTER_INFO_0_BE NULL
-#define OPTION_VAL_BILINEAR_BE NULL
-#define OPTION_VAL_NEAREST_BE NULL
-#define OPTION_VAL_BICUBIC_BE NULL
+#define OPTION_VAL_BILINEAR_BE "Білінейны"
+#define OPTION_VAL_NEAREST_BE "Бліжэйшы"
+#define OPTION_VAL_BICUBIC_BE "Бікубічная"
 #define OPTION_VAL_FXAA_BE NULL
 #define OPTION_VAL_FSR_BE NULL
-#define VITA3K_ANISOTROPIC_FILTERING_LABEL_BE NULL
+#define VITA3K_ANISOTROPIC_FILTERING_LABEL_BE "Анізатропнае фільтраванне"
 #define VITA3K_ANISOTROPIC_FILTERING_INFO_0_BE NULL
 #define OPTION_VAL_1_VITA3K_ANISOTROPIC_FILTERING_BE NULL
 #define OPTION_VAL_2_VITA3K_ANISOTROPIC_FILTERING_BE NULL
@@ -899,6 +929,7 @@ struct retro_core_options_v2 options_ast = {
 #define VITA3K_V_SYNC_INFO_0_BE NULL
 #define VITA3K_ASYNC_PIPELINE_LABEL_BE NULL
 #define VITA3K_ASYNC_PIPELINE_INFO_0_BE NULL
+#define VITA3K_COMPILE_OVERLAY_LABEL_BE NULL
 #define VITA3K_MEMORY_MAPPING_LABEL_BE NULL
 #define VITA3K_MEMORY_MAPPING_INFO_0_BE NULL
 #define OPTION_VAL_DOUBLE_BUFFER_BE NULL
@@ -917,28 +948,28 @@ struct retro_core_options_v2 options_ast = {
 #define VITA3K_PSTV_MODE_INFO_0_BE NULL
 #define VITA3K_MODULES_MODE_LABEL_BE NULL
 #define VITA3K_MODULES_MODE_INFO_0_BE NULL
-#define OPTION_VAL_0_BE NULL
+#define OPTION_VAL_0_BE "Аўтаматычная"
 #define OPTION_VAL_1_VITA3K_MODULES_MODE_BE NULL
-#define OPTION_VAL_2_VITA3K_MODULES_MODE_BE NULL
+#define OPTION_VAL_2_VITA3K_MODULES_MODE_BE "Уручную"
 #define VITA3K_FPS_HACK_LABEL_BE NULL
 #define VITA3K_FPS_HACK_INFO_0_BE NULL
 #define VITA3K_SYS_BUTTON_LABEL_BE NULL
 #define VITA3K_SYS_BUTTON_INFO_0_BE NULL
 #define OPTION_VAL_0_VITA3K_SYS_BUTTON_BE NULL
-#define OPTION_VAL_1_VITA3K_SYS_BUTTON_BE NULL
+#define OPTION_VAL_1_VITA3K_SYS_BUTTON_BE "Крыж"
 #define VITA3K_AUDIO_VOLUME_LABEL_BE NULL
 #define VITA3K_AUDIO_VOLUME_INFO_0_BE NULL
 #define OPTION_VAL_0_VITA3K_AUDIO_VOLUME_BE NULL
 #define OPTION_VAL_10_BE NULL
-#define OPTION_VAL_20_BE NULL
-#define OPTION_VAL_30_BE NULL
-#define OPTION_VAL_40_BE NULL
-#define OPTION_VAL_50_BE NULL
-#define OPTION_VAL_60_BE NULL
-#define OPTION_VAL_70_BE NULL
-#define OPTION_VAL_80_BE NULL
-#define OPTION_VAL_90_BE NULL
-#define OPTION_VAL_100_BE NULL
+#define OPTION_VAL_20_BE "20 %"
+#define OPTION_VAL_30_BE "30 %"
+#define OPTION_VAL_40_BE "40 %"
+#define OPTION_VAL_50_BE "50 %"
+#define OPTION_VAL_60_BE "60 %"
+#define OPTION_VAL_70_BE "70 %"
+#define OPTION_VAL_80_BE "80 %"
+#define OPTION_VAL_90_BE "90 %"
+#define OPTION_VAL_100_BE "100 %"
 #define VITA3K_NGS_ENABLE_LABEL_BE NULL
 #define VITA3K_NGS_ENABLE_INFO_0_BE NULL
 #define VITA3K_PSN_SIGNED_IN_LABEL_BE NULL
@@ -1050,6 +1081,20 @@ struct retro_core_option_v2_definition option_defs_be[] = {
         VITA3K_ASYNC_PIPELINE_LABEL_BE,
         NULL,
         VITA3K_ASYNC_PIPELINE_INFO_0_BE,
+        NULL,
+        "gpu",
+        {
+            { "enabled", NULL },
+            { "disabled", NULL },
+            { NULL, NULL },
+        },
+        "enabled"
+    },
+    {
+        "vita3k_compile_overlay",
+        VITA3K_COMPILE_OVERLAY_LABEL_BE,
+        NULL,
+        NULL,
         NULL,
         "gpu",
         {
@@ -1270,75 +1315,502 @@ struct retro_core_options_v2 options_be = {
    option_defs_be
 };
 
+/* RETRO_LANGUAGE_BG */
+
+#define CATEGORY_GPU_LABEL_BG NULL
+#define CATEGORY_GPU_INFO_0_BG NULL
+#define CATEGORY_CPU_LABEL_BG NULL
+#define CATEGORY_CPU_INFO_0_BG NULL
+#define CATEGORY_SYSTEM_LABEL_BG NULL
+#define CATEGORY_SYSTEM_INFO_0_BG NULL
+#define CATEGORY_AUDIO_LABEL_BG "Звук"
+#define CATEGORY_AUDIO_INFO_0_BG NULL
+#define CATEGORY_NETWORK_LABEL_BG NULL
+#define CATEGORY_NETWORK_INFO_0_BG NULL
+#define VITA3K_BACKEND_RENDERER_LABEL_BG NULL
+#define VITA3K_BACKEND_RENDERER_INFO_0_BG NULL
+#define OPTION_VAL_VULKAN_BG NULL
+#define OPTION_VAL_OPENGL_BG NULL
+#define VITA3K_RESOLUTION_MULTIPLIER_LABEL_BG NULL
+#define VITA3K_RESOLUTION_MULTIPLIER_INFO_0_BG NULL
+#define OPTION_VAL_1_BG NULL
+#define OPTION_VAL_2_BG NULL
+#define OPTION_VAL_3_BG NULL
+#define OPTION_VAL_4_BG NULL
+#define VITA3K_SCREEN_FILTER_LABEL_BG NULL
+#define VITA3K_SCREEN_FILTER_INFO_0_BG NULL
+#define OPTION_VAL_BILINEAR_BG NULL
+#define OPTION_VAL_NEAREST_BG NULL
+#define OPTION_VAL_BICUBIC_BG NULL
+#define OPTION_VAL_FXAA_BG NULL
+#define OPTION_VAL_FSR_BG NULL
+#define VITA3K_ANISOTROPIC_FILTERING_LABEL_BG NULL
+#define VITA3K_ANISOTROPIC_FILTERING_INFO_0_BG NULL
+#define OPTION_VAL_1_VITA3K_ANISOTROPIC_FILTERING_BG NULL
+#define OPTION_VAL_2_VITA3K_ANISOTROPIC_FILTERING_BG NULL
+#define OPTION_VAL_4_VITA3K_ANISOTROPIC_FILTERING_BG NULL
+#define OPTION_VAL_8_BG NULL
+#define OPTION_VAL_16_BG NULL
+#define VITA3K_V_SYNC_LABEL_BG NULL
+#define VITA3K_V_SYNC_INFO_0_BG NULL
+#define VITA3K_ASYNC_PIPELINE_LABEL_BG NULL
+#define VITA3K_ASYNC_PIPELINE_INFO_0_BG NULL
+#define VITA3K_COMPILE_OVERLAY_LABEL_BG NULL
+#define VITA3K_MEMORY_MAPPING_LABEL_BG NULL
+#define VITA3K_MEMORY_MAPPING_INFO_0_BG NULL
+#define OPTION_VAL_DOUBLE_BUFFER_BG NULL
+#define OPTION_VAL_EXTERNAL_HOST_BG NULL
+#define OPTION_VAL_PAGE_TABLE_BG NULL
+#define OPTION_VAL_NATIVE_BUFFER_BG NULL
+#define VITA3K_HIGH_ACCURACY_LABEL_BG NULL
+#define VITA3K_HIGH_ACCURACY_INFO_0_BG NULL
+#define VITA3K_CPU_OPT_LABEL_BG NULL
+#define VITA3K_CPU_OPT_INFO_0_BG NULL
+#define VITA3K_PKG_MODE_LABEL_BG NULL
+#define VITA3K_PKG_MODE_INFO_0_BG NULL
+#define OPTION_VAL_RUN_BG NULL
+#define OPTION_VAL_INSTALL_BG NULL
+#define VITA3K_PSTV_MODE_LABEL_BG NULL
+#define VITA3K_PSTV_MODE_INFO_0_BG NULL
+#define VITA3K_MODULES_MODE_LABEL_BG NULL
+#define VITA3K_MODULES_MODE_INFO_0_BG NULL
+#define OPTION_VAL_0_BG NULL
+#define OPTION_VAL_1_VITA3K_MODULES_MODE_BG NULL
+#define OPTION_VAL_2_VITA3K_MODULES_MODE_BG NULL
+#define VITA3K_FPS_HACK_LABEL_BG NULL
+#define VITA3K_FPS_HACK_INFO_0_BG NULL
+#define VITA3K_SYS_BUTTON_LABEL_BG NULL
+#define VITA3K_SYS_BUTTON_INFO_0_BG NULL
+#define OPTION_VAL_0_VITA3K_SYS_BUTTON_BG NULL
+#define OPTION_VAL_1_VITA3K_SYS_BUTTON_BG NULL
+#define VITA3K_AUDIO_VOLUME_LABEL_BG NULL
+#define VITA3K_AUDIO_VOLUME_INFO_0_BG NULL
+#define OPTION_VAL_0_VITA3K_AUDIO_VOLUME_BG NULL
+#define OPTION_VAL_10_BG NULL
+#define OPTION_VAL_20_BG NULL
+#define OPTION_VAL_30_BG NULL
+#define OPTION_VAL_40_BG NULL
+#define OPTION_VAL_50_BG NULL
+#define OPTION_VAL_60_BG NULL
+#define OPTION_VAL_70_BG NULL
+#define OPTION_VAL_80_BG NULL
+#define OPTION_VAL_90_BG NULL
+#define OPTION_VAL_100_BG NULL
+#define VITA3K_NGS_ENABLE_LABEL_BG NULL
+#define VITA3K_NGS_ENABLE_INFO_0_BG NULL
+#define VITA3K_PSN_SIGNED_IN_LABEL_BG NULL
+#define VITA3K_PSN_SIGNED_IN_INFO_0_BG NULL
+#define VITA3K_SURFACE_SYNC_LABEL_BG NULL
+#define VITA3K_SURFACE_SYNC_INFO_0_BG NULL
+#define OPTION_VAL_ENABLED_BG NULL
+#define OPTION_VAL_DISABLED_BG NULL
+#define VITA3K_FILE_LOADING_DELAY_LABEL_BG NULL
+#define VITA3K_FILE_LOADING_DELAY_INFO_0_BG NULL
+#define OPTION_VAL_0_VITA3K_FILE_LOADING_DELAY_BG NULL
+#define OPTION_VAL_5_BG NULL
+#define OPTION_VAL_10_VITA3K_FILE_LOADING_DELAY_BG NULL
+#define OPTION_VAL_15_BG NULL
+#define OPTION_VAL_20_VITA3K_FILE_LOADING_DELAY_BG NULL
+#define OPTION_VAL_25_BG NULL
+#define OPTION_VAL_30_VITA3K_FILE_LOADING_DELAY_BG NULL
+
+struct retro_core_option_v2_category option_cats_bg[] = {
+    { "gpu", CATEGORY_GPU_LABEL_BG, CATEGORY_GPU_INFO_0_BG },
+    { "cpu", CATEGORY_CPU_LABEL_BG, CATEGORY_CPU_INFO_0_BG },
+    { "system", CATEGORY_SYSTEM_LABEL_BG, CATEGORY_SYSTEM_INFO_0_BG },
+    { "audio", CATEGORY_AUDIO_LABEL_BG, CATEGORY_AUDIO_INFO_0_BG },
+    { "network", CATEGORY_NETWORK_LABEL_BG, CATEGORY_NETWORK_INFO_0_BG },
+    { NULL, NULL, NULL },
+};
+struct retro_core_option_v2_definition option_defs_bg[] = {
+    // ── GPU ──────────────────────────────────────────────────────────────
+    {
+        "vita3k_backend_renderer",
+        VITA3K_BACKEND_RENDERER_LABEL_BG,
+        NULL,
+        VITA3K_BACKEND_RENDERER_INFO_0_BG,
+        NULL,
+        "gpu",
+        {
+            { "Vulkan", OPTION_VAL_VULKAN_BG },
+            { "OpenGL", OPTION_VAL_OPENGL_BG },
+            { NULL, NULL },
+        },
+        "Vulkan"
+    },
+    {
+        "vita3k_resolution_multiplier",
+        VITA3K_RESOLUTION_MULTIPLIER_LABEL_BG,
+        NULL,
+        VITA3K_RESOLUTION_MULTIPLIER_INFO_0_BG,
+        NULL,
+        "gpu",
+        {
+            { "1", OPTION_VAL_1_BG },
+            { "2", OPTION_VAL_2_BG },
+            { "3", OPTION_VAL_3_BG },
+            { "4", OPTION_VAL_4_BG },
+            { NULL, NULL },
+        },
+        "1"
+    },
+    {
+        "vita3k_screen_filter",
+        VITA3K_SCREEN_FILTER_LABEL_BG,
+        NULL,
+        VITA3K_SCREEN_FILTER_INFO_0_BG,
+        NULL,
+        "gpu",
+        {
+            { "Bilinear", OPTION_VAL_BILINEAR_BG },
+            { "Nearest", OPTION_VAL_NEAREST_BG },
+            { "Bicubic", OPTION_VAL_BICUBIC_BG },
+            { "FXAA", OPTION_VAL_FXAA_BG },
+            { "FSR", OPTION_VAL_FSR_BG },
+            { NULL, NULL },
+        },
+        "Bilinear"
+    },
+    {
+        "vita3k_anisotropic_filtering",
+        VITA3K_ANISOTROPIC_FILTERING_LABEL_BG,
+        NULL,
+        VITA3K_ANISOTROPIC_FILTERING_INFO_0_BG,
+        NULL,
+        "gpu",
+        {
+            { "1", OPTION_VAL_1_VITA3K_ANISOTROPIC_FILTERING_BG },
+            { "2", OPTION_VAL_2_VITA3K_ANISOTROPIC_FILTERING_BG },
+            { "4", OPTION_VAL_4_VITA3K_ANISOTROPIC_FILTERING_BG },
+            { "8", OPTION_VAL_8_BG },
+            { "16", OPTION_VAL_16_BG },
+            { NULL, NULL },
+        },
+        "1"
+    },
+    {
+        "vita3k_v_sync",
+        VITA3K_V_SYNC_LABEL_BG,
+        NULL,
+        VITA3K_V_SYNC_INFO_0_BG,
+        NULL,
+        "gpu",
+        {
+            { "enabled", NULL },
+            { "disabled", NULL },
+            { NULL, NULL },
+        },
+        "enabled"
+    },
+    {
+        "vita3k_async_pipeline",
+        VITA3K_ASYNC_PIPELINE_LABEL_BG,
+        NULL,
+        VITA3K_ASYNC_PIPELINE_INFO_0_BG,
+        NULL,
+        "gpu",
+        {
+            { "enabled", NULL },
+            { "disabled", NULL },
+            { NULL, NULL },
+        },
+        "enabled"
+    },
+    {
+        "vita3k_compile_overlay",
+        VITA3K_COMPILE_OVERLAY_LABEL_BG,
+        NULL,
+        NULL,
+        NULL,
+        "gpu",
+        {
+            { "enabled", NULL },
+            { "disabled", NULL },
+            { NULL, NULL },
+        },
+        "enabled"
+    },
+    {
+        "vita3k_memory_mapping",
+        VITA3K_MEMORY_MAPPING_LABEL_BG,
+        NULL,
+        VITA3K_MEMORY_MAPPING_INFO_0_BG,
+        NULL,
+        "gpu",
+        {
+            { "disabled", NULL },
+            { "double-buffer", OPTION_VAL_DOUBLE_BUFFER_BG },
+            { "external-host", OPTION_VAL_EXTERNAL_HOST_BG },
+            { "page-table", OPTION_VAL_PAGE_TABLE_BG },
+            { "native-buffer", OPTION_VAL_NATIVE_BUFFER_BG },
+            { NULL, NULL },
+        },
+        "double-buffer"
+    },
+    {
+        "vita3k_high_accuracy",
+        VITA3K_HIGH_ACCURACY_LABEL_BG,
+        NULL,
+        VITA3K_HIGH_ACCURACY_INFO_0_BG,
+        NULL,
+        "gpu",
+        {
+            { "disabled", NULL },
+            { "enabled", NULL },
+            { NULL, NULL },
+        },
+        "disabled"
+    },
+    // ── CPU ──────────────────────────────────────────────────────────────
+    {
+        "vita3k_cpu_opt",
+        VITA3K_CPU_OPT_LABEL_BG,
+        NULL,
+        VITA3K_CPU_OPT_INFO_0_BG,
+        NULL,
+        "cpu",
+        {
+            { "enabled", NULL },
+            { "disabled", NULL },
+            { NULL, NULL },
+        },
+        "enabled"
+    },
+    // ── System ───────────────────────────────────────────────────────────
+    {
+        "vita3k_pkg_mode",
+        VITA3K_PKG_MODE_LABEL_BG,
+        NULL,
+        VITA3K_PKG_MODE_INFO_0_BG,
+        NULL,
+        "system",
+        {
+            { "run", OPTION_VAL_RUN_BG },
+            { "install", OPTION_VAL_INSTALL_BG },
+            { NULL, NULL },
+        },
+        "run"
+    },
+    {
+        "vita3k_pstv_mode",
+        VITA3K_PSTV_MODE_LABEL_BG,
+        NULL,
+        VITA3K_PSTV_MODE_INFO_0_BG,
+        NULL,
+        "system",
+        {
+            { "disabled", NULL },
+            { "enabled", NULL },
+            { NULL, NULL },
+        },
+        "disabled"
+    },
+    {
+        "vita3k_modules_mode",
+        VITA3K_MODULES_MODE_LABEL_BG,
+        NULL,
+        VITA3K_MODULES_MODE_INFO_0_BG,
+        NULL,
+        "system",
+        {
+            { "0", OPTION_VAL_0_BG },
+            { "1", OPTION_VAL_1_VITA3K_MODULES_MODE_BG },
+            { "2", OPTION_VAL_2_VITA3K_MODULES_MODE_BG },
+            { NULL, NULL },
+        },
+        "0"
+    },
+    {
+        "vita3k_fps_hack",
+        VITA3K_FPS_HACK_LABEL_BG,
+        NULL,
+        VITA3K_FPS_HACK_INFO_0_BG,
+        NULL,
+        "system",
+        {
+            { "disabled", NULL },
+            { "enabled", NULL },
+            { NULL, NULL },
+        },
+        "disabled"
+    },
+    {
+        "vita3k_sys_button",
+        VITA3K_SYS_BUTTON_LABEL_BG,
+        NULL,
+        VITA3K_SYS_BUTTON_INFO_0_BG,
+        NULL,
+        "system",
+        {
+            { "0", OPTION_VAL_0_VITA3K_SYS_BUTTON_BG },
+            { "1", OPTION_VAL_1_VITA3K_SYS_BUTTON_BG },
+            { NULL, NULL },
+        },
+        "1"
+    },
+    // ── Audio ────────────────────────────────────────────────────────────
+    {
+        "vita3k_audio_volume",
+        VITA3K_AUDIO_VOLUME_LABEL_BG,
+        NULL,
+        VITA3K_AUDIO_VOLUME_INFO_0_BG,
+        NULL,
+        "audio",
+        {
+            { "0", OPTION_VAL_0_VITA3K_AUDIO_VOLUME_BG },
+            { "10", OPTION_VAL_10_BG },
+            { "20", OPTION_VAL_20_BG },
+            { "30", OPTION_VAL_30_BG },
+            { "40", OPTION_VAL_40_BG },
+            { "50", OPTION_VAL_50_BG },
+            { "60", OPTION_VAL_60_BG },
+            { "70", OPTION_VAL_70_BG },
+            { "80", OPTION_VAL_80_BG },
+            { "90", OPTION_VAL_90_BG },
+            { "100", OPTION_VAL_100_BG },
+            { NULL, NULL },
+        },
+        "100"
+    },
+    {
+        "vita3k_ngs_enable",
+        VITA3K_NGS_ENABLE_LABEL_BG,
+        NULL,
+        VITA3K_NGS_ENABLE_INFO_0_BG,
+        NULL,
+        "audio",
+        {
+            { "enabled", NULL },
+            { "disabled", NULL },
+            { NULL, NULL },
+        },
+        "enabled"
+    },
+    // ── Network ──────────────────────────────────────────────────────────
+    {
+        "vita3k_psn_signed_in",
+        VITA3K_PSN_SIGNED_IN_LABEL_BG,
+        NULL,
+        VITA3K_PSN_SIGNED_IN_INFO_0_BG,
+        NULL,
+        "network",
+        {
+            { "disabled", NULL },
+            { "enabled", NULL },
+            { NULL, NULL },
+        },
+        "disabled"
+    },
+    {
+        "vita3k_surface_sync",
+        VITA3K_SURFACE_SYNC_LABEL_BG,
+        NULL,
+        VITA3K_SURFACE_SYNC_INFO_0_BG,
+        NULL,
+        "gpu",
+        {
+            { "enabled", OPTION_VAL_ENABLED_BG },
+            { "disabled", OPTION_VAL_DISABLED_BG },
+            { NULL, NULL },
+        },
+        "enabled"
+    },
+    {
+        "vita3k_file_loading_delay",
+        VITA3K_FILE_LOADING_DELAY_LABEL_BG,
+        NULL,
+        VITA3K_FILE_LOADING_DELAY_INFO_0_BG,
+        NULL,
+        "system",
+        {
+            { "0", OPTION_VAL_0_VITA3K_FILE_LOADING_DELAY_BG },
+            { "5", OPTION_VAL_5_BG },
+            { "10", OPTION_VAL_10_VITA3K_FILE_LOADING_DELAY_BG },
+            { "15", OPTION_VAL_15_BG },
+            { "20", OPTION_VAL_20_VITA3K_FILE_LOADING_DELAY_BG },
+            { "25", OPTION_VAL_25_BG },
+            { "30", OPTION_VAL_30_VITA3K_FILE_LOADING_DELAY_BG },
+            { NULL, NULL },
+        },
+        "0"
+    },
+    { NULL, NULL, NULL, NULL, NULL, NULL, {{0}}, NULL },
+};
+struct retro_core_options_v2 options_bg = {
+   option_cats_bg,
+   option_defs_bg
+};
+
 /* RETRO_LANGUAGE_CA */
 
 #define CATEGORY_GPU_LABEL_CA NULL
-#define CATEGORY_GPU_INFO_0_CA NULL
-#define CATEGORY_CPU_LABEL_CA NULL
-#define CATEGORY_CPU_INFO_0_CA NULL
-#define CATEGORY_SYSTEM_LABEL_CA NULL
-#define CATEGORY_SYSTEM_INFO_0_CA NULL
-#define CATEGORY_AUDIO_LABEL_CA NULL
-#define CATEGORY_AUDIO_INFO_0_CA NULL
-#define CATEGORY_NETWORK_LABEL_CA NULL
-#define CATEGORY_NETWORK_INFO_0_CA NULL
-#define VITA3K_BACKEND_RENDERER_LABEL_CA NULL
-#define VITA3K_BACKEND_RENDERER_INFO_0_CA NULL
+#define CATEGORY_GPU_INFO_0_CA "Opcions de renderització de gràfics."
+#define CATEGORY_CPU_LABEL_CA "CPU760%"
+#define CATEGORY_CPU_INFO_0_CA "Opcions d'emulació del xip."
+#define CATEGORY_SYSTEM_LABEL_CA "Sistema"
+#define CATEGORY_SYSTEM_INFO_0_CA "Opcions d'emulació del sistema."
+#define CATEGORY_AUDIO_LABEL_CA "Àudio"
+#define CATEGORY_AUDIO_INFO_0_CA "Opcions de sortida d'àudio."
+#define CATEGORY_NETWORK_LABEL_CA "Xarxa"
+#define CATEGORY_NETWORK_INFO_0_CA "Opcions de xarxa."
+#define VITA3K_BACKEND_RENDERER_LABEL_CA "Renderitzador"
+#define VITA3K_BACKEND_RENDERER_INFO_0_CA "Selecciona el motor gràfic. Es recomana Vulkan."
 #define OPTION_VAL_VULKAN_CA NULL
 #define OPTION_VAL_OPENGL_CA NULL
-#define VITA3K_RESOLUTION_MULTIPLIER_LABEL_CA NULL
+#define VITA3K_RESOLUTION_MULTIPLIER_LABEL_CA "Multiplicador intern de la resolució"
 #define VITA3K_RESOLUTION_MULTIPLIER_INFO_0_CA NULL
 #define OPTION_VAL_1_CA NULL
 #define OPTION_VAL_2_CA NULL
 #define OPTION_VAL_3_CA NULL
 #define OPTION_VAL_4_CA NULL
-#define VITA3K_SCREEN_FILTER_LABEL_CA NULL
-#define VITA3K_SCREEN_FILTER_INFO_0_CA NULL
-#define OPTION_VAL_BILINEAR_CA NULL
-#define OPTION_VAL_NEAREST_CA NULL
-#define OPTION_VAL_BICUBIC_CA NULL
+#define VITA3K_SCREEN_FILTER_LABEL_CA "Filtre de pantalla"
+#define VITA3K_SCREEN_FILTER_INFO_0_CA "Filtre de postprocessat aplicat al fotograma renderitzat."
+#define OPTION_VAL_BILINEAR_CA "Bilineal"
+#define OPTION_VAL_NEAREST_CA "Més proper"
+#define OPTION_VAL_BICUBIC_CA "Bicúbica"
 #define OPTION_VAL_FXAA_CA NULL
 #define OPTION_VAL_FSR_CA NULL
-#define VITA3K_ANISOTROPIC_FILTERING_LABEL_CA NULL
-#define VITA3K_ANISOTROPIC_FILTERING_INFO_0_CA NULL
-#define OPTION_VAL_1_VITA3K_ANISOTROPIC_FILTERING_CA NULL
+#define VITA3K_ANISOTROPIC_FILTERING_LABEL_CA "Filtre anisotròpic"
+#define VITA3K_ANISOTROPIC_FILTERING_INFO_0_CA "Nivell de filtratge de textures anisotròpiques."
+#define OPTION_VAL_1_VITA3K_ANISOTROPIC_FILTERING_CA "1x (Desactivat)"
 #define OPTION_VAL_2_VITA3K_ANISOTROPIC_FILTERING_CA NULL
 #define OPTION_VAL_4_VITA3K_ANISOTROPIC_FILTERING_CA NULL
 #define OPTION_VAL_8_CA NULL
 #define OPTION_VAL_16_CA NULL
 #define VITA3K_V_SYNC_LABEL_CA NULL
-#define VITA3K_V_SYNC_INFO_0_CA NULL
-#define VITA3K_ASYNC_PIPELINE_LABEL_CA NULL
+#define VITA3K_V_SYNC_INFO_0_CA "Activa o desactiva la sincronització vertical."
+#define VITA3K_ASYNC_PIPELINE_LABEL_CA "Compilació asíncrona de la seqüència"
 #define VITA3K_ASYNC_PIPELINE_INFO_0_CA NULL
-#define VITA3K_MEMORY_MAPPING_LABEL_CA NULL
+#define VITA3K_COMPILE_OVERLAY_LABEL_CA "Superposició de compilació de shaders"
+#define VITA3K_MEMORY_MAPPING_LABEL_CA "Assignació de memòria"
 #define VITA3K_MEMORY_MAPPING_INFO_0_CA NULL
-#define OPTION_VAL_DOUBLE_BUFFER_CA NULL
-#define OPTION_VAL_EXTERNAL_HOST_CA NULL
-#define OPTION_VAL_PAGE_TABLE_CA NULL
-#define OPTION_VAL_NATIVE_BUFFER_CA NULL
-#define VITA3K_HIGH_ACCURACY_LABEL_CA NULL
-#define VITA3K_HIGH_ACCURACY_INFO_0_CA NULL
-#define VITA3K_CPU_OPT_LABEL_CA NULL
-#define VITA3K_CPU_OPT_INFO_0_CA NULL
-#define VITA3K_PKG_MODE_LABEL_CA NULL
+#define OPTION_VAL_DOUBLE_BUFFER_CA "Memòria intermèdia doble"
+#define OPTION_VAL_EXTERNAL_HOST_CA "Amfitrió extern"
+#define OPTION_VAL_PAGE_TABLE_CA "Taula de pàgines"
+#define OPTION_VAL_NATIVE_BUFFER_CA "Memòria intermèdia nativa"
+#define VITA3K_HIGH_ACCURACY_LABEL_CA "Renderització de gran precisió"
+#define VITA3K_HIGH_ACCURACY_INFO_0_CA "Activa les tècniques de renderitzat més precises però més lentes."
+#define VITA3K_CPU_OPT_LABEL_CA "Optimitzacions de xip (Dynarmic JIT)"
+#define VITA3K_CPU_OPT_INFO_0_CA "Activa el Dynarmic JIT per accelerar l'emulació de xip."
+#define VITA3K_PKG_MODE_LABEL_CA "Joc PKG"
 #define VITA3K_PKG_MODE_INFO_0_CA NULL
-#define OPTION_VAL_RUN_CA NULL
-#define OPTION_VAL_INSTALL_CA NULL
-#define VITA3K_PSTV_MODE_LABEL_CA NULL
-#define VITA3K_PSTV_MODE_INFO_0_CA NULL
-#define VITA3K_MODULES_MODE_LABEL_CA NULL
-#define VITA3K_MODULES_MODE_INFO_0_CA NULL
-#define OPTION_VAL_0_CA NULL
-#define OPTION_VAL_1_VITA3K_MODULES_MODE_CA NULL
+#define OPTION_VAL_RUN_CA "Executa sense instal·lar"
+#define OPTION_VAL_INSTALL_CA "Instal·la"
+#define VITA3K_PSTV_MODE_LABEL_CA "Mode PS TV"
+#define VITA3K_PSTV_MODE_INFO_0_CA "Emula una PlayStation TV en comptes d'una PS Vita."
+#define VITA3K_MODULES_MODE_LABEL_CA "Mode de mòduls"
+#define VITA3K_MODULES_MODE_INFO_0_CA "Indica com es carreguen els mòduls del sistema. Es recomana automàtic."
+#define OPTION_VAL_0_CA "Automàtic"
+#define OPTION_VAL_1_VITA3K_MODULES_MODE_CA "Automàtica & manual"
 #define OPTION_VAL_2_VITA3K_MODULES_MODE_CA NULL
-#define VITA3K_FPS_HACK_LABEL_CA NULL
-#define VITA3K_FPS_HACK_INFO_0_CA NULL
-#define VITA3K_SYS_BUTTON_LABEL_CA NULL
-#define VITA3K_SYS_BUTTON_INFO_0_CA NULL
-#define OPTION_VAL_0_VITA3K_SYS_BUTTON_CA NULL
-#define OPTION_VAL_1_VITA3K_SYS_BUTTON_CA NULL
-#define VITA3K_AUDIO_VOLUME_LABEL_CA NULL
-#define VITA3K_AUDIO_VOLUME_INFO_0_CA NULL
+#define VITA3K_FPS_HACK_LABEL_CA "Correcció de FPS (30 a 60)"
+#define VITA3K_FPS_HACK_INFO_0_CA "Intenta executar jocs que estan bloquejats a 30 fps i fer-ho a 60 fps. Pot causar inestabilitat."
+#define VITA3K_SYS_BUTTON_LABEL_CA "Botó de confirmació"
+#define VITA3K_SYS_BUTTON_INFO_0_CA "Quin botó que es fa servir per confirmar accions."
+#define OPTION_VAL_0_VITA3K_SYS_BUTTON_CA "Cercle"
+#define OPTION_VAL_1_VITA3K_SYS_BUTTON_CA "Creu"
+#define VITA3K_AUDIO_VOLUME_LABEL_CA "Volum d'àudio"
+#define VITA3K_AUDIO_VOLUME_INFO_0_CA "Nivell de volum de l'àudio principal."
 #define OPTION_VAL_0_VITA3K_AUDIO_VOLUME_CA NULL
 #define OPTION_VAL_10_CA NULL
 #define OPTION_VAL_20_CA NULL
@@ -1350,15 +1822,15 @@ struct retro_core_options_v2 options_be = {
 #define OPTION_VAL_80_CA NULL
 #define OPTION_VAL_90_CA NULL
 #define OPTION_VAL_100_CA NULL
-#define VITA3K_NGS_ENABLE_LABEL_CA NULL
-#define VITA3K_NGS_ENABLE_INFO_0_CA NULL
-#define VITA3K_PSN_SIGNED_IN_LABEL_CA NULL
-#define VITA3K_PSN_SIGNED_IN_INFO_0_CA NULL
-#define VITA3K_SURFACE_SYNC_LABEL_CA NULL
-#define VITA3K_SURFACE_SYNC_INFO_0_CA NULL
-#define OPTION_VAL_ENABLED_CA NULL
-#define OPTION_VAL_DISABLED_CA NULL
-#define VITA3K_FILE_LOADING_DELAY_LABEL_CA NULL
+#define VITA3K_NGS_ENABLE_LABEL_CA "Motor d'àudio NGS"
+#define VITA3K_NGS_ENABLE_INFO_0_CA "Activa el motor d'àudio de NGS per millorar l'àudio."
+#define VITA3K_PSN_SIGNED_IN_LABEL_CA "S'ha iniciat sessió a PSN"
+#define VITA3K_PSN_SIGNED_IN_INFO_0_CA "Simula que has iniciat sessió a PSN. És necessari per alguns jocs."
+#define VITA3K_SURFACE_SYNC_LABEL_CA "Superfície de sincronització"
+#define VITA3K_SURFACE_SYNC_INFO_0_CA "Optimització de memòria de la targeta gràfica. Pot augmentar el rendiment en un 20-40%."
+#define OPTION_VAL_ENABLED_CA "Activat (més precís)"
+#define OPTION_VAL_DISABLED_CA "Desactivat (més ràpid)"
+#define VITA3K_FILE_LOADING_DELAY_LABEL_CA "Retard en carregar un fitxer"
 #define VITA3K_FILE_LOADING_DELAY_INFO_0_CA NULL
 #define OPTION_VAL_0_VITA3K_FILE_LOADING_DELAY_CA NULL
 #define OPTION_VAL_5_CA NULL
@@ -1461,6 +1933,20 @@ struct retro_core_option_v2_definition option_defs_ca[] = {
         VITA3K_ASYNC_PIPELINE_LABEL_CA,
         NULL,
         VITA3K_ASYNC_PIPELINE_INFO_0_CA,
+        NULL,
+        "gpu",
+        {
+            { "enabled", NULL },
+            { "disabled", NULL },
+            { NULL, NULL },
+        },
+        "enabled"
+    },
+    {
+        "vita3k_compile_overlay",
+        VITA3K_COMPILE_OVERLAY_LABEL_CA,
+        NULL,
+        NULL,
         NULL,
         "gpu",
         {
@@ -1687,11 +2173,11 @@ struct retro_core_options_v2 options_ca = {
 #define CATEGORY_GPU_INFO_0_CHS NULL
 #define CATEGORY_CPU_LABEL_CHS NULL
 #define CATEGORY_CPU_INFO_0_CHS NULL
-#define CATEGORY_SYSTEM_LABEL_CHS NULL
+#define CATEGORY_SYSTEM_LABEL_CHS "系统"
 #define CATEGORY_SYSTEM_INFO_0_CHS NULL
-#define CATEGORY_AUDIO_LABEL_CHS NULL
+#define CATEGORY_AUDIO_LABEL_CHS "音频"
 #define CATEGORY_AUDIO_INFO_0_CHS NULL
-#define CATEGORY_NETWORK_LABEL_CHS NULL
+#define CATEGORY_NETWORK_LABEL_CHS "网络"
 #define CATEGORY_NETWORK_INFO_0_CHS NULL
 #define VITA3K_BACKEND_RENDERER_LABEL_CHS NULL
 #define VITA3K_BACKEND_RENDERER_INFO_0_CHS NULL
@@ -1705,12 +2191,12 @@ struct retro_core_options_v2 options_ca = {
 #define OPTION_VAL_4_CHS NULL
 #define VITA3K_SCREEN_FILTER_LABEL_CHS NULL
 #define VITA3K_SCREEN_FILTER_INFO_0_CHS NULL
-#define OPTION_VAL_BILINEAR_CHS NULL
-#define OPTION_VAL_NEAREST_CHS NULL
-#define OPTION_VAL_BICUBIC_CHS NULL
-#define OPTION_VAL_FXAA_CHS NULL
+#define OPTION_VAL_BILINEAR_CHS "双线性"
+#define OPTION_VAL_NEAREST_CHS "最邻"
+#define OPTION_VAL_BICUBIC_CHS "双立方"
+#define OPTION_VAL_FXAA_CHS "FXAA 快速近似抗锯齿"
 #define OPTION_VAL_FSR_CHS NULL
-#define VITA3K_ANISOTROPIC_FILTERING_LABEL_CHS NULL
+#define VITA3K_ANISOTROPIC_FILTERING_LABEL_CHS "各向异性过滤"
 #define VITA3K_ANISOTROPIC_FILTERING_INFO_0_CHS NULL
 #define OPTION_VAL_1_VITA3K_ANISOTROPIC_FILTERING_CHS NULL
 #define OPTION_VAL_2_VITA3K_ANISOTROPIC_FILTERING_CHS NULL
@@ -1721,6 +2207,7 @@ struct retro_core_options_v2 options_ca = {
 #define VITA3K_V_SYNC_INFO_0_CHS NULL
 #define VITA3K_ASYNC_PIPELINE_LABEL_CHS NULL
 #define VITA3K_ASYNC_PIPELINE_INFO_0_CHS NULL
+#define VITA3K_COMPILE_OVERLAY_LABEL_CHS NULL
 #define VITA3K_MEMORY_MAPPING_LABEL_CHS NULL
 #define VITA3K_MEMORY_MAPPING_INFO_0_CHS NULL
 #define OPTION_VAL_DOUBLE_BUFFER_CHS NULL
@@ -1739,15 +2226,15 @@ struct retro_core_options_v2 options_ca = {
 #define VITA3K_PSTV_MODE_INFO_0_CHS NULL
 #define VITA3K_MODULES_MODE_LABEL_CHS NULL
 #define VITA3K_MODULES_MODE_INFO_0_CHS NULL
-#define OPTION_VAL_0_CHS NULL
+#define OPTION_VAL_0_CHS "自动"
 #define OPTION_VAL_1_VITA3K_MODULES_MODE_CHS NULL
-#define OPTION_VAL_2_VITA3K_MODULES_MODE_CHS NULL
+#define OPTION_VAL_2_VITA3K_MODULES_MODE_CHS "手动"
 #define VITA3K_FPS_HACK_LABEL_CHS NULL
 #define VITA3K_FPS_HACK_INFO_0_CHS NULL
 #define VITA3K_SYS_BUTTON_LABEL_CHS NULL
 #define VITA3K_SYS_BUTTON_INFO_0_CHS NULL
 #define OPTION_VAL_0_VITA3K_SYS_BUTTON_CHS NULL
-#define OPTION_VAL_1_VITA3K_SYS_BUTTON_CHS NULL
+#define OPTION_VAL_1_VITA3K_SYS_BUTTON_CHS "十字准星"
 #define VITA3K_AUDIO_VOLUME_LABEL_CHS NULL
 #define VITA3K_AUDIO_VOLUME_INFO_0_CHS NULL
 #define OPTION_VAL_0_VITA3K_AUDIO_VOLUME_CHS NULL
@@ -1872,6 +2359,20 @@ struct retro_core_option_v2_definition option_defs_chs[] = {
         VITA3K_ASYNC_PIPELINE_LABEL_CHS,
         NULL,
         VITA3K_ASYNC_PIPELINE_INFO_0_CHS,
+        NULL,
+        "gpu",
+        {
+            { "enabled", NULL },
+            { "disabled", NULL },
+            { NULL, NULL },
+        },
+        "enabled"
+    },
+    {
+        "vita3k_compile_overlay",
+        VITA3K_COMPILE_OVERLAY_LABEL_CHS,
+        NULL,
+        NULL,
         NULL,
         "gpu",
         {
@@ -2098,11 +2599,11 @@ struct retro_core_options_v2 options_chs = {
 #define CATEGORY_GPU_INFO_0_CHT NULL
 #define CATEGORY_CPU_LABEL_CHT NULL
 #define CATEGORY_CPU_INFO_0_CHT NULL
-#define CATEGORY_SYSTEM_LABEL_CHT NULL
+#define CATEGORY_SYSTEM_LABEL_CHT "系統"
 #define CATEGORY_SYSTEM_INFO_0_CHT NULL
-#define CATEGORY_AUDIO_LABEL_CHT NULL
+#define CATEGORY_AUDIO_LABEL_CHT "音效"
 #define CATEGORY_AUDIO_INFO_0_CHT NULL
-#define CATEGORY_NETWORK_LABEL_CHT NULL
+#define CATEGORY_NETWORK_LABEL_CHT "網路"
 #define CATEGORY_NETWORK_INFO_0_CHT NULL
 #define VITA3K_BACKEND_RENDERER_LABEL_CHT NULL
 #define VITA3K_BACKEND_RENDERER_INFO_0_CHT NULL
@@ -2116,22 +2617,23 @@ struct retro_core_options_v2 options_chs = {
 #define OPTION_VAL_4_CHT NULL
 #define VITA3K_SCREEN_FILTER_LABEL_CHT NULL
 #define VITA3K_SCREEN_FILTER_INFO_0_CHT NULL
-#define OPTION_VAL_BILINEAR_CHT NULL
-#define OPTION_VAL_NEAREST_CHT NULL
-#define OPTION_VAL_BICUBIC_CHT NULL
+#define OPTION_VAL_BILINEAR_CHT "雙線性"
+#define OPTION_VAL_NEAREST_CHT "最近"
+#define OPTION_VAL_BICUBIC_CHT "雙三次"
 #define OPTION_VAL_FXAA_CHT NULL
 #define OPTION_VAL_FSR_CHT NULL
 #define VITA3K_ANISOTROPIC_FILTERING_LABEL_CHT NULL
 #define VITA3K_ANISOTROPIC_FILTERING_INFO_0_CHT NULL
 #define OPTION_VAL_1_VITA3K_ANISOTROPIC_FILTERING_CHT NULL
-#define OPTION_VAL_2_VITA3K_ANISOTROPIC_FILTERING_CHT NULL
-#define OPTION_VAL_4_VITA3K_ANISOTROPIC_FILTERING_CHT NULL
-#define OPTION_VAL_8_CHT NULL
-#define OPTION_VAL_16_CHT NULL
+#define OPTION_VAL_2_VITA3K_ANISOTROPIC_FILTERING_CHT "2倍"
+#define OPTION_VAL_4_VITA3K_ANISOTROPIC_FILTERING_CHT "4倍"
+#define OPTION_VAL_8_CHT "8倍"
+#define OPTION_VAL_16_CHT "16倍"
 #define VITA3K_V_SYNC_LABEL_CHT NULL
 #define VITA3K_V_SYNC_INFO_0_CHT NULL
 #define VITA3K_ASYNC_PIPELINE_LABEL_CHT NULL
 #define VITA3K_ASYNC_PIPELINE_INFO_0_CHT NULL
+#define VITA3K_COMPILE_OVERLAY_LABEL_CHT NULL
 #define VITA3K_MEMORY_MAPPING_LABEL_CHT NULL
 #define VITA3K_MEMORY_MAPPING_INFO_0_CHT NULL
 #define OPTION_VAL_DOUBLE_BUFFER_CHT NULL
@@ -2150,15 +2652,15 @@ struct retro_core_options_v2 options_chs = {
 #define VITA3K_PSTV_MODE_INFO_0_CHT NULL
 #define VITA3K_MODULES_MODE_LABEL_CHT NULL
 #define VITA3K_MODULES_MODE_INFO_0_CHT NULL
-#define OPTION_VAL_0_CHT NULL
+#define OPTION_VAL_0_CHT "白框線 (Automatic)"
 #define OPTION_VAL_1_VITA3K_MODULES_MODE_CHT NULL
-#define OPTION_VAL_2_VITA3K_MODULES_MODE_CHT NULL
+#define OPTION_VAL_2_VITA3K_MODULES_MODE_CHT "手動"
 #define VITA3K_FPS_HACK_LABEL_CHT NULL
 #define VITA3K_FPS_HACK_INFO_0_CHT NULL
 #define VITA3K_SYS_BUTTON_LABEL_CHT NULL
 #define VITA3K_SYS_BUTTON_INFO_0_CHT NULL
 #define OPTION_VAL_0_VITA3K_SYS_BUTTON_CHT NULL
-#define OPTION_VAL_1_VITA3K_SYS_BUTTON_CHT NULL
+#define OPTION_VAL_1_VITA3K_SYS_BUTTON_CHT "十字"
 #define VITA3K_AUDIO_VOLUME_LABEL_CHT NULL
 #define VITA3K_AUDIO_VOLUME_INFO_0_CHT NULL
 #define OPTION_VAL_0_VITA3K_AUDIO_VOLUME_CHT NULL
@@ -2283,6 +2785,20 @@ struct retro_core_option_v2_definition option_defs_cht[] = {
         VITA3K_ASYNC_PIPELINE_LABEL_CHT,
         NULL,
         VITA3K_ASYNC_PIPELINE_INFO_0_CHT,
+        NULL,
+        "gpu",
+        {
+            { "enabled", NULL },
+            { "disabled", NULL },
+            { NULL, NULL },
+        },
+        "enabled"
+    },
+    {
+        "vita3k_compile_overlay",
+        VITA3K_COMPILE_OVERLAY_LABEL_CHT,
+        NULL,
+        NULL,
         NULL,
         "gpu",
         {
@@ -2509,11 +3025,11 @@ struct retro_core_options_v2 options_cht = {
 #define CATEGORY_GPU_INFO_0_CS NULL
 #define CATEGORY_CPU_LABEL_CS NULL
 #define CATEGORY_CPU_INFO_0_CS NULL
-#define CATEGORY_SYSTEM_LABEL_CS NULL
+#define CATEGORY_SYSTEM_LABEL_CS "Systém"
 #define CATEGORY_SYSTEM_INFO_0_CS NULL
-#define CATEGORY_AUDIO_LABEL_CS NULL
+#define CATEGORY_AUDIO_LABEL_CS "Zvuk"
 #define CATEGORY_AUDIO_INFO_0_CS NULL
-#define CATEGORY_NETWORK_LABEL_CS NULL
+#define CATEGORY_NETWORK_LABEL_CS "Síť"
 #define CATEGORY_NETWORK_INFO_0_CS NULL
 #define VITA3K_BACKEND_RENDERER_LABEL_CS NULL
 #define VITA3K_BACKEND_RENDERER_INFO_0_CS NULL
@@ -2527,12 +3043,12 @@ struct retro_core_options_v2 options_cht = {
 #define OPTION_VAL_4_CS NULL
 #define VITA3K_SCREEN_FILTER_LABEL_CS NULL
 #define VITA3K_SCREEN_FILTER_INFO_0_CS NULL
-#define OPTION_VAL_BILINEAR_CS NULL
-#define OPTION_VAL_NEAREST_CS NULL
-#define OPTION_VAL_BICUBIC_CS NULL
+#define OPTION_VAL_BILINEAR_CS "Bilineární"
+#define OPTION_VAL_NEAREST_CS "Nejbližší"
+#define OPTION_VAL_BICUBIC_CS "Bikubická"
 #define OPTION_VAL_FXAA_CS NULL
 #define OPTION_VAL_FSR_CS NULL
-#define VITA3K_ANISOTROPIC_FILTERING_LABEL_CS NULL
+#define VITA3K_ANISOTROPIC_FILTERING_LABEL_CS "Anizotropní Filtrování"
 #define VITA3K_ANISOTROPIC_FILTERING_INFO_0_CS NULL
 #define OPTION_VAL_1_VITA3K_ANISOTROPIC_FILTERING_CS NULL
 #define OPTION_VAL_2_VITA3K_ANISOTROPIC_FILTERING_CS NULL
@@ -2543,6 +3059,7 @@ struct retro_core_options_v2 options_cht = {
 #define VITA3K_V_SYNC_INFO_0_CS NULL
 #define VITA3K_ASYNC_PIPELINE_LABEL_CS NULL
 #define VITA3K_ASYNC_PIPELINE_INFO_0_CS NULL
+#define VITA3K_COMPILE_OVERLAY_LABEL_CS NULL
 #define VITA3K_MEMORY_MAPPING_LABEL_CS NULL
 #define VITA3K_MEMORY_MAPPING_INFO_0_CS NULL
 #define OPTION_VAL_DOUBLE_BUFFER_CS NULL
@@ -2561,15 +3078,15 @@ struct retro_core_options_v2 options_cht = {
 #define VITA3K_PSTV_MODE_INFO_0_CS NULL
 #define VITA3K_MODULES_MODE_LABEL_CS NULL
 #define VITA3K_MODULES_MODE_INFO_0_CS NULL
-#define OPTION_VAL_0_CS NULL
+#define OPTION_VAL_0_CS "Automatické"
 #define OPTION_VAL_1_VITA3K_MODULES_MODE_CS NULL
-#define OPTION_VAL_2_VITA3K_MODULES_MODE_CS NULL
+#define OPTION_VAL_2_VITA3K_MODULES_MODE_CS "Ruční"
 #define VITA3K_FPS_HACK_LABEL_CS NULL
 #define VITA3K_FPS_HACK_INFO_0_CS NULL
 #define VITA3K_SYS_BUTTON_LABEL_CS NULL
 #define VITA3K_SYS_BUTTON_INFO_0_CS NULL
 #define OPTION_VAL_0_VITA3K_SYS_BUTTON_CS NULL
-#define OPTION_VAL_1_VITA3K_SYS_BUTTON_CS NULL
+#define OPTION_VAL_1_VITA3K_SYS_BUTTON_CS "Kříž"
 #define VITA3K_AUDIO_VOLUME_LABEL_CS NULL
 #define VITA3K_AUDIO_VOLUME_INFO_0_CS NULL
 #define OPTION_VAL_0_VITA3K_AUDIO_VOLUME_CS NULL
@@ -2694,6 +3211,20 @@ struct retro_core_option_v2_definition option_defs_cs[] = {
         VITA3K_ASYNC_PIPELINE_LABEL_CS,
         NULL,
         VITA3K_ASYNC_PIPELINE_INFO_0_CS,
+        NULL,
+        "gpu",
+        {
+            { "enabled", NULL },
+            { "disabled", NULL },
+            { NULL, NULL },
+        },
+        "enabled"
+    },
+    {
+        "vita3k_compile_overlay",
+        VITA3K_COMPILE_OVERLAY_LABEL_CS,
+        NULL,
+        NULL,
         NULL,
         "gpu",
         {
@@ -2914,54 +3445,907 @@ struct retro_core_options_v2 options_cs = {
    option_defs_cs
 };
 
+/* RETRO_LANGUAGE_CY */
+
+#define CATEGORY_GPU_LABEL_CY NULL
+#define CATEGORY_GPU_INFO_0_CY NULL
+#define CATEGORY_CPU_LABEL_CY NULL
+#define CATEGORY_CPU_INFO_0_CY NULL
+#define CATEGORY_SYSTEM_LABEL_CY NULL
+#define CATEGORY_SYSTEM_INFO_0_CY NULL
+#define CATEGORY_AUDIO_LABEL_CY NULL
+#define CATEGORY_AUDIO_INFO_0_CY NULL
+#define CATEGORY_NETWORK_LABEL_CY "Rhwydwaith"
+#define CATEGORY_NETWORK_INFO_0_CY NULL
+#define VITA3K_BACKEND_RENDERER_LABEL_CY NULL
+#define VITA3K_BACKEND_RENDERER_INFO_0_CY NULL
+#define OPTION_VAL_VULKAN_CY NULL
+#define OPTION_VAL_OPENGL_CY NULL
+#define VITA3K_RESOLUTION_MULTIPLIER_LABEL_CY NULL
+#define VITA3K_RESOLUTION_MULTIPLIER_INFO_0_CY NULL
+#define OPTION_VAL_1_CY NULL
+#define OPTION_VAL_2_CY NULL
+#define OPTION_VAL_3_CY NULL
+#define OPTION_VAL_4_CY NULL
+#define VITA3K_SCREEN_FILTER_LABEL_CY NULL
+#define VITA3K_SCREEN_FILTER_INFO_0_CY NULL
+#define OPTION_VAL_BILINEAR_CY NULL
+#define OPTION_VAL_NEAREST_CY NULL
+#define OPTION_VAL_BICUBIC_CY NULL
+#define OPTION_VAL_FXAA_CY NULL
+#define OPTION_VAL_FSR_CY NULL
+#define VITA3K_ANISOTROPIC_FILTERING_LABEL_CY NULL
+#define VITA3K_ANISOTROPIC_FILTERING_INFO_0_CY NULL
+#define OPTION_VAL_1_VITA3K_ANISOTROPIC_FILTERING_CY NULL
+#define OPTION_VAL_2_VITA3K_ANISOTROPIC_FILTERING_CY NULL
+#define OPTION_VAL_4_VITA3K_ANISOTROPIC_FILTERING_CY NULL
+#define OPTION_VAL_8_CY NULL
+#define OPTION_VAL_16_CY NULL
+#define VITA3K_V_SYNC_LABEL_CY NULL
+#define VITA3K_V_SYNC_INFO_0_CY NULL
+#define VITA3K_ASYNC_PIPELINE_LABEL_CY NULL
+#define VITA3K_ASYNC_PIPELINE_INFO_0_CY NULL
+#define VITA3K_COMPILE_OVERLAY_LABEL_CY NULL
+#define VITA3K_MEMORY_MAPPING_LABEL_CY NULL
+#define VITA3K_MEMORY_MAPPING_INFO_0_CY NULL
+#define OPTION_VAL_DOUBLE_BUFFER_CY NULL
+#define OPTION_VAL_EXTERNAL_HOST_CY NULL
+#define OPTION_VAL_PAGE_TABLE_CY NULL
+#define OPTION_VAL_NATIVE_BUFFER_CY NULL
+#define VITA3K_HIGH_ACCURACY_LABEL_CY NULL
+#define VITA3K_HIGH_ACCURACY_INFO_0_CY NULL
+#define VITA3K_CPU_OPT_LABEL_CY NULL
+#define VITA3K_CPU_OPT_INFO_0_CY NULL
+#define VITA3K_PKG_MODE_LABEL_CY NULL
+#define VITA3K_PKG_MODE_INFO_0_CY NULL
+#define OPTION_VAL_RUN_CY NULL
+#define OPTION_VAL_INSTALL_CY NULL
+#define VITA3K_PSTV_MODE_LABEL_CY NULL
+#define VITA3K_PSTV_MODE_INFO_0_CY NULL
+#define VITA3K_MODULES_MODE_LABEL_CY NULL
+#define VITA3K_MODULES_MODE_INFO_0_CY NULL
+#define OPTION_VAL_0_CY NULL
+#define OPTION_VAL_1_VITA3K_MODULES_MODE_CY NULL
+#define OPTION_VAL_2_VITA3K_MODULES_MODE_CY NULL
+#define VITA3K_FPS_HACK_LABEL_CY NULL
+#define VITA3K_FPS_HACK_INFO_0_CY NULL
+#define VITA3K_SYS_BUTTON_LABEL_CY NULL
+#define VITA3K_SYS_BUTTON_INFO_0_CY NULL
+#define OPTION_VAL_0_VITA3K_SYS_BUTTON_CY NULL
+#define OPTION_VAL_1_VITA3K_SYS_BUTTON_CY NULL
+#define VITA3K_AUDIO_VOLUME_LABEL_CY NULL
+#define VITA3K_AUDIO_VOLUME_INFO_0_CY NULL
+#define OPTION_VAL_0_VITA3K_AUDIO_VOLUME_CY NULL
+#define OPTION_VAL_10_CY NULL
+#define OPTION_VAL_20_CY NULL
+#define OPTION_VAL_30_CY NULL
+#define OPTION_VAL_40_CY NULL
+#define OPTION_VAL_50_CY NULL
+#define OPTION_VAL_60_CY NULL
+#define OPTION_VAL_70_CY NULL
+#define OPTION_VAL_80_CY NULL
+#define OPTION_VAL_90_CY NULL
+#define OPTION_VAL_100_CY NULL
+#define VITA3K_NGS_ENABLE_LABEL_CY NULL
+#define VITA3K_NGS_ENABLE_INFO_0_CY NULL
+#define VITA3K_PSN_SIGNED_IN_LABEL_CY NULL
+#define VITA3K_PSN_SIGNED_IN_INFO_0_CY NULL
+#define VITA3K_SURFACE_SYNC_LABEL_CY NULL
+#define VITA3K_SURFACE_SYNC_INFO_0_CY NULL
+#define OPTION_VAL_ENABLED_CY NULL
+#define OPTION_VAL_DISABLED_CY NULL
+#define VITA3K_FILE_LOADING_DELAY_LABEL_CY NULL
+#define VITA3K_FILE_LOADING_DELAY_INFO_0_CY NULL
+#define OPTION_VAL_0_VITA3K_FILE_LOADING_DELAY_CY NULL
+#define OPTION_VAL_5_CY NULL
+#define OPTION_VAL_10_VITA3K_FILE_LOADING_DELAY_CY NULL
+#define OPTION_VAL_15_CY NULL
+#define OPTION_VAL_20_VITA3K_FILE_LOADING_DELAY_CY NULL
+#define OPTION_VAL_25_CY NULL
+#define OPTION_VAL_30_VITA3K_FILE_LOADING_DELAY_CY NULL
+
+struct retro_core_option_v2_category option_cats_cy[] = {
+    { "gpu", CATEGORY_GPU_LABEL_CY, CATEGORY_GPU_INFO_0_CY },
+    { "cpu", CATEGORY_CPU_LABEL_CY, CATEGORY_CPU_INFO_0_CY },
+    { "system", CATEGORY_SYSTEM_LABEL_CY, CATEGORY_SYSTEM_INFO_0_CY },
+    { "audio", CATEGORY_AUDIO_LABEL_CY, CATEGORY_AUDIO_INFO_0_CY },
+    { "network", CATEGORY_NETWORK_LABEL_CY, CATEGORY_NETWORK_INFO_0_CY },
+    { NULL, NULL, NULL },
+};
+struct retro_core_option_v2_definition option_defs_cy[] = {
+    // ── GPU ──────────────────────────────────────────────────────────────
+    {
+        "vita3k_backend_renderer",
+        VITA3K_BACKEND_RENDERER_LABEL_CY,
+        NULL,
+        VITA3K_BACKEND_RENDERER_INFO_0_CY,
+        NULL,
+        "gpu",
+        {
+            { "Vulkan", OPTION_VAL_VULKAN_CY },
+            { "OpenGL", OPTION_VAL_OPENGL_CY },
+            { NULL, NULL },
+        },
+        "Vulkan"
+    },
+    {
+        "vita3k_resolution_multiplier",
+        VITA3K_RESOLUTION_MULTIPLIER_LABEL_CY,
+        NULL,
+        VITA3K_RESOLUTION_MULTIPLIER_INFO_0_CY,
+        NULL,
+        "gpu",
+        {
+            { "1", OPTION_VAL_1_CY },
+            { "2", OPTION_VAL_2_CY },
+            { "3", OPTION_VAL_3_CY },
+            { "4", OPTION_VAL_4_CY },
+            { NULL, NULL },
+        },
+        "1"
+    },
+    {
+        "vita3k_screen_filter",
+        VITA3K_SCREEN_FILTER_LABEL_CY,
+        NULL,
+        VITA3K_SCREEN_FILTER_INFO_0_CY,
+        NULL,
+        "gpu",
+        {
+            { "Bilinear", OPTION_VAL_BILINEAR_CY },
+            { "Nearest", OPTION_VAL_NEAREST_CY },
+            { "Bicubic", OPTION_VAL_BICUBIC_CY },
+            { "FXAA", OPTION_VAL_FXAA_CY },
+            { "FSR", OPTION_VAL_FSR_CY },
+            { NULL, NULL },
+        },
+        "Bilinear"
+    },
+    {
+        "vita3k_anisotropic_filtering",
+        VITA3K_ANISOTROPIC_FILTERING_LABEL_CY,
+        NULL,
+        VITA3K_ANISOTROPIC_FILTERING_INFO_0_CY,
+        NULL,
+        "gpu",
+        {
+            { "1", OPTION_VAL_1_VITA3K_ANISOTROPIC_FILTERING_CY },
+            { "2", OPTION_VAL_2_VITA3K_ANISOTROPIC_FILTERING_CY },
+            { "4", OPTION_VAL_4_VITA3K_ANISOTROPIC_FILTERING_CY },
+            { "8", OPTION_VAL_8_CY },
+            { "16", OPTION_VAL_16_CY },
+            { NULL, NULL },
+        },
+        "1"
+    },
+    {
+        "vita3k_v_sync",
+        VITA3K_V_SYNC_LABEL_CY,
+        NULL,
+        VITA3K_V_SYNC_INFO_0_CY,
+        NULL,
+        "gpu",
+        {
+            { "enabled", NULL },
+            { "disabled", NULL },
+            { NULL, NULL },
+        },
+        "enabled"
+    },
+    {
+        "vita3k_async_pipeline",
+        VITA3K_ASYNC_PIPELINE_LABEL_CY,
+        NULL,
+        VITA3K_ASYNC_PIPELINE_INFO_0_CY,
+        NULL,
+        "gpu",
+        {
+            { "enabled", NULL },
+            { "disabled", NULL },
+            { NULL, NULL },
+        },
+        "enabled"
+    },
+    {
+        "vita3k_compile_overlay",
+        VITA3K_COMPILE_OVERLAY_LABEL_CY,
+        NULL,
+        NULL,
+        NULL,
+        "gpu",
+        {
+            { "enabled", NULL },
+            { "disabled", NULL },
+            { NULL, NULL },
+        },
+        "enabled"
+    },
+    {
+        "vita3k_memory_mapping",
+        VITA3K_MEMORY_MAPPING_LABEL_CY,
+        NULL,
+        VITA3K_MEMORY_MAPPING_INFO_0_CY,
+        NULL,
+        "gpu",
+        {
+            { "disabled", NULL },
+            { "double-buffer", OPTION_VAL_DOUBLE_BUFFER_CY },
+            { "external-host", OPTION_VAL_EXTERNAL_HOST_CY },
+            { "page-table", OPTION_VAL_PAGE_TABLE_CY },
+            { "native-buffer", OPTION_VAL_NATIVE_BUFFER_CY },
+            { NULL, NULL },
+        },
+        "double-buffer"
+    },
+    {
+        "vita3k_high_accuracy",
+        VITA3K_HIGH_ACCURACY_LABEL_CY,
+        NULL,
+        VITA3K_HIGH_ACCURACY_INFO_0_CY,
+        NULL,
+        "gpu",
+        {
+            { "disabled", NULL },
+            { "enabled", NULL },
+            { NULL, NULL },
+        },
+        "disabled"
+    },
+    // ── CPU ──────────────────────────────────────────────────────────────
+    {
+        "vita3k_cpu_opt",
+        VITA3K_CPU_OPT_LABEL_CY,
+        NULL,
+        VITA3K_CPU_OPT_INFO_0_CY,
+        NULL,
+        "cpu",
+        {
+            { "enabled", NULL },
+            { "disabled", NULL },
+            { NULL, NULL },
+        },
+        "enabled"
+    },
+    // ── System ───────────────────────────────────────────────────────────
+    {
+        "vita3k_pkg_mode",
+        VITA3K_PKG_MODE_LABEL_CY,
+        NULL,
+        VITA3K_PKG_MODE_INFO_0_CY,
+        NULL,
+        "system",
+        {
+            { "run", OPTION_VAL_RUN_CY },
+            { "install", OPTION_VAL_INSTALL_CY },
+            { NULL, NULL },
+        },
+        "run"
+    },
+    {
+        "vita3k_pstv_mode",
+        VITA3K_PSTV_MODE_LABEL_CY,
+        NULL,
+        VITA3K_PSTV_MODE_INFO_0_CY,
+        NULL,
+        "system",
+        {
+            { "disabled", NULL },
+            { "enabled", NULL },
+            { NULL, NULL },
+        },
+        "disabled"
+    },
+    {
+        "vita3k_modules_mode",
+        VITA3K_MODULES_MODE_LABEL_CY,
+        NULL,
+        VITA3K_MODULES_MODE_INFO_0_CY,
+        NULL,
+        "system",
+        {
+            { "0", OPTION_VAL_0_CY },
+            { "1", OPTION_VAL_1_VITA3K_MODULES_MODE_CY },
+            { "2", OPTION_VAL_2_VITA3K_MODULES_MODE_CY },
+            { NULL, NULL },
+        },
+        "0"
+    },
+    {
+        "vita3k_fps_hack",
+        VITA3K_FPS_HACK_LABEL_CY,
+        NULL,
+        VITA3K_FPS_HACK_INFO_0_CY,
+        NULL,
+        "system",
+        {
+            { "disabled", NULL },
+            { "enabled", NULL },
+            { NULL, NULL },
+        },
+        "disabled"
+    },
+    {
+        "vita3k_sys_button",
+        VITA3K_SYS_BUTTON_LABEL_CY,
+        NULL,
+        VITA3K_SYS_BUTTON_INFO_0_CY,
+        NULL,
+        "system",
+        {
+            { "0", OPTION_VAL_0_VITA3K_SYS_BUTTON_CY },
+            { "1", OPTION_VAL_1_VITA3K_SYS_BUTTON_CY },
+            { NULL, NULL },
+        },
+        "1"
+    },
+    // ── Audio ────────────────────────────────────────────────────────────
+    {
+        "vita3k_audio_volume",
+        VITA3K_AUDIO_VOLUME_LABEL_CY,
+        NULL,
+        VITA3K_AUDIO_VOLUME_INFO_0_CY,
+        NULL,
+        "audio",
+        {
+            { "0", OPTION_VAL_0_VITA3K_AUDIO_VOLUME_CY },
+            { "10", OPTION_VAL_10_CY },
+            { "20", OPTION_VAL_20_CY },
+            { "30", OPTION_VAL_30_CY },
+            { "40", OPTION_VAL_40_CY },
+            { "50", OPTION_VAL_50_CY },
+            { "60", OPTION_VAL_60_CY },
+            { "70", OPTION_VAL_70_CY },
+            { "80", OPTION_VAL_80_CY },
+            { "90", OPTION_VAL_90_CY },
+            { "100", OPTION_VAL_100_CY },
+            { NULL, NULL },
+        },
+        "100"
+    },
+    {
+        "vita3k_ngs_enable",
+        VITA3K_NGS_ENABLE_LABEL_CY,
+        NULL,
+        VITA3K_NGS_ENABLE_INFO_0_CY,
+        NULL,
+        "audio",
+        {
+            { "enabled", NULL },
+            { "disabled", NULL },
+            { NULL, NULL },
+        },
+        "enabled"
+    },
+    // ── Network ──────────────────────────────────────────────────────────
+    {
+        "vita3k_psn_signed_in",
+        VITA3K_PSN_SIGNED_IN_LABEL_CY,
+        NULL,
+        VITA3K_PSN_SIGNED_IN_INFO_0_CY,
+        NULL,
+        "network",
+        {
+            { "disabled", NULL },
+            { "enabled", NULL },
+            { NULL, NULL },
+        },
+        "disabled"
+    },
+    {
+        "vita3k_surface_sync",
+        VITA3K_SURFACE_SYNC_LABEL_CY,
+        NULL,
+        VITA3K_SURFACE_SYNC_INFO_0_CY,
+        NULL,
+        "gpu",
+        {
+            { "enabled", OPTION_VAL_ENABLED_CY },
+            { "disabled", OPTION_VAL_DISABLED_CY },
+            { NULL, NULL },
+        },
+        "enabled"
+    },
+    {
+        "vita3k_file_loading_delay",
+        VITA3K_FILE_LOADING_DELAY_LABEL_CY,
+        NULL,
+        VITA3K_FILE_LOADING_DELAY_INFO_0_CY,
+        NULL,
+        "system",
+        {
+            { "0", OPTION_VAL_0_VITA3K_FILE_LOADING_DELAY_CY },
+            { "5", OPTION_VAL_5_CY },
+            { "10", OPTION_VAL_10_VITA3K_FILE_LOADING_DELAY_CY },
+            { "15", OPTION_VAL_15_CY },
+            { "20", OPTION_VAL_20_VITA3K_FILE_LOADING_DELAY_CY },
+            { "25", OPTION_VAL_25_CY },
+            { "30", OPTION_VAL_30_VITA3K_FILE_LOADING_DELAY_CY },
+            { NULL, NULL },
+        },
+        "0"
+    },
+    { NULL, NULL, NULL, NULL, NULL, NULL, {{0}}, NULL },
+};
+struct retro_core_options_v2 options_cy = {
+   option_cats_cy,
+   option_defs_cy
+};
+
+/* RETRO_LANGUAGE_DA */
+
+#define CATEGORY_GPU_LABEL_DA NULL
+#define CATEGORY_GPU_INFO_0_DA NULL
+#define CATEGORY_CPU_LABEL_DA NULL
+#define CATEGORY_CPU_INFO_0_DA NULL
+#define CATEGORY_SYSTEM_LABEL_DA NULL
+#define CATEGORY_SYSTEM_INFO_0_DA NULL
+#define CATEGORY_AUDIO_LABEL_DA "Lyd"
+#define CATEGORY_AUDIO_INFO_0_DA NULL
+#define CATEGORY_NETWORK_LABEL_DA "Netværk"
+#define CATEGORY_NETWORK_INFO_0_DA NULL
+#define VITA3K_BACKEND_RENDERER_LABEL_DA NULL
+#define VITA3K_BACKEND_RENDERER_INFO_0_DA NULL
+#define OPTION_VAL_VULKAN_DA NULL
+#define OPTION_VAL_OPENGL_DA NULL
+#define VITA3K_RESOLUTION_MULTIPLIER_LABEL_DA NULL
+#define VITA3K_RESOLUTION_MULTIPLIER_INFO_0_DA NULL
+#define OPTION_VAL_1_DA NULL
+#define OPTION_VAL_2_DA NULL
+#define OPTION_VAL_3_DA NULL
+#define OPTION_VAL_4_DA NULL
+#define VITA3K_SCREEN_FILTER_LABEL_DA NULL
+#define VITA3K_SCREEN_FILTER_INFO_0_DA NULL
+#define OPTION_VAL_BILINEAR_DA NULL
+#define OPTION_VAL_NEAREST_DA NULL
+#define OPTION_VAL_BICUBIC_DA NULL
+#define OPTION_VAL_FXAA_DA NULL
+#define OPTION_VAL_FSR_DA NULL
+#define VITA3K_ANISOTROPIC_FILTERING_LABEL_DA NULL
+#define VITA3K_ANISOTROPIC_FILTERING_INFO_0_DA NULL
+#define OPTION_VAL_1_VITA3K_ANISOTROPIC_FILTERING_DA NULL
+#define OPTION_VAL_2_VITA3K_ANISOTROPIC_FILTERING_DA NULL
+#define OPTION_VAL_4_VITA3K_ANISOTROPIC_FILTERING_DA NULL
+#define OPTION_VAL_8_DA NULL
+#define OPTION_VAL_16_DA NULL
+#define VITA3K_V_SYNC_LABEL_DA NULL
+#define VITA3K_V_SYNC_INFO_0_DA NULL
+#define VITA3K_ASYNC_PIPELINE_LABEL_DA NULL
+#define VITA3K_ASYNC_PIPELINE_INFO_0_DA NULL
+#define VITA3K_COMPILE_OVERLAY_LABEL_DA NULL
+#define VITA3K_MEMORY_MAPPING_LABEL_DA NULL
+#define VITA3K_MEMORY_MAPPING_INFO_0_DA NULL
+#define OPTION_VAL_DOUBLE_BUFFER_DA NULL
+#define OPTION_VAL_EXTERNAL_HOST_DA NULL
+#define OPTION_VAL_PAGE_TABLE_DA NULL
+#define OPTION_VAL_NATIVE_BUFFER_DA NULL
+#define VITA3K_HIGH_ACCURACY_LABEL_DA NULL
+#define VITA3K_HIGH_ACCURACY_INFO_0_DA NULL
+#define VITA3K_CPU_OPT_LABEL_DA NULL
+#define VITA3K_CPU_OPT_INFO_0_DA NULL
+#define VITA3K_PKG_MODE_LABEL_DA NULL
+#define VITA3K_PKG_MODE_INFO_0_DA NULL
+#define OPTION_VAL_RUN_DA NULL
+#define OPTION_VAL_INSTALL_DA NULL
+#define VITA3K_PSTV_MODE_LABEL_DA NULL
+#define VITA3K_PSTV_MODE_INFO_0_DA NULL
+#define VITA3K_MODULES_MODE_LABEL_DA NULL
+#define VITA3K_MODULES_MODE_INFO_0_DA NULL
+#define OPTION_VAL_0_DA NULL
+#define OPTION_VAL_1_VITA3K_MODULES_MODE_DA NULL
+#define OPTION_VAL_2_VITA3K_MODULES_MODE_DA NULL
+#define VITA3K_FPS_HACK_LABEL_DA NULL
+#define VITA3K_FPS_HACK_INFO_0_DA NULL
+#define VITA3K_SYS_BUTTON_LABEL_DA NULL
+#define VITA3K_SYS_BUTTON_INFO_0_DA NULL
+#define OPTION_VAL_0_VITA3K_SYS_BUTTON_DA NULL
+#define OPTION_VAL_1_VITA3K_SYS_BUTTON_DA NULL
+#define VITA3K_AUDIO_VOLUME_LABEL_DA NULL
+#define VITA3K_AUDIO_VOLUME_INFO_0_DA NULL
+#define OPTION_VAL_0_VITA3K_AUDIO_VOLUME_DA NULL
+#define OPTION_VAL_10_DA NULL
+#define OPTION_VAL_20_DA NULL
+#define OPTION_VAL_30_DA NULL
+#define OPTION_VAL_40_DA NULL
+#define OPTION_VAL_50_DA NULL
+#define OPTION_VAL_60_DA NULL
+#define OPTION_VAL_70_DA NULL
+#define OPTION_VAL_80_DA NULL
+#define OPTION_VAL_90_DA NULL
+#define OPTION_VAL_100_DA NULL
+#define VITA3K_NGS_ENABLE_LABEL_DA NULL
+#define VITA3K_NGS_ENABLE_INFO_0_DA NULL
+#define VITA3K_PSN_SIGNED_IN_LABEL_DA NULL
+#define VITA3K_PSN_SIGNED_IN_INFO_0_DA NULL
+#define VITA3K_SURFACE_SYNC_LABEL_DA NULL
+#define VITA3K_SURFACE_SYNC_INFO_0_DA NULL
+#define OPTION_VAL_ENABLED_DA NULL
+#define OPTION_VAL_DISABLED_DA NULL
+#define VITA3K_FILE_LOADING_DELAY_LABEL_DA NULL
+#define VITA3K_FILE_LOADING_DELAY_INFO_0_DA NULL
+#define OPTION_VAL_0_VITA3K_FILE_LOADING_DELAY_DA NULL
+#define OPTION_VAL_5_DA NULL
+#define OPTION_VAL_10_VITA3K_FILE_LOADING_DELAY_DA NULL
+#define OPTION_VAL_15_DA NULL
+#define OPTION_VAL_20_VITA3K_FILE_LOADING_DELAY_DA NULL
+#define OPTION_VAL_25_DA NULL
+#define OPTION_VAL_30_VITA3K_FILE_LOADING_DELAY_DA NULL
+
+struct retro_core_option_v2_category option_cats_da[] = {
+    { "gpu", CATEGORY_GPU_LABEL_DA, CATEGORY_GPU_INFO_0_DA },
+    { "cpu", CATEGORY_CPU_LABEL_DA, CATEGORY_CPU_INFO_0_DA },
+    { "system", CATEGORY_SYSTEM_LABEL_DA, CATEGORY_SYSTEM_INFO_0_DA },
+    { "audio", CATEGORY_AUDIO_LABEL_DA, CATEGORY_AUDIO_INFO_0_DA },
+    { "network", CATEGORY_NETWORK_LABEL_DA, CATEGORY_NETWORK_INFO_0_DA },
+    { NULL, NULL, NULL },
+};
+struct retro_core_option_v2_definition option_defs_da[] = {
+    // ── GPU ──────────────────────────────────────────────────────────────
+    {
+        "vita3k_backend_renderer",
+        VITA3K_BACKEND_RENDERER_LABEL_DA,
+        NULL,
+        VITA3K_BACKEND_RENDERER_INFO_0_DA,
+        NULL,
+        "gpu",
+        {
+            { "Vulkan", OPTION_VAL_VULKAN_DA },
+            { "OpenGL", OPTION_VAL_OPENGL_DA },
+            { NULL, NULL },
+        },
+        "Vulkan"
+    },
+    {
+        "vita3k_resolution_multiplier",
+        VITA3K_RESOLUTION_MULTIPLIER_LABEL_DA,
+        NULL,
+        VITA3K_RESOLUTION_MULTIPLIER_INFO_0_DA,
+        NULL,
+        "gpu",
+        {
+            { "1", OPTION_VAL_1_DA },
+            { "2", OPTION_VAL_2_DA },
+            { "3", OPTION_VAL_3_DA },
+            { "4", OPTION_VAL_4_DA },
+            { NULL, NULL },
+        },
+        "1"
+    },
+    {
+        "vita3k_screen_filter",
+        VITA3K_SCREEN_FILTER_LABEL_DA,
+        NULL,
+        VITA3K_SCREEN_FILTER_INFO_0_DA,
+        NULL,
+        "gpu",
+        {
+            { "Bilinear", OPTION_VAL_BILINEAR_DA },
+            { "Nearest", OPTION_VAL_NEAREST_DA },
+            { "Bicubic", OPTION_VAL_BICUBIC_DA },
+            { "FXAA", OPTION_VAL_FXAA_DA },
+            { "FSR", OPTION_VAL_FSR_DA },
+            { NULL, NULL },
+        },
+        "Bilinear"
+    },
+    {
+        "vita3k_anisotropic_filtering",
+        VITA3K_ANISOTROPIC_FILTERING_LABEL_DA,
+        NULL,
+        VITA3K_ANISOTROPIC_FILTERING_INFO_0_DA,
+        NULL,
+        "gpu",
+        {
+            { "1", OPTION_VAL_1_VITA3K_ANISOTROPIC_FILTERING_DA },
+            { "2", OPTION_VAL_2_VITA3K_ANISOTROPIC_FILTERING_DA },
+            { "4", OPTION_VAL_4_VITA3K_ANISOTROPIC_FILTERING_DA },
+            { "8", OPTION_VAL_8_DA },
+            { "16", OPTION_VAL_16_DA },
+            { NULL, NULL },
+        },
+        "1"
+    },
+    {
+        "vita3k_v_sync",
+        VITA3K_V_SYNC_LABEL_DA,
+        NULL,
+        VITA3K_V_SYNC_INFO_0_DA,
+        NULL,
+        "gpu",
+        {
+            { "enabled", NULL },
+            { "disabled", NULL },
+            { NULL, NULL },
+        },
+        "enabled"
+    },
+    {
+        "vita3k_async_pipeline",
+        VITA3K_ASYNC_PIPELINE_LABEL_DA,
+        NULL,
+        VITA3K_ASYNC_PIPELINE_INFO_0_DA,
+        NULL,
+        "gpu",
+        {
+            { "enabled", NULL },
+            { "disabled", NULL },
+            { NULL, NULL },
+        },
+        "enabled"
+    },
+    {
+        "vita3k_compile_overlay",
+        VITA3K_COMPILE_OVERLAY_LABEL_DA,
+        NULL,
+        NULL,
+        NULL,
+        "gpu",
+        {
+            { "enabled", NULL },
+            { "disabled", NULL },
+            { NULL, NULL },
+        },
+        "enabled"
+    },
+    {
+        "vita3k_memory_mapping",
+        VITA3K_MEMORY_MAPPING_LABEL_DA,
+        NULL,
+        VITA3K_MEMORY_MAPPING_INFO_0_DA,
+        NULL,
+        "gpu",
+        {
+            { "disabled", NULL },
+            { "double-buffer", OPTION_VAL_DOUBLE_BUFFER_DA },
+            { "external-host", OPTION_VAL_EXTERNAL_HOST_DA },
+            { "page-table", OPTION_VAL_PAGE_TABLE_DA },
+            { "native-buffer", OPTION_VAL_NATIVE_BUFFER_DA },
+            { NULL, NULL },
+        },
+        "double-buffer"
+    },
+    {
+        "vita3k_high_accuracy",
+        VITA3K_HIGH_ACCURACY_LABEL_DA,
+        NULL,
+        VITA3K_HIGH_ACCURACY_INFO_0_DA,
+        NULL,
+        "gpu",
+        {
+            { "disabled", NULL },
+            { "enabled", NULL },
+            { NULL, NULL },
+        },
+        "disabled"
+    },
+    // ── CPU ──────────────────────────────────────────────────────────────
+    {
+        "vita3k_cpu_opt",
+        VITA3K_CPU_OPT_LABEL_DA,
+        NULL,
+        VITA3K_CPU_OPT_INFO_0_DA,
+        NULL,
+        "cpu",
+        {
+            { "enabled", NULL },
+            { "disabled", NULL },
+            { NULL, NULL },
+        },
+        "enabled"
+    },
+    // ── System ───────────────────────────────────────────────────────────
+    {
+        "vita3k_pkg_mode",
+        VITA3K_PKG_MODE_LABEL_DA,
+        NULL,
+        VITA3K_PKG_MODE_INFO_0_DA,
+        NULL,
+        "system",
+        {
+            { "run", OPTION_VAL_RUN_DA },
+            { "install", OPTION_VAL_INSTALL_DA },
+            { NULL, NULL },
+        },
+        "run"
+    },
+    {
+        "vita3k_pstv_mode",
+        VITA3K_PSTV_MODE_LABEL_DA,
+        NULL,
+        VITA3K_PSTV_MODE_INFO_0_DA,
+        NULL,
+        "system",
+        {
+            { "disabled", NULL },
+            { "enabled", NULL },
+            { NULL, NULL },
+        },
+        "disabled"
+    },
+    {
+        "vita3k_modules_mode",
+        VITA3K_MODULES_MODE_LABEL_DA,
+        NULL,
+        VITA3K_MODULES_MODE_INFO_0_DA,
+        NULL,
+        "system",
+        {
+            { "0", OPTION_VAL_0_DA },
+            { "1", OPTION_VAL_1_VITA3K_MODULES_MODE_DA },
+            { "2", OPTION_VAL_2_VITA3K_MODULES_MODE_DA },
+            { NULL, NULL },
+        },
+        "0"
+    },
+    {
+        "vita3k_fps_hack",
+        VITA3K_FPS_HACK_LABEL_DA,
+        NULL,
+        VITA3K_FPS_HACK_INFO_0_DA,
+        NULL,
+        "system",
+        {
+            { "disabled", NULL },
+            { "enabled", NULL },
+            { NULL, NULL },
+        },
+        "disabled"
+    },
+    {
+        "vita3k_sys_button",
+        VITA3K_SYS_BUTTON_LABEL_DA,
+        NULL,
+        VITA3K_SYS_BUTTON_INFO_0_DA,
+        NULL,
+        "system",
+        {
+            { "0", OPTION_VAL_0_VITA3K_SYS_BUTTON_DA },
+            { "1", OPTION_VAL_1_VITA3K_SYS_BUTTON_DA },
+            { NULL, NULL },
+        },
+        "1"
+    },
+    // ── Audio ────────────────────────────────────────────────────────────
+    {
+        "vita3k_audio_volume",
+        VITA3K_AUDIO_VOLUME_LABEL_DA,
+        NULL,
+        VITA3K_AUDIO_VOLUME_INFO_0_DA,
+        NULL,
+        "audio",
+        {
+            { "0", OPTION_VAL_0_VITA3K_AUDIO_VOLUME_DA },
+            { "10", OPTION_VAL_10_DA },
+            { "20", OPTION_VAL_20_DA },
+            { "30", OPTION_VAL_30_DA },
+            { "40", OPTION_VAL_40_DA },
+            { "50", OPTION_VAL_50_DA },
+            { "60", OPTION_VAL_60_DA },
+            { "70", OPTION_VAL_70_DA },
+            { "80", OPTION_VAL_80_DA },
+            { "90", OPTION_VAL_90_DA },
+            { "100", OPTION_VAL_100_DA },
+            { NULL, NULL },
+        },
+        "100"
+    },
+    {
+        "vita3k_ngs_enable",
+        VITA3K_NGS_ENABLE_LABEL_DA,
+        NULL,
+        VITA3K_NGS_ENABLE_INFO_0_DA,
+        NULL,
+        "audio",
+        {
+            { "enabled", NULL },
+            { "disabled", NULL },
+            { NULL, NULL },
+        },
+        "enabled"
+    },
+    // ── Network ──────────────────────────────────────────────────────────
+    {
+        "vita3k_psn_signed_in",
+        VITA3K_PSN_SIGNED_IN_LABEL_DA,
+        NULL,
+        VITA3K_PSN_SIGNED_IN_INFO_0_DA,
+        NULL,
+        "network",
+        {
+            { "disabled", NULL },
+            { "enabled", NULL },
+            { NULL, NULL },
+        },
+        "disabled"
+    },
+    {
+        "vita3k_surface_sync",
+        VITA3K_SURFACE_SYNC_LABEL_DA,
+        NULL,
+        VITA3K_SURFACE_SYNC_INFO_0_DA,
+        NULL,
+        "gpu",
+        {
+            { "enabled", OPTION_VAL_ENABLED_DA },
+            { "disabled", OPTION_VAL_DISABLED_DA },
+            { NULL, NULL },
+        },
+        "enabled"
+    },
+    {
+        "vita3k_file_loading_delay",
+        VITA3K_FILE_LOADING_DELAY_LABEL_DA,
+        NULL,
+        VITA3K_FILE_LOADING_DELAY_INFO_0_DA,
+        NULL,
+        "system",
+        {
+            { "0", OPTION_VAL_0_VITA3K_FILE_LOADING_DELAY_DA },
+            { "5", OPTION_VAL_5_DA },
+            { "10", OPTION_VAL_10_VITA3K_FILE_LOADING_DELAY_DA },
+            { "15", OPTION_VAL_15_DA },
+            { "20", OPTION_VAL_20_VITA3K_FILE_LOADING_DELAY_DA },
+            { "25", OPTION_VAL_25_DA },
+            { "30", OPTION_VAL_30_VITA3K_FILE_LOADING_DELAY_DA },
+            { NULL, NULL },
+        },
+        "0"
+    },
+    { NULL, NULL, NULL, NULL, NULL, NULL, {{0}}, NULL },
+};
+struct retro_core_options_v2 options_da = {
+   option_cats_da,
+   option_defs_da
+};
+
 /* RETRO_LANGUAGE_DE */
 
 #define CATEGORY_GPU_LABEL_DE NULL
-#define CATEGORY_GPU_INFO_0_DE NULL
-#define CATEGORY_CPU_LABEL_DE NULL
-#define CATEGORY_CPU_INFO_0_DE NULL
+#define CATEGORY_GPU_INFO_0_DE "Optionen für das Grafik-Rendering."
+#define CATEGORY_CPU_LABEL_DE "Prozessor"
+#define CATEGORY_CPU_INFO_0_DE "Optionen für die CPU-Emulation."
 #define CATEGORY_SYSTEM_LABEL_DE NULL
-#define CATEGORY_SYSTEM_INFO_0_DE NULL
+#define CATEGORY_SYSTEM_INFO_0_DE "Optionen für die Systememulation."
 #define CATEGORY_AUDIO_LABEL_DE NULL
-#define CATEGORY_AUDIO_INFO_0_DE NULL
-#define CATEGORY_NETWORK_LABEL_DE NULL
-#define CATEGORY_NETWORK_INFO_0_DE NULL
-#define VITA3K_BACKEND_RENDERER_LABEL_DE NULL
-#define VITA3K_BACKEND_RENDERER_INFO_0_DE NULL
+#define CATEGORY_AUDIO_INFO_0_DE "Optionen zur Audioausgabe."
+#define CATEGORY_NETWORK_LABEL_DE "Netzwerk"
+#define CATEGORY_NETWORK_INFO_0_DE "Optionen für das Netzwerk."
+#define VITA3K_BACKEND_RENDERER_LABEL_DE "Renderer-Backend"
+#define VITA3K_BACKEND_RENDERER_INFO_0_DE "Grafik-Backend auswählen. Vulkan wird empfohlen."
 #define OPTION_VAL_VULKAN_DE NULL
 #define OPTION_VAL_OPENGL_DE NULL
-#define VITA3K_RESOLUTION_MULTIPLIER_LABEL_DE NULL
-#define VITA3K_RESOLUTION_MULTIPLIER_INFO_0_DE NULL
-#define OPTION_VAL_1_DE NULL
-#define OPTION_VAL_2_DE NULL
-#define OPTION_VAL_3_DE NULL
-#define OPTION_VAL_4_DE NULL
-#define VITA3K_SCREEN_FILTER_LABEL_DE NULL
-#define VITA3K_SCREEN_FILTER_INFO_0_DE NULL
+#define VITA3K_RESOLUTION_MULTIPLIER_LABEL_DE "Multiplikator für die interne Auflösung"
+#define VITA3K_RESOLUTION_MULTIPLIER_INFO_0_DE "Multiplikator für die interne Renderauflösung (Basis: 960 × 544)."
+#define OPTION_VAL_1_DE "1× (960 × 544)"
+#define OPTION_VAL_2_DE "2× (1920 × 1088)"
+#define OPTION_VAL_3_DE "3× (2880 × 1632)"
+#define OPTION_VAL_4_DE "4× (3840 × 2176)"
+#define VITA3K_SCREEN_FILTER_LABEL_DE "Bildschirmfilter"
+#define VITA3K_SCREEN_FILTER_INFO_0_DE "Nachbearbeitungsfilter für den gerenderten Frame."
 #define OPTION_VAL_BILINEAR_DE NULL
-#define OPTION_VAL_NEAREST_DE NULL
-#define OPTION_VAL_BICUBIC_DE NULL
+#define OPTION_VAL_NEAREST_DE "Nächster"
+#define OPTION_VAL_BICUBIC_DE "Bikubisch"
 #define OPTION_VAL_FXAA_DE NULL
 #define OPTION_VAL_FSR_DE NULL
-#define VITA3K_ANISOTROPIC_FILTERING_LABEL_DE NULL
-#define VITA3K_ANISOTROPIC_FILTERING_INFO_0_DE NULL
-#define OPTION_VAL_1_VITA3K_ANISOTROPIC_FILTERING_DE NULL
+#define VITA3K_ANISOTROPIC_FILTERING_LABEL_DE "Anisotrope Filterung"
+#define VITA3K_ANISOTROPIC_FILTERING_INFO_0_DE "Stufe der anisotropen Texturfilterung."
+#define OPTION_VAL_1_VITA3K_ANISOTROPIC_FILTERING_DE "1× (Aus)"
 #define OPTION_VAL_2_VITA3K_ANISOTROPIC_FILTERING_DE NULL
 #define OPTION_VAL_4_VITA3K_ANISOTROPIC_FILTERING_DE NULL
 #define OPTION_VAL_8_DE NULL
 #define OPTION_VAL_16_DE NULL
 #define VITA3K_V_SYNC_LABEL_DE NULL
-#define VITA3K_V_SYNC_INFO_0_DE NULL
-#define VITA3K_ASYNC_PIPELINE_LABEL_DE NULL
-#define VITA3K_ASYNC_PIPELINE_INFO_0_DE NULL
-#define VITA3K_MEMORY_MAPPING_LABEL_DE NULL
-#define VITA3K_MEMORY_MAPPING_INFO_0_DE NULL
-#define OPTION_VAL_DOUBLE_BUFFER_DE NULL
-#define OPTION_VAL_EXTERNAL_HOST_DE NULL
-#define OPTION_VAL_PAGE_TABLE_DE NULL
-#define OPTION_VAL_NATIVE_BUFFER_DE NULL
-#define VITA3K_HIGH_ACCURACY_LABEL_DE NULL
-#define VITA3K_HIGH_ACCURACY_INFO_0_DE NULL
+#define VITA3K_V_SYNC_INFO_0_DE "Vertikale Synchronisation aktivieren oder deaktivieren."
+#define VITA3K_ASYNC_PIPELINE_LABEL_DE "Asynchrone Pipeline-Kompilierung"
+#define VITA3K_ASYNC_PIPELINE_INFO_0_DE "Shaderpipelines asynchron kompilieren, um Ruckler zu verringern."
+#define VITA3K_COMPILE_OVERLAY_LABEL_DE "Overlay für die Shaderkompilierung"
+#define VITA3K_MEMORY_MAPPING_LABEL_DE "Speicherzuordnung"
+#define VITA3K_MEMORY_MAPPING_INFO_0_DE "Verfahren zur GPU-Speicherzuordnung. Höhere Stufen verbessern die Leistung, erfordern aber GPU-Unterstützung."
+#define OPTION_VAL_DOUBLE_BUFFER_DE "Doppelter Puffer"
+#define OPTION_VAL_EXTERNAL_HOST_DE "Externer Host"
+#define OPTION_VAL_PAGE_TABLE_DE "Seitentabelle"
+#define OPTION_VAL_NATIVE_BUFFER_DE "Nativer Puffer"
+#define VITA3K_HIGH_ACCURACY_LABEL_DE "Hochpräzises Rendering"
+#define VITA3K_HIGH_ACCURACY_INFO_0_DE "Genauere, aber langsamere Rendering-Techniken aktivieren."
 #define VITA3K_CPU_OPT_LABEL_DE NULL
 #define VITA3K_CPU_OPT_INFO_0_DE NULL
 #define VITA3K_PKG_MODE_LABEL_DE NULL
@@ -2972,36 +4356,36 @@ struct retro_core_options_v2 options_cs = {
 #define VITA3K_PSTV_MODE_INFO_0_DE NULL
 #define VITA3K_MODULES_MODE_LABEL_DE NULL
 #define VITA3K_MODULES_MODE_INFO_0_DE NULL
-#define OPTION_VAL_0_DE NULL
+#define OPTION_VAL_0_DE "Automatisch"
 #define OPTION_VAL_1_VITA3K_MODULES_MODE_DE NULL
-#define OPTION_VAL_2_VITA3K_MODULES_MODE_DE NULL
+#define OPTION_VAL_2_VITA3K_MODULES_MODE_DE "Manuell"
 #define VITA3K_FPS_HACK_LABEL_DE NULL
 #define VITA3K_FPS_HACK_INFO_0_DE NULL
 #define VITA3K_SYS_BUTTON_LABEL_DE NULL
 #define VITA3K_SYS_BUTTON_INFO_0_DE NULL
 #define OPTION_VAL_0_VITA3K_SYS_BUTTON_DE NULL
-#define OPTION_VAL_1_VITA3K_SYS_BUTTON_DE NULL
+#define OPTION_VAL_1_VITA3K_SYS_BUTTON_DE "Kreuz"
 #define VITA3K_AUDIO_VOLUME_LABEL_DE NULL
 #define VITA3K_AUDIO_VOLUME_INFO_0_DE NULL
-#define OPTION_VAL_0_VITA3K_AUDIO_VOLUME_DE NULL
-#define OPTION_VAL_10_DE NULL
-#define OPTION_VAL_20_DE NULL
-#define OPTION_VAL_30_DE NULL
-#define OPTION_VAL_40_DE NULL
-#define OPTION_VAL_50_DE NULL
-#define OPTION_VAL_60_DE NULL
-#define OPTION_VAL_70_DE NULL
-#define OPTION_VAL_80_DE NULL
-#define OPTION_VAL_90_DE NULL
-#define OPTION_VAL_100_DE NULL
+#define OPTION_VAL_0_VITA3K_AUDIO_VOLUME_DE "0 %"
+#define OPTION_VAL_10_DE "10 %"
+#define OPTION_VAL_20_DE "20 %"
+#define OPTION_VAL_30_DE "30 %"
+#define OPTION_VAL_40_DE "40 %"
+#define OPTION_VAL_50_DE "50 %"
+#define OPTION_VAL_60_DE "60 %"
+#define OPTION_VAL_70_DE "70 %"
+#define OPTION_VAL_80_DE "80 %"
+#define OPTION_VAL_90_DE "90 %"
+#define OPTION_VAL_100_DE "100 %"
 #define VITA3K_NGS_ENABLE_LABEL_DE NULL
 #define VITA3K_NGS_ENABLE_INFO_0_DE NULL
 #define VITA3K_PSN_SIGNED_IN_LABEL_DE NULL
 #define VITA3K_PSN_SIGNED_IN_INFO_0_DE NULL
 #define VITA3K_SURFACE_SYNC_LABEL_DE NULL
 #define VITA3K_SURFACE_SYNC_INFO_0_DE NULL
-#define OPTION_VAL_ENABLED_DE NULL
-#define OPTION_VAL_DISABLED_DE NULL
+#define OPTION_VAL_ENABLED_DE "Aktiviert (genauer)"
+#define OPTION_VAL_DISABLED_DE "Deaktiviert (schneller)"
 #define VITA3K_FILE_LOADING_DELAY_LABEL_DE NULL
 #define VITA3K_FILE_LOADING_DELAY_INFO_0_DE NULL
 #define OPTION_VAL_0_VITA3K_FILE_LOADING_DELAY_DE NULL
@@ -3105,6 +4489,20 @@ struct retro_core_option_v2_definition option_defs_de[] = {
         VITA3K_ASYNC_PIPELINE_LABEL_DE,
         NULL,
         VITA3K_ASYNC_PIPELINE_INFO_0_DE,
+        NULL,
+        "gpu",
+        {
+            { "enabled", NULL },
+            { "disabled", NULL },
+            { NULL, NULL },
+        },
+        "enabled"
+    },
+    {
+        "vita3k_compile_overlay",
+        VITA3K_COMPILE_OVERLAY_LABEL_DE,
+        NULL,
+        NULL,
         NULL,
         "gpu",
         {
@@ -3331,11 +4729,11 @@ struct retro_core_options_v2 options_de = {
 #define CATEGORY_GPU_INFO_0_EL NULL
 #define CATEGORY_CPU_LABEL_EL NULL
 #define CATEGORY_CPU_INFO_0_EL NULL
-#define CATEGORY_SYSTEM_LABEL_EL NULL
+#define CATEGORY_SYSTEM_LABEL_EL "Σύστημα"
 #define CATEGORY_SYSTEM_INFO_0_EL NULL
-#define CATEGORY_AUDIO_LABEL_EL NULL
+#define CATEGORY_AUDIO_LABEL_EL "Ήχος"
 #define CATEGORY_AUDIO_INFO_0_EL NULL
-#define CATEGORY_NETWORK_LABEL_EL NULL
+#define CATEGORY_NETWORK_LABEL_EL "Δίκτυο"
 #define CATEGORY_NETWORK_INFO_0_EL NULL
 #define VITA3K_BACKEND_RENDERER_LABEL_EL NULL
 #define VITA3K_BACKEND_RENDERER_INFO_0_EL NULL
@@ -3350,7 +4748,7 @@ struct retro_core_options_v2 options_de = {
 #define VITA3K_SCREEN_FILTER_LABEL_EL NULL
 #define VITA3K_SCREEN_FILTER_INFO_0_EL NULL
 #define OPTION_VAL_BILINEAR_EL NULL
-#define OPTION_VAL_NEAREST_EL NULL
+#define OPTION_VAL_NEAREST_EL "Κοντινότερο"
 #define OPTION_VAL_BICUBIC_EL NULL
 #define OPTION_VAL_FXAA_EL NULL
 #define OPTION_VAL_FSR_EL NULL
@@ -3365,6 +4763,7 @@ struct retro_core_options_v2 options_de = {
 #define VITA3K_V_SYNC_INFO_0_EL NULL
 #define VITA3K_ASYNC_PIPELINE_LABEL_EL NULL
 #define VITA3K_ASYNC_PIPELINE_INFO_0_EL NULL
+#define VITA3K_COMPILE_OVERLAY_LABEL_EL NULL
 #define VITA3K_MEMORY_MAPPING_LABEL_EL NULL
 #define VITA3K_MEMORY_MAPPING_INFO_0_EL NULL
 #define OPTION_VAL_DOUBLE_BUFFER_EL NULL
@@ -3385,7 +4784,7 @@ struct retro_core_options_v2 options_de = {
 #define VITA3K_MODULES_MODE_INFO_0_EL NULL
 #define OPTION_VAL_0_EL NULL
 #define OPTION_VAL_1_VITA3K_MODULES_MODE_EL NULL
-#define OPTION_VAL_2_VITA3K_MODULES_MODE_EL NULL
+#define OPTION_VAL_2_VITA3K_MODULES_MODE_EL "Χειροκίνητο"
 #define VITA3K_FPS_HACK_LABEL_EL NULL
 #define VITA3K_FPS_HACK_INFO_0_EL NULL
 #define VITA3K_SYS_BUTTON_LABEL_EL NULL
@@ -3402,7 +4801,7 @@ struct retro_core_options_v2 options_de = {
 #define OPTION_VAL_50_EL NULL
 #define OPTION_VAL_60_EL NULL
 #define OPTION_VAL_70_EL NULL
-#define OPTION_VAL_80_EL NULL
+#define OPTION_VAL_80_EL "το 80%"
 #define OPTION_VAL_90_EL NULL
 #define OPTION_VAL_100_EL NULL
 #define VITA3K_NGS_ENABLE_LABEL_EL NULL
@@ -3516,6 +4915,20 @@ struct retro_core_option_v2_definition option_defs_el[] = {
         VITA3K_ASYNC_PIPELINE_LABEL_EL,
         NULL,
         VITA3K_ASYNC_PIPELINE_INFO_0_EL,
+        NULL,
+        "gpu",
+        {
+            { "enabled", NULL },
+            { "disabled", NULL },
+            { NULL, NULL },
+        },
+        "enabled"
+    },
+    {
+        "vita3k_compile_overlay",
+        VITA3K_COMPILE_OVERLAY_LABEL_EL,
+        NULL,
+        NULL,
         NULL,
         "gpu",
         {
@@ -3762,7 +5175,7 @@ struct retro_core_options_v2 options_el = {
 #define VITA3K_SCREEN_FILTER_INFO_0_EN NULL
 #define OPTION_VAL_BILINEAR_EN NULL
 #define OPTION_VAL_NEAREST_EN NULL
-#define OPTION_VAL_BICUBIC_EN NULL
+#define OPTION_VAL_BICUBIC_EN "Bi-cubic"
 #define OPTION_VAL_FXAA_EN NULL
 #define OPTION_VAL_FSR_EN NULL
 #define VITA3K_ANISOTROPIC_FILTERING_LABEL_EN NULL
@@ -3776,6 +5189,7 @@ struct retro_core_options_v2 options_el = {
 #define VITA3K_V_SYNC_INFO_0_EN NULL
 #define VITA3K_ASYNC_PIPELINE_LABEL_EN NULL
 #define VITA3K_ASYNC_PIPELINE_INFO_0_EN NULL
+#define VITA3K_COMPILE_OVERLAY_LABEL_EN NULL
 #define VITA3K_MEMORY_MAPPING_LABEL_EN NULL
 #define VITA3K_MEMORY_MAPPING_INFO_0_EN NULL
 #define OPTION_VAL_DOUBLE_BUFFER_EN NULL
@@ -3927,6 +5341,20 @@ struct retro_core_option_v2_definition option_defs_en[] = {
         VITA3K_ASYNC_PIPELINE_LABEL_EN,
         NULL,
         VITA3K_ASYNC_PIPELINE_INFO_0_EN,
+        NULL,
+        "gpu",
+        {
+            { "enabled", NULL },
+            { "disabled", NULL },
+            { NULL, NULL },
+        },
+        "enabled"
+    },
+    {
+        "vita3k_compile_overlay",
+        VITA3K_COMPILE_OVERLAY_LABEL_EN,
+        NULL,
+        NULL,
         NULL,
         "gpu",
         {
@@ -4151,13 +5579,13 @@ struct retro_core_options_v2 options_en = {
 
 #define CATEGORY_GPU_LABEL_EO NULL
 #define CATEGORY_GPU_INFO_0_EO NULL
-#define CATEGORY_CPU_LABEL_EO NULL
+#define CATEGORY_CPU_LABEL_EO "Ĉefprocesoro"
 #define CATEGORY_CPU_INFO_0_EO NULL
-#define CATEGORY_SYSTEM_LABEL_EO NULL
+#define CATEGORY_SYSTEM_LABEL_EO "Sistemo"
 #define CATEGORY_SYSTEM_INFO_0_EO NULL
-#define CATEGORY_AUDIO_LABEL_EO NULL
+#define CATEGORY_AUDIO_LABEL_EO "Sono"
 #define CATEGORY_AUDIO_INFO_0_EO NULL
-#define CATEGORY_NETWORK_LABEL_EO NULL
+#define CATEGORY_NETWORK_LABEL_EO "Reto"
 #define CATEGORY_NETWORK_INFO_0_EO NULL
 #define VITA3K_BACKEND_RENDERER_LABEL_EO NULL
 #define VITA3K_BACKEND_RENDERER_INFO_0_EO NULL
@@ -4171,12 +5599,12 @@ struct retro_core_options_v2 options_en = {
 #define OPTION_VAL_4_EO NULL
 #define VITA3K_SCREEN_FILTER_LABEL_EO NULL
 #define VITA3K_SCREEN_FILTER_INFO_0_EO NULL
-#define OPTION_VAL_BILINEAR_EO NULL
-#define OPTION_VAL_NEAREST_EO NULL
-#define OPTION_VAL_BICUBIC_EO NULL
+#define OPTION_VAL_BILINEAR_EO "Dulineara"
+#define OPTION_VAL_NEAREST_EO "Plej proksima"
+#define OPTION_VAL_BICUBIC_EO "Dukuba"
 #define OPTION_VAL_FXAA_EO NULL
 #define OPTION_VAL_FSR_EO NULL
-#define VITA3K_ANISOTROPIC_FILTERING_LABEL_EO NULL
+#define VITA3K_ANISOTROPIC_FILTERING_LABEL_EO "Neizotropeca filtrado"
 #define VITA3K_ANISOTROPIC_FILTERING_INFO_0_EO NULL
 #define OPTION_VAL_1_VITA3K_ANISOTROPIC_FILTERING_EO NULL
 #define OPTION_VAL_2_VITA3K_ANISOTROPIC_FILTERING_EO NULL
@@ -4187,6 +5615,7 @@ struct retro_core_options_v2 options_en = {
 #define VITA3K_V_SYNC_INFO_0_EO NULL
 #define VITA3K_ASYNC_PIPELINE_LABEL_EO NULL
 #define VITA3K_ASYNC_PIPELINE_INFO_0_EO NULL
+#define VITA3K_COMPILE_OVERLAY_LABEL_EO NULL
 #define VITA3K_MEMORY_MAPPING_LABEL_EO NULL
 #define VITA3K_MEMORY_MAPPING_INFO_0_EO NULL
 #define OPTION_VAL_DOUBLE_BUFFER_EO NULL
@@ -4205,15 +5634,15 @@ struct retro_core_options_v2 options_en = {
 #define VITA3K_PSTV_MODE_INFO_0_EO NULL
 #define VITA3K_MODULES_MODE_LABEL_EO NULL
 #define VITA3K_MODULES_MODE_INFO_0_EO NULL
-#define OPTION_VAL_0_EO NULL
+#define OPTION_VAL_0_EO "Aŭtomata"
 #define OPTION_VAL_1_VITA3K_MODULES_MODE_EO NULL
-#define OPTION_VAL_2_VITA3K_MODULES_MODE_EO NULL
+#define OPTION_VAL_2_VITA3K_MODULES_MODE_EO "Permana"
 #define VITA3K_FPS_HACK_LABEL_EO NULL
 #define VITA3K_FPS_HACK_INFO_0_EO NULL
 #define VITA3K_SYS_BUTTON_LABEL_EO NULL
 #define VITA3K_SYS_BUTTON_INFO_0_EO NULL
 #define OPTION_VAL_0_VITA3K_SYS_BUTTON_EO NULL
-#define OPTION_VAL_1_VITA3K_SYS_BUTTON_EO NULL
+#define OPTION_VAL_1_VITA3K_SYS_BUTTON_EO "Kruco"
 #define VITA3K_AUDIO_VOLUME_LABEL_EO NULL
 #define VITA3K_AUDIO_VOLUME_INFO_0_EO NULL
 #define OPTION_VAL_0_VITA3K_AUDIO_VOLUME_EO NULL
@@ -4338,6 +5767,20 @@ struct retro_core_option_v2_definition option_defs_eo[] = {
         VITA3K_ASYNC_PIPELINE_LABEL_EO,
         NULL,
         VITA3K_ASYNC_PIPELINE_INFO_0_EO,
+        NULL,
+        "gpu",
+        {
+            { "enabled", NULL },
+            { "disabled", NULL },
+            { NULL, NULL },
+        },
+        "enabled"
+    },
+    {
+        "vita3k_compile_overlay",
+        VITA3K_COMPILE_OVERLAY_LABEL_EO,
+        NULL,
+        NULL,
         NULL,
         "gpu",
         {
@@ -4561,100 +6004,101 @@ struct retro_core_options_v2 options_eo = {
 /* RETRO_LANGUAGE_ES */
 
 #define CATEGORY_GPU_LABEL_ES NULL
-#define CATEGORY_GPU_INFO_0_ES NULL
+#define CATEGORY_GPU_INFO_0_ES "Opciones de renderizado de gráficos."
 #define CATEGORY_CPU_LABEL_ES NULL
-#define CATEGORY_CPU_INFO_0_ES NULL
-#define CATEGORY_SYSTEM_LABEL_ES NULL
-#define CATEGORY_SYSTEM_INFO_0_ES NULL
+#define CATEGORY_CPU_INFO_0_ES "Opciones de emulación de la CPU."
+#define CATEGORY_SYSTEM_LABEL_ES "Sistema"
+#define CATEGORY_SYSTEM_INFO_0_ES "Opciones de emulación del sistema."
 #define CATEGORY_AUDIO_LABEL_ES NULL
-#define CATEGORY_AUDIO_INFO_0_ES NULL
-#define CATEGORY_NETWORK_LABEL_ES NULL
-#define CATEGORY_NETWORK_INFO_0_ES NULL
-#define VITA3K_BACKEND_RENDERER_LABEL_ES NULL
-#define VITA3K_BACKEND_RENDERER_INFO_0_ES NULL
+#define CATEGORY_AUDIO_INFO_0_ES "Opciones de salida de audio."
+#define CATEGORY_NETWORK_LABEL_ES "Red"
+#define CATEGORY_NETWORK_INFO_0_ES "Opciones de red."
+#define VITA3K_BACKEND_RENDERER_LABEL_ES "Back-end de renderizado"
+#define VITA3K_BACKEND_RENDERER_INFO_0_ES "Selecciona el back-end de gráficos. Se recomienda Vulkan."
 #define OPTION_VAL_VULKAN_ES NULL
 #define OPTION_VAL_OPENGL_ES NULL
-#define VITA3K_RESOLUTION_MULTIPLIER_LABEL_ES NULL
-#define VITA3K_RESOLUTION_MULTIPLIER_INFO_0_ES NULL
-#define OPTION_VAL_1_ES NULL
-#define OPTION_VAL_2_ES NULL
-#define OPTION_VAL_3_ES NULL
-#define OPTION_VAL_4_ES NULL
-#define VITA3K_SCREEN_FILTER_LABEL_ES NULL
-#define VITA3K_SCREEN_FILTER_INFO_0_ES NULL
-#define OPTION_VAL_BILINEAR_ES NULL
-#define OPTION_VAL_NEAREST_ES NULL
-#define OPTION_VAL_BICUBIC_ES NULL
-#define OPTION_VAL_FXAA_ES NULL
+#define VITA3K_RESOLUTION_MULTIPLIER_LABEL_ES "Multiplicador de resolución interna"
+#define VITA3K_RESOLUTION_MULTIPLIER_INFO_0_ES "El multiplicador de la resolución interna de renderizado (960 × 544 es la resolución base)."
+#define OPTION_VAL_1_ES "× 1 (960 × 544)"
+#define OPTION_VAL_2_ES "× 2 (1920 × 1088)"
+#define OPTION_VAL_3_ES "× 3 (2880 × 1632)"
+#define OPTION_VAL_4_ES "× 4 (3840 × 2176)"
+#define VITA3K_SCREEN_FILTER_LABEL_ES "Filtro de pantalla"
+#define VITA3K_SCREEN_FILTER_INFO_0_ES "El filtro de posprocesado que se aplicará a los fotogramas renderizados."
+#define OPTION_VAL_BILINEAR_ES "Bilineal"
+#define OPTION_VAL_NEAREST_ES "Más cercano"
+#define OPTION_VAL_BICUBIC_ES "Bicúbico"
+#define OPTION_VAL_FXAA_ES "FXAA (Fast Approximate Anti-Aliasing)"
 #define OPTION_VAL_FSR_ES NULL
-#define VITA3K_ANISOTROPIC_FILTERING_LABEL_ES NULL
-#define VITA3K_ANISOTROPIC_FILTERING_INFO_0_ES NULL
-#define OPTION_VAL_1_VITA3K_ANISOTROPIC_FILTERING_ES NULL
-#define OPTION_VAL_2_VITA3K_ANISOTROPIC_FILTERING_ES NULL
-#define OPTION_VAL_4_VITA3K_ANISOTROPIC_FILTERING_ES NULL
-#define OPTION_VAL_8_ES NULL
-#define OPTION_VAL_16_ES NULL
-#define VITA3K_V_SYNC_LABEL_ES NULL
-#define VITA3K_V_SYNC_INFO_0_ES NULL
-#define VITA3K_ASYNC_PIPELINE_LABEL_ES NULL
-#define VITA3K_ASYNC_PIPELINE_INFO_0_ES NULL
-#define VITA3K_MEMORY_MAPPING_LABEL_ES NULL
-#define VITA3K_MEMORY_MAPPING_INFO_0_ES NULL
-#define OPTION_VAL_DOUBLE_BUFFER_ES NULL
-#define OPTION_VAL_EXTERNAL_HOST_ES NULL
-#define OPTION_VAL_PAGE_TABLE_ES NULL
-#define OPTION_VAL_NATIVE_BUFFER_ES NULL
-#define VITA3K_HIGH_ACCURACY_LABEL_ES NULL
-#define VITA3K_HIGH_ACCURACY_INFO_0_ES NULL
-#define VITA3K_CPU_OPT_LABEL_ES NULL
-#define VITA3K_CPU_OPT_INFO_0_ES NULL
-#define VITA3K_PKG_MODE_LABEL_ES NULL
-#define VITA3K_PKG_MODE_INFO_0_ES NULL
-#define OPTION_VAL_RUN_ES NULL
-#define OPTION_VAL_INSTALL_ES NULL
-#define VITA3K_PSTV_MODE_LABEL_ES NULL
-#define VITA3K_PSTV_MODE_INFO_0_ES NULL
-#define VITA3K_MODULES_MODE_LABEL_ES NULL
-#define VITA3K_MODULES_MODE_INFO_0_ES NULL
-#define OPTION_VAL_0_ES NULL
-#define OPTION_VAL_1_VITA3K_MODULES_MODE_ES NULL
+#define VITA3K_ANISOTROPIC_FILTERING_LABEL_ES "Filtro anisotrópico"
+#define VITA3K_ANISOTROPIC_FILTERING_INFO_0_ES "El nivel de filtrado anisotrópico que se aplicará a las texturas."
+#define OPTION_VAL_1_VITA3K_ANISOTROPIC_FILTERING_ES "× 1 (desactivado)"
+#define OPTION_VAL_2_VITA3K_ANISOTROPIC_FILTERING_ES "× 2"
+#define OPTION_VAL_4_VITA3K_ANISOTROPIC_FILTERING_ES "× 4"
+#define OPTION_VAL_8_ES "× 8"
+#define OPTION_VAL_16_ES "× 16"
+#define VITA3K_V_SYNC_LABEL_ES "Sincronización vertical"
+#define VITA3K_V_SYNC_INFO_0_ES "Activa o desactiva la sincronización vertical."
+#define VITA3K_ASYNC_PIPELINE_LABEL_ES "Compilación asíncrona de canalizaciones"
+#define VITA3K_ASYNC_PIPELINE_INFO_0_ES "Compila las canalizaciones de shaders de forma asíncrona para reducir los tirones."
+#define VITA3K_COMPILE_OVERLAY_LABEL_ES "Superposición de compilación de shaders"
+#define VITA3K_MEMORY_MAPPING_LABEL_ES "Asignación de memoria"
+#define VITA3K_MEMORY_MAPPING_INFO_0_ES "El método de asignación de memoria de la GPU. Un valor mayor mejorará el rendimiento, pero será necesaria una GPU compatible."
+#define OPTION_VAL_DOUBLE_BUFFER_ES "Búfer doble"
+#define OPTION_VAL_EXTERNAL_HOST_ES "Host externo"
+#define OPTION_VAL_PAGE_TABLE_ES "Tabla de páginas"
+#define OPTION_VAL_NATIVE_BUFFER_ES "Búfer nativo"
+#define VITA3K_HIGH_ACCURACY_LABEL_ES "Renderizado de alta precisión"
+#define VITA3K_HIGH_ACCURACY_INFO_0_ES "Permite el uso de técnicas de renderizado más fieles, pero más lentas."
+#define VITA3K_CPU_OPT_LABEL_ES "Optimizaciones de CPU (JIT dinámico)"
+#define VITA3K_CPU_OPT_INFO_0_ES "Activa el JIT dinámico para que la emulación de la GPU sea más rápida."
+#define VITA3K_PKG_MODE_LABEL_ES "PKG de juego"
+#define VITA3K_PKG_MODE_INFO_0_ES "Establece la forma de ejecutar un archivo PKG de un juego. Ejecutar sin instalar: el juego se ejecutará en cuestión de segundos y se desencriptarán los archivos del PKG a la carpeta del sistema la primera vez que los lea un juego, después se eliminarán al cerrar el juego. Instalar: se desencriptará e instalará el juego entero en ux0/app la primera vez que se arranque, tal y como hace Vita3K, que tardará según el tamaño del juego y ocupará más espacio en disco. Los juegos que ya estén instalados se ejecutarán desde la ruta de instalación. las actualizaciones y los contenidos descargables se instalarán siempre."
+#define OPTION_VAL_RUN_ES "Ejecutar sin instalar"
+#define OPTION_VAL_INSTALL_ES "Instalar"
+#define VITA3K_PSTV_MODE_LABEL_ES "Modo PS TV"
+#define VITA3K_PSTV_MODE_INFO_0_ES "Emula una PlayStation TV en lugar de una PS Vita."
+#define VITA3K_MODULES_MODE_LABEL_ES "Modo de módulos"
+#define VITA3K_MODULES_MODE_INFO_0_ES "La forma de cargar los módulos del sistema. Se recomienda el modo automático."
+#define OPTION_VAL_0_ES "Automático"
+#define OPTION_VAL_1_VITA3K_MODULES_MODE_ES "Automático y manual"
 #define OPTION_VAL_2_VITA3K_MODULES_MODE_ES NULL
-#define VITA3K_FPS_HACK_LABEL_ES NULL
-#define VITA3K_FPS_HACK_INFO_0_ES NULL
-#define VITA3K_SYS_BUTTON_LABEL_ES NULL
-#define VITA3K_SYS_BUTTON_INFO_0_ES NULL
-#define OPTION_VAL_0_VITA3K_SYS_BUTTON_ES NULL
-#define OPTION_VAL_1_VITA3K_SYS_BUTTON_ES NULL
-#define VITA3K_AUDIO_VOLUME_LABEL_ES NULL
-#define VITA3K_AUDIO_VOLUME_INFO_0_ES NULL
-#define OPTION_VAL_0_VITA3K_AUDIO_VOLUME_ES NULL
-#define OPTION_VAL_10_ES NULL
-#define OPTION_VAL_20_ES NULL
-#define OPTION_VAL_30_ES NULL
-#define OPTION_VAL_40_ES NULL
-#define OPTION_VAL_50_ES NULL
-#define OPTION_VAL_60_ES NULL
-#define OPTION_VAL_70_ES NULL
-#define OPTION_VAL_80_ES NULL
-#define OPTION_VAL_90_ES NULL
-#define OPTION_VAL_100_ES NULL
-#define VITA3K_NGS_ENABLE_LABEL_ES NULL
-#define VITA3K_NGS_ENABLE_INFO_0_ES NULL
-#define VITA3K_PSN_SIGNED_IN_LABEL_ES NULL
-#define VITA3K_PSN_SIGNED_IN_INFO_0_ES NULL
-#define VITA3K_SURFACE_SYNC_LABEL_ES NULL
-#define VITA3K_SURFACE_SYNC_INFO_0_ES NULL
-#define OPTION_VAL_ENABLED_ES NULL
-#define OPTION_VAL_DISABLED_ES NULL
-#define VITA3K_FILE_LOADING_DELAY_LABEL_ES NULL
-#define VITA3K_FILE_LOADING_DELAY_INFO_0_ES NULL
-#define OPTION_VAL_0_VITA3K_FILE_LOADING_DELAY_ES NULL
-#define OPTION_VAL_5_ES NULL
-#define OPTION_VAL_10_VITA3K_FILE_LOADING_DELAY_ES NULL
-#define OPTION_VAL_15_ES NULL
-#define OPTION_VAL_20_VITA3K_FILE_LOADING_DELAY_ES NULL
-#define OPTION_VAL_25_ES NULL
-#define OPTION_VAL_30_VITA3K_FILE_LOADING_DELAY_ES NULL
+#define VITA3K_FPS_HACK_LABEL_ES "Hack de FPS (de 30 a 60)"
+#define VITA3K_FPS_HACK_INFO_0_ES "Intenta ejecutar los juegos bloqueados en 30 FPS a 60. Podría dar problemas."
+#define VITA3K_SYS_BUTTON_LABEL_ES "Botón de confirmación"
+#define VITA3K_SYS_BUTTON_INFO_0_ES "El botón que se usará para confirmar acciones."
+#define OPTION_VAL_0_VITA3K_SYS_BUTTON_ES "Círculo"
+#define OPTION_VAL_1_VITA3K_SYS_BUTTON_ES "Cruz/X"
+#define VITA3K_AUDIO_VOLUME_LABEL_ES "Volumen de audio"
+#define VITA3K_AUDIO_VOLUME_INFO_0_ES "El nivel de volumen maestro del audio."
+#define OPTION_VAL_0_VITA3K_AUDIO_VOLUME_ES "0 %"
+#define OPTION_VAL_10_ES "10 %"
+#define OPTION_VAL_20_ES "20 %"
+#define OPTION_VAL_30_ES "30 %"
+#define OPTION_VAL_40_ES "40 %"
+#define OPTION_VAL_50_ES "50 %"
+#define OPTION_VAL_60_ES "60 %"
+#define OPTION_VAL_70_ES "70 %"
+#define OPTION_VAL_80_ES "80 %"
+#define OPTION_VAL_90_ES "90 %"
+#define OPTION_VAL_100_ES "100 %"
+#define VITA3K_NGS_ENABLE_LABEL_ES "Motor NGS de audio"
+#define VITA3K_NGS_ENABLE_INFO_0_ES "Activa el motor NGS de audio para reproducir audio mejorado."
+#define VITA3K_PSN_SIGNED_IN_LABEL_ES "Inicio de sesión en PSN"
+#define VITA3K_PSN_SIGNED_IN_INFO_0_ES "Simula que se ha iniciado sesión en PSN. Necesario para algunos juegos."
+#define VITA3K_SURFACE_SYNC_LABEL_ES "Sincronizar superficie"
+#define VITA3K_SURFACE_SYNC_INFO_0_ES "Optimización de memoria de GPU. Podría mejorar el rendimiento en un 20-40 %."
+#define OPTION_VAL_ENABLED_ES "Sí (más fiel)"
+#define OPTION_VAL_DISABLED_ES "No (más rápido)"
+#define VITA3K_FILE_LOADING_DELAY_LABEL_ES "Retraso en carga de archivos"
+#define VITA3K_FILE_LOADING_DELAY_INFO_0_ES "Retrasa la carga de archivos (en milisegundos). Ayudará a aquellos juegos que sean sensibles a la rapidez de carga."
+#define OPTION_VAL_0_VITA3K_FILE_LOADING_DELAY_ES "0 ms"
+#define OPTION_VAL_5_ES "5 ms"
+#define OPTION_VAL_10_VITA3K_FILE_LOADING_DELAY_ES "10 ms"
+#define OPTION_VAL_15_ES "15 ms"
+#define OPTION_VAL_20_VITA3K_FILE_LOADING_DELAY_ES "20 ms"
+#define OPTION_VAL_25_ES "25 ms"
+#define OPTION_VAL_30_VITA3K_FILE_LOADING_DELAY_ES "30 ms"
 
 struct retro_core_option_v2_category option_cats_es[] = {
     { "gpu", CATEGORY_GPU_LABEL_ES, CATEGORY_GPU_INFO_0_ES },
@@ -4749,6 +6193,20 @@ struct retro_core_option_v2_definition option_defs_es[] = {
         VITA3K_ASYNC_PIPELINE_LABEL_ES,
         NULL,
         VITA3K_ASYNC_PIPELINE_INFO_0_ES,
+        NULL,
+        "gpu",
+        {
+            { "enabled", NULL },
+            { "disabled", NULL },
+            { NULL, NULL },
+        },
+        "enabled"
+    },
+    {
+        "vita3k_compile_overlay",
+        VITA3K_COMPILE_OVERLAY_LABEL_ES,
+        NULL,
+        NULL,
         NULL,
         "gpu",
         {
@@ -4975,11 +6433,11 @@ struct retro_core_options_v2 options_es = {
 #define CATEGORY_GPU_INFO_0_FA NULL
 #define CATEGORY_CPU_LABEL_FA NULL
 #define CATEGORY_CPU_INFO_0_FA NULL
-#define CATEGORY_SYSTEM_LABEL_FA NULL
+#define CATEGORY_SYSTEM_LABEL_FA "سیستم"
 #define CATEGORY_SYSTEM_INFO_0_FA NULL
-#define CATEGORY_AUDIO_LABEL_FA NULL
+#define CATEGORY_AUDIO_LABEL_FA "صدا"
 #define CATEGORY_AUDIO_INFO_0_FA NULL
-#define CATEGORY_NETWORK_LABEL_FA NULL
+#define CATEGORY_NETWORK_LABEL_FA "شبکه"
 #define CATEGORY_NETWORK_INFO_0_FA NULL
 #define VITA3K_BACKEND_RENDERER_LABEL_FA NULL
 #define VITA3K_BACKEND_RENDERER_INFO_0_FA NULL
@@ -4995,7 +6453,7 @@ struct retro_core_options_v2 options_es = {
 #define VITA3K_SCREEN_FILTER_INFO_0_FA NULL
 #define OPTION_VAL_BILINEAR_FA NULL
 #define OPTION_VAL_NEAREST_FA NULL
-#define OPTION_VAL_BICUBIC_FA NULL
+#define OPTION_VAL_BICUBIC_FA "دومکعبی"
 #define OPTION_VAL_FXAA_FA NULL
 #define OPTION_VAL_FSR_FA NULL
 #define VITA3K_ANISOTROPIC_FILTERING_LABEL_FA NULL
@@ -5009,6 +6467,7 @@ struct retro_core_options_v2 options_es = {
 #define VITA3K_V_SYNC_INFO_0_FA NULL
 #define VITA3K_ASYNC_PIPELINE_LABEL_FA NULL
 #define VITA3K_ASYNC_PIPELINE_INFO_0_FA NULL
+#define VITA3K_COMPILE_OVERLAY_LABEL_FA NULL
 #define VITA3K_MEMORY_MAPPING_LABEL_FA NULL
 #define VITA3K_MEMORY_MAPPING_INFO_0_FA NULL
 #define OPTION_VAL_DOUBLE_BUFFER_FA NULL
@@ -5029,7 +6488,7 @@ struct retro_core_options_v2 options_es = {
 #define VITA3K_MODULES_MODE_INFO_0_FA NULL
 #define OPTION_VAL_0_FA NULL
 #define OPTION_VAL_1_VITA3K_MODULES_MODE_FA NULL
-#define OPTION_VAL_2_VITA3K_MODULES_MODE_FA NULL
+#define OPTION_VAL_2_VITA3K_MODULES_MODE_FA "دستی"
 #define VITA3K_FPS_HACK_LABEL_FA NULL
 #define VITA3K_FPS_HACK_INFO_0_FA NULL
 #define VITA3K_SYS_BUTTON_LABEL_FA NULL
@@ -5160,6 +6619,20 @@ struct retro_core_option_v2_definition option_defs_fa[] = {
         VITA3K_ASYNC_PIPELINE_LABEL_FA,
         NULL,
         VITA3K_ASYNC_PIPELINE_INFO_0_FA,
+        NULL,
+        "gpu",
+        {
+            { "enabled", NULL },
+            { "disabled", NULL },
+            { NULL, NULL },
+        },
+        "enabled"
+    },
+    {
+        "vita3k_compile_overlay",
+        VITA3K_COMPILE_OVERLAY_LABEL_FA,
+        NULL,
+        NULL,
         NULL,
         "gpu",
         {
@@ -5386,11 +6859,11 @@ struct retro_core_options_v2 options_fa = {
 #define CATEGORY_GPU_INFO_0_FI NULL
 #define CATEGORY_CPU_LABEL_FI NULL
 #define CATEGORY_CPU_INFO_0_FI NULL
-#define CATEGORY_SYSTEM_LABEL_FI NULL
+#define CATEGORY_SYSTEM_LABEL_FI "Järjestelmä"
 #define CATEGORY_SYSTEM_INFO_0_FI NULL
-#define CATEGORY_AUDIO_LABEL_FI NULL
+#define CATEGORY_AUDIO_LABEL_FI "Ääni"
 #define CATEGORY_AUDIO_INFO_0_FI NULL
-#define CATEGORY_NETWORK_LABEL_FI NULL
+#define CATEGORY_NETWORK_LABEL_FI "Verkko"
 #define CATEGORY_NETWORK_INFO_0_FI NULL
 #define VITA3K_BACKEND_RENDERER_LABEL_FI NULL
 #define VITA3K_BACKEND_RENDERER_INFO_0_FI NULL
@@ -5404,12 +6877,12 @@ struct retro_core_options_v2 options_fa = {
 #define OPTION_VAL_4_FI NULL
 #define VITA3K_SCREEN_FILTER_LABEL_FI NULL
 #define VITA3K_SCREEN_FILTER_INFO_0_FI NULL
-#define OPTION_VAL_BILINEAR_FI NULL
-#define OPTION_VAL_NEAREST_FI NULL
+#define OPTION_VAL_BILINEAR_FI "Bilineaarinen"
+#define OPTION_VAL_NEAREST_FI "Lähin"
 #define OPTION_VAL_BICUBIC_FI NULL
 #define OPTION_VAL_FXAA_FI NULL
 #define OPTION_VAL_FSR_FI NULL
-#define VITA3K_ANISOTROPIC_FILTERING_LABEL_FI NULL
+#define VITA3K_ANISOTROPIC_FILTERING_LABEL_FI "Anisotrooppinen suodatus"
 #define VITA3K_ANISOTROPIC_FILTERING_INFO_0_FI NULL
 #define OPTION_VAL_1_VITA3K_ANISOTROPIC_FILTERING_FI NULL
 #define OPTION_VAL_2_VITA3K_ANISOTROPIC_FILTERING_FI NULL
@@ -5420,6 +6893,7 @@ struct retro_core_options_v2 options_fa = {
 #define VITA3K_V_SYNC_INFO_0_FI NULL
 #define VITA3K_ASYNC_PIPELINE_LABEL_FI NULL
 #define VITA3K_ASYNC_PIPELINE_INFO_0_FI NULL
+#define VITA3K_COMPILE_OVERLAY_LABEL_FI NULL
 #define VITA3K_MEMORY_MAPPING_LABEL_FI NULL
 #define VITA3K_MEMORY_MAPPING_INFO_0_FI NULL
 #define OPTION_VAL_DOUBLE_BUFFER_FI NULL
@@ -5438,28 +6912,28 @@ struct retro_core_options_v2 options_fa = {
 #define VITA3K_PSTV_MODE_INFO_0_FI NULL
 #define VITA3K_MODULES_MODE_LABEL_FI NULL
 #define VITA3K_MODULES_MODE_INFO_0_FI NULL
-#define OPTION_VAL_0_FI NULL
+#define OPTION_VAL_0_FI "Automaattinen"
 #define OPTION_VAL_1_VITA3K_MODULES_MODE_FI NULL
-#define OPTION_VAL_2_VITA3K_MODULES_MODE_FI NULL
+#define OPTION_VAL_2_VITA3K_MODULES_MODE_FI "Manuaalinen"
 #define VITA3K_FPS_HACK_LABEL_FI NULL
 #define VITA3K_FPS_HACK_INFO_0_FI NULL
 #define VITA3K_SYS_BUTTON_LABEL_FI NULL
 #define VITA3K_SYS_BUTTON_INFO_0_FI NULL
 #define OPTION_VAL_0_VITA3K_SYS_BUTTON_FI NULL
-#define OPTION_VAL_1_VITA3K_SYS_BUTTON_FI NULL
+#define OPTION_VAL_1_VITA3K_SYS_BUTTON_FI "Risti"
 #define VITA3K_AUDIO_VOLUME_LABEL_FI NULL
 #define VITA3K_AUDIO_VOLUME_INFO_0_FI NULL
 #define OPTION_VAL_0_VITA3K_AUDIO_VOLUME_FI NULL
 #define OPTION_VAL_10_FI NULL
-#define OPTION_VAL_20_FI NULL
-#define OPTION_VAL_30_FI NULL
-#define OPTION_VAL_40_FI NULL
-#define OPTION_VAL_50_FI NULL
-#define OPTION_VAL_60_FI NULL
-#define OPTION_VAL_70_FI NULL
-#define OPTION_VAL_80_FI NULL
-#define OPTION_VAL_90_FI NULL
-#define OPTION_VAL_100_FI NULL
+#define OPTION_VAL_20_FI "20 %"
+#define OPTION_VAL_30_FI "30 %"
+#define OPTION_VAL_40_FI "40 %"
+#define OPTION_VAL_50_FI "50 %"
+#define OPTION_VAL_60_FI "60 %"
+#define OPTION_VAL_70_FI "70 %"
+#define OPTION_VAL_80_FI "80 %"
+#define OPTION_VAL_90_FI "90 %"
+#define OPTION_VAL_100_FI "100 %"
 #define VITA3K_NGS_ENABLE_LABEL_FI NULL
 #define VITA3K_NGS_ENABLE_INFO_0_FI NULL
 #define VITA3K_PSN_SIGNED_IN_LABEL_FI NULL
@@ -5571,6 +7045,20 @@ struct retro_core_option_v2_definition option_defs_fi[] = {
         VITA3K_ASYNC_PIPELINE_LABEL_FI,
         NULL,
         VITA3K_ASYNC_PIPELINE_INFO_0_FI,
+        NULL,
+        "gpu",
+        {
+            { "enabled", NULL },
+            { "disabled", NULL },
+            { NULL, NULL },
+        },
+        "enabled"
+    },
+    {
+        "vita3k_compile_overlay",
+        VITA3K_COMPILE_OVERLAY_LABEL_FI,
+        NULL,
+        NULL,
         NULL,
         "gpu",
         {
@@ -5793,15 +7281,15 @@ struct retro_core_options_v2 options_fi = {
 
 /* RETRO_LANGUAGE_FR */
 
-#define CATEGORY_GPU_LABEL_FR NULL
+#define CATEGORY_GPU_LABEL_FR "Processeur graphique"
 #define CATEGORY_GPU_INFO_0_FR NULL
-#define CATEGORY_CPU_LABEL_FR NULL
+#define CATEGORY_CPU_LABEL_FR "Processeur"
 #define CATEGORY_CPU_INFO_0_FR NULL
-#define CATEGORY_SYSTEM_LABEL_FR NULL
+#define CATEGORY_SYSTEM_LABEL_FR "Système"
 #define CATEGORY_SYSTEM_INFO_0_FR NULL
-#define CATEGORY_AUDIO_LABEL_FR NULL
+#define CATEGORY_AUDIO_LABEL_FR "Audio "
 #define CATEGORY_AUDIO_INFO_0_FR NULL
-#define CATEGORY_NETWORK_LABEL_FR NULL
+#define CATEGORY_NETWORK_LABEL_FR "Réseau"
 #define CATEGORY_NETWORK_INFO_0_FR NULL
 #define VITA3K_BACKEND_RENDERER_LABEL_FR NULL
 #define VITA3K_BACKEND_RENDERER_INFO_0_FR NULL
@@ -5815,22 +7303,23 @@ struct retro_core_options_v2 options_fi = {
 #define OPTION_VAL_4_FR NULL
 #define VITA3K_SCREEN_FILTER_LABEL_FR NULL
 #define VITA3K_SCREEN_FILTER_INFO_0_FR NULL
-#define OPTION_VAL_BILINEAR_FR NULL
-#define OPTION_VAL_NEAREST_FR NULL
-#define OPTION_VAL_BICUBIC_FR NULL
+#define OPTION_VAL_BILINEAR_FR "Bilinéaire"
+#define OPTION_VAL_NEAREST_FR "Au plus proche"
+#define OPTION_VAL_BICUBIC_FR "Bicubique"
 #define OPTION_VAL_FXAA_FR NULL
 #define OPTION_VAL_FSR_FR NULL
-#define VITA3K_ANISOTROPIC_FILTERING_LABEL_FR NULL
+#define VITA3K_ANISOTROPIC_FILTERING_LABEL_FR "Filtrage anisotrope"
 #define VITA3K_ANISOTROPIC_FILTERING_INFO_0_FR NULL
 #define OPTION_VAL_1_VITA3K_ANISOTROPIC_FILTERING_FR NULL
-#define OPTION_VAL_2_VITA3K_ANISOTROPIC_FILTERING_FR NULL
-#define OPTION_VAL_4_VITA3K_ANISOTROPIC_FILTERING_FR NULL
-#define OPTION_VAL_8_FR NULL
-#define OPTION_VAL_16_FR NULL
+#define OPTION_VAL_2_VITA3K_ANISOTROPIC_FILTERING_FR "x2"
+#define OPTION_VAL_4_VITA3K_ANISOTROPIC_FILTERING_FR "x4"
+#define OPTION_VAL_8_FR "x8"
+#define OPTION_VAL_16_FR "x16"
 #define VITA3K_V_SYNC_LABEL_FR NULL
 #define VITA3K_V_SYNC_INFO_0_FR NULL
 #define VITA3K_ASYNC_PIPELINE_LABEL_FR NULL
 #define VITA3K_ASYNC_PIPELINE_INFO_0_FR NULL
+#define VITA3K_COMPILE_OVERLAY_LABEL_FR NULL
 #define VITA3K_MEMORY_MAPPING_LABEL_FR NULL
 #define VITA3K_MEMORY_MAPPING_INFO_0_FR NULL
 #define OPTION_VAL_DOUBLE_BUFFER_FR NULL
@@ -5849,28 +7338,28 @@ struct retro_core_options_v2 options_fi = {
 #define VITA3K_PSTV_MODE_INFO_0_FR NULL
 #define VITA3K_MODULES_MODE_LABEL_FR NULL
 #define VITA3K_MODULES_MODE_INFO_0_FR NULL
-#define OPTION_VAL_0_FR NULL
+#define OPTION_VAL_0_FR "Automatique"
 #define OPTION_VAL_1_VITA3K_MODULES_MODE_FR NULL
-#define OPTION_VAL_2_VITA3K_MODULES_MODE_FR NULL
+#define OPTION_VAL_2_VITA3K_MODULES_MODE_FR "Manuel"
 #define VITA3K_FPS_HACK_LABEL_FR NULL
 #define VITA3K_FPS_HACK_INFO_0_FR NULL
 #define VITA3K_SYS_BUTTON_LABEL_FR NULL
 #define VITA3K_SYS_BUTTON_INFO_0_FR NULL
 #define OPTION_VAL_0_VITA3K_SYS_BUTTON_FR NULL
-#define OPTION_VAL_1_VITA3K_SYS_BUTTON_FR NULL
+#define OPTION_VAL_1_VITA3K_SYS_BUTTON_FR "Croix"
 #define VITA3K_AUDIO_VOLUME_LABEL_FR NULL
 #define VITA3K_AUDIO_VOLUME_INFO_0_FR NULL
-#define OPTION_VAL_0_VITA3K_AUDIO_VOLUME_FR NULL
-#define OPTION_VAL_10_FR NULL
-#define OPTION_VAL_20_FR NULL
-#define OPTION_VAL_30_FR NULL
-#define OPTION_VAL_40_FR NULL
-#define OPTION_VAL_50_FR NULL
-#define OPTION_VAL_60_FR NULL
-#define OPTION_VAL_70_FR NULL
-#define OPTION_VAL_80_FR NULL
-#define OPTION_VAL_90_FR NULL
-#define OPTION_VAL_100_FR NULL
+#define OPTION_VAL_0_VITA3K_AUDIO_VOLUME_FR "0 %"
+#define OPTION_VAL_10_FR "10 %"
+#define OPTION_VAL_20_FR "20 %"
+#define OPTION_VAL_30_FR "30 %"
+#define OPTION_VAL_40_FR "40 %"
+#define OPTION_VAL_50_FR "50 %"
+#define OPTION_VAL_60_FR "60 %"
+#define OPTION_VAL_70_FR "70 %"
+#define OPTION_VAL_80_FR "80 %"
+#define OPTION_VAL_90_FR "90 %"
+#define OPTION_VAL_100_FR "100 %"
 #define VITA3K_NGS_ENABLE_LABEL_FR NULL
 #define VITA3K_NGS_ENABLE_INFO_0_FR NULL
 #define VITA3K_PSN_SIGNED_IN_LABEL_FR NULL
@@ -5982,6 +7471,20 @@ struct retro_core_option_v2_definition option_defs_fr[] = {
         VITA3K_ASYNC_PIPELINE_LABEL_FR,
         NULL,
         VITA3K_ASYNC_PIPELINE_INFO_0_FR,
+        NULL,
+        "gpu",
+        {
+            { "enabled", NULL },
+            { "disabled", NULL },
+            { NULL, NULL },
+        },
+        "enabled"
+    },
+    {
+        "vita3k_compile_overlay",
+        VITA3K_COMPILE_OVERLAY_LABEL_FR,
+        NULL,
+        NULL,
         NULL,
         "gpu",
         {
@@ -6205,72 +7708,73 @@ struct retro_core_options_v2 options_fr = {
 /* RETRO_LANGUAGE_GA */
 
 #define CATEGORY_GPU_LABEL_GA NULL
-#define CATEGORY_GPU_INFO_0_GA NULL
-#define CATEGORY_CPU_LABEL_GA NULL
-#define CATEGORY_CPU_INFO_0_GA NULL
-#define CATEGORY_SYSTEM_LABEL_GA NULL
-#define CATEGORY_SYSTEM_INFO_0_GA NULL
-#define CATEGORY_AUDIO_LABEL_GA NULL
-#define CATEGORY_AUDIO_INFO_0_GA NULL
-#define CATEGORY_NETWORK_LABEL_GA NULL
-#define CATEGORY_NETWORK_INFO_0_GA NULL
-#define VITA3K_BACKEND_RENDERER_LABEL_GA NULL
-#define VITA3K_BACKEND_RENDERER_INFO_0_GA NULL
+#define CATEGORY_GPU_INFO_0_GA "Roghanna rindreála grafaicí."
+#define CATEGORY_CPU_LABEL_GA "LAP"
+#define CATEGORY_CPU_INFO_0_GA "Roghanna aithrise LAP."
+#define CATEGORY_SYSTEM_LABEL_GA "Córas"
+#define CATEGORY_SYSTEM_INFO_0_GA "Roghanna aithrise córais."
+#define CATEGORY_AUDIO_LABEL_GA "Fuaim"
+#define CATEGORY_AUDIO_INFO_0_GA "Roghanna aschuir fuaime."
+#define CATEGORY_NETWORK_LABEL_GA "Líonra"
+#define CATEGORY_NETWORK_INFO_0_GA "Roghanna líonra."
+#define VITA3K_BACKEND_RENDERER_LABEL_GA "Rindreálaí Cúil"
+#define VITA3K_BACKEND_RENDERER_INFO_0_GA "Roghnaigh an t-inneall grafaicí. Moltar Vulkan."
 #define OPTION_VAL_VULKAN_GA NULL
 #define OPTION_VAL_OPENGL_GA NULL
-#define VITA3K_RESOLUTION_MULTIPLIER_LABEL_GA NULL
-#define VITA3K_RESOLUTION_MULTIPLIER_INFO_0_GA NULL
+#define VITA3K_RESOLUTION_MULTIPLIER_LABEL_GA "Iolraitheoir Taifigh Inmheánaigh"
+#define VITA3K_RESOLUTION_MULTIPLIER_INFO_0_GA "Iolraitheoir don taifeach rindreála inmheánaí (bonn 960x544)."
 #define OPTION_VAL_1_GA NULL
 #define OPTION_VAL_2_GA NULL
 #define OPTION_VAL_3_GA NULL
 #define OPTION_VAL_4_GA NULL
-#define VITA3K_SCREEN_FILTER_LABEL_GA NULL
-#define VITA3K_SCREEN_FILTER_INFO_0_GA NULL
-#define OPTION_VAL_BILINEAR_GA NULL
-#define OPTION_VAL_NEAREST_GA NULL
-#define OPTION_VAL_BICUBIC_GA NULL
+#define VITA3K_SCREEN_FILTER_LABEL_GA "Scagaire Scáileáin"
+#define VITA3K_SCREEN_FILTER_INFO_0_GA "Scagaire iarphróiseála curtha i bhfeidhm ar an bhfráma rindreáilte."
+#define OPTION_VAL_BILINEAR_GA "Délíneach"
+#define OPTION_VAL_NEAREST_GA "Is cóngaraí"
+#define OPTION_VAL_BICUBIC_GA "Déchiúbach"
 #define OPTION_VAL_FXAA_GA NULL
 #define OPTION_VAL_FSR_GA NULL
-#define VITA3K_ANISOTROPIC_FILTERING_LABEL_GA NULL
-#define VITA3K_ANISOTROPIC_FILTERING_INFO_0_GA NULL
-#define OPTION_VAL_1_VITA3K_ANISOTROPIC_FILTERING_GA NULL
+#define VITA3K_ANISOTROPIC_FILTERING_LABEL_GA "Scagadh Ainiseatrópach"
+#define VITA3K_ANISOTROPIC_FILTERING_INFO_0_GA "Leibhéal na scagacháin uigeachta anisotrópaí."
+#define OPTION_VAL_1_VITA3K_ANISOTROPIC_FILTERING_GA "1x (As)"
 #define OPTION_VAL_2_VITA3K_ANISOTROPIC_FILTERING_GA NULL
 #define OPTION_VAL_4_VITA3K_ANISOTROPIC_FILTERING_GA NULL
 #define OPTION_VAL_8_GA NULL
 #define OPTION_VAL_16_GA NULL
 #define VITA3K_V_SYNC_LABEL_GA NULL
-#define VITA3K_V_SYNC_INFO_0_GA NULL
-#define VITA3K_ASYNC_PIPELINE_LABEL_GA NULL
-#define VITA3K_ASYNC_PIPELINE_INFO_0_GA NULL
-#define VITA3K_MEMORY_MAPPING_LABEL_GA NULL
-#define VITA3K_MEMORY_MAPPING_INFO_0_GA NULL
-#define OPTION_VAL_DOUBLE_BUFFER_GA NULL
-#define OPTION_VAL_EXTERNAL_HOST_GA NULL
-#define OPTION_VAL_PAGE_TABLE_GA NULL
-#define OPTION_VAL_NATIVE_BUFFER_GA NULL
-#define VITA3K_HIGH_ACCURACY_LABEL_GA NULL
-#define VITA3K_HIGH_ACCURACY_INFO_0_GA NULL
-#define VITA3K_CPU_OPT_LABEL_GA NULL
-#define VITA3K_CPU_OPT_INFO_0_GA NULL
-#define VITA3K_PKG_MODE_LABEL_GA NULL
-#define VITA3K_PKG_MODE_INFO_0_GA NULL
-#define OPTION_VAL_RUN_GA NULL
-#define OPTION_VAL_INSTALL_GA NULL
-#define VITA3K_PSTV_MODE_LABEL_GA NULL
-#define VITA3K_PSTV_MODE_INFO_0_GA NULL
-#define VITA3K_MODULES_MODE_LABEL_GA NULL
-#define VITA3K_MODULES_MODE_INFO_0_GA NULL
-#define OPTION_VAL_0_GA NULL
-#define OPTION_VAL_1_VITA3K_MODULES_MODE_GA NULL
-#define OPTION_VAL_2_VITA3K_MODULES_MODE_GA NULL
-#define VITA3K_FPS_HACK_LABEL_GA NULL
-#define VITA3K_FPS_HACK_INFO_0_GA NULL
-#define VITA3K_SYS_BUTTON_LABEL_GA NULL
-#define VITA3K_SYS_BUTTON_INFO_0_GA NULL
-#define OPTION_VAL_0_VITA3K_SYS_BUTTON_GA NULL
-#define OPTION_VAL_1_VITA3K_SYS_BUTTON_GA NULL
-#define VITA3K_AUDIO_VOLUME_LABEL_GA NULL
-#define VITA3K_AUDIO_VOLUME_INFO_0_GA NULL
+#define VITA3K_V_SYNC_INFO_0_GA "Cumasaigh nó díchumasaigh an sioncrónú ingearach."
+#define VITA3K_ASYNC_PIPELINE_LABEL_GA "Tiomsú Píblíne Asincrónach"
+#define VITA3K_ASYNC_PIPELINE_INFO_0_GA "Tiomsaigh píblínte scáthaitheora go neamhshioncronach chun sciorradh a laghdú."
+#define VITA3K_COMPILE_OVERLAY_LABEL_GA "Forleagan Tiomsaithe Scáthóirí"
+#define VITA3K_MEMORY_MAPPING_LABEL_GA "Mapáil Cuimhne"
+#define VITA3K_MEMORY_MAPPING_INFO_0_GA "Modh mapála cuimhne GPU. Feabhsaíonn modhanna ardleibhéil an fheidhmíocht ach teastaíonn tacaíocht GPU uathu."
+#define OPTION_VAL_DOUBLE_BUFFER_GA "Maolán Dúbailte"
+#define OPTION_VAL_EXTERNAL_HOST_GA "Óstach Seachtrach"
+#define OPTION_VAL_PAGE_TABLE_GA "Tábla an Leathanaigh"
+#define OPTION_VAL_NATIVE_BUFFER_GA "Maolán Dúchais"
+#define VITA3K_HIGH_ACCURACY_LABEL_GA "Rindreáil Ardchruinneas"
+#define VITA3K_HIGH_ACCURACY_INFO_0_GA "Cumasaigh teicnící rindreála atá níos cruinne ach níos moille."
+#define VITA3K_CPU_OPT_LABEL_GA "Optamuithe LAP (Dynarmic JIT)"
+#define VITA3K_CPU_OPT_INFO_0_GA "Cumasaigh Dynarmic JIT le haghaidh aithris LAP níos tapúla."
+#define VITA3K_PKG_MODE_LABEL_GA "PKG Cluiche"
+#define VITA3K_PKG_MODE_INFO_0_GA "An chaoi a rithetar comhad PKG cluiche. Rith gan Suiteáil: tosaíonn an cluiche laistigh de soicindí, agus díchriptítear comhad ón PKG agus cuirtear i bhfillteán an chórais é an chéad uair a léann an cluiche é; baintear gach rud nuair a dhúntar an cluiche. Suiteáil: díchriptítear an cluiche ar fad agus suiteáiltear é i ux0/app an chéad uair — mar a dhéanann Vita3K — próiseas a thógann am de réir mhéid an chluiche agus a úsáideann an méid sin spáis ar an diosca. Rithfear cluiche atá suiteáilte cheana féin óna shuiteáil féin, cibé acu modh a roghnaítear. Bíonn nuashonruithe agus DLC á suiteáil i gcónaí."
+#define OPTION_VAL_RUN_GA "Rith gan a shuiteáil"
+#define OPTION_VAL_INSTALL_GA "Suiteáil"
+#define VITA3K_PSTV_MODE_LABEL_GA "Mód PS TV"
+#define VITA3K_PSTV_MODE_INFO_0_GA "Déan aithris ar PlayStation TV in áit PS Vita."
+#define VITA3K_MODULES_MODE_LABEL_GA "Mód na Modúl"
+#define VITA3K_MODULES_MODE_INFO_0_GA "An chaoi a luchtútar modúil an chórais. Moltar an modh uathoibríoch."
+#define OPTION_VAL_0_GA "Uathoibríoch"
+#define OPTION_VAL_1_VITA3K_MODULES_MODE_GA "Uathoibríoch agus Láimhe"
+#define OPTION_VAL_2_VITA3K_MODULES_MODE_GA "Lámhleabhar"
+#define VITA3K_FPS_HACK_LABEL_GA "Hac FPS (30 go 60)"
+#define VITA3K_FPS_HACK_INFO_0_GA "Déan iarracht cluichí atá faoi ghlas ag 30fps a rith ag 60fps. D’fhéadfadh fadhbanna a bheith mar thoradh air sin."
+#define VITA3K_SYS_BUTTON_LABEL_GA "Cnaipe Deimhnithe"
+#define VITA3K_SYS_BUTTON_INFO_0_GA "Cén cnaipe a úsáidtear le haghaidh gníomhartha deimhnithe."
+#define OPTION_VAL_0_VITA3K_SYS_BUTTON_GA "Ciorcal"
+#define OPTION_VAL_1_VITA3K_SYS_BUTTON_GA "Cros"
+#define VITA3K_AUDIO_VOLUME_LABEL_GA "Airde na Fuaime"
+#define VITA3K_AUDIO_VOLUME_INFO_0_GA "Príomhleibhéal toirte fuaime."
 #define OPTION_VAL_0_VITA3K_AUDIO_VOLUME_GA NULL
 #define OPTION_VAL_10_GA NULL
 #define OPTION_VAL_20_GA NULL
@@ -6282,16 +7786,16 @@ struct retro_core_options_v2 options_fr = {
 #define OPTION_VAL_80_GA NULL
 #define OPTION_VAL_90_GA NULL
 #define OPTION_VAL_100_GA NULL
-#define VITA3K_NGS_ENABLE_LABEL_GA NULL
-#define VITA3K_NGS_ENABLE_INFO_0_GA NULL
-#define VITA3K_PSN_SIGNED_IN_LABEL_GA NULL
-#define VITA3K_PSN_SIGNED_IN_INFO_0_GA NULL
-#define VITA3K_SURFACE_SYNC_LABEL_GA NULL
-#define VITA3K_SURFACE_SYNC_INFO_0_GA NULL
-#define OPTION_VAL_ENABLED_GA NULL
-#define OPTION_VAL_DISABLED_GA NULL
-#define VITA3K_FILE_LOADING_DELAY_LABEL_GA NULL
-#define VITA3K_FILE_LOADING_DELAY_INFO_0_GA NULL
+#define VITA3K_NGS_ENABLE_LABEL_GA "Inneall Fuaime NGS"
+#define VITA3K_NGS_ENABLE_INFO_0_GA "Cumasaigh inneall fuaime NGS le haghaidh fuaim fheabhsaithe."
+#define VITA3K_PSN_SIGNED_IN_LABEL_GA "Logáilte isteach i PSN"
+#define VITA3K_PSN_SIGNED_IN_INFO_0_GA "Lig ort go bhfuil tú logáilte isteach i PSN. Riachtanach do chuid cluichí áirithe."
+#define VITA3K_SURFACE_SYNC_LABEL_GA "Sioncrónú Dromchla"
+#define VITA3K_SURFACE_SYNC_INFO_0_GA "Optamú cuimhne GPU. D’fhéadfadh sé feidhmíocht a fheabhsú faoi 20–40%."
+#define OPTION_VAL_ENABLED_GA "Cumasaithe (níos cruinne)"
+#define OPTION_VAL_DISABLED_GA "Díchumasaithe (níos tapúla)"
+#define VITA3K_FILE_LOADING_DELAY_LABEL_GA "Moill ar luchtú comhaid"
+#define VITA3K_FILE_LOADING_DELAY_INFO_0_GA "Moill i milleasoicindí maidir le luchtú comhad. Cuidíonn sé le cluichí a bhíonn ag brath ar uainiú beacht."
 #define OPTION_VAL_0_VITA3K_FILE_LOADING_DELAY_GA NULL
 #define OPTION_VAL_5_GA NULL
 #define OPTION_VAL_10_VITA3K_FILE_LOADING_DELAY_GA NULL
@@ -6393,6 +7897,20 @@ struct retro_core_option_v2_definition option_defs_ga[] = {
         VITA3K_ASYNC_PIPELINE_LABEL_GA,
         NULL,
         VITA3K_ASYNC_PIPELINE_INFO_0_GA,
+        NULL,
+        "gpu",
+        {
+            { "enabled", NULL },
+            { "disabled", NULL },
+            { NULL, NULL },
+        },
+        "enabled"
+    },
+    {
+        "vita3k_compile_overlay",
+        VITA3K_COMPILE_OVERLAY_LABEL_GA,
+        NULL,
+        NULL,
         NULL,
         "gpu",
         {
@@ -6619,11 +8137,11 @@ struct retro_core_options_v2 options_ga = {
 #define CATEGORY_GPU_INFO_0_GL NULL
 #define CATEGORY_CPU_LABEL_GL NULL
 #define CATEGORY_CPU_INFO_0_GL NULL
-#define CATEGORY_SYSTEM_LABEL_GL NULL
+#define CATEGORY_SYSTEM_LABEL_GL "Sistema"
 #define CATEGORY_SYSTEM_INFO_0_GL NULL
-#define CATEGORY_AUDIO_LABEL_GL NULL
+#define CATEGORY_AUDIO_LABEL_GL "Son"
 #define CATEGORY_AUDIO_INFO_0_GL NULL
-#define CATEGORY_NETWORK_LABEL_GL NULL
+#define CATEGORY_NETWORK_LABEL_GL "Rede"
 #define CATEGORY_NETWORK_INFO_0_GL NULL
 #define VITA3K_BACKEND_RENDERER_LABEL_GL NULL
 #define VITA3K_BACKEND_RENDERER_INFO_0_GL NULL
@@ -6639,10 +8157,10 @@ struct retro_core_options_v2 options_ga = {
 #define VITA3K_SCREEN_FILTER_INFO_0_GL NULL
 #define OPTION_VAL_BILINEAR_GL NULL
 #define OPTION_VAL_NEAREST_GL NULL
-#define OPTION_VAL_BICUBIC_GL NULL
+#define OPTION_VAL_BICUBIC_GL "Bicúbico"
 #define OPTION_VAL_FXAA_GL NULL
 #define OPTION_VAL_FSR_GL NULL
-#define VITA3K_ANISOTROPIC_FILTERING_LABEL_GL NULL
+#define VITA3K_ANISOTROPIC_FILTERING_LABEL_GL "Filtrado anisotrópico"
 #define VITA3K_ANISOTROPIC_FILTERING_INFO_0_GL NULL
 #define OPTION_VAL_1_VITA3K_ANISOTROPIC_FILTERING_GL NULL
 #define OPTION_VAL_2_VITA3K_ANISOTROPIC_FILTERING_GL NULL
@@ -6653,6 +8171,7 @@ struct retro_core_options_v2 options_ga = {
 #define VITA3K_V_SYNC_INFO_0_GL NULL
 #define VITA3K_ASYNC_PIPELINE_LABEL_GL NULL
 #define VITA3K_ASYNC_PIPELINE_INFO_0_GL NULL
+#define VITA3K_COMPILE_OVERLAY_LABEL_GL NULL
 #define VITA3K_MEMORY_MAPPING_LABEL_GL NULL
 #define VITA3K_MEMORY_MAPPING_INFO_0_GL NULL
 #define OPTION_VAL_DOUBLE_BUFFER_GL NULL
@@ -6671,7 +8190,7 @@ struct retro_core_options_v2 options_ga = {
 #define VITA3K_PSTV_MODE_INFO_0_GL NULL
 #define VITA3K_MODULES_MODE_LABEL_GL NULL
 #define VITA3K_MODULES_MODE_INFO_0_GL NULL
-#define OPTION_VAL_0_GL NULL
+#define OPTION_VAL_0_GL "Automático"
 #define OPTION_VAL_1_VITA3K_MODULES_MODE_GL NULL
 #define OPTION_VAL_2_VITA3K_MODULES_MODE_GL NULL
 #define VITA3K_FPS_HACK_LABEL_GL NULL
@@ -6679,7 +8198,7 @@ struct retro_core_options_v2 options_ga = {
 #define VITA3K_SYS_BUTTON_LABEL_GL NULL
 #define VITA3K_SYS_BUTTON_INFO_0_GL NULL
 #define OPTION_VAL_0_VITA3K_SYS_BUTTON_GL NULL
-#define OPTION_VAL_1_VITA3K_SYS_BUTTON_GL NULL
+#define OPTION_VAL_1_VITA3K_SYS_BUTTON_GL "Cruz"
 #define VITA3K_AUDIO_VOLUME_LABEL_GL NULL
 #define VITA3K_AUDIO_VOLUME_INFO_0_GL NULL
 #define OPTION_VAL_0_VITA3K_AUDIO_VOLUME_GL NULL
@@ -6804,6 +8323,20 @@ struct retro_core_option_v2_definition option_defs_gl[] = {
         VITA3K_ASYNC_PIPELINE_LABEL_GL,
         NULL,
         VITA3K_ASYNC_PIPELINE_INFO_0_GL,
+        NULL,
+        "gpu",
+        {
+            { "enabled", NULL },
+            { "disabled", NULL },
+            { NULL, NULL },
+        },
+        "enabled"
+    },
+    {
+        "vita3k_compile_overlay",
+        VITA3K_COMPILE_OVERLAY_LABEL_GL,
+        NULL,
+        NULL,
         NULL,
         "gpu",
         {
@@ -7032,9 +8565,9 @@ struct retro_core_options_v2 options_gl = {
 #define CATEGORY_CPU_INFO_0_HE NULL
 #define CATEGORY_SYSTEM_LABEL_HE NULL
 #define CATEGORY_SYSTEM_INFO_0_HE NULL
-#define CATEGORY_AUDIO_LABEL_HE NULL
+#define CATEGORY_AUDIO_LABEL_HE "שמע"
 #define CATEGORY_AUDIO_INFO_0_HE NULL
-#define CATEGORY_NETWORK_LABEL_HE NULL
+#define CATEGORY_NETWORK_LABEL_HE "רשת"
 #define CATEGORY_NETWORK_INFO_0_HE NULL
 #define VITA3K_BACKEND_RENDERER_LABEL_HE NULL
 #define VITA3K_BACKEND_RENDERER_INFO_0_HE NULL
@@ -7064,6 +8597,7 @@ struct retro_core_options_v2 options_gl = {
 #define VITA3K_V_SYNC_INFO_0_HE NULL
 #define VITA3K_ASYNC_PIPELINE_LABEL_HE NULL
 #define VITA3K_ASYNC_PIPELINE_INFO_0_HE NULL
+#define VITA3K_COMPILE_OVERLAY_LABEL_HE NULL
 #define VITA3K_MEMORY_MAPPING_LABEL_HE NULL
 #define VITA3K_MEMORY_MAPPING_INFO_0_HE NULL
 #define OPTION_VAL_DOUBLE_BUFFER_HE NULL
@@ -7215,6 +8749,20 @@ struct retro_core_option_v2_definition option_defs_he[] = {
         VITA3K_ASYNC_PIPELINE_LABEL_HE,
         NULL,
         VITA3K_ASYNC_PIPELINE_INFO_0_HE,
+        NULL,
+        "gpu",
+        {
+            { "enabled", NULL },
+            { "disabled", NULL },
+            { NULL, NULL },
+        },
+        "enabled"
+    },
+    {
+        "vita3k_compile_overlay",
+        VITA3K_COMPILE_OVERLAY_LABEL_HE,
+        NULL,
+        NULL,
         NULL,
         "gpu",
         {
@@ -7435,17 +8983,443 @@ struct retro_core_options_v2 options_he = {
    option_defs_he
 };
 
+/* RETRO_LANGUAGE_HR */
+
+#define CATEGORY_GPU_LABEL_HR NULL
+#define CATEGORY_GPU_INFO_0_HR NULL
+#define CATEGORY_CPU_LABEL_HR NULL
+#define CATEGORY_CPU_INFO_0_HR NULL
+#define CATEGORY_SYSTEM_LABEL_HR "Sustav"
+#define CATEGORY_SYSTEM_INFO_0_HR NULL
+#define CATEGORY_AUDIO_LABEL_HR "Zvuk"
+#define CATEGORY_AUDIO_INFO_0_HR NULL
+#define CATEGORY_NETWORK_LABEL_HR "Mreža"
+#define CATEGORY_NETWORK_INFO_0_HR NULL
+#define VITA3K_BACKEND_RENDERER_LABEL_HR NULL
+#define VITA3K_BACKEND_RENDERER_INFO_0_HR NULL
+#define OPTION_VAL_VULKAN_HR NULL
+#define OPTION_VAL_OPENGL_HR NULL
+#define VITA3K_RESOLUTION_MULTIPLIER_LABEL_HR NULL
+#define VITA3K_RESOLUTION_MULTIPLIER_INFO_0_HR NULL
+#define OPTION_VAL_1_HR NULL
+#define OPTION_VAL_2_HR NULL
+#define OPTION_VAL_3_HR NULL
+#define OPTION_VAL_4_HR NULL
+#define VITA3K_SCREEN_FILTER_LABEL_HR NULL
+#define VITA3K_SCREEN_FILTER_INFO_0_HR NULL
+#define OPTION_VAL_BILINEAR_HR NULL
+#define OPTION_VAL_NEAREST_HR NULL
+#define OPTION_VAL_BICUBIC_HR "Bikubično"
+#define OPTION_VAL_FXAA_HR NULL
+#define OPTION_VAL_FSR_HR NULL
+#define VITA3K_ANISOTROPIC_FILTERING_LABEL_HR "Anizotropno filtriranje"
+#define VITA3K_ANISOTROPIC_FILTERING_INFO_0_HR NULL
+#define OPTION_VAL_1_VITA3K_ANISOTROPIC_FILTERING_HR NULL
+#define OPTION_VAL_2_VITA3K_ANISOTROPIC_FILTERING_HR NULL
+#define OPTION_VAL_4_VITA3K_ANISOTROPIC_FILTERING_HR NULL
+#define OPTION_VAL_8_HR NULL
+#define OPTION_VAL_16_HR NULL
+#define VITA3K_V_SYNC_LABEL_HR NULL
+#define VITA3K_V_SYNC_INFO_0_HR NULL
+#define VITA3K_ASYNC_PIPELINE_LABEL_HR NULL
+#define VITA3K_ASYNC_PIPELINE_INFO_0_HR NULL
+#define VITA3K_COMPILE_OVERLAY_LABEL_HR NULL
+#define VITA3K_MEMORY_MAPPING_LABEL_HR NULL
+#define VITA3K_MEMORY_MAPPING_INFO_0_HR NULL
+#define OPTION_VAL_DOUBLE_BUFFER_HR NULL
+#define OPTION_VAL_EXTERNAL_HOST_HR NULL
+#define OPTION_VAL_PAGE_TABLE_HR NULL
+#define OPTION_VAL_NATIVE_BUFFER_HR NULL
+#define VITA3K_HIGH_ACCURACY_LABEL_HR NULL
+#define VITA3K_HIGH_ACCURACY_INFO_0_HR NULL
+#define VITA3K_CPU_OPT_LABEL_HR NULL
+#define VITA3K_CPU_OPT_INFO_0_HR NULL
+#define VITA3K_PKG_MODE_LABEL_HR NULL
+#define VITA3K_PKG_MODE_INFO_0_HR NULL
+#define OPTION_VAL_RUN_HR NULL
+#define OPTION_VAL_INSTALL_HR NULL
+#define VITA3K_PSTV_MODE_LABEL_HR NULL
+#define VITA3K_PSTV_MODE_INFO_0_HR NULL
+#define VITA3K_MODULES_MODE_LABEL_HR NULL
+#define VITA3K_MODULES_MODE_INFO_0_HR NULL
+#define OPTION_VAL_0_HR NULL
+#define OPTION_VAL_1_VITA3K_MODULES_MODE_HR NULL
+#define OPTION_VAL_2_VITA3K_MODULES_MODE_HR NULL
+#define VITA3K_FPS_HACK_LABEL_HR NULL
+#define VITA3K_FPS_HACK_INFO_0_HR NULL
+#define VITA3K_SYS_BUTTON_LABEL_HR NULL
+#define VITA3K_SYS_BUTTON_INFO_0_HR NULL
+#define OPTION_VAL_0_VITA3K_SYS_BUTTON_HR NULL
+#define OPTION_VAL_1_VITA3K_SYS_BUTTON_HR NULL
+#define VITA3K_AUDIO_VOLUME_LABEL_HR NULL
+#define VITA3K_AUDIO_VOLUME_INFO_0_HR NULL
+#define OPTION_VAL_0_VITA3K_AUDIO_VOLUME_HR NULL
+#define OPTION_VAL_10_HR NULL
+#define OPTION_VAL_20_HR NULL
+#define OPTION_VAL_30_HR NULL
+#define OPTION_VAL_40_HR NULL
+#define OPTION_VAL_50_HR NULL
+#define OPTION_VAL_60_HR NULL
+#define OPTION_VAL_70_HR NULL
+#define OPTION_VAL_80_HR NULL
+#define OPTION_VAL_90_HR NULL
+#define OPTION_VAL_100_HR NULL
+#define VITA3K_NGS_ENABLE_LABEL_HR NULL
+#define VITA3K_NGS_ENABLE_INFO_0_HR NULL
+#define VITA3K_PSN_SIGNED_IN_LABEL_HR NULL
+#define VITA3K_PSN_SIGNED_IN_INFO_0_HR NULL
+#define VITA3K_SURFACE_SYNC_LABEL_HR NULL
+#define VITA3K_SURFACE_SYNC_INFO_0_HR NULL
+#define OPTION_VAL_ENABLED_HR NULL
+#define OPTION_VAL_DISABLED_HR NULL
+#define VITA3K_FILE_LOADING_DELAY_LABEL_HR NULL
+#define VITA3K_FILE_LOADING_DELAY_INFO_0_HR NULL
+#define OPTION_VAL_0_VITA3K_FILE_LOADING_DELAY_HR NULL
+#define OPTION_VAL_5_HR NULL
+#define OPTION_VAL_10_VITA3K_FILE_LOADING_DELAY_HR NULL
+#define OPTION_VAL_15_HR NULL
+#define OPTION_VAL_20_VITA3K_FILE_LOADING_DELAY_HR NULL
+#define OPTION_VAL_25_HR NULL
+#define OPTION_VAL_30_VITA3K_FILE_LOADING_DELAY_HR NULL
+
+struct retro_core_option_v2_category option_cats_hr[] = {
+    { "gpu", CATEGORY_GPU_LABEL_HR, CATEGORY_GPU_INFO_0_HR },
+    { "cpu", CATEGORY_CPU_LABEL_HR, CATEGORY_CPU_INFO_0_HR },
+    { "system", CATEGORY_SYSTEM_LABEL_HR, CATEGORY_SYSTEM_INFO_0_HR },
+    { "audio", CATEGORY_AUDIO_LABEL_HR, CATEGORY_AUDIO_INFO_0_HR },
+    { "network", CATEGORY_NETWORK_LABEL_HR, CATEGORY_NETWORK_INFO_0_HR },
+    { NULL, NULL, NULL },
+};
+struct retro_core_option_v2_definition option_defs_hr[] = {
+    // ── GPU ──────────────────────────────────────────────────────────────
+    {
+        "vita3k_backend_renderer",
+        VITA3K_BACKEND_RENDERER_LABEL_HR,
+        NULL,
+        VITA3K_BACKEND_RENDERER_INFO_0_HR,
+        NULL,
+        "gpu",
+        {
+            { "Vulkan", OPTION_VAL_VULKAN_HR },
+            { "OpenGL", OPTION_VAL_OPENGL_HR },
+            { NULL, NULL },
+        },
+        "Vulkan"
+    },
+    {
+        "vita3k_resolution_multiplier",
+        VITA3K_RESOLUTION_MULTIPLIER_LABEL_HR,
+        NULL,
+        VITA3K_RESOLUTION_MULTIPLIER_INFO_0_HR,
+        NULL,
+        "gpu",
+        {
+            { "1", OPTION_VAL_1_HR },
+            { "2", OPTION_VAL_2_HR },
+            { "3", OPTION_VAL_3_HR },
+            { "4", OPTION_VAL_4_HR },
+            { NULL, NULL },
+        },
+        "1"
+    },
+    {
+        "vita3k_screen_filter",
+        VITA3K_SCREEN_FILTER_LABEL_HR,
+        NULL,
+        VITA3K_SCREEN_FILTER_INFO_0_HR,
+        NULL,
+        "gpu",
+        {
+            { "Bilinear", OPTION_VAL_BILINEAR_HR },
+            { "Nearest", OPTION_VAL_NEAREST_HR },
+            { "Bicubic", OPTION_VAL_BICUBIC_HR },
+            { "FXAA", OPTION_VAL_FXAA_HR },
+            { "FSR", OPTION_VAL_FSR_HR },
+            { NULL, NULL },
+        },
+        "Bilinear"
+    },
+    {
+        "vita3k_anisotropic_filtering",
+        VITA3K_ANISOTROPIC_FILTERING_LABEL_HR,
+        NULL,
+        VITA3K_ANISOTROPIC_FILTERING_INFO_0_HR,
+        NULL,
+        "gpu",
+        {
+            { "1", OPTION_VAL_1_VITA3K_ANISOTROPIC_FILTERING_HR },
+            { "2", OPTION_VAL_2_VITA3K_ANISOTROPIC_FILTERING_HR },
+            { "4", OPTION_VAL_4_VITA3K_ANISOTROPIC_FILTERING_HR },
+            { "8", OPTION_VAL_8_HR },
+            { "16", OPTION_VAL_16_HR },
+            { NULL, NULL },
+        },
+        "1"
+    },
+    {
+        "vita3k_v_sync",
+        VITA3K_V_SYNC_LABEL_HR,
+        NULL,
+        VITA3K_V_SYNC_INFO_0_HR,
+        NULL,
+        "gpu",
+        {
+            { "enabled", NULL },
+            { "disabled", NULL },
+            { NULL, NULL },
+        },
+        "enabled"
+    },
+    {
+        "vita3k_async_pipeline",
+        VITA3K_ASYNC_PIPELINE_LABEL_HR,
+        NULL,
+        VITA3K_ASYNC_PIPELINE_INFO_0_HR,
+        NULL,
+        "gpu",
+        {
+            { "enabled", NULL },
+            { "disabled", NULL },
+            { NULL, NULL },
+        },
+        "enabled"
+    },
+    {
+        "vita3k_compile_overlay",
+        VITA3K_COMPILE_OVERLAY_LABEL_HR,
+        NULL,
+        NULL,
+        NULL,
+        "gpu",
+        {
+            { "enabled", NULL },
+            { "disabled", NULL },
+            { NULL, NULL },
+        },
+        "enabled"
+    },
+    {
+        "vita3k_memory_mapping",
+        VITA3K_MEMORY_MAPPING_LABEL_HR,
+        NULL,
+        VITA3K_MEMORY_MAPPING_INFO_0_HR,
+        NULL,
+        "gpu",
+        {
+            { "disabled", NULL },
+            { "double-buffer", OPTION_VAL_DOUBLE_BUFFER_HR },
+            { "external-host", OPTION_VAL_EXTERNAL_HOST_HR },
+            { "page-table", OPTION_VAL_PAGE_TABLE_HR },
+            { "native-buffer", OPTION_VAL_NATIVE_BUFFER_HR },
+            { NULL, NULL },
+        },
+        "double-buffer"
+    },
+    {
+        "vita3k_high_accuracy",
+        VITA3K_HIGH_ACCURACY_LABEL_HR,
+        NULL,
+        VITA3K_HIGH_ACCURACY_INFO_0_HR,
+        NULL,
+        "gpu",
+        {
+            { "disabled", NULL },
+            { "enabled", NULL },
+            { NULL, NULL },
+        },
+        "disabled"
+    },
+    // ── CPU ──────────────────────────────────────────────────────────────
+    {
+        "vita3k_cpu_opt",
+        VITA3K_CPU_OPT_LABEL_HR,
+        NULL,
+        VITA3K_CPU_OPT_INFO_0_HR,
+        NULL,
+        "cpu",
+        {
+            { "enabled", NULL },
+            { "disabled", NULL },
+            { NULL, NULL },
+        },
+        "enabled"
+    },
+    // ── System ───────────────────────────────────────────────────────────
+    {
+        "vita3k_pkg_mode",
+        VITA3K_PKG_MODE_LABEL_HR,
+        NULL,
+        VITA3K_PKG_MODE_INFO_0_HR,
+        NULL,
+        "system",
+        {
+            { "run", OPTION_VAL_RUN_HR },
+            { "install", OPTION_VAL_INSTALL_HR },
+            { NULL, NULL },
+        },
+        "run"
+    },
+    {
+        "vita3k_pstv_mode",
+        VITA3K_PSTV_MODE_LABEL_HR,
+        NULL,
+        VITA3K_PSTV_MODE_INFO_0_HR,
+        NULL,
+        "system",
+        {
+            { "disabled", NULL },
+            { "enabled", NULL },
+            { NULL, NULL },
+        },
+        "disabled"
+    },
+    {
+        "vita3k_modules_mode",
+        VITA3K_MODULES_MODE_LABEL_HR,
+        NULL,
+        VITA3K_MODULES_MODE_INFO_0_HR,
+        NULL,
+        "system",
+        {
+            { "0", OPTION_VAL_0_HR },
+            { "1", OPTION_VAL_1_VITA3K_MODULES_MODE_HR },
+            { "2", OPTION_VAL_2_VITA3K_MODULES_MODE_HR },
+            { NULL, NULL },
+        },
+        "0"
+    },
+    {
+        "vita3k_fps_hack",
+        VITA3K_FPS_HACK_LABEL_HR,
+        NULL,
+        VITA3K_FPS_HACK_INFO_0_HR,
+        NULL,
+        "system",
+        {
+            { "disabled", NULL },
+            { "enabled", NULL },
+            { NULL, NULL },
+        },
+        "disabled"
+    },
+    {
+        "vita3k_sys_button",
+        VITA3K_SYS_BUTTON_LABEL_HR,
+        NULL,
+        VITA3K_SYS_BUTTON_INFO_0_HR,
+        NULL,
+        "system",
+        {
+            { "0", OPTION_VAL_0_VITA3K_SYS_BUTTON_HR },
+            { "1", OPTION_VAL_1_VITA3K_SYS_BUTTON_HR },
+            { NULL, NULL },
+        },
+        "1"
+    },
+    // ── Audio ────────────────────────────────────────────────────────────
+    {
+        "vita3k_audio_volume",
+        VITA3K_AUDIO_VOLUME_LABEL_HR,
+        NULL,
+        VITA3K_AUDIO_VOLUME_INFO_0_HR,
+        NULL,
+        "audio",
+        {
+            { "0", OPTION_VAL_0_VITA3K_AUDIO_VOLUME_HR },
+            { "10", OPTION_VAL_10_HR },
+            { "20", OPTION_VAL_20_HR },
+            { "30", OPTION_VAL_30_HR },
+            { "40", OPTION_VAL_40_HR },
+            { "50", OPTION_VAL_50_HR },
+            { "60", OPTION_VAL_60_HR },
+            { "70", OPTION_VAL_70_HR },
+            { "80", OPTION_VAL_80_HR },
+            { "90", OPTION_VAL_90_HR },
+            { "100", OPTION_VAL_100_HR },
+            { NULL, NULL },
+        },
+        "100"
+    },
+    {
+        "vita3k_ngs_enable",
+        VITA3K_NGS_ENABLE_LABEL_HR,
+        NULL,
+        VITA3K_NGS_ENABLE_INFO_0_HR,
+        NULL,
+        "audio",
+        {
+            { "enabled", NULL },
+            { "disabled", NULL },
+            { NULL, NULL },
+        },
+        "enabled"
+    },
+    // ── Network ──────────────────────────────────────────────────────────
+    {
+        "vita3k_psn_signed_in",
+        VITA3K_PSN_SIGNED_IN_LABEL_HR,
+        NULL,
+        VITA3K_PSN_SIGNED_IN_INFO_0_HR,
+        NULL,
+        "network",
+        {
+            { "disabled", NULL },
+            { "enabled", NULL },
+            { NULL, NULL },
+        },
+        "disabled"
+    },
+    {
+        "vita3k_surface_sync",
+        VITA3K_SURFACE_SYNC_LABEL_HR,
+        NULL,
+        VITA3K_SURFACE_SYNC_INFO_0_HR,
+        NULL,
+        "gpu",
+        {
+            { "enabled", OPTION_VAL_ENABLED_HR },
+            { "disabled", OPTION_VAL_DISABLED_HR },
+            { NULL, NULL },
+        },
+        "enabled"
+    },
+    {
+        "vita3k_file_loading_delay",
+        VITA3K_FILE_LOADING_DELAY_LABEL_HR,
+        NULL,
+        VITA3K_FILE_LOADING_DELAY_INFO_0_HR,
+        NULL,
+        "system",
+        {
+            { "0", OPTION_VAL_0_VITA3K_FILE_LOADING_DELAY_HR },
+            { "5", OPTION_VAL_5_HR },
+            { "10", OPTION_VAL_10_VITA3K_FILE_LOADING_DELAY_HR },
+            { "15", OPTION_VAL_15_HR },
+            { "20", OPTION_VAL_20_VITA3K_FILE_LOADING_DELAY_HR },
+            { "25", OPTION_VAL_25_HR },
+            { "30", OPTION_VAL_30_VITA3K_FILE_LOADING_DELAY_HR },
+            { NULL, NULL },
+        },
+        "0"
+    },
+    { NULL, NULL, NULL, NULL, NULL, NULL, {{0}}, NULL },
+};
+struct retro_core_options_v2 options_hr = {
+   option_cats_hr,
+   option_defs_hr
+};
+
 /* RETRO_LANGUAGE_HU */
 
 #define CATEGORY_GPU_LABEL_HU NULL
 #define CATEGORY_GPU_INFO_0_HU NULL
 #define CATEGORY_CPU_LABEL_HU NULL
 #define CATEGORY_CPU_INFO_0_HU NULL
-#define CATEGORY_SYSTEM_LABEL_HU NULL
+#define CATEGORY_SYSTEM_LABEL_HU "Rendszer"
 #define CATEGORY_SYSTEM_INFO_0_HU NULL
-#define CATEGORY_AUDIO_LABEL_HU NULL
+#define CATEGORY_AUDIO_LABEL_HU "Hang"
 #define CATEGORY_AUDIO_INFO_0_HU NULL
-#define CATEGORY_NETWORK_LABEL_HU NULL
+#define CATEGORY_NETWORK_LABEL_HU "Hálózat"
 #define CATEGORY_NETWORK_INFO_0_HU NULL
 #define VITA3K_BACKEND_RENDERER_LABEL_HU NULL
 #define VITA3K_BACKEND_RENDERER_INFO_0_HU NULL
@@ -7459,12 +9433,12 @@ struct retro_core_options_v2 options_he = {
 #define OPTION_VAL_4_HU NULL
 #define VITA3K_SCREEN_FILTER_LABEL_HU NULL
 #define VITA3K_SCREEN_FILTER_INFO_0_HU NULL
-#define OPTION_VAL_BILINEAR_HU NULL
-#define OPTION_VAL_NEAREST_HU NULL
-#define OPTION_VAL_BICUBIC_HU NULL
+#define OPTION_VAL_BILINEAR_HU "Bilineáris"
+#define OPTION_VAL_NEAREST_HU "Legközelebbi"
+#define OPTION_VAL_BICUBIC_HU "Kettős köbös (Bicubic)"
 #define OPTION_VAL_FXAA_HU NULL
 #define OPTION_VAL_FSR_HU NULL
-#define VITA3K_ANISOTROPIC_FILTERING_LABEL_HU NULL
+#define VITA3K_ANISOTROPIC_FILTERING_LABEL_HU "Anizotróp szûrés"
 #define VITA3K_ANISOTROPIC_FILTERING_INFO_0_HU NULL
 #define OPTION_VAL_1_VITA3K_ANISOTROPIC_FILTERING_HU NULL
 #define OPTION_VAL_2_VITA3K_ANISOTROPIC_FILTERING_HU NULL
@@ -7475,6 +9449,7 @@ struct retro_core_options_v2 options_he = {
 #define VITA3K_V_SYNC_INFO_0_HU NULL
 #define VITA3K_ASYNC_PIPELINE_LABEL_HU NULL
 #define VITA3K_ASYNC_PIPELINE_INFO_0_HU NULL
+#define VITA3K_COMPILE_OVERLAY_LABEL_HU NULL
 #define VITA3K_MEMORY_MAPPING_LABEL_HU NULL
 #define VITA3K_MEMORY_MAPPING_INFO_0_HU NULL
 #define OPTION_VAL_DOUBLE_BUFFER_HU NULL
@@ -7493,15 +9468,15 @@ struct retro_core_options_v2 options_he = {
 #define VITA3K_PSTV_MODE_INFO_0_HU NULL
 #define VITA3K_MODULES_MODE_LABEL_HU NULL
 #define VITA3K_MODULES_MODE_INFO_0_HU NULL
-#define OPTION_VAL_0_HU NULL
+#define OPTION_VAL_0_HU "Automatikus"
 #define OPTION_VAL_1_VITA3K_MODULES_MODE_HU NULL
-#define OPTION_VAL_2_VITA3K_MODULES_MODE_HU NULL
+#define OPTION_VAL_2_VITA3K_MODULES_MODE_HU "Kézi"
 #define VITA3K_FPS_HACK_LABEL_HU NULL
 #define VITA3K_FPS_HACK_INFO_0_HU NULL
 #define VITA3K_SYS_BUTTON_LABEL_HU NULL
 #define VITA3K_SYS_BUTTON_INFO_0_HU NULL
 #define OPTION_VAL_0_VITA3K_SYS_BUTTON_HU NULL
-#define OPTION_VAL_1_VITA3K_SYS_BUTTON_HU NULL
+#define OPTION_VAL_1_VITA3K_SYS_BUTTON_HU "Kereszt"
 #define VITA3K_AUDIO_VOLUME_LABEL_HU NULL
 #define VITA3K_AUDIO_VOLUME_INFO_0_HU NULL
 #define OPTION_VAL_0_VITA3K_AUDIO_VOLUME_HU NULL
@@ -7626,6 +9601,20 @@ struct retro_core_option_v2_definition option_defs_hu[] = {
         VITA3K_ASYNC_PIPELINE_LABEL_HU,
         NULL,
         VITA3K_ASYNC_PIPELINE_INFO_0_HU,
+        NULL,
+        "gpu",
+        {
+            { "enabled", NULL },
+            { "disabled", NULL },
+            { NULL, NULL },
+        },
+        "enabled"
+    },
+    {
+        "vita3k_compile_overlay",
+        VITA3K_COMPILE_OVERLAY_LABEL_HU,
+        NULL,
+        NULL,
         NULL,
         "gpu",
         {
@@ -7852,11 +9841,11 @@ struct retro_core_options_v2 options_hu = {
 #define CATEGORY_GPU_INFO_0_ID NULL
 #define CATEGORY_CPU_LABEL_ID NULL
 #define CATEGORY_CPU_INFO_0_ID NULL
-#define CATEGORY_SYSTEM_LABEL_ID NULL
+#define CATEGORY_SYSTEM_LABEL_ID "Sistem"
 #define CATEGORY_SYSTEM_INFO_0_ID NULL
-#define CATEGORY_AUDIO_LABEL_ID NULL
+#define CATEGORY_AUDIO_LABEL_ID "Suara"
 #define CATEGORY_AUDIO_INFO_0_ID NULL
-#define CATEGORY_NETWORK_LABEL_ID NULL
+#define CATEGORY_NETWORK_LABEL_ID "Jejaring"
 #define CATEGORY_NETWORK_INFO_0_ID NULL
 #define VITA3K_BACKEND_RENDERER_LABEL_ID NULL
 #define VITA3K_BACKEND_RENDERER_INFO_0_ID NULL
@@ -7875,7 +9864,7 @@ struct retro_core_options_v2 options_hu = {
 #define OPTION_VAL_BICUBIC_ID NULL
 #define OPTION_VAL_FXAA_ID NULL
 #define OPTION_VAL_FSR_ID NULL
-#define VITA3K_ANISOTROPIC_FILTERING_LABEL_ID NULL
+#define VITA3K_ANISOTROPIC_FILTERING_LABEL_ID "Penyaringan Anisotropic"
 #define VITA3K_ANISOTROPIC_FILTERING_INFO_0_ID NULL
 #define OPTION_VAL_1_VITA3K_ANISOTROPIC_FILTERING_ID NULL
 #define OPTION_VAL_2_VITA3K_ANISOTROPIC_FILTERING_ID NULL
@@ -7886,6 +9875,7 @@ struct retro_core_options_v2 options_hu = {
 #define VITA3K_V_SYNC_INFO_0_ID NULL
 #define VITA3K_ASYNC_PIPELINE_LABEL_ID NULL
 #define VITA3K_ASYNC_PIPELINE_INFO_0_ID NULL
+#define VITA3K_COMPILE_OVERLAY_LABEL_ID NULL
 #define VITA3K_MEMORY_MAPPING_LABEL_ID NULL
 #define VITA3K_MEMORY_MAPPING_INFO_0_ID NULL
 #define OPTION_VAL_DOUBLE_BUFFER_ID NULL
@@ -7912,7 +9902,7 @@ struct retro_core_options_v2 options_hu = {
 #define VITA3K_SYS_BUTTON_LABEL_ID NULL
 #define VITA3K_SYS_BUTTON_INFO_0_ID NULL
 #define OPTION_VAL_0_VITA3K_SYS_BUTTON_ID NULL
-#define OPTION_VAL_1_VITA3K_SYS_BUTTON_ID NULL
+#define OPTION_VAL_1_VITA3K_SYS_BUTTON_ID "Silang"
 #define VITA3K_AUDIO_VOLUME_LABEL_ID NULL
 #define VITA3K_AUDIO_VOLUME_INFO_0_ID NULL
 #define OPTION_VAL_0_VITA3K_AUDIO_VOLUME_ID NULL
@@ -8037,6 +10027,20 @@ struct retro_core_option_v2_definition option_defs_id[] = {
         VITA3K_ASYNC_PIPELINE_LABEL_ID,
         NULL,
         VITA3K_ASYNC_PIPELINE_INFO_0_ID,
+        NULL,
+        "gpu",
+        {
+            { "enabled", NULL },
+            { "disabled", NULL },
+            { NULL, NULL },
+        },
+        "enabled"
+    },
+    {
+        "vita3k_compile_overlay",
+        VITA3K_COMPILE_OVERLAY_LABEL_ID,
+        NULL,
+        NULL,
         NULL,
         "gpu",
         {
@@ -8263,11 +10267,11 @@ struct retro_core_options_v2 options_id = {
 #define CATEGORY_GPU_INFO_0_IT NULL
 #define CATEGORY_CPU_LABEL_IT NULL
 #define CATEGORY_CPU_INFO_0_IT NULL
-#define CATEGORY_SYSTEM_LABEL_IT NULL
+#define CATEGORY_SYSTEM_LABEL_IT "Sistema"
 #define CATEGORY_SYSTEM_INFO_0_IT NULL
 #define CATEGORY_AUDIO_LABEL_IT NULL
 #define CATEGORY_AUDIO_INFO_0_IT NULL
-#define CATEGORY_NETWORK_LABEL_IT NULL
+#define CATEGORY_NETWORK_LABEL_IT "Rete"
 #define CATEGORY_NETWORK_INFO_0_IT NULL
 #define VITA3K_BACKEND_RENDERER_LABEL_IT NULL
 #define VITA3K_BACKEND_RENDERER_INFO_0_IT NULL
@@ -8281,12 +10285,12 @@ struct retro_core_options_v2 options_id = {
 #define OPTION_VAL_4_IT NULL
 #define VITA3K_SCREEN_FILTER_LABEL_IT NULL
 #define VITA3K_SCREEN_FILTER_INFO_0_IT NULL
-#define OPTION_VAL_BILINEAR_IT NULL
-#define OPTION_VAL_NEAREST_IT NULL
-#define OPTION_VAL_BICUBIC_IT NULL
+#define OPTION_VAL_BILINEAR_IT "Bilineare"
+#define OPTION_VAL_NEAREST_IT "Più Vicino"
+#define OPTION_VAL_BICUBIC_IT "Bicubico"
 #define OPTION_VAL_FXAA_IT NULL
 #define OPTION_VAL_FSR_IT NULL
-#define VITA3K_ANISOTROPIC_FILTERING_LABEL_IT NULL
+#define VITA3K_ANISOTROPIC_FILTERING_LABEL_IT "Filtro Anisotropico"
 #define VITA3K_ANISOTROPIC_FILTERING_INFO_0_IT NULL
 #define OPTION_VAL_1_VITA3K_ANISOTROPIC_FILTERING_IT NULL
 #define OPTION_VAL_2_VITA3K_ANISOTROPIC_FILTERING_IT NULL
@@ -8297,6 +10301,7 @@ struct retro_core_options_v2 options_id = {
 #define VITA3K_V_SYNC_INFO_0_IT NULL
 #define VITA3K_ASYNC_PIPELINE_LABEL_IT NULL
 #define VITA3K_ASYNC_PIPELINE_INFO_0_IT NULL
+#define VITA3K_COMPILE_OVERLAY_LABEL_IT NULL
 #define VITA3K_MEMORY_MAPPING_LABEL_IT NULL
 #define VITA3K_MEMORY_MAPPING_INFO_0_IT NULL
 #define OPTION_VAL_DOUBLE_BUFFER_IT NULL
@@ -8315,15 +10320,15 @@ struct retro_core_options_v2 options_id = {
 #define VITA3K_PSTV_MODE_INFO_0_IT NULL
 #define VITA3K_MODULES_MODE_LABEL_IT NULL
 #define VITA3K_MODULES_MODE_INFO_0_IT NULL
-#define OPTION_VAL_0_IT NULL
+#define OPTION_VAL_0_IT "Automatico"
 #define OPTION_VAL_1_VITA3K_MODULES_MODE_IT NULL
-#define OPTION_VAL_2_VITA3K_MODULES_MODE_IT NULL
+#define OPTION_VAL_2_VITA3K_MODULES_MODE_IT "Manuale"
 #define VITA3K_FPS_HACK_LABEL_IT NULL
 #define VITA3K_FPS_HACK_INFO_0_IT NULL
 #define VITA3K_SYS_BUTTON_LABEL_IT NULL
 #define VITA3K_SYS_BUTTON_INFO_0_IT NULL
 #define OPTION_VAL_0_VITA3K_SYS_BUTTON_IT NULL
-#define OPTION_VAL_1_VITA3K_SYS_BUTTON_IT NULL
+#define OPTION_VAL_1_VITA3K_SYS_BUTTON_IT "Croce"
 #define VITA3K_AUDIO_VOLUME_LABEL_IT NULL
 #define VITA3K_AUDIO_VOLUME_INFO_0_IT NULL
 #define OPTION_VAL_0_VITA3K_AUDIO_VOLUME_IT NULL
@@ -8448,6 +10453,20 @@ struct retro_core_option_v2_definition option_defs_it[] = {
         VITA3K_ASYNC_PIPELINE_LABEL_IT,
         NULL,
         VITA3K_ASYNC_PIPELINE_INFO_0_IT,
+        NULL,
+        "gpu",
+        {
+            { "enabled", NULL },
+            { "disabled", NULL },
+            { NULL, NULL },
+        },
+        "enabled"
+    },
+    {
+        "vita3k_compile_overlay",
+        VITA3K_COMPILE_OVERLAY_LABEL_IT,
+        NULL,
+        NULL,
         NULL,
         "gpu",
         {
@@ -8674,11 +10693,11 @@ struct retro_core_options_v2 options_it = {
 #define CATEGORY_GPU_INFO_0_JA NULL
 #define CATEGORY_CPU_LABEL_JA NULL
 #define CATEGORY_CPU_INFO_0_JA NULL
-#define CATEGORY_SYSTEM_LABEL_JA NULL
+#define CATEGORY_SYSTEM_LABEL_JA "システム"
 #define CATEGORY_SYSTEM_INFO_0_JA NULL
-#define CATEGORY_AUDIO_LABEL_JA NULL
+#define CATEGORY_AUDIO_LABEL_JA "オーディオ"
 #define CATEGORY_AUDIO_INFO_0_JA NULL
-#define CATEGORY_NETWORK_LABEL_JA NULL
+#define CATEGORY_NETWORK_LABEL_JA "ネットワーク"
 #define CATEGORY_NETWORK_INFO_0_JA NULL
 #define VITA3K_BACKEND_RENDERER_LABEL_JA NULL
 #define VITA3K_BACKEND_RENDERER_INFO_0_JA NULL
@@ -8692,12 +10711,12 @@ struct retro_core_options_v2 options_it = {
 #define OPTION_VAL_4_JA NULL
 #define VITA3K_SCREEN_FILTER_LABEL_JA NULL
 #define VITA3K_SCREEN_FILTER_INFO_0_JA NULL
-#define OPTION_VAL_BILINEAR_JA NULL
-#define OPTION_VAL_NEAREST_JA NULL
-#define OPTION_VAL_BICUBIC_JA NULL
+#define OPTION_VAL_BILINEAR_JA "バイリニア"
+#define OPTION_VAL_NEAREST_JA "ニアレスト"
+#define OPTION_VAL_BICUBIC_JA "バイキュービック"
 #define OPTION_VAL_FXAA_JA NULL
 #define OPTION_VAL_FSR_JA NULL
-#define VITA3K_ANISOTROPIC_FILTERING_LABEL_JA NULL
+#define VITA3K_ANISOTROPIC_FILTERING_LABEL_JA "異方性フィルタリング"
 #define VITA3K_ANISOTROPIC_FILTERING_INFO_0_JA NULL
 #define OPTION_VAL_1_VITA3K_ANISOTROPIC_FILTERING_JA NULL
 #define OPTION_VAL_2_VITA3K_ANISOTROPIC_FILTERING_JA NULL
@@ -8708,6 +10727,7 @@ struct retro_core_options_v2 options_it = {
 #define VITA3K_V_SYNC_INFO_0_JA NULL
 #define VITA3K_ASYNC_PIPELINE_LABEL_JA NULL
 #define VITA3K_ASYNC_PIPELINE_INFO_0_JA NULL
+#define VITA3K_COMPILE_OVERLAY_LABEL_JA NULL
 #define VITA3K_MEMORY_MAPPING_LABEL_JA NULL
 #define VITA3K_MEMORY_MAPPING_INFO_0_JA NULL
 #define OPTION_VAL_DOUBLE_BUFFER_JA NULL
@@ -8728,13 +10748,13 @@ struct retro_core_options_v2 options_it = {
 #define VITA3K_MODULES_MODE_INFO_0_JA NULL
 #define OPTION_VAL_0_JA NULL
 #define OPTION_VAL_1_VITA3K_MODULES_MODE_JA NULL
-#define OPTION_VAL_2_VITA3K_MODULES_MODE_JA NULL
+#define OPTION_VAL_2_VITA3K_MODULES_MODE_JA "手動"
 #define VITA3K_FPS_HACK_LABEL_JA NULL
 #define VITA3K_FPS_HACK_INFO_0_JA NULL
 #define VITA3K_SYS_BUTTON_LABEL_JA NULL
 #define VITA3K_SYS_BUTTON_INFO_0_JA NULL
 #define OPTION_VAL_0_VITA3K_SYS_BUTTON_JA NULL
-#define OPTION_VAL_1_VITA3K_SYS_BUTTON_JA NULL
+#define OPTION_VAL_1_VITA3K_SYS_BUTTON_JA "クロス"
 #define VITA3K_AUDIO_VOLUME_LABEL_JA NULL
 #define VITA3K_AUDIO_VOLUME_INFO_0_JA NULL
 #define OPTION_VAL_0_VITA3K_AUDIO_VOLUME_JA NULL
@@ -8859,6 +10879,20 @@ struct retro_core_option_v2_definition option_defs_ja[] = {
         VITA3K_ASYNC_PIPELINE_LABEL_JA,
         NULL,
         VITA3K_ASYNC_PIPELINE_INFO_0_JA,
+        NULL,
+        "gpu",
+        {
+            { "enabled", NULL },
+            { "disabled", NULL },
+            { NULL, NULL },
+        },
+        "enabled"
+    },
+    {
+        "vita3k_compile_overlay",
+        VITA3K_COMPILE_OVERLAY_LABEL_JA,
+        NULL,
+        NULL,
         NULL,
         "gpu",
         {
@@ -9085,11 +11119,11 @@ struct retro_core_options_v2 options_ja = {
 #define CATEGORY_GPU_INFO_0_KO NULL
 #define CATEGORY_CPU_LABEL_KO NULL
 #define CATEGORY_CPU_INFO_0_KO NULL
-#define CATEGORY_SYSTEM_LABEL_KO NULL
+#define CATEGORY_SYSTEM_LABEL_KO "시스템"
 #define CATEGORY_SYSTEM_INFO_0_KO NULL
-#define CATEGORY_AUDIO_LABEL_KO NULL
+#define CATEGORY_AUDIO_LABEL_KO "오디오"
 #define CATEGORY_AUDIO_INFO_0_KO NULL
-#define CATEGORY_NETWORK_LABEL_KO NULL
+#define CATEGORY_NETWORK_LABEL_KO "네트워크"
 #define CATEGORY_NETWORK_INFO_0_KO NULL
 #define VITA3K_BACKEND_RENDERER_LABEL_KO NULL
 #define VITA3K_BACKEND_RENDERER_INFO_0_KO NULL
@@ -9103,12 +11137,12 @@ struct retro_core_options_v2 options_ja = {
 #define OPTION_VAL_4_KO NULL
 #define VITA3K_SCREEN_FILTER_LABEL_KO NULL
 #define VITA3K_SCREEN_FILTER_INFO_0_KO NULL
-#define OPTION_VAL_BILINEAR_KO NULL
-#define OPTION_VAL_NEAREST_KO NULL
-#define OPTION_VAL_BICUBIC_KO NULL
+#define OPTION_VAL_BILINEAR_KO "이중선형보간"
+#define OPTION_VAL_NEAREST_KO "최근접"
+#define OPTION_VAL_BICUBIC_KO "쌍입방보간"
 #define OPTION_VAL_FXAA_KO NULL
 #define OPTION_VAL_FSR_KO NULL
-#define VITA3K_ANISOTROPIC_FILTERING_LABEL_KO NULL
+#define VITA3K_ANISOTROPIC_FILTERING_LABEL_KO "비등방성 필터링"
 #define VITA3K_ANISOTROPIC_FILTERING_INFO_0_KO NULL
 #define OPTION_VAL_1_VITA3K_ANISOTROPIC_FILTERING_KO NULL
 #define OPTION_VAL_2_VITA3K_ANISOTROPIC_FILTERING_KO NULL
@@ -9119,6 +11153,7 @@ struct retro_core_options_v2 options_ja = {
 #define VITA3K_V_SYNC_INFO_0_KO NULL
 #define VITA3K_ASYNC_PIPELINE_LABEL_KO NULL
 #define VITA3K_ASYNC_PIPELINE_INFO_0_KO NULL
+#define VITA3K_COMPILE_OVERLAY_LABEL_KO NULL
 #define VITA3K_MEMORY_MAPPING_LABEL_KO NULL
 #define VITA3K_MEMORY_MAPPING_INFO_0_KO NULL
 #define OPTION_VAL_DOUBLE_BUFFER_KO NULL
@@ -9137,15 +11172,15 @@ struct retro_core_options_v2 options_ja = {
 #define VITA3K_PSTV_MODE_INFO_0_KO NULL
 #define VITA3K_MODULES_MODE_LABEL_KO NULL
 #define VITA3K_MODULES_MODE_INFO_0_KO NULL
-#define OPTION_VAL_0_KO NULL
+#define OPTION_VAL_0_KO "자동"
 #define OPTION_VAL_1_VITA3K_MODULES_MODE_KO NULL
-#define OPTION_VAL_2_VITA3K_MODULES_MODE_KO NULL
+#define OPTION_VAL_2_VITA3K_MODULES_MODE_KO "수동"
 #define VITA3K_FPS_HACK_LABEL_KO NULL
 #define VITA3K_FPS_HACK_INFO_0_KO NULL
 #define VITA3K_SYS_BUTTON_LABEL_KO NULL
 #define VITA3K_SYS_BUTTON_INFO_0_KO NULL
 #define OPTION_VAL_0_VITA3K_SYS_BUTTON_KO NULL
-#define OPTION_VAL_1_VITA3K_SYS_BUTTON_KO NULL
+#define OPTION_VAL_1_VITA3K_SYS_BUTTON_KO "십자"
 #define VITA3K_AUDIO_VOLUME_LABEL_KO NULL
 #define VITA3K_AUDIO_VOLUME_INFO_0_KO NULL
 #define OPTION_VAL_0_VITA3K_AUDIO_VOLUME_KO NULL
@@ -9270,6 +11305,20 @@ struct retro_core_option_v2_definition option_defs_ko[] = {
         VITA3K_ASYNC_PIPELINE_LABEL_KO,
         NULL,
         VITA3K_ASYNC_PIPELINE_INFO_0_KO,
+        NULL,
+        "gpu",
+        {
+            { "enabled", NULL },
+            { "disabled", NULL },
+            { NULL, NULL },
+        },
+        "enabled"
+    },
+    {
+        "vita3k_compile_overlay",
+        VITA3K_COMPILE_OVERLAY_LABEL_KO,
+        NULL,
+        NULL,
         NULL,
         "gpu",
         {
@@ -9496,11 +11545,11 @@ struct retro_core_options_v2 options_ko = {
 #define CATEGORY_GPU_INFO_0_NL NULL
 #define CATEGORY_CPU_LABEL_NL NULL
 #define CATEGORY_CPU_INFO_0_NL NULL
-#define CATEGORY_SYSTEM_LABEL_NL NULL
+#define CATEGORY_SYSTEM_LABEL_NL "Systeem"
 #define CATEGORY_SYSTEM_INFO_0_NL NULL
-#define CATEGORY_AUDIO_LABEL_NL NULL
+#define CATEGORY_AUDIO_LABEL_NL "Geluid"
 #define CATEGORY_AUDIO_INFO_0_NL NULL
-#define CATEGORY_NETWORK_LABEL_NL NULL
+#define CATEGORY_NETWORK_LABEL_NL "Netwerk"
 #define CATEGORY_NETWORK_INFO_0_NL NULL
 #define VITA3K_BACKEND_RENDERER_LABEL_NL NULL
 #define VITA3K_BACKEND_RENDERER_INFO_0_NL NULL
@@ -9514,9 +11563,9 @@ struct retro_core_options_v2 options_ko = {
 #define OPTION_VAL_4_NL NULL
 #define VITA3K_SCREEN_FILTER_LABEL_NL NULL
 #define VITA3K_SCREEN_FILTER_INFO_0_NL NULL
-#define OPTION_VAL_BILINEAR_NL NULL
-#define OPTION_VAL_NEAREST_NL NULL
-#define OPTION_VAL_BICUBIC_NL NULL
+#define OPTION_VAL_BILINEAR_NL "Bilineair"
+#define OPTION_VAL_NEAREST_NL "Naaste"
+#define OPTION_VAL_BICUBIC_NL "Bicubisch"
 #define OPTION_VAL_FXAA_NL NULL
 #define OPTION_VAL_FSR_NL NULL
 #define VITA3K_ANISOTROPIC_FILTERING_LABEL_NL NULL
@@ -9530,6 +11579,7 @@ struct retro_core_options_v2 options_ko = {
 #define VITA3K_V_SYNC_INFO_0_NL NULL
 #define VITA3K_ASYNC_PIPELINE_LABEL_NL NULL
 #define VITA3K_ASYNC_PIPELINE_INFO_0_NL NULL
+#define VITA3K_COMPILE_OVERLAY_LABEL_NL NULL
 #define VITA3K_MEMORY_MAPPING_LABEL_NL NULL
 #define VITA3K_MEMORY_MAPPING_INFO_0_NL NULL
 #define OPTION_VAL_DOUBLE_BUFFER_NL NULL
@@ -9548,9 +11598,9 @@ struct retro_core_options_v2 options_ko = {
 #define VITA3K_PSTV_MODE_INFO_0_NL NULL
 #define VITA3K_MODULES_MODE_LABEL_NL NULL
 #define VITA3K_MODULES_MODE_INFO_0_NL NULL
-#define OPTION_VAL_0_NL NULL
+#define OPTION_VAL_0_NL "Automatisch"
 #define OPTION_VAL_1_VITA3K_MODULES_MODE_NL NULL
-#define OPTION_VAL_2_VITA3K_MODULES_MODE_NL NULL
+#define OPTION_VAL_2_VITA3K_MODULES_MODE_NL "Handmatig"
 #define VITA3K_FPS_HACK_LABEL_NL NULL
 #define VITA3K_FPS_HACK_INFO_0_NL NULL
 #define VITA3K_SYS_BUTTON_LABEL_NL NULL
@@ -9681,6 +11731,20 @@ struct retro_core_option_v2_definition option_defs_nl[] = {
         VITA3K_ASYNC_PIPELINE_LABEL_NL,
         NULL,
         VITA3K_ASYNC_PIPELINE_INFO_0_NL,
+        NULL,
+        "gpu",
+        {
+            { "enabled", NULL },
+            { "disabled", NULL },
+            { NULL, NULL },
+        },
+        "enabled"
+    },
+    {
+        "vita3k_compile_overlay",
+        VITA3K_COMPILE_OVERLAY_LABEL_NL,
+        NULL,
+        NULL,
         NULL,
         "gpu",
         {
@@ -9909,9 +11973,9 @@ struct retro_core_options_v2 options_nl = {
 #define CATEGORY_CPU_INFO_0_NO NULL
 #define CATEGORY_SYSTEM_LABEL_NO NULL
 #define CATEGORY_SYSTEM_INFO_0_NO NULL
-#define CATEGORY_AUDIO_LABEL_NO NULL
+#define CATEGORY_AUDIO_LABEL_NO "Lyd"
 #define CATEGORY_AUDIO_INFO_0_NO NULL
-#define CATEGORY_NETWORK_LABEL_NO NULL
+#define CATEGORY_NETWORK_LABEL_NO "Nettverk"
 #define CATEGORY_NETWORK_INFO_0_NO NULL
 #define VITA3K_BACKEND_RENDERER_LABEL_NO NULL
 #define VITA3K_BACKEND_RENDERER_INFO_0_NO NULL
@@ -9925,9 +11989,9 @@ struct retro_core_options_v2 options_nl = {
 #define OPTION_VAL_4_NO NULL
 #define VITA3K_SCREEN_FILTER_LABEL_NO NULL
 #define VITA3K_SCREEN_FILTER_INFO_0_NO NULL
-#define OPTION_VAL_BILINEAR_NO NULL
+#define OPTION_VAL_BILINEAR_NO "Bilineær"
 #define OPTION_VAL_NEAREST_NO NULL
-#define OPTION_VAL_BICUBIC_NO NULL
+#define OPTION_VAL_BICUBIC_NO "Bikubisk"
 #define OPTION_VAL_FXAA_NO NULL
 #define OPTION_VAL_FSR_NO NULL
 #define VITA3K_ANISOTROPIC_FILTERING_LABEL_NO NULL
@@ -9941,6 +12005,7 @@ struct retro_core_options_v2 options_nl = {
 #define VITA3K_V_SYNC_INFO_0_NO NULL
 #define VITA3K_ASYNC_PIPELINE_LABEL_NO NULL
 #define VITA3K_ASYNC_PIPELINE_INFO_0_NO NULL
+#define VITA3K_COMPILE_OVERLAY_LABEL_NO NULL
 #define VITA3K_MEMORY_MAPPING_LABEL_NO NULL
 #define VITA3K_MEMORY_MAPPING_INFO_0_NO NULL
 #define OPTION_VAL_DOUBLE_BUFFER_NO NULL
@@ -9961,7 +12026,7 @@ struct retro_core_options_v2 options_nl = {
 #define VITA3K_MODULES_MODE_INFO_0_NO NULL
 #define OPTION_VAL_0_NO NULL
 #define OPTION_VAL_1_VITA3K_MODULES_MODE_NO NULL
-#define OPTION_VAL_2_VITA3K_MODULES_MODE_NO NULL
+#define OPTION_VAL_2_VITA3K_MODULES_MODE_NO "Manuell"
 #define VITA3K_FPS_HACK_LABEL_NO NULL
 #define VITA3K_FPS_HACK_INFO_0_NO NULL
 #define VITA3K_SYS_BUTTON_LABEL_NO NULL
@@ -10092,6 +12157,20 @@ struct retro_core_option_v2_definition option_defs_no[] = {
         VITA3K_ASYNC_PIPELINE_LABEL_NO,
         NULL,
         VITA3K_ASYNC_PIPELINE_INFO_0_NO,
+        NULL,
+        "gpu",
+        {
+            { "enabled", NULL },
+            { "disabled", NULL },
+            { NULL, NULL },
+        },
+        "enabled"
+    },
+    {
+        "vita3k_compile_overlay",
+        VITA3K_COMPILE_OVERLAY_LABEL_NO,
+        NULL,
+        NULL,
         NULL,
         "gpu",
         {
@@ -10312,6 +12391,432 @@ struct retro_core_options_v2 options_no = {
    option_defs_no
 };
 
+/* RETRO_LANGUAGE_OR */
+
+#define CATEGORY_GPU_LABEL_OR NULL
+#define CATEGORY_GPU_INFO_0_OR NULL
+#define CATEGORY_CPU_LABEL_OR NULL
+#define CATEGORY_CPU_INFO_0_OR NULL
+#define CATEGORY_SYSTEM_LABEL_OR NULL
+#define CATEGORY_SYSTEM_INFO_0_OR NULL
+#define CATEGORY_AUDIO_LABEL_OR "ଅଡ଼ିଓ"
+#define CATEGORY_AUDIO_INFO_0_OR NULL
+#define CATEGORY_NETWORK_LABEL_OR NULL
+#define CATEGORY_NETWORK_INFO_0_OR NULL
+#define VITA3K_BACKEND_RENDERER_LABEL_OR NULL
+#define VITA3K_BACKEND_RENDERER_INFO_0_OR NULL
+#define OPTION_VAL_VULKAN_OR NULL
+#define OPTION_VAL_OPENGL_OR NULL
+#define VITA3K_RESOLUTION_MULTIPLIER_LABEL_OR NULL
+#define VITA3K_RESOLUTION_MULTIPLIER_INFO_0_OR NULL
+#define OPTION_VAL_1_OR NULL
+#define OPTION_VAL_2_OR NULL
+#define OPTION_VAL_3_OR NULL
+#define OPTION_VAL_4_OR NULL
+#define VITA3K_SCREEN_FILTER_LABEL_OR NULL
+#define VITA3K_SCREEN_FILTER_INFO_0_OR NULL
+#define OPTION_VAL_BILINEAR_OR NULL
+#define OPTION_VAL_NEAREST_OR NULL
+#define OPTION_VAL_BICUBIC_OR NULL
+#define OPTION_VAL_FXAA_OR NULL
+#define OPTION_VAL_FSR_OR NULL
+#define VITA3K_ANISOTROPIC_FILTERING_LABEL_OR NULL
+#define VITA3K_ANISOTROPIC_FILTERING_INFO_0_OR NULL
+#define OPTION_VAL_1_VITA3K_ANISOTROPIC_FILTERING_OR NULL
+#define OPTION_VAL_2_VITA3K_ANISOTROPIC_FILTERING_OR NULL
+#define OPTION_VAL_4_VITA3K_ANISOTROPIC_FILTERING_OR NULL
+#define OPTION_VAL_8_OR NULL
+#define OPTION_VAL_16_OR NULL
+#define VITA3K_V_SYNC_LABEL_OR NULL
+#define VITA3K_V_SYNC_INFO_0_OR NULL
+#define VITA3K_ASYNC_PIPELINE_LABEL_OR NULL
+#define VITA3K_ASYNC_PIPELINE_INFO_0_OR NULL
+#define VITA3K_COMPILE_OVERLAY_LABEL_OR NULL
+#define VITA3K_MEMORY_MAPPING_LABEL_OR NULL
+#define VITA3K_MEMORY_MAPPING_INFO_0_OR NULL
+#define OPTION_VAL_DOUBLE_BUFFER_OR NULL
+#define OPTION_VAL_EXTERNAL_HOST_OR NULL
+#define OPTION_VAL_PAGE_TABLE_OR NULL
+#define OPTION_VAL_NATIVE_BUFFER_OR NULL
+#define VITA3K_HIGH_ACCURACY_LABEL_OR NULL
+#define VITA3K_HIGH_ACCURACY_INFO_0_OR NULL
+#define VITA3K_CPU_OPT_LABEL_OR NULL
+#define VITA3K_CPU_OPT_INFO_0_OR NULL
+#define VITA3K_PKG_MODE_LABEL_OR NULL
+#define VITA3K_PKG_MODE_INFO_0_OR NULL
+#define OPTION_VAL_RUN_OR NULL
+#define OPTION_VAL_INSTALL_OR NULL
+#define VITA3K_PSTV_MODE_LABEL_OR NULL
+#define VITA3K_PSTV_MODE_INFO_0_OR NULL
+#define VITA3K_MODULES_MODE_LABEL_OR NULL
+#define VITA3K_MODULES_MODE_INFO_0_OR NULL
+#define OPTION_VAL_0_OR NULL
+#define OPTION_VAL_1_VITA3K_MODULES_MODE_OR NULL
+#define OPTION_VAL_2_VITA3K_MODULES_MODE_OR NULL
+#define VITA3K_FPS_HACK_LABEL_OR NULL
+#define VITA3K_FPS_HACK_INFO_0_OR NULL
+#define VITA3K_SYS_BUTTON_LABEL_OR NULL
+#define VITA3K_SYS_BUTTON_INFO_0_OR NULL
+#define OPTION_VAL_0_VITA3K_SYS_BUTTON_OR NULL
+#define OPTION_VAL_1_VITA3K_SYS_BUTTON_OR NULL
+#define VITA3K_AUDIO_VOLUME_LABEL_OR NULL
+#define VITA3K_AUDIO_VOLUME_INFO_0_OR NULL
+#define OPTION_VAL_0_VITA3K_AUDIO_VOLUME_OR NULL
+#define OPTION_VAL_10_OR NULL
+#define OPTION_VAL_20_OR NULL
+#define OPTION_VAL_30_OR NULL
+#define OPTION_VAL_40_OR NULL
+#define OPTION_VAL_50_OR NULL
+#define OPTION_VAL_60_OR NULL
+#define OPTION_VAL_70_OR NULL
+#define OPTION_VAL_80_OR NULL
+#define OPTION_VAL_90_OR NULL
+#define OPTION_VAL_100_OR NULL
+#define VITA3K_NGS_ENABLE_LABEL_OR NULL
+#define VITA3K_NGS_ENABLE_INFO_0_OR NULL
+#define VITA3K_PSN_SIGNED_IN_LABEL_OR NULL
+#define VITA3K_PSN_SIGNED_IN_INFO_0_OR NULL
+#define VITA3K_SURFACE_SYNC_LABEL_OR NULL
+#define VITA3K_SURFACE_SYNC_INFO_0_OR NULL
+#define OPTION_VAL_ENABLED_OR NULL
+#define OPTION_VAL_DISABLED_OR NULL
+#define VITA3K_FILE_LOADING_DELAY_LABEL_OR NULL
+#define VITA3K_FILE_LOADING_DELAY_INFO_0_OR NULL
+#define OPTION_VAL_0_VITA3K_FILE_LOADING_DELAY_OR NULL
+#define OPTION_VAL_5_OR NULL
+#define OPTION_VAL_10_VITA3K_FILE_LOADING_DELAY_OR NULL
+#define OPTION_VAL_15_OR NULL
+#define OPTION_VAL_20_VITA3K_FILE_LOADING_DELAY_OR NULL
+#define OPTION_VAL_25_OR NULL
+#define OPTION_VAL_30_VITA3K_FILE_LOADING_DELAY_OR NULL
+
+struct retro_core_option_v2_category option_cats_or[] = {
+    { "gpu", CATEGORY_GPU_LABEL_OR, CATEGORY_GPU_INFO_0_OR },
+    { "cpu", CATEGORY_CPU_LABEL_OR, CATEGORY_CPU_INFO_0_OR },
+    { "system", CATEGORY_SYSTEM_LABEL_OR, CATEGORY_SYSTEM_INFO_0_OR },
+    { "audio", CATEGORY_AUDIO_LABEL_OR, CATEGORY_AUDIO_INFO_0_OR },
+    { "network", CATEGORY_NETWORK_LABEL_OR, CATEGORY_NETWORK_INFO_0_OR },
+    { NULL, NULL, NULL },
+};
+struct retro_core_option_v2_definition option_defs_or[] = {
+    // ── GPU ──────────────────────────────────────────────────────────────
+    {
+        "vita3k_backend_renderer",
+        VITA3K_BACKEND_RENDERER_LABEL_OR,
+        NULL,
+        VITA3K_BACKEND_RENDERER_INFO_0_OR,
+        NULL,
+        "gpu",
+        {
+            { "Vulkan", OPTION_VAL_VULKAN_OR },
+            { "OpenGL", OPTION_VAL_OPENGL_OR },
+            { NULL, NULL },
+        },
+        "Vulkan"
+    },
+    {
+        "vita3k_resolution_multiplier",
+        VITA3K_RESOLUTION_MULTIPLIER_LABEL_OR,
+        NULL,
+        VITA3K_RESOLUTION_MULTIPLIER_INFO_0_OR,
+        NULL,
+        "gpu",
+        {
+            { "1", OPTION_VAL_1_OR },
+            { "2", OPTION_VAL_2_OR },
+            { "3", OPTION_VAL_3_OR },
+            { "4", OPTION_VAL_4_OR },
+            { NULL, NULL },
+        },
+        "1"
+    },
+    {
+        "vita3k_screen_filter",
+        VITA3K_SCREEN_FILTER_LABEL_OR,
+        NULL,
+        VITA3K_SCREEN_FILTER_INFO_0_OR,
+        NULL,
+        "gpu",
+        {
+            { "Bilinear", OPTION_VAL_BILINEAR_OR },
+            { "Nearest", OPTION_VAL_NEAREST_OR },
+            { "Bicubic", OPTION_VAL_BICUBIC_OR },
+            { "FXAA", OPTION_VAL_FXAA_OR },
+            { "FSR", OPTION_VAL_FSR_OR },
+            { NULL, NULL },
+        },
+        "Bilinear"
+    },
+    {
+        "vita3k_anisotropic_filtering",
+        VITA3K_ANISOTROPIC_FILTERING_LABEL_OR,
+        NULL,
+        VITA3K_ANISOTROPIC_FILTERING_INFO_0_OR,
+        NULL,
+        "gpu",
+        {
+            { "1", OPTION_VAL_1_VITA3K_ANISOTROPIC_FILTERING_OR },
+            { "2", OPTION_VAL_2_VITA3K_ANISOTROPIC_FILTERING_OR },
+            { "4", OPTION_VAL_4_VITA3K_ANISOTROPIC_FILTERING_OR },
+            { "8", OPTION_VAL_8_OR },
+            { "16", OPTION_VAL_16_OR },
+            { NULL, NULL },
+        },
+        "1"
+    },
+    {
+        "vita3k_v_sync",
+        VITA3K_V_SYNC_LABEL_OR,
+        NULL,
+        VITA3K_V_SYNC_INFO_0_OR,
+        NULL,
+        "gpu",
+        {
+            { "enabled", NULL },
+            { "disabled", NULL },
+            { NULL, NULL },
+        },
+        "enabled"
+    },
+    {
+        "vita3k_async_pipeline",
+        VITA3K_ASYNC_PIPELINE_LABEL_OR,
+        NULL,
+        VITA3K_ASYNC_PIPELINE_INFO_0_OR,
+        NULL,
+        "gpu",
+        {
+            { "enabled", NULL },
+            { "disabled", NULL },
+            { NULL, NULL },
+        },
+        "enabled"
+    },
+    {
+        "vita3k_compile_overlay",
+        VITA3K_COMPILE_OVERLAY_LABEL_OR,
+        NULL,
+        NULL,
+        NULL,
+        "gpu",
+        {
+            { "enabled", NULL },
+            { "disabled", NULL },
+            { NULL, NULL },
+        },
+        "enabled"
+    },
+    {
+        "vita3k_memory_mapping",
+        VITA3K_MEMORY_MAPPING_LABEL_OR,
+        NULL,
+        VITA3K_MEMORY_MAPPING_INFO_0_OR,
+        NULL,
+        "gpu",
+        {
+            { "disabled", NULL },
+            { "double-buffer", OPTION_VAL_DOUBLE_BUFFER_OR },
+            { "external-host", OPTION_VAL_EXTERNAL_HOST_OR },
+            { "page-table", OPTION_VAL_PAGE_TABLE_OR },
+            { "native-buffer", OPTION_VAL_NATIVE_BUFFER_OR },
+            { NULL, NULL },
+        },
+        "double-buffer"
+    },
+    {
+        "vita3k_high_accuracy",
+        VITA3K_HIGH_ACCURACY_LABEL_OR,
+        NULL,
+        VITA3K_HIGH_ACCURACY_INFO_0_OR,
+        NULL,
+        "gpu",
+        {
+            { "disabled", NULL },
+            { "enabled", NULL },
+            { NULL, NULL },
+        },
+        "disabled"
+    },
+    // ── CPU ──────────────────────────────────────────────────────────────
+    {
+        "vita3k_cpu_opt",
+        VITA3K_CPU_OPT_LABEL_OR,
+        NULL,
+        VITA3K_CPU_OPT_INFO_0_OR,
+        NULL,
+        "cpu",
+        {
+            { "enabled", NULL },
+            { "disabled", NULL },
+            { NULL, NULL },
+        },
+        "enabled"
+    },
+    // ── System ───────────────────────────────────────────────────────────
+    {
+        "vita3k_pkg_mode",
+        VITA3K_PKG_MODE_LABEL_OR,
+        NULL,
+        VITA3K_PKG_MODE_INFO_0_OR,
+        NULL,
+        "system",
+        {
+            { "run", OPTION_VAL_RUN_OR },
+            { "install", OPTION_VAL_INSTALL_OR },
+            { NULL, NULL },
+        },
+        "run"
+    },
+    {
+        "vita3k_pstv_mode",
+        VITA3K_PSTV_MODE_LABEL_OR,
+        NULL,
+        VITA3K_PSTV_MODE_INFO_0_OR,
+        NULL,
+        "system",
+        {
+            { "disabled", NULL },
+            { "enabled", NULL },
+            { NULL, NULL },
+        },
+        "disabled"
+    },
+    {
+        "vita3k_modules_mode",
+        VITA3K_MODULES_MODE_LABEL_OR,
+        NULL,
+        VITA3K_MODULES_MODE_INFO_0_OR,
+        NULL,
+        "system",
+        {
+            { "0", OPTION_VAL_0_OR },
+            { "1", OPTION_VAL_1_VITA3K_MODULES_MODE_OR },
+            { "2", OPTION_VAL_2_VITA3K_MODULES_MODE_OR },
+            { NULL, NULL },
+        },
+        "0"
+    },
+    {
+        "vita3k_fps_hack",
+        VITA3K_FPS_HACK_LABEL_OR,
+        NULL,
+        VITA3K_FPS_HACK_INFO_0_OR,
+        NULL,
+        "system",
+        {
+            { "disabled", NULL },
+            { "enabled", NULL },
+            { NULL, NULL },
+        },
+        "disabled"
+    },
+    {
+        "vita3k_sys_button",
+        VITA3K_SYS_BUTTON_LABEL_OR,
+        NULL,
+        VITA3K_SYS_BUTTON_INFO_0_OR,
+        NULL,
+        "system",
+        {
+            { "0", OPTION_VAL_0_VITA3K_SYS_BUTTON_OR },
+            { "1", OPTION_VAL_1_VITA3K_SYS_BUTTON_OR },
+            { NULL, NULL },
+        },
+        "1"
+    },
+    // ── Audio ────────────────────────────────────────────────────────────
+    {
+        "vita3k_audio_volume",
+        VITA3K_AUDIO_VOLUME_LABEL_OR,
+        NULL,
+        VITA3K_AUDIO_VOLUME_INFO_0_OR,
+        NULL,
+        "audio",
+        {
+            { "0", OPTION_VAL_0_VITA3K_AUDIO_VOLUME_OR },
+            { "10", OPTION_VAL_10_OR },
+            { "20", OPTION_VAL_20_OR },
+            { "30", OPTION_VAL_30_OR },
+            { "40", OPTION_VAL_40_OR },
+            { "50", OPTION_VAL_50_OR },
+            { "60", OPTION_VAL_60_OR },
+            { "70", OPTION_VAL_70_OR },
+            { "80", OPTION_VAL_80_OR },
+            { "90", OPTION_VAL_90_OR },
+            { "100", OPTION_VAL_100_OR },
+            { NULL, NULL },
+        },
+        "100"
+    },
+    {
+        "vita3k_ngs_enable",
+        VITA3K_NGS_ENABLE_LABEL_OR,
+        NULL,
+        VITA3K_NGS_ENABLE_INFO_0_OR,
+        NULL,
+        "audio",
+        {
+            { "enabled", NULL },
+            { "disabled", NULL },
+            { NULL, NULL },
+        },
+        "enabled"
+    },
+    // ── Network ──────────────────────────────────────────────────────────
+    {
+        "vita3k_psn_signed_in",
+        VITA3K_PSN_SIGNED_IN_LABEL_OR,
+        NULL,
+        VITA3K_PSN_SIGNED_IN_INFO_0_OR,
+        NULL,
+        "network",
+        {
+            { "disabled", NULL },
+            { "enabled", NULL },
+            { NULL, NULL },
+        },
+        "disabled"
+    },
+    {
+        "vita3k_surface_sync",
+        VITA3K_SURFACE_SYNC_LABEL_OR,
+        NULL,
+        VITA3K_SURFACE_SYNC_INFO_0_OR,
+        NULL,
+        "gpu",
+        {
+            { "enabled", OPTION_VAL_ENABLED_OR },
+            { "disabled", OPTION_VAL_DISABLED_OR },
+            { NULL, NULL },
+        },
+        "enabled"
+    },
+    {
+        "vita3k_file_loading_delay",
+        VITA3K_FILE_LOADING_DELAY_LABEL_OR,
+        NULL,
+        VITA3K_FILE_LOADING_DELAY_INFO_0_OR,
+        NULL,
+        "system",
+        {
+            { "0", OPTION_VAL_0_VITA3K_FILE_LOADING_DELAY_OR },
+            { "5", OPTION_VAL_5_OR },
+            { "10", OPTION_VAL_10_VITA3K_FILE_LOADING_DELAY_OR },
+            { "15", OPTION_VAL_15_OR },
+            { "20", OPTION_VAL_20_VITA3K_FILE_LOADING_DELAY_OR },
+            { "25", OPTION_VAL_25_OR },
+            { "30", OPTION_VAL_30_VITA3K_FILE_LOADING_DELAY_OR },
+            { NULL, NULL },
+        },
+        "0"
+    },
+    { NULL, NULL, NULL, NULL, NULL, NULL, {{0}}, NULL },
+};
+struct retro_core_options_v2 options_or = {
+   option_cats_or,
+   option_defs_or
+};
+
 /* RETRO_LANGUAGE_PL */
 
 #define CATEGORY_GPU_LABEL_PL NULL
@@ -10320,9 +12825,9 @@ struct retro_core_options_v2 options_no = {
 #define CATEGORY_CPU_INFO_0_PL NULL
 #define CATEGORY_SYSTEM_LABEL_PL NULL
 #define CATEGORY_SYSTEM_INFO_0_PL NULL
-#define CATEGORY_AUDIO_LABEL_PL NULL
+#define CATEGORY_AUDIO_LABEL_PL "Dźwięk"
 #define CATEGORY_AUDIO_INFO_0_PL NULL
-#define CATEGORY_NETWORK_LABEL_PL NULL
+#define CATEGORY_NETWORK_LABEL_PL "Sieć"
 #define CATEGORY_NETWORK_INFO_0_PL NULL
 #define VITA3K_BACKEND_RENDERER_LABEL_PL NULL
 #define VITA3K_BACKEND_RENDERER_INFO_0_PL NULL
@@ -10336,12 +12841,12 @@ struct retro_core_options_v2 options_no = {
 #define OPTION_VAL_4_PL NULL
 #define VITA3K_SCREEN_FILTER_LABEL_PL NULL
 #define VITA3K_SCREEN_FILTER_INFO_0_PL NULL
-#define OPTION_VAL_BILINEAR_PL NULL
-#define OPTION_VAL_NEAREST_PL NULL
-#define OPTION_VAL_BICUBIC_PL NULL
+#define OPTION_VAL_BILINEAR_PL "Dwuliniowy"
+#define OPTION_VAL_NEAREST_PL "Najbliższy"
+#define OPTION_VAL_BICUBIC_PL "Dwusześcienny"
 #define OPTION_VAL_FXAA_PL NULL
 #define OPTION_VAL_FSR_PL NULL
-#define VITA3K_ANISOTROPIC_FILTERING_LABEL_PL NULL
+#define VITA3K_ANISOTROPIC_FILTERING_LABEL_PL "Filtrowanie anizotropowe"
 #define VITA3K_ANISOTROPIC_FILTERING_INFO_0_PL NULL
 #define OPTION_VAL_1_VITA3K_ANISOTROPIC_FILTERING_PL NULL
 #define OPTION_VAL_2_VITA3K_ANISOTROPIC_FILTERING_PL NULL
@@ -10352,6 +12857,7 @@ struct retro_core_options_v2 options_no = {
 #define VITA3K_V_SYNC_INFO_0_PL NULL
 #define VITA3K_ASYNC_PIPELINE_LABEL_PL NULL
 #define VITA3K_ASYNC_PIPELINE_INFO_0_PL NULL
+#define VITA3K_COMPILE_OVERLAY_LABEL_PL NULL
 #define VITA3K_MEMORY_MAPPING_LABEL_PL NULL
 #define VITA3K_MEMORY_MAPPING_INFO_0_PL NULL
 #define OPTION_VAL_DOUBLE_BUFFER_PL NULL
@@ -10370,26 +12876,26 @@ struct retro_core_options_v2 options_no = {
 #define VITA3K_PSTV_MODE_INFO_0_PL NULL
 #define VITA3K_MODULES_MODE_LABEL_PL NULL
 #define VITA3K_MODULES_MODE_INFO_0_PL NULL
-#define OPTION_VAL_0_PL NULL
+#define OPTION_VAL_0_PL "Automatyczny"
 #define OPTION_VAL_1_VITA3K_MODULES_MODE_PL NULL
-#define OPTION_VAL_2_VITA3K_MODULES_MODE_PL NULL
+#define OPTION_VAL_2_VITA3K_MODULES_MODE_PL "Ręczny"
 #define VITA3K_FPS_HACK_LABEL_PL NULL
 #define VITA3K_FPS_HACK_INFO_0_PL NULL
 #define VITA3K_SYS_BUTTON_LABEL_PL NULL
 #define VITA3K_SYS_BUTTON_INFO_0_PL NULL
 #define OPTION_VAL_0_VITA3K_SYS_BUTTON_PL NULL
-#define OPTION_VAL_1_VITA3K_SYS_BUTTON_PL NULL
+#define OPTION_VAL_1_VITA3K_SYS_BUTTON_PL "Krzyżyk"
 #define VITA3K_AUDIO_VOLUME_LABEL_PL NULL
 #define VITA3K_AUDIO_VOLUME_INFO_0_PL NULL
 #define OPTION_VAL_0_VITA3K_AUDIO_VOLUME_PL NULL
 #define OPTION_VAL_10_PL NULL
 #define OPTION_VAL_20_PL NULL
-#define OPTION_VAL_30_PL NULL
+#define OPTION_VAL_30_PL "30 %"
 #define OPTION_VAL_40_PL NULL
-#define OPTION_VAL_50_PL NULL
-#define OPTION_VAL_60_PL NULL
+#define OPTION_VAL_50_PL "50 %"
+#define OPTION_VAL_60_PL "60 %"
 #define OPTION_VAL_70_PL NULL
-#define OPTION_VAL_80_PL NULL
+#define OPTION_VAL_80_PL "80 %"
 #define OPTION_VAL_90_PL NULL
 #define OPTION_VAL_100_PL NULL
 #define VITA3K_NGS_ENABLE_LABEL_PL NULL
@@ -10503,6 +13009,20 @@ struct retro_core_option_v2_definition option_defs_pl[] = {
         VITA3K_ASYNC_PIPELINE_LABEL_PL,
         NULL,
         VITA3K_ASYNC_PIPELINE_INFO_0_PL,
+        NULL,
+        "gpu",
+        {
+            { "enabled", NULL },
+            { "disabled", NULL },
+            { NULL, NULL },
+        },
+        "enabled"
+    },
+    {
+        "vita3k_compile_overlay",
+        VITA3K_COMPILE_OVERLAY_LABEL_PL,
+        NULL,
+        NULL,
         NULL,
         "gpu",
         {
@@ -10729,11 +13249,11 @@ struct retro_core_options_v2 options_pl = {
 #define CATEGORY_GPU_INFO_0_PT_BR NULL
 #define CATEGORY_CPU_LABEL_PT_BR NULL
 #define CATEGORY_CPU_INFO_0_PT_BR NULL
-#define CATEGORY_SYSTEM_LABEL_PT_BR NULL
+#define CATEGORY_SYSTEM_LABEL_PT_BR "Sistema"
 #define CATEGORY_SYSTEM_INFO_0_PT_BR NULL
-#define CATEGORY_AUDIO_LABEL_PT_BR NULL
+#define CATEGORY_AUDIO_LABEL_PT_BR "Áudio"
 #define CATEGORY_AUDIO_INFO_0_PT_BR NULL
-#define CATEGORY_NETWORK_LABEL_PT_BR NULL
+#define CATEGORY_NETWORK_LABEL_PT_BR "Rede"
 #define CATEGORY_NETWORK_INFO_0_PT_BR NULL
 #define VITA3K_BACKEND_RENDERER_LABEL_PT_BR NULL
 #define VITA3K_BACKEND_RENDERER_INFO_0_PT_BR NULL
@@ -10749,10 +13269,10 @@ struct retro_core_options_v2 options_pl = {
 #define VITA3K_SCREEN_FILTER_INFO_0_PT_BR NULL
 #define OPTION_VAL_BILINEAR_PT_BR NULL
 #define OPTION_VAL_NEAREST_PT_BR NULL
-#define OPTION_VAL_BICUBIC_PT_BR NULL
+#define OPTION_VAL_BICUBIC_PT_BR "Bicúbico"
 #define OPTION_VAL_FXAA_PT_BR NULL
 #define OPTION_VAL_FSR_PT_BR NULL
-#define VITA3K_ANISOTROPIC_FILTERING_LABEL_PT_BR NULL
+#define VITA3K_ANISOTROPIC_FILTERING_LABEL_PT_BR "Filtro anisotrópico"
 #define VITA3K_ANISOTROPIC_FILTERING_INFO_0_PT_BR NULL
 #define OPTION_VAL_1_VITA3K_ANISOTROPIC_FILTERING_PT_BR NULL
 #define OPTION_VAL_2_VITA3K_ANISOTROPIC_FILTERING_PT_BR NULL
@@ -10763,6 +13283,7 @@ struct retro_core_options_v2 options_pl = {
 #define VITA3K_V_SYNC_INFO_0_PT_BR NULL
 #define VITA3K_ASYNC_PIPELINE_LABEL_PT_BR NULL
 #define VITA3K_ASYNC_PIPELINE_INFO_0_PT_BR NULL
+#define VITA3K_COMPILE_OVERLAY_LABEL_PT_BR NULL
 #define VITA3K_MEMORY_MAPPING_LABEL_PT_BR NULL
 #define VITA3K_MEMORY_MAPPING_INFO_0_PT_BR NULL
 #define OPTION_VAL_DOUBLE_BUFFER_PT_BR NULL
@@ -10781,7 +13302,7 @@ struct retro_core_options_v2 options_pl = {
 #define VITA3K_PSTV_MODE_INFO_0_PT_BR NULL
 #define VITA3K_MODULES_MODE_LABEL_PT_BR NULL
 #define VITA3K_MODULES_MODE_INFO_0_PT_BR NULL
-#define OPTION_VAL_0_PT_BR NULL
+#define OPTION_VAL_0_PT_BR "Automático"
 #define OPTION_VAL_1_VITA3K_MODULES_MODE_PT_BR NULL
 #define OPTION_VAL_2_VITA3K_MODULES_MODE_PT_BR NULL
 #define VITA3K_FPS_HACK_LABEL_PT_BR NULL
@@ -10789,7 +13310,7 @@ struct retro_core_options_v2 options_pl = {
 #define VITA3K_SYS_BUTTON_LABEL_PT_BR NULL
 #define VITA3K_SYS_BUTTON_INFO_0_PT_BR NULL
 #define OPTION_VAL_0_VITA3K_SYS_BUTTON_PT_BR NULL
-#define OPTION_VAL_1_VITA3K_SYS_BUTTON_PT_BR NULL
+#define OPTION_VAL_1_VITA3K_SYS_BUTTON_PT_BR "Mira de cruz"
 #define VITA3K_AUDIO_VOLUME_LABEL_PT_BR NULL
 #define VITA3K_AUDIO_VOLUME_INFO_0_PT_BR NULL
 #define OPTION_VAL_0_VITA3K_AUDIO_VOLUME_PT_BR NULL
@@ -10914,6 +13435,20 @@ struct retro_core_option_v2_definition option_defs_pt_br[] = {
         VITA3K_ASYNC_PIPELINE_LABEL_PT_BR,
         NULL,
         VITA3K_ASYNC_PIPELINE_INFO_0_PT_BR,
+        NULL,
+        "gpu",
+        {
+            { "enabled", NULL },
+            { "disabled", NULL },
+            { NULL, NULL },
+        },
+        "enabled"
+    },
+    {
+        "vita3k_compile_overlay",
+        VITA3K_COMPILE_OVERLAY_LABEL_PT_BR,
+        NULL,
+        NULL,
         NULL,
         "gpu",
         {
@@ -11142,9 +13677,9 @@ struct retro_core_options_v2 options_pt_br = {
 #define CATEGORY_CPU_INFO_0_PT_PT NULL
 #define CATEGORY_SYSTEM_LABEL_PT_PT NULL
 #define CATEGORY_SYSTEM_INFO_0_PT_PT NULL
-#define CATEGORY_AUDIO_LABEL_PT_PT NULL
+#define CATEGORY_AUDIO_LABEL_PT_PT "Áudio"
 #define CATEGORY_AUDIO_INFO_0_PT_PT NULL
-#define CATEGORY_NETWORK_LABEL_PT_PT NULL
+#define CATEGORY_NETWORK_LABEL_PT_PT "Rede"
 #define CATEGORY_NETWORK_INFO_0_PT_PT NULL
 #define VITA3K_BACKEND_RENDERER_LABEL_PT_PT NULL
 #define VITA3K_BACKEND_RENDERER_INFO_0_PT_PT NULL
@@ -11159,8 +13694,8 @@ struct retro_core_options_v2 options_pt_br = {
 #define VITA3K_SCREEN_FILTER_LABEL_PT_PT NULL
 #define VITA3K_SCREEN_FILTER_INFO_0_PT_PT NULL
 #define OPTION_VAL_BILINEAR_PT_PT NULL
-#define OPTION_VAL_NEAREST_PT_PT NULL
-#define OPTION_VAL_BICUBIC_PT_PT NULL
+#define OPTION_VAL_NEAREST_PT_PT "O mais próximo"
+#define OPTION_VAL_BICUBIC_PT_PT "Bicúbico"
 #define OPTION_VAL_FXAA_PT_PT NULL
 #define OPTION_VAL_FSR_PT_PT NULL
 #define VITA3K_ANISOTROPIC_FILTERING_LABEL_PT_PT NULL
@@ -11174,6 +13709,7 @@ struct retro_core_options_v2 options_pt_br = {
 #define VITA3K_V_SYNC_INFO_0_PT_PT NULL
 #define VITA3K_ASYNC_PIPELINE_LABEL_PT_PT NULL
 #define VITA3K_ASYNC_PIPELINE_INFO_0_PT_PT NULL
+#define VITA3K_COMPILE_OVERLAY_LABEL_PT_PT NULL
 #define VITA3K_MEMORY_MAPPING_LABEL_PT_PT NULL
 #define VITA3K_MEMORY_MAPPING_INFO_0_PT_PT NULL
 #define OPTION_VAL_DOUBLE_BUFFER_PT_PT NULL
@@ -11325,6 +13861,20 @@ struct retro_core_option_v2_definition option_defs_pt_pt[] = {
         VITA3K_ASYNC_PIPELINE_LABEL_PT_PT,
         NULL,
         VITA3K_ASYNC_PIPELINE_INFO_0_PT_PT,
+        NULL,
+        "gpu",
+        {
+            { "enabled", NULL },
+            { "disabled", NULL },
+            { NULL, NULL },
+        },
+        "enabled"
+    },
+    {
+        "vita3k_compile_overlay",
+        VITA3K_COMPILE_OVERLAY_LABEL_PT_PT,
+        NULL,
+        NULL,
         NULL,
         "gpu",
         {
@@ -11551,11 +14101,11 @@ struct retro_core_options_v2 options_pt_pt = {
 #define CATEGORY_GPU_INFO_0_RU NULL
 #define CATEGORY_CPU_LABEL_RU NULL
 #define CATEGORY_CPU_INFO_0_RU NULL
-#define CATEGORY_SYSTEM_LABEL_RU NULL
+#define CATEGORY_SYSTEM_LABEL_RU "Система"
 #define CATEGORY_SYSTEM_INFO_0_RU NULL
-#define CATEGORY_AUDIO_LABEL_RU NULL
+#define CATEGORY_AUDIO_LABEL_RU "Аудио"
 #define CATEGORY_AUDIO_INFO_0_RU NULL
-#define CATEGORY_NETWORK_LABEL_RU NULL
+#define CATEGORY_NETWORK_LABEL_RU "Сетевая игра"
 #define CATEGORY_NETWORK_INFO_0_RU NULL
 #define VITA3K_BACKEND_RENDERER_LABEL_RU NULL
 #define VITA3K_BACKEND_RENDERER_INFO_0_RU NULL
@@ -11569,12 +14119,12 @@ struct retro_core_options_v2 options_pt_pt = {
 #define OPTION_VAL_4_RU NULL
 #define VITA3K_SCREEN_FILTER_LABEL_RU NULL
 #define VITA3K_SCREEN_FILTER_INFO_0_RU NULL
-#define OPTION_VAL_BILINEAR_RU NULL
-#define OPTION_VAL_NEAREST_RU NULL
-#define OPTION_VAL_BICUBIC_RU NULL
+#define OPTION_VAL_BILINEAR_RU "Билинейный"
+#define OPTION_VAL_NEAREST_RU "Ближайший"
+#define OPTION_VAL_BICUBIC_RU "Бикубическая"
 #define OPTION_VAL_FXAA_RU NULL
 #define OPTION_VAL_FSR_RU NULL
-#define VITA3K_ANISOTROPIC_FILTERING_LABEL_RU NULL
+#define VITA3K_ANISOTROPIC_FILTERING_LABEL_RU "Анизотропная фильтрация"
 #define VITA3K_ANISOTROPIC_FILTERING_INFO_0_RU NULL
 #define OPTION_VAL_1_VITA3K_ANISOTROPIC_FILTERING_RU NULL
 #define OPTION_VAL_2_VITA3K_ANISOTROPIC_FILTERING_RU NULL
@@ -11585,6 +14135,7 @@ struct retro_core_options_v2 options_pt_pt = {
 #define VITA3K_V_SYNC_INFO_0_RU NULL
 #define VITA3K_ASYNC_PIPELINE_LABEL_RU NULL
 #define VITA3K_ASYNC_PIPELINE_INFO_0_RU NULL
+#define VITA3K_COMPILE_OVERLAY_LABEL_RU NULL
 #define VITA3K_MEMORY_MAPPING_LABEL_RU NULL
 #define VITA3K_MEMORY_MAPPING_INFO_0_RU NULL
 #define OPTION_VAL_DOUBLE_BUFFER_RU NULL
@@ -11605,13 +14156,13 @@ struct retro_core_options_v2 options_pt_pt = {
 #define VITA3K_MODULES_MODE_INFO_0_RU NULL
 #define OPTION_VAL_0_RU NULL
 #define OPTION_VAL_1_VITA3K_MODULES_MODE_RU NULL
-#define OPTION_VAL_2_VITA3K_MODULES_MODE_RU NULL
+#define OPTION_VAL_2_VITA3K_MODULES_MODE_RU "Вручную"
 #define VITA3K_FPS_HACK_LABEL_RU NULL
 #define VITA3K_FPS_HACK_INFO_0_RU NULL
 #define VITA3K_SYS_BUTTON_LABEL_RU NULL
 #define VITA3K_SYS_BUTTON_INFO_0_RU NULL
 #define OPTION_VAL_0_VITA3K_SYS_BUTTON_RU NULL
-#define OPTION_VAL_1_VITA3K_SYS_BUTTON_RU NULL
+#define OPTION_VAL_1_VITA3K_SYS_BUTTON_RU "Перекрестье"
 #define VITA3K_AUDIO_VOLUME_LABEL_RU NULL
 #define VITA3K_AUDIO_VOLUME_INFO_0_RU NULL
 #define OPTION_VAL_0_VITA3K_AUDIO_VOLUME_RU NULL
@@ -11736,6 +14287,20 @@ struct retro_core_option_v2_definition option_defs_ru[] = {
         VITA3K_ASYNC_PIPELINE_LABEL_RU,
         NULL,
         VITA3K_ASYNC_PIPELINE_INFO_0_RU,
+        NULL,
+        "gpu",
+        {
+            { "enabled", NULL },
+            { "disabled", NULL },
+            { NULL, NULL },
+        },
+        "enabled"
+    },
+    {
+        "vita3k_compile_overlay",
+        VITA3K_COMPILE_OVERLAY_LABEL_RU,
+        NULL,
+        NULL,
         NULL,
         "gpu",
         {
@@ -11959,72 +14524,73 @@ struct retro_core_options_v2 options_ru = {
 /* RETRO_LANGUAGE_SK */
 
 #define CATEGORY_GPU_LABEL_SK NULL
-#define CATEGORY_GPU_INFO_0_SK NULL
+#define CATEGORY_GPU_INFO_0_SK "Voľby vykresľovania grafiky."
 #define CATEGORY_CPU_LABEL_SK NULL
-#define CATEGORY_CPU_INFO_0_SK NULL
-#define CATEGORY_SYSTEM_LABEL_SK NULL
-#define CATEGORY_SYSTEM_INFO_0_SK NULL
-#define CATEGORY_AUDIO_LABEL_SK NULL
-#define CATEGORY_AUDIO_INFO_0_SK NULL
-#define CATEGORY_NETWORK_LABEL_SK NULL
-#define CATEGORY_NETWORK_INFO_0_SK NULL
-#define VITA3K_BACKEND_RENDERER_LABEL_SK NULL
-#define VITA3K_BACKEND_RENDERER_INFO_0_SK NULL
+#define CATEGORY_CPU_INFO_0_SK "Voľby emulácie procesora."
+#define CATEGORY_SYSTEM_LABEL_SK "Systém"
+#define CATEGORY_SYSTEM_INFO_0_SK "Voľby emulácie systému."
+#define CATEGORY_AUDIO_LABEL_SK "Zvuk"
+#define CATEGORY_AUDIO_INFO_0_SK "Voľby zvukového výstupu."
+#define CATEGORY_NETWORK_LABEL_SK "Sieť"
+#define CATEGORY_NETWORK_INFO_0_SK "Voľby siete."
+#define VITA3K_BACKEND_RENDERER_LABEL_SK "Renderer"
+#define VITA3K_BACKEND_RENDERER_INFO_0_SK "Vyberte grafický backend. Odporúča sa Vulkan."
 #define OPTION_VAL_VULKAN_SK NULL
 #define OPTION_VAL_OPENGL_SK NULL
-#define VITA3K_RESOLUTION_MULTIPLIER_LABEL_SK NULL
-#define VITA3K_RESOLUTION_MULTIPLIER_INFO_0_SK NULL
+#define VITA3K_RESOLUTION_MULTIPLIER_LABEL_SK "Násobok interného rozlíšenia"
+#define VITA3K_RESOLUTION_MULTIPLIER_INFO_0_SK "Násobok interného rozlíšenia vykresľovania (základ 960x544)."
 #define OPTION_VAL_1_SK NULL
 #define OPTION_VAL_2_SK NULL
 #define OPTION_VAL_3_SK NULL
 #define OPTION_VAL_4_SK NULL
-#define VITA3K_SCREEN_FILTER_LABEL_SK NULL
-#define VITA3K_SCREEN_FILTER_INFO_0_SK NULL
-#define OPTION_VAL_BILINEAR_SK NULL
-#define OPTION_VAL_NEAREST_SK NULL
-#define OPTION_VAL_BICUBIC_SK NULL
+#define VITA3K_SCREEN_FILTER_LABEL_SK "Filter obrazovky"
+#define VITA3K_SCREEN_FILTER_INFO_0_SK "Filter následného spracovania použitý na vykreslenú snímku."
+#define OPTION_VAL_BILINEAR_SK "Bilineárna"
+#define OPTION_VAL_NEAREST_SK "Najbližšie"
+#define OPTION_VAL_BICUBIC_SK "Bikubická"
 #define OPTION_VAL_FXAA_SK NULL
 #define OPTION_VAL_FSR_SK NULL
-#define VITA3K_ANISOTROPIC_FILTERING_LABEL_SK NULL
-#define VITA3K_ANISOTROPIC_FILTERING_INFO_0_SK NULL
-#define OPTION_VAL_1_VITA3K_ANISOTROPIC_FILTERING_SK NULL
+#define VITA3K_ANISOTROPIC_FILTERING_LABEL_SK "Anizotropné filtrovanie"
+#define VITA3K_ANISOTROPIC_FILTERING_INFO_0_SK "Úroveň anizotropného filtrovania textúr."
+#define OPTION_VAL_1_VITA3K_ANISOTROPIC_FILTERING_SK "1x (vypnuté)"
 #define OPTION_VAL_2_VITA3K_ANISOTROPIC_FILTERING_SK NULL
 #define OPTION_VAL_4_VITA3K_ANISOTROPIC_FILTERING_SK NULL
 #define OPTION_VAL_8_SK NULL
 #define OPTION_VAL_16_SK NULL
 #define VITA3K_V_SYNC_LABEL_SK NULL
-#define VITA3K_V_SYNC_INFO_0_SK NULL
-#define VITA3K_ASYNC_PIPELINE_LABEL_SK NULL
-#define VITA3K_ASYNC_PIPELINE_INFO_0_SK NULL
-#define VITA3K_MEMORY_MAPPING_LABEL_SK NULL
-#define VITA3K_MEMORY_MAPPING_INFO_0_SK NULL
-#define OPTION_VAL_DOUBLE_BUFFER_SK NULL
-#define OPTION_VAL_EXTERNAL_HOST_SK NULL
-#define OPTION_VAL_PAGE_TABLE_SK NULL
-#define OPTION_VAL_NATIVE_BUFFER_SK NULL
-#define VITA3K_HIGH_ACCURACY_LABEL_SK NULL
-#define VITA3K_HIGH_ACCURACY_INFO_0_SK NULL
-#define VITA3K_CPU_OPT_LABEL_SK NULL
-#define VITA3K_CPU_OPT_INFO_0_SK NULL
-#define VITA3K_PKG_MODE_LABEL_SK NULL
-#define VITA3K_PKG_MODE_INFO_0_SK NULL
-#define OPTION_VAL_RUN_SK NULL
-#define OPTION_VAL_INSTALL_SK NULL
-#define VITA3K_PSTV_MODE_LABEL_SK NULL
-#define VITA3K_PSTV_MODE_INFO_0_SK NULL
-#define VITA3K_MODULES_MODE_LABEL_SK NULL
-#define VITA3K_MODULES_MODE_INFO_0_SK NULL
-#define OPTION_VAL_0_SK NULL
-#define OPTION_VAL_1_VITA3K_MODULES_MODE_SK NULL
-#define OPTION_VAL_2_VITA3K_MODULES_MODE_SK NULL
-#define VITA3K_FPS_HACK_LABEL_SK NULL
-#define VITA3K_FPS_HACK_INFO_0_SK NULL
-#define VITA3K_SYS_BUTTON_LABEL_SK NULL
-#define VITA3K_SYS_BUTTON_INFO_0_SK NULL
-#define OPTION_VAL_0_VITA3K_SYS_BUTTON_SK NULL
-#define OPTION_VAL_1_VITA3K_SYS_BUTTON_SK NULL
-#define VITA3K_AUDIO_VOLUME_LABEL_SK NULL
-#define VITA3K_AUDIO_VOLUME_INFO_0_SK NULL
+#define VITA3K_V_SYNC_INFO_0_SK "Zapne alebo vypne vertikálnu synchronizáciu."
+#define VITA3K_ASYNC_PIPELINE_LABEL_SK "Asynchrónna kompilácia pipeline"
+#define VITA3K_ASYNC_PIPELINE_INFO_0_SK "Kompiluje pipeline shaderov asynchrónne, aby sa znížilo trhanie."
+#define VITA3K_COMPILE_OVERLAY_LABEL_SK NULL
+#define VITA3K_MEMORY_MAPPING_LABEL_SK "Mapovanie pamäte"
+#define VITA3K_MEMORY_MAPPING_INFO_0_SK "Spôsob mapovania pamäte GPU. Vyššie metódy zlepšujú výkon, ale vyžadujú podporu GPU."
+#define OPTION_VAL_DOUBLE_BUFFER_SK "Dvojitý zásobník"
+#define OPTION_VAL_EXTERNAL_HOST_SK "Externý hostiteľ"
+#define OPTION_VAL_PAGE_TABLE_SK "Tabuľka stránok"
+#define OPTION_VAL_NATIVE_BUFFER_SK "Natívny zásobník"
+#define VITA3K_HIGH_ACCURACY_LABEL_SK "Vysoko presné vykresľovanie"
+#define VITA3K_HIGH_ACCURACY_INFO_0_SK "Zapne presnejšie, ale pomalšie techniky vykresľovania."
+#define VITA3K_CPU_OPT_LABEL_SK "Optimalizácie CPU (Dynarmic JIT)"
+#define VITA3K_CPU_OPT_INFO_0_SK "Zapne Dynarmic JIT pre rýchlejšiu emuláciu procesora."
+#define VITA3K_PKG_MODE_LABEL_SK "PKG hry"
+#define VITA3K_PKG_MODE_INFO_0_SK "Ako sa spúšťa PKG hry. Spustiť bez inštalácie: hra sa spustí za pár sekúnd a súbor sa dešifruje z PKG, keď ho hra prvýkrát číta, do systémového priečinka; po zavretí hry sa všetko odstráni. Inštalovať: celá hra sa pri prvom spustení dešifruje a nainštaluje do ux0/app, ako to robí Vita3K, čo trvá úmerne veľkosti hry a zaberie jej veľkosť na disku. Už nainštalovaná hra beží zo svojej inštalácie v oboch prípadoch. Aktualizácie a DLC sa inštalujú vždy."
+#define OPTION_VAL_RUN_SK "Spustiť bez inštalácie"
+#define OPTION_VAL_INSTALL_SK "Inštalovať"
+#define VITA3K_PSTV_MODE_LABEL_SK "Režim PS TV"
+#define VITA3K_PSTV_MODE_INFO_0_SK "Emuluje PlayStation TV namiesto PS Vita."
+#define VITA3K_MODULES_MODE_LABEL_SK "Režim modulov"
+#define VITA3K_MODULES_MODE_INFO_0_SK "Ako sa načítavajú systémové moduly. Odporúča sa Automaticky."
+#define OPTION_VAL_0_SK "Automaticky"
+#define OPTION_VAL_1_VITA3K_MODULES_MODE_SK "Automaticky a ručne"
+#define OPTION_VAL_2_VITA3K_MODULES_MODE_SK "Ručne"
+#define VITA3K_FPS_HACK_LABEL_SK "FPS hack (30 na 60)"
+#define VITA3K_FPS_HACK_INFO_0_SK "Pokúsi sa spustiť hry uzamknuté na 30 fps pri 60 fps. Môže spôsobiť problémy."
+#define VITA3K_SYS_BUTTON_LABEL_SK "Potvrdzovacie tlačidlo"
+#define VITA3K_SYS_BUTTON_INFO_0_SK "Ktoré tlačidlo sa používa na potvrdenie."
+#define OPTION_VAL_0_VITA3K_SYS_BUTTON_SK "Krúžok"
+#define OPTION_VAL_1_VITA3K_SYS_BUTTON_SK "Kríž"
+#define VITA3K_AUDIO_VOLUME_LABEL_SK "Hlasitosť zvuku"
+#define VITA3K_AUDIO_VOLUME_INFO_0_SK "Hlavná úroveň hlasitosti zvuku."
 #define OPTION_VAL_0_VITA3K_AUDIO_VOLUME_SK NULL
 #define OPTION_VAL_10_SK NULL
 #define OPTION_VAL_20_SK NULL
@@ -12036,16 +14602,16 @@ struct retro_core_options_v2 options_ru = {
 #define OPTION_VAL_80_SK NULL
 #define OPTION_VAL_90_SK NULL
 #define OPTION_VAL_100_SK NULL
-#define VITA3K_NGS_ENABLE_LABEL_SK NULL
-#define VITA3K_NGS_ENABLE_INFO_0_SK NULL
-#define VITA3K_PSN_SIGNED_IN_LABEL_SK NULL
-#define VITA3K_PSN_SIGNED_IN_INFO_0_SK NULL
-#define VITA3K_SURFACE_SYNC_LABEL_SK NULL
-#define VITA3K_SURFACE_SYNC_INFO_0_SK NULL
-#define OPTION_VAL_ENABLED_SK NULL
-#define OPTION_VAL_DISABLED_SK NULL
-#define VITA3K_FILE_LOADING_DELAY_LABEL_SK NULL
-#define VITA3K_FILE_LOADING_DELAY_INFO_0_SK NULL
+#define VITA3K_NGS_ENABLE_LABEL_SK "Zvukový engine NGS"
+#define VITA3K_NGS_ENABLE_INFO_0_SK "Zapne zvukový engine NGS pre lepší zvuk."
+#define VITA3K_PSN_SIGNED_IN_LABEL_SK "Prihlásený do PSN"
+#define VITA3K_PSN_SIGNED_IN_INFO_0_SK "Predstiera prihlásenie do PSN. Niektoré hry to vyžadujú."
+#define VITA3K_SURFACE_SYNC_LABEL_SK "Synchronizácia povrchov"
+#define VITA3K_SURFACE_SYNC_INFO_0_SK "Optimalizácia pamäte GPU. Môže zlepšiť výkon o 20-40 %."
+#define OPTION_VAL_ENABLED_SK "Zapnuté (presnejšie)"
+#define OPTION_VAL_DISABLED_SK "Vypnuté (rýchlejšie)"
+#define VITA3K_FILE_LOADING_DELAY_LABEL_SK "Oneskorenie načítania súborov"
+#define VITA3K_FILE_LOADING_DELAY_INFO_0_SK "Oneskorenie načítania súborov v milisekundách. Pomáha pri hrách citlivých na časovanie."
 #define OPTION_VAL_0_VITA3K_FILE_LOADING_DELAY_SK NULL
 #define OPTION_VAL_5_SK NULL
 #define OPTION_VAL_10_VITA3K_FILE_LOADING_DELAY_SK NULL
@@ -12147,6 +14713,20 @@ struct retro_core_option_v2_definition option_defs_sk[] = {
         VITA3K_ASYNC_PIPELINE_LABEL_SK,
         NULL,
         VITA3K_ASYNC_PIPELINE_INFO_0_SK,
+        NULL,
+        "gpu",
+        {
+            { "enabled", NULL },
+            { "disabled", NULL },
+            { NULL, NULL },
+        },
+        "enabled"
+    },
+    {
+        "vita3k_compile_overlay",
+        VITA3K_COMPILE_OVERLAY_LABEL_SK,
+        NULL,
+        NULL,
         NULL,
         "gpu",
         {
@@ -12367,75 +14947,502 @@ struct retro_core_options_v2 options_sk = {
    option_defs_sk
 };
 
+/* RETRO_LANGUAGE_SR */
+
+#define CATEGORY_GPU_LABEL_SR NULL
+#define CATEGORY_GPU_INFO_0_SR NULL
+#define CATEGORY_CPU_LABEL_SR NULL
+#define CATEGORY_CPU_INFO_0_SR NULL
+#define CATEGORY_SYSTEM_LABEL_SR NULL
+#define CATEGORY_SYSTEM_INFO_0_SR NULL
+#define CATEGORY_AUDIO_LABEL_SR "Zvuk"
+#define CATEGORY_AUDIO_INFO_0_SR NULL
+#define CATEGORY_NETWORK_LABEL_SR "Mreža"
+#define CATEGORY_NETWORK_INFO_0_SR NULL
+#define VITA3K_BACKEND_RENDERER_LABEL_SR NULL
+#define VITA3K_BACKEND_RENDERER_INFO_0_SR NULL
+#define OPTION_VAL_VULKAN_SR NULL
+#define OPTION_VAL_OPENGL_SR NULL
+#define VITA3K_RESOLUTION_MULTIPLIER_LABEL_SR NULL
+#define VITA3K_RESOLUTION_MULTIPLIER_INFO_0_SR NULL
+#define OPTION_VAL_1_SR NULL
+#define OPTION_VAL_2_SR NULL
+#define OPTION_VAL_3_SR NULL
+#define OPTION_VAL_4_SR NULL
+#define VITA3K_SCREEN_FILTER_LABEL_SR NULL
+#define VITA3K_SCREEN_FILTER_INFO_0_SR NULL
+#define OPTION_VAL_BILINEAR_SR "Bilinearno"
+#define OPTION_VAL_NEAREST_SR NULL
+#define OPTION_VAL_BICUBIC_SR "Bikubno"
+#define OPTION_VAL_FXAA_SR NULL
+#define OPTION_VAL_FSR_SR NULL
+#define VITA3K_ANISOTROPIC_FILTERING_LABEL_SR NULL
+#define VITA3K_ANISOTROPIC_FILTERING_INFO_0_SR NULL
+#define OPTION_VAL_1_VITA3K_ANISOTROPIC_FILTERING_SR NULL
+#define OPTION_VAL_2_VITA3K_ANISOTROPIC_FILTERING_SR NULL
+#define OPTION_VAL_4_VITA3K_ANISOTROPIC_FILTERING_SR NULL
+#define OPTION_VAL_8_SR NULL
+#define OPTION_VAL_16_SR NULL
+#define VITA3K_V_SYNC_LABEL_SR NULL
+#define VITA3K_V_SYNC_INFO_0_SR NULL
+#define VITA3K_ASYNC_PIPELINE_LABEL_SR NULL
+#define VITA3K_ASYNC_PIPELINE_INFO_0_SR NULL
+#define VITA3K_COMPILE_OVERLAY_LABEL_SR NULL
+#define VITA3K_MEMORY_MAPPING_LABEL_SR NULL
+#define VITA3K_MEMORY_MAPPING_INFO_0_SR NULL
+#define OPTION_VAL_DOUBLE_BUFFER_SR NULL
+#define OPTION_VAL_EXTERNAL_HOST_SR NULL
+#define OPTION_VAL_PAGE_TABLE_SR NULL
+#define OPTION_VAL_NATIVE_BUFFER_SR NULL
+#define VITA3K_HIGH_ACCURACY_LABEL_SR NULL
+#define VITA3K_HIGH_ACCURACY_INFO_0_SR NULL
+#define VITA3K_CPU_OPT_LABEL_SR NULL
+#define VITA3K_CPU_OPT_INFO_0_SR NULL
+#define VITA3K_PKG_MODE_LABEL_SR NULL
+#define VITA3K_PKG_MODE_INFO_0_SR NULL
+#define OPTION_VAL_RUN_SR NULL
+#define OPTION_VAL_INSTALL_SR NULL
+#define VITA3K_PSTV_MODE_LABEL_SR NULL
+#define VITA3K_PSTV_MODE_INFO_0_SR NULL
+#define VITA3K_MODULES_MODE_LABEL_SR NULL
+#define VITA3K_MODULES_MODE_INFO_0_SR NULL
+#define OPTION_VAL_0_SR NULL
+#define OPTION_VAL_1_VITA3K_MODULES_MODE_SR NULL
+#define OPTION_VAL_2_VITA3K_MODULES_MODE_SR NULL
+#define VITA3K_FPS_HACK_LABEL_SR NULL
+#define VITA3K_FPS_HACK_INFO_0_SR NULL
+#define VITA3K_SYS_BUTTON_LABEL_SR NULL
+#define VITA3K_SYS_BUTTON_INFO_0_SR NULL
+#define OPTION_VAL_0_VITA3K_SYS_BUTTON_SR NULL
+#define OPTION_VAL_1_VITA3K_SYS_BUTTON_SR NULL
+#define VITA3K_AUDIO_VOLUME_LABEL_SR NULL
+#define VITA3K_AUDIO_VOLUME_INFO_0_SR NULL
+#define OPTION_VAL_0_VITA3K_AUDIO_VOLUME_SR NULL
+#define OPTION_VAL_10_SR NULL
+#define OPTION_VAL_20_SR NULL
+#define OPTION_VAL_30_SR NULL
+#define OPTION_VAL_40_SR NULL
+#define OPTION_VAL_50_SR NULL
+#define OPTION_VAL_60_SR NULL
+#define OPTION_VAL_70_SR NULL
+#define OPTION_VAL_80_SR NULL
+#define OPTION_VAL_90_SR NULL
+#define OPTION_VAL_100_SR NULL
+#define VITA3K_NGS_ENABLE_LABEL_SR NULL
+#define VITA3K_NGS_ENABLE_INFO_0_SR NULL
+#define VITA3K_PSN_SIGNED_IN_LABEL_SR NULL
+#define VITA3K_PSN_SIGNED_IN_INFO_0_SR NULL
+#define VITA3K_SURFACE_SYNC_LABEL_SR NULL
+#define VITA3K_SURFACE_SYNC_INFO_0_SR NULL
+#define OPTION_VAL_ENABLED_SR NULL
+#define OPTION_VAL_DISABLED_SR NULL
+#define VITA3K_FILE_LOADING_DELAY_LABEL_SR NULL
+#define VITA3K_FILE_LOADING_DELAY_INFO_0_SR NULL
+#define OPTION_VAL_0_VITA3K_FILE_LOADING_DELAY_SR NULL
+#define OPTION_VAL_5_SR NULL
+#define OPTION_VAL_10_VITA3K_FILE_LOADING_DELAY_SR NULL
+#define OPTION_VAL_15_SR NULL
+#define OPTION_VAL_20_VITA3K_FILE_LOADING_DELAY_SR NULL
+#define OPTION_VAL_25_SR NULL
+#define OPTION_VAL_30_VITA3K_FILE_LOADING_DELAY_SR NULL
+
+struct retro_core_option_v2_category option_cats_sr[] = {
+    { "gpu", CATEGORY_GPU_LABEL_SR, CATEGORY_GPU_INFO_0_SR },
+    { "cpu", CATEGORY_CPU_LABEL_SR, CATEGORY_CPU_INFO_0_SR },
+    { "system", CATEGORY_SYSTEM_LABEL_SR, CATEGORY_SYSTEM_INFO_0_SR },
+    { "audio", CATEGORY_AUDIO_LABEL_SR, CATEGORY_AUDIO_INFO_0_SR },
+    { "network", CATEGORY_NETWORK_LABEL_SR, CATEGORY_NETWORK_INFO_0_SR },
+    { NULL, NULL, NULL },
+};
+struct retro_core_option_v2_definition option_defs_sr[] = {
+    // ── GPU ──────────────────────────────────────────────────────────────
+    {
+        "vita3k_backend_renderer",
+        VITA3K_BACKEND_RENDERER_LABEL_SR,
+        NULL,
+        VITA3K_BACKEND_RENDERER_INFO_0_SR,
+        NULL,
+        "gpu",
+        {
+            { "Vulkan", OPTION_VAL_VULKAN_SR },
+            { "OpenGL", OPTION_VAL_OPENGL_SR },
+            { NULL, NULL },
+        },
+        "Vulkan"
+    },
+    {
+        "vita3k_resolution_multiplier",
+        VITA3K_RESOLUTION_MULTIPLIER_LABEL_SR,
+        NULL,
+        VITA3K_RESOLUTION_MULTIPLIER_INFO_0_SR,
+        NULL,
+        "gpu",
+        {
+            { "1", OPTION_VAL_1_SR },
+            { "2", OPTION_VAL_2_SR },
+            { "3", OPTION_VAL_3_SR },
+            { "4", OPTION_VAL_4_SR },
+            { NULL, NULL },
+        },
+        "1"
+    },
+    {
+        "vita3k_screen_filter",
+        VITA3K_SCREEN_FILTER_LABEL_SR,
+        NULL,
+        VITA3K_SCREEN_FILTER_INFO_0_SR,
+        NULL,
+        "gpu",
+        {
+            { "Bilinear", OPTION_VAL_BILINEAR_SR },
+            { "Nearest", OPTION_VAL_NEAREST_SR },
+            { "Bicubic", OPTION_VAL_BICUBIC_SR },
+            { "FXAA", OPTION_VAL_FXAA_SR },
+            { "FSR", OPTION_VAL_FSR_SR },
+            { NULL, NULL },
+        },
+        "Bilinear"
+    },
+    {
+        "vita3k_anisotropic_filtering",
+        VITA3K_ANISOTROPIC_FILTERING_LABEL_SR,
+        NULL,
+        VITA3K_ANISOTROPIC_FILTERING_INFO_0_SR,
+        NULL,
+        "gpu",
+        {
+            { "1", OPTION_VAL_1_VITA3K_ANISOTROPIC_FILTERING_SR },
+            { "2", OPTION_VAL_2_VITA3K_ANISOTROPIC_FILTERING_SR },
+            { "4", OPTION_VAL_4_VITA3K_ANISOTROPIC_FILTERING_SR },
+            { "8", OPTION_VAL_8_SR },
+            { "16", OPTION_VAL_16_SR },
+            { NULL, NULL },
+        },
+        "1"
+    },
+    {
+        "vita3k_v_sync",
+        VITA3K_V_SYNC_LABEL_SR,
+        NULL,
+        VITA3K_V_SYNC_INFO_0_SR,
+        NULL,
+        "gpu",
+        {
+            { "enabled", NULL },
+            { "disabled", NULL },
+            { NULL, NULL },
+        },
+        "enabled"
+    },
+    {
+        "vita3k_async_pipeline",
+        VITA3K_ASYNC_PIPELINE_LABEL_SR,
+        NULL,
+        VITA3K_ASYNC_PIPELINE_INFO_0_SR,
+        NULL,
+        "gpu",
+        {
+            { "enabled", NULL },
+            { "disabled", NULL },
+            { NULL, NULL },
+        },
+        "enabled"
+    },
+    {
+        "vita3k_compile_overlay",
+        VITA3K_COMPILE_OVERLAY_LABEL_SR,
+        NULL,
+        NULL,
+        NULL,
+        "gpu",
+        {
+            { "enabled", NULL },
+            { "disabled", NULL },
+            { NULL, NULL },
+        },
+        "enabled"
+    },
+    {
+        "vita3k_memory_mapping",
+        VITA3K_MEMORY_MAPPING_LABEL_SR,
+        NULL,
+        VITA3K_MEMORY_MAPPING_INFO_0_SR,
+        NULL,
+        "gpu",
+        {
+            { "disabled", NULL },
+            { "double-buffer", OPTION_VAL_DOUBLE_BUFFER_SR },
+            { "external-host", OPTION_VAL_EXTERNAL_HOST_SR },
+            { "page-table", OPTION_VAL_PAGE_TABLE_SR },
+            { "native-buffer", OPTION_VAL_NATIVE_BUFFER_SR },
+            { NULL, NULL },
+        },
+        "double-buffer"
+    },
+    {
+        "vita3k_high_accuracy",
+        VITA3K_HIGH_ACCURACY_LABEL_SR,
+        NULL,
+        VITA3K_HIGH_ACCURACY_INFO_0_SR,
+        NULL,
+        "gpu",
+        {
+            { "disabled", NULL },
+            { "enabled", NULL },
+            { NULL, NULL },
+        },
+        "disabled"
+    },
+    // ── CPU ──────────────────────────────────────────────────────────────
+    {
+        "vita3k_cpu_opt",
+        VITA3K_CPU_OPT_LABEL_SR,
+        NULL,
+        VITA3K_CPU_OPT_INFO_0_SR,
+        NULL,
+        "cpu",
+        {
+            { "enabled", NULL },
+            { "disabled", NULL },
+            { NULL, NULL },
+        },
+        "enabled"
+    },
+    // ── System ───────────────────────────────────────────────────────────
+    {
+        "vita3k_pkg_mode",
+        VITA3K_PKG_MODE_LABEL_SR,
+        NULL,
+        VITA3K_PKG_MODE_INFO_0_SR,
+        NULL,
+        "system",
+        {
+            { "run", OPTION_VAL_RUN_SR },
+            { "install", OPTION_VAL_INSTALL_SR },
+            { NULL, NULL },
+        },
+        "run"
+    },
+    {
+        "vita3k_pstv_mode",
+        VITA3K_PSTV_MODE_LABEL_SR,
+        NULL,
+        VITA3K_PSTV_MODE_INFO_0_SR,
+        NULL,
+        "system",
+        {
+            { "disabled", NULL },
+            { "enabled", NULL },
+            { NULL, NULL },
+        },
+        "disabled"
+    },
+    {
+        "vita3k_modules_mode",
+        VITA3K_MODULES_MODE_LABEL_SR,
+        NULL,
+        VITA3K_MODULES_MODE_INFO_0_SR,
+        NULL,
+        "system",
+        {
+            { "0", OPTION_VAL_0_SR },
+            { "1", OPTION_VAL_1_VITA3K_MODULES_MODE_SR },
+            { "2", OPTION_VAL_2_VITA3K_MODULES_MODE_SR },
+            { NULL, NULL },
+        },
+        "0"
+    },
+    {
+        "vita3k_fps_hack",
+        VITA3K_FPS_HACK_LABEL_SR,
+        NULL,
+        VITA3K_FPS_HACK_INFO_0_SR,
+        NULL,
+        "system",
+        {
+            { "disabled", NULL },
+            { "enabled", NULL },
+            { NULL, NULL },
+        },
+        "disabled"
+    },
+    {
+        "vita3k_sys_button",
+        VITA3K_SYS_BUTTON_LABEL_SR,
+        NULL,
+        VITA3K_SYS_BUTTON_INFO_0_SR,
+        NULL,
+        "system",
+        {
+            { "0", OPTION_VAL_0_VITA3K_SYS_BUTTON_SR },
+            { "1", OPTION_VAL_1_VITA3K_SYS_BUTTON_SR },
+            { NULL, NULL },
+        },
+        "1"
+    },
+    // ── Audio ────────────────────────────────────────────────────────────
+    {
+        "vita3k_audio_volume",
+        VITA3K_AUDIO_VOLUME_LABEL_SR,
+        NULL,
+        VITA3K_AUDIO_VOLUME_INFO_0_SR,
+        NULL,
+        "audio",
+        {
+            { "0", OPTION_VAL_0_VITA3K_AUDIO_VOLUME_SR },
+            { "10", OPTION_VAL_10_SR },
+            { "20", OPTION_VAL_20_SR },
+            { "30", OPTION_VAL_30_SR },
+            { "40", OPTION_VAL_40_SR },
+            { "50", OPTION_VAL_50_SR },
+            { "60", OPTION_VAL_60_SR },
+            { "70", OPTION_VAL_70_SR },
+            { "80", OPTION_VAL_80_SR },
+            { "90", OPTION_VAL_90_SR },
+            { "100", OPTION_VAL_100_SR },
+            { NULL, NULL },
+        },
+        "100"
+    },
+    {
+        "vita3k_ngs_enable",
+        VITA3K_NGS_ENABLE_LABEL_SR,
+        NULL,
+        VITA3K_NGS_ENABLE_INFO_0_SR,
+        NULL,
+        "audio",
+        {
+            { "enabled", NULL },
+            { "disabled", NULL },
+            { NULL, NULL },
+        },
+        "enabled"
+    },
+    // ── Network ──────────────────────────────────────────────────────────
+    {
+        "vita3k_psn_signed_in",
+        VITA3K_PSN_SIGNED_IN_LABEL_SR,
+        NULL,
+        VITA3K_PSN_SIGNED_IN_INFO_0_SR,
+        NULL,
+        "network",
+        {
+            { "disabled", NULL },
+            { "enabled", NULL },
+            { NULL, NULL },
+        },
+        "disabled"
+    },
+    {
+        "vita3k_surface_sync",
+        VITA3K_SURFACE_SYNC_LABEL_SR,
+        NULL,
+        VITA3K_SURFACE_SYNC_INFO_0_SR,
+        NULL,
+        "gpu",
+        {
+            { "enabled", OPTION_VAL_ENABLED_SR },
+            { "disabled", OPTION_VAL_DISABLED_SR },
+            { NULL, NULL },
+        },
+        "enabled"
+    },
+    {
+        "vita3k_file_loading_delay",
+        VITA3K_FILE_LOADING_DELAY_LABEL_SR,
+        NULL,
+        VITA3K_FILE_LOADING_DELAY_INFO_0_SR,
+        NULL,
+        "system",
+        {
+            { "0", OPTION_VAL_0_VITA3K_FILE_LOADING_DELAY_SR },
+            { "5", OPTION_VAL_5_SR },
+            { "10", OPTION_VAL_10_VITA3K_FILE_LOADING_DELAY_SR },
+            { "15", OPTION_VAL_15_SR },
+            { "20", OPTION_VAL_20_VITA3K_FILE_LOADING_DELAY_SR },
+            { "25", OPTION_VAL_25_SR },
+            { "30", OPTION_VAL_30_VITA3K_FILE_LOADING_DELAY_SR },
+            { NULL, NULL },
+        },
+        "0"
+    },
+    { NULL, NULL, NULL, NULL, NULL, NULL, {{0}}, NULL },
+};
+struct retro_core_options_v2 options_sr = {
+   option_cats_sr,
+   option_defs_sr
+};
+
 /* RETRO_LANGUAGE_SV */
 
 #define CATEGORY_GPU_LABEL_SV NULL
-#define CATEGORY_GPU_INFO_0_SV NULL
+#define CATEGORY_GPU_INFO_0_SV "Alternativ för grafikrendering."
 #define CATEGORY_CPU_LABEL_SV NULL
-#define CATEGORY_CPU_INFO_0_SV NULL
+#define CATEGORY_CPU_INFO_0_SV "Alternativ för CPU-emulering."
 #define CATEGORY_SYSTEM_LABEL_SV NULL
-#define CATEGORY_SYSTEM_INFO_0_SV NULL
-#define CATEGORY_AUDIO_LABEL_SV NULL
-#define CATEGORY_AUDIO_INFO_0_SV NULL
-#define CATEGORY_NETWORK_LABEL_SV NULL
-#define CATEGORY_NETWORK_INFO_0_SV NULL
-#define VITA3K_BACKEND_RENDERER_LABEL_SV NULL
-#define VITA3K_BACKEND_RENDERER_INFO_0_SV NULL
+#define CATEGORY_SYSTEM_INFO_0_SV "Alternativ för systememulering."
+#define CATEGORY_AUDIO_LABEL_SV "Ljud"
+#define CATEGORY_AUDIO_INFO_0_SV "Alternativ för ljudutgång."
+#define CATEGORY_NETWORK_LABEL_SV "Nätverk"
+#define CATEGORY_NETWORK_INFO_0_SV "Nätverksalternativ."
+#define VITA3K_BACKEND_RENDERER_LABEL_SV "Bakändesrenderare"
+#define VITA3K_BACKEND_RENDERER_INFO_0_SV "Välj grafikbakände. Vulkan rekommenderas."
 #define OPTION_VAL_VULKAN_SV NULL
 #define OPTION_VAL_OPENGL_SV NULL
-#define VITA3K_RESOLUTION_MULTIPLIER_LABEL_SV NULL
-#define VITA3K_RESOLUTION_MULTIPLIER_INFO_0_SV NULL
+#define VITA3K_RESOLUTION_MULTIPLIER_LABEL_SV "Intern upplösningsmultiplikator"
+#define VITA3K_RESOLUTION_MULTIPLIER_INFO_0_SV "Multiplikator för den interna renderingsupplösningen, med 960x544 som bas."
 #define OPTION_VAL_1_SV NULL
 #define OPTION_VAL_2_SV NULL
 #define OPTION_VAL_3_SV NULL
 #define OPTION_VAL_4_SV NULL
-#define VITA3K_SCREEN_FILTER_LABEL_SV NULL
-#define VITA3K_SCREEN_FILTER_INFO_0_SV NULL
-#define OPTION_VAL_BILINEAR_SV NULL
-#define OPTION_VAL_NEAREST_SV NULL
-#define OPTION_VAL_BICUBIC_SV NULL
+#define VITA3K_SCREEN_FILTER_LABEL_SV "Skärmfilter"
+#define VITA3K_SCREEN_FILTER_INFO_0_SV "Efterbearbetningsfilter som tillämpas på den renderade bildrutan."
+#define OPTION_VAL_BILINEAR_SV "Bilinjär"
+#define OPTION_VAL_NEAREST_SV "Närmsta"
+#define OPTION_VAL_BICUBIC_SV "Bikubisk"
 #define OPTION_VAL_FXAA_SV NULL
 #define OPTION_VAL_FSR_SV NULL
-#define VITA3K_ANISOTROPIC_FILTERING_LABEL_SV NULL
-#define VITA3K_ANISOTROPIC_FILTERING_INFO_0_SV NULL
-#define OPTION_VAL_1_VITA3K_ANISOTROPIC_FILTERING_SV NULL
+#define VITA3K_ANISOTROPIC_FILTERING_LABEL_SV "Anisotropisk filtrering"
+#define VITA3K_ANISOTROPIC_FILTERING_INFO_0_SV "Nivå för anisotropisk texturfiltrering."
+#define OPTION_VAL_1_VITA3K_ANISOTROPIC_FILTERING_SV "1x (av)"
 #define OPTION_VAL_2_VITA3K_ANISOTROPIC_FILTERING_SV NULL
 #define OPTION_VAL_4_VITA3K_ANISOTROPIC_FILTERING_SV NULL
 #define OPTION_VAL_8_SV NULL
 #define OPTION_VAL_16_SV NULL
-#define VITA3K_V_SYNC_LABEL_SV NULL
-#define VITA3K_V_SYNC_INFO_0_SV NULL
-#define VITA3K_ASYNC_PIPELINE_LABEL_SV NULL
-#define VITA3K_ASYNC_PIPELINE_INFO_0_SV NULL
-#define VITA3K_MEMORY_MAPPING_LABEL_SV NULL
-#define VITA3K_MEMORY_MAPPING_INFO_0_SV NULL
-#define OPTION_VAL_DOUBLE_BUFFER_SV NULL
-#define OPTION_VAL_EXTERNAL_HOST_SV NULL
-#define OPTION_VAL_PAGE_TABLE_SV NULL
-#define OPTION_VAL_NATIVE_BUFFER_SV NULL
-#define VITA3K_HIGH_ACCURACY_LABEL_SV NULL
-#define VITA3K_HIGH_ACCURACY_INFO_0_SV NULL
-#define VITA3K_CPU_OPT_LABEL_SV NULL
-#define VITA3K_CPU_OPT_INFO_0_SV NULL
-#define VITA3K_PKG_MODE_LABEL_SV NULL
-#define VITA3K_PKG_MODE_INFO_0_SV NULL
-#define OPTION_VAL_RUN_SV NULL
-#define OPTION_VAL_INSTALL_SV NULL
-#define VITA3K_PSTV_MODE_LABEL_SV NULL
-#define VITA3K_PSTV_MODE_INFO_0_SV NULL
-#define VITA3K_MODULES_MODE_LABEL_SV NULL
-#define VITA3K_MODULES_MODE_INFO_0_SV NULL
-#define OPTION_VAL_0_SV NULL
-#define OPTION_VAL_1_VITA3K_MODULES_MODE_SV NULL
-#define OPTION_VAL_2_VITA3K_MODULES_MODE_SV NULL
-#define VITA3K_FPS_HACK_LABEL_SV NULL
-#define VITA3K_FPS_HACK_INFO_0_SV NULL
-#define VITA3K_SYS_BUTTON_LABEL_SV NULL
-#define VITA3K_SYS_BUTTON_INFO_0_SV NULL
-#define OPTION_VAL_0_VITA3K_SYS_BUTTON_SV NULL
-#define OPTION_VAL_1_VITA3K_SYS_BUTTON_SV NULL
-#define VITA3K_AUDIO_VOLUME_LABEL_SV NULL
-#define VITA3K_AUDIO_VOLUME_INFO_0_SV NULL
+#define VITA3K_V_SYNC_LABEL_SV "Vertikal synkronisering"
+#define VITA3K_V_SYNC_INFO_0_SV "Aktivera eller inaktivera vertikal synkronisering."
+#define VITA3K_ASYNC_PIPELINE_LABEL_SV "Asynkron pipelinekompilering"
+#define VITA3K_ASYNC_PIPELINE_INFO_0_SV "Kompilera shaderpipelines asynkront för att minska ryckighet."
+#define VITA3K_COMPILE_OVERLAY_LABEL_SV NULL
+#define VITA3K_MEMORY_MAPPING_LABEL_SV "Minnesmappning"
+#define VITA3K_MEMORY_MAPPING_INFO_0_SV "Metod för GPU-minnesmappning. Högre metoder förbättrar prestandan men kräver GPU-stöd."
+#define OPTION_VAL_DOUBLE_BUFFER_SV "Dubbelbuffert"
+#define OPTION_VAL_EXTERNAL_HOST_SV "Extern värd"
+#define OPTION_VAL_PAGE_TABLE_SV "Sidtabell"
+#define OPTION_VAL_NATIVE_BUFFER_SV "Inbyggd buffert"
+#define VITA3K_HIGH_ACCURACY_LABEL_SV "Rendering med hög noggrannhet"
+#define VITA3K_HIGH_ACCURACY_INFO_0_SV "Aktivera mer noggranna men långsammare renderingstekniker."
+#define VITA3K_CPU_OPT_LABEL_SV "CPU-optimeringar (Dynarmic JIT)"
+#define VITA3K_CPU_OPT_INFO_0_SV "Aktivera Dynarmic JIT för snabbare CPU-emulering."
+#define VITA3K_PKG_MODE_LABEL_SV "Spel-PKG"
+#define VITA3K_PKG_MODE_INFO_0_SV "Hur ett spels PKG körs. Kör utan installation: spelet startar på några sekunder och en fil dekrypteras från PKG-filen till systemmappen första gången spelet läser den. Allt tas bort när spelet stängs. Installera: hela spelet dekrypteras och installeras i ux0/app första gången, som i Vita3K. Det tar lika lång tid som spelet är stort och använder motsvarande diskutrymme. Ett redan installerat spel körs från installationen oavsett alternativ. Uppdateringar och DLC installeras alltid."
+#define OPTION_VAL_RUN_SV "Kör utan installation"
+#define OPTION_VAL_INSTALL_SV "Installera"
+#define VITA3K_PSTV_MODE_LABEL_SV "PS TV-läge"
+#define VITA3K_PSTV_MODE_INFO_0_SV "Emulera en PlayStation TV i stället för en PS Vita."
+#define VITA3K_MODULES_MODE_LABEL_SV "Modulläge"
+#define VITA3K_MODULES_MODE_INFO_0_SV "Hur systemmoduler läses in. Automatiskt rekommenderas."
+#define OPTION_VAL_0_SV "Automatisk"
+#define OPTION_VAL_1_VITA3K_MODULES_MODE_SV "Automatiskt och manuellt"
+#define OPTION_VAL_2_VITA3K_MODULES_MODE_SV "Manuell"
+#define VITA3K_FPS_HACK_LABEL_SV "FPS-rättning (30 till 60)"
+#define VITA3K_FPS_HACK_INFO_0_SV "Försök köra spel som är låsta till 30 fps i 60 fps. Kan orsaka problem."
+#define VITA3K_SYS_BUTTON_LABEL_SV "Bekräftelseknapp"
+#define VITA3K_SYS_BUTTON_INFO_0_SV "Vilken knapp som används för bekräftelseåtgärder."
+#define OPTION_VAL_0_VITA3K_SYS_BUTTON_SV "Cirkel"
+#define OPTION_VAL_1_VITA3K_SYS_BUTTON_SV "Kors"
+#define VITA3K_AUDIO_VOLUME_LABEL_SV "Ljudvolym"
+#define VITA3K_AUDIO_VOLUME_INFO_0_SV "Huvudvolym för ljud."
 #define OPTION_VAL_0_VITA3K_AUDIO_VOLUME_SV NULL
 #define OPTION_VAL_10_SV NULL
 #define OPTION_VAL_20_SV NULL
@@ -12447,16 +15454,16 @@ struct retro_core_options_v2 options_sk = {
 #define OPTION_VAL_80_SV NULL
 #define OPTION_VAL_90_SV NULL
 #define OPTION_VAL_100_SV NULL
-#define VITA3K_NGS_ENABLE_LABEL_SV NULL
-#define VITA3K_NGS_ENABLE_INFO_0_SV NULL
-#define VITA3K_PSN_SIGNED_IN_LABEL_SV NULL
-#define VITA3K_PSN_SIGNED_IN_INFO_0_SV NULL
-#define VITA3K_SURFACE_SYNC_LABEL_SV NULL
-#define VITA3K_SURFACE_SYNC_INFO_0_SV NULL
-#define OPTION_VAL_ENABLED_SV NULL
-#define OPTION_VAL_DISABLED_SV NULL
-#define VITA3K_FILE_LOADING_DELAY_LABEL_SV NULL
-#define VITA3K_FILE_LOADING_DELAY_INFO_0_SV NULL
+#define VITA3K_NGS_ENABLE_LABEL_SV "NGS-ljudmotor"
+#define VITA3K_NGS_ENABLE_INFO_0_SV "Aktivera NGS-ljudmotorn för förbättrat ljud."
+#define VITA3K_PSN_SIGNED_IN_LABEL_SV "Inloggad på PSN"
+#define VITA3K_PSN_SIGNED_IN_INFO_0_SV "Låtsas vara inloggad på PSN. Krävs av vissa spel."
+#define VITA3K_SURFACE_SYNC_LABEL_SV "Ytsynkronisering"
+#define VITA3K_SURFACE_SYNC_INFO_0_SV "Optimering av GPU-minne. Kan förbättra prestandan med 20 till 40 %."
+#define OPTION_VAL_ENABLED_SV "Aktiverad (mer noggrann)"
+#define OPTION_VAL_DISABLED_SV "Inaktiverad (snabbare)"
+#define VITA3K_FILE_LOADING_DELAY_LABEL_SV "Fördröjning vid filinläsning"
+#define VITA3K_FILE_LOADING_DELAY_INFO_0_SV "Fördröjning i millisekunder för filinläsning. Hjälper spel som är känsliga för tidsinställning."
 #define OPTION_VAL_0_VITA3K_FILE_LOADING_DELAY_SV NULL
 #define OPTION_VAL_5_SV NULL
 #define OPTION_VAL_10_VITA3K_FILE_LOADING_DELAY_SV NULL
@@ -12558,6 +15565,20 @@ struct retro_core_option_v2_definition option_defs_sv[] = {
         VITA3K_ASYNC_PIPELINE_LABEL_SV,
         NULL,
         VITA3K_ASYNC_PIPELINE_INFO_0_SV,
+        NULL,
+        "gpu",
+        {
+            { "enabled", NULL },
+            { "disabled", NULL },
+            { NULL, NULL },
+        },
+        "enabled"
+    },
+    {
+        "vita3k_compile_overlay",
+        VITA3K_COMPILE_OVERLAY_LABEL_SV,
+        NULL,
+        NULL,
         NULL,
         "gpu",
         {
@@ -12778,17 +15799,443 @@ struct retro_core_options_v2 options_sv = {
    option_defs_sv
 };
 
+/* RETRO_LANGUAGE_TH */
+
+#define CATEGORY_GPU_LABEL_TH NULL
+#define CATEGORY_GPU_INFO_0_TH NULL
+#define CATEGORY_CPU_LABEL_TH NULL
+#define CATEGORY_CPU_INFO_0_TH NULL
+#define CATEGORY_SYSTEM_LABEL_TH "ระบบ"
+#define CATEGORY_SYSTEM_INFO_0_TH NULL
+#define CATEGORY_AUDIO_LABEL_TH "เสียง"
+#define CATEGORY_AUDIO_INFO_0_TH NULL
+#define CATEGORY_NETWORK_LABEL_TH "เครือข่าย"
+#define CATEGORY_NETWORK_INFO_0_TH NULL
+#define VITA3K_BACKEND_RENDERER_LABEL_TH NULL
+#define VITA3K_BACKEND_RENDERER_INFO_0_TH NULL
+#define OPTION_VAL_VULKAN_TH NULL
+#define OPTION_VAL_OPENGL_TH NULL
+#define VITA3K_RESOLUTION_MULTIPLIER_LABEL_TH NULL
+#define VITA3K_RESOLUTION_MULTIPLIER_INFO_0_TH NULL
+#define OPTION_VAL_1_TH NULL
+#define OPTION_VAL_2_TH NULL
+#define OPTION_VAL_3_TH NULL
+#define OPTION_VAL_4_TH NULL
+#define VITA3K_SCREEN_FILTER_LABEL_TH NULL
+#define VITA3K_SCREEN_FILTER_INFO_0_TH NULL
+#define OPTION_VAL_BILINEAR_TH NULL
+#define OPTION_VAL_NEAREST_TH "ใกล้ที่สุด"
+#define OPTION_VAL_BICUBIC_TH "ไบคิวบิก"
+#define OPTION_VAL_FXAA_TH NULL
+#define OPTION_VAL_FSR_TH NULL
+#define VITA3K_ANISOTROPIC_FILTERING_LABEL_TH "การกรองพื้นผิวแบบAnisotropic"
+#define VITA3K_ANISOTROPIC_FILTERING_INFO_0_TH NULL
+#define OPTION_VAL_1_VITA3K_ANISOTROPIC_FILTERING_TH NULL
+#define OPTION_VAL_2_VITA3K_ANISOTROPIC_FILTERING_TH NULL
+#define OPTION_VAL_4_VITA3K_ANISOTROPIC_FILTERING_TH NULL
+#define OPTION_VAL_8_TH NULL
+#define OPTION_VAL_16_TH NULL
+#define VITA3K_V_SYNC_LABEL_TH NULL
+#define VITA3K_V_SYNC_INFO_0_TH NULL
+#define VITA3K_ASYNC_PIPELINE_LABEL_TH NULL
+#define VITA3K_ASYNC_PIPELINE_INFO_0_TH NULL
+#define VITA3K_COMPILE_OVERLAY_LABEL_TH NULL
+#define VITA3K_MEMORY_MAPPING_LABEL_TH NULL
+#define VITA3K_MEMORY_MAPPING_INFO_0_TH NULL
+#define OPTION_VAL_DOUBLE_BUFFER_TH NULL
+#define OPTION_VAL_EXTERNAL_HOST_TH NULL
+#define OPTION_VAL_PAGE_TABLE_TH NULL
+#define OPTION_VAL_NATIVE_BUFFER_TH NULL
+#define VITA3K_HIGH_ACCURACY_LABEL_TH NULL
+#define VITA3K_HIGH_ACCURACY_INFO_0_TH NULL
+#define VITA3K_CPU_OPT_LABEL_TH NULL
+#define VITA3K_CPU_OPT_INFO_0_TH NULL
+#define VITA3K_PKG_MODE_LABEL_TH NULL
+#define VITA3K_PKG_MODE_INFO_0_TH NULL
+#define OPTION_VAL_RUN_TH NULL
+#define OPTION_VAL_INSTALL_TH NULL
+#define VITA3K_PSTV_MODE_LABEL_TH NULL
+#define VITA3K_PSTV_MODE_INFO_0_TH NULL
+#define VITA3K_MODULES_MODE_LABEL_TH NULL
+#define VITA3K_MODULES_MODE_INFO_0_TH NULL
+#define OPTION_VAL_0_TH "อัตโนมัติ"
+#define OPTION_VAL_1_VITA3K_MODULES_MODE_TH NULL
+#define OPTION_VAL_2_VITA3K_MODULES_MODE_TH "กำหนดเอง"
+#define VITA3K_FPS_HACK_LABEL_TH NULL
+#define VITA3K_FPS_HACK_INFO_0_TH NULL
+#define VITA3K_SYS_BUTTON_LABEL_TH NULL
+#define VITA3K_SYS_BUTTON_INFO_0_TH NULL
+#define OPTION_VAL_0_VITA3K_SYS_BUTTON_TH NULL
+#define OPTION_VAL_1_VITA3K_SYS_BUTTON_TH "กากบาท"
+#define VITA3K_AUDIO_VOLUME_LABEL_TH NULL
+#define VITA3K_AUDIO_VOLUME_INFO_0_TH NULL
+#define OPTION_VAL_0_VITA3K_AUDIO_VOLUME_TH NULL
+#define OPTION_VAL_10_TH NULL
+#define OPTION_VAL_20_TH NULL
+#define OPTION_VAL_30_TH NULL
+#define OPTION_VAL_40_TH NULL
+#define OPTION_VAL_50_TH NULL
+#define OPTION_VAL_60_TH NULL
+#define OPTION_VAL_70_TH NULL
+#define OPTION_VAL_80_TH NULL
+#define OPTION_VAL_90_TH NULL
+#define OPTION_VAL_100_TH NULL
+#define VITA3K_NGS_ENABLE_LABEL_TH NULL
+#define VITA3K_NGS_ENABLE_INFO_0_TH NULL
+#define VITA3K_PSN_SIGNED_IN_LABEL_TH NULL
+#define VITA3K_PSN_SIGNED_IN_INFO_0_TH NULL
+#define VITA3K_SURFACE_SYNC_LABEL_TH NULL
+#define VITA3K_SURFACE_SYNC_INFO_0_TH NULL
+#define OPTION_VAL_ENABLED_TH NULL
+#define OPTION_VAL_DISABLED_TH NULL
+#define VITA3K_FILE_LOADING_DELAY_LABEL_TH NULL
+#define VITA3K_FILE_LOADING_DELAY_INFO_0_TH NULL
+#define OPTION_VAL_0_VITA3K_FILE_LOADING_DELAY_TH NULL
+#define OPTION_VAL_5_TH NULL
+#define OPTION_VAL_10_VITA3K_FILE_LOADING_DELAY_TH NULL
+#define OPTION_VAL_15_TH NULL
+#define OPTION_VAL_20_VITA3K_FILE_LOADING_DELAY_TH NULL
+#define OPTION_VAL_25_TH NULL
+#define OPTION_VAL_30_VITA3K_FILE_LOADING_DELAY_TH NULL
+
+struct retro_core_option_v2_category option_cats_th[] = {
+    { "gpu", CATEGORY_GPU_LABEL_TH, CATEGORY_GPU_INFO_0_TH },
+    { "cpu", CATEGORY_CPU_LABEL_TH, CATEGORY_CPU_INFO_0_TH },
+    { "system", CATEGORY_SYSTEM_LABEL_TH, CATEGORY_SYSTEM_INFO_0_TH },
+    { "audio", CATEGORY_AUDIO_LABEL_TH, CATEGORY_AUDIO_INFO_0_TH },
+    { "network", CATEGORY_NETWORK_LABEL_TH, CATEGORY_NETWORK_INFO_0_TH },
+    { NULL, NULL, NULL },
+};
+struct retro_core_option_v2_definition option_defs_th[] = {
+    // ── GPU ──────────────────────────────────────────────────────────────
+    {
+        "vita3k_backend_renderer",
+        VITA3K_BACKEND_RENDERER_LABEL_TH,
+        NULL,
+        VITA3K_BACKEND_RENDERER_INFO_0_TH,
+        NULL,
+        "gpu",
+        {
+            { "Vulkan", OPTION_VAL_VULKAN_TH },
+            { "OpenGL", OPTION_VAL_OPENGL_TH },
+            { NULL, NULL },
+        },
+        "Vulkan"
+    },
+    {
+        "vita3k_resolution_multiplier",
+        VITA3K_RESOLUTION_MULTIPLIER_LABEL_TH,
+        NULL,
+        VITA3K_RESOLUTION_MULTIPLIER_INFO_0_TH,
+        NULL,
+        "gpu",
+        {
+            { "1", OPTION_VAL_1_TH },
+            { "2", OPTION_VAL_2_TH },
+            { "3", OPTION_VAL_3_TH },
+            { "4", OPTION_VAL_4_TH },
+            { NULL, NULL },
+        },
+        "1"
+    },
+    {
+        "vita3k_screen_filter",
+        VITA3K_SCREEN_FILTER_LABEL_TH,
+        NULL,
+        VITA3K_SCREEN_FILTER_INFO_0_TH,
+        NULL,
+        "gpu",
+        {
+            { "Bilinear", OPTION_VAL_BILINEAR_TH },
+            { "Nearest", OPTION_VAL_NEAREST_TH },
+            { "Bicubic", OPTION_VAL_BICUBIC_TH },
+            { "FXAA", OPTION_VAL_FXAA_TH },
+            { "FSR", OPTION_VAL_FSR_TH },
+            { NULL, NULL },
+        },
+        "Bilinear"
+    },
+    {
+        "vita3k_anisotropic_filtering",
+        VITA3K_ANISOTROPIC_FILTERING_LABEL_TH,
+        NULL,
+        VITA3K_ANISOTROPIC_FILTERING_INFO_0_TH,
+        NULL,
+        "gpu",
+        {
+            { "1", OPTION_VAL_1_VITA3K_ANISOTROPIC_FILTERING_TH },
+            { "2", OPTION_VAL_2_VITA3K_ANISOTROPIC_FILTERING_TH },
+            { "4", OPTION_VAL_4_VITA3K_ANISOTROPIC_FILTERING_TH },
+            { "8", OPTION_VAL_8_TH },
+            { "16", OPTION_VAL_16_TH },
+            { NULL, NULL },
+        },
+        "1"
+    },
+    {
+        "vita3k_v_sync",
+        VITA3K_V_SYNC_LABEL_TH,
+        NULL,
+        VITA3K_V_SYNC_INFO_0_TH,
+        NULL,
+        "gpu",
+        {
+            { "enabled", NULL },
+            { "disabled", NULL },
+            { NULL, NULL },
+        },
+        "enabled"
+    },
+    {
+        "vita3k_async_pipeline",
+        VITA3K_ASYNC_PIPELINE_LABEL_TH,
+        NULL,
+        VITA3K_ASYNC_PIPELINE_INFO_0_TH,
+        NULL,
+        "gpu",
+        {
+            { "enabled", NULL },
+            { "disabled", NULL },
+            { NULL, NULL },
+        },
+        "enabled"
+    },
+    {
+        "vita3k_compile_overlay",
+        VITA3K_COMPILE_OVERLAY_LABEL_TH,
+        NULL,
+        NULL,
+        NULL,
+        "gpu",
+        {
+            { "enabled", NULL },
+            { "disabled", NULL },
+            { NULL, NULL },
+        },
+        "enabled"
+    },
+    {
+        "vita3k_memory_mapping",
+        VITA3K_MEMORY_MAPPING_LABEL_TH,
+        NULL,
+        VITA3K_MEMORY_MAPPING_INFO_0_TH,
+        NULL,
+        "gpu",
+        {
+            { "disabled", NULL },
+            { "double-buffer", OPTION_VAL_DOUBLE_BUFFER_TH },
+            { "external-host", OPTION_VAL_EXTERNAL_HOST_TH },
+            { "page-table", OPTION_VAL_PAGE_TABLE_TH },
+            { "native-buffer", OPTION_VAL_NATIVE_BUFFER_TH },
+            { NULL, NULL },
+        },
+        "double-buffer"
+    },
+    {
+        "vita3k_high_accuracy",
+        VITA3K_HIGH_ACCURACY_LABEL_TH,
+        NULL,
+        VITA3K_HIGH_ACCURACY_INFO_0_TH,
+        NULL,
+        "gpu",
+        {
+            { "disabled", NULL },
+            { "enabled", NULL },
+            { NULL, NULL },
+        },
+        "disabled"
+    },
+    // ── CPU ──────────────────────────────────────────────────────────────
+    {
+        "vita3k_cpu_opt",
+        VITA3K_CPU_OPT_LABEL_TH,
+        NULL,
+        VITA3K_CPU_OPT_INFO_0_TH,
+        NULL,
+        "cpu",
+        {
+            { "enabled", NULL },
+            { "disabled", NULL },
+            { NULL, NULL },
+        },
+        "enabled"
+    },
+    // ── System ───────────────────────────────────────────────────────────
+    {
+        "vita3k_pkg_mode",
+        VITA3K_PKG_MODE_LABEL_TH,
+        NULL,
+        VITA3K_PKG_MODE_INFO_0_TH,
+        NULL,
+        "system",
+        {
+            { "run", OPTION_VAL_RUN_TH },
+            { "install", OPTION_VAL_INSTALL_TH },
+            { NULL, NULL },
+        },
+        "run"
+    },
+    {
+        "vita3k_pstv_mode",
+        VITA3K_PSTV_MODE_LABEL_TH,
+        NULL,
+        VITA3K_PSTV_MODE_INFO_0_TH,
+        NULL,
+        "system",
+        {
+            { "disabled", NULL },
+            { "enabled", NULL },
+            { NULL, NULL },
+        },
+        "disabled"
+    },
+    {
+        "vita3k_modules_mode",
+        VITA3K_MODULES_MODE_LABEL_TH,
+        NULL,
+        VITA3K_MODULES_MODE_INFO_0_TH,
+        NULL,
+        "system",
+        {
+            { "0", OPTION_VAL_0_TH },
+            { "1", OPTION_VAL_1_VITA3K_MODULES_MODE_TH },
+            { "2", OPTION_VAL_2_VITA3K_MODULES_MODE_TH },
+            { NULL, NULL },
+        },
+        "0"
+    },
+    {
+        "vita3k_fps_hack",
+        VITA3K_FPS_HACK_LABEL_TH,
+        NULL,
+        VITA3K_FPS_HACK_INFO_0_TH,
+        NULL,
+        "system",
+        {
+            { "disabled", NULL },
+            { "enabled", NULL },
+            { NULL, NULL },
+        },
+        "disabled"
+    },
+    {
+        "vita3k_sys_button",
+        VITA3K_SYS_BUTTON_LABEL_TH,
+        NULL,
+        VITA3K_SYS_BUTTON_INFO_0_TH,
+        NULL,
+        "system",
+        {
+            { "0", OPTION_VAL_0_VITA3K_SYS_BUTTON_TH },
+            { "1", OPTION_VAL_1_VITA3K_SYS_BUTTON_TH },
+            { NULL, NULL },
+        },
+        "1"
+    },
+    // ── Audio ────────────────────────────────────────────────────────────
+    {
+        "vita3k_audio_volume",
+        VITA3K_AUDIO_VOLUME_LABEL_TH,
+        NULL,
+        VITA3K_AUDIO_VOLUME_INFO_0_TH,
+        NULL,
+        "audio",
+        {
+            { "0", OPTION_VAL_0_VITA3K_AUDIO_VOLUME_TH },
+            { "10", OPTION_VAL_10_TH },
+            { "20", OPTION_VAL_20_TH },
+            { "30", OPTION_VAL_30_TH },
+            { "40", OPTION_VAL_40_TH },
+            { "50", OPTION_VAL_50_TH },
+            { "60", OPTION_VAL_60_TH },
+            { "70", OPTION_VAL_70_TH },
+            { "80", OPTION_VAL_80_TH },
+            { "90", OPTION_VAL_90_TH },
+            { "100", OPTION_VAL_100_TH },
+            { NULL, NULL },
+        },
+        "100"
+    },
+    {
+        "vita3k_ngs_enable",
+        VITA3K_NGS_ENABLE_LABEL_TH,
+        NULL,
+        VITA3K_NGS_ENABLE_INFO_0_TH,
+        NULL,
+        "audio",
+        {
+            { "enabled", NULL },
+            { "disabled", NULL },
+            { NULL, NULL },
+        },
+        "enabled"
+    },
+    // ── Network ──────────────────────────────────────────────────────────
+    {
+        "vita3k_psn_signed_in",
+        VITA3K_PSN_SIGNED_IN_LABEL_TH,
+        NULL,
+        VITA3K_PSN_SIGNED_IN_INFO_0_TH,
+        NULL,
+        "network",
+        {
+            { "disabled", NULL },
+            { "enabled", NULL },
+            { NULL, NULL },
+        },
+        "disabled"
+    },
+    {
+        "vita3k_surface_sync",
+        VITA3K_SURFACE_SYNC_LABEL_TH,
+        NULL,
+        VITA3K_SURFACE_SYNC_INFO_0_TH,
+        NULL,
+        "gpu",
+        {
+            { "enabled", OPTION_VAL_ENABLED_TH },
+            { "disabled", OPTION_VAL_DISABLED_TH },
+            { NULL, NULL },
+        },
+        "enabled"
+    },
+    {
+        "vita3k_file_loading_delay",
+        VITA3K_FILE_LOADING_DELAY_LABEL_TH,
+        NULL,
+        VITA3K_FILE_LOADING_DELAY_INFO_0_TH,
+        NULL,
+        "system",
+        {
+            { "0", OPTION_VAL_0_VITA3K_FILE_LOADING_DELAY_TH },
+            { "5", OPTION_VAL_5_TH },
+            { "10", OPTION_VAL_10_VITA3K_FILE_LOADING_DELAY_TH },
+            { "15", OPTION_VAL_15_TH },
+            { "20", OPTION_VAL_20_VITA3K_FILE_LOADING_DELAY_TH },
+            { "25", OPTION_VAL_25_TH },
+            { "30", OPTION_VAL_30_VITA3K_FILE_LOADING_DELAY_TH },
+            { NULL, NULL },
+        },
+        "0"
+    },
+    { NULL, NULL, NULL, NULL, NULL, NULL, {{0}}, NULL },
+};
+struct retro_core_options_v2 options_th = {
+   option_cats_th,
+   option_defs_th
+};
+
 /* RETRO_LANGUAGE_TR */
 
 #define CATEGORY_GPU_LABEL_TR NULL
 #define CATEGORY_GPU_INFO_0_TR NULL
 #define CATEGORY_CPU_LABEL_TR NULL
 #define CATEGORY_CPU_INFO_0_TR NULL
-#define CATEGORY_SYSTEM_LABEL_TR NULL
+#define CATEGORY_SYSTEM_LABEL_TR "Sistem"
 #define CATEGORY_SYSTEM_INFO_0_TR NULL
-#define CATEGORY_AUDIO_LABEL_TR NULL
+#define CATEGORY_AUDIO_LABEL_TR "Ses"
 #define CATEGORY_AUDIO_INFO_0_TR NULL
-#define CATEGORY_NETWORK_LABEL_TR NULL
+#define CATEGORY_NETWORK_LABEL_TR "Ağ"
 #define CATEGORY_NETWORK_INFO_0_TR NULL
 #define VITA3K_BACKEND_RENDERER_LABEL_TR NULL
 #define VITA3K_BACKEND_RENDERER_INFO_0_TR NULL
@@ -12802,12 +16249,12 @@ struct retro_core_options_v2 options_sv = {
 #define OPTION_VAL_4_TR NULL
 #define VITA3K_SCREEN_FILTER_LABEL_TR NULL
 #define VITA3K_SCREEN_FILTER_INFO_0_TR NULL
-#define OPTION_VAL_BILINEAR_TR NULL
-#define OPTION_VAL_NEAREST_TR NULL
-#define OPTION_VAL_BICUBIC_TR NULL
+#define OPTION_VAL_BILINEAR_TR "İkili Doğrusal"
+#define OPTION_VAL_NEAREST_TR "En yakın"
+#define OPTION_VAL_BICUBIC_TR "Bikübik"
 #define OPTION_VAL_FXAA_TR NULL
 #define OPTION_VAL_FSR_TR NULL
-#define VITA3K_ANISOTROPIC_FILTERING_LABEL_TR NULL
+#define VITA3K_ANISOTROPIC_FILTERING_LABEL_TR "Eşyönsüz Filtreleme"
 #define VITA3K_ANISOTROPIC_FILTERING_INFO_0_TR NULL
 #define OPTION_VAL_1_VITA3K_ANISOTROPIC_FILTERING_TR NULL
 #define OPTION_VAL_2_VITA3K_ANISOTROPIC_FILTERING_TR NULL
@@ -12818,6 +16265,7 @@ struct retro_core_options_v2 options_sv = {
 #define VITA3K_V_SYNC_INFO_0_TR NULL
 #define VITA3K_ASYNC_PIPELINE_LABEL_TR NULL
 #define VITA3K_ASYNC_PIPELINE_INFO_0_TR NULL
+#define VITA3K_COMPILE_OVERLAY_LABEL_TR NULL
 #define VITA3K_MEMORY_MAPPING_LABEL_TR NULL
 #define VITA3K_MEMORY_MAPPING_INFO_0_TR NULL
 #define OPTION_VAL_DOUBLE_BUFFER_TR NULL
@@ -12836,28 +16284,28 @@ struct retro_core_options_v2 options_sv = {
 #define VITA3K_PSTV_MODE_INFO_0_TR NULL
 #define VITA3K_MODULES_MODE_LABEL_TR NULL
 #define VITA3K_MODULES_MODE_INFO_0_TR NULL
-#define OPTION_VAL_0_TR NULL
+#define OPTION_VAL_0_TR "Otomatik"
 #define OPTION_VAL_1_VITA3K_MODULES_MODE_TR NULL
-#define OPTION_VAL_2_VITA3K_MODULES_MODE_TR NULL
+#define OPTION_VAL_2_VITA3K_MODULES_MODE_TR "El İle"
 #define VITA3K_FPS_HACK_LABEL_TR NULL
 #define VITA3K_FPS_HACK_INFO_0_TR NULL
 #define VITA3K_SYS_BUTTON_LABEL_TR NULL
 #define VITA3K_SYS_BUTTON_INFO_0_TR NULL
 #define OPTION_VAL_0_VITA3K_SYS_BUTTON_TR NULL
-#define OPTION_VAL_1_VITA3K_SYS_BUTTON_TR NULL
+#define OPTION_VAL_1_VITA3K_SYS_BUTTON_TR "Çarpı"
 #define VITA3K_AUDIO_VOLUME_LABEL_TR NULL
 #define VITA3K_AUDIO_VOLUME_INFO_0_TR NULL
 #define OPTION_VAL_0_VITA3K_AUDIO_VOLUME_TR NULL
 #define OPTION_VAL_10_TR NULL
-#define OPTION_VAL_20_TR NULL
-#define OPTION_VAL_30_TR NULL
-#define OPTION_VAL_40_TR NULL
-#define OPTION_VAL_50_TR NULL
-#define OPTION_VAL_60_TR NULL
-#define OPTION_VAL_70_TR NULL
-#define OPTION_VAL_80_TR NULL
-#define OPTION_VAL_90_TR NULL
-#define OPTION_VAL_100_TR NULL
+#define OPTION_VAL_20_TR "%20"
+#define OPTION_VAL_30_TR "%30"
+#define OPTION_VAL_40_TR "%40"
+#define OPTION_VAL_50_TR "%50"
+#define OPTION_VAL_60_TR "%60"
+#define OPTION_VAL_70_TR "%70"
+#define OPTION_VAL_80_TR "%80"
+#define OPTION_VAL_90_TR "%90"
+#define OPTION_VAL_100_TR "%100"
 #define VITA3K_NGS_ENABLE_LABEL_TR NULL
 #define VITA3K_NGS_ENABLE_INFO_0_TR NULL
 #define VITA3K_PSN_SIGNED_IN_LABEL_TR NULL
@@ -12969,6 +16417,20 @@ struct retro_core_option_v2_definition option_defs_tr[] = {
         VITA3K_ASYNC_PIPELINE_LABEL_TR,
         NULL,
         VITA3K_ASYNC_PIPELINE_INFO_0_TR,
+        NULL,
+        "gpu",
+        {
+            { "enabled", NULL },
+            { "disabled", NULL },
+            { NULL, NULL },
+        },
+        "enabled"
+    },
+    {
+        "vita3k_compile_overlay",
+        VITA3K_COMPILE_OVERLAY_LABEL_TR,
+        NULL,
+        NULL,
         NULL,
         "gpu",
         {
@@ -13189,17 +16651,443 @@ struct retro_core_options_v2 options_tr = {
    option_defs_tr
 };
 
+/* RETRO_LANGUAGE_TT */
+
+#define CATEGORY_GPU_LABEL_TT NULL
+#define CATEGORY_GPU_INFO_0_TT NULL
+#define CATEGORY_CPU_LABEL_TT NULL
+#define CATEGORY_CPU_INFO_0_TT NULL
+#define CATEGORY_SYSTEM_LABEL_TT NULL
+#define CATEGORY_SYSTEM_INFO_0_TT NULL
+#define CATEGORY_AUDIO_LABEL_TT "Аудио"
+#define CATEGORY_AUDIO_INFO_0_TT NULL
+#define CATEGORY_NETWORK_LABEL_TT NULL
+#define CATEGORY_NETWORK_INFO_0_TT NULL
+#define VITA3K_BACKEND_RENDERER_LABEL_TT NULL
+#define VITA3K_BACKEND_RENDERER_INFO_0_TT NULL
+#define OPTION_VAL_VULKAN_TT NULL
+#define OPTION_VAL_OPENGL_TT NULL
+#define VITA3K_RESOLUTION_MULTIPLIER_LABEL_TT NULL
+#define VITA3K_RESOLUTION_MULTIPLIER_INFO_0_TT NULL
+#define OPTION_VAL_1_TT NULL
+#define OPTION_VAL_2_TT NULL
+#define OPTION_VAL_3_TT NULL
+#define OPTION_VAL_4_TT NULL
+#define VITA3K_SCREEN_FILTER_LABEL_TT NULL
+#define VITA3K_SCREEN_FILTER_INFO_0_TT NULL
+#define OPTION_VAL_BILINEAR_TT NULL
+#define OPTION_VAL_NEAREST_TT NULL
+#define OPTION_VAL_BICUBIC_TT NULL
+#define OPTION_VAL_FXAA_TT NULL
+#define OPTION_VAL_FSR_TT NULL
+#define VITA3K_ANISOTROPIC_FILTERING_LABEL_TT NULL
+#define VITA3K_ANISOTROPIC_FILTERING_INFO_0_TT NULL
+#define OPTION_VAL_1_VITA3K_ANISOTROPIC_FILTERING_TT NULL
+#define OPTION_VAL_2_VITA3K_ANISOTROPIC_FILTERING_TT NULL
+#define OPTION_VAL_4_VITA3K_ANISOTROPIC_FILTERING_TT NULL
+#define OPTION_VAL_8_TT NULL
+#define OPTION_VAL_16_TT NULL
+#define VITA3K_V_SYNC_LABEL_TT NULL
+#define VITA3K_V_SYNC_INFO_0_TT NULL
+#define VITA3K_ASYNC_PIPELINE_LABEL_TT NULL
+#define VITA3K_ASYNC_PIPELINE_INFO_0_TT NULL
+#define VITA3K_COMPILE_OVERLAY_LABEL_TT NULL
+#define VITA3K_MEMORY_MAPPING_LABEL_TT NULL
+#define VITA3K_MEMORY_MAPPING_INFO_0_TT NULL
+#define OPTION_VAL_DOUBLE_BUFFER_TT NULL
+#define OPTION_VAL_EXTERNAL_HOST_TT NULL
+#define OPTION_VAL_PAGE_TABLE_TT NULL
+#define OPTION_VAL_NATIVE_BUFFER_TT NULL
+#define VITA3K_HIGH_ACCURACY_LABEL_TT NULL
+#define VITA3K_HIGH_ACCURACY_INFO_0_TT NULL
+#define VITA3K_CPU_OPT_LABEL_TT NULL
+#define VITA3K_CPU_OPT_INFO_0_TT NULL
+#define VITA3K_PKG_MODE_LABEL_TT NULL
+#define VITA3K_PKG_MODE_INFO_0_TT NULL
+#define OPTION_VAL_RUN_TT NULL
+#define OPTION_VAL_INSTALL_TT NULL
+#define VITA3K_PSTV_MODE_LABEL_TT NULL
+#define VITA3K_PSTV_MODE_INFO_0_TT NULL
+#define VITA3K_MODULES_MODE_LABEL_TT NULL
+#define VITA3K_MODULES_MODE_INFO_0_TT NULL
+#define OPTION_VAL_0_TT NULL
+#define OPTION_VAL_1_VITA3K_MODULES_MODE_TT NULL
+#define OPTION_VAL_2_VITA3K_MODULES_MODE_TT NULL
+#define VITA3K_FPS_HACK_LABEL_TT NULL
+#define VITA3K_FPS_HACK_INFO_0_TT NULL
+#define VITA3K_SYS_BUTTON_LABEL_TT NULL
+#define VITA3K_SYS_BUTTON_INFO_0_TT NULL
+#define OPTION_VAL_0_VITA3K_SYS_BUTTON_TT NULL
+#define OPTION_VAL_1_VITA3K_SYS_BUTTON_TT NULL
+#define VITA3K_AUDIO_VOLUME_LABEL_TT NULL
+#define VITA3K_AUDIO_VOLUME_INFO_0_TT NULL
+#define OPTION_VAL_0_VITA3K_AUDIO_VOLUME_TT NULL
+#define OPTION_VAL_10_TT NULL
+#define OPTION_VAL_20_TT NULL
+#define OPTION_VAL_30_TT NULL
+#define OPTION_VAL_40_TT NULL
+#define OPTION_VAL_50_TT NULL
+#define OPTION_VAL_60_TT NULL
+#define OPTION_VAL_70_TT NULL
+#define OPTION_VAL_80_TT NULL
+#define OPTION_VAL_90_TT NULL
+#define OPTION_VAL_100_TT NULL
+#define VITA3K_NGS_ENABLE_LABEL_TT NULL
+#define VITA3K_NGS_ENABLE_INFO_0_TT NULL
+#define VITA3K_PSN_SIGNED_IN_LABEL_TT NULL
+#define VITA3K_PSN_SIGNED_IN_INFO_0_TT NULL
+#define VITA3K_SURFACE_SYNC_LABEL_TT NULL
+#define VITA3K_SURFACE_SYNC_INFO_0_TT NULL
+#define OPTION_VAL_ENABLED_TT NULL
+#define OPTION_VAL_DISABLED_TT NULL
+#define VITA3K_FILE_LOADING_DELAY_LABEL_TT NULL
+#define VITA3K_FILE_LOADING_DELAY_INFO_0_TT NULL
+#define OPTION_VAL_0_VITA3K_FILE_LOADING_DELAY_TT NULL
+#define OPTION_VAL_5_TT NULL
+#define OPTION_VAL_10_VITA3K_FILE_LOADING_DELAY_TT NULL
+#define OPTION_VAL_15_TT NULL
+#define OPTION_VAL_20_VITA3K_FILE_LOADING_DELAY_TT NULL
+#define OPTION_VAL_25_TT NULL
+#define OPTION_VAL_30_VITA3K_FILE_LOADING_DELAY_TT NULL
+
+struct retro_core_option_v2_category option_cats_tt[] = {
+    { "gpu", CATEGORY_GPU_LABEL_TT, CATEGORY_GPU_INFO_0_TT },
+    { "cpu", CATEGORY_CPU_LABEL_TT, CATEGORY_CPU_INFO_0_TT },
+    { "system", CATEGORY_SYSTEM_LABEL_TT, CATEGORY_SYSTEM_INFO_0_TT },
+    { "audio", CATEGORY_AUDIO_LABEL_TT, CATEGORY_AUDIO_INFO_0_TT },
+    { "network", CATEGORY_NETWORK_LABEL_TT, CATEGORY_NETWORK_INFO_0_TT },
+    { NULL, NULL, NULL },
+};
+struct retro_core_option_v2_definition option_defs_tt[] = {
+    // ── GPU ──────────────────────────────────────────────────────────────
+    {
+        "vita3k_backend_renderer",
+        VITA3K_BACKEND_RENDERER_LABEL_TT,
+        NULL,
+        VITA3K_BACKEND_RENDERER_INFO_0_TT,
+        NULL,
+        "gpu",
+        {
+            { "Vulkan", OPTION_VAL_VULKAN_TT },
+            { "OpenGL", OPTION_VAL_OPENGL_TT },
+            { NULL, NULL },
+        },
+        "Vulkan"
+    },
+    {
+        "vita3k_resolution_multiplier",
+        VITA3K_RESOLUTION_MULTIPLIER_LABEL_TT,
+        NULL,
+        VITA3K_RESOLUTION_MULTIPLIER_INFO_0_TT,
+        NULL,
+        "gpu",
+        {
+            { "1", OPTION_VAL_1_TT },
+            { "2", OPTION_VAL_2_TT },
+            { "3", OPTION_VAL_3_TT },
+            { "4", OPTION_VAL_4_TT },
+            { NULL, NULL },
+        },
+        "1"
+    },
+    {
+        "vita3k_screen_filter",
+        VITA3K_SCREEN_FILTER_LABEL_TT,
+        NULL,
+        VITA3K_SCREEN_FILTER_INFO_0_TT,
+        NULL,
+        "gpu",
+        {
+            { "Bilinear", OPTION_VAL_BILINEAR_TT },
+            { "Nearest", OPTION_VAL_NEAREST_TT },
+            { "Bicubic", OPTION_VAL_BICUBIC_TT },
+            { "FXAA", OPTION_VAL_FXAA_TT },
+            { "FSR", OPTION_VAL_FSR_TT },
+            { NULL, NULL },
+        },
+        "Bilinear"
+    },
+    {
+        "vita3k_anisotropic_filtering",
+        VITA3K_ANISOTROPIC_FILTERING_LABEL_TT,
+        NULL,
+        VITA3K_ANISOTROPIC_FILTERING_INFO_0_TT,
+        NULL,
+        "gpu",
+        {
+            { "1", OPTION_VAL_1_VITA3K_ANISOTROPIC_FILTERING_TT },
+            { "2", OPTION_VAL_2_VITA3K_ANISOTROPIC_FILTERING_TT },
+            { "4", OPTION_VAL_4_VITA3K_ANISOTROPIC_FILTERING_TT },
+            { "8", OPTION_VAL_8_TT },
+            { "16", OPTION_VAL_16_TT },
+            { NULL, NULL },
+        },
+        "1"
+    },
+    {
+        "vita3k_v_sync",
+        VITA3K_V_SYNC_LABEL_TT,
+        NULL,
+        VITA3K_V_SYNC_INFO_0_TT,
+        NULL,
+        "gpu",
+        {
+            { "enabled", NULL },
+            { "disabled", NULL },
+            { NULL, NULL },
+        },
+        "enabled"
+    },
+    {
+        "vita3k_async_pipeline",
+        VITA3K_ASYNC_PIPELINE_LABEL_TT,
+        NULL,
+        VITA3K_ASYNC_PIPELINE_INFO_0_TT,
+        NULL,
+        "gpu",
+        {
+            { "enabled", NULL },
+            { "disabled", NULL },
+            { NULL, NULL },
+        },
+        "enabled"
+    },
+    {
+        "vita3k_compile_overlay",
+        VITA3K_COMPILE_OVERLAY_LABEL_TT,
+        NULL,
+        NULL,
+        NULL,
+        "gpu",
+        {
+            { "enabled", NULL },
+            { "disabled", NULL },
+            { NULL, NULL },
+        },
+        "enabled"
+    },
+    {
+        "vita3k_memory_mapping",
+        VITA3K_MEMORY_MAPPING_LABEL_TT,
+        NULL,
+        VITA3K_MEMORY_MAPPING_INFO_0_TT,
+        NULL,
+        "gpu",
+        {
+            { "disabled", NULL },
+            { "double-buffer", OPTION_VAL_DOUBLE_BUFFER_TT },
+            { "external-host", OPTION_VAL_EXTERNAL_HOST_TT },
+            { "page-table", OPTION_VAL_PAGE_TABLE_TT },
+            { "native-buffer", OPTION_VAL_NATIVE_BUFFER_TT },
+            { NULL, NULL },
+        },
+        "double-buffer"
+    },
+    {
+        "vita3k_high_accuracy",
+        VITA3K_HIGH_ACCURACY_LABEL_TT,
+        NULL,
+        VITA3K_HIGH_ACCURACY_INFO_0_TT,
+        NULL,
+        "gpu",
+        {
+            { "disabled", NULL },
+            { "enabled", NULL },
+            { NULL, NULL },
+        },
+        "disabled"
+    },
+    // ── CPU ──────────────────────────────────────────────────────────────
+    {
+        "vita3k_cpu_opt",
+        VITA3K_CPU_OPT_LABEL_TT,
+        NULL,
+        VITA3K_CPU_OPT_INFO_0_TT,
+        NULL,
+        "cpu",
+        {
+            { "enabled", NULL },
+            { "disabled", NULL },
+            { NULL, NULL },
+        },
+        "enabled"
+    },
+    // ── System ───────────────────────────────────────────────────────────
+    {
+        "vita3k_pkg_mode",
+        VITA3K_PKG_MODE_LABEL_TT,
+        NULL,
+        VITA3K_PKG_MODE_INFO_0_TT,
+        NULL,
+        "system",
+        {
+            { "run", OPTION_VAL_RUN_TT },
+            { "install", OPTION_VAL_INSTALL_TT },
+            { NULL, NULL },
+        },
+        "run"
+    },
+    {
+        "vita3k_pstv_mode",
+        VITA3K_PSTV_MODE_LABEL_TT,
+        NULL,
+        VITA3K_PSTV_MODE_INFO_0_TT,
+        NULL,
+        "system",
+        {
+            { "disabled", NULL },
+            { "enabled", NULL },
+            { NULL, NULL },
+        },
+        "disabled"
+    },
+    {
+        "vita3k_modules_mode",
+        VITA3K_MODULES_MODE_LABEL_TT,
+        NULL,
+        VITA3K_MODULES_MODE_INFO_0_TT,
+        NULL,
+        "system",
+        {
+            { "0", OPTION_VAL_0_TT },
+            { "1", OPTION_VAL_1_VITA3K_MODULES_MODE_TT },
+            { "2", OPTION_VAL_2_VITA3K_MODULES_MODE_TT },
+            { NULL, NULL },
+        },
+        "0"
+    },
+    {
+        "vita3k_fps_hack",
+        VITA3K_FPS_HACK_LABEL_TT,
+        NULL,
+        VITA3K_FPS_HACK_INFO_0_TT,
+        NULL,
+        "system",
+        {
+            { "disabled", NULL },
+            { "enabled", NULL },
+            { NULL, NULL },
+        },
+        "disabled"
+    },
+    {
+        "vita3k_sys_button",
+        VITA3K_SYS_BUTTON_LABEL_TT,
+        NULL,
+        VITA3K_SYS_BUTTON_INFO_0_TT,
+        NULL,
+        "system",
+        {
+            { "0", OPTION_VAL_0_VITA3K_SYS_BUTTON_TT },
+            { "1", OPTION_VAL_1_VITA3K_SYS_BUTTON_TT },
+            { NULL, NULL },
+        },
+        "1"
+    },
+    // ── Audio ────────────────────────────────────────────────────────────
+    {
+        "vita3k_audio_volume",
+        VITA3K_AUDIO_VOLUME_LABEL_TT,
+        NULL,
+        VITA3K_AUDIO_VOLUME_INFO_0_TT,
+        NULL,
+        "audio",
+        {
+            { "0", OPTION_VAL_0_VITA3K_AUDIO_VOLUME_TT },
+            { "10", OPTION_VAL_10_TT },
+            { "20", OPTION_VAL_20_TT },
+            { "30", OPTION_VAL_30_TT },
+            { "40", OPTION_VAL_40_TT },
+            { "50", OPTION_VAL_50_TT },
+            { "60", OPTION_VAL_60_TT },
+            { "70", OPTION_VAL_70_TT },
+            { "80", OPTION_VAL_80_TT },
+            { "90", OPTION_VAL_90_TT },
+            { "100", OPTION_VAL_100_TT },
+            { NULL, NULL },
+        },
+        "100"
+    },
+    {
+        "vita3k_ngs_enable",
+        VITA3K_NGS_ENABLE_LABEL_TT,
+        NULL,
+        VITA3K_NGS_ENABLE_INFO_0_TT,
+        NULL,
+        "audio",
+        {
+            { "enabled", NULL },
+            { "disabled", NULL },
+            { NULL, NULL },
+        },
+        "enabled"
+    },
+    // ── Network ──────────────────────────────────────────────────────────
+    {
+        "vita3k_psn_signed_in",
+        VITA3K_PSN_SIGNED_IN_LABEL_TT,
+        NULL,
+        VITA3K_PSN_SIGNED_IN_INFO_0_TT,
+        NULL,
+        "network",
+        {
+            { "disabled", NULL },
+            { "enabled", NULL },
+            { NULL, NULL },
+        },
+        "disabled"
+    },
+    {
+        "vita3k_surface_sync",
+        VITA3K_SURFACE_SYNC_LABEL_TT,
+        NULL,
+        VITA3K_SURFACE_SYNC_INFO_0_TT,
+        NULL,
+        "gpu",
+        {
+            { "enabled", OPTION_VAL_ENABLED_TT },
+            { "disabled", OPTION_VAL_DISABLED_TT },
+            { NULL, NULL },
+        },
+        "enabled"
+    },
+    {
+        "vita3k_file_loading_delay",
+        VITA3K_FILE_LOADING_DELAY_LABEL_TT,
+        NULL,
+        VITA3K_FILE_LOADING_DELAY_INFO_0_TT,
+        NULL,
+        "system",
+        {
+            { "0", OPTION_VAL_0_VITA3K_FILE_LOADING_DELAY_TT },
+            { "5", OPTION_VAL_5_TT },
+            { "10", OPTION_VAL_10_VITA3K_FILE_LOADING_DELAY_TT },
+            { "15", OPTION_VAL_15_TT },
+            { "20", OPTION_VAL_20_VITA3K_FILE_LOADING_DELAY_TT },
+            { "25", OPTION_VAL_25_TT },
+            { "30", OPTION_VAL_30_VITA3K_FILE_LOADING_DELAY_TT },
+            { NULL, NULL },
+        },
+        "0"
+    },
+    { NULL, NULL, NULL, NULL, NULL, NULL, {{0}}, NULL },
+};
+struct retro_core_options_v2 options_tt = {
+   option_cats_tt,
+   option_defs_tt
+};
+
 /* RETRO_LANGUAGE_UK */
 
 #define CATEGORY_GPU_LABEL_UK NULL
 #define CATEGORY_GPU_INFO_0_UK NULL
 #define CATEGORY_CPU_LABEL_UK NULL
 #define CATEGORY_CPU_INFO_0_UK NULL
-#define CATEGORY_SYSTEM_LABEL_UK NULL
+#define CATEGORY_SYSTEM_LABEL_UK "Система"
 #define CATEGORY_SYSTEM_INFO_0_UK NULL
-#define CATEGORY_AUDIO_LABEL_UK NULL
+#define CATEGORY_AUDIO_LABEL_UK "Звук"
 #define CATEGORY_AUDIO_INFO_0_UK NULL
-#define CATEGORY_NETWORK_LABEL_UK NULL
+#define CATEGORY_NETWORK_LABEL_UK "Мережа"
 #define CATEGORY_NETWORK_INFO_0_UK NULL
 #define VITA3K_BACKEND_RENDERER_LABEL_UK NULL
 #define VITA3K_BACKEND_RENDERER_INFO_0_UK NULL
@@ -13213,12 +17101,12 @@ struct retro_core_options_v2 options_tr = {
 #define OPTION_VAL_4_UK NULL
 #define VITA3K_SCREEN_FILTER_LABEL_UK NULL
 #define VITA3K_SCREEN_FILTER_INFO_0_UK NULL
-#define OPTION_VAL_BILINEAR_UK NULL
-#define OPTION_VAL_NEAREST_UK NULL
-#define OPTION_VAL_BICUBIC_UK NULL
+#define OPTION_VAL_BILINEAR_UK "Білінійна"
+#define OPTION_VAL_NEAREST_UK "Найближчі"
+#define OPTION_VAL_BICUBIC_UK "Бікубічна"
 #define OPTION_VAL_FXAA_UK NULL
 #define OPTION_VAL_FSR_UK NULL
-#define VITA3K_ANISOTROPIC_FILTERING_LABEL_UK NULL
+#define VITA3K_ANISOTROPIC_FILTERING_LABEL_UK "Анізотропна фільтрація"
 #define VITA3K_ANISOTROPIC_FILTERING_INFO_0_UK NULL
 #define OPTION_VAL_1_VITA3K_ANISOTROPIC_FILTERING_UK NULL
 #define OPTION_VAL_2_VITA3K_ANISOTROPIC_FILTERING_UK NULL
@@ -13229,6 +17117,7 @@ struct retro_core_options_v2 options_tr = {
 #define VITA3K_V_SYNC_INFO_0_UK NULL
 #define VITA3K_ASYNC_PIPELINE_LABEL_UK NULL
 #define VITA3K_ASYNC_PIPELINE_INFO_0_UK NULL
+#define VITA3K_COMPILE_OVERLAY_LABEL_UK NULL
 #define VITA3K_MEMORY_MAPPING_LABEL_UK NULL
 #define VITA3K_MEMORY_MAPPING_INFO_0_UK NULL
 #define OPTION_VAL_DOUBLE_BUFFER_UK NULL
@@ -13247,15 +17136,15 @@ struct retro_core_options_v2 options_tr = {
 #define VITA3K_PSTV_MODE_INFO_0_UK NULL
 #define VITA3K_MODULES_MODE_LABEL_UK NULL
 #define VITA3K_MODULES_MODE_INFO_0_UK NULL
-#define OPTION_VAL_0_UK NULL
+#define OPTION_VAL_0_UK "Автоматично"
 #define OPTION_VAL_1_VITA3K_MODULES_MODE_UK NULL
-#define OPTION_VAL_2_VITA3K_MODULES_MODE_UK NULL
+#define OPTION_VAL_2_VITA3K_MODULES_MODE_UK "Ручний"
 #define VITA3K_FPS_HACK_LABEL_UK NULL
 #define VITA3K_FPS_HACK_INFO_0_UK NULL
 #define VITA3K_SYS_BUTTON_LABEL_UK NULL
 #define VITA3K_SYS_BUTTON_INFO_0_UK NULL
 #define OPTION_VAL_0_VITA3K_SYS_BUTTON_UK NULL
-#define OPTION_VAL_1_VITA3K_SYS_BUTTON_UK NULL
+#define OPTION_VAL_1_VITA3K_SYS_BUTTON_UK "Кросс"
 #define VITA3K_AUDIO_VOLUME_LABEL_UK NULL
 #define VITA3K_AUDIO_VOLUME_INFO_0_UK NULL
 #define OPTION_VAL_0_VITA3K_AUDIO_VOLUME_UK NULL
@@ -13380,6 +17269,20 @@ struct retro_core_option_v2_definition option_defs_uk[] = {
         VITA3K_ASYNC_PIPELINE_LABEL_UK,
         NULL,
         VITA3K_ASYNC_PIPELINE_INFO_0_UK,
+        NULL,
+        "gpu",
+        {
+            { "enabled", NULL },
+            { "disabled", NULL },
+            { NULL, NULL },
+        },
+        "enabled"
+    },
+    {
+        "vita3k_compile_overlay",
+        VITA3K_COMPILE_OVERLAY_LABEL_UK,
+        NULL,
+        NULL,
         NULL,
         "gpu",
         {
@@ -13606,11 +17509,11 @@ struct retro_core_options_v2 options_uk = {
 #define CATEGORY_GPU_INFO_0_VAL NULL
 #define CATEGORY_CPU_LABEL_VAL NULL
 #define CATEGORY_CPU_INFO_0_VAL NULL
-#define CATEGORY_SYSTEM_LABEL_VAL NULL
+#define CATEGORY_SYSTEM_LABEL_VAL "Sistema"
 #define CATEGORY_SYSTEM_INFO_0_VAL NULL
-#define CATEGORY_AUDIO_LABEL_VAL NULL
+#define CATEGORY_AUDIO_LABEL_VAL "Àudio"
 #define CATEGORY_AUDIO_INFO_0_VAL NULL
-#define CATEGORY_NETWORK_LABEL_VAL NULL
+#define CATEGORY_NETWORK_LABEL_VAL "Xarxa"
 #define CATEGORY_NETWORK_INFO_0_VAL NULL
 #define VITA3K_BACKEND_RENDERER_LABEL_VAL NULL
 #define VITA3K_BACKEND_RENDERER_INFO_0_VAL NULL
@@ -13624,9 +17527,9 @@ struct retro_core_options_v2 options_uk = {
 #define OPTION_VAL_4_VAL NULL
 #define VITA3K_SCREEN_FILTER_LABEL_VAL NULL
 #define VITA3K_SCREEN_FILTER_INFO_0_VAL NULL
-#define OPTION_VAL_BILINEAR_VAL NULL
+#define OPTION_VAL_BILINEAR_VAL "Bilineal"
 #define OPTION_VAL_NEAREST_VAL NULL
-#define OPTION_VAL_BICUBIC_VAL NULL
+#define OPTION_VAL_BICUBIC_VAL "Bicúbica"
 #define OPTION_VAL_FXAA_VAL NULL
 #define OPTION_VAL_FSR_VAL NULL
 #define VITA3K_ANISOTROPIC_FILTERING_LABEL_VAL NULL
@@ -13640,6 +17543,7 @@ struct retro_core_options_v2 options_uk = {
 #define VITA3K_V_SYNC_INFO_0_VAL NULL
 #define VITA3K_ASYNC_PIPELINE_LABEL_VAL NULL
 #define VITA3K_ASYNC_PIPELINE_INFO_0_VAL NULL
+#define VITA3K_COMPILE_OVERLAY_LABEL_VAL NULL
 #define VITA3K_MEMORY_MAPPING_LABEL_VAL NULL
 #define VITA3K_MEMORY_MAPPING_INFO_0_VAL NULL
 #define OPTION_VAL_DOUBLE_BUFFER_VAL NULL
@@ -13660,7 +17564,7 @@ struct retro_core_options_v2 options_uk = {
 #define VITA3K_MODULES_MODE_INFO_0_VAL NULL
 #define OPTION_VAL_0_VAL NULL
 #define OPTION_VAL_1_VITA3K_MODULES_MODE_VAL NULL
-#define OPTION_VAL_2_VITA3K_MODULES_MODE_VAL NULL
+#define OPTION_VAL_2_VITA3K_MODULES_MODE_VAL "Selecció manual"
 #define VITA3K_FPS_HACK_LABEL_VAL NULL
 #define VITA3K_FPS_HACK_INFO_0_VAL NULL
 #define VITA3K_SYS_BUTTON_LABEL_VAL NULL
@@ -13791,6 +17695,20 @@ struct retro_core_option_v2_definition option_defs_val[] = {
         VITA3K_ASYNC_PIPELINE_LABEL_VAL,
         NULL,
         VITA3K_ASYNC_PIPELINE_INFO_0_VAL,
+        NULL,
+        "gpu",
+        {
+            { "enabled", NULL },
+            { "disabled", NULL },
+            { NULL, NULL },
+        },
+        "enabled"
+    },
+    {
+        "vita3k_compile_overlay",
+        VITA3K_COMPILE_OVERLAY_LABEL_VAL,
+        NULL,
+        NULL,
         NULL,
         "gpu",
         {
@@ -14014,72 +17932,73 @@ struct retro_core_options_v2 options_val = {
 /* RETRO_LANGUAGE_VN */
 
 #define CATEGORY_GPU_LABEL_VN NULL
-#define CATEGORY_GPU_INFO_0_VN NULL
+#define CATEGORY_GPU_INFO_0_VN "Tùy chọn kết xuất đồ họa."
 #define CATEGORY_CPU_LABEL_VN NULL
-#define CATEGORY_CPU_INFO_0_VN NULL
-#define CATEGORY_SYSTEM_LABEL_VN NULL
-#define CATEGORY_SYSTEM_INFO_0_VN NULL
-#define CATEGORY_AUDIO_LABEL_VN NULL
-#define CATEGORY_AUDIO_INFO_0_VN NULL
-#define CATEGORY_NETWORK_LABEL_VN NULL
-#define CATEGORY_NETWORK_INFO_0_VN NULL
-#define VITA3K_BACKEND_RENDERER_LABEL_VN NULL
-#define VITA3K_BACKEND_RENDERER_INFO_0_VN NULL
+#define CATEGORY_CPU_INFO_0_VN "Tùy chọn mô phỏng CPU."
+#define CATEGORY_SYSTEM_LABEL_VN "Hệ thống"
+#define CATEGORY_SYSTEM_INFO_0_VN "Tùy chọn mô phỏng hệ thống."
+#define CATEGORY_AUDIO_LABEL_VN "Âm thanh"
+#define CATEGORY_AUDIO_INFO_0_VN "Tùy chọn xuất âm thanh."
+#define CATEGORY_NETWORK_LABEL_VN "Mạng"
+#define CATEGORY_NETWORK_INFO_0_VN "Tùy chọn mạng."
+#define VITA3K_BACKEND_RENDERER_LABEL_VN "Bộ kết xuất đồ họa"
+#define VITA3K_BACKEND_RENDERER_INFO_0_VN "Chọn hệ thống kết xuất đồ họa. Vulkan được khuyến nghị."
 #define OPTION_VAL_VULKAN_VN NULL
 #define OPTION_VAL_OPENGL_VN NULL
-#define VITA3K_RESOLUTION_MULTIPLIER_LABEL_VN NULL
-#define VITA3K_RESOLUTION_MULTIPLIER_INFO_0_VN NULL
+#define VITA3K_RESOLUTION_MULTIPLIER_LABEL_VN "Hệ số tăng độ phân giải nội bộ"
+#define VITA3K_RESOLUTION_MULTIPLIER_INFO_0_VN "Hệ số nhân độ phân giải kết xuất nội bộ (độ phân giải gốc 960x544)."
 #define OPTION_VAL_1_VN NULL
 #define OPTION_VAL_2_VN NULL
 #define OPTION_VAL_3_VN NULL
 #define OPTION_VAL_4_VN NULL
-#define VITA3K_SCREEN_FILTER_LABEL_VN NULL
-#define VITA3K_SCREEN_FILTER_INFO_0_VN NULL
-#define OPTION_VAL_BILINEAR_VN NULL
-#define OPTION_VAL_NEAREST_VN NULL
-#define OPTION_VAL_BICUBIC_VN NULL
+#define VITA3K_SCREEN_FILTER_LABEL_VN "Bộ lọc màn hình"
+#define VITA3K_SCREEN_FILTER_INFO_0_VN "Bộ lọc hậu xử lý được áp dụng cho khung hình đã kết xuất."
+#define OPTION_VAL_BILINEAR_VN "Song tuyến tính"
+#define OPTION_VAL_NEAREST_VN "Gần nhất"
+#define OPTION_VAL_BICUBIC_VN "Bo tròn cạnh"
 #define OPTION_VAL_FXAA_VN NULL
 #define OPTION_VAL_FSR_VN NULL
-#define VITA3K_ANISOTROPIC_FILTERING_LABEL_VN NULL
-#define VITA3K_ANISOTROPIC_FILTERING_INFO_0_VN NULL
-#define OPTION_VAL_1_VITA3K_ANISOTROPIC_FILTERING_VN NULL
+#define VITA3K_ANISOTROPIC_FILTERING_LABEL_VN "Lọc dị hướng"
+#define VITA3K_ANISOTROPIC_FILTERING_INFO_0_VN "Mức độ lọc kết cấu bất đẳng hướng."
+#define OPTION_VAL_1_VITA3K_ANISOTROPIC_FILTERING_VN "1x (Tắt)"
 #define OPTION_VAL_2_VITA3K_ANISOTROPIC_FILTERING_VN NULL
 #define OPTION_VAL_4_VITA3K_ANISOTROPIC_FILTERING_VN NULL
 #define OPTION_VAL_8_VN NULL
 #define OPTION_VAL_16_VN NULL
-#define VITA3K_V_SYNC_LABEL_VN NULL
-#define VITA3K_V_SYNC_INFO_0_VN NULL
-#define VITA3K_ASYNC_PIPELINE_LABEL_VN NULL
-#define VITA3K_ASYNC_PIPELINE_INFO_0_VN NULL
-#define VITA3K_MEMORY_MAPPING_LABEL_VN NULL
-#define VITA3K_MEMORY_MAPPING_INFO_0_VN NULL
-#define OPTION_VAL_DOUBLE_BUFFER_VN NULL
-#define OPTION_VAL_EXTERNAL_HOST_VN NULL
-#define OPTION_VAL_PAGE_TABLE_VN NULL
-#define OPTION_VAL_NATIVE_BUFFER_VN NULL
-#define VITA3K_HIGH_ACCURACY_LABEL_VN NULL
-#define VITA3K_HIGH_ACCURACY_INFO_0_VN NULL
-#define VITA3K_CPU_OPT_LABEL_VN NULL
-#define VITA3K_CPU_OPT_INFO_0_VN NULL
-#define VITA3K_PKG_MODE_LABEL_VN NULL
-#define VITA3K_PKG_MODE_INFO_0_VN NULL
-#define OPTION_VAL_RUN_VN NULL
-#define OPTION_VAL_INSTALL_VN NULL
-#define VITA3K_PSTV_MODE_LABEL_VN NULL
-#define VITA3K_PSTV_MODE_INFO_0_VN NULL
-#define VITA3K_MODULES_MODE_LABEL_VN NULL
-#define VITA3K_MODULES_MODE_INFO_0_VN NULL
-#define OPTION_VAL_0_VN NULL
-#define OPTION_VAL_1_VITA3K_MODULES_MODE_VN NULL
-#define OPTION_VAL_2_VITA3K_MODULES_MODE_VN NULL
-#define VITA3K_FPS_HACK_LABEL_VN NULL
-#define VITA3K_FPS_HACK_INFO_0_VN NULL
-#define VITA3K_SYS_BUTTON_LABEL_VN NULL
-#define VITA3K_SYS_BUTTON_INFO_0_VN NULL
-#define OPTION_VAL_0_VITA3K_SYS_BUTTON_VN NULL
-#define OPTION_VAL_1_VITA3K_SYS_BUTTON_VN NULL
-#define VITA3K_AUDIO_VOLUME_LABEL_VN NULL
-#define VITA3K_AUDIO_VOLUME_INFO_0_VN NULL
+#define VITA3K_V_SYNC_LABEL_VN "Đồng bộ dọc"
+#define VITA3K_V_SYNC_INFO_0_VN "Bật hoặc tắt đồng bộ dọc."
+#define VITA3K_ASYNC_PIPELINE_LABEL_VN "Biên dịch đường xử lý bất đồng bộ"
+#define VITA3K_ASYNC_PIPELINE_INFO_0_VN "Biên dịch các đường xử lý bộ đổ bóng theo cách bất đồng bộ để giảm hiện tượng giật khựng."
+#define VITA3K_COMPILE_OVERLAY_LABEL_VN "Lớp phủ biên dịch bộ đổ bóng"
+#define VITA3K_MEMORY_MAPPING_LABEL_VN "Ánh xạ bộ nhớ"
+#define VITA3K_MEMORY_MAPPING_INFO_0_VN "Phương pháp ánh xạ bộ nhớ đồ họa. Phương pháp có mức cao hơn cải thiện hiệu suất nhưng cần được phần cứng đồ họa hỗ trợ."
+#define OPTION_VAL_DOUBLE_BUFFER_VN "Bộ đệm kép"
+#define OPTION_VAL_EXTERNAL_HOST_VN "Bên ngoài máy chủ"
+#define OPTION_VAL_PAGE_TABLE_VN "Bảng trang"
+#define OPTION_VAL_NATIVE_BUFFER_VN "Bộ đệm gốc"
+#define VITA3K_HIGH_ACCURACY_LABEL_VN "Kết xuất có độ chính xác cao"
+#define VITA3K_HIGH_ACCURACY_INFO_0_VN "Bật các kỹ thuật kết xuất chính xác hơn nhưng chậm hơn."
+#define VITA3K_CPU_OPT_LABEL_VN "Tối ưu hóa CPU (biên dịch tức thời Dynarmic)"
+#define VITA3K_CPU_OPT_INFO_0_VN "Bật biên dịch tức thời Dynarmic để mô phỏng CPU nhanh hơn."
+#define VITA3K_PKG_MODE_LABEL_VN "Gói trò chơi"
+#define VITA3K_PKG_MODE_INFO_0_VN "Cách chạy gói trò chơi PKG. Chạy không cần cài đặt: trò chơi khởi động chỉ sau vài giây và tệp được giải mã từ gói PKG vào thư mục hệ thống trong lần đầu trò chơi đọc tệp đó; toàn bộ dữ liệu này sẽ bị xóa khi đóng trò chơi. Cài đặt: toàn bộ trò chơi được giải mã và cài vào ux0/app ngay lần đầu, giống như cách Vita3K thực hiện; quá trình này mất nhiều thời gian tùy theo dung lượng trò chơi và chiếm dung lượng lưu trữ tương ứng. Trò chơi đã được cài đặt sẽ chạy từ thư mục cài đặt trong cả hai trường hợp. Các bản cập nhật và nội dung tải thêm luôn được cài đặt."
+#define OPTION_VAL_RUN_VN "Chạy không cần cài đặt"
+#define OPTION_VAL_INSTALL_VN "Cài đặt"
+#define VITA3K_PSTV_MODE_LABEL_VN "Chế độ máy chơi game PlayStation TV"
+#define VITA3K_PSTV_MODE_INFO_0_VN "Mô phỏng máy PlayStation TV thay vì máy PS Vita."
+#define VITA3K_MODULES_MODE_LABEL_VN "Chế độ mô-đun"
+#define VITA3K_MODULES_MODE_INFO_0_VN "Cách tải các mô-đun hệ thống. Nên chọn Tự động."
+#define OPTION_VAL_0_VN "Tự động"
+#define OPTION_VAL_1_VITA3K_MODULES_MODE_VN "Tự động và Thủ công"
+#define OPTION_VAL_2_VITA3K_MODULES_MODE_VN "Thủ công"
+#define VITA3K_FPS_HACK_LABEL_VN "Hack tốc độ khung hình (30 lên 60)"
+#define VITA3K_FPS_HACK_INFO_0_VN "Thử chạy các trò chơi bị giới hạn ở 30 khung hình/giây ở mức 60 khung hình/giây. Có thể gây ra sự cố."
+#define VITA3K_SYS_BUTTON_LABEL_VN "Nút xác nhận"
+#define VITA3K_SYS_BUTTON_INFO_0_VN "Nút được dùng để xác nhận thao tác."
+#define OPTION_VAL_0_VITA3K_SYS_BUTTON_VN "Nút tròn"
+#define OPTION_VAL_1_VITA3K_SYS_BUTTON_VN "Dấu cộng"
+#define VITA3K_AUDIO_VOLUME_LABEL_VN "Âm lượng"
+#define VITA3K_AUDIO_VOLUME_INFO_0_VN "Mức âm lượng tổng thể."
 #define OPTION_VAL_0_VITA3K_AUDIO_VOLUME_VN NULL
 #define OPTION_VAL_10_VN NULL
 #define OPTION_VAL_20_VN NULL
@@ -14091,23 +18010,23 @@ struct retro_core_options_v2 options_val = {
 #define OPTION_VAL_80_VN NULL
 #define OPTION_VAL_90_VN NULL
 #define OPTION_VAL_100_VN NULL
-#define VITA3K_NGS_ENABLE_LABEL_VN NULL
-#define VITA3K_NGS_ENABLE_INFO_0_VN NULL
-#define VITA3K_PSN_SIGNED_IN_LABEL_VN NULL
-#define VITA3K_PSN_SIGNED_IN_INFO_0_VN NULL
-#define VITA3K_SURFACE_SYNC_LABEL_VN NULL
-#define VITA3K_SURFACE_SYNC_INFO_0_VN NULL
-#define OPTION_VAL_ENABLED_VN NULL
-#define OPTION_VAL_DISABLED_VN NULL
-#define VITA3K_FILE_LOADING_DELAY_LABEL_VN NULL
-#define VITA3K_FILE_LOADING_DELAY_INFO_0_VN NULL
-#define OPTION_VAL_0_VITA3K_FILE_LOADING_DELAY_VN NULL
-#define OPTION_VAL_5_VN NULL
-#define OPTION_VAL_10_VITA3K_FILE_LOADING_DELAY_VN NULL
-#define OPTION_VAL_15_VN NULL
-#define OPTION_VAL_20_VITA3K_FILE_LOADING_DELAY_VN NULL
-#define OPTION_VAL_25_VN NULL
-#define OPTION_VAL_30_VITA3K_FILE_LOADING_DELAY_VN NULL
+#define VITA3K_NGS_ENABLE_LABEL_VN "Bộ xử lý âm thanh NGS"
+#define VITA3K_NGS_ENABLE_INFO_0_VN "Bật bộ xử lý âm thanh NGS để cải thiện chất lượng âm thanh."
+#define VITA3K_PSN_SIGNED_IN_LABEL_VN "Đăng nhập mạng PlayStation"
+#define VITA3K_PSN_SIGNED_IN_INFO_0_VN "Giả lập trạng thái đã đăng nhập vào mạng PlayStation. Một số trò chơi yêu cầu tính năng này."
+#define VITA3K_SURFACE_SYNC_LABEL_VN "Đồng bộ bề mặt"
+#define VITA3K_SURFACE_SYNC_INFO_0_VN "Tối ưu hóa bộ nhớ đồ họa. Có thể cải thiện hiệu suất từ 20-40%."
+#define OPTION_VAL_ENABLED_VN "Đã bật (chính xác hơn)"
+#define OPTION_VAL_DISABLED_VN "Đã tắt (nhanh hơn)"
+#define VITA3K_FILE_LOADING_DELAY_LABEL_VN "Độ trễ tải tệp"
+#define VITA3K_FILE_LOADING_DELAY_INFO_0_VN "Độ trễ tính bằng mili giây khi tải tệp. Giúp các trò chơi nhạy cảm với thời điểm hoạt động ổn định hơn."
+#define OPTION_VAL_0_VITA3K_FILE_LOADING_DELAY_VN "0 mili giây"
+#define OPTION_VAL_5_VN "5 mili giây"
+#define OPTION_VAL_10_VITA3K_FILE_LOADING_DELAY_VN "10 mili giây"
+#define OPTION_VAL_15_VN "15 mili giây"
+#define OPTION_VAL_20_VITA3K_FILE_LOADING_DELAY_VN "20 mili giây"
+#define OPTION_VAL_25_VN "25 mili giây"
+#define OPTION_VAL_30_VITA3K_FILE_LOADING_DELAY_VN "30 mili giây"
 
 struct retro_core_option_v2_category option_cats_vn[] = {
     { "gpu", CATEGORY_GPU_LABEL_VN, CATEGORY_GPU_INFO_0_VN },
@@ -14202,6 +18121,20 @@ struct retro_core_option_v2_definition option_defs_vn[] = {
         VITA3K_ASYNC_PIPELINE_LABEL_VN,
         NULL,
         VITA3K_ASYNC_PIPELINE_INFO_0_VN,
+        NULL,
+        "gpu",
+        {
+            { "enabled", NULL },
+            { "disabled", NULL },
+            { NULL, NULL },
+        },
+        "enabled"
+    },
+    {
+        "vita3k_compile_overlay",
+        VITA3K_COMPILE_OVERLAY_LABEL_VN,
+        NULL,
+        NULL,
         NULL,
         "gpu",
         {
