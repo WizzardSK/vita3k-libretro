@@ -37,7 +37,7 @@ The core renders with Vulkan (1.1 or later) on RetroArch's own device, or with O
 
 ## Controls
 
-The pad is the Vita's buttons and sticks. Games that use the gyroscope and accelerometer (Gravity Rush, for one) get them from RetroArch's sensor interface wherever RetroArch has sensors to give: on Android devices and with controllers whose driver reports them. Elsewhere those games see a Vita lying still.
+The pad is the Vita's buttons and sticks. Games that use the gyroscope and accelerometer (Gravity Rush, for one) get them from RetroArch's sensor interface wherever RetroArch has sensors to give: on Android devices and with controllers whose driver reports them. Elsewhere they get no motion.
 
 ## Core options
 
