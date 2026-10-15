@@ -29,6 +29,8 @@ The core installs them the first time it starts.
 
 A game is loaded as a `.vpk` or `.zip`, as a game folder, or through the folder's `eboot.bin`. It is installed into `system/vita3k/` the first time it is started, and started from there afterwards.
 
+A game, update or DLC can also be loaded as a `.pkg`, with its license next to it: `work.bin`, `<pkg name>.rif`, or the zRIF in `<pkg name>.zrif`. System > Game PKG says whether a game's PKG is run without installing (the default: it starts in seconds and its files are decrypted from the PKG as the game reads them) or installed into `ux0/app`. Updates and DLC are installed.
+
 ## Requirements
 
 The core renders with Vulkan (1.1 or later) on RetroArch's own device, or with OpenGL. Set RetroArch's video driver to `vulkan` (or `glcore`).
