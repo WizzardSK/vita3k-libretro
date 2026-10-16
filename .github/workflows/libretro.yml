@@ -2,8 +2,8 @@ name: Build libretro core
 
 # vita3k_libretro (.so / .dll), built with -DBUILD_LIBRETRO=ON on the same
 # runners, dependencies and presets upstream builds Vita3K with. Each artifact
-# holds the core and system/vita3k/, the data and builtin shaders the
-# core looks for in RetroArch's system directory.
+# holds the core and its info file; the data, built-in shaders and dialog icons
+# are compiled into the core, which unpacks them into system/vita3k.
 
 on:
   workflow_dispatch:
@@ -138,14 +138,12 @@ jobs:
           core=$(find $dir -name 'vita3k_libretro.so' -o -name 'vita3k_libretro.dll' -o -name 'vita3k_libretro.dylib' | { grep -i release || true; } | head -1)
           [ -n "$core" ] || core=$(find $dir -name 'vita3k_libretro.so' -o -name 'vita3k_libretro.dll' -o -name 'vita3k_libretro.dylib' | head -1)
           echo "core: $core"
-          mkdir -p dist/cores dist/system/vita3k
+          mkdir -p dist/cores
           cp "$core" dist/cores/
           # The core before stripping, for reading crash backtraces from users
           mkdir -p symbols && cp "$core" symbols/
-          cp -r data dist/system/vita3k/
-          cp -r vita3k/shaders-builtin dist/system/vita3k/
-          # The icons of Vita3K's system dialogs and trophy notices
-          cp -r vita3k/icons dist/system/vita3k/
+          # data/, the built-in shaders and the dialog icons are compiled into the
+          # core, which unpacks them into system/vita3k itself
           # The core info, for RetroArch to load content with the core before
           # it is loaded
           mkdir -p dist/info

@@ -77,15 +77,12 @@ if(LINUX)
 	set_property(TARGET vita3k_libretro APPEND PROPERTY LINK_DEPENDS "${CMAKE_CURRENT_SOURCE_DIR}/link.T")
 endif()
 
-# Copy data and the built-in shaders to the output dir; the languages are
-# compiled in (lang/, from i18n/)
-add_custom_command(
-	TARGET vita3k_libretro
-	POST_BUILD
-	COMMAND ${CMAKE_COMMAND} -E copy_directory "${CMAKE_CURRENT_SOURCE_DIR}/../../data" "$<TARGET_FILE_DIR:vita3k_libretro>/data"
-	COMMAND ${CMAKE_COMMAND} -E copy_directory "${CMAKE_CURRENT_SOURCE_DIR}/../shaders-builtin" "$<TARGET_FILE_DIR:vita3k_libretro>/shaders-builtin"
-	COMMAND ${CMAKE_COMMAND} -E copy_directory "${CMAKE_CURRENT_SOURCE_DIR}/../icons" "$<TARGET_FILE_DIR:vita3k_libretro>/icons"
-)
+# data/, the built-in shaders and the dialog icons are compiled into the core and
+# unpacked into system/vita3k by it (libretro_vita3k.cpp); the languages are
+# compiled in too (lang/, from i18n/)
+include(${CMAKE_CURRENT_SOURCE_DIR}/embed_system_files.cmake)
+vita3k_libretro_embed_files(${CMAKE_CURRENT_BINARY_DIR}/libretro_bundled_files.cpp)
+target_sources(vita3k_libretro PRIVATE ${CMAKE_CURRENT_BINARY_DIR}/libretro_bundled_files.cpp)
 
 # libretro_lazy_pkg.cpp decrypts the PKG layer itself, with OpenSSL; on macOS
 # the headers are those of the OpenSSL external/ finds or builds, not the

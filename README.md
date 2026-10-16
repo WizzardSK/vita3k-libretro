@@ -13,7 +13,9 @@ The core is built by libretro's buildbot for Linux (x86_64, aarch64) and Android
 Each build from Actions has two folders:
 
 - `cores/` - the core (`vita3k_libretro.so`, `vita3k_libretro.dll` or `vita3k_libretro_android.so`), for RetroArch's cores directory.
-- `system/vita3k/` - the emulator's data, built-in shaders and the icons of its system dialogs, for RetroArch's system directory.
+- `info/` - its core info file, for RetroArch's info directory.
+
+The emulator's data, built-in shaders and the icons of its system dialogs are inside the core: it unpacks them into `system/vita3k/` the first time it starts, and again after an update of the core.
 
 The PS Vita firmware is required. Download it from PlayStation's website and put it in `system/vita3k/`. The three packages are told apart by their file names, in any case:
 

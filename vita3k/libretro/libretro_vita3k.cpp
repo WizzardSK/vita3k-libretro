@@ -57,6 +57,8 @@
 
 #include <SDL3/SDL_hints.h>
 
+#include <miniz.h>
+
 #include <algorithm>
 #include <string_view>
 #include <limits>
@@ -95,6 +97,77 @@ static void lr_message(const std::string &msg, unsigned frames = 240) {
     m.msg = msg.c_str();
     m.frames = frames;
     libretro.environ_cb(RETRO_ENVIRONMENT_SET_MESSAGE, &m);
+}
+
+void lr_log(enum retro_log_level level, const char *fmt, ...);
+
+extern const unsigned char g_vita3k_bundled_zip[];
+extern const std::size_t g_vita3k_bundled_zip_size;
+extern const char g_vita3k_bundled_version[];
+
+// The emulator's data, built-in shaders and dialog icons are compiled into the
+// core (embed_system_files.cmake) and unpacked into system/vita3k, where
+// static_assets points: only when what is there is not this build's, as
+// bundled_files.txt says, so a start normally writes nothing. The folders are
+// emptied first, so a file the new build no longer has does not linger.
+static void install_bundled_files(const fs::path &pref_path) {
+    const fs::path version_file = pref_path / "bundled_files.txt";
+    {
+        std::ifstream in(version_file.string());
+        std::string had;
+        std::getline(in, had);
+        if (had == g_vita3k_bundled_version)
+            return;
+    }
+
+    mz_zip_archive zip{};
+    if (!mz_zip_reader_init_mem(&zip, g_vita3k_bundled_zip, g_vita3k_bundled_zip_size, 0)) {
+        lr_log(RETRO_LOG_ERROR, "The files compiled into the core could not be opened\n");
+        return;
+    }
+    boost::system::error_code ec;
+    for (const char *dir : { "data", "shaders-builtin", "icons" })
+        fs::remove_all(pref_path / dir, ec);
+
+    unsigned written = 0;
+    bool ok = true;
+    const mz_uint count = mz_zip_reader_get_num_files(&zip);
+    for (mz_uint i = 0; i < count; i++) {
+        mz_zip_archive_file_stat st;
+        if (!mz_zip_reader_file_stat(&zip, i, &st))
+            continue;
+        const std::string name = st.m_filename;
+        if (name.empty() || name.find("..") != std::string::npos || name.front() == '/')
+            continue;
+        const fs::path path = pref_path / fs_utils::utf8_to_path(name);
+        if (mz_zip_reader_is_file_a_directory(&zip, i)) {
+            fs::create_directories(path, ec);
+            continue;
+        }
+        fs::create_directories(path.parent_path(), ec);
+        size_t size = 0;
+        void *data = mz_zip_reader_extract_to_heap(&zip, i, &size, 0);
+        if (!data) {
+            ok = false;
+            continue;
+        }
+        fs::ofstream out(path, std::ios::binary | std::ios::trunc);
+        out.write(static_cast<const char *>(data), static_cast<std::streamsize>(size));
+        mz_free(data);
+        if (out)
+            written++;
+        else
+            ok = false;
+    }
+    mz_zip_reader_end(&zip);
+
+    // Written only when all went in, so that a start cut short tries again
+    if (ok) {
+        std::ofstream out(version_file.string(), std::ios::trunc);
+        out << g_vita3k_bundled_version << "\n";
+    }
+    lr_log(RETRO_LOG_INFO, "Unpacked the %u files compiled into the core (data, built-in shaders, icons) into %s\n",
+        written, pref_path.string().c_str());
 }
 
 // Whether the system folder's file system can hold files with holes
@@ -1783,11 +1856,8 @@ RETRO_API bool retro_load_game(const struct retro_game_info *game) {
     root.set_shared_path(pref_path);
     root.set_patch_path(pref_path / "patch");
 
-    const fs::path core_dir = fs::path(libretro.system_dir).parent_path();
-    if (fs::exists(core_dir / "data"))
-        root.set_static_assets_path(core_dir);
-    else if (fs::exists(pref_path / "data"))
-        root.set_static_assets_path(pref_path);
+    install_bundled_files(pref_path);
+    root.set_static_assets_path(pref_path);
 
     app::init_paths(root);
     fs::create_directories(pref_path / "ux0" / "app");
