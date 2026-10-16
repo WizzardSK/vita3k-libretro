@@ -36,8 +36,10 @@
 #include <gxm/functions.h>
 #include <gxm/state.h>
 #include <io/state.h>
+#include <io/vfs.h>
 #include <overlay/display_manager.h>
 #include <overlay/shader_compile_notice.h>
+#include <overlay/shader_precompile_progress.h>
 #include <kernel/state.h>
 #include <renderer/frame_host.h>
 #include <renderer/functions.h>
@@ -710,6 +712,25 @@ static void context_reset_opengl() {
 static void libretro_copy_frame_for_presentation(renderer::vulkan::VKState &vk_state, vk::Image surface,
     uint32_t ox, uint32_t oy, uint32_t w, uint32_t h);
 
+// The game's start image (sce_sys/pic0.png), as upstream's
+// prepare_game_launch_overlay sets it up: the render thread shows it until the
+// game's first frame. Vulkan only, the only renderer the core draws Vita3K's
+// overlays with.
+static void show_start_image(EmuEnvState &emuenv) {
+    auto *vk_state = dynamic_cast<renderer::vulkan::VKState *>(emuenv.renderer.get());
+    if (!vk_state || !vk_state->overlay_manager)
+        return;
+    vfs::FileBuffer png;
+    if (!vfs::read_app_file(png, emuenv.vita_fs_path, emuenv.io.app_path, "sce_sys/pic0.png"))
+        return;
+    auto image = std::make_unique<overlay::image_info>(png);
+    if (!image->get_data())
+        return;
+    auto start = vk_state->overlay_manager->create<overlay::shader_precompile_progress>();
+    start->set_background_image(std::move(image));
+    start->set_background_only();
+}
+
 static void context_reset_finalize() {
     lr_trace("context_reset_finalize.enter",
         "app_started=%d pending_main_module_id=%d active_context=%d renderer_ready=%d",
@@ -740,6 +761,7 @@ static void context_reset_finalize() {
         } else {
             libretro.app_started = true;
             libretro.pending_main_module_id = -1;
+            show_start_image(emuenv);
             lr_log(RETRO_LOG_INFO, "context_reset_finalize: app start complete\n");
             lr_trace("context_reset_finalize.app_start_success");
         }
@@ -758,6 +780,14 @@ static void context_reset_finalize() {
         libretro.render_thread_running = true;
         libretro.render_thread = std::make_unique<std::thread>([]() {
             EmuEnvState &emuenv = *libretro.emuenv;
+            // the start image, shown at once and kept until the game's first
+            // frame, as upstream's render_loop does
+            if (auto *vk_state = dynamic_cast<renderer::vulkan::VKState *>(emuenv.renderer.get());
+                vk_state && vk_state->overlay_manager && vk_state->overlay_manager->get<overlay::shader_precompile_progress>()) {
+                const auto w = static_cast<uint32_t>(DEFAULT_RES_WIDTH * vk_state->res_multiplier);
+                const auto h = static_cast<uint32_t>(DEFAULT_RES_HEIGHT * vk_state->res_multiplier);
+                libretro_copy_frame_for_presentation(*vk_state, nullptr, 0, 0, w, h);
+            }
             while (libretro.render_thread_running.load()) {
                 if (!emuenv.renderer)
                     break;
@@ -781,6 +811,8 @@ static void context_reset_finalize() {
 
                     auto *vk_state = dynamic_cast<renderer::vulkan::VKState *>(emuenv.renderer.get());
                     if (vk_state && frame.base) {
+                        if (vk_state->overlay_manager && vk_state->overlay_manager->get<overlay::shader_precompile_progress>())
+                            vk_state->overlay_manager->remove<overlay::shader_precompile_progress>();
                         renderer::vulkan::Viewport viewport;
                         viewport.width = static_cast<uint32_t>(frame.image_size.x * vk_state->res_multiplier);
                         viewport.height = static_cast<uint32_t>(frame.image_size.y * vk_state->res_multiplier);
@@ -862,7 +894,8 @@ static struct {
 // Render thread: the surface's [offset, offset + size) into a free image of
 // s_present, Vita3K's overlays over it when any is shown (the system dialogs,
 // trophy and shader notices: upstream's render_frame draws them over the frame
-// in the same place), and that published to retro_run.
+// in the same place), and that published to retro_run. Without a surface
+// (before the game's first frame) the overlays are drawn over black.
 static void libretro_copy_frame_for_presentation(renderer::vulkan::VKState &vk_state, vk::Image surface,
     uint32_t ox, uint32_t oy, uint32_t w, uint32_t h) {
     vk_state.update_overlays();
@@ -937,7 +970,7 @@ static void libretro_copy_frame_for_presentation(renderer::vulkan::VKState &vk_s
     const vk::ImageSubresourceRange range{ vk::ImageAspectFlagBits::eColor, 0, 1, 0, 1 };
     // the target, after any earlier read of it on the queue; the surface,
     // after the game's rendering into it
-    const std::array<vk::ImageMemoryBarrier, 2> before{
+    const std::array<vk::ImageMemoryBarrier, 2> before_all{
         vk::ImageMemoryBarrier{ .srcAccessMask = vk::AccessFlagBits::eTransferRead, .dstAccessMask = vk::AccessFlagBits::eTransferWrite,
             .oldLayout = vk::ImageLayout::eUndefined, .newLayout = vk::ImageLayout::eGeneral,
             .srcQueueFamilyIndex = VK_QUEUE_FAMILY_IGNORED, .dstQueueFamilyIndex = VK_QUEUE_FAMILY_IGNORED,
@@ -948,17 +981,25 @@ static void libretro_copy_frame_for_presentation(renderer::vulkan::VKState &vk_s
             .srcQueueFamilyIndex = VK_QUEUE_FAMILY_IGNORED, .dstQueueFamilyIndex = VK_QUEUE_FAMILY_IGNORED,
             .image = surface, .subresourceRange = range }
     };
+    const vk::ArrayProxy<const vk::ImageMemoryBarrier> before = surface
+        ? vk::ArrayProxy<const vk::ImageMemoryBarrier>(before_all)
+        : vk::ArrayProxy<const vk::ImageMemoryBarrier>(before_all[0]);
     cmd.pipelineBarrier(vk::PipelineStageFlagBits::eAllCommands, vk::PipelineStageFlagBits::eTransfer, {}, {}, {}, before);
-    // a blit, not a copy: the surface may be in another format than RGBA8
-    vk::ImageBlit region{
-        .srcSubresource = { vk::ImageAspectFlagBits::eColor, 0, 0, 1 },
-        .dstSubresource = { vk::ImageAspectFlagBits::eColor, 0, 0, 1 },
-    };
-    region.srcOffsets[0] = vk::Offset3D{ static_cast<int32_t>(ox), static_cast<int32_t>(oy), 0 };
-    region.srcOffsets[1] = vk::Offset3D{ static_cast<int32_t>(ox + w), static_cast<int32_t>(oy + h), 1 };
-    region.dstOffsets[0] = vk::Offset3D{ 0, 0, 0 };
-    region.dstOffsets[1] = vk::Offset3D{ static_cast<int32_t>(w), static_cast<int32_t>(h), 1 };
-    cmd.blitImage(surface, vk::ImageLayout::eGeneral, image.image, vk::ImageLayout::eGeneral, region, vk::Filter::eNearest);
+    if (surface) {
+        // a blit, not a copy: the surface may be in another format than RGBA8
+        vk::ImageBlit region{
+            .srcSubresource = { vk::ImageAspectFlagBits::eColor, 0, 0, 1 },
+            .dstSubresource = { vk::ImageAspectFlagBits::eColor, 0, 0, 1 },
+        };
+        region.srcOffsets[0] = vk::Offset3D{ static_cast<int32_t>(ox), static_cast<int32_t>(oy), 0 };
+        region.srcOffsets[1] = vk::Offset3D{ static_cast<int32_t>(ox + w), static_cast<int32_t>(oy + h), 1 };
+        region.dstOffsets[0] = vk::Offset3D{ 0, 0, 0 };
+        region.dstOffsets[1] = vk::Offset3D{ static_cast<int32_t>(w), static_cast<int32_t>(h), 1 };
+        cmd.blitImage(surface, vk::ImageLayout::eGeneral, image.image, vk::ImageLayout::eGeneral, region, vk::Filter::eNearest);
+    } else {
+        const vk::ClearColorValue black{ std::array<float, 4>{ 0.0f, 0.0f, 0.0f, 1.0f } };
+        cmd.clearColorImage(image.image, vk::ImageLayout::eGeneral, black, range);
+    }
     if (has_overlays) {
         // their textures and vertices first: uploads cannot be recorded
         // inside the pass

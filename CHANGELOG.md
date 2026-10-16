@@ -4,6 +4,7 @@ What changed in the libretro core of this fork, newest first. Changes that come 
 
 ## Unreleased
 
+- The game's start image (`sce_sys/pic0.png`) is shown from the moment the game starts until its first frame, as the standalone does, instead of a black screen (Vulkan; sco8487). Installing or unpacking a game happens before RetroArch shows anything from the core, so the image does not cover that.
 - Linux: the core exports only the libretro API, and its calls into the C++ runtime it carries stay inside it. They went to RetroArch's own libstdc++ when that was loaded first, and on a system with GCC 16's it crashed while reading a PKG's license (Shoegzer, #1).
 - A file next to a PKG under a license's name (`work.bin`, `<name>.rif`, `<content ID>.rif`) that is not the size of a license is no longer read as one: one larger than 2 KB overran a buffer and crashed RetroArch at once (Shoegzer, #1).
 - A firmware `.pup` can be loaded from RetroArch like a game: the core installs it, whichever of the three packages it is and whatever its name, and says which parts are still missing (Shoegzer).
