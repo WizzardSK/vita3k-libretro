@@ -4,6 +4,7 @@ What changed in the libretro core of this fork, newest first. Changes that come 
 
 ## Unreleased
 
+- Linux: the core exports only the libretro API, and its calls into the C++ runtime it carries stay inside it. They went to RetroArch's own libstdc++ when that was loaded first, and on a system with GCC 16's it crashed while reading a PKG's license (Shoegzer, #1).
 - A file next to a PKG under a license's name (`work.bin`, `<name>.rif`, `<content ID>.rif`) that is not the size of a license is no longer read as one: one larger than 2 KB overran a buffer and crashed RetroArch at once (Shoegzer, #1).
 - New option GPU > Shader Compilation Overlay (on by default): turned off, the notice of shaders being compiled is no longer shown in the lower left corner of the picture. Other overlays stay (sco8487).
 - The core no longer writes `libretro_trace_uwp.log`: a debugging aid of the original port that was appended to at every start and never trimmed, in a `vita3k` folder inside RetroArch's save directory that nothing else used. The same lines are in RetroArch's log. The core no longer asks for the save directory or the downloads directory, which it had no other use for (sco8487).

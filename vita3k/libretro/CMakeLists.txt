@@ -66,6 +66,15 @@ endif()
 
 if(LINUX)
 	target_link_libraries(vita3k_libretro PRIVATE -static-libgcc -static-libstdc++)
+	# Only the libretro API is exported, and the core's own calls bind to its own code: the
+	# C++ runtime linked in above was otherwise exported too, and its calls went to the
+	# frontend's libstdc++ where that was loaded first - std::cout crashed in rif2zrif on a
+	# system with GCC 16's (Shoegzer, #1)
+	target_link_options(vita3k_libretro PRIVATE
+		"-Wl,--version-script=${CMAKE_CURRENT_SOURCE_DIR}/link.T"
+		"-Wl,-Bsymbolic"
+		"-Wl,--exclude-libs,ALL")
+	set_property(TARGET vita3k_libretro APPEND PROPERTY LINK_DEPENDS "${CMAKE_CURRENT_SOURCE_DIR}/link.T")
 endif()
 
 # Copy data and the built-in shaders to the output dir; the languages are
