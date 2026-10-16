@@ -22,18 +22,25 @@
 #include <io/util.h>
 
 #include <map>
+#include <string>
+#include <vector>
 #include <unordered_map>
 
 // Class for all needed information to access files on Vita3K.
 class FileStats : public VitaStats {
     // Shared file pointer
     FilePtr wrapped_file;
+    // Or the file the libretro core serves in its place (open_file_hook)
+    std::shared_ptr<ServedFile> served_file;
 
 public:
     // Constructor used for files
     // Based on https://codereview.stackexchange.com/questions/4679/
     explicit FileStats(const char *vita, const std::string &t, const fs::path &file, const int open) {
-        wrapped_file = create_shared_file(file, open);
+        if (open_file_hook)
+            served_file = open_file_hook(file, open);
+        if (!served_file)
+            wrapped_file = create_shared_file(file, open);
 
         file_info.vita_loc = vita;
         file_info.translated = t;
@@ -74,6 +81,10 @@ class DirStats : public VitaStats {
     DirPtr dir_ptr;
 
 public:
+    // Names listed after the directory's own (vfs::host_dir_hook), and the next one
+    std::vector<std::string> extra_names;
+    std::size_t next_extra = 0;
+
     DirStats(const char *vita, const std::string &t, const fs::path &file, DirPtr ptr) {
         dir_ptr = std::move(ptr);
 

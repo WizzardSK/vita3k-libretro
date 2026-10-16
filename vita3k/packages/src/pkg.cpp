@@ -20,6 +20,8 @@
  * @brief PlayStation Vita software package (`.pkg`) handling
  */
 
+#include <algorithm>
+
 #include <F00DKeyEncryptorFactory.h>
 #include <PsvPfsParserConfig.h>
 #include <Utils.h>
@@ -56,9 +58,18 @@ static int execute(std::string &zrif, fs::path &title_src, fs::path &title_dst, 
     return execute(zrif, title_src_str, title_dst_str, type, f00d_arg, progress);
 }
 
+fs::path install_decrypt_folder(const fs::path &vita_fs_path, const fs::path &target) {
+    // Named after the target's place under ux0, so two at once cannot meet
+    std::string name = target.lexically_relative(vita_fs_path / "ux0").generic_string();
+    std::replace(name.begin(), name.end(), '/', '_');
+    const fs::path folder = vita_fs_path / "ux0" / "libretro_pkg";
+    fs::create_directories(folder);
+    return folder / (name + "_dec");
+}
+
 bool decrypt_install_nonpdrm(EmuEnvState &emuenv, const fs::path &drmlicpath, const fs::path &title_path, const std::function<void(float)> &progress_callback) {
     fs::path title_id_src = title_path;
-    fs::path title_id_dst = fs_utils::path_concat(title_path, "_dec");
+    fs::path title_id_dst = install_decrypt_folder(emuenv.vita_fs_path, title_path);
     fs::ifstream binfile(drmlicpath, std::ios::in | std::ios::binary | std::ios::ate);
     std::string zRIF = rif2zrif(binfile);
     F00DEncryptorTypes f00d_enc_type = F00DEncryptorTypes::native;
@@ -309,7 +320,7 @@ bool install_pkg(const fs::path &pkg_path, EmuEnvState &emuenv, std::string &p_z
 
     evp_cleanup();
     fs::path title_id_src = path;
-    fs::path title_id_dst = fs_utils::path_concat(path, "_dec");
+    fs::path title_id_dst = install_decrypt_folder(emuenv.vita_fs_path, path);
     std::string zRIF = p_zRIF;
     F00DEncryptorTypes f00d_enc_type = F00DEncryptorTypes::native;
     std::string f00d_arg = std::string();

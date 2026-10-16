@@ -29,9 +29,9 @@ A `.pup` can also be loaded from RetroArch like a game, under any name: the core
 
 ## Content
 
-A game is loaded as a `.vpk` or `.zip`, as a game folder, or through the folder's `eboot.bin`. It is installed into `system/vita3k/` the first time it is started, and started from there afterwards.
+A game is loaded as a `.pkg`, `.vpk` or `.zip`, as a game folder, or through the folder's `eboot.bin`. With Game Preload set to Run Without Installing or Persistent Cache (the default is the first), the game is read where it lies as it goes, whichever of these it is; with Install it is installed into `system/vita3k/` the first time it is started, and started from there afterwards. Where the system folder is on a file system without sparse files (FAT32, exFAT), Game Preload offers Install only. A game's updates and DLC (PKG, VPK or ZIP) beside it, or inside its folder, are listed in the core options under Content.
 
-A game, update or DLC can also be loaded as a `.pkg`, with its license next to it: `work.bin`, `<pkg name>.rif`, or the zRIF in `<pkg name>.zrif`. System > Game PKG says whether a game's PKG is run without installing (the default: it starts in seconds and its files are decrypted from the PKG as the game reads them) or installed into `ux0/app`. Updates and DLC are installed.
+A game, update or DLC can also be loaded as a `.pkg`, with its license next to it: `work.bin`, `<pkg name>.rif`, or the zRIF in `<pkg name>.zrif`. Game Preload says whether it is run without installing (it starts in seconds and its files are decrypted from the PKG as the game reads them) or installed into `ux0/app`; an update or DLC loaded on its own is installed (Forced Install in Content).
 
 ## Requirements
 

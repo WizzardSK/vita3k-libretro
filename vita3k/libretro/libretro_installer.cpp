@@ -22,7 +22,9 @@
 
 #include <config/state.h>
 #include <emuenv/state.h>
+#include <io/functions.h>
 #include <packages/functions.h>
+#include <packages/license.h>
 #include <packages/pkg.h>
 #include "libretro_lazy_pkg.h"
 #include "libretro_vfs.h"
@@ -455,8 +457,17 @@ static fs::path resolve_game_folder(const fs::path &game_path) {
 // in place with the zRIF made from work.bin, and keeps work.bin as the app's
 // license in ux0/license/<title id>/. Hands back work.bin and the zRIF, which
 // a patch that shares the app's license is decrypted with.
+//
+// Only for a NoNpDrm game that is installed - Game Preload: Install, or a
+// folder or VPK/ZIP that cannot be run from where it lies. Vita3K has no PFS
+// driver, so an installed game has to be decrypted on disk, and psvpfstools'
+// execute() writes a whole decrypted tree into a folder in ux0/libretro_pkg
+// (install_decrypt_folder), which then replaces it: twice the game's size for a
+// while, and nothing encrypted is left. Run Without Installing and Persistent
+// Cache read a VPK/ZIP's or folder's files decrypted as they go
+// (lazy_pkg::mount_archive, mount_folder), with no decryption folder.
 static bool decrypt_nonpdrm_app(const fs::path &install_path, const fs::path &pref_path, const GameInstallResult &result,
-    std::vector<uint8_t> &work_bin_data, std::string &app_zRIF) {
+    std::vector<uint8_t> &work_bin_data, std::string &app_zRIF, bool keep_license = true) {
     const auto work_bin = install_path / "sce_sys" / "package" / "work.bin";
     lr_log(RETRO_LOG_INFO, "Detected NoNpDrm encrypted content, decrypting PFS layer...\n");
     {
@@ -472,7 +483,7 @@ static bool decrypt_nonpdrm_app(const fs::path &install_path, const fs::path &pr
     }
 
     std::string src_str = install_path.generic_string();
-    std::string dst_str = src_str + "_dec";
+    std::string dst_str = install_decrypt_folder(pref_path, install_path).generic_string();
 
     {
         std::ifstream binfile(work_bin.string(), std::ios::in | std::ios::binary | std::ios::ate);
@@ -500,6 +511,12 @@ static bool decrypt_nonpdrm_app(const fs::path &install_path, const fs::path &pr
     } catch (const fs::filesystem_error &e) {
         lr_log(RETRO_LOG_ERROR, "Failed to replace decrypted files: %s\n", e.what());
         return false;
+    }
+
+    // An update's or DLC's own license is not kept: the game's stays where it is
+    if (!keep_license) {
+        lr_log(RETRO_LOG_INFO, "NoNpDrm decryption completed.\n");
+        return true;
     }
 
     // Copy license to ux0/license/{title_id}/{content_id}.rif
@@ -532,6 +549,62 @@ static bool install_still_encrypted(const fs::path &path) {
     return fs::exists(path / "sce_pfs") && fs::exists(path / "sce_sys" / "package" / "work.bin");
 }
 
+// A NoNpDrm update or DLC installed by copying it (a folder or VPK/ZIP), decrypted in
+// place as a game is: with its own work.bin, or an update with its game's license, which
+// an update shares and need not carry (sco8487). False, with a message, without one.
+static bool decrypt_nonpdrm_extra(const fs::path &install_path, const fs::path &pref_path, const GameInstallResult &result) {
+    const fs::path work_bin = install_path / "sce_sys" / "package" / "work.bin";
+    boost::system::error_code ec;
+    if (!fs::exists(work_bin, ec)) {
+        const fs::path lic_dir = pref_path / "ux0" / "license" / result.title_id;
+        fs::path game_license = lic_dir / "work.bin";
+        if (!fs::exists(game_license, ec))
+            game_license = lic_dir / (result.content_id + ".rif");
+        if (result.category.find("gp") == std::string::npos || !fs::exists(game_license, ec)) {
+            lr_log(RETRO_LOG_ERROR, "%s is encrypted and has no license: neither its own sce_sys/package/work.bin nor, for an update, its game's in %s\n",
+                install_path.generic_string().c_str(), lic_dir.generic_string().c_str());
+            lr_msg("This update or DLC is encrypted and its license is missing (install the game first, or add its work.bin)", 600);
+            return false;
+        }
+        fs::create_directories(work_bin.parent_path(), ec);
+        fs::copy_file(game_license, work_bin, fs::copy_options::overwrite_existing, ec);
+        if (ec)
+            return false;
+    }
+    std::vector<uint8_t> work_bin_data;
+    std::string zrif;
+    return decrypt_nonpdrm_app(install_path, pref_path, result, work_bin_data, zrif, false);
+}
+
+// Whether the drive under pref_path has room for bytes more; a message says it when not
+// (sco8487: refuse rather than fill the drive)
+static bool has_room(const fs::path &pref_path, std::uint64_t bytes) {
+    boost::system::error_code ec;
+    const fs::space_info space = fs::space(pref_path, ec);
+    if (ec || space.available >= bytes)
+        return true;
+    lr_log(RETRO_LOG_ERROR, "Not enough free space: %.1f MiB needed, %.1f MiB free\n", bytes / 1048576.0, space.available / 1048576.0);
+    lr_msg(fmt::format("Not enough free space to install: {:.1f} GiB needed, {:.1f} GiB free", bytes / 1073741824.0,
+               space.available / 1073741824.0)
+               .c_str(),
+        600);
+    return false;
+}
+
+static std::uint64_t folder_size(const fs::path &dir) {
+    std::uint64_t total = 0;
+    boost::system::error_code ec;
+    for (fs::recursive_directory_iterator it(dir, ec), end; !ec && it != end; it.increment(ec)) {
+        if (fs::is_regular_file(it->path(), ec))
+            total += fs::file_size(it->path(), ec);
+    }
+    return total;
+}
+
+static fs::path manual_install_mark(const fs::path &pref_path, const std::string &title_id, const std::string &dlc_id = {});
+static void mark_forced_install(const fs::path &pref_path, const std::string &title_id, const std::string &category,
+    const std::string &content_id, const fs::path &source);
+
 // Handle an extracted game folder (NoNpDrm dump, extracted VPK, etc.)
 static GameInstallResult handle_folder_game(const fs::path &game_path, const fs::path &pref_path, int sys_lang) {
     GameInstallResult result;
@@ -549,21 +622,6 @@ static GameInstallResult handle_folder_game(const fs::path &game_path, const fs:
 
     if (content_dir != game_path) {
         lr_log(RETRO_LOG_INFO, "Resolved game content to: %s\n", content_dir.generic_string().c_str());
-    }
-
-    // Also check for a patch directory alongside the app (NoNpDrm dump structure)
-    fs::path patch_source;
-    {
-        // If content_dir is .../app/PCSE00213, check .../patch/PCSE00213
-        const fs::path parent = content_dir.parent_path();
-        const fs::path title_dir_name = content_dir.filename();
-        if (parent.filename() == "app") {
-            const fs::path sibling_patch = parent.parent_path() / "patch" / title_dir_name;
-            if (fs::is_directory(sibling_patch)) {
-                lr_log(RETRO_LOG_INFO, "Found companion patch folder: %s\n", sibling_patch.generic_string().c_str());
-                patch_source = sibling_patch;
-            }
-        }
     }
 
     // Look for param.sfo
@@ -602,6 +660,14 @@ static GameInstallResult handle_folder_game(const fs::path &game_path, const fs:
     lr_log(RETRO_LOG_INFO, "Game: '%s' [%s] (category: %s)\n",
         result.title.c_str(), result.title_id.c_str(), result.category.c_str());
 
+    // Encrypted (a NoNpDrm dump) without the license it is decrypted with: it cannot run
+    if (fs::is_directory(content_dir / "sce_pfs") && !fs::exists(content_dir / "sce_sys" / "package" / "work.bin")) {
+        lr_log(RETRO_LOG_ERROR, "%s is encrypted and its license, sce_sys/package/work.bin, is missing\n",
+            content_dir.generic_string().c_str());
+        lr_msg("This game is encrypted and its license (sce_sys/package/work.bin) is missing", 600);
+        return result;
+    }
+
     const auto app_path = pref_path / "ux0" / "app" / result.title_id;
 
     // Determine output path based on category
@@ -627,16 +693,11 @@ static GameInstallResult handle_folder_game(const fs::path &game_path, const fs:
                 result.title.c_str(), result.title_id.c_str());
             result.success = true;
             return result;
-        } else if (app_info.app_category.find("gp") != std::string::npos) {
-            lr_log(RETRO_LOG_INFO, "Patch '%s' [%s] is already installed.\n",
-                result.title.c_str(), result.title_id.c_str());
-            result.success = true;
-            return result;
-        } else if (app_info.app_category == "ac") {
-            lr_log(RETRO_LOG_INFO, "DLC '%s' [%s] is already installed.\n",
-                result.title.c_str(), result.title_id.c_str());
-            result.success = true;
-            return result;
+        } else if (app_info.app_category.find("gp") != std::string::npos || app_info.app_category == "ac") {
+            // An update or DLC loaded on its own is installed again over what is there, which
+            // also mends a broken install (sco8487)
+            lr_log(RETRO_LOG_INFO, "'%s' [%s] is installed already: replaced\n", result.title.c_str(), result.title_id.c_str());
+            fs::remove_all(install_path);
         }
     }
 
@@ -658,6 +719,9 @@ static GameInstallResult handle_folder_game(const fs::path &game_path, const fs:
         lr_msg(msg, 600);
     }
 
+    // An encrypted one twice over for a while: decrypting writes a second copy
+    if (!has_room(pref_path, folder_size(content_dir) * (fs::is_directory(content_dir / "sce_pfs") ? 2 : 1)))
+        return result;
     try {
         fs::create_directories(install_path);
         fs::copy(content_dir, install_path, fs::copy_options::recursive | fs::copy_options::overwrite_existing);
@@ -668,101 +732,25 @@ static GameInstallResult handle_folder_game(const fs::path &game_path, const fs:
         return result;
     }
 
-    // ── Step B: Decrypt app PFS if NoNpDrm ────────────────────────────────
-    // IMPORTANT: Must decrypt BEFORE applying patch overlay, as PFS decryption
-    // operates on the entire directory structure and mixing encrypted files
-    // from different sources corrupts the PFS integrity.
-    const auto work_bin = install_path / "sce_sys" / "package" / "work.bin";
-    const bool is_nonpdrm = fs::exists(work_bin);
-    std::vector<uint8_t> work_bin_data; // saved for patch decrypt
-    std::string app_zRIF; // saved for patch decrypt
-
-    if (is_nonpdrm && !decrypt_nonpdrm_app(install_path, pref_path, result, work_bin_data, app_zRIF))
-        return result;
-
-    // ── Step C: Copy and decrypt patch ─────────────────────────────────────
-    bool patch_decrypted = false;
-    if (!patch_source.empty()) {
-        const auto patch_dest = pref_path / "ux0" / "patch" / result.title_id;
-        lr_log(RETRO_LOG_INFO, "Installing companion patch to: %s\n", patch_dest.generic_string().c_str());
-        try {
-            fs::create_directories(patch_dest);
-            fs::copy(patch_source, patch_dest, fs::copy_options::recursive | fs::copy_options::overwrite_existing);
-            lr_log(RETRO_LOG_INFO, "Patch folder copy completed.\n");
-        } catch (const fs::filesystem_error &e) {
-            lr_log(RETRO_LOG_WARN, "Failed to install patch: %s\n", e.what());
-        }
-
-        // Decrypt patch PFS — use patch's own work.bin, or fall back to app's work.bin
-        const auto patch_work_bin = patch_dest / "sce_sys" / "package" / "work.bin";
-        std::string patch_zRIF;
-        bool has_patch_key = false;
-
-        if (fs::exists(patch_work_bin)) {
-            std::ifstream pbinfile(patch_work_bin.string(), std::ios::in | std::ios::binary | std::ios::ate);
-            patch_zRIF = rif2zrif(pbinfile);
-            has_patch_key = true;
-            lr_log(RETRO_LOG_INFO, "Using patch's own work.bin for decryption\n");
-        } else if (is_nonpdrm && !app_zRIF.empty()) {
-            // Patch shares the app's license — inject the app's work.bin into the patch dir
-            const auto patch_pkg_dir = patch_dest / "sce_sys" / "package";
-            fs::create_directories(patch_pkg_dir);
-            const auto injected_work_bin = patch_pkg_dir / "work.bin";
-            std::ofstream wf(injected_work_bin.string(), std::ios::binary);
-            wf.write(reinterpret_cast<const char *>(work_bin_data.data()), work_bin_data.size());
-            wf.close();
-            patch_zRIF = app_zRIF;
-            has_patch_key = true;
-            lr_log(RETRO_LOG_INFO, "Injected app's work.bin into patch for decryption\n");
-        }
-
-        if (has_patch_key) {
-            lr_log(RETRO_LOG_INFO, "Decrypting patch PFS layer...\n");
-            std::string psrc_str = patch_dest.generic_string();
-            std::string pdst_str = psrc_str + "_dec";
-            F00DEncryptorTypes pf00d = F00DEncryptorTypes::native;
-            std::string pf00d_arg;
-
-            int pdec = execute(patch_zRIF, psrc_str, pdst_str, pf00d, pf00d_arg);
-            if (pdec >= 0) {
-                try {
-                    fs::remove_all(patch_dest);
-                    fs::rename(fs::path(pdst_str), patch_dest);
-                    lr_log(RETRO_LOG_INFO, "Patch PFS decryption succeeded.\n");
-                    patch_decrypted = true;
-                } catch (const fs::filesystem_error &e) {
-                    lr_log(RETRO_LOG_WARN, "Patch decrypt replace failed: %s\n", e.what());
-                }
-            } else {
-                lr_log(RETRO_LOG_WARN, "Patch PFS decryption failed (error %d)\n", pdec);
-                fs::path pdst_path(pdst_str);
-                if (fs::exists(pdst_path))
-                    fs::remove_all(pdst_path);
-            }
-        } else if (is_nonpdrm) {
-            lr_log(RETRO_LOG_WARN, "Patch is encrypted but no license key available — skipping patch overlay\n");
-        }
-
-        // ── Step D: Apply patch overlay (only if decrypted or not encrypted) ──
-        if ((patch_decrypted || !is_nonpdrm) && fs::exists(patch_dest) && !fs::is_empty(patch_dest)) {
-            lr_log(RETRO_LOG_INFO, "Applying patch overlay to app directory...\n");
-            try {
-                for (const auto &entry : fs::recursive_directory_iterator(patch_dest)) {
-                    if (entry.is_regular_file()) {
-                        const auto rel = fs::relative(entry.path(), patch_dest);
-                        if (rel == fs::path("sce_sys") / "param.sfo")
-                            continue;
-                        const auto dest = app_path / rel;
-                        fs::create_directories(dest.parent_path());
-                        fs::copy_file(entry.path(), dest, fs::copy_options::overwrite_existing);
-                    }
-                }
-                lr_log(RETRO_LOG_INFO, "Patch overlay applied.\n");
-            } catch (const fs::filesystem_error &e) {
-                lr_log(RETRO_LOG_WARN, "Patch overlay failed: %s\n", e.what());
-            }
+    // A NoNpDrm copy is decrypted in place: a game with its own license, kept; an update
+    // or DLC with its own or the game's. An update stays in ux0/patch and is laid over the
+    // game when it starts, as one from a PKG or VPK/ZIP (sco8487), never merged into it.
+    if (fs::is_directory(install_path / "sce_pfs")) {
+        bool decrypted;
+        if (app_info.app_category.find("gd") != std::string::npos) {
+            std::vector<uint8_t> work_bin_data;
+            std::string app_zRIF;
+            decrypted = decrypt_nonpdrm_app(install_path, pref_path, result, work_bin_data, app_zRIF);
+        } else
+            decrypted = decrypt_nonpdrm_extra(install_path, pref_path, result);
+        if (!decrypted) {
+            fs::remove_all(install_path);
+            return result;
         }
     }
+    // Loaded on its own (not through the game's Content options), an update or DLC stays
+    // installed whatever Game Preload says
+    mark_forced_install(pref_path, result.title_id, app_info.app_category, app_info.app_content_id, game_path);
 
     // Verify installation
     if (fs::exists(install_path) && !fs::is_empty(install_path)) {
@@ -783,11 +771,6 @@ static GameInstallResult handle_folder_game(const fs::path &game_path, const fs:
     return result;
 }
 
-// The license of a PKG, as a zRIF: one installed already
-// (ux0/license/<title id>/<content id>.rif), or one next to the PKG - a
-// <pkg name>.zrif text file holding the zRIF (as NoPayStation lists them), or
-// a <pkg name>.rif, work.bin or <content id>.rif license file. Updates and
-// DLC without DRM need none.
 // The content's own files - the archive or PKG and the licenses beside it -
 // through the frontend's VFS when the path is a URI (saf://, which the OS
 // cannot open), with the OS otherwise.
@@ -831,17 +814,16 @@ static std::vector<fs::path> content_list(const fs::path &dir) {
     return entries;
 }
 
-// rif2zrif reads a license from a file; one read through the VFS is written
-// to a scratch file in the emulator's folder first.
-static std::string license_to_zrif(const fs::path &license, const fs::path &pref_path) {
-    std::string bytes;
-    if (!content_read(license, bytes) || bytes.empty())
-        return {};
+// rif2zrif reads a license from a file: the license's bytes are written to a
+// scratch file in the emulator's folder first (one read through the VFS, or
+// out of an archive, has no file of its own).
+static std::string zrif_of_license(const std::string &bytes, const fs::path &pref_path) {
     // A license is 512 bytes (up to 2048): rif2zrif reads the whole file into a buffer of
     // that size on the stack, and a larger file next to the PKG under a license's name
     // overran it and crashed the frontend (Shoegzer)
     if (bytes.size() < 512 || bytes.size() > 2048) {
-        lr_log(RETRO_LOG_WARN, "%s is not a license: %u bytes\n", license.generic_string().c_str(), static_cast<unsigned>(bytes.size()));
+        if (!bytes.empty())
+            lr_log(RETRO_LOG_WARN, "Not a license: %u bytes\n", static_cast<unsigned>(bytes.size()));
         return {};
     }
     const fs::path scratch = pref_path / "ux0" / "libretro_license.tmp";
@@ -861,7 +843,919 @@ static std::string license_to_zrif(const fs::path &license, const fs::path &pref
     return zrif;
 }
 
+static std::string license_to_zrif(const fs::path &license, const fs::path &pref_path) {
+    std::string bytes;
+    if (!content_read(license, bytes))
+        return {};
+    return zrif_of_license(bytes, pref_path);
+}
+
+// The zRIF of a NoNpDrm game in an archive, from its work.bin; empty without one
+static std::string archive_zrif(const ZipPtr &zip, const std::string &content_path, const fs::path &pref_path) {
+    std::vector<uint8_t> bytes;
+    const std::string path = content_path + "sce_sys/package/work.bin";
+    if (mz_zip_reader_locate_file(zip.get(), path.c_str(), nullptr, 0) < 0
+        || !mz_zip_reader_extract_file_to_callback(zip.get(), path.c_str(), &write_to_buffer, &bytes, 0))
+        return {};
+    return zrif_of_license(std::string(bytes.begin(), bytes.end()), pref_path);
+}
+
+// The marker of a game run without installing (lazy_pkg), there while its
+// files are laid out in ux0/app: one left by a run the frontend did not end
+// says that folder is no installation
+static fs::path lazy_marker(const fs::path &pref_path, const std::string &title_id) {
+    return pref_path / "ux0" / "libretro_pkg" / fmt::format("lazy_{}", title_id);
+}
+
+void remove_dead_runs(const fs::path &pref_path) {
+    const fs::path notes = pref_path / "ux0" / "libretro_pkg";
+    const fs::path ux0 = pref_path / "ux0";
+    boost::system::error_code ec;
+    std::vector<fs::path> entries;
+    for (fs::directory_iterator it(notes, ec), end; !ec && it != end; it.increment(ec))
+        entries.push_back(it->path());
+    for (const fs::path &entry : entries) {
+        const std::string name = entry.filename().string();
+        fs::path layout;
+        if (name.starts_with("lazy_"))
+            layout = ux0 / "app" / name.substr(5);
+        else if (name.starts_with("dlc_") && name.size() > 4 + 9 + 1 && name[4 + 9] == '_')
+            layout = ux0 / "addcont" / name.substr(4, 9) / name.substr(4 + 9 + 1);
+        else if (!name.starts_with("update_") || !fs::is_directory(entry, ec))
+            continue; // (update_choice_<title> is a note, not a layout)
+        if (!layout.empty())
+            fs::remove_all(layout, ec);
+        fs::remove_all(entry, ec);
+        lr_log(RETRO_LOG_INFO, "Left by a run that was not closed, removed: %s\n",
+            (layout.empty() ? entry : layout).generic_string().c_str());
+    }
+}
+
+// Marked as laid out, before lazy_pkg lays it out
+static void mark_lazy_run(const fs::path &pref_path, const std::string &title_id) {
+    const fs::path marker = lazy_marker(pref_path, title_id);
+    boost::system::error_code ec;
+    fs::create_directories(marker.parent_path(), ec);
+    fs::ofstream(marker).put('\n');
+}
+
+// A license where the console keeps it, ux0/license/<title id>/<content id>.rif,
+// for NpDrm to find
+static void write_license(const fs::path &pref_path, const std::string &title_id, const std::string &content_id, const std::string &zrif) {
+    if (zrif.empty() || content_id.empty())
+        return;
+    const fs::path lic_dir = pref_path / "ux0" / "license" / title_id;
+    boost::system::error_code ec;
+    fs::create_directories(lic_dir, ec);
+    std::ofstream lic((lic_dir / (content_id + ".rif")).string(), std::ios::binary);
+    zrif2rif(zrif, lic);
+}
+
+static std::string find_pkg_license(const fs::path &pkg_path, const fs::path &pref_path);
+
+// Whether a content is encrypted, so that it cannot be used without its license: a PKG
+// always counts as one, a folder or VPK/ZIP when it has a PFS
+static bool needs_license(const fs::path &path) {
+    boost::system::error_code ec;
+    if (!lr_vfs_is_uri(path.string()) && fs::is_directory(path, ec))
+        return fs::is_directory(path / "sce_pfs", ec);
+    if (!lazy_pkg::is_archive(path))
+        return true;
+    FILE *fp = FOPEN(path.c_str(), "rb");
+    if (!fp)
+        return true;
+    bool encrypted = false;
+    mz_zip_archive zip{};
+    if (mz_zip_reader_init_cfile(&zip, fp, 0, 0)) {
+        const mz_uint count = mz_zip_reader_get_num_files(&zip);
+        for (mz_uint i = 0; i < count && !encrypted; i++) {
+            mz_zip_archive_file_stat st;
+            encrypted = mz_zip_reader_file_stat(&zip, i, &st) && std::string_view(st.m_filename).find("sce_pfs/") != std::string_view::npos;
+        }
+        mz_zip_reader_end(&zip);
+    }
+    fclose(fp);
+    return encrypted;
+}
+
+static ContentOptionsHandler s_content_options;
+
+static std::function<std::string(const std::string &)> s_content_value;
+static std::function<void(const std::string &, const std::string &)> s_set_content_value;
+
+void set_content_option_accessors(std::function<std::string(const std::string &)> get,
+    std::function<void(const std::string &, const std::string &)> set) {
+    s_content_value = std::move(get);
+    s_set_content_value = std::move(set);
+}
+
+void set_content_options_handler(ContentOptionsHandler handler) {
+    s_content_options = std::move(handler);
+}
+
+// An option key holds letters, digits and underscores
+static std::string option_key_part(const std::string &text) {
+    std::string part = text;
+    for (char &c : part) {
+        if (!((c >= '0' && c <= '9') || (c >= 'A' && c <= 'Z') || (c >= 'a' && c <= 'z')))
+            c = '_';
+    }
+    return part;
+}
+
+static std::string file_name_of(const std::string &path) {
+    const size_t slash = path.find_last_of('/');
+    return slash == std::string::npos ? path : path.substr(slash + 1);
+}
+
+// What stands in brackets after an entry's value: how it is used - Install,
+// Forced Install, Run Without Installing or Persistent Cache - and the file it
+// comes from
+static std::string value_with_source(const std::string &value, const std::string &mode, const std::string &path) {
+    if (!path.empty())
+        return fmt::format("{} ({}, {})", value, mode, file_name_of(path));
+    return fmt::format("{} ({})", value, mode);
+}
+
+static bool read_installed_sfo(const fs::path &dir, sfo::SfoAppInfo &info) {
+    vfs::FileBuffer sfo;
+    if (!fs_utils::read_data(dir / "sce_sys" / "param.sfo", sfo))
+        return false;
+    sfo::get_param_info(info, sfo, 1);
+    return true;
+}
+
+// The "installed once" markers (handle_pkg_game) of what was just deleted, so
+// that loading its PKG installs it again
+static void forget_install_markers(const fs::path &pref_path, const std::function<bool(const std::string &)> &matches) {
+    boost::system::error_code ec;
+    std::vector<fs::path> gone;
+    for (fs::directory_iterator it(pref_path / "ux0" / "libretro_pkg", ec), end; !ec && it != end; it.increment(ec)) {
+        if (matches(it->path().filename().string()))
+            gone.push_back(it->path());
+    }
+    for (const fs::path &marker : gone)
+        fs::remove(marker, ec);
+}
+
+// Notes kept under ux0/libretro_pkg about an update or DLC installed by
+// loading its own file (PKG, VPK/ZIP or folder). manual_<title>_update and manual_<title>_dlc_<id>: it
+// was installed since the game last started, so the game's option for it is
+// turned on again - left at None or Disabled from before, the option would
+// delete at the game's next start what was just installed. patch_<title>:
+// the name of the marker of the update kept in ux0/patch.
+static fs::path manual_update_note(const fs::path &pref_path, const std::string &title_id) {
+    return pref_path / "ux0" / "libretro_pkg" / ("manual_" + title_id + "_update");
+}
+
+static fs::path manual_dlc_note(const fs::path &pref_path, const std::string &title_id, const std::string &dlc_id) {
+    return pref_path / "ux0" / "libretro_pkg" / ("manual_" + title_id + "_dlc_" + option_key_part(dlc_id));
+}
+
+// Kept as long as an update or DLC stays installed the way it last was:
+// manualinstall_<title>_update and manualinstall_<title>_dlc_<id> say it was
+// installed by loading its own file ("Forced Install" in Content). Made by such
+// an install, removed by an install from the game's folder.
+static fs::path manual_install_mark(const fs::path &pref_path, const std::string &title_id, const std::string &dlc_id) {
+    return pref_path / "ux0" / "libretro_pkg"
+        / (dlc_id.empty() ? "manualinstall_" + title_id + "_update" : "manualinstall_" + title_id + "_dlc_" + option_key_part(dlc_id));
+}
+
+// An update or DLC (by its category) installed by loading its own file, marked as
+// such. The mark holds the path of the file (or folder) it was installed from, so
+// that Content can tell when it is gone.
+static void mark_forced_install(const fs::path &pref_path, const std::string &title_id, const std::string &category,
+    const std::string &content_id, const fs::path &source) {
+    std::string dlc_id;
+    if (category == "ac" && content_id.size() > 20)
+        dlc_id = content_id.substr(20);
+    else if (category.find("gp") == std::string::npos)
+        return;
+    boost::system::error_code ec;
+    fs::create_directories(pref_path / "ux0" / "libretro_pkg", ec);
+    fs::ofstream(manual_install_mark(pref_path, title_id, dlc_id)) << source.string() << '\n';
+}
+
+// Whether the file a forced install was made from is still there
+static bool forced_source_exists(const fs::path &pref_path, const std::string &title_id, const std::string &dlc_id = {}) {
+    fs::ifstream in(manual_install_mark(pref_path, title_id, dlc_id));
+    std::string source;
+    std::getline(in, source);
+    boost::system::error_code ec;
+    return !source.empty() && fs::exists(fs::path(source), ec);
+}
+
+static fs::path patch_marker_note(const fs::path &pref_path, const std::string &title_id) {
+    return pref_path / "ux0" / "libretro_pkg" / ("patch_" + title_id);
+}
+
+// What is done about a game's updates and DLC once the game itself is there
+struct ContentPlan {
+    // An update merged into the installed game (by an install before updates
+    // stayed in ux0/patch) is no longer the one chosen: the game's folder goes,
+    // and the game is installed again from its PKG
+    bool reinstall_game = false;
+    std::string update_path, update_version;
+    struct Dlc {
+        std::string path, content_id;
+    };
+    std::vector<Dlc> dlcs;
+};
+
+// What content_closed needs of the game that was loaded
+static struct {
+    fs::path pref_path;
+    std::string title_id;
+    std::string game_key, update_key;
+    struct Dlc {
+        std::string key, dlc_id, content_id;
+    };
+    std::vector<Dlc> dlcs;
+    // Each Content option's value as last seen, to tell a change of one
+    std::map<std::string, std::string> seen;
+} s_loaded_content;
+
+// An installed game deleted: its folder in ux0/app, and every install marker
+// of the title's, so that its PKG - and a DLC's, loaded again - installs again
+static void uninstall_game(const fs::path &pref_path, const std::string &title_id) {
+    boost::system::error_code ec;
+    fs::remove_all(pref_path / "ux0" / "app" / title_id, ec);
+    forget_install_markers(pref_path, [&](const std::string &name) { return name.size() > 16 && name[6] == '-' && name.compare(7, 9, title_id) == 0; });
+}
+
+// Update versions as numbers: "01.09" against "01.10" part by part
+static bool version_less(const std::string &a, const std::string &b) {
+    std::vector<long> pa, pb;
+    for (const auto *p : { &a, &b }) {
+        auto &out = p == &a ? pa : pb;
+        size_t start = 0;
+        while (start <= p->size()) {
+            const size_t dot = p->find('.', start);
+            out.push_back(std::strtol(p->substr(start, dot == std::string::npos ? std::string::npos : dot - start).c_str(), nullptr, 10));
+            if (dot == std::string::npos)
+                break;
+            start = dot + 1;
+        }
+    }
+    return std::lexicographical_compare(pa.begin(), pa.end(), pb.begin(), pb.end());
+}
+
+// The update version a game was last started with, kept so that when its PKG
+// is taken out of the folder the next lower version is used in its place
+// (sco8487); the frontend itself only falls back to the default, the newest
+static fs::path update_choice_note(const fs::path &pref_path, const std::string &title_id) {
+    return pref_path / "ux0" / "libretro_pkg" / ("update_choice_" + title_id);
+}
+
+// The updates and DLC of a game loaded from its PKG, VPK/ZIP or folder
+// (sco8487: everything for a game in one folder): the update and DLC PKGs,
+// VPKs and ZIPs lying next to the game's (and inside a game's folder),
+// and what is installed - an update merged into ux0/app/<title> or kept in
+// ux0/patch/<title>, DLC in ux0/addcont/<title>. They are declared as options
+// of the game's own (Content), in every Game Preload mode: the game, one update
+// of those there are, or none, and each DLC on or off. A new game starts
+// with the newest update and every DLC.
+//
+// An installed update or DLC that is turned off is deleted when the content
+// is closed (content_closed), and so are the installed update when another
+// one is chosen and the game set to Uninstall; here, before the game is
+// started, the same is done for what a close that never ran left over. What
+// is chosen and not installed is returned as the plan, carried out by
+// apply_content once the game is installed or laid out.
+//
+// The keys start with vita3k_zinstall_ because the frontend writes its
+// options file sorted by key, which puts the part that grows with every game
+// after the core's own options.
+static ContentPlan plan_content(const fs::path &pkg_path, const std::string &title_id, const fs::path &pref_path, bool run_pkg) {
+    ContentPlan plan;
+    s_loaded_content = {};
+
+    // Not for an update or DLC PKG loaded on its own to install it
+    lazy_pkg::PkgInfo game_info;
+    if (!lazy_pkg::pkg_info(pkg_path, game_info) || game_info.category.find("gp") != std::string::npos
+        || game_info.category.find("ac") != std::string::npos)
+        return plan;
+
+    const std::string game = pkg_path.generic_string();
+    std::vector<std::string> candidates;
+    if (lr_vfs_is_uri(game)) {
+        const size_t slash = game.find_last_of('/');
+        if (slash != std::string::npos)
+            candidates = lr_vfs_list(game.substr(0, slash));
+    } else {
+        boost::system::error_code ec;
+        for (fs::directory_iterator it(pkg_path.parent_path(), ec), end; it != end; it.increment(ec)) {
+            if (ec)
+                break;
+            candidates.push_back(it->path().generic_string());
+        }
+        // A game folder: its updates and DLC may be inside it too, and a NoNpDrm dump's
+        // (app/<title id>) are its patch/<title id> and addcont/<title id>/<DLC> beside it
+        if (fs::is_directory(pkg_path, ec)) {
+            for (fs::directory_iterator it(pkg_path, ec), end; it != end; it.increment(ec)) {
+                if (ec)
+                    break;
+                candidates.push_back(it->path().generic_string());
+            }
+            if (pkg_path.parent_path().filename() == "app") {
+                const fs::path root = pkg_path.parent_path().parent_path();
+                candidates.push_back((root / "patch" / title_id).generic_string());
+                for (fs::directory_iterator it(root / "addcont" / title_id, ec), end; !ec && it != end; it.increment(ec))
+                    candidates.push_back(it->path().generic_string());
+            }
+        }
+    }
+
+    struct Update {
+        std::string path, version;
+    };
+    struct Dlc {
+        std::string path, content_id, dlc_id, title;
+        bool installed = false;
+    };
+    std::vector<Update> updates;
+    std::vector<Dlc> dlcs;
+    boost::system::error_code ec;
+    const fs::path app = pref_path / "ux0" / "app" / title_id;
+    const fs::path patch = pref_path / "ux0" / "patch" / title_id;
+    const fs::path addcont = pref_path / "ux0" / "addcont" / title_id;
+    const auto dlc_marker = [&](const std::string &dlc_id) {
+        return pref_path / "ux0" / "libretro_pkg" / ("dlc_" + title_id + "_" + dlc_id);
+    };
+
+    // The game follows Game Preload too (sco8487): installed while Game Preload
+    // now runs it from its PKG, it is uninstalled before this start and run
+    // from the PKG, with its update and DLC as chosen. Saves are not touched.
+    // Only when the PKG can be run without installing - with no license for it
+    // the start would install it again at once.
+    if (run_pkg && fs::exists(app / "eboot.bin", ec)
+        && (lazy_pkg::is_archive(pkg_path) || fs::is_directory(pkg_path, ec)
+            || !find_pkg_license(pkg_path, pref_path).empty())) {
+        uninstall_game(pref_path, title_id);
+        lr_log(RETRO_LOG_INFO, "%s was installed and Game Preload runs it from its PKG: ux0/app/%s is deleted, the game is read out of its PKG\n",
+            title_id.c_str(), title_id.c_str());
+    }
+
+    for (const std::string &candidate : candidates) {
+        // A PKG, VPK/ZIP or folder of a content (a NoNpDrm dump's update or DLC)
+        const bool folder = !lr_vfs_is_uri(candidate) && fs::is_regular_file(fs::path(candidate) / "sce_sys" / "param.sfo", ec);
+        if (candidate == game || candidate.size() < 4
+            || (string_utils::tolower(candidate.substr(candidate.size() - 4)) != ".pkg"
+                && !lazy_pkg::is_archive(fs::path(candidate)) && !folder))
+            continue;
+        lazy_pkg::PkgInfo info;
+        if (!lazy_pkg::pkg_info(fs::path(candidate), info) || info.title_id != title_id)
+            continue;
+        if (info.category.find("ac") != std::string::npos) {
+            Dlc dlc;
+            dlc.path = candidate;
+            dlc.content_id = info.content_id;
+            dlc.dlc_id = info.content_id.size() > 20 ? info.content_id.substr(20) : info.content_id;
+            dlc.title = info.title;
+            // A folder with its marker is what a run the frontend did not
+            // end left behind, not an installation
+            dlc.installed = fs::exists(addcont / dlc.dlc_id, ec) && !fs::exists(dlc_marker(dlc.dlc_id), ec);
+            const bool listed = std::any_of(dlcs.begin(), dlcs.end(), [&](const Dlc &other) { return other.dlc_id == dlc.dlc_id; });
+            if (!listed)
+                dlcs.push_back(std::move(dlc));
+        } else if (info.category.find("gp") != std::string::npos) {
+            const bool listed = std::any_of(updates.begin(), updates.end(), [&](const Update &other) { return other.version == info.version; });
+            if (!listed)
+                updates.push_back({ candidate, info.version });
+        }
+    }
+
+    // DLC installed with no PKG of theirs beside the game
+    for (fs::directory_iterator it(addcont, ec), end; !ec && it != end; it.increment(ec)) {
+        if (!fs::is_directory(it->path(), ec))
+            continue;
+        const std::string dlc_id = it->path().filename().string();
+        if (fs::exists(dlc_marker(dlc_id), ec))
+            continue;
+        if (std::any_of(dlcs.begin(), dlcs.end(), [&](const Dlc &other) { return other.dlc_id == dlc_id; }))
+            continue;
+        Dlc dlc;
+        dlc.dlc_id = dlc_id;
+        dlc.installed = true;
+        sfo::SfoAppInfo info;
+        if (read_installed_sfo(it->path(), info)) {
+            dlc.title = info.app_title;
+            dlc.content_id = info.app_content_id;
+        }
+        dlcs.push_back(std::move(dlc));
+    }
+
+    // A DLC follows Game Preload (sco8487): one that was installed from the
+    // game's folder, while the game now runs from its PKG, is read out of its
+    // PKG like the game instead - its installed copy goes, the PKG beside the
+    // game has it all. One installed by loading its own PKG (Forced Install)
+    // stays installed, as its PKG may be anywhere, and so does one with no PKG
+    // in the game's folder.
+    if (run_pkg && !fs::exists(app / "eboot.bin", ec)) {
+        for (Dlc &dlc : dlcs) {
+            if (!dlc.installed || dlc.path.empty() || fs::exists(manual_install_mark(pref_path, title_id, dlc.dlc_id), ec))
+                continue;
+            fs::remove_all(addcont / dlc.dlc_id, ec);
+            if (!dlc.content_id.empty())
+                forget_install_markers(pref_path, [&](const std::string &name) { return name.rfind(dlc.content_id + "_", 0) == 0; });
+            dlc.installed = false;
+            lr_log(RETRO_LOG_INFO, "DLC %s of %s: installed from the game's folder, now read out of its PKG as Game Preload says; the installed copy is deleted\n",
+                dlc.dlc_id.c_str(), title_id.c_str());
+        }
+    }
+
+    // The installed update: kept in ux0/patch, as every update is installed now,
+    // or merged into the installed game by a released build's install, which then
+    // carries a version other than its PKG's
+    std::string patch_version, merged_version;
+    {
+        sfo::SfoAppInfo info;
+        if (read_installed_sfo(patch, info))
+            patch_version = info.app_version;
+    }
+    if (fs::exists(app / "eboot.bin", ec)) {
+        sfo::SfoAppInfo info;
+        if (read_installed_sfo(app, info) && !game_info.version.empty() && info.app_version != game_info.version)
+            merged_version = info.app_version;
+    }
+    const std::string installed_version = !patch_version.empty() ? patch_version : merged_version;
+    if (!installed_version.empty()
+        && std::none_of(updates.begin(), updates.end(), [&](const Update &other) { return other.version == installed_version; }))
+        updates.push_back({ std::string(), installed_version });
+    std::sort(updates.begin(), updates.end(), [](const Update &a, const Update &b) { return version_less(b.version, a.version); });
+    // While an update installed by loading it on its own is there, Update offers only it and
+    // None: the game's folder's come back once it is uninstalled (sco8487)
+    if (!installed_version.empty() && fs::exists(manual_install_mark(pref_path, title_id), ec))
+        std::erase_if(updates, [&](const Update &u) { return u.version != installed_version; });
+
+    const std::string prefix = "vita3k_zinstall_" + title_id + "_";
+    const std::string game_key = prefix + "game";
+    const std::string update_key = prefix + "update";
+    const auto dlc_key = [&](const Dlc &dlc) { return prefix + "dlc_" + option_key_part(dlc.dlc_id); };
+    std::vector<ContentOption> options;
+
+    // The game itself: installed, or to be by this start (Game Preload:
+    // Install), it can be uninstalled; else the entry only says how it runs
+    const bool game_installed = fs::exists(app / "eboot.bin", ec);
+    // How an update or DLC that is not installed is used at this start: read out
+    // of its PKG like the game, or installed along with an installed game
+    const std::string pkg_mode = (run_pkg && !game_installed)
+        ? (lazy_pkg::has_cache_root() ? "Persistent Cache" : "Run Without Installing")
+        : "Install";
+    const auto installed_mode = [&](const std::string &dlc_id) {
+        return fs::exists(manual_install_mark(pref_path, title_id, dlc_id), ec) ? "Forced Install" : "Install";
+    };
+    {
+        ContentOption option;
+        option.key = game_key;
+        option.label = game_info.title.empty() ? fmt::format("Game: {}", title_id) : fmt::format("Game: {} ({})", game_info.title, title_id);
+        if (game_installed || !run_pkg) {
+            option.info = "Installed. Uninstall deletes it at close or reset; saves, update and DLC remain.";
+            option.values.emplace_back("keep", "Installed");
+            option.values.emplace_back("uninstall", "Uninstall");
+        } else {
+            option.info = "Not installed: reads from file.";
+            option.values.emplace_back("keep", lazy_pkg::has_cache_root() ? "Not installed (Persistent Cache)" : "Not installed (Run Without Installing)");
+        }
+        option.default_value = "keep";
+        options.push_back(std::move(option));
+    }
+
+    if (!updates.empty()) {
+        ContentOption option;
+        option.key = update_key;
+        option.label = "Update";
+        // (sco8487's wording) one installed by loading its own file, one installed whose
+        // file is gone since, or the game folder's
+        const bool forced = !installed_version.empty() && fs::exists(manual_install_mark(pref_path, title_id), ec);
+        const bool file_gone = !installed_version.empty()
+            && (forced ? !forced_source_exists(pref_path, title_id)
+                       : std::any_of(updates.begin(), updates.end(), [&](const Update &u) { return u.version == installed_version && u.path.empty(); }));
+        option.info = file_gone ? "Installed. None deletes installed files at close or reset."
+            : forced            ? "Forced install from file. None deletes installed files at close or reset."
+                                : "From the game folder.";
+        for (const Update &update : updates) {
+            option.values.emplace_back(update.version, value_with_source(update.version,
+                update.version == installed_version ? installed_mode({}) : pkg_mode, update.path));
+        }
+        option.values.emplace_back("none", "None");
+        option.default_value = installed_version.empty() ? updates.front().version : installed_version;
+        if (!installed_version.empty() && fs::exists(manual_update_note(pref_path, title_id), ec))
+            option.set_value = installed_version;
+        options.push_back(std::move(option));
+    }
+
+    for (const Dlc &dlc : dlcs) {
+        ContentOption option;
+        option.key = dlc_key(dlc);
+        option.label = (dlc.title.empty() || dlc.title == dlc.dlc_id) ? fmt::format("DLC: {}", dlc.dlc_id)
+                                                                      : fmt::format("DLC: {} ({})", dlc.title, dlc.dlc_id);
+        // A PKG without a license beside it cannot be decrypted: the entry only
+        // says so
+        if (!dlc.installed && !dlc.path.empty() && needs_license(fs::path(dlc.path)) && find_pkg_license(fs::path(dlc.path), pref_path).empty()) {
+            option.info = "From the game folder. No license next to it (.zrif, .bin or .rif).";
+            option.values.emplace_back("inactive", "Inactive (no license)");
+            option.default_value = "inactive";
+            options.push_back(std::move(option));
+            continue;
+        }
+        const bool forced = dlc.installed && fs::exists(manual_install_mark(pref_path, title_id, dlc.dlc_id), ec);
+        const bool file_gone = dlc.installed && (forced ? !forced_source_exists(pref_path, title_id, dlc.dlc_id) : dlc.path.empty());
+        option.info = file_gone ? "Installed. Disabled deletes installed files at close or reset."
+            : forced            ? "Forced install from file. Disabled deletes installed files at close or reset."
+                                : "From the game folder.";
+        option.values.emplace_back("enabled", value_with_source("Enabled", dlc.installed ? installed_mode(dlc.dlc_id) : pkg_mode, dlc.path));
+        option.values.emplace_back("disabled", "Disabled");
+        option.default_value = "enabled";
+        if (dlc.installed && fs::exists(manual_dlc_note(pref_path, title_id, dlc.dlc_id), ec))
+            option.set_value = "enabled";
+        options.push_back(std::move(option));
+    }
+
+    // The notes have done their part once the frontend holds the value; one
+    // for something that is no longer installed has none to do
+    fs::remove(manual_update_note(pref_path, title_id), ec);
+    for (fs::directory_iterator it(pref_path / "ux0" / "libretro_pkg", ec), end; !ec && it != end;) {
+        const fs::path note = it->path();
+        it.increment(ec);
+        if (note.filename().string().rfind("manual_" + title_id + "_dlc_", 0) == 0)
+            fs::remove(note, ec);
+    }
+
+    std::map<std::string, std::string> chosen;
+    if (s_content_options)
+        chosen = s_content_options(options);
+
+    // The update the game last ran with is gone from the folder (and not
+    // installed): the next lower version that is left, or None
+    if (!updates.empty()) {
+        std::string last;
+        {
+            std::ifstream note(update_choice_note(pref_path, title_id).string());
+            std::getline(note, last);
+        }
+        if (!last.empty() && last != "none"
+            && std::none_of(updates.begin(), updates.end(), [&](const Update &u) { return u.version == last; })) {
+            std::string next = "none";
+            for (const Update &u : updates) {
+                if (version_less(u.version, last)) {
+                    next = u.version;
+                    break;
+                }
+            }
+            lr_log(RETRO_LOG_INFO, "Update %s of %s is no longer in the game's folder: %s is used in its place\n",
+                last.c_str(), title_id.c_str(), next == "none" ? "none" : next.c_str());
+            chosen[update_key] = next;
+            if (s_set_content_value)
+                s_set_content_value(update_key, next);
+        }
+    }
+
+    s_loaded_content.pref_path = pref_path;
+    s_loaded_content.title_id = title_id;
+    s_loaded_content.game_key = game_key;
+    s_loaded_content.update_key = updates.empty() ? std::string() : update_key;
+    for (const Dlc &dlc : dlcs)
+        s_loaded_content.dlcs.push_back({ dlc_key(dlc), dlc.dlc_id, dlc.content_id });
+    content_options_changed();
+
+    // Uninstall asked for and not carried out when the content was closed
+    // (the frontend did not get to close it): now. The choice is spent
+    // either way, or a game installed again would be uninstalled again.
+    if (const auto it = chosen.find(game_key); it != chosen.end() && it->second == "uninstall") {
+        // whatever is left of it: an uninstall cut short has no eboot.bin
+        if (fs::exists(app, ec)) {
+            uninstall_game(pref_path, title_id);
+            lr_log(RETRO_LOG_INFO, "%s is uninstalled (Game: Uninstall): ux0/app/%s is deleted\n", title_id.c_str(), title_id.c_str());
+            // and with it an update that was merged into it
+            merged_version.clear();
+        }
+        if (s_set_content_value)
+            s_set_content_value(game_key, "keep");
+    }
+    const auto value_of = [&](const std::string &key) {
+        const auto option = std::find_if(options.begin(), options.end(), [&](const ContentOption &o) { return o.key == key; });
+        if (option == options.end())
+            return std::string();
+        if (!option->set_value.empty())
+            return option->set_value;
+        const auto it = chosen.find(key);
+        // A value kept from before that is no longer offered (its PKG left
+        // the folder) counts as none set
+        if (it == chosen.end()
+            || std::none_of(option->values.begin(), option->values.end(), [&](const auto &value) { return value.first == it->second; }))
+            return option->default_value;
+        return it->second;
+    };
+
+    // A note whose value the frontend did not take stays for the next start
+    for (const ContentOption &option : options) {
+        if (option.set_value.empty())
+            continue;
+        const auto it = chosen.find(option.key);
+        if (it != chosen.end() && it->second == option.set_value)
+            continue;
+        const fs::path note = pref_path / "ux0" / "libretro_pkg" / ("manual_" + option.key.substr(sizeof("vita3k_zinstall_") - 1));
+        fs::create_directories(note.parent_path(), ec);
+        fs::ofstream(note).put('\n');
+    }
+
+    for (const Dlc &dlc : dlcs) {
+        if (value_of(dlc_key(dlc)) == "inactive")
+            continue;
+        if (value_of(dlc_key(dlc)) == "disabled") {
+            if (dlc.installed) {
+                fs::remove_all(addcont / dlc.dlc_id, ec);
+                if (!dlc.content_id.empty())
+                    forget_install_markers(pref_path, [&](const std::string &name) { return name.rfind(dlc.content_id + "_", 0) == 0; });
+                lr_log(RETRO_LOG_INFO, "DLC %s of %s is turned off: its installed files are deleted\n", dlc.dlc_id.c_str(), title_id.c_str());
+            } else
+                lr_log(RETRO_LOG_INFO, "PKG: DLC %s is turned off\n", dlc.path.c_str());
+            continue;
+        }
+        if (!dlc.installed && !dlc.path.empty())
+            plan.dlcs.push_back({ dlc.path, dlc.content_id });
+    }
+
+    // What a deletion cut short left of an update: no param.sfo to name it
+    if (patch_version.empty() && fs::exists(patch, ec)) {
+        fs::remove_all(patch, ec);
+        fs::remove(patch_marker_note(pref_path, title_id), ec);
+    }
+    if (updates.empty())
+        return plan;
+    const std::string version = value_of(update_key);
+    {
+        fs::create_directories(update_choice_note(pref_path, title_id).parent_path(), ec);
+        std::ofstream(update_choice_note(pref_path, title_id).string()) << version << "\n";
+    }
+    if (!patch_version.empty() && version != patch_version) {
+        fs::remove_all(patch, ec);
+        // The marker of the PKG it was installed from, by the name noted then
+        std::string marker_name;
+        {
+            fs::ifstream note(patch_marker_note(pref_path, title_id));
+            std::getline(note, marker_name);
+        }
+        fs::remove(patch_marker_note(pref_path, title_id), ec);
+        if (!marker_name.empty())
+            forget_install_markers(pref_path, [&](const std::string &name) { return name == marker_name; });
+        lr_log(RETRO_LOG_INFO, "Update %s of %s is no longer chosen (Update: %s): deleted from ux0/patch\n",
+            patch_version.c_str(), title_id.c_str(), version.c_str());
+        patch_version.clear();
+    }
+    if (!merged_version.empty() && version != merged_version) {
+        // FALLBACK, for games installed by released builds (and by upstream's
+        // install), which merged the update into the game's folder: the game's
+        // own files are gone, so it is installed again. An update installed now
+        // stays in ux0/patch and never gets here.
+        // Every marker of this title's, the game's among them: the game is
+        // installed again, and a DLC's PKG loaded again just installs again
+        forget_install_markers(pref_path, [&](const std::string &name) { return name.size() > 16 && name[6] == '-' && name.compare(7, 9, title_id) == 0; });
+        lr_log(RETRO_LOG_INFO, "Update %s merged into %s is no longer chosen (Update: %s): the game is installed again from its PKG\n",
+            merged_version.c_str(), title_id.c_str(), version.c_str());
+        plan.reinstall_game = true;
+        merged_version.clear();
+    }
+    if (version == "none")
+        lr_log(RETRO_LOG_INFO, "No update is used with %s (Update: None)\n", title_id.c_str());
+    else if (version == merged_version) {
+        // in the game's folder already
+    } else if (version == patch_version) {
+        // in ux0/patch already, laid over the game
+    } else {
+        const auto update = std::find_if(updates.begin(), updates.end(), [&](const Update &u) { return u.version == version && !u.path.empty(); });
+        if (update != updates.end()) {
+            plan.update_path = update->path;
+            plan.update_version = update->version;
+        }
+    }
+    return plan;
+}
+
+// Whether a Content option changed since it was last asked (each takes effect
+// when the content is started again)
+bool content_options_changed() {
+    if (s_loaded_content.title_id.empty() || !s_content_value)
+        return false;
+    std::vector<std::string> keys = { s_loaded_content.game_key };
+    if (!s_loaded_content.update_key.empty())
+        keys.push_back(s_loaded_content.update_key);
+    for (const auto &dlc : s_loaded_content.dlcs)
+        keys.push_back(dlc.key);
+    bool changed = false;
+    for (const std::string &key : keys) {
+        const std::string value = s_content_value(key);
+        const auto [it, inserted] = s_loaded_content.seen.try_emplace(key, value);
+        if (!inserted && it->second != value) {
+            it->second = value;
+            changed = true;
+        }
+    }
+    return changed;
+}
+
+// The content is closed: what was turned off while it ran is deleted now
+// rather than at the game's next start (sco8487) - an installed DLC set to
+// Disabled, the update kept in ux0/patch when another one or None is chosen,
+// the game itself when it is set to Uninstall. Nothing is half done if this
+// never runs (the frontend killed, a crash): the same choices are carried out
+// at the next start, by plan_content. An update merged into the installed
+// game waits for that start too, which installs the game again.
+void content_closed() {
+    const auto content = std::move(s_loaded_content);
+    s_loaded_content = {};
+    if (content.title_id.empty() || !s_content_value)
+        return;
+
+    boost::system::error_code ec;
+    const fs::path &pref_path = content.pref_path;
+    const std::string &title_id = content.title_id;
+
+    for (const auto &dlc : content.dlcs) {
+        const fs::path dir = pref_path / "ux0" / "addcont" / title_id / dlc.dlc_id;
+        // one with its marker was read out of its PKG, not installed
+        if (s_content_value(dlc.key) != "disabled" || !fs::exists(dir, ec)
+            || fs::exists(pref_path / "ux0" / "libretro_pkg" / ("dlc_" + title_id + "_" + dlc.dlc_id), ec))
+            continue;
+        fs::remove_all(dir, ec);
+        if (!dlc.content_id.empty())
+            forget_install_markers(pref_path, [&](const std::string &name) { return name.rfind(dlc.content_id + "_", 0) == 0; });
+        lr_log(RETRO_LOG_INFO, "DLC %s of %s is turned off: its installed files are deleted\n", dlc.dlc_id.c_str(), title_id.c_str());
+    }
+
+    if (!content.update_key.empty()) {
+        const fs::path patch = pref_path / "ux0" / "patch" / title_id;
+        const std::string version = s_content_value(content.update_key);
+        sfo::SfoAppInfo info;
+        if (!version.empty() && read_installed_sfo(patch, info) && !info.app_version.empty() && info.app_version != version) {
+            fs::remove_all(patch, ec);
+            std::string marker_name;
+            {
+                fs::ifstream note(patch_marker_note(pref_path, title_id));
+                std::getline(note, marker_name);
+            }
+            fs::remove(patch_marker_note(pref_path, title_id), ec);
+            if (!marker_name.empty())
+                forget_install_markers(pref_path, [&](const std::string &name) { return name == marker_name; });
+            lr_log(RETRO_LOG_INFO, "Update %s of %s is no longer chosen (Update: %s): deleted from ux0/patch\n",
+                info.app_version.c_str(), title_id.c_str(), version.c_str());
+        }
+    }
+
+    if (s_content_value(content.game_key) == "uninstall") {
+        if (fs::exists(pref_path / "ux0" / "app" / title_id, ec)) {
+            uninstall_game(pref_path, title_id);
+            lr_log(RETRO_LOG_INFO, "%s is uninstalled (Game: Uninstall): ux0/app/%s is deleted\n", title_id.c_str(), title_id.c_str());
+        }
+        if (s_set_content_value)
+            s_set_content_value(content.game_key, "keep");
+    }
+}
+
+// A PKG installed much as upstream's install_pkg does it - into ux0/app,
+// ux0/patch or ux0/addcont, the license written, emuenv.app_info filled in -
+// but decrypted as it is read out of the package (lazy_pkg::install), so each
+// file is written once, and an update left in ux0/patch rather than merged
+// into the game's folder.
+// Anything but a game, an update or a DLC goes to install_pkg.
+static bool install_pkg_file(const fs::path &pkg_path, EmuEnvState &emuenv, std::string &zrif) {
+    std::vector<std::uint8_t> sfo;
+    if (!lazy_pkg::pkg_sfo(pkg_path, sfo))
+        return install_pkg(pkg_path, emuenv, zrif);
+    sfo::get_param_info(emuenv.app_info, sfo, emuenv.cfg.sys_lang);
+    auto &app = emuenv.app_info;
+    const fs::path ux0 = emuenv.vita_fs_path / "ux0";
+    fs::path dir;
+    if (app.app_category.find("gp") != std::string::npos) {
+        dir = ux0 / "patch" / app.app_title_id;
+        app.app_title += " (Update)";
+    } else if (app.app_category == "ac") {
+        app.app_content_id = app.app_content_id.size() > 20 ? app.app_content_id.substr(20) : app.app_content_id;
+        dir = ux0 / "addcont" / app.app_title_id / app.app_content_id;
+        app.app_title += " (DLC)";
+    } else if (app.app_category.find("gd") != std::string::npos) {
+        dir = ux0 / "app" / app.app_title_id;
+        app.app_title += " (App)";
+    } else
+        return install_pkg(pkg_path, emuenv, zrif);
+
+    std::string error;
+    if (!lazy_pkg::install(pkg_path, dir, zrif, error)) {
+        lr_log(RETRO_LOG_ERROR, "PKG: %s could not be installed: %s\n", pkg_path.generic_string().c_str(), error.c_str());
+        lr_msg(fmt::format("PKG install failed: {}", error).c_str(), 600);
+        return false;
+    }
+    if (app.app_category == "ac")
+        return true;
+    // An update stays in ux0/patch, where it is laid over the game's files
+    // (open_content, lazy_pkg), instead of being merged into the game's folder
+    // as upstream does: another update or none is then only a different
+    // ux0/patch, and the game's files are never overwritten
+    create_license(emuenv, zrif);
+    return true;
+}
+
+// An update or DLC PKG from the game's folder installed, as loading it does
+static bool install_extra_pkg(const fs::path &pkg_path, const fs::path &pref_path, int sys_lang, std::string zrif) {
+    // An update or DLC in a VPK/ZIP or a folder: installed the way loading it installs it
+    boost::system::error_code ec;
+    if (lazy_pkg::is_archive(pkg_path) || fs::is_directory(pkg_path, ec))
+        return ensure_game_installed(pkg_path, pref_path, sys_lang, false).success;
+    auto emuenv = std::make_unique<EmuEnvState>();
+    emuenv->vita_fs_path = pref_path;
+    emuenv->cfg.sys_lang = sys_lang;
+    emuenv->cache_path = pref_path / "cache";
+    return install_pkg_file(pkg_path, *emuenv, zrif);
+}
+
+// The plan carried out, with the game installed (the chosen update and DLC
+// are installed too, the update into ux0/patch, laid over the game's files) or
+// laid out for a run without installing (they are read out of their PKGs,
+// VPKs or ZIPs the same way, nothing installed)
+// False when, run without installing, an update or DLC chosen has no room (all of it, or with
+// Persistent Cache what is not cached yet): the game is then not started (sco8487), and a
+// message has said why.
+static bool apply_content(const ContentPlan &plan, const std::string &title_id, const std::string &zrif, const fs::path &pref_path,
+    int sys_lang, bool lazy) {
+    boost::system::error_code ec;
+    for (const ContentPlan::Dlc &dlc : plan.dlcs) {
+        const std::string dlc_zrif = find_pkg_license(fs::path(dlc.path), pref_path);
+        if (!lazy) {
+            lr_msg("Installing DLC...", 300);
+            if (install_extra_pkg(fs::path(dlc.path), pref_path, sys_lang, dlc_zrif)) {
+                lr_log(RETRO_LOG_INFO, "DLC %s installed\n", dlc.path.c_str());
+                if (dlc.content_id.size() > 20)
+                    fs::remove(manual_install_mark(pref_path, title_id, dlc.content_id.substr(20)), ec);
+            }
+            else
+                lr_log(RETRO_LOG_WARN, "DLC %s could not be installed%s\n", dlc.path.c_str(), dlc_zrif.empty() ? ": it has no license next to it" : "");
+            continue;
+        }
+        std::string error;
+        if (dlc_zrif.empty() && needs_license(fs::path(dlc.path)))
+            lr_log(RETRO_LOG_WARN, "PKG: DLC %s has no license next to it\n", dlc.path.c_str());
+        else if (lazy_pkg::mount_dlc(fs::path(dlc.path), dlc.content_id, dlc_zrif, error))
+            write_license(pref_path, title_id, dlc.content_id, dlc_zrif);
+        else if (error.rfind(lazy_pkg::NO_ROOM, 0) == 0) {
+            lr_log(RETRO_LOG_ERROR, "DLC %s: %s\n", dlc.path.c_str(), error.c_str());
+            lr_msg(fmt::format("Not started, no room for a DLC: {}", error).c_str(), 600);
+            return false;
+        } else
+            lr_log(RETRO_LOG_INFO, "PKG: DLC %s not laid out: %s\n", dlc.path.c_str(), error.c_str());
+    }
+
+    if (plan.update_path.empty())
+        return true;
+    if (!lazy) {
+        lr_msg("Installing update...", 300);
+        if (install_extra_pkg(fs::path(plan.update_path), pref_path, sys_lang, zrif)) {
+            lr_log(RETRO_LOG_INFO, "Update %s (version %s) installed\n", plan.update_path.c_str(), plan.update_version.c_str());
+            fs::remove(manual_install_mark(pref_path, title_id), ec);
+        }
+        else
+            lr_log(RETRO_LOG_WARN, "Update %s could not be installed\n", plan.update_path.c_str());
+        return true;
+    }
+    std::string error;
+    if (lazy_pkg::mount_update(fs::path(plan.update_path), zrif, error))
+        lr_log(RETRO_LOG_INFO, "PKG: update %s (version %s) laid over the game\n", plan.update_path.c_str(), plan.update_version.c_str());
+    else if (error.rfind(lazy_pkg::NO_ROOM, 0) == 0) {
+        lr_log(RETRO_LOG_ERROR, "Update %s: %s\n", plan.update_path.c_str(), error.c_str());
+        lr_msg(fmt::format("Not started, no room for the update: {}", error).c_str(), 600);
+        return false;
+    } else
+        lr_log(RETRO_LOG_WARN, "PKG: update %s could not be laid over the game: %s\n", plan.update_path.c_str(), error.c_str());
+    return true;
+}
+
+// The license of a PKG, as a zRIF: one installed already
+// (ux0/license/<title id>/<content id>.rif), or one next to the PKG - a
+// <pkg name>.zrif text file holding the zRIF (as NoPayStation lists them), or
+// a <pkg name>.rif, work.bin or <content id>.rif license file, or a 512-byte
+// .bin holding its content ID. Updates and DLC without DRM need none.
 static std::string find_pkg_license(const fs::path &pkg_path, const fs::path &pref_path) {
+    boost::system::error_code ec;
+    // A folder (a NoNpDrm dump's DLC or update) carries its own, if any
+    if (!lr_vfs_is_uri(pkg_path.string()) && fs::is_directory(pkg_path, ec))
+        return license_to_zrif(pkg_path / "sce_sys" / "package" / "work.bin", pref_path);
+    // A VPK/ZIP carries its own: the work.bin of the content in it (NoNpDrm)
+    if (lazy_pkg::is_archive(pkg_path)) {
+        FILE *fp = FOPEN(pkg_path.c_str(), "rb");
+        if (!fp)
+            return {};
+        ZipPtr zip(new mz_zip_archive);
+        std::memset(zip.get(), 0, sizeof(mz_zip_archive));
+        std::string zrif;
+        if (mz_zip_reader_init_cfile(zip.get(), fp, 0, 0)) {
+            const auto paths = find_archive_content_paths(zip);
+            if (!paths.empty())
+                zrif = archive_zrif(zip, paths.front(), pref_path);
+        }
+        zip.reset();
+        fclose(fp);
+        return zrif;
+    }
     std::string zrif = find_pkg_zrif(pkg_path, pref_path);
     if (!zrif.empty())
         return zrif;
@@ -893,6 +1787,13 @@ static std::string find_pkg_license(const fs::path &pkg_path, const fs::path &pr
     }
     for (const fs::path &rif : rifs) {
         if (content_stat(rif, nullptr, nullptr)) {
+            // A work.bin is any content's (a DLC's beside its game): only one for this PKG
+            if (rif.filename() == "work.bin" && !content_id.empty()) {
+                std::string bytes;
+                if (!content_read(rif, bytes) || bytes.size() < 0x10 + 0x30
+                    || content_id.compare(0, std::string::npos, bytes.data() + 0x10, strnlen(bytes.data() + 0x10, 0x30)) != 0)
+                    continue;
+            }
             const std::string zrif = license_to_zrif(rif, pref_path);
             if (!zrif.empty()) {
                 lr_log(RETRO_LOG_INFO, "PKG license from %s\n", rif.generic_string().c_str());
@@ -932,8 +1833,9 @@ static std::string find_pkg_license(const fs::path &pkg_path, const fs::path &pr
     return {};
 }
 
-// A PKG - a game, its update or DLC - installed with upstream's installer,
-// which decrypts it with the license, into ux0/app, ux0/patch or ux0/addcont
+// A PKG - a game, its update or DLC - run without installing it, or installed
+// into ux0/app, ux0/patch or ux0/addcont (install_pkg_file), as Game Preload
+// and the game's Content options say
 static GameInstallResult handle_pkg_game(const fs::path &pkg_path, const fs::path &pref_path, int sys_lang, bool run_pkg) {
     GameInstallResult result;
 
@@ -956,6 +1858,16 @@ static GameInstallResult handle_pkg_game(const fs::path &pkg_path, const fs::pat
     content_stat(pkg_path, nullptr, &pkg_size);
     const fs::path marker = pref_path / "ux0" / "libretro_pkg" / fmt::format("{}_{}", content_id, pkg_size);
     const std::string title_id = content_id.substr(7, 9);
+
+
+    // A game's updates and DLC, as chosen in its options. What was turned
+    // off is deleted by now; the rest follows once the game is there.
+    const ContentPlan plan = plan_content(pkg_path, title_id, pref_path, run_pkg);
+    if (plan.reinstall_game) {
+        boost::system::error_code ec;
+        fs::remove_all(pref_path / "ux0" / "app" / title_id, ec);
+    }
+
     if (fs::exists(marker) && fs::exists(pref_path / "ux0" / "app" / title_id / "eboot.bin")) {
         lr_log(RETRO_LOG_INFO, "PKG %s is installed already.\n", content_id.c_str());
         result.success = true;
@@ -968,15 +1880,8 @@ static GameInstallResult handle_pkg_game(const fs::path &pkg_path, const fs::pat
             result.title = info.app_title;
             result.category = info.app_category;
         }
+        apply_content(plan, title_id, find_pkg_license(pkg_path, pref_path), pref_path, sys_lang, false);
         return result;
-    }
-
-    // A run without installing that was not unmounted (the frontend died):
-    // what it laid out is no installation, so it goes
-    const fs::path lazy_marker = pref_path / "ux0" / "libretro_pkg" / fmt::format("lazy_{}", title_id);
-    if (fs::exists(lazy_marker)) {
-        fs::remove_all(pref_path / "ux0" / "app" / title_id);
-        fs::remove(lazy_marker);
     }
 
     std::string zrif = find_pkg_license(pkg_path, pref_path);
@@ -986,15 +1891,9 @@ static GameInstallResult handle_pkg_game(const fs::path &pkg_path, const fs::pat
         std::string error;
         lr_msg("Preparing the PKG...", 300);
         const fs::path app_dir = pref_path / "ux0" / "app" / title_id;
-        fs::create_directories(lazy_marker.parent_path());
-        fs::ofstream(lazy_marker).put('\n');
+        mark_lazy_run(pref_path, title_id);
         if (lazy_pkg::mount(pkg_path, app_dir, zrif, error)) {
-            // The game's license where the console keeps it, for NpDrm
-            const fs::path lic_dir = pref_path / "ux0" / "license" / title_id;
-            fs::create_directories(lic_dir);
-            std::ofstream lic((lic_dir / (content_id + ".rif")).string(), std::ios::binary);
-            zrif2rif(zrif, lic);
-            lic.close();
+            write_license(pref_path, title_id, content_id, zrif);
 
             result.success = true;
             result.title_id = title_id;
@@ -1006,9 +1905,20 @@ static GameInstallResult handle_pkg_game(const fs::path &pkg_path, const fs::pat
                 result.title = info.app_title;
                 result.category = info.app_category;
             }
+            if (!apply_content(plan, title_id, zrif, pref_path, sys_lang, true)) {
+                lazy_pkg::unmount();
+                fs::remove(lazy_marker(pref_path, title_id));
+                return GameInstallResult{};
+            }
             return result;
         }
-        fs::remove(lazy_marker);
+        fs::remove(lazy_marker(pref_path, title_id));
+        if (error.rfind(lazy_pkg::NO_ROOM, 0) == 0) {
+            // No room for the game run without installing: not started, as an install that does not fit
+            lr_log(RETRO_LOG_ERROR, "%s: %s\n", pkg_path.generic_string().c_str(), error.c_str());
+            lr_msg(fmt::format("Not started: {}", error).c_str(), 600);
+            return result;
+        }
         lr_log(RETRO_LOG_WARN, "PKG: cannot run %s without installing it (%s), installing it instead\n",
             pkg_path.generic_string().c_str(), error.c_str());
     }
@@ -1016,24 +1926,21 @@ static GameInstallResult handle_pkg_game(const fs::path &pkg_path, const fs::pat
     auto emuenv = std::make_unique<EmuEnvState>();
     emuenv->vita_fs_path = pref_path;
     emuenv->cfg.sys_lang = sys_lang;
-    // install_pkg ends with create_license, which writes a temporary license
+    // The install ends with create_license, which writes a temporary license
     // into the cache folder; left empty, that is create_directories("") and an
     // uncaught "Invalid argument" right after the PFS was decrypted (sco: every
     // PKG install crashed at 80%)
     emuenv->cache_path = pref_path / "cache";
     lr_msg("Installing PKG... this may take a while", 600);
-    const bool ok = install_pkg(pkg_path, *emuenv, zrif, [](float progress) {
-        static int last = -1;
-        const int pct = static_cast<int>(progress);
-        if (pct / 10 != last / 10) {
-            last = pct;
-            lr_log(RETRO_LOG_INFO, "PKG install progress: %d%%\n", pct);
-        }
-    });
+    // Whether the game this may be an update for is installed
+    const bool game_installed = fs::exists(pref_path / "ux0" / "app" / title_id / "eboot.bin");
+    const bool ok = install_pkg_file(pkg_path, *emuenv, zrif);
     if (!ok) {
         lr_log(RETRO_LOG_ERROR, "Could not install %s. A game's PKG needs its license: put the zRIF in %s.zrif, or work.bin / %s.rif, next to it.\n",
             pkg_path.generic_string().c_str(), fs_utils::path_to_utf8(pkg_path.stem()).c_str(), fs_utils::path_to_utf8(pkg_path.stem()).c_str());
-        lr_msg("PKG install failed! A game needs its license (zRIF or work.bin) next to the PKG - see log", 600);
+        // The reason is in the message install_pkg_file gave; without a license it is that
+        if (zrif.empty())
+            lr_msg("PKG install failed! A game needs its license (zRIF or work.bin) next to the PKG - see log", 600);
         return result;
     }
 
@@ -1045,6 +1952,34 @@ static GameInstallResult handle_pkg_game(const fs::path &pkg_path, const fs::pat
     result.category = emuenv->app_info.app_category;
     result.content_id = emuenv->app_info.app_content_id;
 
+    // An update or DLC installed by loading its own PKG: noted, so that the
+    // game's option for it is on at the game's next start (plan_content)
+    {
+        const bool is_update = result.category.find("gp") != std::string::npos;
+        const bool is_dlc = result.category.find("ac") != std::string::npos;
+        fs::path note;
+        if (is_update)
+            note = manual_update_note(pref_path, result.title_id);
+        else if (is_dlc && result.content_id.size() > 20)
+            note = manual_dlc_note(pref_path, result.title_id, result.content_id.substr(20));
+        if (!note.empty())
+            fs::ofstream(note).put('\n');
+        mark_forced_install(pref_path, result.title_id, result.category, result.content_id, pkg_path);
+    }
+
+    // An update is installed in ux0/patch/<title id> and laid over the game's
+    // files when the game starts, installed or run from its PKG; the note says
+    // which install it was, for when it goes
+    if (result.category.find("gp") != std::string::npos) {
+        fs::ofstream(patch_marker_note(pref_path, result.title_id)) << marker.filename().string() << '\n';
+        if (!game_installed) {
+            lr_log(RETRO_LOG_INFO, "Update %s installed in ux0/patch/%s, laid over the game when it starts\n",
+                result.title.c_str(), result.title_id.c_str());
+            lr_msg("Update installed. It is applied when the game is started.", 600);
+            return result;
+        }
+    }
+
     // An update or DLC on its own does not start; the game it is for does,
     // if that is installed already
     if (!fs::exists(pref_path / "ux0" / "app" / result.title_id / "eboot.bin")) {
@@ -1053,7 +1988,67 @@ static GameInstallResult handle_pkg_game(const fs::path &pkg_path, const fs::pat
         return result;
     }
     lr_log(RETRO_LOG_INFO, "Installed %s [%s] from PKG\n", result.title.c_str(), result.title_id.c_str());
+    apply_content(plan, title_id, zrif, pref_path, sys_lang, false);
     result.success = true;
+    return result;
+}
+
+// A game folder (or its eboot.bin): its Content options as a PKG's, and with Run Without
+// Installing or Persistent Cache read where it lies, as a PKG or archive is (sco8487). The
+// folder of an installed game (in ux0) runs as it is; Install copies the folder in.
+static GameInstallResult handle_folder_content(const fs::path &game_path, const fs::path &pref_path, int sys_lang, bool run_pkg) {
+    const fs::path content_dir = resolve_game_folder(game_path);
+    lazy_pkg::PkgInfo info;
+    if (content_dir.empty() || !lazy_pkg::pkg_info(content_dir, info) || info.category.find("gd") == std::string::npos)
+        return handle_folder_game(game_path, pref_path, sys_lang);
+    const std::string ux0 = (pref_path / "ux0").lexically_normal().generic_string();
+    if (content_dir.lexically_normal().generic_string().rfind(ux0, 0) == 0)
+        return handle_folder_game(game_path, pref_path, sys_lang);
+
+    const fs::path app_path = pref_path / "ux0" / "app" / info.title_id;
+    const fs::path work_bin = content_dir / "sce_sys" / "package" / "work.bin";
+    const bool encrypted = fs::is_directory(content_dir / "sce_pfs");
+    if (encrypted && !fs::exists(work_bin))
+        return handle_folder_game(game_path, pref_path, sys_lang); // which says the license is missing
+
+    const ContentPlan plan = plan_content(content_dir, info.title_id, pref_path, run_pkg);
+    if (plan.reinstall_game)
+        fs::remove_all(app_path);
+    const std::string zrif = encrypted ? license_to_zrif(work_bin, pref_path) : std::string();
+
+    if (run_pkg && !fs::exists(app_path / "eboot.bin")) {
+        std::string error;
+        lr_msg("Preparing the game...", 300);
+        mark_lazy_run(pref_path, info.title_id);
+        if (lazy_pkg::mount_folder(content_dir, app_path, zrif, error)) {
+            write_license(pref_path, info.title_id, info.content_id, zrif);
+            if (!apply_content(plan, info.title_id, zrif, pref_path, sys_lang, true)) {
+                lazy_pkg::unmount();
+                fs::remove(lazy_marker(pref_path, info.title_id));
+                return GameInstallResult{};
+            }
+            GameInstallResult result;
+            result.success = true;
+            result.title_id = info.title_id;
+            result.title = info.title;
+            result.category = info.category;
+            result.content_id = info.content_id;
+            return result;
+        }
+        fs::remove(lazy_marker(pref_path, info.title_id));
+        if (error.rfind(lazy_pkg::NO_ROOM, 0) == 0) {
+            // No room for the game run without installing: not started, as an install that does not fit
+            lr_log(RETRO_LOG_ERROR, "%s: %s\n", content_dir.generic_string().c_str(), error.c_str());
+            lr_msg(fmt::format("Not started: {}", error).c_str(), 600);
+            return GameInstallResult{};
+        }
+        lr_log(RETRO_LOG_WARN, "Folder: cannot run %s where it lies (%s), installing it instead\n",
+            content_dir.generic_string().c_str(), error.c_str());
+    }
+
+    GameInstallResult result = handle_folder_game(game_path, pref_path, sys_lang);
+    if (result.success)
+        apply_content(plan, info.title_id, zrif, pref_path, sys_lang, false);
     return result;
 }
 
@@ -1081,7 +2076,7 @@ GameInstallResult ensure_game_installed(const fs::path &game_path, const fs::pat
             lr_msg("A game folder picked through Android's file picker is not supported; load the .vpk, .zip or .pkg", 400);
             return result;
         }
-        return handle_folder_game(game_path, pref_path, sys_lang);
+        return handle_folder_content(game_path, pref_path, sys_lang, run_pkg);
     }
 
     // Validate extension for archive files
@@ -1093,7 +2088,7 @@ GameInstallResult ensure_game_installed(const fs::path &game_path, const fs::pat
         // Maybe it's an eboot.bin directly - check parent folder
         if (game_path.filename() == "eboot.bin") {
             lr_log(RETRO_LOG_INFO, "eboot.bin provided directly, using parent folder\n");
-            return handle_folder_game(game_path.parent_path(), pref_path, sys_lang);
+            return handle_folder_content(game_path.parent_path(), pref_path, sys_lang, run_pkg);
         }
         lr_log(RETRO_LOG_ERROR, "Unsupported game format: %s (expected .vpk, .zip, .pkg, or folder)\n", extension.c_str());
         lr_msg("Unsupported format! Use .vpk, .zip, .pkg, or game folder", 300);
@@ -1173,6 +2168,63 @@ GameInstallResult ensure_game_installed(const fs::path &game_path, const fs::pat
 
     const auto app_path = pref_path / "ux0" / "app" / result.title_id;
 
+    // Run without installing (Game Preload), as a PKG is: the game's files read
+    // out of the archive as it goes, decrypted on the way for a NoNpDrm one,
+    // and nothing of it kept in ux0/app once it is closed. An update or DLC in
+    // the archive, and a game installed already, go the installed way below.
+    // Encrypted (a NoNpDrm dump) without the license it is decrypted with: it cannot run
+    // (an update needs none of its own: it is decrypted with its game's)
+    const std::string archive_license = archive_zrif(zip, game_content_path, pref_path);
+    if (archive_license.empty() && app_info.app_category.find("gp") == std::string::npos) {
+        const mz_uint count = mz_zip_reader_get_num_files(zip.get());
+        for (mz_uint i = 0; i < count; i++) {
+            mz_zip_archive_file_stat st;
+            if (mz_zip_reader_file_stat(zip.get(), i, &st)
+                && std::string_view(st.m_filename).starts_with(game_content_path + "sce_pfs/")) {
+                lr_log(RETRO_LOG_ERROR, "%s is encrypted and its license, sce_sys/package/work.bin, is missing\n",
+                    game_path.generic_string().c_str());
+                lr_msg("This game is encrypted and its license (sce_sys/package/work.bin) is missing", 600);
+                fclose(fp);
+                return result;
+            }
+        }
+    }
+    // The game's updates and DLC beside it (PKG, VPK or ZIP), as its Content options say
+    const bool is_game = app_info.app_category.find("gd") != std::string::npos;
+    ContentPlan plan;
+    if (is_game) {
+        plan = plan_content(game_path, result.title_id, pref_path, run_pkg);
+        if (plan.reinstall_game)
+            fs::remove_all(app_path);
+    }
+    if (run_pkg && is_game && !fs::exists(app_path / "eboot.bin")) {
+        const std::string &zrif = archive_license;
+        std::string error;
+        lr_msg("Preparing the game...", 300);
+        mark_lazy_run(pref_path, result.title_id);
+        if (lazy_pkg::mount_archive(game_path, game_content_path, app_path, zrif, error)) {
+            write_license(pref_path, result.title_id, result.content_id, zrif);
+            fclose(fp);
+            if (!apply_content(plan, result.title_id, zrif, pref_path, sys_lang, true)) {
+                lazy_pkg::unmount();
+                fs::remove(lazy_marker(pref_path, result.title_id));
+                return GameInstallResult{};
+            }
+            result.success = true;
+            return result;
+        }
+        fs::remove(lazy_marker(pref_path, result.title_id));
+        if (error.rfind(lazy_pkg::NO_ROOM, 0) == 0) {
+            // No room for the game run without installing: not started, as an install that does not fit
+            lr_log(RETRO_LOG_ERROR, "%s: %s\n", game_path.generic_string().c_str(), error.c_str());
+            lr_msg(fmt::format("Not started: {}", error).c_str(), 600);
+            fclose(fp);
+            return GameInstallResult{};
+        }
+        lr_log(RETRO_LOG_WARN, "Archive: cannot run %s without installing it (%s), installing it instead\n",
+            game_path.generic_string().c_str(), error.c_str());
+    }
+
     // Determine output path based on category
     fs::path output_path = pref_path / "ux0";
     if (app_info.app_category.find("gp") != std::string::npos) {
@@ -1195,22 +2247,14 @@ GameInstallResult ensure_game_installed(const fs::path &game_path, const fs::pat
             lr_log(RETRO_LOG_INFO, "Game '%s' [%s] is already installed.\n",
                 result.title.c_str(), result.title_id.c_str());
             fclose(fp);
+            apply_content(plan, result.title_id, archive_license, pref_path, sys_lang, false);
             result.success = true;
             return result;
-        } else if (app_info.app_category.find("gp") != std::string::npos) {
-            // Patch: skip if already installed at ux0/patch/TITLE_ID/
-            lr_log(RETRO_LOG_INFO, "Patch '%s' [%s] is already installed.\n",
-                result.title.c_str(), result.title_id.c_str());
-            fclose(fp);
-            result.success = true;
-            return result;
-        } else if (app_info.app_category == "ac") {
-            // DLC: skip if this specific content_id is already installed
-            lr_log(RETRO_LOG_INFO, "DLC '%s' [%s] is already installed.\n",
-                result.title.c_str(), result.title_id.c_str());
-            fclose(fp);
-            result.success = true;
-            return result;
+        } else if (app_info.app_category.find("gp") != std::string::npos || app_info.app_category == "ac") {
+            // An update or DLC loaded on its own is installed again over what is there, which
+            // also mends a broken install (sco8487)
+            lr_log(RETRO_LOG_INFO, "'%s' [%s] is installed already: replaced\n", result.title.c_str(), result.title_id.c_str());
+            fs::remove_all(output_path);
         }
     }
 
@@ -1231,6 +2275,27 @@ GameInstallResult ensure_game_installed(const fs::path &game_path, const fs::pat
         char msg[256];
         snprintf(msg, sizeof(msg), "Installing %s [%s]...", result.title.c_str(), result.title_id.c_str());
         lr_msg(msg, 600);
+    }
+
+    // Room for what is extracted, or nothing is
+    {
+        std::uint64_t needed = 0;
+        bool encrypted = false;
+        const mz_uint count = mz_zip_reader_get_num_files(zip.get());
+        for (mz_uint i = 0; i < count; i++) {
+            mz_zip_archive_file_stat st;
+            if (mz_zip_reader_file_stat(zip.get(), i, &st) && std::string_view(st.m_filename).starts_with(game_content_path)) {
+                needed += st.m_uncomp_size;
+                encrypted |= std::string_view(st.m_filename).starts_with(game_content_path + "sce_pfs/");
+            }
+        }
+        // An encrypted one twice over for a while: decrypting writes a second copy
+        if (encrypted)
+            needed *= 2;
+        if (!has_room(pref_path, needed)) {
+            fclose(fp);
+            return result;
+        }
     }
 
     // Extract content
@@ -1276,27 +2341,19 @@ GameInstallResult ensure_game_installed(const fs::path &game_path, const fs::pat
         std::string app_zRIF;
         if (!decrypt_nonpdrm_app(output_path, pref_path, result, work_bin_data, app_zRIF))
             return result;
+    } else if (app_info.app_category.find("gd") == std::string::npos && fs::is_directory(output_path / "sce_pfs")
+        && !decrypt_nonpdrm_extra(output_path, pref_path, result)) {
+        // and so is an update or DLC, which would not work encrypted
+        fs::remove_all(output_path);
+        return result;
     }
+    if (is_game)
+        apply_content(plan, result.title_id, archive_license, pref_path, sys_lang, false);
 
-    // Handle patch copy (gp category moves files into app dir)
-    if (app_info.app_category.find("gp") != std::string::npos) {
-        lr_log(RETRO_LOG_INFO, "Copying patch files into app directory...\n");
-        const auto app_target = pref_path / "ux0" / "app" / result.title_id;
-        if (fs::exists(app_target)) {
-            // copy_directories equivalent - overlay patch files onto app
-            for (const auto &entry : fs::recursive_directory_iterator(output_path)) {
-                const auto rel = fs::relative(entry.path(), output_path);
-                const auto dest = app_target / rel;
-                if (entry.is_directory()) {
-                    fs::create_directories(dest);
-                } else {
-                    fs::create_directories(dest.parent_path());
-                    fs::copy_file(entry.path(), dest, fs::copy_options::overwrite_existing);
-                }
-            }
-            lr_log(RETRO_LOG_INFO, "Patch applied successfully.\n");
-        }
-    }
+    // An update stays in ux0/patch and is laid over the game when it starts, as one
+    // installed from a PKG does; a DLC stays in ux0/addcont. Loaded on its own (not through
+    // the game's Content options), it is kept whatever Game Preload says
+    mark_forced_install(pref_path, result.title_id, app_info.app_category, app_info.app_content_id, game_path);
 
     // Verify installation
     if (fs::exists(output_path) && !fs::is_empty(output_path)) {

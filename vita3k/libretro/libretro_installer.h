@@ -17,7 +17,11 @@
 
 #pragma once
 
+#include <functional>
+#include <map>
 #include <string>
+#include <utility>
+#include <vector>
 #include <util/fs.h>
 
 // ─── Firmware status ────────────────────────────────────────────────────────
@@ -41,11 +45,10 @@ FirmwareStatus check_firmware_status(const fs::path &pref_path);
 ///
 /// Strategy:
 ///   1. If firmware is already installed, return true immediately.
-///   2. Look for a PUP file in system_dir (e.g. PSP2UPDAT.PUP).
-///   3. If found, install it via install_pup().
-///   4. If not found, attempt to download firmware from known URLs.
-///   5. If download succeeds, install the downloaded PUP.
-///   6. If all else fails, return false and log instructions.
+///   2. Look for the PUP files in system_dir (e.g. PSP2UPDAT.PUP).
+///   3. If found, install them via install_pup().
+///   4. If not, return false and log where to download them from (the core
+///      downloads nothing itself).
 bool ensure_firmware_installed(const fs::path &pref_path, const fs::path &system_dir);
 
 /// A .pup loaded as content: installed, whichever of the three packages it is
@@ -56,6 +59,39 @@ bool install_firmware_content(const fs::path &pref_path, const fs::path &pup_pat
 
 // ─── Game installation ──────────────────────────────────────────────────────
 
+// An option of the loaded game's own, beside the core's: which of its updates
+// and DLC - the PKGs, VPK/ZIPs and folders found for it, and what is installed - are used
+struct ContentOption {
+    std::string key;
+    std::string label;
+    std::string info;
+    std::vector<std::pair<std::string, std::string>> values; // value, its label
+    std::string default_value;
+    // Not empty: the frontend's value is set to this one first
+    std::string set_value;
+};
+
+// Declares them to the frontend and answers with each key's current value.
+// Set by the core's frontend glue before a game is loaded.
+using ContentOptionsHandler = std::function<std::map<std::string, std::string>(const std::vector<ContentOption> &)>;
+void set_content_options_handler(ContentOptionsHandler handler);
+// A key's current value at the frontend (empty when it has none), and a value
+// set there; for what is asked after the options were declared
+void set_content_option_accessors(std::function<std::string(const std::string &)> get,
+    std::function<void(const std::string &, const std::string &)> set);
+// Whether a Content option (game, update, DLC) changed since it was last asked; each takes
+// effect when the content is started again
+bool content_options_changed();
+// Called when the content is closed, the game stopped and what was laid out
+// for a run without installing removed: deletes what was turned off meanwhile
+void content_closed();
+
+// What runs without installing left laid out in ux0 when they were not closed (the
+// frontend killed): every game, DLC and update layout whose marker under
+// ux0/libretro_pkg is still there. Called when content is loaded, before anything is
+// laid out; an installed game never has a marker.
+void remove_dead_runs(const fs::path &pref_path);
+
 struct GameInstallResult {
     bool success = false;
     std::string title_id;
@@ -64,13 +100,10 @@ struct GameInstallResult {
     std::string content_id;
 };
 
-/// Check if a game is already installed. If not, install it automatically.
-/// Supports: VPK/ZIP archives, extracted folders (NoNpDrm dumps), eboot.bin.
-///
-/// Strategy:
-///   1. If game_path is a directory, read sce_sys/param.sfo and copy to ux0/app/.
-///   2. If game_path is a VPK/ZIP, extract and install.
-///   3. If game_path is eboot.bin, use parent folder.
-///   4. Check if already installed via ux0/app/{title_id}/eboot.bin.
-// run_pkg: a game's PKG is run without installing it (lazy_pkg)
+/// The loaded content made ready to start: a PKG, VPK/ZIP, folder or eboot.bin
+/// (its folder). A game installed already runs installed. Otherwise, with
+/// run_pkg (Game Preload: Run Without Installing or Persistent Cache), it is
+/// laid out to be read where it lies (lazy_pkg); else it is installed into
+/// ux0. Its updates and DLC are declared in Content and used as chosen there.
+/// An update or DLC loaded on its own is installed.
 GameInstallResult ensure_game_installed(const fs::path &game_path, const fs::path &pref_path, int sys_lang, bool run_pkg = false);

@@ -77,6 +77,7 @@ struct retro_core_option_v2_category option_cats_us[] = {
     { "system", "System", "System emulation options." },
     { "audio", "Audio", "Audio output options." },
     { "network", "Network", "Network options." },
+    { "install", "Content", "How a game, update and DLCs are loaded." },
     { NULL, NULL, NULL },
 };
 
@@ -237,13 +238,14 @@ struct retro_core_option_v2_definition option_defs_us[] = {
     // ── System ───────────────────────────────────────────────────────────
     {
         "vita3k_pkg_mode",
-        "Game PKG",
+        "Game Preload",
         NULL,
-        "How a game's PKG is run. Run Without Installing: the game starts in seconds, and a file is decrypted from the PKG the first time the game reads it, into the system folder; it is all removed when the game is closed. Install: the whole game is decrypted and installed into ux0/app the first time, as Vita3K does, which takes as long as the game is big and uses its size on disk. A game installed already runs from its installation either way. Updates and DLC are always installed.",
+        "All content follows this setting except updates and DLC force installed (loaded manually). Run Without Installing: reads from file, nothing is kept. Persistent Cache: the same, keeps what was read. Install: copy all files to start faster.",
         NULL,
-        "system",
+        "install",
         {
             { "run", "Run Without Installing" },
+            { "cache", "Persistent Cache" },
             { "install", "Install" },
             { NULL, NULL },
         },

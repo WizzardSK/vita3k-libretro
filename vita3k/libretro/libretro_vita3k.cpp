@@ -58,6 +58,7 @@
 #include <SDL3/SDL_hints.h>
 
 #include <algorithm>
+#include <string_view>
 #include <limits>
 #include <array>
 #include <atomic>
@@ -94,6 +95,80 @@ static void lr_message(const std::string &msg, unsigned frames = 240) {
     m.msg = msg.c_str();
     m.frames = frames;
     libretro.environ_cb(RETRO_ENVIRONMENT_SET_MESSAGE, &m);
+}
+
+// Whether the system folder's file system can hold files with holes
+// (lazy_pkg::holes_supported). Without, Game Preload offers Install only:
+// Run Without Installing and Persistent Cache would take as much space as an
+// install and save nothing (sco8487).
+static bool s_holes_supported = true;
+
+static const retro_core_option_v2_definition install_only_preload = [] {
+    retro_core_option_v2_definition def{};
+    for (const retro_core_option_v2_definition *d = option_defs_us; d->key; d++) {
+        if (std::string_view(d->key) == "vita3k_pkg_mode")
+            def = *d;
+    }
+    def.info = "Install: copy all files to start faster. Run Without Installing and Persistent Cache are not offered: the system folder is on a file system without sparse files (such as FAT32 or exFAT), where they would take as much space as an install.";
+    def.values[0] = { "install", "Install" };
+    def.values[1] = { nullptr, nullptr };
+    def.default_value = "install";
+    return def;
+}();
+
+// The loaded game's own options (its updates and DLC, libretro_installer.cpp)
+// declared after the core's: the frontend is given the whole list again, and
+// the texts are kept here for as long as it holds on to them.
+static std::map<std::string, std::string> declare_content_options(const std::vector<ContentOption> &options) {
+    static std::vector<ContentOption> kept;
+    static std::vector<retro_core_option_v2_definition> definitions;
+
+    std::map<std::string, std::string> values;
+    if (!libretro.environ_cb)
+        return values;
+
+    kept = options;
+    definitions.clear();
+    for (const retro_core_option_v2_definition *def = option_defs_us; def->key; def++)
+        definitions.push_back(!s_holes_supported && std::string_view(def->key) == "vita3k_pkg_mode" ? install_only_preload : *def);
+    for (const ContentOption &option : kept) {
+        retro_core_option_v2_definition def{};
+        def.key = option.key.c_str();
+        def.desc = option.label.c_str();
+        def.info = option.info.c_str();
+        def.category_key = "install";
+        size_t count = 0;
+        for (const auto &value : option.values) {
+            if (count >= RETRO_NUM_CORE_OPTION_VALUES_MAX - 1)
+                break;
+            def.values[count].value = value.first.c_str();
+            def.values[count].label = value.second.c_str();
+            count++;
+        }
+        def.default_value = option.default_value.c_str();
+        definitions.push_back(def);
+    }
+    definitions.push_back(retro_core_option_v2_definition{});
+
+    // The translations are matched by key, so the core's own options keep
+    // theirs; the game's have none
+    options_us.definitions = definitions.data();
+    bool categories_supported = false;
+    libretro_set_core_options(libretro.environ_cb, &categories_supported);
+
+    for (const ContentOption &option : kept) {
+        if (!option.set_value.empty()) {
+            retro_variable set{};
+            set.key = option.key.c_str();
+            set.value = option.set_value.c_str();
+            libretro.environ_cb(RETRO_ENVIRONMENT_SET_VARIABLE, &set);
+        }
+        retro_variable variable{};
+        variable.key = option.key.c_str();
+        if (libretro.environ_cb(RETRO_ENVIRONMENT_GET_VARIABLE, &variable) && variable.value)
+            values[option.key] = variable.value;
+    }
+    return values;
 }
 
 static const char *get_core_option_value(const char *key, const char *fallback) {
@@ -1208,6 +1283,101 @@ static void request_guest_shutdown(EmuEnvState &emuenv, const char *reason) {
     lr_log(RETRO_LOG_INFO, "Guest shutdown (%s): cached presented frame cleared\n", shutdown_reason);
 }
 
+// The content prepared for a run: the game's entries in Content declared, and
+// its PKG installed or mounted as Game Preload and those entries say
+static GameInstallResult open_content() {
+    const fs::path pref_path = fs::path(libretro.system_dir);
+    remove_dead_runs(pref_path);
+    // A game loaded before may have left its own options declared
+    options_us.definitions = option_defs_us;
+    set_content_options_handler(declare_content_options);
+    s_holes_supported = lazy_pkg::holes_supported(pref_path / "ux0");
+    if (!s_holes_supported) {
+        lr_log(RETRO_LOG_INFO, "Game Preload: %s has no sparse files, games are installed\n", (pref_path / "ux0").string().c_str());
+        declare_content_options({});
+        // A Persistent Cache from when the folder was on a file system with them
+        // (copied over since) has no use any more (sco8487); what a run without
+        // installing left is gone already (remove_dead_runs)
+        boost::system::error_code ec;
+        if (fs::exists(pref_path / "cache" / "pkg", ec)) {
+            fs::remove_all(pref_path / "cache" / "pkg", ec);
+            lr_log(RETRO_LOG_INFO, "Game Preload: Persistent Cache removed\n");
+        }
+    }
+    const std::string pkg_mode_name = s_holes_supported ? get_core_option_value("vita3k_pkg_mode", "run") : "install";
+    lazy_pkg::set_cache_root(pkg_mode_name == "cache" ? pref_path / "cache" / "pkg" : fs::path());
+    set_content_option_accessors(
+        [](const std::string &key) { return std::string(get_core_option_value(key.c_str(), "")); },
+        [](const std::string &key, const std::string &value) {
+            if (!libretro.environ_cb)
+                return;
+            retro_variable set{};
+            set.key = key.c_str();
+            set.value = value.c_str();
+            libretro.environ_cb(RETRO_ENVIRONMENT_SET_VARIABLE, &set);
+        });
+    const int sys_lang = 1;
+    const GameInstallResult result = ensure_game_installed(fs_utils::utf8_to_path(libretro.game_path), pref_path, sys_lang, pkg_mode_name == "run" || pkg_mode_name == "cache");
+
+    // An installed game's update stays in ux0/patch/<title>, never merged into
+    // the game's folder: its files are read in place of the game's here, where
+    // a file of the update exists. A game run from its PKG has the update laid
+    // over it by lazy_pkg instead.
+    vfs::host_path_hook = nullptr;
+    vfs::host_dir_hook = nullptr;
+    const fs::path app = (pref_path / "ux0" / "app" / result.title_id).lexically_normal();
+    const fs::path patch = (pref_path / "ux0" / "patch" / result.title_id).lexically_normal();
+    if (result.success && !lazy_pkg::mounted() && fs::is_directory(patch)) {
+        // The path below the game's folder, or empty for one outside it
+        const auto inside_game = [app](const fs::path &host) {
+            fs::path relative = host.lexically_normal().lexically_relative(app);
+            if (!relative.empty() && relative.filename() == ".")
+                relative = relative.parent_path();
+            return (relative.empty() || *relative.begin() == "..") ? fs::path() : relative;
+        };
+        // A file the update has is read from it; so is a folder only it has
+        vfs::host_path_hook = [inside_game, patch](const fs::path &host) -> fs::path {
+            const fs::path relative = inside_game(host);
+            if (relative.empty())
+                return host;
+            const fs::path over = patch / relative;
+            boost::system::error_code ec;
+            if (fs::is_regular_file(over, ec) || (fs::is_directory(over, ec) && !fs::exists(host, ec)))
+                return over;
+            return host;
+        };
+        // A folder of the game lists what only the update has after its own
+        vfs::host_dir_hook = [inside_game, app, patch](const fs::path &dir) {
+            std::vector<std::string> names;
+            const fs::path relative = inside_game(dir);
+            if (relative.empty() && dir.lexically_normal() != app && dir.lexically_normal() != app / ".")
+                return names;
+            boost::system::error_code ec;
+            for (fs::directory_iterator it(patch / relative, ec), end; !ec && it != end; it.increment(ec)) {
+                if (!fs::exists(app / relative / it->path().filename(), ec))
+                    names.push_back(it->path().filename().string());
+            }
+            return names;
+        };
+        lr_log(RETRO_LOG_INFO, "The update in %s is laid over the installed game\n", patch.generic_string().c_str());
+    }
+    return result;
+}
+
+// The other end of open_content, once the guest has stopped: a game run
+// without installing is laid out no more (its marker goes with it), and what
+// was turned off in Content is deleted
+static void close_content() {
+    vfs::host_path_hook = nullptr;
+    vfs::host_dir_hook = nullptr;
+    if (lazy_pkg::mounted()) {
+        lazy_pkg::unmount();
+        boost::system::error_code ec;
+        fs::remove(fs::path(libretro.system_dir) / "ux0" / "libretro_pkg" / ("lazy_" + libretro.installed_title_id), ec);
+    }
+    content_closed();
+}
+
 static bool perform_core_reset() {
     lr_log(RETRO_LOG_INFO,
         "perform_core_reset: begin (game_loaded=%d, emuenv=%d, cfg=%d, root=%d, context=%d)\n",
@@ -1232,6 +1402,19 @@ static bool perform_core_reset() {
     libretro.renderer_ready = false;
     libretro.app_started = false;
     libretro.pending_main_module_id = -1;
+
+    // The content goes the same way too, so that what was chosen in Content
+    // is applied and nothing of the run before is kept
+    close_content();
+    const GameInstallResult install_result = open_content();
+    if (!install_result.success) {
+        lr_log(RETRO_LOG_ERROR, "perform_core_reset: failed to prepare the content again\n");
+        libretro.game_loaded = false;
+        return false;
+    }
+    libretro.installed_title_id = install_result.title_id;
+    libretro.installed_title = install_result.title;
+    libretro.cfg->run_app_path = libretro.installed_title_id;
 
     libretro.emuenv = std::make_unique<EmuEnvState>();
     EmuEnvState &emuenv = *libretro.emuenv;
@@ -1574,9 +1757,7 @@ RETRO_API bool retro_load_game(const struct retro_game_info *game) {
         lr_trace("retro_load_game.firmware", "firmware not found at %s", system_dir.generic_string().c_str());
     }
 
-    const int sys_lang = 1;
-    const char *pkg_mode = get_core_option_value("vita3k_pkg_mode", "run");
-    GameInstallResult install_result = ensure_game_installed(game_path, pref_path, sys_lang, std::string(pkg_mode) == "run");
+    GameInstallResult install_result = open_content();
 
     if (!install_result.success) {
         lr_log(RETRO_LOG_ERROR, "Game installation/verification failed.\n");
@@ -1685,13 +1866,7 @@ RETRO_API void retro_unload_game(void) {
     }
 
     libretro.emuenv.reset();
-    // A PKG run without installing: what it laid out goes with it
-    if (lazy_pkg::mounted()) {
-        const fs::path marker = fs::path(libretro.system_dir) / "ux0" / "libretro_pkg" / ("lazy_" + libretro.installed_title_id);
-        lazy_pkg::unmount();
-        boost::system::error_code ec;
-        fs::remove(marker, ec);
-    }
+    close_content();
     libretro.game_loaded = false;
     libretro.app_started = false;
     libretro.pending_main_module_id = -1;
@@ -2065,8 +2240,10 @@ static void apply_config_changes() {
     const bool modules_mode_changed = (cfg.modules_mode != cfg.current_config.modules_mode);
     const bool cpu_opt_changed = (cfg.cpu_opt != cfg.current_config.cpu_opt);
 
+    // The Content options (game, update, DLC) apply when the content is started again
+    const bool content_changed = content_options_changed();
     const bool restart_required = backend_changed || resolution_changed || memory_mapping_changed
-        || high_accuracy_changed || modules_mode_changed || cpu_opt_changed;
+        || high_accuracy_changed || modules_mode_changed || cpu_opt_changed || content_changed;
 
     if (restart_required && libretro.app_started) {
         lr_log(RETRO_LOG_INFO,

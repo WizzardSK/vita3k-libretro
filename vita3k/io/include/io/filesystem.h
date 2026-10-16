@@ -25,9 +25,23 @@
 
 #include <dirent.h>
 
+#include <cstdint>
 #include <memory>
 
 typedef std::shared_ptr<FILE> FilePtr;
+
+// A file the libretro core serves for a host path in place of the one on
+// disk (a game's PKG run without installing it: the file decrypted as it is
+// read). Read-only; FileStats reads, seeks and tells through it.
+struct ServedFile {
+    virtual ~ServedFile() = default;
+    // Bytes read, or -1
+    virtual std::int64_t read(void *data, std::size_t size) = 0;
+    // The new position, or -1. whence is SEEK_SET, SEEK_CUR or SEEK_END
+    virtual std::int64_t seek(std::int64_t offset, int whence) = 0;
+};
+// Null when the path is not one of the core's own
+extern std::shared_ptr<ServedFile> (*open_file_hook)(const fs::path &path, int open_mode);
 
 // For opening Boost.Filesystem files, Boost returns wide strings for Windows, normal strings for other OS
 // Dirent and FILE only accept and return wide char strings for Windows, and normal for other OS

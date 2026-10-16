@@ -62,9 +62,14 @@ constexpr bool log_file_read = false;
 constexpr bool log_file_seek = false;
 constexpr bool log_file_stat = false;
 
+std::shared_ptr<ServedFile> (*open_file_hook)(const fs::path &path, int open_mode) = nullptr;
+
 namespace vfs {
 
 std::function<void(const fs::path &)> host_file_hook;
+std::function<void(const fs::path &, int)> host_open_hook;
+std::function<fs::path(const fs::path &)> host_path_hook;
+std::function<std::vector<std::string>(const fs::path &)> host_dir_hook;
 
 bool read_file(const VitaIoDevice device, FileBuffer &buf, const fs::path &vita_fs_path, const fs::path &vfs_file_path) {
     const auto host_file_path = device::construct_emulated_path(device, vfs_file_path, vita_fs_path).generic_path();
@@ -383,8 +388,8 @@ SceUID open_file(IOState &io, const char *path, const int flags, const fs::path 
 
     const auto normalized_path = device::construct_normalized_path(device, translated_path);
 
-    if (vfs::host_file_hook)
-        vfs::host_file_hook(system_path);
+    if (vfs::host_open_hook)
+        vfs::host_open_hook(system_path, flags);
 
     FileStats f{ path, normalized_path, system_path, flags };
     const auto fd = io.next_fd++;
@@ -745,7 +750,9 @@ SceUID open_dir(IOState &io, const char *path, const fs::path &vita_fs_path, con
     }
 
     const auto normalized = device::construct_normalized_path(device, translated_path);
-    const DirStats d{ path, normalized, dir_path, opened };
+    DirStats d{ path, normalized, dir_path, opened };
+    if (vfs::host_dir_hook)
+        d.extra_names = vfs::host_dir_hook(dir_path);
     const auto fd = io.next_fd++;
     io.dir_entries.emplace(fd, d);
 
@@ -767,8 +774,19 @@ SceUID read_dir(IOState &io, const SceUID fd, SceIoDirent *dent, const fs::path 
             return IO_ERROR(SCE_ERROR_ERRNO_EBADFD);
 
         const auto d = dir->second.get_dir_ptr();
-        if (!d)
-            return 0;
+        if (!d) {
+            // The directory's own entries are done: then the names laid over it
+            // (vfs::host_dir_hook), whose stat goes through vfs::host_path_hook
+            auto &stats = dir->second;
+            if (stats.next_extra >= stats.extra_names.size())
+                return 0;
+            const std::string &name = stats.extra_names[stats.next_extra++];
+            strncpy(dent->d_name, name.c_str(), sizeof(dent->d_name));
+            const auto file_path = std::string(stats.get_vita_loc()) + '/' + name;
+            if (stat_file(io, file_path.c_str(), &dent->d_stat, vita_fs_path, export_name) < 0)
+                return IO_ERROR(SCE_ERROR_ERRNO_EMFILE);
+            return 1;
+        }
 
         const auto d_name_utf8 = get_file_in_dir(d);
         strncpy(dent->d_name, d_name_utf8.c_str(), sizeof(dent->d_name));

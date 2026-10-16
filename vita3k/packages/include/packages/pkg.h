@@ -83,4 +83,8 @@ struct PkgEntry {
 
 bool install_pkg(const fs::path &pkg_path, EmuEnvState &emuenv, std::string &p_zRIF, const std::function<void(float)> &progress_callback = nullptr);
 std::string find_pkg_zrif(const fs::path &pkg_path, const fs::path &vita_fs_path);
+// The libretro core decrypts an install in ux0/libretro_pkg, where its other
+// temporary folders are, not in a folder beside the target that the game's
+// own folders (ux0/app, ux0/patch, ux0/addcont/<title>) would list
+fs::path install_decrypt_folder(const fs::path &vita_fs_path, const fs::path &target);
 bool decrypt_install_nonpdrm(EmuEnvState &emuenv, const fs::path &drmlicpath, const fs::path &title_path, const std::function<void(float)> &progress_callback = nullptr);
