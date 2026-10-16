@@ -25,6 +25,8 @@ All three download under the same name, so rename the preinstalled package and t
 
 The core installs them the first time it starts.
 
+A `.pup` can also be loaded from RetroArch like a game, under any name: the core installs it, says which parts of the firmware are still missing, and starts nothing. Load each of the three that way and then a game.
+
 ## Content
 
 A game is loaded as a `.vpk` or `.zip`, as a game folder, or through the folder's `eboot.bin`. It is installed into `system/vita3k/` the first time it is started, and started from there afterwards.

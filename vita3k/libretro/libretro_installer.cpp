@@ -262,6 +262,32 @@ bool ensure_firmware_installed(const fs::path &pref_path, const fs::path &system
     return true;
 }
 
+bool install_firmware_content(const fs::path &pref_path, const fs::path &pup_path) {
+    boost::system::error_code ec;
+    if (!fs::is_regular_file(pup_path, ec)) {
+        lr_log(RETRO_LOG_ERROR, "%s is not a file the core can open directly; copy it into a folder and load it from there\n", pup_path.generic_string().c_str());
+        lr_msg("Firmware: load the .pup from a regular folder", 600);
+        return false;
+    }
+    fs::create_directories(pref_path, ec);
+    if (!install_pup_file(pref_path, pup_path, "Firmware package"))
+        return false;
+    const FirmwareStatus status = check_firmware_status(pref_path);
+    std::string missing;
+    if (!status.firmware_installed)
+        missing += missing.empty() ? "system firmware" : ", system firmware";
+    if (!status.preinst_installed)
+        missing += missing.empty() ? "preinstalled package" : ", preinstalled package";
+    if (!status.font_installed)
+        missing += missing.empty() ? "fonts" : ", fonts";
+    const std::string text = missing.empty()
+        ? std::string("Firmware installed: all three parts are there. Load a game.")
+        : "Firmware package installed. Still missing: " + missing + " - load that .pup too.";
+    lr_log(RETRO_LOG_INFO, "%s\n", text.c_str());
+    lr_msg(text.c_str(), 600);
+    return true;
+}
+
 // ─── Game installation ──────────────────────────────────────────────────────
 
 // Miniz helpers

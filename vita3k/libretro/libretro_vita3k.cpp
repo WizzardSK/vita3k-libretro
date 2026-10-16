@@ -1396,7 +1396,7 @@ RETRO_API void retro_get_system_info(struct retro_system_info *info) {
     // ("v0.2.1 4123"), and the upstream commit (upstream.version)
     static const std::string version = fmt::format("{} {} {}", app_version, app_number, app_hash);
     info->library_version = version.c_str();
-    info->valid_extensions = "vpk|zip|pkg|bin";
+    info->valid_extensions = "vpk|zip|pkg|bin|pup";
     info->need_fullpath = true;
     info->block_extract = true;
 }
@@ -1517,6 +1517,16 @@ RETRO_API bool retro_load_game(const struct retro_game_info *game) {
     const fs::path system_dir = fs::path(libretro.system_dir);
     const fs::path game_path = fs_utils::utf8_to_path(libretro.game_path);
     fs::create_directories(pref_path);
+
+    // A firmware package loaded as content is installed, and there is no game
+    // to start; RetroArch then reports that nothing was loaded, after the
+    // core's own message saying what was installed
+    std::string extension = game_path.extension().string();
+    std::transform(extension.begin(), extension.end(), extension.begin(), [](unsigned char c) { return static_cast<char>(std::tolower(c)); });
+    if (extension == ".pup") {
+        install_firmware_content(pref_path, game_path);
+        return false;
+    }
 
     if (!ensure_firmware_installed(pref_path, system_dir)) {
         lr_log(RETRO_LOG_WARN, "Firmware not found — expect errors\n");

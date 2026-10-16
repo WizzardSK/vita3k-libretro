@@ -48,6 +48,12 @@ FirmwareStatus check_firmware_status(const fs::path &pref_path);
 ///   6. If all else fails, return false and log instructions.
 bool ensure_firmware_installed(const fs::path &pref_path, const fs::path &system_dir);
 
+/// A .pup loaded as content: installed, whichever of the three packages it is
+/// (upstream's install_pup tells them apart by their content, as they all
+/// download under one name), and what is still missing said on screen. False
+/// if it could not be installed.
+bool install_firmware_content(const fs::path &pref_path, const fs::path &pup_path);
+
 // ─── Game installation ──────────────────────────────────────────────────────
 
 struct GameInstallResult {
