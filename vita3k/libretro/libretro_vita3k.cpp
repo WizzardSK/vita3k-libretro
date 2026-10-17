@@ -67,6 +67,7 @@
 #include <limits>
 #include <array>
 #include <atomic>
+#include <thread>
 #include <cstdarg>
 #include <cmath>
 #include <cstdlib>
@@ -92,6 +93,7 @@ static void read_core_options();
 static void stop_render_thread();
 static void request_guest_shutdown(EmuEnvState &emuenv, const char *reason);
 static bool perform_core_reset();
+static void join_firmware_thread();
 
 static void lr_message(const std::string &msg, unsigned frames = 240) {
     if (!libretro.environ_cb)
@@ -1929,6 +1931,7 @@ RETRO_API void retro_init(void) {
 }
 
 RETRO_API void retro_deinit(void) {
+    join_firmware_thread();
     lr_log(RETRO_LOG_INFO, "retro_deinit()\n");
     lr_trace("retro_deinit.enter",
         "initialized=%d game_loaded=%d emuenv=%d app_started=%d",
@@ -2000,7 +2003,7 @@ RETRO_API bool retro_load_game(const struct retro_game_info *game) {
         return false;
     }
 
-    if (!ensure_firmware_installed(pref_path, system_dir)) {
+    if (!check_firmware_installed(pref_path, system_dir)) {
         lr_log(RETRO_LOG_WARN, "Firmware not found — expect errors\n");
         lr_trace("retro_load_game.firmware", "firmware not found at %s", system_dir.generic_string().c_str());
     }
@@ -2106,6 +2109,7 @@ RETRO_API bool retro_load_game_special(unsigned game_type, const struct retro_ga
 
 RETRO_API void retro_unload_game(void) {
     lr_log(RETRO_LOG_INFO, "retro_unload_game()\n");
+    join_firmware_thread();
     lr_trace("retro_unload_game.enter", "game_loaded=%d emuenv=%d", libretro.game_loaded ? 1 : 0, libretro.emuenv ? 1 : 0);
 
     if (libretro.emuenv) {
@@ -2122,6 +2126,42 @@ RETRO_API void retro_unload_game(void) {
     libretro.reset_requested = false;
     libretro.installed_title_id.clear();
     libretro.installed_title.clear();
+}
+
+// System > Install Firmware: the .pup files in system/vita3k installed on
+// request, on a thread of its own so the frontend keeps running meanwhile,
+// and its result shown from retro_run once it is done
+static std::thread s_firmware_thread;
+static std::atomic_bool s_firmware_done{ false };
+static std::string s_firmware_result;
+
+static void join_firmware_thread() {
+    if (s_firmware_thread.joinable())
+        s_firmware_thread.join();
+}
+
+static void handle_install_firmware_request() {
+    if (std::string(get_core_option_value("vita3k_install_firmware", "disabled")) != "enabled")
+        return;
+    retro_variable off{ "vita3k_install_firmware", "disabled" };
+    libretro.environ_cb(RETRO_ENVIRONMENT_SET_VARIABLE, &off);
+    if (s_firmware_thread.joinable()) {
+        lr_message("Install Firmware: still installing");
+        return;
+    }
+    const fs::path system_dir = fs::path(libretro.system_dir);
+    s_firmware_done = false;
+    s_firmware_thread = std::thread([system_dir] {
+        s_firmware_result = install_firmware_from_folder(system_dir, system_dir);
+        s_firmware_done = true;
+    });
+}
+
+static void show_firmware_result() {
+    if (!s_firmware_done.exchange(false))
+        return;
+    join_firmware_thread();
+    lr_message(s_firmware_result, 600);
 }
 
 // Rename Active Account: a name typed inside the core, since a core option
@@ -2345,7 +2385,9 @@ RETRO_API void retro_run(void) {
         read_core_options();
         apply_config_changes();
         libretro_accounts_options_changed(*libretro.emuenv);
+        handle_install_firmware_request();
     }
+    show_firmware_result();
 
     EmuEnvState &emuenv = *libretro.emuenv;
 

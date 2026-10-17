@@ -174,94 +174,84 @@ static bool install_pup_file(const fs::path &pref_path, const fs::path &pup_path
     return true;
 }
 
-bool ensure_firmware_installed(const fs::path &pref_path, const fs::path &system_dir) {
-    lr_log(RETRO_LOG_INFO, "=== Checking firmware installation ===\n");
-    lr_log(RETRO_LOG_INFO, "pref_path: %s\n", pref_path.generic_string().c_str());
-    lr_log(RETRO_LOG_INFO, "system_dir: %s\n", system_dir.generic_string().c_str());
+// The .pup of one firmware part: in the firmware directory, else in the
+// emulated storage's root, and for the system firmware also under its own
+// Vita names one folder up
+static fs::path firmware_pup(const fs::path &pref_path, const fs::path &system_dir, PupKind kind) {
+    fs::path pup = find_pup_file(system_dir, kind);
+    if (pup.empty() && system_dir != pref_path)
+        pup = find_pup_file(pref_path, kind);
+    if (pup.empty() && kind == PupKind::Firmware && system_dir.has_parent_path())
+        pup = find_pup_file(system_dir.parent_path(), kind, true);
+    return pup;
+}
 
-    // Create pref_path directories if needed
+static std::string missing_parts(const FirmwareStatus &status) {
+    std::string missing;
+    if (!status.firmware_installed)
+        missing += missing.empty() ? "system firmware" : ", system firmware";
+    if (!status.preinst_installed)
+        missing += missing.empty() ? "preinstalled package" : ", preinstalled package";
+    if (!status.font_installed)
+        missing += missing.empty() ? "fonts" : ", fonts";
+    return missing;
+}
+
+std::string install_firmware_from_folder(const fs::path &pref_path, const fs::path &system_dir) {
     fs::create_directories(pref_path);
+    int installed = 0, failed = 0;
+    const std::pair<PupKind, const char *> parts[] = {
+        { PupKind::Preinst, "Preinstalled package" },
+        { PupKind::Firmware, "System firmware" },
+        { PupKind::Font, "Font package" },
+    };
+    for (const auto &[kind, label] : parts) {
+        const fs::path pup = firmware_pup(pref_path, system_dir, kind);
+        if (pup.empty())
+            continue;
+        (install_pup_file(pref_path, pup, label) ? installed : failed)++;
+    }
+    const FirmwareStatus status = check_firmware_status(pref_path);
+    const std::string missing = missing_parts(status);
+    std::string text;
+    if (installed == 0 && failed == 0)
+        text = fmt::format("Install Firmware: no .pup files in {}", system_dir.generic_string());
+    else if (failed > 0)
+        text = fmt::format("Install Firmware: {} part(s) installed, {} failed (see the log)", installed, failed);
+    else
+        text = fmt::format("Install Firmware: {} part(s) installed", installed);
+    if (!missing.empty())
+        text += ". Still missing: " + missing;
+    lr_log(RETRO_LOG_INFO, "%s\n", text.c_str());
+    return text;
+}
 
-    // Check current firmware status
-    FirmwareStatus status = check_firmware_status(pref_path);
+bool check_firmware_installed(const fs::path &pref_path, const fs::path &system_dir) {
+    const FirmwareStatus status = check_firmware_status(pref_path);
     if (status.all_installed()) {
-        lr_log(RETRO_LOG_INFO, "All firmware components are already installed.\n");
+        lr_log(RETRO_LOG_INFO, "All firmware components are installed.\n");
         return true;
     }
-
-    // ── Install preinst firmware (pd0/) ──
-    if (!status.preinst_installed) {
-        fs::path preinst_pup = find_pup_file(system_dir, PupKind::Preinst);
-        if (preinst_pup.empty() && system_dir != pref_path)
-            preinst_pup = find_pup_file(pref_path, PupKind::Preinst);
-        if (!preinst_pup.empty()) {
-            install_pup_file(pref_path, preinst_pup, "Preinst firmware");
-        } else {
-            lr_log(RETRO_LOG_WARN, "No preinst PUP found. Download from: https://bit.ly/4hlePsX\n");
-            lr_log(RETRO_LOG_WARN, "Save it with \"preinst\" in its name (preinst.pup) in: %s\n", system_dir.generic_string().c_str());
-        }
+    // The system firmware missing is the case games do not start in. With it
+    // there and another part missing (the fonts, say, in folders copied from
+    // the standalone) most games run: said as what it is, not as no firmware.
+    const enum retro_log_level level = status.firmware_installed ? RETRO_LOG_WARN : RETRO_LOG_ERROR;
+    if (status.firmware_installed) {
+        lr_log(level, "=== FIRMWARE INCOMPLETE ===\n");
+        lr_log(level, "The system firmware is installed; a part some games need is not.\n");
+    } else {
+        lr_log(level, "=== FIRMWARE MISSING ===\n");
+        lr_log(level, "Vita3K requires PS Vita firmware to run games.\n");
     }
-
-    // ── Install main firmware (vs0/) ──
-    if (!status.firmware_installed) {
-        fs::path fw_pup = find_pup_file(system_dir, PupKind::Firmware);
-        if (fw_pup.empty() && system_dir != pref_path)
-            fw_pup = find_pup_file(pref_path, PupKind::Firmware);
-        if (fw_pup.empty() && system_dir.has_parent_path())
-            fw_pup = find_pup_file(system_dir.parent_path(), PupKind::Firmware, true);
-        if (!fw_pup.empty()) {
-            install_pup_file(pref_path, fw_pup, "Main firmware");
-        } else {
-            lr_log(RETRO_LOG_WARN, "No main firmware PUP found.\n");
-            lr_log(RETRO_LOG_WARN, "Download from: https://www.playstation.com/en-us/support/hardware/psvita/system-software\n");
-            lr_log(RETRO_LOG_WARN, "Save it as a .pup (PSP2UPDAT.PUP, PSVUPDAT.PUP) in: %s\n", system_dir.generic_string().c_str());
-        }
-    }
-
-    // ── Install font package (sa0/) ──
-    if (!status.font_installed) {
-        fs::path font_pup = find_pup_file(system_dir, PupKind::Font);
-        if (font_pup.empty() && system_dir != pref_path)
-            font_pup = find_pup_file(pref_path, PupKind::Font);
-        if (!font_pup.empty()) {
-            install_pup_file(pref_path, font_pup, "Font package");
-        } else {
-            lr_log(RETRO_LOG_WARN, "No font PUP found. Download from: https://bit.ly/48ouDaa\n");
-            lr_log(RETRO_LOG_WARN, "Save it with \"font\" in its name (font.pup) in: %s\n", system_dir.generic_string().c_str());
-        }
-    }
-
-    // ── Final status check ──
-    status = check_firmware_status(pref_path);
-    if (!status.all_installed()) {
-        // The system firmware missing is the case games do not start in. With it
-        // there and another part missing (the fonts, say, in folders copied from
-        // the standalone) most games run: said as what it is, not as no firmware.
-        const enum retro_log_level level = status.firmware_installed ? RETRO_LOG_WARN : RETRO_LOG_ERROR;
-        if (status.firmware_installed) {
-            lr_log(level, "=== FIRMWARE INCOMPLETE ===\n");
-            lr_log(level, "The system firmware is installed; a part some games need is not.\n");
-        } else {
-            lr_log(level, "=== FIRMWARE MISSING ===\n");
-            lr_log(level, "Vita3K requires PS Vita firmware to run games.\n");
-        }
-        lr_log(level, "Place the following PUP files in: %s\n", system_dir.generic_string().c_str());
-        if (!status.preinst_installed)
-            lr_log(level, "  - preinst.pup, or any .pup name with preinst in it (pd0/) → https://bit.ly/4hlePsX\n");
-        if (!status.firmware_installed)
-            lr_log(level, "  - the system firmware, any .pup name without preinst or font in it (vs0/) → https://www.playstation.com/en-us/support/hardware/psvita/system-software\n");
-        if (!status.font_installed)
-            lr_log(level, "  - font.pup, or any .pup name with font in it (sa0/) → https://bit.ly/48ouDaa\n");
-
-        if (status.firmware_installed)
-            return true;
-        lr_msg("Firmware missing! See log for download instructions.", 600);
-        return false;
-    }
-
-    lr_log(RETRO_LOG_INFO, "All firmware components installed successfully!\n");
-    lr_msg("All firmware installed successfully!");
-    return true;
+    lr_log(level, "Place the following PUP files in %s and turn on System > Install Firmware, or load each .pup as content:\n", system_dir.generic_string().c_str());
+    if (!status.preinst_installed)
+        lr_log(level, "  - preinst.pup, or any .pup name with preinst in it (pd0/) → https://bit.ly/4hlePsX\n");
+    if (!status.firmware_installed)
+        lr_log(level, "  - the system firmware, any .pup name without preinst or font in it (vs0/) → https://www.playstation.com/en-us/support/hardware/psvita/system-software\n");
+    if (!status.font_installed)
+        lr_log(level, "  - font.pup, or any .pup name with font in it (sa0/) → https://bit.ly/48ouDaa\n");
+    lr_msg(fmt::format("Firmware missing: {}. Put the .pup files in system/vita3k and turn on System > Install Firmware.", missing_parts(status)).c_str(), 600);
+    return status.firmware_installed;
 }
 
 bool install_firmware_content(const fs::path &pref_path, const fs::path &pup_path) {
@@ -274,14 +264,7 @@ bool install_firmware_content(const fs::path &pref_path, const fs::path &pup_pat
     fs::create_directories(pref_path, ec);
     if (!install_pup_file(pref_path, pup_path, "Firmware package"))
         return false;
-    const FirmwareStatus status = check_firmware_status(pref_path);
-    std::string missing;
-    if (!status.firmware_installed)
-        missing += missing.empty() ? "system firmware" : ", system firmware";
-    if (!status.preinst_installed)
-        missing += missing.empty() ? "preinstalled package" : ", preinstalled package";
-    if (!status.font_installed)
-        missing += missing.empty() ? "fonts" : ", fonts";
+    const std::string missing = missing_parts(check_firmware_status(pref_path));
     const std::string text = missing.empty()
         ? std::string("Firmware installed: all three parts are there. Load a game.")
         : "Firmware package installed. Still missing: " + missing + " - load that .pup too.";

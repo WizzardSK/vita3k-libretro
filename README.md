@@ -25,7 +25,7 @@ The PS Vita firmware is required. Download it from PlayStation's website and put
 
 All three download under the same name, so rename the preinstalled package and the fonts as you save them.
 
-The core installs them the first time it starts.
+Then turn on Core Options > System > Install Firmware: when the menu is closed, the core installs every part it finds there, over what is installed, so a newer system firmware `.pup` updates it. Core options are there only while content runs: with no firmware yet, a game still loads (it waits on a black screen, and the core says which part is missing), so turn the option on then and close and load the game again once it is done. Nothing is installed at a start by itself.
 
 A `.pup` can also be loaded from RetroArch like a game, under any name: the core installs it, says which parts of the firmware are still missing, and starts nothing. Load each of the three that way and then a game.
 
@@ -48,11 +48,11 @@ The pad is the Vita's buttons and sticks. Games that use the gyroscope and accel
 - **GPU**: renderer, internal resolution, screen filter (bilinear, nearest, bicubic, FXAA, FSR), anisotropic filtering, asynchronous pipeline compilation, the shader compile overlay, memory mapping, high-accuracy rendering, surface sync, V-Sync, FPS hack.
 - **CPU**: CPU optimizations.
 - **System**: PS TV mode, modules mode, confirm button, system language, date format, time format, file loading delay. The date and time are the host's, as in standalone Vita3K.
-- **Modules**: the firmware's modules (`vs0/sys/external`), each on or off, loaded when Modules Mode is Auto & Manual or Manual; listed only then. Saved per game with RetroArch's game options, as upstream keeps them per game.
+- **Modules**: the firmware's modules (`vs0/sys/external`), each on or off, loaded when Modules Mode (in System) is Auto & Manual or Manual; listed only then. Saved per game with RetroArch's game options, as upstream keeps them per game.
 - **Audio**: volume, NGS audio engine.
 - **Camera**: what the front and back cameras see: RetroArch's camera (Host Camera; it needs Settings > Privacy > Camera Access on, and a camera driver for the platform), an image (`system/vita3k/camera/front.png` or `back.png`, also `.jpg`), or a solid colour.
 - **Network**: PSN signed in, HTTP (on or off, timeout and read-end attempts and sleeps), the adhoc address among the host's network interfaces.
-- **Accounts**: the account a game starts as (Active Account), Create Account and Remove Account. Each account (`ux0/user/<id>`) has its own saves and trophies. Their names are in `system/vita3k/account_name.txt`, one `<id> = <name>` line each, which the core writes at each start; change a name there and the account has it the next time a game starts.
+- **Accounts**: the account a game starts as (Active Account), Create Account, Rename Active Account (a name entry by pad or keyboard, shown as RetroArch's notification) and Remove Account. Each account (`ux0/user/<id>`) has its own saves and trophies. Their names are in `system/vita3k/account_name.txt`, one `<id> = <name>` line each, which the core writes at each start; change a name there and the account has it the next time a game starts.
 
 ## Building
 

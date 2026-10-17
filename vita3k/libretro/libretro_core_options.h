@@ -269,6 +269,20 @@ struct retro_core_option_v2_definition option_defs_us[] = {
         "disabled"
     },
     {
+        "vita3k_install_firmware",
+        "Install Firmware",
+        NULL,
+        "Installs the firmware from the .pup files in the firmware directory (system/vita3k) when this menu is exited, and returns to OFF: the system firmware (vs0), the preinstalled package (pd0, a .pup with \"preinst\" in its name) and the fonts (sa0, a .pup with \"font\" in its name). Each part found replaces the one installed, so a newer system firmware .pup updates it. Games need the system firmware to start. Loading a .pup as content installs it too.",
+        NULL,
+        "system",
+        {
+            { "disabled", "OFF" },
+            { "enabled", "ON" },
+            { NULL, NULL },
+        },
+        "disabled"
+    },
+    {
         "vita3k_modules_mode",
         "Modules Mode",
         NULL,
