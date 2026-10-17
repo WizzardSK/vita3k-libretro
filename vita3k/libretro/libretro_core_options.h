@@ -80,7 +80,7 @@ struct retro_core_option_v2_category option_cats_us[] = {
     { "install", "Content", "How a game, update and DLCs are loaded." },
     { "camera", "Camera", "What the Vita's front and back cameras see." },
     { "accounts", "Accounts", "The Vita's accounts (users) in ux0/user, each with its own saves and trophies." },
-    { "modules", "Modules", "The firmware's modules (vs0/sys/external) to load when Modules Mode is Auto & Manual or Manual." },
+    { "modules", "Modules", "The firmware's modules (vs0/sys/external) to load when Modules Mode (in System) is Auto & Manual or Manual." },
     { NULL, NULL, NULL },
 };
 

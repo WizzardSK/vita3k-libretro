@@ -41,6 +41,10 @@ static std::string s_running_id;
 static constexpr const char *ACTIVE_KEY = "vita3k_account_active";
 static constexpr const char *CREATE_KEY = "vita3k_account_create";
 static constexpr const char *REMOVE_KEY = "vita3k_account_remove";
+static constexpr const char *RENAME_KEY = "vita3k_account_rename";
+
+// Rename Active Account turned on, waiting for the name entry to take it
+static bool s_rename_requested = false;
 static constexpr const char *REMOVE_NONE = "none";
 
 // The console's limit for a user name, in characters
@@ -135,10 +139,19 @@ static std::vector<ContentOption> account_options(const EmuEnvState &emuenv) {
     create.key = CREATE_KEY;
     create.category = "accounts";
     create.label = "Create Account";
-    create.info = "Creates an account when this menu is exited, named Player 2, Player 3 and so on, and makes it the Active Account. It appears in the lists once the menu has been exited and opened again. Names are changed in system/vita3k/account_name.txt.";
+    create.info = "Creates an account when this menu is exited, named Player 2, Player 3 and so on, and makes it the Active Account. It appears in the lists once the menu has been exited and opened again.";
     create.values = { { "disabled", "OFF" }, { "enabled", "ON" } };
     create.default_value = "disabled";
     options.push_back(std::move(create));
+
+    ContentOption rename;
+    rename.key = RENAME_KEY;
+    rename.category = "accounts";
+    rename.label = "Rename Active Account";
+    rename.info = "Opens the name entry for the Active Account when this menu is exited, and returns to OFF. The name so far is shown as a notification over the game, so the frontend's on-screen notifications have to be on.\n\nWith a pad: Up and Down change the last character, Right adds one, Left removes one, Start accepts, Select cancels.\n\nWith a keyboard: type, Backspace removes, Enter accepts, Escape cancels.\n\nUp to 16 characters. The game gets no input while the entry is open. Names can also be changed in system/vita3k/account_name.txt.";
+    rename.values = { { "disabled", "OFF" }, { "enabled", "ON" } };
+    rename.default_value = "disabled";
+    options.push_back(std::move(rename));
 
     ContentOption remove;
     remove.key = REMOVE_KEY;
@@ -213,8 +226,43 @@ void libretro_accounts_options_changed(EmuEnvState &emuenv) {
         changed = true;
     }
 
+    if (s_get(RENAME_KEY) == "enabled") {
+        s_set(RENAME_KEY, "disabled");
+        s_rename_requested = true;
+    }
+
     if (changed) {
         write_names_file(emuenv);
         declare(emuenv);
     }
+}
+
+bool libretro_accounts_take_rename_request(const EmuEnvState &emuenv, std::string &id, std::string &name) {
+    if (!s_rename_requested)
+        return false;
+    s_rename_requested = false;
+    const auto &users = emuenv.app.user_list.users;
+    id = s_get ? s_get(ACTIVE_KEY) : std::string{};
+    if (!users.contains(id))
+        id = s_running_id;
+    const auto it = users.find(id);
+    if (it == users.end())
+        return false;
+    name = it->second.name;
+    return true;
+}
+
+bool libretro_accounts_rename(EmuEnvState &emuenv, const std::string &id, const std::string &name) {
+    auto it = emuenv.app.user_list.users.find(id);
+    if (it == emuenv.app.user_list.users.end())
+        return false;
+    it->second.name = limit_name(name);
+    app::save_user(emuenv, id);
+    // the running game's user: its name as the game asks for it from now on
+    if (id == s_running_id)
+        emuenv.io.user_name = it->second.name;
+    LOG_INFO("Account {} renamed {}", id, it->second.name);
+    write_names_file(emuenv);
+    declare(emuenv);
+    return true;
 }

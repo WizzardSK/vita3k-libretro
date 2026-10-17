@@ -24,6 +24,7 @@
 #include "libretro_log.h"
 #include "libretro_game_loader.h"
 #include "libretro_accounts.h"
+#include "libretro_input_state.h"
 
 #include <app/functions.h>
 #include <camera/camera.h>
@@ -344,7 +345,7 @@ static void declare_module_options(const fs::path &pref_path) {
         option.key = MODULE_KEY_PREFIX + name;
         option.category = "modules";
         option.label = name;
-        option.info = "Load vs0:sys/external/" + name + ".suprx from the firmware in place of the core's own implementation, when Modules Mode is Auto & Manual or Manual. Applies the next time the game is started.";
+        option.info = "Load vs0:sys/external/" + name + ".suprx from the firmware in place of the core's own implementation, when Modules Mode (in System) is Auto & Manual or Manual. Applies the next time the game is started.";
         option.values = { { "disabled", "OFF" }, { "enabled", "ON" } };
         option.default_value = "disabled";
         options.push_back(std::move(option));
@@ -1962,6 +1963,12 @@ RETRO_API bool retro_load_game(const struct retro_game_info *game) {
     }
 
     lr_log(RETRO_LOG_INFO, "retro_load_game: %s\n", game->path);
+
+    // Keys for the name entry of Rename Active Account
+    {
+        retro_keyboard_callback keyboard{ libretro_keyboard_event };
+        libretro.environ_cb(RETRO_ENVIRONMENT_SET_KEYBOARD_CALLBACK, &keyboard);
+    }
     lr_trace("retro_load_game.begin", "path=%s", game->path);
     libretro.game_path = game->path;
 
@@ -2117,6 +2124,194 @@ RETRO_API void retro_unload_game(void) {
     libretro.installed_title.clear();
 }
 
+// Rename Active Account: a name typed inside the core, since a core option
+// cannot hold free text, as in the Cemu core (Shoegzer, #1). The name so far is
+// shown as the frontend's status line. A pad picks it a character at a time;
+// a keyboard types it, through the frontend's keyboard callback. The game gets
+// no input while the entry is open.
+static struct {
+    bool active = false;
+    std::string id;
+    std::u32string text;
+    std::recursive_mutex mutex; // the keyboard callback may come from another thread
+    bool accept = false, cancel = false, changed = false;
+    bool held[16]{};
+    int repeat = 0, shown = 0;
+} s_name_entry;
+
+static constexpr size_t NAME_ENTRY_MAX = 16;
+static const std::u32string NAME_ENTRY_CHARACTERS = U"ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789 -_.!?&+";
+
+static std::string utf32_to_utf8(const std::u32string &text) {
+    std::string out;
+    for (const char32_t c : text) {
+        if (c < 0x80)
+            out += static_cast<char>(c);
+        else if (c < 0x800) {
+            out += static_cast<char>(0xC0 | (c >> 6));
+            out += static_cast<char>(0x80 | (c & 0x3F));
+        } else if (c < 0x10000) {
+            out += static_cast<char>(0xE0 | (c >> 12));
+            out += static_cast<char>(0x80 | ((c >> 6) & 0x3F));
+            out += static_cast<char>(0x80 | (c & 0x3F));
+        } else {
+            out += static_cast<char>(0xF0 | (c >> 18));
+            out += static_cast<char>(0x80 | ((c >> 12) & 0x3F));
+            out += static_cast<char>(0x80 | ((c >> 6) & 0x3F));
+            out += static_cast<char>(0x80 | (c & 0x3F));
+        }
+    }
+    return out;
+}
+
+static std::u32string utf8_to_utf32(const std::string &text) {
+    std::u32string out;
+    for (size_t i = 0; i < text.size();) {
+        const unsigned char c = static_cast<unsigned char>(text[i]);
+        const int extra = c < 0x80 ? 0 : c < 0xE0 ? 1 : c < 0xF0 ? 2 : 3;
+        char32_t code = extra == 0 ? c : extra == 1 ? (c & 0x1F) : extra == 2 ? (c & 0x0F) : (c & 0x07);
+        for (int k = 1; k <= extra && i + k < text.size(); k++)
+            code = (code << 6) | (static_cast<unsigned char>(text[i + k]) & 0x3F);
+        out += code;
+        i += extra + 1;
+    }
+    return out;
+}
+
+// A line that replaces the one before it: the frontend's status message, which
+// has one place on screen, where notifications would pile up
+static void lr_status(const std::string &text, unsigned duration_ms) {
+    unsigned version = 0;
+    if (!libretro.environ_cb || !libretro.environ_cb(RETRO_ENVIRONMENT_GET_MESSAGE_INTERFACE_VERSION, &version) || version < 1) {
+        lr_message(text, duration_ms * 60 / 1000);
+        return;
+    }
+    retro_message_ext msg{};
+    msg.msg = text.c_str();
+    msg.duration = duration_ms;
+    msg.priority = 3;
+    msg.level = RETRO_LOG_INFO;
+    msg.target = RETRO_MESSAGE_TARGET_OSD;
+    msg.type = RETRO_MESSAGE_TYPE_STATUS;
+    msg.progress = -1;
+    libretro.environ_cb(RETRO_ENVIRONMENT_SET_MESSAGE_EXT, &msg);
+}
+
+static void RETRO_CALLCONV libretro_keyboard_event(bool down, unsigned keycode, uint32_t character, uint16_t /*modifiers*/) {
+    if (!down)
+        return;
+    std::lock_guard lock(s_name_entry.mutex);
+    if (!s_name_entry.active)
+        return;
+    if (keycode == RETROK_BACKSPACE) {
+        if (!s_name_entry.text.empty())
+            s_name_entry.text.pop_back();
+    } else if (keycode == RETROK_RETURN || keycode == RETROK_KP_ENTER)
+        s_name_entry.accept = true;
+    else if (keycode == RETROK_ESCAPE)
+        s_name_entry.cancel = true;
+    else if (character >= 32 && character != 127 && s_name_entry.text.size() < NAME_ENTRY_MAX)
+        s_name_entry.text.push_back(static_cast<char32_t>(character));
+    else
+        return;
+    s_name_entry.changed = true;
+}
+
+// Called after the input is polled: true while the entry is open, and then
+// nothing of the input reaches the game
+static bool libretro_update_name_entry(EmuEnvState &emuenv) {
+    std::lock_guard lock(s_name_entry.mutex);
+    const auto raw = [](unsigned id) {
+        return libretro.input_state_cb && libretro.input_state_cb(0, RETRO_DEVICE_JOYPAD, 0, id) != 0;
+    };
+    std::string id, name;
+    if (!s_name_entry.active && libretro_accounts_take_rename_request(emuenv, id, name)) {
+        s_name_entry.active = true;
+        s_name_entry.id = id;
+        s_name_entry.text = utf8_to_utf32(name);
+        s_name_entry.accept = s_name_entry.cancel = false;
+        s_name_entry.changed = true;
+        s_name_entry.repeat = 0;
+        // what is held as the menu closes is not a press
+        for (unsigned i = 0; i < 16; i++)
+            s_name_entry.held[i] = raw(i);
+    }
+    if (!s_name_entry.active)
+        return false;
+
+    bool pressed[16];
+    for (unsigned i = 0; i < 16; i++) {
+        const bool down = raw(i);
+        pressed[i] = down && !s_name_entry.held[i];
+        s_name_entry.held[i] = down;
+    }
+    // Up and Down repeat while held, after a third of a second
+    const bool up = s_name_entry.held[RETRO_DEVICE_ID_JOYPAD_UP];
+    const bool down = s_name_entry.held[RETRO_DEVICE_ID_JOYPAD_DOWN];
+    bool step = pressed[RETRO_DEVICE_ID_JOYPAD_UP] || pressed[RETRO_DEVICE_ID_JOYPAD_DOWN];
+    if (up != down) {
+        if (++s_name_entry.repeat > 20 && s_name_entry.repeat % 4 == 0)
+            step = true;
+    } else
+        s_name_entry.repeat = 0;
+    if (step && up != down) {
+        if (s_name_entry.text.empty())
+            s_name_entry.text.push_back(NAME_ENTRY_CHARACTERS[0]);
+        else {
+            const size_t count = NAME_ENTRY_CHARACTERS.size();
+            size_t at = NAME_ENTRY_CHARACTERS.find(s_name_entry.text.back());
+            if (at == std::u32string::npos)
+                at = 0;
+            else
+                at = (at + (down ? 1 : count - 1)) % count;
+            s_name_entry.text.back() = NAME_ENTRY_CHARACTERS[at];
+        }
+        s_name_entry.changed = true;
+    }
+    if (pressed[RETRO_DEVICE_ID_JOYPAD_RIGHT] && s_name_entry.text.size() < NAME_ENTRY_MAX) {
+        s_name_entry.text.push_back(s_name_entry.text.empty() ? NAME_ENTRY_CHARACTERS[0] : s_name_entry.text.back());
+        s_name_entry.changed = true;
+    }
+    if (pressed[RETRO_DEVICE_ID_JOYPAD_LEFT] && !s_name_entry.text.empty()) {
+        s_name_entry.text.pop_back();
+        s_name_entry.changed = true;
+    }
+    if (pressed[RETRO_DEVICE_ID_JOYPAD_START])
+        s_name_entry.accept = true;
+    if (pressed[RETRO_DEVICE_ID_JOYPAD_SELECT])
+        s_name_entry.cancel = true;
+
+    if (s_name_entry.cancel) {
+        s_name_entry.active = false;
+        lr_status("Account not renamed", 3000);
+        return true;
+    }
+    if (s_name_entry.accept) {
+        s_name_entry.accept = false;
+        std::u32string text = s_name_entry.text;
+        while (!text.empty() && text.back() == U' ')
+            text.pop_back();
+        if (text.empty()) {
+            lr_status("A name needs at least one character", 3000);
+            return true;
+        }
+        s_name_entry.active = false;
+        const std::string new_name = utf32_to_utf8(text);
+        if (libretro_accounts_rename(emuenv, s_name_entry.id, new_name))
+            lr_status(fmt::format("Account {} is now named {}", s_name_entry.id, new_name), 5000);
+        else
+            lr_status("Cannot rename: the account was not found", 4000);
+        return true;
+    }
+    // Shown again before it runs out, so it stays up while the entry is open
+    if (s_name_entry.changed || ++s_name_entry.shown >= 120) {
+        s_name_entry.changed = false;
+        s_name_entry.shown = 0;
+        lr_status(fmt::format("Account name: {}_  (Start/Enter accepts, Select/Esc cancels)", utf32_to_utf8(s_name_entry.text)), 3000);
+    }
+    return true;
+}
+
 RETRO_API void retro_run(void) {
     if (!libretro.game_loaded || !libretro.emuenv)
         return;
@@ -2157,6 +2352,18 @@ RETRO_API void retro_run(void) {
     if (libretro.input_poll_cb)
         libretro.input_poll_cb();
     libretro_poll_input();
+    if (libretro_update_name_entry(emuenv)) {
+        auto &input = libretro_input_state();
+        std::lock_guard lock(input.mutex);
+        for (auto &port : input.ports)
+            port = {};
+        input.front_touch_count = 0;
+        input.back_touch_count = 0;
+        for (auto &point : input.front_touch)
+            point.active = false;
+        for (auto &point : input.back_touch)
+            point.active = false;
+    }
 
     if (libretro.app_started)
         libretro_vblank_tick(emuenv);

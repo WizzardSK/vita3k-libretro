@@ -43,5 +43,15 @@ void set_account_option_callbacks(ContentOptionsHandler declare,
 void libretro_accounts_start(EmuEnvState &emuenv);
 
 // After the frontend's options changed: Create Account and Remove Account
-// carried out
+// carried out, and Rename Active Account turned into a request for the name
+// entry
 void libretro_accounts_options_changed(EmuEnvState &emuenv);
+
+// Rename Active Account asked for since the last call: the active account's
+// id and its name now, for the name entry to start from
+bool libretro_accounts_take_rename_request(const EmuEnvState &emuenv, std::string &id, std::string &name);
+
+// The name entry's result: the account renamed (up to 16 characters), saved,
+// and account_name.txt and the options written again. False when the account
+// is gone.
+bool libretro_accounts_rename(EmuEnvState &emuenv, const std::string &id, const std::string &name);
