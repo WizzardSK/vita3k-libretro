@@ -6,6 +6,7 @@ What changed in the libretro core of this fork, newest first. Changes that come 
 
 - System > Install Firmware installs the `.pup` files in `system/vita3k` on request, over what is installed; the core no longer installs firmware by itself at a start (Shoegzer).
 - Accounts > Rename Active Account: a name entry by pad or keyboard, as in the Cemu core (Shoegzer).
+- OpenGL: a frame the game writes with the CPU (Gravity Rush's first screen, for one) is shown; it was black (Shoegzer).
 - The front and back cameras work: new option category Camera, with each camera showing RetroArch's camera (Host Camera, the default, as upstream defaults to the host's camera), an image from `system/vita3k/camera/`, or a solid colour, falling back in that order. The core's camera showed black only (Shoegzer, issue #1).
 - New options under Network, as upstream has them: HTTP on or off, HTTP Timeout Attempts and Sleep, HTTP Read End Attempts and Sleep, and Adhoc Address, picked among the host's network interfaces with each one's subnet mask shown. The core used upstream's defaults and the first interface with no way to change them (Shoegzer, issue #1).
 - New options under System: System Language (the console's language, which games use for their text; it was always English), Date Format and Time Format, as upstream has them under Date & Time and Language. The date and time themselves stay the host's, as in upstream (Shoegzer, issue #1).

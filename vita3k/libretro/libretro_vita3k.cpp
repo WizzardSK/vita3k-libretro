@@ -2613,6 +2613,35 @@ RETRO_API void retro_run(void) {
             }
         }
 
+        // A frame no surface was rendered into (the game wrote it with the
+        // CPU, as some do for their first screen): uploaded from memory into a
+        // texture of the core's and shown like a surface, as upstream's
+        // render_frame does; it used to be shown as black
+        if (!surface_tex && frame.base && frame.image_size.x > 0 && frame.image_size.y > 0
+            && frame.pitch >= static_cast<uint32_t>(frame.image_size.x)) {
+            static GLuint memory_tex = 0;
+            if (!memory_tex)
+                glGenTextures(1, &memory_tex);
+            width = static_cast<uint32_t>(frame.image_size.x);
+            height = static_cast<uint32_t>(frame.image_size.y);
+            glBindTexture(GL_TEXTURE_2D, memory_tex);
+            glPixelStorei(GL_UNPACK_ROW_LENGTH, static_cast<GLint>(frame.pitch));
+            glPixelStorei(GL_UNPACK_ALIGNMENT, 4);
+            // ABGR8888 in memory: the bytes in R, G, B, A order
+            glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, frame.base.get(emuenv.mem));
+            glPixelStorei(GL_UNPACK_ROW_LENGTH, 0);
+            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+            glBindTexture(GL_TEXTURE_2D, 0);
+            surface_tex = memory_tex;
+            // memory is top-down, as the blit below takes it from the
+            // surface's (0, 0); the whole texture is the frame
+            uvs[0] = 0.0f;
+            uvs[1] = 0.0f;
+            uvs[2] = 1.0f;
+            uvs[3] = 1.0f;
+        }
+
         glBindFramebuffer(GL_FRAMEBUFFER, fbo);
         glViewport(0, 0, width, height);
 
