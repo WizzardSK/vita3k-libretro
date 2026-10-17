@@ -17,6 +17,7 @@
 
 #pragma once
 
+#include <functional>
 #include <mem/ptr.h>
 #include <util/log.h>
 #include <util/types.h>
@@ -360,3 +361,11 @@ public:
 };
 
 void init_default_cameras(Config &cfg);
+
+#ifdef BUILD_LIBRETRO
+// The frontend's camera, which a camera set to WebCamera shows in the libretro
+// core: started and stopped through these, set by the core, and its frames
+// (XRGB8888) handed in as the frontend delivers them
+void set_host_camera_control(std::function<bool()> start, std::function<void()> stop);
+void push_host_camera_frame(const uint32_t *pixels, unsigned width, unsigned height, size_t pitch_bytes);
+#endif

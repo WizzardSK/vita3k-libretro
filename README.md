@@ -47,9 +47,12 @@ The pad is the Vita's buttons and sticks. Games that use the gyroscope and accel
 
 - **GPU**: renderer, internal resolution, screen filter (bilinear, nearest, bicubic, FXAA, FSR), anisotropic filtering, asynchronous pipeline compilation, the shader compile overlay, memory mapping, high-accuracy rendering, surface sync, V-Sync, FPS hack.
 - **CPU**: CPU optimizations.
-- **System**: PS TV mode, modules mode, confirm button, file loading delay.
+- **System**: PS TV mode, modules mode, confirm button, system language, date format, time format, file loading delay. The date and time are the host's, as in standalone Vita3K.
+- **Modules**: the firmware's modules (`vs0/sys/external`), each on or off, loaded when Modules Mode is Auto & Manual or Manual; listed only then. Saved per game with RetroArch's game options, as upstream keeps them per game.
 - **Audio**: volume, NGS audio engine.
-- **Network**: PSN signed in.
+- **Camera**: what the front and back cameras see: RetroArch's camera (Host Camera; it needs Settings > Privacy > Camera Access on, and a camera driver for the platform), an image (`system/vita3k/camera/front.png` or `back.png`, also `.jpg`), or a solid colour.
+- **Network**: PSN signed in, HTTP (on or off, timeout and read-end attempts and sleeps), the adhoc address among the host's network interfaces.
+- **Accounts**: the account a game starts as (Active Account), Create Account and Remove Account. Each account (`ux0/user/<id>`) has its own saves and trophies. Their names are in `system/vita3k/account_name.txt`, one `<id> = <name>` line each, which the core writes at each start; change a name there and the account has it the next time a game starts.
 
 ## Building
 

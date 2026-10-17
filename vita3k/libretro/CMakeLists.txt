@@ -8,6 +8,7 @@ add_library(vita3k_libretro SHARED
 	libretro_vfs.cpp
 	libretro_log.cpp
 	libretro_game_loader.cpp
+	libretro_accounts.cpp
 )
 
 target_include_directories(vita3k_libretro PRIVATE
@@ -20,6 +21,7 @@ target_include_directories(vita3k_libretro PRIVATE
 target_link_libraries(vita3k_libretro PRIVATE
 	app
 	audio
+	camera
 	config
 	cppcommon
 	ctrl

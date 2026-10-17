@@ -25,61 +25,383 @@
 #include <util/log.h>
 
 #ifdef BUILD_LIBRETRO
-// Libretro stub: camera not supported.
+// The libretro core's camera: upstream's three sources without SDL. A solid
+// colour, an image file (stb_image, as upstream), or the frontend's camera in
+// place of upstream's SDL web camera. Each frame is kept as RGB at the size
+// the game opened the camera with, and turned into the game's format on read.
+#include <util/fs.h>
+
+#include <algorithm>
+#include <chrono>
+#include <cstring>
+#include <mutex>
+#include <thread>
+#include <vector>
+
+namespace {
+
+struct HostCamera {
+    std::mutex mutex;
+    std::function<bool()> start;
+    std::function<void()> stop;
+    std::vector<uint32_t> pixels; // XRGB8888
+    unsigned width = 0;
+    unsigned height = 0;
+    uint64_t serial = 0; // counts the frames handed in
+    int users = 0; // cameras started on it
+};
+
+HostCamera &host_camera() {
+    static HostCamera camera;
+    return camera;
+}
+
+uint64_t now_us() {
+    return std::chrono::duration_cast<std::chrono::microseconds>(std::chrono::steady_clock::now().time_since_epoch()).count();
+}
+
+// XRGB8888 of src_w x src_h (pitch in pixels) into dst_w x dst_h, nearest
+void scale_xrgb(const uint32_t *src, unsigned src_w, unsigned src_h, size_t src_pitch, std::vector<uint32_t> &dst, unsigned dst_w, unsigned dst_h) {
+    dst.resize(static_cast<size_t>(dst_w) * dst_h);
+    if (!src_w || !src_h)
+        return;
+    for (unsigned y = 0; y < dst_h; y++) {
+        const uint32_t *row = src + static_cast<size_t>(y * src_h / dst_h) * src_pitch;
+        for (unsigned x = 0; x < dst_w; x++)
+            dst[static_cast<size_t>(y) * dst_w + x] = row[x * src_w / dst_w];
+    }
+}
+
+} // namespace
+
+void set_host_camera_control(std::function<bool()> start, std::function<void()> stop) {
+    HostCamera &host = host_camera();
+    const std::lock_guard lock(host.mutex);
+    host.start = std::move(start);
+    host.stop = std::move(stop);
+}
+
+void push_host_camera_frame(const uint32_t *pixels, unsigned width, unsigned height, size_t pitch_bytes) {
+    if (!pixels || !width || !height)
+        return;
+    HostCamera &host = host_camera();
+    const std::lock_guard lock(host.mutex);
+    const size_t pitch = pitch_bytes / sizeof(uint32_t);
+    host.pixels.resize(static_cast<size_t>(width) * height);
+    for (unsigned y = 0; y < height; y++)
+        memcpy(&host.pixels[static_cast<size_t>(y) * width], pixels + y * pitch, width * sizeof(uint32_t));
+    host.width = width;
+    host.height = height;
+    host.serial++;
+}
+
 class Camera::CameraImpl {
 public:
     std::mutex frame_mutex;
+    std::vector<uint32_t> frame; // XRGB8888 at info.width x info.height, empty without one
+    bool host_started = false;
+    uint64_t host_serial = 0;
 };
 
 Camera::Camera()
     : pImpl(std::make_unique<CameraImpl>()) {}
 Camera::~Camera() = default;
 
-int Camera::get_attribute(CameraAttributes attribute) { return 0; }
+static void stop_host_camera(Camera *self) {
+    if (!self->pImpl->host_started)
+        return;
+    self->pImpl->host_started = false;
+    HostCamera &host = host_camera();
+    const std::lock_guard lock(host.mutex);
+    if (--host.users == 0 && host.stop)
+        host.stop();
+}
+
+static bool init_host_camera(Camera *self) {
+    HostCamera &host = host_camera();
+    const std::lock_guard lock(host.mutex);
+    if (host.users == 0 && (!host.start || !host.start())) {
+        LOG_ERROR("The frontend's camera could not be started (none, or not allowed in its settings)");
+        return false;
+    }
+    host.users++;
+    self->pImpl->host_started = true;
+    self->pImpl->host_serial = host.serial;
+    return true;
+}
+
+static bool init_image(Camera *self) {
+    FILE *f = FOPEN(fs_utils::utf8_to_path(self->image).c_str(), "rb");
+    if (!f) {
+        LOG_ERROR("Failed to open camera image file: {} Error: {}", self->image, strerror(errno));
+        return false;
+    }
+    int width = 0, height = 0;
+    stbi_uc *data = stbi_load_from_file(f, &width, &height, nullptr, STBI_rgb_alpha);
+    fclose(f);
+    if (!data) {
+        LOG_ERROR("Failed to load camera image from {}: {}", self->image, stbi_failure_reason());
+        return false;
+    }
+    std::vector<uint32_t> xrgb(static_cast<size_t>(width) * height);
+    for (size_t i = 0; i < xrgb.size(); i++)
+        xrgb[i] = (data[i * 4] << 16) | (data[i * 4 + 1] << 8) | data[i * 4 + 2];
+    stbi_image_free(data);
+    scale_xrgb(xrgb.data(), width, height, width, self->pImpl->frame, self->info.width, self->info.height);
+    return true;
+}
+
+static void init_solid_color(Camera *self) {
+    // the colour as upstream keeps it, ABGR8888: R in the low byte
+    const uint32_t c = self->color;
+    const uint32_t xrgb = ((c & 0xFF) << 16) | (c & 0xFF00) | ((c >> 16) & 0xFF);
+    self->pImpl->frame.assign(static_cast<size_t>(self->info.width) * self->info.height, xrgb);
+}
+
+static void refresh_camera_image(Camera *self) {
+    const std::lock_guard lock(self->pImpl->frame_mutex);
+    stop_host_camera(self);
+    self->pImpl->frame.clear();
+    if (self->type == CameraType::WebCamera) {
+        if (init_host_camera(self))
+            return;
+        self->type = CameraType::Image;
+    }
+    if (self->type == CameraType::Image) {
+        if (init_image(self))
+            return;
+        self->type = CameraType::SolidColor;
+    }
+    init_solid_color(self);
+}
+
+int Camera::get_attribute(CameraAttributes attribute) {
+    switch (attribute) {
+    case CameraAttributes::Saturation: return SCE_CAMERA_SATURATION_10;
+    case CameraAttributes::Brightness: return 128; // 0-255
+    case CameraAttributes::Contrast: return 128; // random default value  0-255
+    case CameraAttributes::Sharpness: return SCE_CAMERA_SHARPNESS_100;
+    case CameraAttributes::Reverse: return SCE_CAMERA_REVERSE_OFF;
+    case CameraAttributes::Effect: return SCE_CAMERA_EFFECT_NORMAL;
+    case CameraAttributes::EV: return 0;
+    case CameraAttributes::Zoom: return 10; // 10-40
+    case CameraAttributes::AntiFlicker: return SCE_CAMERA_ANTIFLICKER_AUTO;
+    case CameraAttributes::ISO: return SCE_CAMERA_ISO_AUTO;
+    case CameraAttributes::Gain: return SCE_CAMERA_GAIN_AUTO;
+    case CameraAttributes::WhiteBalance: return SCE_CAMERA_WB_AUTO;
+    case CameraAttributes::Backlight: return SCE_CAMERA_BACKLIGHT_OFF;
+    case CameraAttributes::Nightmode: return SCE_CAMERA_NIGHTMODE_OFF;
+    case CameraAttributes::ExposureCeiling: return 0;
+    case CameraAttributes::AutoControlHold: return 0;
+    // undescribed parameters
+    case CameraAttributes::ImageQuality: return 0;
+    case CameraAttributes::NoiseReduction: return 0;
+    case CameraAttributes::SharpnessOff: return 0;
+    }
+    return 0;
+}
+
 int Camera::set_attribute(CameraAttributes attribute, int value) { return 0; }
+
 int Camera::open(SceCameraInfo *info, uint64_t base_tick, uint64_t start_tick) {
+    tick_diff_us = rtc_get_ticks(base_tick) - start_tick - now_us();
     this->is_opened = true;
     this->info = {};
     memcpy(&(this->info), info, std::min<size_t>(sizeof(SceCameraInfo), info->size));
+    uint32_t numerator = this->info.framerate, denominator = 1;
+    if (this->info.framerate == SCE_CAMERA_FRAMERATE_3_FPS) {
+        numerator = 375;
+        denominator = 100;
+    } else if (this->info.framerate == SCE_CAMERA_FRAMERATE_7_FPS) {
+        numerator = 75;
+        denominator = 10;
+    }
+    frame_interval_us = numerator ? 1000000ull * denominator / numerator : 0;
     return 0;
 }
+
 int Camera::close() {
+    this->is_started = false;
     this->is_opened = false;
     return 0;
 }
+
 int Camera::start() {
+    refresh_camera_image(this);
     this->is_started = true;
+    this->frame_idx = 0;
     return 0;
 }
+
 int Camera::stop() {
     this->is_started = false;
+    const std::lock_guard lock(pImpl->frame_mutex);
+    stop_host_camera(this);
+    pImpl->frame.clear();
     return 0;
 }
+
+// The frame (XRGB8888) in the format the game opened the camera with
+static void convert_frame(const SceCameraInfo &info, const std::vector<uint32_t> &frame,
+    void *pIBase, void *pUBase, void *pVBase, SceSize sizeIBase, SceSize sizeUBase, SceSize sizeVBase) {
+    const unsigned w = info.width, h = info.height;
+    const bool limited = info.range == SCE_CAMERA_DATA_RANGE_BT601;
+    const auto rgb = [&](unsigned x, unsigned y, int &r, int &g, int &b) {
+        const uint32_t p = frame[static_cast<size_t>(y) * w + x];
+        r = (p >> 16) & 0xFF;
+        g = (p >> 8) & 0xFF;
+        b = p & 0xFF;
+    };
+    // BT.601, full range (JPEG, SDL's YUV default) or limited
+    const auto luma = [&](int r, int g, int b) {
+        const int y = limited ? 16 + ((66 * r + 129 * g + 25 * b + 128) >> 8) : ((77 * r + 150 * g + 29 * b + 128) >> 8);
+        return static_cast<uint8_t>(std::clamp(y, 0, 255));
+    };
+    const auto chroma_u = [&](int r, int g, int b) {
+        const int u = limited ? 128 + ((-38 * r - 74 * g + 112 * b + 128) >> 8) : 128 + ((-43 * r - 85 * g + 128 * b + 128) >> 8);
+        return static_cast<uint8_t>(std::clamp(u, 0, 255));
+    };
+    const auto chroma_v = [&](int r, int g, int b) {
+        const int v = limited ? 128 + ((112 * r - 94 * g - 18 * b + 128) >> 8) : 128 + ((128 * r - 107 * g - 21 * b + 128) >> 8);
+        return static_cast<uint8_t>(std::clamp(v, 0, 255));
+    };
+    uint8_t *Y = static_cast<uint8_t *>(pIBase);
+    uint8_t *U = static_cast<uint8_t *>(pUBase);
+    uint8_t *V = static_cast<uint8_t *>(pVBase);
+    int r, g, b;
+
+    switch (info.format) {
+    case SCE_CAMERA_FORMAT_YUV420_PLANE:
+    case SCE_CAMERA_FORMAT_YUV422_PLANE: {
+        const bool is_420 = info.format == SCE_CAMERA_FORMAT_YUV420_PLANE;
+        for (unsigned y = 0; y < h; y++) {
+            for (unsigned x = 0; x < w; x++) {
+                rgb(x, y, r, g, b);
+                const size_t i = static_cast<size_t>(y) * w + x;
+                if (i < sizeIBase)
+                    Y[i] = luma(r, g, b);
+                if ((x & 1) || (is_420 && (y & 1)))
+                    continue;
+                const size_t c = static_cast<size_t>(is_420 ? y / 2 : y) * (w / 2) + x / 2;
+                if (U && c < sizeUBase)
+                    U[c] = chroma_u(r, g, b);
+                if (V && c < sizeVBase)
+                    V[c] = chroma_v(r, g, b);
+            }
+        }
+        break;
+    }
+    case SCE_CAMERA_FORMAT_YUV422_PACKED: {
+        // Y0 U0 Y1 V0, as SDL's YUY2 upstream uses
+        for (unsigned y = 0; y < h; y++) {
+            for (unsigned x = 0; x + 1 < w; x += 2) {
+                const size_t i = (static_cast<size_t>(y) * w + x) * 2;
+                if (i + 3 >= sizeIBase)
+                    return;
+                int r1, g1, b1;
+                rgb(x, y, r, g, b);
+                rgb(x + 1, y, r1, g1, b1);
+                Y[i] = luma(r, g, b);
+                Y[i + 1] = chroma_u(r, g, b);
+                Y[i + 2] = luma(r1, g1, b1);
+                Y[i + 3] = chroma_v(r, g, b);
+            }
+        }
+        break;
+    }
+    case SCE_CAMERA_FORMAT_ABGR: {
+        // SDL's ABGR8888 as upstream uses: R, G, B, A in memory
+        const size_t count = std::min<size_t>(frame.size(), sizeIBase / 4);
+        for (size_t i = 0; i < count; i++) {
+            const uint32_t p = frame[i];
+            Y[i * 4] = (p >> 16) & 0xFF;
+            Y[i * 4 + 1] = (p >> 8) & 0xFF;
+            Y[i * 4 + 2] = p & 0xFF;
+            Y[i * 4 + 3] = 0xFF;
+        }
+        break;
+    }
+    default: {
+        // ARGB, and RAW8 as upstream takes it: SDL's ARGB8888, B, G, R, A in memory
+        const size_t count = std::min<size_t>(frame.size(), sizeIBase / 4);
+        for (size_t i = 0; i < count; i++) {
+            const uint32_t p = frame[i] | 0xFF000000u;
+            memcpy(Y + i * 4, &p, 4);
+        }
+        break;
+    }
+    }
+}
+
 int Camera::read(SceCameraRead *read, void *pIBase, void *pUBase, void *pVBase, SceSize sizeIBase, SceSize sizeUBase, SceSize sizeVBase) {
-    memset(pIBase, 0, sizeIBase);
-    if (pUBase) memset(pUBase, 0, sizeUBase);
-    if (pVBase) memset(pVBase, 0, sizeVBase);
-    read->status = SCE_CAMERA_STATUS_IS_ACTIVE;
+    const std::lock_guard lock(pImpl->frame_mutex);
+    const uint64_t current_us = now_us();
+    if (next_frame_timestamp_us == 0) {
+        next_frame_timestamp_us = current_us;
+    } else if (current_us < next_frame_timestamp_us) {
+        if (read->mode == SCE_CAMERA_READ_MODE_WAIT_NEXTFRAME_ON) {
+            std::this_thread::sleep_for(std::chrono::microseconds(next_frame_timestamp_us - current_us));
+        } else {
+            read->frame = frame_idx;
+            read->timestamp = last_frame_timestamp_us;
+            read->status = SCE_CAMERA_STATUS_IS_ALREADY_READ;
+            return 0;
+        }
+    }
+    last_frame_timestamp_us = next_frame_timestamp_us + tick_diff_us;
+    next_frame_timestamp_us += frame_interval_us;
+
+    if (pImpl->host_started) {
+        HostCamera &host = host_camera();
+        const std::lock_guard host_lock(host.mutex);
+        if (host.serial != pImpl->host_serial && host.width && host.height) {
+            scale_xrgb(host.pixels.data(), host.width, host.height, host.width, pImpl->frame, info.width, info.height);
+            pImpl->host_serial = host.serial;
+        }
+    }
+
     read->frame = frame_idx++;
+    read->status = SCE_CAMERA_STATUS_IS_ACTIVE;
+    read->timestamp = last_frame_timestamp_us;
+    if (pImpl->frame.size() == static_cast<size_t>(info.width) * info.height && !pImpl->frame.empty()) {
+        convert_frame(info, pImpl->frame, pIBase, pUBase, pVBase, sizeIBase, sizeUBase, sizeVBase);
+    } else {
+        // no frame from the frontend's camera yet: black
+        memset(pIBase, 0, sizeIBase);
+        if (pUBase && sizeUBase)
+            memset(pUBase, 128, sizeUBase);
+        if (pVBase && sizeVBase)
+            memset(pVBase, 128, sizeVBase);
+    }
     return 0;
 }
+
 void Camera::update_config(int type, const std::string &id, const std::string &image, uint32_t color) {
+    if (static_cast<int>(this->type) == type && this->id == id && this->image == image && this->color == color)
+        return;
     this->type = static_cast<CameraType>(type);
     this->id = id;
     this->image = image;
     this->color = color;
+    if (is_started)
+        refresh_camera_image(this);
 }
-void init_default_cameras(Config &cfg) {
-    cfg.front_camera_type = SolidColor;
-    cfg.back_camera_type = SolidColor;
-}
+
+// The core sets the cameras from its options; nothing to pick here
+void init_default_cameras(Config &cfg) {}
 
 void CameraState::deinit() {
     for (auto &cam : cameras) {
+        if (cam.is_started)
+            cam.stop();
         cam.is_opened = false;
         cam.is_started = false;
         cam.info = {};
         cam.frame_idx = 0;
+        cam.last_frame_timestamp_us = 0;
+        cam.next_frame_timestamp_us = 0;
+        cam.frame_interval_us = 0;
+        cam.tick_diff_us = 0;
     }
     active_camera = SCE_CAMERA_DEVICE_UNKNOWN;
 }

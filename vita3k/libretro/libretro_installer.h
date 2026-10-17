@@ -69,6 +69,8 @@ struct ContentOption {
     std::string default_value;
     // Not empty: the frontend's value is set to this one first
     std::string set_value;
+    // The core options category it is listed under
+    std::string category = "install";
 };
 
 // Declares them to the frontend and answers with each key's current value.

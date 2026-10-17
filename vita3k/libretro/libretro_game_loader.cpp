@@ -16,6 +16,7 @@
 // 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 #include "libretro_game_loader.h"
+#include "libretro_accounts.h"
 #include "libretro_state.h"
 
 #include <app/functions.h>
@@ -109,7 +110,7 @@ bool libretro_init_emuenv(EmuEnvState &emuenv, const Root &root_paths) {
     // saves in one folder, and none where the standalone keeps them - and
     // addcont0: was ux0/addcont itself, so a title saw every other title's
     // add-on folder as an add-on of its own (lim2222).
-    emuenv.io.user_id = emuenv.cfg.user_id.empty() ? std::string("00") : emuenv.cfg.user_id;
+    libretro_accounts_start(emuenv);
     if (emuenv.io.savedata.empty())
         emuenv.io.savedata = emuenv.io.title_id;
     if (emuenv.io.addcont.empty())

@@ -231,7 +231,7 @@ public:
     // Return the image along with the viewport to be displayed on the screen
     // Viewport should already have its fields width and height filled
     // If out_image is non-null, it receives the underlying VkImage (for direct blit paths)
-    vk::ImageView sourcing_color_surface_for_presentation(Ptr<const void> address, uint32_t pitch, Viewport &viewport, vk::Image *out_image = nullptr);
+    vk::ImageView sourcing_color_surface_for_presentation(Ptr<const void> address, uint32_t pitch, Viewport &viewport, vk::Image *out_image = nullptr, vk::Format *out_format = nullptr);
 
     // Dump an rgba8 frame with the given properties to the returned vector
     // if this function fails, the vector will be empty

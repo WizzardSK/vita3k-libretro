@@ -23,8 +23,10 @@
 #include "libretro_lazy_pkg.h"
 #include "libretro_log.h"
 #include "libretro_game_loader.h"
+#include "libretro_accounts.h"
 
 #include <app/functions.h>
+#include <camera/camera.h>
 #include <audio/impl/libretro_audio.h>
 #include <config/functions.h>
 #include <config/state.h>
@@ -190,26 +192,41 @@ static const retro_core_option_v2_definition install_only_preload = [] {
 }();
 
 // The loaded game's own options (its updates and DLC, libretro_installer.cpp)
-// declared after the core's: the frontend is given the whole list again, and
-// the texts are kept here for as long as it holds on to them.
-static std::map<std::string, std::string> declare_content_options(const std::vector<ContentOption> &options) {
-    static std::vector<ContentOption> kept;
+// and the accounts' (libretro_accounts.cpp), declared after the core's: the
+// frontend is given the whole list again whenever either changes, and the
+// texts are kept here for as long as it holds on to them.
+static std::vector<ContentOption> s_kept_content_options;
+static std::vector<ContentOption> s_kept_account_options;
+static std::vector<ContentOption> s_kept_module_options;
+static std::vector<ContentOption> s_kept_network_options;
+
+static std::map<std::string, std::string> declare_extra_options(const std::vector<ContentOption> &options, std::vector<ContentOption> &kept_for) {
     static std::vector<retro_core_option_v2_definition> definitions;
 
     std::map<std::string, std::string> values;
     if (!libretro.environ_cb)
         return values;
 
-    kept = options;
+    kept_for = options;
+    std::vector<const ContentOption *> kept;
+    for (const ContentOption &option : s_kept_content_options)
+        kept.push_back(&option);
+    for (const ContentOption &option : s_kept_account_options)
+        kept.push_back(&option);
+    for (const ContentOption &option : s_kept_module_options)
+        kept.push_back(&option);
+    for (const ContentOption &option : s_kept_network_options)
+        kept.push_back(&option);
     definitions.clear();
     for (const retro_core_option_v2_definition *def = option_defs_us; def->key; def++)
         definitions.push_back(!s_holes_supported && std::string_view(def->key) == "vita3k_pkg_mode" ? install_only_preload : *def);
-    for (const ContentOption &option : kept) {
+    for (const ContentOption *kept_option : kept) {
+        const ContentOption &option = *kept_option;
         retro_core_option_v2_definition def{};
         def.key = option.key.c_str();
         def.desc = option.label.c_str();
         def.info = option.info.c_str();
-        def.category_key = "install";
+        def.category_key = option.category.c_str();
         size_t count = 0;
         for (const auto &value : option.values) {
             if (count >= RETRO_NUM_CORE_OPTION_VALUES_MAX - 1)
@@ -229,7 +246,7 @@ static std::map<std::string, std::string> declare_content_options(const std::vec
     bool categories_supported = false;
     libretro_set_core_options(libretro.environ_cb, &categories_supported);
 
-    for (const ContentOption &option : kept) {
+    for (const ContentOption &option : kept_for) {
         if (!option.set_value.empty()) {
             retro_variable set{};
             set.key = option.key.c_str();
@@ -242,6 +259,97 @@ static std::map<std::string, std::string> declare_content_options(const std::vec
             values[option.key] = variable.value;
     }
     return values;
+}
+
+static std::map<std::string, std::string> declare_content_options(const std::vector<ContentOption> &options) {
+    return declare_extra_options(options, s_kept_content_options);
+}
+
+static std::map<std::string, std::string> declare_account_options(const std::vector<ContentOption> &options) {
+    return declare_extra_options(options, s_kept_account_options);
+}
+
+// The firmware's modules (vs0/sys/external/<name>.suprx) under Modules, each
+// on or off: the ones loaded from it when Modules Mode is not Automatic, as
+// upstream's per-game module list. Saved per game with RetroArch's game options.
+static std::vector<std::string> s_module_names;
+static constexpr const char *MODULE_KEY_PREFIX = "vita3k_module_";
+
+// The address adhoc networking uses, one of the host's (by its index among
+// them, as upstream's setting), its subnet mask shown beside it
+static void declare_adhoc_address_option() {
+    ContentOption option;
+    option.key = "vita3k_adhoc_addr";
+    option.category = "network";
+    option.label = "Adhoc Address";
+    option.info = "Select the IP address to be used in adhoc networking, among the host's network interfaces; its subnet mask is shown beside it. Applies the next time the game is started.";
+    const auto addresses = app::get_available_adhoc_address_options();
+    for (size_t i = 0; i < addresses.size() && i < RETRO_NUM_CORE_OPTION_VALUES_MAX - 1; i++)
+        option.values.emplace_back(std::to_string(i), addresses[i].label + ", subnet mask " + addresses[i].subnet_mask);
+    if (option.values.empty())
+        option.values.emplace_back("0", "No network interface");
+    option.default_value = "0";
+    declare_extra_options({ option }, s_kept_network_options);
+}
+
+// The frontend's camera, for a Vita camera set to Host Camera. Asked for only
+// then: it can be asked for only while the content is loaded, and asking turns
+// on the frontend's camera driver. RetroArch hands frames in from its main
+// loop, between retro_run calls.
+static const char *get_core_option_value(const char *key, const char *fallback);
+static retro_camera_callback s_host_camera{};
+
+static void RETRO_CALLCONV host_camera_frame(const uint32_t *buffer, unsigned width, unsigned height, size_t pitch) {
+    push_host_camera_frame(buffer, width, height, pitch);
+}
+
+static void request_host_camera() {
+    if (std::string_view(get_core_option_value("vita3k_front_camera", "host")) != "host"
+        && std::string_view(get_core_option_value("vita3k_back_camera", "host")) != "host") {
+        set_host_camera_control(nullptr, nullptr);
+        return;
+    }
+    s_host_camera = {};
+    s_host_camera.caps = 1 << RETRO_CAMERA_BUFFER_RAW_FRAMEBUFFER;
+    s_host_camera.width = 640;
+    s_host_camera.height = 480;
+    s_host_camera.frame_raw_framebuffer = host_camera_frame;
+    if (!libretro.environ_cb(RETRO_ENVIRONMENT_GET_CAMERA_INTERFACE, &s_host_camera) || !s_host_camera.start) {
+        lr_log(RETRO_LOG_INFO, "The frontend has no camera to give; Host Camera falls back to Image or Solid Color\n");
+        set_host_camera_control(nullptr, nullptr);
+        return;
+    }
+    set_host_camera_control([] { return s_host_camera.start && s_host_camera.start(); },
+        [] {
+            if (s_host_camera.stop)
+                s_host_camera.stop();
+        });
+}
+
+static void declare_module_options(const fs::path &pref_path) {
+    s_module_names.clear();
+    boost::system::error_code ec;
+    const fs::path external = pref_path / "vs0" / "sys" / "external";
+    if (fs::is_directory(external, ec)) {
+        for (const auto &entry : fs::directory_iterator(external, ec)) {
+            if (entry.path().extension() == ".suprx")
+                s_module_names.push_back(entry.path().stem().string());
+        }
+    }
+    std::sort(s_module_names.begin(), s_module_names.end());
+
+    std::vector<ContentOption> options;
+    for (const std::string &name : s_module_names) {
+        ContentOption option;
+        option.key = MODULE_KEY_PREFIX + name;
+        option.category = "modules";
+        option.label = name;
+        option.info = "Load vs0:sys/external/" + name + ".suprx from the firmware in place of the core's own implementation, when Modules Mode is Auto & Manual or Manual. Applies the next time the game is started.";
+        option.values = { { "disabled", "OFF" }, { "enabled", "ON" } };
+        option.default_value = "disabled";
+        options.push_back(std::move(option));
+    }
+    declare_extra_options(options, s_kept_module_options);
 }
 
 static const char *get_core_option_value(const char *key, const char *fallback) {
@@ -858,7 +966,7 @@ static void context_reset_opengl() {
 }
 
 static void libretro_copy_frame_for_presentation(renderer::vulkan::VKState &vk_state, vk::Image surface,
-    uint32_t ox, uint32_t oy, uint32_t w, uint32_t h);
+    vk::Format surface_format, const void *pixels, uint32_t pitch, uint32_t ox, uint32_t oy, uint32_t w, uint32_t h);
 
 // The game's start image (sce_sys/pic0.png), as upstream's
 // prepare_game_launch_overlay sets it up: the render thread shows it until the
@@ -934,7 +1042,7 @@ static void context_reset_finalize() {
                 vk_state && vk_state->overlay_manager && vk_state->overlay_manager->get<overlay::shader_precompile_progress>()) {
                 const auto w = static_cast<uint32_t>(DEFAULT_RES_WIDTH * vk_state->res_multiplier);
                 const auto h = static_cast<uint32_t>(DEFAULT_RES_HEIGHT * vk_state->res_multiplier);
-                libretro_copy_frame_for_presentation(*vk_state, nullptr, 0, 0, w, h);
+                libretro_copy_frame_for_presentation(*vk_state, nullptr, vk::Format::eUndefined, nullptr, 0, 0, 0, w, h);
             }
             while (libretro.render_thread_running.load()) {
                 if (!emuenv.renderer)
@@ -966,12 +1074,21 @@ static void context_reset_finalize() {
                         viewport.height = static_cast<uint32_t>(frame.image_size.y * vk_state->res_multiplier);
 
                         vk::Image surface_image;
+                        vk::Format surface_format = vk::Format::eUndefined;
                         vk::ImageView surface_view = vk_state->surface_cache.sourcing_color_surface_for_presentation(
-                            frame.base, frame.pitch, viewport, &surface_image);
+                            frame.base, frame.pitch, viewport, &surface_image, &surface_format);
 
                         if (surface_view && surface_image && viewport.width && viewport.height)
-                            libretro_copy_frame_for_presentation(*vk_state, surface_image,
+                            libretro_copy_frame_for_presentation(*vk_state, surface_image, surface_format, nullptr, 0,
                                 viewport.offset_x, viewport.offset_y, viewport.width, viewport.height);
+                        else if (!surface_view && frame.image_size.x > 0 && frame.image_size.y > 0 && frame.pitch >= static_cast<uint32_t>(frame.image_size.x))
+                            // a frame no surface was rendered into (the game
+                            // wrote it with the CPU, as some do for their
+                            // first screen): from memory, as upstream's
+                            // render_frame does
+                            libretro_copy_frame_for_presentation(*vk_state, nullptr, vk::Format::eUndefined,
+                                frame.base.get(emuenv.mem), frame.pitch, 0, 0,
+                                static_cast<uint32_t>(frame.image_size.x), static_cast<uint32_t>(frame.image_size.y));
                     }
                 }
             }
@@ -1031,6 +1148,8 @@ static struct {
     vk::CommandPool pool;
     vk::CommandBuffer cmd;
     vk::Fence fence;
+    // a frame in memory goes to the image through this
+    vkutil::Buffer staging;
     int published = -1; // under rendered_frame_mutex
     int reading = -1; // under rendered_frame_mutex
     // For Vita3K's overlays, drawn over the copy: a pass that keeps what is
@@ -1040,12 +1159,13 @@ static struct {
 } s_present;
 
 // Render thread: the surface's [offset, offset + size) into a free image of
-// s_present, Vita3K's overlays over it when any is shown (the system dialogs,
+// s_present (or, without a surface, the RGBA8 frame at pixels, pitch in
+// pixels), Vita3K's overlays over it when any is shown (the system dialogs,
 // trophy and shader notices: upstream's render_frame draws them over the frame
 // in the same place), and that published to retro_run. Without a surface
 // (before the game's first frame) the overlays are drawn over black.
 static void libretro_copy_frame_for_presentation(renderer::vulkan::VKState &vk_state, vk::Image surface,
-    uint32_t ox, uint32_t oy, uint32_t w, uint32_t h) {
+    vk::Format surface_format, const void *pixels, uint32_t pitch, uint32_t ox, uint32_t oy, uint32_t w, uint32_t h) {
     vk_state.update_overlays();
     bool has_overlays = false;
     if (vk_state.overlay_manager) {
@@ -1133,7 +1253,20 @@ static void libretro_copy_frame_for_presentation(renderer::vulkan::VKState &vk_s
         ? vk::ArrayProxy<const vk::ImageMemoryBarrier>(before_all)
         : vk::ArrayProxy<const vk::ImageMemoryBarrier>(before_all[0]);
     cmd.pipelineBarrier(vk::PipelineStageFlagBits::eAllCommands, vk::PipelineStageFlagBits::eTransfer, {}, {}, {}, before);
-    if (surface) {
+    if (surface && surface_format == vk::Format::eR8G8B8A8Srgb) {
+        // a game drawing with gamma correction has an sRGB surface. Upstream
+        // shows it through a UNORM view, its bytes as they are; a blit would
+        // turn them to linear on the way, and the picture came out darker
+        // than upstream's (Shoegzer)
+        vk::ImageCopy region{
+            .srcSubresource = { vk::ImageAspectFlagBits::eColor, 0, 0, 1 },
+            .srcOffset = { static_cast<int32_t>(ox), static_cast<int32_t>(oy), 0 },
+            .dstSubresource = { vk::ImageAspectFlagBits::eColor, 0, 0, 1 },
+            .dstOffset = { 0, 0, 0 },
+            .extent = { w, h, 1 },
+        };
+        cmd.copyImage(surface, vk::ImageLayout::eGeneral, image.image, vk::ImageLayout::eGeneral, region);
+    } else if (surface) {
         // a blit, not a copy: the surface may be in another format than RGBA8
         vk::ImageBlit region{
             .srcSubresource = { vk::ImageAspectFlagBits::eColor, 0, 0, 1 },
@@ -1144,6 +1277,24 @@ static void libretro_copy_frame_for_presentation(renderer::vulkan::VKState &vk_s
         region.dstOffsets[0] = vk::Offset3D{ 0, 0, 0 };
         region.dstOffsets[1] = vk::Offset3D{ static_cast<int32_t>(w), static_cast<int32_t>(h), 1 };
         cmd.blitImage(surface, vk::ImageLayout::eGeneral, image.image, vk::ImageLayout::eGeneral, region, vk::Filter::eNearest);
+    } else if (pixels) {
+        const vk::DeviceSize size = static_cast<vk::DeviceSize>(pitch) * h * 4;
+        if (s_present.staging.size < size) {
+            // its move assignment does not free the buffer it replaces
+            s_present.staging.destroy();
+            s_present.staging = vkutil::Buffer(size);
+            s_present.staging.init_buffer(vk::BufferUsageFlagBits::eTransferSrc, vkutil::vma_mapped_alloc);
+        }
+        memcpy(s_present.staging.mapped_data, pixels, size);
+        const vk::BufferImageCopy region{
+            .bufferOffset = 0,
+            .bufferRowLength = pitch,
+            .bufferImageHeight = h,
+            .imageSubresource = { vk::ImageAspectFlagBits::eColor, 0, 0, 1 },
+            .imageOffset = { 0, 0, 0 },
+            .imageExtent = { w, h, 1 },
+        };
+        cmd.copyBufferToImage(s_present.staging.buffer, image.image, vk::ImageLayout::eGeneral, region);
     } else {
         const vk::ClearColorValue black{ std::array<float, 4>{ 0.0f, 0.0f, 0.0f, 1.0f } };
         cmd.clearColorImage(image.image, vk::ImageLayout::eGeneral, black, range);
@@ -1216,6 +1367,8 @@ static void libretro_free_presentation_images(renderer::vulkan::VKState *vk_stat
     s_present.overlay_pass = nullptr;
     for (auto &image : s_present.images)
         image = vkutil::Image();
+    s_present.staging.destroy();
+    s_present.staging = vkutil::Buffer();
     if (vk_state && s_present.pool) {
         vk_state->device.destroyFence(s_present.fence);
         vk_state->device.destroyCommandPool(s_present.pool);
@@ -1363,6 +1516,10 @@ static GameInstallResult open_content() {
     remove_dead_runs(pref_path);
     // A game loaded before may have left its own options declared
     options_us.definitions = option_defs_us;
+    s_kept_content_options.clear();
+    s_kept_account_options.clear();
+    s_kept_module_options.clear();
+    s_kept_network_options.clear();
     set_content_options_handler(declare_content_options);
     s_holes_supported = lazy_pkg::holes_supported(pref_path / "ux0");
     if (!s_holes_supported) {
@@ -1389,7 +1546,18 @@ static GameInstallResult open_content() {
             set.value = value.c_str();
             libretro.environ_cb(RETRO_ENVIRONMENT_SET_VARIABLE, &set);
         });
-    const int sys_lang = 1;
+    set_account_option_callbacks(declare_account_options,
+        [](const std::string &key) { return std::string(get_core_option_value(key.c_str(), "")); },
+        [](const std::string &key, const std::string &value) {
+            if (!libretro.environ_cb)
+                return;
+            retro_variable set{};
+            set.key = key.c_str();
+            set.value = value.c_str();
+            libretro.environ_cb(RETRO_ENVIRONMENT_SET_VARIABLE, &set);
+        });
+    // the game's title and details in the System Language
+    const int sys_lang = std::clamp(parse_int_option(get_core_option_value("vita3k_sys_lang", "1"), SCE_SYSTEM_PARAM_LANG_ENGLISH_US), 0, static_cast<int>(SCE_SYSTEM_PARAM_LANG_TURKISH));
     const GameInstallResult result = ensure_game_installed(fs_utils::utf8_to_path(libretro.game_path), pref_path, sys_lang, pkg_mode_name == "run" || pkg_mode_name == "cache");
 
     // An installed game's update stays in ux0/patch/<title>, never merged into
@@ -1875,11 +2043,15 @@ RETRO_API bool retro_load_game(const struct retro_game_info *game) {
     cfg.overwrite_config = false;
     cfg.run_app_path = libretro.installed_title_id;
 
+    declare_module_options(pref_path);
+    declare_adhoc_address_option();
+
     // Prime config from libretro core options before EmuEnv initialization so
     // restart-sensitive settings (CPU/modules/renderer/memory mapping) are
     // used during app::init/app::late_init and module loading.
     read_core_options();
     apply_config_changes();
+    request_host_camera();
 
     libretro.emuenv = std::make_unique<EmuEnvState>();
     EmuEnvState &emuenv = *libretro.emuenv;
@@ -1977,6 +2149,7 @@ RETRO_API void retro_run(void) {
     if (libretro.environ_cb(RETRO_ENVIRONMENT_GET_VARIABLE_UPDATE, &updated) && updated) {
         read_core_options();
         apply_config_changes();
+        libretro_accounts_options_changed(*libretro.emuenv);
     }
 
     EmuEnvState &emuenv = *libretro.emuenv;
@@ -2307,7 +2480,8 @@ static void apply_config_changes() {
     const bool resolution_changed = (resolution_delta > 0.001f);
     const bool memory_mapping_changed = (cfg.memory_mapping != cfg.current_config.memory_mapping);
     const bool high_accuracy_changed = (cfg.high_accuracy != cfg.current_config.high_accuracy);
-    const bool modules_mode_changed = (cfg.modules_mode != cfg.current_config.modules_mode);
+    const bool modules_mode_changed = (cfg.modules_mode != cfg.current_config.modules_mode)
+        || (cfg.lle_modules != cfg.current_config.lle_modules);
     const bool cpu_opt_changed = (cfg.cpu_opt != cfg.current_config.cpu_opt);
 
     // The Content options (game, update, DLC) apply when the content is started again
@@ -2451,6 +2625,24 @@ static void read_core_options() {
         libretro.cfg->current_config.pstv_mode = parse_enabled_option(value, false);
     });
     
+    read_core_option("vita3k_sys_lang", "1", [](const char *value) {
+        const int lang = std::clamp(parse_int_option(value, SCE_SYSTEM_PARAM_LANG_ENGLISH_US), 0, static_cast<int>(SCE_SYSTEM_PARAM_LANG_TURKISH));
+        libretro.cfg->sys_lang = lang;
+        libretro.cfg->current_config.sys_lang = lang;
+    });
+
+    read_core_option("vita3k_sys_date_format", "2", [](const char *value) {
+        const int format = std::clamp(parse_int_option(value, SCE_SYSTEM_PARAM_DATE_FORMAT_MMDDYYYY), 0, static_cast<int>(SCE_SYSTEM_PARAM_DATE_FORMAT_MMDDYYYY));
+        libretro.cfg->sys_date_format = format;
+        libretro.cfg->current_config.sys_date_format = format;
+    });
+
+    read_core_option("vita3k_sys_time_format", "0", [](const char *value) {
+        const int format = std::clamp(parse_int_option(value, SCE_SYSTEM_PARAM_TIME_FORMAT_12HOUR), 0, static_cast<int>(SCE_SYSTEM_PARAM_TIME_FORMAT_24HOUR));
+        libretro.cfg->sys_time_format = format;
+        libretro.cfg->current_config.sys_time_format = format;
+    });
+
     read_core_option("vita3k_sys_button", "1", [](const char *value) {
         libretro.cfg->sys_button = parse_int_option(value, 1);
     });
@@ -2463,6 +2655,18 @@ static void read_core_options() {
             mode = ModulesMode::MANUAL;
         libretro.cfg->current_config.modules_mode = mode;
     });
+
+    // The modules turned on under Modules, shown there only when they are used
+    auto &lle_modules = libretro.cfg->current_config.lle_modules;
+    lle_modules.clear();
+    const bool manual_modules = libretro.cfg->current_config.modules_mode != static_cast<int>(ModulesMode::AUTOMATIC);
+    for (const std::string &name : s_module_names) {
+        const std::string key = MODULE_KEY_PREFIX + name;
+        if (std::string_view(get_core_option_value(key.c_str(), "disabled")) == "enabled")
+            lle_modules.push_back(name);
+        retro_core_option_display display{ key.c_str(), manual_modules };
+        libretro.environ_cb(RETRO_ENVIRONMENT_SET_CORE_OPTIONS_DISPLAY, &display);
+    }
     
     read_core_option("vita3k_fps_hack", "disabled", [](const char *value) {
         libretro.cfg->current_config.fps_hack = parse_enabled_option(value, false);
@@ -2497,6 +2701,50 @@ static void read_core_options() {
     });
     
     // Network Options
+    read_core_option("vita3k_http_enable", "enabled", [](const char *value) {
+        libretro.cfg->http_enable = parse_enabled_option(value, true);
+    });
+    read_core_option("vita3k_http_timeout_attempts", "50", [](const char *value) {
+        libretro.cfg->http_timeout_attempts = std::clamp(parse_int_option(value, 50), 0, 100);
+    });
+    read_core_option("vita3k_http_timeout_sleep", "100", [](const char *value) {
+        libretro.cfg->http_timeout_sleep_ms = std::clamp(parse_int_option(value, 100), 50, 3000);
+    });
+    read_core_option("vita3k_http_read_end_attempts", "10", [](const char *value) {
+        libretro.cfg->http_read_end_attempts = std::clamp(parse_int_option(value, 10), 0, 100);
+    });
+    read_core_option("vita3k_http_read_end_sleep", "250", [](const char *value) {
+        libretro.cfg->http_read_end_sleep_ms = std::clamp(parse_int_option(value, 250), 50, 3000);
+    });
+    read_core_option("vita3k_adhoc_addr", "0", [](const char *value) {
+        libretro.cfg->adhoc_addr = std::max(parse_int_option(value, 0), 0);
+    });
+
+    // The cameras, for the next time the game opens one (SceCamera reads them
+    // from the running emulator's config then)
+    for (const bool front : { true, false }) {
+        const char *side = front ? "front" : "back";
+        const std::string source = get_core_option_value(fmt::format("vita3k_{}_camera", side).c_str(), "host");
+        const int type = source == "color" ? CameraType::SolidColor : source == "image" ? CameraType::Image : CameraType::WebCamera;
+        const uint32_t color = static_cast<uint32_t>(std::strtoul(get_core_option_value(fmt::format("vita3k_{}_camera_color", side).c_str(), "0"), nullptr, 10));
+        std::string image;
+        for (const char *extension : { ".png", ".jpg", ".jpeg" }) {
+            const fs::path path = fs::path(libretro.system_dir) / "camera" / (std::string(side) + extension);
+            boost::system::error_code ec;
+            if (fs::exists(path, ec)) {
+                image = fs_utils::path_to_utf8(path);
+                break;
+            }
+        }
+        for (Config *cfg : { libretro.cfg.get(), libretro.emuenv ? &libretro.emuenv->cfg : nullptr }) {
+            if (!cfg)
+                continue;
+            (front ? cfg->front_camera_type : cfg->back_camera_type) = type;
+            (front ? cfg->front_camera_color : cfg->back_camera_color) = color;
+            (front ? cfg->front_camera_image : cfg->back_camera_image) = image;
+        }
+    }
+
     read_core_option("vita3k_psn_signed_in", "disabled", [](const char *value) {
         libretro.cfg->current_config.psn_signed_in = parse_enabled_option(value, false);
     });

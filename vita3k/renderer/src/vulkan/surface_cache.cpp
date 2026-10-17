@@ -1393,7 +1393,7 @@ void VKSurfaceCache::destroy_associated_framebuffers(const VKRenderTarget *rende
     destroy_framebuffers(render_target->depthstencil.view);
 }
 
-vk::ImageView VKSurfaceCache::sourcing_color_surface_for_presentation(Ptr<const void> address, uint32_t pitch, Viewport &viewport, vk::Image *out_image) {
+vk::ImageView VKSurfaceCache::sourcing_color_surface_for_presentation(Ptr<const void> address, uint32_t pitch, Viewport &viewport, vk::Image *out_image, vk::Format *out_format) {
     // get closest surface with an address below address
     auto ite = color_address_lookup.upper_bound(address.address());
     if (ite == color_address_lookup.begin()) {
@@ -1431,6 +1431,8 @@ vk::ImageView VKSurfaceCache::sourcing_color_surface_for_presentation(Ptr<const 
             viewport.texture_width = info.width;
             viewport.texture_height = info.height;
 
+            if (out_format)
+                *out_format = info.texture.format;
             if (info.swizzle == vkutil::rgba_mapping && info.texture.format == vk::Format::eR8G8B8A8Unorm) {
                 if (out_image)
                     *out_image = info.texture.image;
