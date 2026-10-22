@@ -49,6 +49,14 @@ extern "C" {
 #define CATEGORY_AUDIO_INFO_0_AR NULL
 #define CATEGORY_NETWORK_LABEL_AR "الشبكة"
 #define CATEGORY_NETWORK_INFO_0_AR NULL
+#define CATEGORY_INSTALL_LABEL_AR "محتوى"
+#define CATEGORY_INSTALL_INFO_0_AR NULL
+#define CATEGORY_CAMERA_LABEL_AR "نظام تشغيل الكاميرا"
+#define CATEGORY_CAMERA_INFO_0_AR NULL
+#define CATEGORY_ACCOUNTS_LABEL_AR "الحسابات"
+#define CATEGORY_ACCOUNTS_INFO_0_AR NULL
+#define CATEGORY_MODULES_LABEL_AR NULL
+#define CATEGORY_MODULES_INFO_0_AR NULL
 #define VITA3K_BACKEND_RENDERER_LABEL_AR NULL
 #define VITA3K_BACKEND_RENDERER_INFO_0_AR NULL
 #define OPTION_VAL_VULKAN_AR NULL
@@ -91,6 +99,7 @@ extern "C" {
 #define VITA3K_PKG_MODE_LABEL_AR NULL
 #define VITA3K_PKG_MODE_INFO_0_AR NULL
 #define OPTION_VAL_RUN_AR NULL
+#define OPTION_VAL_CACHE_AR NULL
 #define OPTION_VAL_INSTALL_AR NULL
 #define VITA3K_PSTV_MODE_LABEL_AR NULL
 #define VITA3K_PSTV_MODE_INFO_0_AR NULL
@@ -105,10 +114,41 @@ extern "C" {
 #define VITA3K_SYS_BUTTON_INFO_0_AR NULL
 #define OPTION_VAL_0_VITA3K_SYS_BUTTON_AR NULL
 #define OPTION_VAL_1_VITA3K_SYS_BUTTON_AR NULL
+#define VITA3K_SYS_LANG_LABEL_AR NULL
+#define VITA3K_SYS_LANG_INFO_0_AR NULL
+#define OPTION_VAL_0_VITA3K_SYS_LANG_AR "Japanese - 日本語"
+#define OPTION_VAL_1_VITA3K_SYS_LANG_AR NULL
+#define OPTION_VAL_2_VITA3K_SYS_LANG_AR "French - Français"
+#define OPTION_VAL_3_VITA3K_SYS_LANG_AR "Spanish - Español"
+#define OPTION_VAL_4_VITA3K_SYS_LANG_AR "German - Deutsch"
+#define OPTION_VAL_5_AR "Italian - Italiano"
+#define OPTION_VAL_6_AR NULL
+#define OPTION_VAL_7_AR NULL
+#define OPTION_VAL_8_VITA3K_SYS_LANG_AR NULL
+#define OPTION_VAL_9_AR NULL
+#define OPTION_VAL_10_AR NULL
+#define OPTION_VAL_11_AR NULL
+#define OPTION_VAL_12_AR NULL
+#define OPTION_VAL_13_AR NULL
+#define OPTION_VAL_14_AR NULL
+#define OPTION_VAL_15_AR NULL
+#define OPTION_VAL_16_VITA3K_SYS_LANG_AR NULL
+#define OPTION_VAL_17_AR NULL
+#define OPTION_VAL_18_AR NULL
+#define OPTION_VAL_19_AR NULL
+#define VITA3K_SYS_DATE_FORMAT_LABEL_AR NULL
+#define VITA3K_SYS_DATE_FORMAT_INFO_0_AR NULL
+#define OPTION_VAL_0_VITA3K_SYS_DATE_FORMAT_AR NULL
+#define OPTION_VAL_1_VITA3K_SYS_DATE_FORMAT_AR NULL
+#define OPTION_VAL_2_VITA3K_SYS_DATE_FORMAT_AR NULL
+#define VITA3K_SYS_TIME_FORMAT_LABEL_AR NULL
+#define VITA3K_SYS_TIME_FORMAT_INFO_0_AR NULL
+#define OPTION_VAL_0_VITA3K_SYS_TIME_FORMAT_AR NULL
+#define OPTION_VAL_1_VITA3K_SYS_TIME_FORMAT_AR NULL
 #define VITA3K_AUDIO_VOLUME_LABEL_AR NULL
 #define VITA3K_AUDIO_VOLUME_INFO_0_AR NULL
 #define OPTION_VAL_0_VITA3K_AUDIO_VOLUME_AR NULL
-#define OPTION_VAL_10_AR NULL
+#define OPTION_VAL_10_VITA3K_AUDIO_VOLUME_AR NULL
 #define OPTION_VAL_20_AR NULL
 #define OPTION_VAL_30_AR NULL
 #define OPTION_VAL_40_AR NULL
@@ -122,6 +162,47 @@ extern "C" {
 #define VITA3K_NGS_ENABLE_INFO_0_AR NULL
 #define VITA3K_PSN_SIGNED_IN_LABEL_AR NULL
 #define VITA3K_PSN_SIGNED_IN_INFO_0_AR NULL
+#define VITA3K_HTTP_ENABLE_LABEL_AR NULL
+#define VITA3K_HTTP_ENABLE_INFO_0_AR NULL
+#define VITA3K_HTTP_TIMEOUT_ATTEMPTS_LABEL_AR NULL
+#define VITA3K_HTTP_TIMEOUT_ATTEMPTS_INFO_0_AR NULL
+#define VITA3K_HTTP_TIMEOUT_SLEEP_LABEL_AR NULL
+#define VITA3K_HTTP_TIMEOUT_SLEEP_INFO_0_AR NULL
+#define OPTION_VAL_50_VITA3K_HTTP_TIMEOUT_SLEEP_AR NULL
+#define OPTION_VAL_100_VITA3K_HTTP_TIMEOUT_SLEEP_AR NULL
+#define OPTION_VAL_150_AR NULL
+#define OPTION_VAL_200_AR NULL
+#define OPTION_VAL_250_AR NULL
+#define OPTION_VAL_300_AR NULL
+#define OPTION_VAL_400_AR NULL
+#define OPTION_VAL_500_AR NULL
+#define OPTION_VAL_750_AR NULL
+#define OPTION_VAL_1000_AR NULL
+#define OPTION_VAL_1500_AR NULL
+#define OPTION_VAL_2000_AR NULL
+#define OPTION_VAL_2500_AR NULL
+#define OPTION_VAL_3000_AR NULL
+#define VITA3K_HTTP_READ_END_ATTEMPTS_LABEL_AR NULL
+#define VITA3K_HTTP_READ_END_ATTEMPTS_INFO_0_AR NULL
+#define VITA3K_HTTP_READ_END_SLEEP_LABEL_AR NULL
+#define VITA3K_HTTP_READ_END_SLEEP_INFO_0_AR NULL
+#define VITA3K_FRONT_CAMERA_LABEL_AR NULL
+#define VITA3K_FRONT_CAMERA_INFO_0_AR NULL
+#define OPTION_VAL_HOST_AR NULL
+#define OPTION_VAL_IMAGE_AR NULL
+#define OPTION_VAL_COLOR_AR NULL
+#define VITA3K_FRONT_CAMERA_COLOR_LABEL_AR NULL
+#define VITA3K_FRONT_CAMERA_COLOR_INFO_0_AR NULL
+#define OPTION_VAL_0_VITA3K_FRONT_CAMERA_COLOR_AR NULL
+#define OPTION_VAL_16777215_AR NULL
+#define OPTION_VAL_8421504_AR NULL
+#define OPTION_VAL_255_AR "أحمر"
+#define OPTION_VAL_65280_AR "أخضر"
+#define OPTION_VAL_16711680_AR "أزرق"
+#define VITA3K_BACK_CAMERA_LABEL_AR NULL
+#define VITA3K_BACK_CAMERA_INFO_0_AR NULL
+#define VITA3K_BACK_CAMERA_COLOR_LABEL_AR NULL
+#define VITA3K_BACK_CAMERA_COLOR_INFO_0_AR NULL
 #define VITA3K_SURFACE_SYNC_LABEL_AR NULL
 #define VITA3K_SURFACE_SYNC_INFO_0_AR NULL
 #define OPTION_VAL_ENABLED_AR NULL
@@ -129,9 +210,9 @@ extern "C" {
 #define VITA3K_FILE_LOADING_DELAY_LABEL_AR NULL
 #define VITA3K_FILE_LOADING_DELAY_INFO_0_AR NULL
 #define OPTION_VAL_0_VITA3K_FILE_LOADING_DELAY_AR NULL
-#define OPTION_VAL_5_AR NULL
+#define OPTION_VAL_5_VITA3K_FILE_LOADING_DELAY_AR NULL
 #define OPTION_VAL_10_VITA3K_FILE_LOADING_DELAY_AR NULL
-#define OPTION_VAL_15_AR NULL
+#define OPTION_VAL_15_VITA3K_FILE_LOADING_DELAY_AR NULL
 #define OPTION_VAL_20_VITA3K_FILE_LOADING_DELAY_AR NULL
 #define OPTION_VAL_25_AR NULL
 #define OPTION_VAL_30_VITA3K_FILE_LOADING_DELAY_AR NULL
@@ -142,6 +223,10 @@ struct retro_core_option_v2_category option_cats_ar[] = {
     { "system", CATEGORY_SYSTEM_LABEL_AR, CATEGORY_SYSTEM_INFO_0_AR },
     { "audio", CATEGORY_AUDIO_LABEL_AR, CATEGORY_AUDIO_INFO_0_AR },
     { "network", CATEGORY_NETWORK_LABEL_AR, CATEGORY_NETWORK_INFO_0_AR },
+    { "install", CATEGORY_INSTALL_LABEL_AR, CATEGORY_INSTALL_INFO_0_AR },
+    { "camera", CATEGORY_CAMERA_LABEL_AR, CATEGORY_CAMERA_INFO_0_AR },
+    { "accounts", CATEGORY_ACCOUNTS_LABEL_AR, CATEGORY_ACCOUNTS_INFO_0_AR },
+    { "modules", CATEGORY_MODULES_LABEL_AR, CATEGORY_MODULES_INFO_0_AR },
     { NULL, NULL, NULL },
 };
 struct retro_core_option_v2_definition option_defs_ar[] = {
@@ -305,9 +390,10 @@ struct retro_core_option_v2_definition option_defs_ar[] = {
         NULL,
         VITA3K_PKG_MODE_INFO_0_AR,
         NULL,
-        "system",
+        "install",
         {
             { "run", OPTION_VAL_RUN_AR },
+            { "cache", OPTION_VAL_CACHE_AR },
             { "install", OPTION_VAL_INSTALL_AR },
             { NULL, NULL },
         },
@@ -370,6 +456,67 @@ struct retro_core_option_v2_definition option_defs_ar[] = {
         },
         "1"
     },
+    {
+        "vita3k_sys_lang",
+        VITA3K_SYS_LANG_LABEL_AR,
+        NULL,
+        VITA3K_SYS_LANG_INFO_0_AR,
+        NULL,
+        "system",
+        {
+            { "0", OPTION_VAL_0_VITA3K_SYS_LANG_AR },
+            { "1", OPTION_VAL_1_VITA3K_SYS_LANG_AR },
+            { "2", OPTION_VAL_2_VITA3K_SYS_LANG_AR },
+            { "3", OPTION_VAL_3_VITA3K_SYS_LANG_AR },
+            { "4", OPTION_VAL_4_VITA3K_SYS_LANG_AR },
+            { "5", OPTION_VAL_5_AR },
+            { "6", OPTION_VAL_6_AR },
+            { "7", OPTION_VAL_7_AR },
+            { "8", OPTION_VAL_8_VITA3K_SYS_LANG_AR },
+            { "9", OPTION_VAL_9_AR },
+            { "10", OPTION_VAL_10_AR },
+            { "11", OPTION_VAL_11_AR },
+            { "12", OPTION_VAL_12_AR },
+            { "13", OPTION_VAL_13_AR },
+            { "14", OPTION_VAL_14_AR },
+            { "15", OPTION_VAL_15_AR },
+            { "16", OPTION_VAL_16_VITA3K_SYS_LANG_AR },
+            { "17", OPTION_VAL_17_AR },
+            { "18", OPTION_VAL_18_AR },
+            { "19", OPTION_VAL_19_AR },
+            { NULL, NULL },
+        },
+        "1"
+    },
+    {
+        "vita3k_sys_date_format",
+        VITA3K_SYS_DATE_FORMAT_LABEL_AR,
+        NULL,
+        VITA3K_SYS_DATE_FORMAT_INFO_0_AR,
+        NULL,
+        "system",
+        {
+            { "0", OPTION_VAL_0_VITA3K_SYS_DATE_FORMAT_AR },
+            { "1", OPTION_VAL_1_VITA3K_SYS_DATE_FORMAT_AR },
+            { "2", OPTION_VAL_2_VITA3K_SYS_DATE_FORMAT_AR },
+            { NULL, NULL },
+        },
+        "2"
+    },
+    {
+        "vita3k_sys_time_format",
+        VITA3K_SYS_TIME_FORMAT_LABEL_AR,
+        NULL,
+        VITA3K_SYS_TIME_FORMAT_INFO_0_AR,
+        NULL,
+        "system",
+        {
+            { "0", OPTION_VAL_0_VITA3K_SYS_TIME_FORMAT_AR },
+            { "1", OPTION_VAL_1_VITA3K_SYS_TIME_FORMAT_AR },
+            { NULL, NULL },
+        },
+        "0"
+    },
     // ── Audio ────────────────────────────────────────────────────────────
     {
         "vita3k_audio_volume",
@@ -380,7 +527,7 @@ struct retro_core_option_v2_definition option_defs_ar[] = {
         "audio",
         {
             { "0", OPTION_VAL_0_VITA3K_AUDIO_VOLUME_AR },
-            { "10", OPTION_VAL_10_AR },
+            { "10", OPTION_VAL_10_VITA3K_AUDIO_VOLUME_AR },
             { "20", OPTION_VAL_20_AR },
             { "30", OPTION_VAL_30_AR },
             { "40", OPTION_VAL_40_AR },
@@ -424,6 +571,204 @@ struct retro_core_option_v2_definition option_defs_ar[] = {
         "disabled"
     },
     {
+        "vita3k_http_enable",
+        VITA3K_HTTP_ENABLE_LABEL_AR,
+        NULL,
+        VITA3K_HTTP_ENABLE_INFO_0_AR,
+        NULL,
+        "network",
+        {
+            { "enabled", NULL },
+            { "disabled", NULL },
+            { NULL, NULL },
+        },
+        "enabled"
+    },
+    {
+        "vita3k_http_timeout_attempts",
+        VITA3K_HTTP_TIMEOUT_ATTEMPTS_LABEL_AR,
+        NULL,
+        VITA3K_HTTP_TIMEOUT_ATTEMPTS_INFO_0_AR,
+        NULL,
+        "network",
+        {
+            { "0", NULL },
+            { "5", NULL },
+            { "10", NULL },
+            { "15", NULL },
+            { "20", NULL },
+            { "25", NULL },
+            { "30", NULL },
+            { "35", NULL },
+            { "40", NULL },
+            { "45", NULL },
+            { "50", NULL },
+            { "55", NULL },
+            { "60", NULL },
+            { "65", NULL },
+            { "70", NULL },
+            { "75", NULL },
+            { "80", NULL },
+            { "85", NULL },
+            { "90", NULL },
+            { "95", NULL },
+            { "100", NULL },
+            { NULL, NULL },
+        },
+        "50"
+    },
+    {
+        "vita3k_http_timeout_sleep",
+        VITA3K_HTTP_TIMEOUT_SLEEP_LABEL_AR,
+        NULL,
+        VITA3K_HTTP_TIMEOUT_SLEEP_INFO_0_AR,
+        NULL,
+        "network",
+        {
+            { "50", OPTION_VAL_50_VITA3K_HTTP_TIMEOUT_SLEEP_AR },
+            { "100", OPTION_VAL_100_VITA3K_HTTP_TIMEOUT_SLEEP_AR },
+            { "150", OPTION_VAL_150_AR },
+            { "200", OPTION_VAL_200_AR },
+            { "250", OPTION_VAL_250_AR },
+            { "300", OPTION_VAL_300_AR },
+            { "400", OPTION_VAL_400_AR },
+            { "500", OPTION_VAL_500_AR },
+            { "750", OPTION_VAL_750_AR },
+            { "1000", OPTION_VAL_1000_AR },
+            { "1500", OPTION_VAL_1500_AR },
+            { "2000", OPTION_VAL_2000_AR },
+            { "2500", OPTION_VAL_2500_AR },
+            { "3000", OPTION_VAL_3000_AR },
+            { NULL, NULL },
+        },
+        "100"
+    },
+    {
+        "vita3k_http_read_end_attempts",
+        VITA3K_HTTP_READ_END_ATTEMPTS_LABEL_AR,
+        NULL,
+        VITA3K_HTTP_READ_END_ATTEMPTS_INFO_0_AR,
+        NULL,
+        "network",
+        {
+            { "0", NULL },
+            { "5", NULL },
+            { "10", NULL },
+            { "15", NULL },
+            { "20", NULL },
+            { "25", NULL },
+            { "30", NULL },
+            { "35", NULL },
+            { "40", NULL },
+            { "45", NULL },
+            { "50", NULL },
+            { "55", NULL },
+            { "60", NULL },
+            { "65", NULL },
+            { "70", NULL },
+            { "75", NULL },
+            { "80", NULL },
+            { "85", NULL },
+            { "90", NULL },
+            { "95", NULL },
+            { "100", NULL },
+            { NULL, NULL },
+        },
+        "10"
+    },
+    {
+        "vita3k_http_read_end_sleep",
+        VITA3K_HTTP_READ_END_SLEEP_LABEL_AR,
+        NULL,
+        VITA3K_HTTP_READ_END_SLEEP_INFO_0_AR,
+        NULL,
+        "network",
+        {
+            { "50", OPTION_VAL_50_VITA3K_HTTP_TIMEOUT_SLEEP_AR },
+            { "100", OPTION_VAL_100_VITA3K_HTTP_TIMEOUT_SLEEP_AR },
+            { "150", OPTION_VAL_150_AR },
+            { "200", OPTION_VAL_200_AR },
+            { "250", OPTION_VAL_250_AR },
+            { "300", OPTION_VAL_300_AR },
+            { "400", OPTION_VAL_400_AR },
+            { "500", OPTION_VAL_500_AR },
+            { "750", OPTION_VAL_750_AR },
+            { "1000", OPTION_VAL_1000_AR },
+            { "1500", OPTION_VAL_1500_AR },
+            { "2000", OPTION_VAL_2000_AR },
+            { "2500", OPTION_VAL_2500_AR },
+            { "3000", OPTION_VAL_3000_AR },
+            { NULL, NULL },
+        },
+        "250"
+    },
+    {
+        "vita3k_front_camera",
+        VITA3K_FRONT_CAMERA_LABEL_AR,
+        NULL,
+        VITA3K_FRONT_CAMERA_INFO_0_AR,
+        NULL,
+        "camera",
+        {
+            { "host", OPTION_VAL_HOST_AR },
+            { "image", OPTION_VAL_IMAGE_AR },
+            { "color", OPTION_VAL_COLOR_AR },
+            { NULL, NULL },
+        },
+        "host"
+    },
+    {
+        "vita3k_front_camera_color",
+        VITA3K_FRONT_CAMERA_COLOR_LABEL_AR,
+        NULL,
+        VITA3K_FRONT_CAMERA_COLOR_INFO_0_AR,
+        NULL,
+        "camera",
+        {
+            { "0", OPTION_VAL_0_VITA3K_FRONT_CAMERA_COLOR_AR },
+            { "16777215", OPTION_VAL_16777215_AR },
+            { "8421504", OPTION_VAL_8421504_AR },
+            { "255", OPTION_VAL_255_AR },
+            { "65280", OPTION_VAL_65280_AR },
+            { "16711680", OPTION_VAL_16711680_AR },
+            { NULL, NULL },
+        },
+        "0"
+    },
+    {
+        "vita3k_back_camera",
+        VITA3K_BACK_CAMERA_LABEL_AR,
+        NULL,
+        VITA3K_BACK_CAMERA_INFO_0_AR,
+        NULL,
+        "camera",
+        {
+            { "host", OPTION_VAL_HOST_AR },
+            { "image", OPTION_VAL_IMAGE_AR },
+            { "color", OPTION_VAL_COLOR_AR },
+            { NULL, NULL },
+        },
+        "host"
+    },
+    {
+        "vita3k_back_camera_color",
+        VITA3K_BACK_CAMERA_COLOR_LABEL_AR,
+        NULL,
+        VITA3K_BACK_CAMERA_COLOR_INFO_0_AR,
+        NULL,
+        "camera",
+        {
+            { "0", OPTION_VAL_0_VITA3K_FRONT_CAMERA_COLOR_AR },
+            { "16777215", OPTION_VAL_16777215_AR },
+            { "8421504", OPTION_VAL_8421504_AR },
+            { "255", OPTION_VAL_255_AR },
+            { "65280", OPTION_VAL_65280_AR },
+            { "16711680", OPTION_VAL_16711680_AR },
+            { NULL, NULL },
+        },
+        "0"
+    },
+    {
         "vita3k_surface_sync",
         VITA3K_SURFACE_SYNC_LABEL_AR,
         NULL,
@@ -446,9 +791,9 @@ struct retro_core_option_v2_definition option_defs_ar[] = {
         "system",
         {
             { "0", OPTION_VAL_0_VITA3K_FILE_LOADING_DELAY_AR },
-            { "5", OPTION_VAL_5_AR },
+            { "5", OPTION_VAL_5_VITA3K_FILE_LOADING_DELAY_AR },
             { "10", OPTION_VAL_10_VITA3K_FILE_LOADING_DELAY_AR },
-            { "15", OPTION_VAL_15_AR },
+            { "15", OPTION_VAL_15_VITA3K_FILE_LOADING_DELAY_AR },
             { "20", OPTION_VAL_20_VITA3K_FILE_LOADING_DELAY_AR },
             { "25", OPTION_VAL_25_AR },
             { "30", OPTION_VAL_30_VITA3K_FILE_LOADING_DELAY_AR },
@@ -475,6 +820,14 @@ struct retro_core_options_v2 options_ar = {
 #define CATEGORY_AUDIO_INFO_0_AST NULL
 #define CATEGORY_NETWORK_LABEL_AST "Rede"
 #define CATEGORY_NETWORK_INFO_0_AST NULL
+#define CATEGORY_INSTALL_LABEL_AST "Conteníu"
+#define CATEGORY_INSTALL_INFO_0_AST NULL
+#define CATEGORY_CAMERA_LABEL_AST "Cámara"
+#define CATEGORY_CAMERA_INFO_0_AST NULL
+#define CATEGORY_ACCOUNTS_LABEL_AST "Cuentes"
+#define CATEGORY_ACCOUNTS_INFO_0_AST NULL
+#define CATEGORY_MODULES_LABEL_AST NULL
+#define CATEGORY_MODULES_INFO_0_AST NULL
 #define VITA3K_BACKEND_RENDERER_LABEL_AST NULL
 #define VITA3K_BACKEND_RENDERER_INFO_0_AST NULL
 #define OPTION_VAL_VULKAN_AST NULL
@@ -517,6 +870,7 @@ struct retro_core_options_v2 options_ar = {
 #define VITA3K_PKG_MODE_LABEL_AST NULL
 #define VITA3K_PKG_MODE_INFO_0_AST NULL
 #define OPTION_VAL_RUN_AST NULL
+#define OPTION_VAL_CACHE_AST NULL
 #define OPTION_VAL_INSTALL_AST NULL
 #define VITA3K_PSTV_MODE_LABEL_AST NULL
 #define VITA3K_PSTV_MODE_INFO_0_AST NULL
@@ -531,10 +885,41 @@ struct retro_core_options_v2 options_ar = {
 #define VITA3K_SYS_BUTTON_INFO_0_AST NULL
 #define OPTION_VAL_0_VITA3K_SYS_BUTTON_AST NULL
 #define OPTION_VAL_1_VITA3K_SYS_BUTTON_AST NULL
+#define VITA3K_SYS_LANG_LABEL_AST NULL
+#define VITA3K_SYS_LANG_INFO_0_AST NULL
+#define OPTION_VAL_0_VITA3K_SYS_LANG_AST "Xaponés"
+#define OPTION_VAL_1_VITA3K_SYS_LANG_AST NULL
+#define OPTION_VAL_2_VITA3K_SYS_LANG_AST "Francés"
+#define OPTION_VAL_3_VITA3K_SYS_LANG_AST "Castellán"
+#define OPTION_VAL_4_VITA3K_SYS_LANG_AST "Alemán"
+#define OPTION_VAL_5_AST "Italianu"
+#define OPTION_VAL_6_AST NULL
+#define OPTION_VAL_7_AST NULL
+#define OPTION_VAL_8_VITA3K_SYS_LANG_AST NULL
+#define OPTION_VAL_9_AST NULL
+#define OPTION_VAL_10_AST NULL
+#define OPTION_VAL_11_AST NULL
+#define OPTION_VAL_12_AST NULL
+#define OPTION_VAL_13_AST NULL
+#define OPTION_VAL_14_AST NULL
+#define OPTION_VAL_15_AST NULL
+#define OPTION_VAL_16_VITA3K_SYS_LANG_AST NULL
+#define OPTION_VAL_17_AST NULL
+#define OPTION_VAL_18_AST NULL
+#define OPTION_VAL_19_AST NULL
+#define VITA3K_SYS_DATE_FORMAT_LABEL_AST NULL
+#define VITA3K_SYS_DATE_FORMAT_INFO_0_AST NULL
+#define OPTION_VAL_0_VITA3K_SYS_DATE_FORMAT_AST NULL
+#define OPTION_VAL_1_VITA3K_SYS_DATE_FORMAT_AST NULL
+#define OPTION_VAL_2_VITA3K_SYS_DATE_FORMAT_AST NULL
+#define VITA3K_SYS_TIME_FORMAT_LABEL_AST NULL
+#define VITA3K_SYS_TIME_FORMAT_INFO_0_AST NULL
+#define OPTION_VAL_0_VITA3K_SYS_TIME_FORMAT_AST NULL
+#define OPTION_VAL_1_VITA3K_SYS_TIME_FORMAT_AST NULL
 #define VITA3K_AUDIO_VOLUME_LABEL_AST NULL
 #define VITA3K_AUDIO_VOLUME_INFO_0_AST NULL
 #define OPTION_VAL_0_VITA3K_AUDIO_VOLUME_AST NULL
-#define OPTION_VAL_10_AST NULL
+#define OPTION_VAL_10_VITA3K_AUDIO_VOLUME_AST NULL
 #define OPTION_VAL_20_AST NULL
 #define OPTION_VAL_30_AST NULL
 #define OPTION_VAL_40_AST NULL
@@ -548,6 +933,47 @@ struct retro_core_options_v2 options_ar = {
 #define VITA3K_NGS_ENABLE_INFO_0_AST NULL
 #define VITA3K_PSN_SIGNED_IN_LABEL_AST NULL
 #define VITA3K_PSN_SIGNED_IN_INFO_0_AST NULL
+#define VITA3K_HTTP_ENABLE_LABEL_AST NULL
+#define VITA3K_HTTP_ENABLE_INFO_0_AST NULL
+#define VITA3K_HTTP_TIMEOUT_ATTEMPTS_LABEL_AST NULL
+#define VITA3K_HTTP_TIMEOUT_ATTEMPTS_INFO_0_AST NULL
+#define VITA3K_HTTP_TIMEOUT_SLEEP_LABEL_AST NULL
+#define VITA3K_HTTP_TIMEOUT_SLEEP_INFO_0_AST NULL
+#define OPTION_VAL_50_VITA3K_HTTP_TIMEOUT_SLEEP_AST NULL
+#define OPTION_VAL_100_VITA3K_HTTP_TIMEOUT_SLEEP_AST NULL
+#define OPTION_VAL_150_AST NULL
+#define OPTION_VAL_200_AST NULL
+#define OPTION_VAL_250_AST NULL
+#define OPTION_VAL_300_AST NULL
+#define OPTION_VAL_400_AST NULL
+#define OPTION_VAL_500_AST NULL
+#define OPTION_VAL_750_AST NULL
+#define OPTION_VAL_1000_AST NULL
+#define OPTION_VAL_1500_AST NULL
+#define OPTION_VAL_2000_AST NULL
+#define OPTION_VAL_2500_AST NULL
+#define OPTION_VAL_3000_AST NULL
+#define VITA3K_HTTP_READ_END_ATTEMPTS_LABEL_AST NULL
+#define VITA3K_HTTP_READ_END_ATTEMPTS_INFO_0_AST NULL
+#define VITA3K_HTTP_READ_END_SLEEP_LABEL_AST NULL
+#define VITA3K_HTTP_READ_END_SLEEP_INFO_0_AST NULL
+#define VITA3K_FRONT_CAMERA_LABEL_AST NULL
+#define VITA3K_FRONT_CAMERA_INFO_0_AST NULL
+#define OPTION_VAL_HOST_AST NULL
+#define OPTION_VAL_IMAGE_AST NULL
+#define OPTION_VAL_COLOR_AST NULL
+#define VITA3K_FRONT_CAMERA_COLOR_LABEL_AST NULL
+#define VITA3K_FRONT_CAMERA_COLOR_INFO_0_AST NULL
+#define OPTION_VAL_0_VITA3K_FRONT_CAMERA_COLOR_AST "Prietu"
+#define OPTION_VAL_16777215_AST "Blancu"
+#define OPTION_VAL_8421504_AST "Buxu"
+#define OPTION_VAL_255_AST "Coloráu"
+#define OPTION_VAL_65280_AST "Verde"
+#define OPTION_VAL_16711680_AST "Azul"
+#define VITA3K_BACK_CAMERA_LABEL_AST NULL
+#define VITA3K_BACK_CAMERA_INFO_0_AST NULL
+#define VITA3K_BACK_CAMERA_COLOR_LABEL_AST NULL
+#define VITA3K_BACK_CAMERA_COLOR_INFO_0_AST NULL
 #define VITA3K_SURFACE_SYNC_LABEL_AST NULL
 #define VITA3K_SURFACE_SYNC_INFO_0_AST NULL
 #define OPTION_VAL_ENABLED_AST NULL
@@ -555,9 +981,9 @@ struct retro_core_options_v2 options_ar = {
 #define VITA3K_FILE_LOADING_DELAY_LABEL_AST NULL
 #define VITA3K_FILE_LOADING_DELAY_INFO_0_AST NULL
 #define OPTION_VAL_0_VITA3K_FILE_LOADING_DELAY_AST NULL
-#define OPTION_VAL_5_AST NULL
+#define OPTION_VAL_5_VITA3K_FILE_LOADING_DELAY_AST NULL
 #define OPTION_VAL_10_VITA3K_FILE_LOADING_DELAY_AST NULL
-#define OPTION_VAL_15_AST NULL
+#define OPTION_VAL_15_VITA3K_FILE_LOADING_DELAY_AST NULL
 #define OPTION_VAL_20_VITA3K_FILE_LOADING_DELAY_AST NULL
 #define OPTION_VAL_25_AST NULL
 #define OPTION_VAL_30_VITA3K_FILE_LOADING_DELAY_AST NULL
@@ -568,6 +994,10 @@ struct retro_core_option_v2_category option_cats_ast[] = {
     { "system", CATEGORY_SYSTEM_LABEL_AST, CATEGORY_SYSTEM_INFO_0_AST },
     { "audio", CATEGORY_AUDIO_LABEL_AST, CATEGORY_AUDIO_INFO_0_AST },
     { "network", CATEGORY_NETWORK_LABEL_AST, CATEGORY_NETWORK_INFO_0_AST },
+    { "install", CATEGORY_INSTALL_LABEL_AST, CATEGORY_INSTALL_INFO_0_AST },
+    { "camera", CATEGORY_CAMERA_LABEL_AST, CATEGORY_CAMERA_INFO_0_AST },
+    { "accounts", CATEGORY_ACCOUNTS_LABEL_AST, CATEGORY_ACCOUNTS_INFO_0_AST },
+    { "modules", CATEGORY_MODULES_LABEL_AST, CATEGORY_MODULES_INFO_0_AST },
     { NULL, NULL, NULL },
 };
 struct retro_core_option_v2_definition option_defs_ast[] = {
@@ -731,9 +1161,10 @@ struct retro_core_option_v2_definition option_defs_ast[] = {
         NULL,
         VITA3K_PKG_MODE_INFO_0_AST,
         NULL,
-        "system",
+        "install",
         {
             { "run", OPTION_VAL_RUN_AST },
+            { "cache", OPTION_VAL_CACHE_AST },
             { "install", OPTION_VAL_INSTALL_AST },
             { NULL, NULL },
         },
@@ -796,6 +1227,67 @@ struct retro_core_option_v2_definition option_defs_ast[] = {
         },
         "1"
     },
+    {
+        "vita3k_sys_lang",
+        VITA3K_SYS_LANG_LABEL_AST,
+        NULL,
+        VITA3K_SYS_LANG_INFO_0_AST,
+        NULL,
+        "system",
+        {
+            { "0", OPTION_VAL_0_VITA3K_SYS_LANG_AST },
+            { "1", OPTION_VAL_1_VITA3K_SYS_LANG_AST },
+            { "2", OPTION_VAL_2_VITA3K_SYS_LANG_AST },
+            { "3", OPTION_VAL_3_VITA3K_SYS_LANG_AST },
+            { "4", OPTION_VAL_4_VITA3K_SYS_LANG_AST },
+            { "5", OPTION_VAL_5_AST },
+            { "6", OPTION_VAL_6_AST },
+            { "7", OPTION_VAL_7_AST },
+            { "8", OPTION_VAL_8_VITA3K_SYS_LANG_AST },
+            { "9", OPTION_VAL_9_AST },
+            { "10", OPTION_VAL_10_AST },
+            { "11", OPTION_VAL_11_AST },
+            { "12", OPTION_VAL_12_AST },
+            { "13", OPTION_VAL_13_AST },
+            { "14", OPTION_VAL_14_AST },
+            { "15", OPTION_VAL_15_AST },
+            { "16", OPTION_VAL_16_VITA3K_SYS_LANG_AST },
+            { "17", OPTION_VAL_17_AST },
+            { "18", OPTION_VAL_18_AST },
+            { "19", OPTION_VAL_19_AST },
+            { NULL, NULL },
+        },
+        "1"
+    },
+    {
+        "vita3k_sys_date_format",
+        VITA3K_SYS_DATE_FORMAT_LABEL_AST,
+        NULL,
+        VITA3K_SYS_DATE_FORMAT_INFO_0_AST,
+        NULL,
+        "system",
+        {
+            { "0", OPTION_VAL_0_VITA3K_SYS_DATE_FORMAT_AST },
+            { "1", OPTION_VAL_1_VITA3K_SYS_DATE_FORMAT_AST },
+            { "2", OPTION_VAL_2_VITA3K_SYS_DATE_FORMAT_AST },
+            { NULL, NULL },
+        },
+        "2"
+    },
+    {
+        "vita3k_sys_time_format",
+        VITA3K_SYS_TIME_FORMAT_LABEL_AST,
+        NULL,
+        VITA3K_SYS_TIME_FORMAT_INFO_0_AST,
+        NULL,
+        "system",
+        {
+            { "0", OPTION_VAL_0_VITA3K_SYS_TIME_FORMAT_AST },
+            { "1", OPTION_VAL_1_VITA3K_SYS_TIME_FORMAT_AST },
+            { NULL, NULL },
+        },
+        "0"
+    },
     // ── Audio ────────────────────────────────────────────────────────────
     {
         "vita3k_audio_volume",
@@ -806,7 +1298,7 @@ struct retro_core_option_v2_definition option_defs_ast[] = {
         "audio",
         {
             { "0", OPTION_VAL_0_VITA3K_AUDIO_VOLUME_AST },
-            { "10", OPTION_VAL_10_AST },
+            { "10", OPTION_VAL_10_VITA3K_AUDIO_VOLUME_AST },
             { "20", OPTION_VAL_20_AST },
             { "30", OPTION_VAL_30_AST },
             { "40", OPTION_VAL_40_AST },
@@ -850,6 +1342,204 @@ struct retro_core_option_v2_definition option_defs_ast[] = {
         "disabled"
     },
     {
+        "vita3k_http_enable",
+        VITA3K_HTTP_ENABLE_LABEL_AST,
+        NULL,
+        VITA3K_HTTP_ENABLE_INFO_0_AST,
+        NULL,
+        "network",
+        {
+            { "enabled", NULL },
+            { "disabled", NULL },
+            { NULL, NULL },
+        },
+        "enabled"
+    },
+    {
+        "vita3k_http_timeout_attempts",
+        VITA3K_HTTP_TIMEOUT_ATTEMPTS_LABEL_AST,
+        NULL,
+        VITA3K_HTTP_TIMEOUT_ATTEMPTS_INFO_0_AST,
+        NULL,
+        "network",
+        {
+            { "0", NULL },
+            { "5", NULL },
+            { "10", NULL },
+            { "15", NULL },
+            { "20", NULL },
+            { "25", NULL },
+            { "30", NULL },
+            { "35", NULL },
+            { "40", NULL },
+            { "45", NULL },
+            { "50", NULL },
+            { "55", NULL },
+            { "60", NULL },
+            { "65", NULL },
+            { "70", NULL },
+            { "75", NULL },
+            { "80", NULL },
+            { "85", NULL },
+            { "90", NULL },
+            { "95", NULL },
+            { "100", NULL },
+            { NULL, NULL },
+        },
+        "50"
+    },
+    {
+        "vita3k_http_timeout_sleep",
+        VITA3K_HTTP_TIMEOUT_SLEEP_LABEL_AST,
+        NULL,
+        VITA3K_HTTP_TIMEOUT_SLEEP_INFO_0_AST,
+        NULL,
+        "network",
+        {
+            { "50", OPTION_VAL_50_VITA3K_HTTP_TIMEOUT_SLEEP_AST },
+            { "100", OPTION_VAL_100_VITA3K_HTTP_TIMEOUT_SLEEP_AST },
+            { "150", OPTION_VAL_150_AST },
+            { "200", OPTION_VAL_200_AST },
+            { "250", OPTION_VAL_250_AST },
+            { "300", OPTION_VAL_300_AST },
+            { "400", OPTION_VAL_400_AST },
+            { "500", OPTION_VAL_500_AST },
+            { "750", OPTION_VAL_750_AST },
+            { "1000", OPTION_VAL_1000_AST },
+            { "1500", OPTION_VAL_1500_AST },
+            { "2000", OPTION_VAL_2000_AST },
+            { "2500", OPTION_VAL_2500_AST },
+            { "3000", OPTION_VAL_3000_AST },
+            { NULL, NULL },
+        },
+        "100"
+    },
+    {
+        "vita3k_http_read_end_attempts",
+        VITA3K_HTTP_READ_END_ATTEMPTS_LABEL_AST,
+        NULL,
+        VITA3K_HTTP_READ_END_ATTEMPTS_INFO_0_AST,
+        NULL,
+        "network",
+        {
+            { "0", NULL },
+            { "5", NULL },
+            { "10", NULL },
+            { "15", NULL },
+            { "20", NULL },
+            { "25", NULL },
+            { "30", NULL },
+            { "35", NULL },
+            { "40", NULL },
+            { "45", NULL },
+            { "50", NULL },
+            { "55", NULL },
+            { "60", NULL },
+            { "65", NULL },
+            { "70", NULL },
+            { "75", NULL },
+            { "80", NULL },
+            { "85", NULL },
+            { "90", NULL },
+            { "95", NULL },
+            { "100", NULL },
+            { NULL, NULL },
+        },
+        "10"
+    },
+    {
+        "vita3k_http_read_end_sleep",
+        VITA3K_HTTP_READ_END_SLEEP_LABEL_AST,
+        NULL,
+        VITA3K_HTTP_READ_END_SLEEP_INFO_0_AST,
+        NULL,
+        "network",
+        {
+            { "50", OPTION_VAL_50_VITA3K_HTTP_TIMEOUT_SLEEP_AST },
+            { "100", OPTION_VAL_100_VITA3K_HTTP_TIMEOUT_SLEEP_AST },
+            { "150", OPTION_VAL_150_AST },
+            { "200", OPTION_VAL_200_AST },
+            { "250", OPTION_VAL_250_AST },
+            { "300", OPTION_VAL_300_AST },
+            { "400", OPTION_VAL_400_AST },
+            { "500", OPTION_VAL_500_AST },
+            { "750", OPTION_VAL_750_AST },
+            { "1000", OPTION_VAL_1000_AST },
+            { "1500", OPTION_VAL_1500_AST },
+            { "2000", OPTION_VAL_2000_AST },
+            { "2500", OPTION_VAL_2500_AST },
+            { "3000", OPTION_VAL_3000_AST },
+            { NULL, NULL },
+        },
+        "250"
+    },
+    {
+        "vita3k_front_camera",
+        VITA3K_FRONT_CAMERA_LABEL_AST,
+        NULL,
+        VITA3K_FRONT_CAMERA_INFO_0_AST,
+        NULL,
+        "camera",
+        {
+            { "host", OPTION_VAL_HOST_AST },
+            { "image", OPTION_VAL_IMAGE_AST },
+            { "color", OPTION_VAL_COLOR_AST },
+            { NULL, NULL },
+        },
+        "host"
+    },
+    {
+        "vita3k_front_camera_color",
+        VITA3K_FRONT_CAMERA_COLOR_LABEL_AST,
+        NULL,
+        VITA3K_FRONT_CAMERA_COLOR_INFO_0_AST,
+        NULL,
+        "camera",
+        {
+            { "0", OPTION_VAL_0_VITA3K_FRONT_CAMERA_COLOR_AST },
+            { "16777215", OPTION_VAL_16777215_AST },
+            { "8421504", OPTION_VAL_8421504_AST },
+            { "255", OPTION_VAL_255_AST },
+            { "65280", OPTION_VAL_65280_AST },
+            { "16711680", OPTION_VAL_16711680_AST },
+            { NULL, NULL },
+        },
+        "0"
+    },
+    {
+        "vita3k_back_camera",
+        VITA3K_BACK_CAMERA_LABEL_AST,
+        NULL,
+        VITA3K_BACK_CAMERA_INFO_0_AST,
+        NULL,
+        "camera",
+        {
+            { "host", OPTION_VAL_HOST_AST },
+            { "image", OPTION_VAL_IMAGE_AST },
+            { "color", OPTION_VAL_COLOR_AST },
+            { NULL, NULL },
+        },
+        "host"
+    },
+    {
+        "vita3k_back_camera_color",
+        VITA3K_BACK_CAMERA_COLOR_LABEL_AST,
+        NULL,
+        VITA3K_BACK_CAMERA_COLOR_INFO_0_AST,
+        NULL,
+        "camera",
+        {
+            { "0", OPTION_VAL_0_VITA3K_FRONT_CAMERA_COLOR_AST },
+            { "16777215", OPTION_VAL_16777215_AST },
+            { "8421504", OPTION_VAL_8421504_AST },
+            { "255", OPTION_VAL_255_AST },
+            { "65280", OPTION_VAL_65280_AST },
+            { "16711680", OPTION_VAL_16711680_AST },
+            { NULL, NULL },
+        },
+        "0"
+    },
+    {
         "vita3k_surface_sync",
         VITA3K_SURFACE_SYNC_LABEL_AST,
         NULL,
@@ -872,9 +1562,9 @@ struct retro_core_option_v2_definition option_defs_ast[] = {
         "system",
         {
             { "0", OPTION_VAL_0_VITA3K_FILE_LOADING_DELAY_AST },
-            { "5", OPTION_VAL_5_AST },
+            { "5", OPTION_VAL_5_VITA3K_FILE_LOADING_DELAY_AST },
             { "10", OPTION_VAL_10_VITA3K_FILE_LOADING_DELAY_AST },
-            { "15", OPTION_VAL_15_AST },
+            { "15", OPTION_VAL_15_VITA3K_FILE_LOADING_DELAY_AST },
             { "20", OPTION_VAL_20_VITA3K_FILE_LOADING_DELAY_AST },
             { "25", OPTION_VAL_25_AST },
             { "30", OPTION_VAL_30_VITA3K_FILE_LOADING_DELAY_AST },
@@ -901,6 +1591,14 @@ struct retro_core_options_v2 options_ast = {
 #define CATEGORY_AUDIO_INFO_0_BE NULL
 #define CATEGORY_NETWORK_LABEL_BE "Сеціва"
 #define CATEGORY_NETWORK_INFO_0_BE NULL
+#define CATEGORY_INSTALL_LABEL_BE "Змесціва"
+#define CATEGORY_INSTALL_INFO_0_BE NULL
+#define CATEGORY_CAMERA_LABEL_BE "Камера"
+#define CATEGORY_CAMERA_INFO_0_BE NULL
+#define CATEGORY_ACCOUNTS_LABEL_BE "Уліковыя запісы"
+#define CATEGORY_ACCOUNTS_INFO_0_BE NULL
+#define CATEGORY_MODULES_LABEL_BE NULL
+#define CATEGORY_MODULES_INFO_0_BE NULL
 #define VITA3K_BACKEND_RENDERER_LABEL_BE NULL
 #define VITA3K_BACKEND_RENDERER_INFO_0_BE NULL
 #define OPTION_VAL_VULKAN_BE NULL
@@ -943,6 +1641,7 @@ struct retro_core_options_v2 options_ast = {
 #define VITA3K_PKG_MODE_LABEL_BE NULL
 #define VITA3K_PKG_MODE_INFO_0_BE NULL
 #define OPTION_VAL_RUN_BE NULL
+#define OPTION_VAL_CACHE_BE NULL
 #define OPTION_VAL_INSTALL_BE NULL
 #define VITA3K_PSTV_MODE_LABEL_BE NULL
 #define VITA3K_PSTV_MODE_INFO_0_BE NULL
@@ -957,10 +1656,41 @@ struct retro_core_options_v2 options_ast = {
 #define VITA3K_SYS_BUTTON_INFO_0_BE NULL
 #define OPTION_VAL_0_VITA3K_SYS_BUTTON_BE NULL
 #define OPTION_VAL_1_VITA3K_SYS_BUTTON_BE "Крыж"
+#define VITA3K_SYS_LANG_LABEL_BE NULL
+#define VITA3K_SYS_LANG_INFO_0_BE NULL
+#define OPTION_VAL_0_VITA3K_SYS_LANG_BE "Японскі"
+#define OPTION_VAL_1_VITA3K_SYS_LANG_BE NULL
+#define OPTION_VAL_2_VITA3K_SYS_LANG_BE "Французская"
+#define OPTION_VAL_3_VITA3K_SYS_LANG_BE "Іспанская"
+#define OPTION_VAL_4_VITA3K_SYS_LANG_BE "Нямецкая"
+#define OPTION_VAL_5_BE "Італьянская"
+#define OPTION_VAL_6_BE NULL
+#define OPTION_VAL_7_BE NULL
+#define OPTION_VAL_8_VITA3K_SYS_LANG_BE NULL
+#define OPTION_VAL_9_BE NULL
+#define OPTION_VAL_10_BE NULL
+#define OPTION_VAL_11_BE NULL
+#define OPTION_VAL_12_BE NULL
+#define OPTION_VAL_13_BE NULL
+#define OPTION_VAL_14_BE NULL
+#define OPTION_VAL_15_BE NULL
+#define OPTION_VAL_16_VITA3K_SYS_LANG_BE NULL
+#define OPTION_VAL_17_BE NULL
+#define OPTION_VAL_18_BE NULL
+#define OPTION_VAL_19_BE NULL
+#define VITA3K_SYS_DATE_FORMAT_LABEL_BE NULL
+#define VITA3K_SYS_DATE_FORMAT_INFO_0_BE NULL
+#define OPTION_VAL_0_VITA3K_SYS_DATE_FORMAT_BE NULL
+#define OPTION_VAL_1_VITA3K_SYS_DATE_FORMAT_BE NULL
+#define OPTION_VAL_2_VITA3K_SYS_DATE_FORMAT_BE NULL
+#define VITA3K_SYS_TIME_FORMAT_LABEL_BE NULL
+#define VITA3K_SYS_TIME_FORMAT_INFO_0_BE NULL
+#define OPTION_VAL_0_VITA3K_SYS_TIME_FORMAT_BE NULL
+#define OPTION_VAL_1_VITA3K_SYS_TIME_FORMAT_BE NULL
 #define VITA3K_AUDIO_VOLUME_LABEL_BE NULL
 #define VITA3K_AUDIO_VOLUME_INFO_0_BE NULL
 #define OPTION_VAL_0_VITA3K_AUDIO_VOLUME_BE NULL
-#define OPTION_VAL_10_BE NULL
+#define OPTION_VAL_10_VITA3K_AUDIO_VOLUME_BE NULL
 #define OPTION_VAL_20_BE "20 %"
 #define OPTION_VAL_30_BE "30 %"
 #define OPTION_VAL_40_BE "40 %"
@@ -974,6 +1704,47 @@ struct retro_core_options_v2 options_ast = {
 #define VITA3K_NGS_ENABLE_INFO_0_BE NULL
 #define VITA3K_PSN_SIGNED_IN_LABEL_BE NULL
 #define VITA3K_PSN_SIGNED_IN_INFO_0_BE NULL
+#define VITA3K_HTTP_ENABLE_LABEL_BE NULL
+#define VITA3K_HTTP_ENABLE_INFO_0_BE NULL
+#define VITA3K_HTTP_TIMEOUT_ATTEMPTS_LABEL_BE NULL
+#define VITA3K_HTTP_TIMEOUT_ATTEMPTS_INFO_0_BE NULL
+#define VITA3K_HTTP_TIMEOUT_SLEEP_LABEL_BE NULL
+#define VITA3K_HTTP_TIMEOUT_SLEEP_INFO_0_BE NULL
+#define OPTION_VAL_50_VITA3K_HTTP_TIMEOUT_SLEEP_BE NULL
+#define OPTION_VAL_100_VITA3K_HTTP_TIMEOUT_SLEEP_BE NULL
+#define OPTION_VAL_150_BE NULL
+#define OPTION_VAL_200_BE NULL
+#define OPTION_VAL_250_BE NULL
+#define OPTION_VAL_300_BE NULL
+#define OPTION_VAL_400_BE NULL
+#define OPTION_VAL_500_BE NULL
+#define OPTION_VAL_750_BE NULL
+#define OPTION_VAL_1000_BE NULL
+#define OPTION_VAL_1500_BE NULL
+#define OPTION_VAL_2000_BE NULL
+#define OPTION_VAL_2500_BE NULL
+#define OPTION_VAL_3000_BE NULL
+#define VITA3K_HTTP_READ_END_ATTEMPTS_LABEL_BE NULL
+#define VITA3K_HTTP_READ_END_ATTEMPTS_INFO_0_BE NULL
+#define VITA3K_HTTP_READ_END_SLEEP_LABEL_BE NULL
+#define VITA3K_HTTP_READ_END_SLEEP_INFO_0_BE NULL
+#define VITA3K_FRONT_CAMERA_LABEL_BE NULL
+#define VITA3K_FRONT_CAMERA_INFO_0_BE NULL
+#define OPTION_VAL_HOST_BE NULL
+#define OPTION_VAL_IMAGE_BE NULL
+#define OPTION_VAL_COLOR_BE NULL
+#define VITA3K_FRONT_CAMERA_COLOR_LABEL_BE NULL
+#define VITA3K_FRONT_CAMERA_COLOR_INFO_0_BE NULL
+#define OPTION_VAL_0_VITA3K_FRONT_CAMERA_COLOR_BE "Чорны"
+#define OPTION_VAL_16777215_BE "Белы"
+#define OPTION_VAL_8421504_BE "Шэры"
+#define OPTION_VAL_255_BE "Чырвоная"
+#define OPTION_VAL_65280_BE "Зялёная"
+#define OPTION_VAL_16711680_BE "Блакітная"
+#define VITA3K_BACK_CAMERA_LABEL_BE NULL
+#define VITA3K_BACK_CAMERA_INFO_0_BE NULL
+#define VITA3K_BACK_CAMERA_COLOR_LABEL_BE NULL
+#define VITA3K_BACK_CAMERA_COLOR_INFO_0_BE NULL
 #define VITA3K_SURFACE_SYNC_LABEL_BE NULL
 #define VITA3K_SURFACE_SYNC_INFO_0_BE NULL
 #define OPTION_VAL_ENABLED_BE NULL
@@ -981,9 +1752,9 @@ struct retro_core_options_v2 options_ast = {
 #define VITA3K_FILE_LOADING_DELAY_LABEL_BE NULL
 #define VITA3K_FILE_LOADING_DELAY_INFO_0_BE NULL
 #define OPTION_VAL_0_VITA3K_FILE_LOADING_DELAY_BE NULL
-#define OPTION_VAL_5_BE NULL
+#define OPTION_VAL_5_VITA3K_FILE_LOADING_DELAY_BE NULL
 #define OPTION_VAL_10_VITA3K_FILE_LOADING_DELAY_BE NULL
-#define OPTION_VAL_15_BE NULL
+#define OPTION_VAL_15_VITA3K_FILE_LOADING_DELAY_BE NULL
 #define OPTION_VAL_20_VITA3K_FILE_LOADING_DELAY_BE NULL
 #define OPTION_VAL_25_BE NULL
 #define OPTION_VAL_30_VITA3K_FILE_LOADING_DELAY_BE NULL
@@ -994,6 +1765,10 @@ struct retro_core_option_v2_category option_cats_be[] = {
     { "system", CATEGORY_SYSTEM_LABEL_BE, CATEGORY_SYSTEM_INFO_0_BE },
     { "audio", CATEGORY_AUDIO_LABEL_BE, CATEGORY_AUDIO_INFO_0_BE },
     { "network", CATEGORY_NETWORK_LABEL_BE, CATEGORY_NETWORK_INFO_0_BE },
+    { "install", CATEGORY_INSTALL_LABEL_BE, CATEGORY_INSTALL_INFO_0_BE },
+    { "camera", CATEGORY_CAMERA_LABEL_BE, CATEGORY_CAMERA_INFO_0_BE },
+    { "accounts", CATEGORY_ACCOUNTS_LABEL_BE, CATEGORY_ACCOUNTS_INFO_0_BE },
+    { "modules", CATEGORY_MODULES_LABEL_BE, CATEGORY_MODULES_INFO_0_BE },
     { NULL, NULL, NULL },
 };
 struct retro_core_option_v2_definition option_defs_be[] = {
@@ -1157,9 +1932,10 @@ struct retro_core_option_v2_definition option_defs_be[] = {
         NULL,
         VITA3K_PKG_MODE_INFO_0_BE,
         NULL,
-        "system",
+        "install",
         {
             { "run", OPTION_VAL_RUN_BE },
+            { "cache", OPTION_VAL_CACHE_BE },
             { "install", OPTION_VAL_INSTALL_BE },
             { NULL, NULL },
         },
@@ -1222,6 +1998,67 @@ struct retro_core_option_v2_definition option_defs_be[] = {
         },
         "1"
     },
+    {
+        "vita3k_sys_lang",
+        VITA3K_SYS_LANG_LABEL_BE,
+        NULL,
+        VITA3K_SYS_LANG_INFO_0_BE,
+        NULL,
+        "system",
+        {
+            { "0", OPTION_VAL_0_VITA3K_SYS_LANG_BE },
+            { "1", OPTION_VAL_1_VITA3K_SYS_LANG_BE },
+            { "2", OPTION_VAL_2_VITA3K_SYS_LANG_BE },
+            { "3", OPTION_VAL_3_VITA3K_SYS_LANG_BE },
+            { "4", OPTION_VAL_4_VITA3K_SYS_LANG_BE },
+            { "5", OPTION_VAL_5_BE },
+            { "6", OPTION_VAL_6_BE },
+            { "7", OPTION_VAL_7_BE },
+            { "8", OPTION_VAL_8_VITA3K_SYS_LANG_BE },
+            { "9", OPTION_VAL_9_BE },
+            { "10", OPTION_VAL_10_BE },
+            { "11", OPTION_VAL_11_BE },
+            { "12", OPTION_VAL_12_BE },
+            { "13", OPTION_VAL_13_BE },
+            { "14", OPTION_VAL_14_BE },
+            { "15", OPTION_VAL_15_BE },
+            { "16", OPTION_VAL_16_VITA3K_SYS_LANG_BE },
+            { "17", OPTION_VAL_17_BE },
+            { "18", OPTION_VAL_18_BE },
+            { "19", OPTION_VAL_19_BE },
+            { NULL, NULL },
+        },
+        "1"
+    },
+    {
+        "vita3k_sys_date_format",
+        VITA3K_SYS_DATE_FORMAT_LABEL_BE,
+        NULL,
+        VITA3K_SYS_DATE_FORMAT_INFO_0_BE,
+        NULL,
+        "system",
+        {
+            { "0", OPTION_VAL_0_VITA3K_SYS_DATE_FORMAT_BE },
+            { "1", OPTION_VAL_1_VITA3K_SYS_DATE_FORMAT_BE },
+            { "2", OPTION_VAL_2_VITA3K_SYS_DATE_FORMAT_BE },
+            { NULL, NULL },
+        },
+        "2"
+    },
+    {
+        "vita3k_sys_time_format",
+        VITA3K_SYS_TIME_FORMAT_LABEL_BE,
+        NULL,
+        VITA3K_SYS_TIME_FORMAT_INFO_0_BE,
+        NULL,
+        "system",
+        {
+            { "0", OPTION_VAL_0_VITA3K_SYS_TIME_FORMAT_BE },
+            { "1", OPTION_VAL_1_VITA3K_SYS_TIME_FORMAT_BE },
+            { NULL, NULL },
+        },
+        "0"
+    },
     // ── Audio ────────────────────────────────────────────────────────────
     {
         "vita3k_audio_volume",
@@ -1232,7 +2069,7 @@ struct retro_core_option_v2_definition option_defs_be[] = {
         "audio",
         {
             { "0", OPTION_VAL_0_VITA3K_AUDIO_VOLUME_BE },
-            { "10", OPTION_VAL_10_BE },
+            { "10", OPTION_VAL_10_VITA3K_AUDIO_VOLUME_BE },
             { "20", OPTION_VAL_20_BE },
             { "30", OPTION_VAL_30_BE },
             { "40", OPTION_VAL_40_BE },
@@ -1276,6 +2113,204 @@ struct retro_core_option_v2_definition option_defs_be[] = {
         "disabled"
     },
     {
+        "vita3k_http_enable",
+        VITA3K_HTTP_ENABLE_LABEL_BE,
+        NULL,
+        VITA3K_HTTP_ENABLE_INFO_0_BE,
+        NULL,
+        "network",
+        {
+            { "enabled", NULL },
+            { "disabled", NULL },
+            { NULL, NULL },
+        },
+        "enabled"
+    },
+    {
+        "vita3k_http_timeout_attempts",
+        VITA3K_HTTP_TIMEOUT_ATTEMPTS_LABEL_BE,
+        NULL,
+        VITA3K_HTTP_TIMEOUT_ATTEMPTS_INFO_0_BE,
+        NULL,
+        "network",
+        {
+            { "0", NULL },
+            { "5", NULL },
+            { "10", NULL },
+            { "15", NULL },
+            { "20", NULL },
+            { "25", NULL },
+            { "30", NULL },
+            { "35", NULL },
+            { "40", NULL },
+            { "45", NULL },
+            { "50", NULL },
+            { "55", NULL },
+            { "60", NULL },
+            { "65", NULL },
+            { "70", NULL },
+            { "75", NULL },
+            { "80", NULL },
+            { "85", NULL },
+            { "90", NULL },
+            { "95", NULL },
+            { "100", NULL },
+            { NULL, NULL },
+        },
+        "50"
+    },
+    {
+        "vita3k_http_timeout_sleep",
+        VITA3K_HTTP_TIMEOUT_SLEEP_LABEL_BE,
+        NULL,
+        VITA3K_HTTP_TIMEOUT_SLEEP_INFO_0_BE,
+        NULL,
+        "network",
+        {
+            { "50", OPTION_VAL_50_VITA3K_HTTP_TIMEOUT_SLEEP_BE },
+            { "100", OPTION_VAL_100_VITA3K_HTTP_TIMEOUT_SLEEP_BE },
+            { "150", OPTION_VAL_150_BE },
+            { "200", OPTION_VAL_200_BE },
+            { "250", OPTION_VAL_250_BE },
+            { "300", OPTION_VAL_300_BE },
+            { "400", OPTION_VAL_400_BE },
+            { "500", OPTION_VAL_500_BE },
+            { "750", OPTION_VAL_750_BE },
+            { "1000", OPTION_VAL_1000_BE },
+            { "1500", OPTION_VAL_1500_BE },
+            { "2000", OPTION_VAL_2000_BE },
+            { "2500", OPTION_VAL_2500_BE },
+            { "3000", OPTION_VAL_3000_BE },
+            { NULL, NULL },
+        },
+        "100"
+    },
+    {
+        "vita3k_http_read_end_attempts",
+        VITA3K_HTTP_READ_END_ATTEMPTS_LABEL_BE,
+        NULL,
+        VITA3K_HTTP_READ_END_ATTEMPTS_INFO_0_BE,
+        NULL,
+        "network",
+        {
+            { "0", NULL },
+            { "5", NULL },
+            { "10", NULL },
+            { "15", NULL },
+            { "20", NULL },
+            { "25", NULL },
+            { "30", NULL },
+            { "35", NULL },
+            { "40", NULL },
+            { "45", NULL },
+            { "50", NULL },
+            { "55", NULL },
+            { "60", NULL },
+            { "65", NULL },
+            { "70", NULL },
+            { "75", NULL },
+            { "80", NULL },
+            { "85", NULL },
+            { "90", NULL },
+            { "95", NULL },
+            { "100", NULL },
+            { NULL, NULL },
+        },
+        "10"
+    },
+    {
+        "vita3k_http_read_end_sleep",
+        VITA3K_HTTP_READ_END_SLEEP_LABEL_BE,
+        NULL,
+        VITA3K_HTTP_READ_END_SLEEP_INFO_0_BE,
+        NULL,
+        "network",
+        {
+            { "50", OPTION_VAL_50_VITA3K_HTTP_TIMEOUT_SLEEP_BE },
+            { "100", OPTION_VAL_100_VITA3K_HTTP_TIMEOUT_SLEEP_BE },
+            { "150", OPTION_VAL_150_BE },
+            { "200", OPTION_VAL_200_BE },
+            { "250", OPTION_VAL_250_BE },
+            { "300", OPTION_VAL_300_BE },
+            { "400", OPTION_VAL_400_BE },
+            { "500", OPTION_VAL_500_BE },
+            { "750", OPTION_VAL_750_BE },
+            { "1000", OPTION_VAL_1000_BE },
+            { "1500", OPTION_VAL_1500_BE },
+            { "2000", OPTION_VAL_2000_BE },
+            { "2500", OPTION_VAL_2500_BE },
+            { "3000", OPTION_VAL_3000_BE },
+            { NULL, NULL },
+        },
+        "250"
+    },
+    {
+        "vita3k_front_camera",
+        VITA3K_FRONT_CAMERA_LABEL_BE,
+        NULL,
+        VITA3K_FRONT_CAMERA_INFO_0_BE,
+        NULL,
+        "camera",
+        {
+            { "host", OPTION_VAL_HOST_BE },
+            { "image", OPTION_VAL_IMAGE_BE },
+            { "color", OPTION_VAL_COLOR_BE },
+            { NULL, NULL },
+        },
+        "host"
+    },
+    {
+        "vita3k_front_camera_color",
+        VITA3K_FRONT_CAMERA_COLOR_LABEL_BE,
+        NULL,
+        VITA3K_FRONT_CAMERA_COLOR_INFO_0_BE,
+        NULL,
+        "camera",
+        {
+            { "0", OPTION_VAL_0_VITA3K_FRONT_CAMERA_COLOR_BE },
+            { "16777215", OPTION_VAL_16777215_BE },
+            { "8421504", OPTION_VAL_8421504_BE },
+            { "255", OPTION_VAL_255_BE },
+            { "65280", OPTION_VAL_65280_BE },
+            { "16711680", OPTION_VAL_16711680_BE },
+            { NULL, NULL },
+        },
+        "0"
+    },
+    {
+        "vita3k_back_camera",
+        VITA3K_BACK_CAMERA_LABEL_BE,
+        NULL,
+        VITA3K_BACK_CAMERA_INFO_0_BE,
+        NULL,
+        "camera",
+        {
+            { "host", OPTION_VAL_HOST_BE },
+            { "image", OPTION_VAL_IMAGE_BE },
+            { "color", OPTION_VAL_COLOR_BE },
+            { NULL, NULL },
+        },
+        "host"
+    },
+    {
+        "vita3k_back_camera_color",
+        VITA3K_BACK_CAMERA_COLOR_LABEL_BE,
+        NULL,
+        VITA3K_BACK_CAMERA_COLOR_INFO_0_BE,
+        NULL,
+        "camera",
+        {
+            { "0", OPTION_VAL_0_VITA3K_FRONT_CAMERA_COLOR_BE },
+            { "16777215", OPTION_VAL_16777215_BE },
+            { "8421504", OPTION_VAL_8421504_BE },
+            { "255", OPTION_VAL_255_BE },
+            { "65280", OPTION_VAL_65280_BE },
+            { "16711680", OPTION_VAL_16711680_BE },
+            { NULL, NULL },
+        },
+        "0"
+    },
+    {
         "vita3k_surface_sync",
         VITA3K_SURFACE_SYNC_LABEL_BE,
         NULL,
@@ -1298,9 +2333,9 @@ struct retro_core_option_v2_definition option_defs_be[] = {
         "system",
         {
             { "0", OPTION_VAL_0_VITA3K_FILE_LOADING_DELAY_BE },
-            { "5", OPTION_VAL_5_BE },
+            { "5", OPTION_VAL_5_VITA3K_FILE_LOADING_DELAY_BE },
             { "10", OPTION_VAL_10_VITA3K_FILE_LOADING_DELAY_BE },
-            { "15", OPTION_VAL_15_BE },
+            { "15", OPTION_VAL_15_VITA3K_FILE_LOADING_DELAY_BE },
             { "20", OPTION_VAL_20_VITA3K_FILE_LOADING_DELAY_BE },
             { "25", OPTION_VAL_25_BE },
             { "30", OPTION_VAL_30_VITA3K_FILE_LOADING_DELAY_BE },
@@ -1327,6 +2362,14 @@ struct retro_core_options_v2 options_be = {
 #define CATEGORY_AUDIO_INFO_0_BG NULL
 #define CATEGORY_NETWORK_LABEL_BG NULL
 #define CATEGORY_NETWORK_INFO_0_BG NULL
+#define CATEGORY_INSTALL_LABEL_BG NULL
+#define CATEGORY_INSTALL_INFO_0_BG NULL
+#define CATEGORY_CAMERA_LABEL_BG "Камера"
+#define CATEGORY_CAMERA_INFO_0_BG NULL
+#define CATEGORY_ACCOUNTS_LABEL_BG NULL
+#define CATEGORY_ACCOUNTS_INFO_0_BG NULL
+#define CATEGORY_MODULES_LABEL_BG NULL
+#define CATEGORY_MODULES_INFO_0_BG NULL
 #define VITA3K_BACKEND_RENDERER_LABEL_BG NULL
 #define VITA3K_BACKEND_RENDERER_INFO_0_BG NULL
 #define OPTION_VAL_VULKAN_BG NULL
@@ -1369,6 +2412,7 @@ struct retro_core_options_v2 options_be = {
 #define VITA3K_PKG_MODE_LABEL_BG NULL
 #define VITA3K_PKG_MODE_INFO_0_BG NULL
 #define OPTION_VAL_RUN_BG NULL
+#define OPTION_VAL_CACHE_BG NULL
 #define OPTION_VAL_INSTALL_BG NULL
 #define VITA3K_PSTV_MODE_LABEL_BG NULL
 #define VITA3K_PSTV_MODE_INFO_0_BG NULL
@@ -1383,10 +2427,41 @@ struct retro_core_options_v2 options_be = {
 #define VITA3K_SYS_BUTTON_INFO_0_BG NULL
 #define OPTION_VAL_0_VITA3K_SYS_BUTTON_BG NULL
 #define OPTION_VAL_1_VITA3K_SYS_BUTTON_BG NULL
+#define VITA3K_SYS_LANG_LABEL_BG NULL
+#define VITA3K_SYS_LANG_INFO_0_BG NULL
+#define OPTION_VAL_0_VITA3K_SYS_LANG_BG NULL
+#define OPTION_VAL_1_VITA3K_SYS_LANG_BG NULL
+#define OPTION_VAL_2_VITA3K_SYS_LANG_BG NULL
+#define OPTION_VAL_3_VITA3K_SYS_LANG_BG NULL
+#define OPTION_VAL_4_VITA3K_SYS_LANG_BG NULL
+#define OPTION_VAL_5_BG NULL
+#define OPTION_VAL_6_BG NULL
+#define OPTION_VAL_7_BG NULL
+#define OPTION_VAL_8_VITA3K_SYS_LANG_BG NULL
+#define OPTION_VAL_9_BG NULL
+#define OPTION_VAL_10_BG NULL
+#define OPTION_VAL_11_BG NULL
+#define OPTION_VAL_12_BG NULL
+#define OPTION_VAL_13_BG NULL
+#define OPTION_VAL_14_BG NULL
+#define OPTION_VAL_15_BG NULL
+#define OPTION_VAL_16_VITA3K_SYS_LANG_BG NULL
+#define OPTION_VAL_17_BG NULL
+#define OPTION_VAL_18_BG NULL
+#define OPTION_VAL_19_BG NULL
+#define VITA3K_SYS_DATE_FORMAT_LABEL_BG NULL
+#define VITA3K_SYS_DATE_FORMAT_INFO_0_BG NULL
+#define OPTION_VAL_0_VITA3K_SYS_DATE_FORMAT_BG NULL
+#define OPTION_VAL_1_VITA3K_SYS_DATE_FORMAT_BG NULL
+#define OPTION_VAL_2_VITA3K_SYS_DATE_FORMAT_BG NULL
+#define VITA3K_SYS_TIME_FORMAT_LABEL_BG NULL
+#define VITA3K_SYS_TIME_FORMAT_INFO_0_BG NULL
+#define OPTION_VAL_0_VITA3K_SYS_TIME_FORMAT_BG NULL
+#define OPTION_VAL_1_VITA3K_SYS_TIME_FORMAT_BG NULL
 #define VITA3K_AUDIO_VOLUME_LABEL_BG NULL
 #define VITA3K_AUDIO_VOLUME_INFO_0_BG NULL
 #define OPTION_VAL_0_VITA3K_AUDIO_VOLUME_BG NULL
-#define OPTION_VAL_10_BG NULL
+#define OPTION_VAL_10_VITA3K_AUDIO_VOLUME_BG NULL
 #define OPTION_VAL_20_BG NULL
 #define OPTION_VAL_30_BG NULL
 #define OPTION_VAL_40_BG NULL
@@ -1400,6 +2475,47 @@ struct retro_core_options_v2 options_be = {
 #define VITA3K_NGS_ENABLE_INFO_0_BG NULL
 #define VITA3K_PSN_SIGNED_IN_LABEL_BG NULL
 #define VITA3K_PSN_SIGNED_IN_INFO_0_BG NULL
+#define VITA3K_HTTP_ENABLE_LABEL_BG NULL
+#define VITA3K_HTTP_ENABLE_INFO_0_BG NULL
+#define VITA3K_HTTP_TIMEOUT_ATTEMPTS_LABEL_BG NULL
+#define VITA3K_HTTP_TIMEOUT_ATTEMPTS_INFO_0_BG NULL
+#define VITA3K_HTTP_TIMEOUT_SLEEP_LABEL_BG NULL
+#define VITA3K_HTTP_TIMEOUT_SLEEP_INFO_0_BG NULL
+#define OPTION_VAL_50_VITA3K_HTTP_TIMEOUT_SLEEP_BG NULL
+#define OPTION_VAL_100_VITA3K_HTTP_TIMEOUT_SLEEP_BG NULL
+#define OPTION_VAL_150_BG NULL
+#define OPTION_VAL_200_BG NULL
+#define OPTION_VAL_250_BG NULL
+#define OPTION_VAL_300_BG NULL
+#define OPTION_VAL_400_BG NULL
+#define OPTION_VAL_500_BG NULL
+#define OPTION_VAL_750_BG NULL
+#define OPTION_VAL_1000_BG NULL
+#define OPTION_VAL_1500_BG NULL
+#define OPTION_VAL_2000_BG NULL
+#define OPTION_VAL_2500_BG NULL
+#define OPTION_VAL_3000_BG NULL
+#define VITA3K_HTTP_READ_END_ATTEMPTS_LABEL_BG NULL
+#define VITA3K_HTTP_READ_END_ATTEMPTS_INFO_0_BG NULL
+#define VITA3K_HTTP_READ_END_SLEEP_LABEL_BG NULL
+#define VITA3K_HTTP_READ_END_SLEEP_INFO_0_BG NULL
+#define VITA3K_FRONT_CAMERA_LABEL_BG NULL
+#define VITA3K_FRONT_CAMERA_INFO_0_BG NULL
+#define OPTION_VAL_HOST_BG NULL
+#define OPTION_VAL_IMAGE_BG NULL
+#define OPTION_VAL_COLOR_BG NULL
+#define VITA3K_FRONT_CAMERA_COLOR_LABEL_BG NULL
+#define VITA3K_FRONT_CAMERA_COLOR_INFO_0_BG NULL
+#define OPTION_VAL_0_VITA3K_FRONT_CAMERA_COLOR_BG NULL
+#define OPTION_VAL_16777215_BG NULL
+#define OPTION_VAL_8421504_BG NULL
+#define OPTION_VAL_255_BG NULL
+#define OPTION_VAL_65280_BG NULL
+#define OPTION_VAL_16711680_BG NULL
+#define VITA3K_BACK_CAMERA_LABEL_BG NULL
+#define VITA3K_BACK_CAMERA_INFO_0_BG NULL
+#define VITA3K_BACK_CAMERA_COLOR_LABEL_BG NULL
+#define VITA3K_BACK_CAMERA_COLOR_INFO_0_BG NULL
 #define VITA3K_SURFACE_SYNC_LABEL_BG NULL
 #define VITA3K_SURFACE_SYNC_INFO_0_BG NULL
 #define OPTION_VAL_ENABLED_BG NULL
@@ -1407,9 +2523,9 @@ struct retro_core_options_v2 options_be = {
 #define VITA3K_FILE_LOADING_DELAY_LABEL_BG NULL
 #define VITA3K_FILE_LOADING_DELAY_INFO_0_BG NULL
 #define OPTION_VAL_0_VITA3K_FILE_LOADING_DELAY_BG NULL
-#define OPTION_VAL_5_BG NULL
+#define OPTION_VAL_5_VITA3K_FILE_LOADING_DELAY_BG NULL
 #define OPTION_VAL_10_VITA3K_FILE_LOADING_DELAY_BG NULL
-#define OPTION_VAL_15_BG NULL
+#define OPTION_VAL_15_VITA3K_FILE_LOADING_DELAY_BG NULL
 #define OPTION_VAL_20_VITA3K_FILE_LOADING_DELAY_BG NULL
 #define OPTION_VAL_25_BG NULL
 #define OPTION_VAL_30_VITA3K_FILE_LOADING_DELAY_BG NULL
@@ -1420,6 +2536,10 @@ struct retro_core_option_v2_category option_cats_bg[] = {
     { "system", CATEGORY_SYSTEM_LABEL_BG, CATEGORY_SYSTEM_INFO_0_BG },
     { "audio", CATEGORY_AUDIO_LABEL_BG, CATEGORY_AUDIO_INFO_0_BG },
     { "network", CATEGORY_NETWORK_LABEL_BG, CATEGORY_NETWORK_INFO_0_BG },
+    { "install", CATEGORY_INSTALL_LABEL_BG, CATEGORY_INSTALL_INFO_0_BG },
+    { "camera", CATEGORY_CAMERA_LABEL_BG, CATEGORY_CAMERA_INFO_0_BG },
+    { "accounts", CATEGORY_ACCOUNTS_LABEL_BG, CATEGORY_ACCOUNTS_INFO_0_BG },
+    { "modules", CATEGORY_MODULES_LABEL_BG, CATEGORY_MODULES_INFO_0_BG },
     { NULL, NULL, NULL },
 };
 struct retro_core_option_v2_definition option_defs_bg[] = {
@@ -1583,9 +2703,10 @@ struct retro_core_option_v2_definition option_defs_bg[] = {
         NULL,
         VITA3K_PKG_MODE_INFO_0_BG,
         NULL,
-        "system",
+        "install",
         {
             { "run", OPTION_VAL_RUN_BG },
+            { "cache", OPTION_VAL_CACHE_BG },
             { "install", OPTION_VAL_INSTALL_BG },
             { NULL, NULL },
         },
@@ -1648,6 +2769,67 @@ struct retro_core_option_v2_definition option_defs_bg[] = {
         },
         "1"
     },
+    {
+        "vita3k_sys_lang",
+        VITA3K_SYS_LANG_LABEL_BG,
+        NULL,
+        VITA3K_SYS_LANG_INFO_0_BG,
+        NULL,
+        "system",
+        {
+            { "0", OPTION_VAL_0_VITA3K_SYS_LANG_BG },
+            { "1", OPTION_VAL_1_VITA3K_SYS_LANG_BG },
+            { "2", OPTION_VAL_2_VITA3K_SYS_LANG_BG },
+            { "3", OPTION_VAL_3_VITA3K_SYS_LANG_BG },
+            { "4", OPTION_VAL_4_VITA3K_SYS_LANG_BG },
+            { "5", OPTION_VAL_5_BG },
+            { "6", OPTION_VAL_6_BG },
+            { "7", OPTION_VAL_7_BG },
+            { "8", OPTION_VAL_8_VITA3K_SYS_LANG_BG },
+            { "9", OPTION_VAL_9_BG },
+            { "10", OPTION_VAL_10_BG },
+            { "11", OPTION_VAL_11_BG },
+            { "12", OPTION_VAL_12_BG },
+            { "13", OPTION_VAL_13_BG },
+            { "14", OPTION_VAL_14_BG },
+            { "15", OPTION_VAL_15_BG },
+            { "16", OPTION_VAL_16_VITA3K_SYS_LANG_BG },
+            { "17", OPTION_VAL_17_BG },
+            { "18", OPTION_VAL_18_BG },
+            { "19", OPTION_VAL_19_BG },
+            { NULL, NULL },
+        },
+        "1"
+    },
+    {
+        "vita3k_sys_date_format",
+        VITA3K_SYS_DATE_FORMAT_LABEL_BG,
+        NULL,
+        VITA3K_SYS_DATE_FORMAT_INFO_0_BG,
+        NULL,
+        "system",
+        {
+            { "0", OPTION_VAL_0_VITA3K_SYS_DATE_FORMAT_BG },
+            { "1", OPTION_VAL_1_VITA3K_SYS_DATE_FORMAT_BG },
+            { "2", OPTION_VAL_2_VITA3K_SYS_DATE_FORMAT_BG },
+            { NULL, NULL },
+        },
+        "2"
+    },
+    {
+        "vita3k_sys_time_format",
+        VITA3K_SYS_TIME_FORMAT_LABEL_BG,
+        NULL,
+        VITA3K_SYS_TIME_FORMAT_INFO_0_BG,
+        NULL,
+        "system",
+        {
+            { "0", OPTION_VAL_0_VITA3K_SYS_TIME_FORMAT_BG },
+            { "1", OPTION_VAL_1_VITA3K_SYS_TIME_FORMAT_BG },
+            { NULL, NULL },
+        },
+        "0"
+    },
     // ── Audio ────────────────────────────────────────────────────────────
     {
         "vita3k_audio_volume",
@@ -1658,7 +2840,7 @@ struct retro_core_option_v2_definition option_defs_bg[] = {
         "audio",
         {
             { "0", OPTION_VAL_0_VITA3K_AUDIO_VOLUME_BG },
-            { "10", OPTION_VAL_10_BG },
+            { "10", OPTION_VAL_10_VITA3K_AUDIO_VOLUME_BG },
             { "20", OPTION_VAL_20_BG },
             { "30", OPTION_VAL_30_BG },
             { "40", OPTION_VAL_40_BG },
@@ -1702,6 +2884,204 @@ struct retro_core_option_v2_definition option_defs_bg[] = {
         "disabled"
     },
     {
+        "vita3k_http_enable",
+        VITA3K_HTTP_ENABLE_LABEL_BG,
+        NULL,
+        VITA3K_HTTP_ENABLE_INFO_0_BG,
+        NULL,
+        "network",
+        {
+            { "enabled", NULL },
+            { "disabled", NULL },
+            { NULL, NULL },
+        },
+        "enabled"
+    },
+    {
+        "vita3k_http_timeout_attempts",
+        VITA3K_HTTP_TIMEOUT_ATTEMPTS_LABEL_BG,
+        NULL,
+        VITA3K_HTTP_TIMEOUT_ATTEMPTS_INFO_0_BG,
+        NULL,
+        "network",
+        {
+            { "0", NULL },
+            { "5", NULL },
+            { "10", NULL },
+            { "15", NULL },
+            { "20", NULL },
+            { "25", NULL },
+            { "30", NULL },
+            { "35", NULL },
+            { "40", NULL },
+            { "45", NULL },
+            { "50", NULL },
+            { "55", NULL },
+            { "60", NULL },
+            { "65", NULL },
+            { "70", NULL },
+            { "75", NULL },
+            { "80", NULL },
+            { "85", NULL },
+            { "90", NULL },
+            { "95", NULL },
+            { "100", NULL },
+            { NULL, NULL },
+        },
+        "50"
+    },
+    {
+        "vita3k_http_timeout_sleep",
+        VITA3K_HTTP_TIMEOUT_SLEEP_LABEL_BG,
+        NULL,
+        VITA3K_HTTP_TIMEOUT_SLEEP_INFO_0_BG,
+        NULL,
+        "network",
+        {
+            { "50", OPTION_VAL_50_VITA3K_HTTP_TIMEOUT_SLEEP_BG },
+            { "100", OPTION_VAL_100_VITA3K_HTTP_TIMEOUT_SLEEP_BG },
+            { "150", OPTION_VAL_150_BG },
+            { "200", OPTION_VAL_200_BG },
+            { "250", OPTION_VAL_250_BG },
+            { "300", OPTION_VAL_300_BG },
+            { "400", OPTION_VAL_400_BG },
+            { "500", OPTION_VAL_500_BG },
+            { "750", OPTION_VAL_750_BG },
+            { "1000", OPTION_VAL_1000_BG },
+            { "1500", OPTION_VAL_1500_BG },
+            { "2000", OPTION_VAL_2000_BG },
+            { "2500", OPTION_VAL_2500_BG },
+            { "3000", OPTION_VAL_3000_BG },
+            { NULL, NULL },
+        },
+        "100"
+    },
+    {
+        "vita3k_http_read_end_attempts",
+        VITA3K_HTTP_READ_END_ATTEMPTS_LABEL_BG,
+        NULL,
+        VITA3K_HTTP_READ_END_ATTEMPTS_INFO_0_BG,
+        NULL,
+        "network",
+        {
+            { "0", NULL },
+            { "5", NULL },
+            { "10", NULL },
+            { "15", NULL },
+            { "20", NULL },
+            { "25", NULL },
+            { "30", NULL },
+            { "35", NULL },
+            { "40", NULL },
+            { "45", NULL },
+            { "50", NULL },
+            { "55", NULL },
+            { "60", NULL },
+            { "65", NULL },
+            { "70", NULL },
+            { "75", NULL },
+            { "80", NULL },
+            { "85", NULL },
+            { "90", NULL },
+            { "95", NULL },
+            { "100", NULL },
+            { NULL, NULL },
+        },
+        "10"
+    },
+    {
+        "vita3k_http_read_end_sleep",
+        VITA3K_HTTP_READ_END_SLEEP_LABEL_BG,
+        NULL,
+        VITA3K_HTTP_READ_END_SLEEP_INFO_0_BG,
+        NULL,
+        "network",
+        {
+            { "50", OPTION_VAL_50_VITA3K_HTTP_TIMEOUT_SLEEP_BG },
+            { "100", OPTION_VAL_100_VITA3K_HTTP_TIMEOUT_SLEEP_BG },
+            { "150", OPTION_VAL_150_BG },
+            { "200", OPTION_VAL_200_BG },
+            { "250", OPTION_VAL_250_BG },
+            { "300", OPTION_VAL_300_BG },
+            { "400", OPTION_VAL_400_BG },
+            { "500", OPTION_VAL_500_BG },
+            { "750", OPTION_VAL_750_BG },
+            { "1000", OPTION_VAL_1000_BG },
+            { "1500", OPTION_VAL_1500_BG },
+            { "2000", OPTION_VAL_2000_BG },
+            { "2500", OPTION_VAL_2500_BG },
+            { "3000", OPTION_VAL_3000_BG },
+            { NULL, NULL },
+        },
+        "250"
+    },
+    {
+        "vita3k_front_camera",
+        VITA3K_FRONT_CAMERA_LABEL_BG,
+        NULL,
+        VITA3K_FRONT_CAMERA_INFO_0_BG,
+        NULL,
+        "camera",
+        {
+            { "host", OPTION_VAL_HOST_BG },
+            { "image", OPTION_VAL_IMAGE_BG },
+            { "color", OPTION_VAL_COLOR_BG },
+            { NULL, NULL },
+        },
+        "host"
+    },
+    {
+        "vita3k_front_camera_color",
+        VITA3K_FRONT_CAMERA_COLOR_LABEL_BG,
+        NULL,
+        VITA3K_FRONT_CAMERA_COLOR_INFO_0_BG,
+        NULL,
+        "camera",
+        {
+            { "0", OPTION_VAL_0_VITA3K_FRONT_CAMERA_COLOR_BG },
+            { "16777215", OPTION_VAL_16777215_BG },
+            { "8421504", OPTION_VAL_8421504_BG },
+            { "255", OPTION_VAL_255_BG },
+            { "65280", OPTION_VAL_65280_BG },
+            { "16711680", OPTION_VAL_16711680_BG },
+            { NULL, NULL },
+        },
+        "0"
+    },
+    {
+        "vita3k_back_camera",
+        VITA3K_BACK_CAMERA_LABEL_BG,
+        NULL,
+        VITA3K_BACK_CAMERA_INFO_0_BG,
+        NULL,
+        "camera",
+        {
+            { "host", OPTION_VAL_HOST_BG },
+            { "image", OPTION_VAL_IMAGE_BG },
+            { "color", OPTION_VAL_COLOR_BG },
+            { NULL, NULL },
+        },
+        "host"
+    },
+    {
+        "vita3k_back_camera_color",
+        VITA3K_BACK_CAMERA_COLOR_LABEL_BG,
+        NULL,
+        VITA3K_BACK_CAMERA_COLOR_INFO_0_BG,
+        NULL,
+        "camera",
+        {
+            { "0", OPTION_VAL_0_VITA3K_FRONT_CAMERA_COLOR_BG },
+            { "16777215", OPTION_VAL_16777215_BG },
+            { "8421504", OPTION_VAL_8421504_BG },
+            { "255", OPTION_VAL_255_BG },
+            { "65280", OPTION_VAL_65280_BG },
+            { "16711680", OPTION_VAL_16711680_BG },
+            { NULL, NULL },
+        },
+        "0"
+    },
+    {
         "vita3k_surface_sync",
         VITA3K_SURFACE_SYNC_LABEL_BG,
         NULL,
@@ -1724,9 +3104,9 @@ struct retro_core_option_v2_definition option_defs_bg[] = {
         "system",
         {
             { "0", OPTION_VAL_0_VITA3K_FILE_LOADING_DELAY_BG },
-            { "5", OPTION_VAL_5_BG },
+            { "5", OPTION_VAL_5_VITA3K_FILE_LOADING_DELAY_BG },
             { "10", OPTION_VAL_10_VITA3K_FILE_LOADING_DELAY_BG },
-            { "15", OPTION_VAL_15_BG },
+            { "15", OPTION_VAL_15_VITA3K_FILE_LOADING_DELAY_BG },
             { "20", OPTION_VAL_20_VITA3K_FILE_LOADING_DELAY_BG },
             { "25", OPTION_VAL_25_BG },
             { "30", OPTION_VAL_30_VITA3K_FILE_LOADING_DELAY_BG },
@@ -1753,12 +3133,20 @@ struct retro_core_options_v2 options_bg = {
 #define CATEGORY_AUDIO_INFO_0_CA "Opcions de sortida d'àudio."
 #define CATEGORY_NETWORK_LABEL_CA "Xarxa"
 #define CATEGORY_NETWORK_INFO_0_CA "Opcions de xarxa."
+#define CATEGORY_INSTALL_LABEL_CA "Contingut"
+#define CATEGORY_INSTALL_INFO_0_CA "Com es carrega un joc, una actualització o un DLC."
+#define CATEGORY_CAMERA_LABEL_CA "Càmera"
+#define CATEGORY_CAMERA_INFO_0_CA "Que veuen les càmeres frontals i posterior de Vita."
+#define CATEGORY_ACCOUNTS_LABEL_CA "Compte"
+#define CATEGORY_ACCOUNTS_INFO_0_CA "El compte de Vita (usuari) a ux0/user, cadascú amb els seus estats desats i trofeus."
+#define CATEGORY_MODULES_LABEL_CA "Mòduls"
+#define CATEGORY_MODULES_INFO_0_CA "Els mòduls dels firmware (vs0/sys/external) a carregar quan el mode Mòduls és Automàtic i Manual o Manual."
 #define VITA3K_BACKEND_RENDERER_LABEL_CA "Renderitzador"
 #define VITA3K_BACKEND_RENDERER_INFO_0_CA "Selecciona el motor gràfic. Es recomana Vulkan."
 #define OPTION_VAL_VULKAN_CA NULL
 #define OPTION_VAL_OPENGL_CA NULL
 #define VITA3K_RESOLUTION_MULTIPLIER_LABEL_CA "Multiplicador intern de la resolució"
-#define VITA3K_RESOLUTION_MULTIPLIER_INFO_0_CA NULL
+#define VITA3K_RESOLUTION_MULTIPLIER_INFO_0_CA "Multiplicador per renderitzador la resolució interna (960x544 base)."
 #define OPTION_VAL_1_CA NULL
 #define OPTION_VAL_2_CA NULL
 #define OPTION_VAL_3_CA NULL
@@ -1780,10 +3168,10 @@ struct retro_core_options_v2 options_bg = {
 #define VITA3K_V_SYNC_LABEL_CA NULL
 #define VITA3K_V_SYNC_INFO_0_CA "Activa o desactiva la sincronització vertical."
 #define VITA3K_ASYNC_PIPELINE_LABEL_CA "Compilació asíncrona de la seqüència"
-#define VITA3K_ASYNC_PIPELINE_INFO_0_CA NULL
+#define VITA3K_ASYNC_PIPELINE_INFO_0_CA "Compila els shaders de forma asíncrona per reduir les estrebades."
 #define VITA3K_COMPILE_OVERLAY_LABEL_CA "Superposició de compilació de shaders"
 #define VITA3K_MEMORY_MAPPING_LABEL_CA "Assignació de memòria"
-#define VITA3K_MEMORY_MAPPING_INFO_0_CA NULL
+#define VITA3K_MEMORY_MAPPING_INFO_0_CA "Mètode d'assignació de memòria de la targeta gràfica. Els mètodes més alts milloren el rendiment però necessiten més suport de la targeta gràfica."
 #define OPTION_VAL_DOUBLE_BUFFER_CA "Memòria intermèdia doble"
 #define OPTION_VAL_EXTERNAL_HOST_CA "Amfitrió extern"
 #define OPTION_VAL_PAGE_TABLE_CA "Taula de pàgines"
@@ -1792,14 +3180,15 @@ struct retro_core_options_v2 options_bg = {
 #define VITA3K_HIGH_ACCURACY_INFO_0_CA "Activa les tècniques de renderitzat més precises però més lentes."
 #define VITA3K_CPU_OPT_LABEL_CA "Optimitzacions de xip (Dynarmic JIT)"
 #define VITA3K_CPU_OPT_INFO_0_CA "Activa el Dynarmic JIT per accelerar l'emulació de xip."
-#define VITA3K_PKG_MODE_LABEL_CA "Joc PKG"
-#define VITA3K_PKG_MODE_INFO_0_CA NULL
+#define VITA3K_PKG_MODE_LABEL_CA "Precarregar el joc"
+#define VITA3K_PKG_MODE_INFO_0_CA "Tot el contingut segueix aquesta configuració excepte les actualitzacions i DLC (carregats manualment). Executa sense instal·lar: carrega des del fitxer, res és permanent. Memòria cau persistent: el mateix, manté el que ha carregat. Instal·lar: Copia tots els fitxers per començar més ràpid."
 #define OPTION_VAL_RUN_CA "Executa sense instal·lar"
+#define OPTION_VAL_CACHE_CA "Memòria cau persistent"
 #define OPTION_VAL_INSTALL_CA "Instal·la"
 #define VITA3K_PSTV_MODE_LABEL_CA "Mode PS TV"
 #define VITA3K_PSTV_MODE_INFO_0_CA "Emula una PlayStation TV en comptes d'una PS Vita."
 #define VITA3K_MODULES_MODE_LABEL_CA "Mode de mòduls"
-#define VITA3K_MODULES_MODE_INFO_0_CA "Indica com es carreguen els mòduls del sistema. Es recomana automàtic."
+#define VITA3K_MODULES_MODE_INFO_0_CA "Com es carreguen els mòduls del sistema. Automàtic: la implementació pròpia del nucli, a més dels mòduls del microprogramari que el nucli sap que necessita. Automàtic i manual: els anteriors, juntament amb els que s'hagin activat a l'apartat «Mòduls». Manual: només els que s'hagin activat a l'apartat «Mòduls». Es recomana l'opció «Automàtic»."
 #define OPTION_VAL_0_CA "Automàtic"
 #define OPTION_VAL_1_VITA3K_MODULES_MODE_CA "Automàtica & manual"
 #define OPTION_VAL_2_VITA3K_MODULES_MODE_CA NULL
@@ -1809,10 +3198,41 @@ struct retro_core_options_v2 options_bg = {
 #define VITA3K_SYS_BUTTON_INFO_0_CA "Quin botó que es fa servir per confirmar accions."
 #define OPTION_VAL_0_VITA3K_SYS_BUTTON_CA "Cercle"
 #define OPTION_VAL_1_VITA3K_SYS_BUTTON_CA "Creu"
+#define VITA3K_SYS_LANG_LABEL_CA "Idioma del sistema"
+#define VITA3K_SYS_LANG_INFO_0_CA "L'idioma de la consola, que els jocs utilitzen per al text i que es mostra en els diàlegs del sistema. S'aplica la propera vegada que s'iniciï el joc."
+#define OPTION_VAL_0_VITA3K_SYS_LANG_CA "Japonès"
+#define OPTION_VAL_1_VITA3K_SYS_LANG_CA "Anglès (Estats Units)"
+#define OPTION_VAL_2_VITA3K_SYS_LANG_CA "Francès"
+#define OPTION_VAL_3_VITA3K_SYS_LANG_CA "Espanyol"
+#define OPTION_VAL_4_VITA3K_SYS_LANG_CA "Alemany"
+#define OPTION_VAL_5_CA "Italià"
+#define OPTION_VAL_6_CA "Neerlandès"
+#define OPTION_VAL_7_CA "Portuguès (Portugal)"
+#define OPTION_VAL_8_VITA3K_SYS_LANG_CA "Rus"
+#define OPTION_VAL_9_CA "Coreà"
+#define OPTION_VAL_10_CA "Xinès (Tradicional)"
+#define OPTION_VAL_11_CA "Xinès (simplificat)"
+#define OPTION_VAL_12_CA "Finès"
+#define OPTION_VAL_13_CA "Suec"
+#define OPTION_VAL_14_CA "Danès"
+#define OPTION_VAL_15_CA "Noruec"
+#define OPTION_VAL_16_VITA3K_SYS_LANG_CA "Polonès"
+#define OPTION_VAL_17_CA "Portuguès (Brasil)"
+#define OPTION_VAL_18_CA "Anglès (Regne Unit)"
+#define OPTION_VAL_19_CA "Turc"
+#define VITA3K_SYS_DATE_FORMAT_LABEL_CA "Format de la data"
+#define VITA3K_SYS_DATE_FORMAT_INFO_0_CA "La manera com la consola escriu les dates, tant per als jocs com per als diàlegs del sistema (per exemple, a les llistes de dades desades). La data i l'hora són les del dispositiu. Els canvis s'apliquen la propera vegada que s'iniciï el joc."
+#define OPTION_VAL_0_VITA3K_SYS_DATE_FORMAT_CA "AAAA/MM/DD"
+#define OPTION_VAL_1_VITA3K_SYS_DATE_FORMAT_CA "DD/MM/AAAA"
+#define OPTION_VAL_2_VITA3K_SYS_DATE_FORMAT_CA "MM/DD/AAAA"
+#define VITA3K_SYS_TIME_FORMAT_LABEL_CA "Format d'hora"
+#define VITA3K_SYS_TIME_FORMAT_INFO_0_CA "Determina si la consola mostra l'hora en format de 12 o 24 hores, tant per als jocs com per als diàlegs del sistema. S'aplica la propera vegada que s'iniciï el joc."
+#define OPTION_VAL_0_VITA3K_SYS_TIME_FORMAT_CA "12 hores"
+#define OPTION_VAL_1_VITA3K_SYS_TIME_FORMAT_CA "24 hores"
 #define VITA3K_AUDIO_VOLUME_LABEL_CA "Volum d'àudio"
 #define VITA3K_AUDIO_VOLUME_INFO_0_CA "Nivell de volum de l'àudio principal."
 #define OPTION_VAL_0_VITA3K_AUDIO_VOLUME_CA NULL
-#define OPTION_VAL_10_CA NULL
+#define OPTION_VAL_10_VITA3K_AUDIO_VOLUME_CA NULL
 #define OPTION_VAL_20_CA NULL
 #define OPTION_VAL_30_CA NULL
 #define OPTION_VAL_40_CA NULL
@@ -1826,16 +3246,57 @@ struct retro_core_options_v2 options_bg = {
 #define VITA3K_NGS_ENABLE_INFO_0_CA "Activa el motor d'àudio de NGS per millorar l'àudio."
 #define VITA3K_PSN_SIGNED_IN_LABEL_CA "S'ha iniciat sessió a PSN"
 #define VITA3K_PSN_SIGNED_IN_INFO_0_CA "Simula que has iniciat sessió a PSN. És necessari per alguns jocs."
+#define VITA3K_HTTP_ENABLE_LABEL_CA NULL
+#define VITA3K_HTTP_ENABLE_INFO_0_CA "Habilita el suport per a xarxa HTTP per a les aplicacions que l'utilitzen. S'aplica la propera vegada que s'iniciï el joc."
+#define VITA3K_HTTP_TIMEOUT_ATTEMPTS_LABEL_CA "Intents amb temps d'espera HTTP"
+#define VITA3K_HTTP_TIMEOUT_ATTEMPTS_INFO_0_CA "Nombre d'intents de reconnexió quan el servidor no respon. Pot ser útil en cas de connexió molt inestable o molt lenta. S'aplica la propera vegada que s'iniciï el joc."
+#define VITA3K_HTTP_TIMEOUT_SLEEP_LABEL_CA "Pausa per temps d'espera HTTP"
+#define VITA3K_HTTP_TIMEOUT_SLEEP_INFO_0_CA "Quant de temps esperar entre reintents de connexió. Pot ser útil en cas de connexió molt inestable o molt lenta. S'aplica la propera vegada que s'iniciï el joc."
+#define OPTION_VAL_50_VITA3K_HTTP_TIMEOUT_SLEEP_CA NULL
+#define OPTION_VAL_100_VITA3K_HTTP_TIMEOUT_SLEEP_CA NULL
+#define OPTION_VAL_150_CA NULL
+#define OPTION_VAL_200_CA NULL
+#define OPTION_VAL_250_CA NULL
+#define OPTION_VAL_300_CA NULL
+#define OPTION_VAL_400_CA NULL
+#define OPTION_VAL_500_CA NULL
+#define OPTION_VAL_750_CA NULL
+#define OPTION_VAL_1000_CA NULL
+#define OPTION_VAL_1500_CA NULL
+#define OPTION_VAL_2000_CA NULL
+#define OPTION_VAL_2500_CA NULL
+#define OPTION_VAL_3000_CA NULL
+#define VITA3K_HTTP_READ_END_ATTEMPTS_LABEL_CA "Intents de finalització de lectura HTTP"
+#define VITA3K_HTTP_READ_END_ATTEMPTS_INFO_0_CA "Quants reintents dur a terme quan ja no queden dades per llegir. Un valor més baix pot millorar el rendiment, però pot fer que els jocs es tornin inestables si la connexió és prou dolenta. S'aplica la propera vegada que s'iniciï el joc."
+#define VITA3K_HTTP_READ_END_SLEEP_LABEL_CA "Repòs al final de la lectura HTTP"
+#define VITA3K_HTTP_READ_END_SLEEP_INFO_0_CA "Quant de temps esperar entre reintents de lectura. Un valor més baix pot millorar el rendiment, però pot fer que els jocs es tornin inestables si la connexió és prou dolenta. S'aplica la propera vegada que s'iniciï el joc."
+#define VITA3K_FRONT_CAMERA_LABEL_CA "Càmera frontal"
+#define VITA3K_FRONT_CAMERA_INFO_0_CA "El que veu la càmera frontal de la Vita. Càmera amfitriona: la càmera de RetroArch (cal que l'opció «Accés a la càmera» estigui activada a Configuració > Privadesa, i que hi hagi un controlador de càmera disponible per a aquesta plataforma). Imatge: system/vita3k/camera/front.png o front.jpg. Color sòlid: el color de la càmera frontal. Si una font no està disponible, s'utilitza la següent. Els canvis s'apliquen la propera vegada que el joc obri la càmera."
+#define OPTION_VAL_HOST_CA "Càmera de l'amfitrió"
+#define OPTION_VAL_IMAGE_CA "Imatge"
+#define OPTION_VAL_COLOR_CA "Color sòlid"
+#define VITA3K_FRONT_CAMERA_COLOR_LABEL_CA "Color de la càmera frontal"
+#define VITA3K_FRONT_CAMERA_COLOR_INFO_0_CA "El color de la càmera frontal mostra un color sòlid."
+#define OPTION_VAL_0_VITA3K_FRONT_CAMERA_COLOR_CA "Negre"
+#define OPTION_VAL_16777215_CA "Blanc"
+#define OPTION_VAL_8421504_CA "Gris"
+#define OPTION_VAL_255_CA "Vermell"
+#define OPTION_VAL_65280_CA "Verd"
+#define OPTION_VAL_16711680_CA "Blau"
+#define VITA3K_BACK_CAMERA_LABEL_CA "Càmera posterior"
+#define VITA3K_BACK_CAMERA_INFO_0_CA "El que veu la càmera posterior de la Vita. Càmera amfitriona: la càmera de RetroArch (cal que l'opció «Accés a la càmera» a «Configuració > Privadesa» estigui activada, i que hi hagi un controlador de càmera disponible per a aquesta plataforma). Imatge: `system/vita3k/camera/back.png` o `back.jpg`. Color sòlid: el color de la càmera posterior. Si una font no està disponible, s'utilitza la següent. Aquest canvi s'aplica la propera vegada que el joc accedeixi a la càmera."
+#define VITA3K_BACK_CAMERA_COLOR_LABEL_CA "Color de la càmera posterior"
+#define VITA3K_BACK_CAMERA_COLOR_INFO_0_CA "El color de la càmera posterior mostra un color sòlid."
 #define VITA3K_SURFACE_SYNC_LABEL_CA "Superfície de sincronització"
 #define VITA3K_SURFACE_SYNC_INFO_0_CA "Optimització de memòria de la targeta gràfica. Pot augmentar el rendiment en un 20-40%."
 #define OPTION_VAL_ENABLED_CA "Activat (més precís)"
 #define OPTION_VAL_DISABLED_CA "Desactivat (més ràpid)"
 #define VITA3K_FILE_LOADING_DELAY_LABEL_CA "Retard en carregar un fitxer"
-#define VITA3K_FILE_LOADING_DELAY_INFO_0_CA NULL
+#define VITA3K_FILE_LOADING_DELAY_INFO_0_CA "Retard en mil·lisegons per la càrrega de fitxers. Ajuda amb jocs sensibles al temps."
 #define OPTION_VAL_0_VITA3K_FILE_LOADING_DELAY_CA NULL
-#define OPTION_VAL_5_CA NULL
+#define OPTION_VAL_5_VITA3K_FILE_LOADING_DELAY_CA NULL
 #define OPTION_VAL_10_VITA3K_FILE_LOADING_DELAY_CA NULL
-#define OPTION_VAL_15_CA NULL
+#define OPTION_VAL_15_VITA3K_FILE_LOADING_DELAY_CA NULL
 #define OPTION_VAL_20_VITA3K_FILE_LOADING_DELAY_CA NULL
 #define OPTION_VAL_25_CA NULL
 #define OPTION_VAL_30_VITA3K_FILE_LOADING_DELAY_CA NULL
@@ -1846,6 +3307,10 @@ struct retro_core_option_v2_category option_cats_ca[] = {
     { "system", CATEGORY_SYSTEM_LABEL_CA, CATEGORY_SYSTEM_INFO_0_CA },
     { "audio", CATEGORY_AUDIO_LABEL_CA, CATEGORY_AUDIO_INFO_0_CA },
     { "network", CATEGORY_NETWORK_LABEL_CA, CATEGORY_NETWORK_INFO_0_CA },
+    { "install", CATEGORY_INSTALL_LABEL_CA, CATEGORY_INSTALL_INFO_0_CA },
+    { "camera", CATEGORY_CAMERA_LABEL_CA, CATEGORY_CAMERA_INFO_0_CA },
+    { "accounts", CATEGORY_ACCOUNTS_LABEL_CA, CATEGORY_ACCOUNTS_INFO_0_CA },
+    { "modules", CATEGORY_MODULES_LABEL_CA, CATEGORY_MODULES_INFO_0_CA },
     { NULL, NULL, NULL },
 };
 struct retro_core_option_v2_definition option_defs_ca[] = {
@@ -2009,9 +3474,10 @@ struct retro_core_option_v2_definition option_defs_ca[] = {
         NULL,
         VITA3K_PKG_MODE_INFO_0_CA,
         NULL,
-        "system",
+        "install",
         {
             { "run", OPTION_VAL_RUN_CA },
+            { "cache", OPTION_VAL_CACHE_CA },
             { "install", OPTION_VAL_INSTALL_CA },
             { NULL, NULL },
         },
@@ -2074,6 +3540,67 @@ struct retro_core_option_v2_definition option_defs_ca[] = {
         },
         "1"
     },
+    {
+        "vita3k_sys_lang",
+        VITA3K_SYS_LANG_LABEL_CA,
+        NULL,
+        VITA3K_SYS_LANG_INFO_0_CA,
+        NULL,
+        "system",
+        {
+            { "0", OPTION_VAL_0_VITA3K_SYS_LANG_CA },
+            { "1", OPTION_VAL_1_VITA3K_SYS_LANG_CA },
+            { "2", OPTION_VAL_2_VITA3K_SYS_LANG_CA },
+            { "3", OPTION_VAL_3_VITA3K_SYS_LANG_CA },
+            { "4", OPTION_VAL_4_VITA3K_SYS_LANG_CA },
+            { "5", OPTION_VAL_5_CA },
+            { "6", OPTION_VAL_6_CA },
+            { "7", OPTION_VAL_7_CA },
+            { "8", OPTION_VAL_8_VITA3K_SYS_LANG_CA },
+            { "9", OPTION_VAL_9_CA },
+            { "10", OPTION_VAL_10_CA },
+            { "11", OPTION_VAL_11_CA },
+            { "12", OPTION_VAL_12_CA },
+            { "13", OPTION_VAL_13_CA },
+            { "14", OPTION_VAL_14_CA },
+            { "15", OPTION_VAL_15_CA },
+            { "16", OPTION_VAL_16_VITA3K_SYS_LANG_CA },
+            { "17", OPTION_VAL_17_CA },
+            { "18", OPTION_VAL_18_CA },
+            { "19", OPTION_VAL_19_CA },
+            { NULL, NULL },
+        },
+        "1"
+    },
+    {
+        "vita3k_sys_date_format",
+        VITA3K_SYS_DATE_FORMAT_LABEL_CA,
+        NULL,
+        VITA3K_SYS_DATE_FORMAT_INFO_0_CA,
+        NULL,
+        "system",
+        {
+            { "0", OPTION_VAL_0_VITA3K_SYS_DATE_FORMAT_CA },
+            { "1", OPTION_VAL_1_VITA3K_SYS_DATE_FORMAT_CA },
+            { "2", OPTION_VAL_2_VITA3K_SYS_DATE_FORMAT_CA },
+            { NULL, NULL },
+        },
+        "2"
+    },
+    {
+        "vita3k_sys_time_format",
+        VITA3K_SYS_TIME_FORMAT_LABEL_CA,
+        NULL,
+        VITA3K_SYS_TIME_FORMAT_INFO_0_CA,
+        NULL,
+        "system",
+        {
+            { "0", OPTION_VAL_0_VITA3K_SYS_TIME_FORMAT_CA },
+            { "1", OPTION_VAL_1_VITA3K_SYS_TIME_FORMAT_CA },
+            { NULL, NULL },
+        },
+        "0"
+    },
     // ── Audio ────────────────────────────────────────────────────────────
     {
         "vita3k_audio_volume",
@@ -2084,7 +3611,7 @@ struct retro_core_option_v2_definition option_defs_ca[] = {
         "audio",
         {
             { "0", OPTION_VAL_0_VITA3K_AUDIO_VOLUME_CA },
-            { "10", OPTION_VAL_10_CA },
+            { "10", OPTION_VAL_10_VITA3K_AUDIO_VOLUME_CA },
             { "20", OPTION_VAL_20_CA },
             { "30", OPTION_VAL_30_CA },
             { "40", OPTION_VAL_40_CA },
@@ -2128,6 +3655,204 @@ struct retro_core_option_v2_definition option_defs_ca[] = {
         "disabled"
     },
     {
+        "vita3k_http_enable",
+        VITA3K_HTTP_ENABLE_LABEL_CA,
+        NULL,
+        VITA3K_HTTP_ENABLE_INFO_0_CA,
+        NULL,
+        "network",
+        {
+            { "enabled", NULL },
+            { "disabled", NULL },
+            { NULL, NULL },
+        },
+        "enabled"
+    },
+    {
+        "vita3k_http_timeout_attempts",
+        VITA3K_HTTP_TIMEOUT_ATTEMPTS_LABEL_CA,
+        NULL,
+        VITA3K_HTTP_TIMEOUT_ATTEMPTS_INFO_0_CA,
+        NULL,
+        "network",
+        {
+            { "0", NULL },
+            { "5", NULL },
+            { "10", NULL },
+            { "15", NULL },
+            { "20", NULL },
+            { "25", NULL },
+            { "30", NULL },
+            { "35", NULL },
+            { "40", NULL },
+            { "45", NULL },
+            { "50", NULL },
+            { "55", NULL },
+            { "60", NULL },
+            { "65", NULL },
+            { "70", NULL },
+            { "75", NULL },
+            { "80", NULL },
+            { "85", NULL },
+            { "90", NULL },
+            { "95", NULL },
+            { "100", NULL },
+            { NULL, NULL },
+        },
+        "50"
+    },
+    {
+        "vita3k_http_timeout_sleep",
+        VITA3K_HTTP_TIMEOUT_SLEEP_LABEL_CA,
+        NULL,
+        VITA3K_HTTP_TIMEOUT_SLEEP_INFO_0_CA,
+        NULL,
+        "network",
+        {
+            { "50", OPTION_VAL_50_VITA3K_HTTP_TIMEOUT_SLEEP_CA },
+            { "100", OPTION_VAL_100_VITA3K_HTTP_TIMEOUT_SLEEP_CA },
+            { "150", OPTION_VAL_150_CA },
+            { "200", OPTION_VAL_200_CA },
+            { "250", OPTION_VAL_250_CA },
+            { "300", OPTION_VAL_300_CA },
+            { "400", OPTION_VAL_400_CA },
+            { "500", OPTION_VAL_500_CA },
+            { "750", OPTION_VAL_750_CA },
+            { "1000", OPTION_VAL_1000_CA },
+            { "1500", OPTION_VAL_1500_CA },
+            { "2000", OPTION_VAL_2000_CA },
+            { "2500", OPTION_VAL_2500_CA },
+            { "3000", OPTION_VAL_3000_CA },
+            { NULL, NULL },
+        },
+        "100"
+    },
+    {
+        "vita3k_http_read_end_attempts",
+        VITA3K_HTTP_READ_END_ATTEMPTS_LABEL_CA,
+        NULL,
+        VITA3K_HTTP_READ_END_ATTEMPTS_INFO_0_CA,
+        NULL,
+        "network",
+        {
+            { "0", NULL },
+            { "5", NULL },
+            { "10", NULL },
+            { "15", NULL },
+            { "20", NULL },
+            { "25", NULL },
+            { "30", NULL },
+            { "35", NULL },
+            { "40", NULL },
+            { "45", NULL },
+            { "50", NULL },
+            { "55", NULL },
+            { "60", NULL },
+            { "65", NULL },
+            { "70", NULL },
+            { "75", NULL },
+            { "80", NULL },
+            { "85", NULL },
+            { "90", NULL },
+            { "95", NULL },
+            { "100", NULL },
+            { NULL, NULL },
+        },
+        "10"
+    },
+    {
+        "vita3k_http_read_end_sleep",
+        VITA3K_HTTP_READ_END_SLEEP_LABEL_CA,
+        NULL,
+        VITA3K_HTTP_READ_END_SLEEP_INFO_0_CA,
+        NULL,
+        "network",
+        {
+            { "50", OPTION_VAL_50_VITA3K_HTTP_TIMEOUT_SLEEP_CA },
+            { "100", OPTION_VAL_100_VITA3K_HTTP_TIMEOUT_SLEEP_CA },
+            { "150", OPTION_VAL_150_CA },
+            { "200", OPTION_VAL_200_CA },
+            { "250", OPTION_VAL_250_CA },
+            { "300", OPTION_VAL_300_CA },
+            { "400", OPTION_VAL_400_CA },
+            { "500", OPTION_VAL_500_CA },
+            { "750", OPTION_VAL_750_CA },
+            { "1000", OPTION_VAL_1000_CA },
+            { "1500", OPTION_VAL_1500_CA },
+            { "2000", OPTION_VAL_2000_CA },
+            { "2500", OPTION_VAL_2500_CA },
+            { "3000", OPTION_VAL_3000_CA },
+            { NULL, NULL },
+        },
+        "250"
+    },
+    {
+        "vita3k_front_camera",
+        VITA3K_FRONT_CAMERA_LABEL_CA,
+        NULL,
+        VITA3K_FRONT_CAMERA_INFO_0_CA,
+        NULL,
+        "camera",
+        {
+            { "host", OPTION_VAL_HOST_CA },
+            { "image", OPTION_VAL_IMAGE_CA },
+            { "color", OPTION_VAL_COLOR_CA },
+            { NULL, NULL },
+        },
+        "host"
+    },
+    {
+        "vita3k_front_camera_color",
+        VITA3K_FRONT_CAMERA_COLOR_LABEL_CA,
+        NULL,
+        VITA3K_FRONT_CAMERA_COLOR_INFO_0_CA,
+        NULL,
+        "camera",
+        {
+            { "0", OPTION_VAL_0_VITA3K_FRONT_CAMERA_COLOR_CA },
+            { "16777215", OPTION_VAL_16777215_CA },
+            { "8421504", OPTION_VAL_8421504_CA },
+            { "255", OPTION_VAL_255_CA },
+            { "65280", OPTION_VAL_65280_CA },
+            { "16711680", OPTION_VAL_16711680_CA },
+            { NULL, NULL },
+        },
+        "0"
+    },
+    {
+        "vita3k_back_camera",
+        VITA3K_BACK_CAMERA_LABEL_CA,
+        NULL,
+        VITA3K_BACK_CAMERA_INFO_0_CA,
+        NULL,
+        "camera",
+        {
+            { "host", OPTION_VAL_HOST_CA },
+            { "image", OPTION_VAL_IMAGE_CA },
+            { "color", OPTION_VAL_COLOR_CA },
+            { NULL, NULL },
+        },
+        "host"
+    },
+    {
+        "vita3k_back_camera_color",
+        VITA3K_BACK_CAMERA_COLOR_LABEL_CA,
+        NULL,
+        VITA3K_BACK_CAMERA_COLOR_INFO_0_CA,
+        NULL,
+        "camera",
+        {
+            { "0", OPTION_VAL_0_VITA3K_FRONT_CAMERA_COLOR_CA },
+            { "16777215", OPTION_VAL_16777215_CA },
+            { "8421504", OPTION_VAL_8421504_CA },
+            { "255", OPTION_VAL_255_CA },
+            { "65280", OPTION_VAL_65280_CA },
+            { "16711680", OPTION_VAL_16711680_CA },
+            { NULL, NULL },
+        },
+        "0"
+    },
+    {
         "vita3k_surface_sync",
         VITA3K_SURFACE_SYNC_LABEL_CA,
         NULL,
@@ -2150,9 +3875,9 @@ struct retro_core_option_v2_definition option_defs_ca[] = {
         "system",
         {
             { "0", OPTION_VAL_0_VITA3K_FILE_LOADING_DELAY_CA },
-            { "5", OPTION_VAL_5_CA },
+            { "5", OPTION_VAL_5_VITA3K_FILE_LOADING_DELAY_CA },
             { "10", OPTION_VAL_10_VITA3K_FILE_LOADING_DELAY_CA },
-            { "15", OPTION_VAL_15_CA },
+            { "15", OPTION_VAL_15_VITA3K_FILE_LOADING_DELAY_CA },
             { "20", OPTION_VAL_20_VITA3K_FILE_LOADING_DELAY_CA },
             { "25", OPTION_VAL_25_CA },
             { "30", OPTION_VAL_30_VITA3K_FILE_LOADING_DELAY_CA },
@@ -2170,75 +3895,115 @@ struct retro_core_options_v2 options_ca = {
 /* RETRO_LANGUAGE_CHS */
 
 #define CATEGORY_GPU_LABEL_CHS NULL
-#define CATEGORY_GPU_INFO_0_CHS NULL
+#define CATEGORY_GPU_INFO_0_CHS "图形渲染选项。"
 #define CATEGORY_CPU_LABEL_CHS NULL
-#define CATEGORY_CPU_INFO_0_CHS NULL
+#define CATEGORY_CPU_INFO_0_CHS "CPU 模拟选项。"
 #define CATEGORY_SYSTEM_LABEL_CHS "系统"
-#define CATEGORY_SYSTEM_INFO_0_CHS NULL
+#define CATEGORY_SYSTEM_INFO_0_CHS "系统模拟选项。"
 #define CATEGORY_AUDIO_LABEL_CHS "音频"
-#define CATEGORY_AUDIO_INFO_0_CHS NULL
+#define CATEGORY_AUDIO_INFO_0_CHS "音频输出选项。"
 #define CATEGORY_NETWORK_LABEL_CHS "网络"
-#define CATEGORY_NETWORK_INFO_0_CHS NULL
-#define VITA3K_BACKEND_RENDERER_LABEL_CHS NULL
-#define VITA3K_BACKEND_RENDERER_INFO_0_CHS NULL
+#define CATEGORY_NETWORK_INFO_0_CHS "网络选项"
+#define CATEGORY_INSTALL_LABEL_CHS "游戏"
+#define CATEGORY_INSTALL_INFO_0_CHS "如何加载游戏、更新和DLC。"
+#define CATEGORY_CAMERA_LABEL_CHS "摄像头"
+#define CATEGORY_CAMERA_INFO_0_CHS NULL
+#define CATEGORY_ACCOUNTS_LABEL_CHS "账户"
+#define CATEGORY_ACCOUNTS_INFO_0_CHS NULL
+#define CATEGORY_MODULES_LABEL_CHS NULL
+#define CATEGORY_MODULES_INFO_0_CHS NULL
+#define VITA3K_BACKEND_RENDERER_LABEL_CHS "后端渲染器"
+#define VITA3K_BACKEND_RENDERER_INFO_0_CHS "选择图形后端。推荐Vulkan。"
 #define OPTION_VAL_VULKAN_CHS NULL
 #define OPTION_VAL_OPENGL_CHS NULL
-#define VITA3K_RESOLUTION_MULTIPLIER_LABEL_CHS NULL
-#define VITA3K_RESOLUTION_MULTIPLIER_INFO_0_CHS NULL
+#define VITA3K_RESOLUTION_MULTIPLIER_LABEL_CHS "内部渲染分辨率倍数"
+#define VITA3K_RESOLUTION_MULTIPLIER_INFO_0_CHS "内部渲染分辨率倍数（基础分辨率为 960x544）。"
 #define OPTION_VAL_1_CHS NULL
 #define OPTION_VAL_2_CHS NULL
 #define OPTION_VAL_3_CHS NULL
-#define OPTION_VAL_4_CHS NULL
-#define VITA3K_SCREEN_FILTER_LABEL_CHS NULL
-#define VITA3K_SCREEN_FILTER_INFO_0_CHS NULL
+#define OPTION_VAL_4_CHS "4 x (3840x2176)"
+#define VITA3K_SCREEN_FILTER_LABEL_CHS "屏幕滤镜"
+#define VITA3K_SCREEN_FILTER_INFO_0_CHS "应用于已渲染画面帧的后处理滤镜。"
 #define OPTION_VAL_BILINEAR_CHS "双线性"
 #define OPTION_VAL_NEAREST_CHS "最邻"
 #define OPTION_VAL_BICUBIC_CHS "双立方"
 #define OPTION_VAL_FXAA_CHS "FXAA 快速近似抗锯齿"
 #define OPTION_VAL_FSR_CHS NULL
 #define VITA3K_ANISOTROPIC_FILTERING_LABEL_CHS "各向异性过滤"
-#define VITA3K_ANISOTROPIC_FILTERING_INFO_0_CHS NULL
-#define OPTION_VAL_1_VITA3K_ANISOTROPIC_FILTERING_CHS NULL
+#define VITA3K_ANISOTROPIC_FILTERING_INFO_0_CHS "各向异性纹理过滤等级。"
+#define OPTION_VAL_1_VITA3K_ANISOTROPIC_FILTERING_CHS "1x (关闭)"
 #define OPTION_VAL_2_VITA3K_ANISOTROPIC_FILTERING_CHS NULL
 #define OPTION_VAL_4_VITA3K_ANISOTROPIC_FILTERING_CHS NULL
 #define OPTION_VAL_8_CHS NULL
 #define OPTION_VAL_16_CHS NULL
-#define VITA3K_V_SYNC_LABEL_CHS NULL
-#define VITA3K_V_SYNC_INFO_0_CHS NULL
-#define VITA3K_ASYNC_PIPELINE_LABEL_CHS NULL
-#define VITA3K_ASYNC_PIPELINE_INFO_0_CHS NULL
-#define VITA3K_COMPILE_OVERLAY_LABEL_CHS NULL
-#define VITA3K_MEMORY_MAPPING_LABEL_CHS NULL
-#define VITA3K_MEMORY_MAPPING_INFO_0_CHS NULL
-#define OPTION_VAL_DOUBLE_BUFFER_CHS NULL
-#define OPTION_VAL_EXTERNAL_HOST_CHS NULL
-#define OPTION_VAL_PAGE_TABLE_CHS NULL
-#define OPTION_VAL_NATIVE_BUFFER_CHS NULL
-#define VITA3K_HIGH_ACCURACY_LABEL_CHS NULL
-#define VITA3K_HIGH_ACCURACY_INFO_0_CHS NULL
-#define VITA3K_CPU_OPT_LABEL_CHS NULL
-#define VITA3K_CPU_OPT_INFO_0_CHS NULL
-#define VITA3K_PKG_MODE_LABEL_CHS NULL
-#define VITA3K_PKG_MODE_INFO_0_CHS NULL
-#define OPTION_VAL_RUN_CHS NULL
-#define OPTION_VAL_INSTALL_CHS NULL
-#define VITA3K_PSTV_MODE_LABEL_CHS NULL
-#define VITA3K_PSTV_MODE_INFO_0_CHS NULL
-#define VITA3K_MODULES_MODE_LABEL_CHS NULL
+#define VITA3K_V_SYNC_LABEL_CHS "垂直同步"
+#define VITA3K_V_SYNC_INFO_0_CHS "开启或关闭垂直同步。"
+#define VITA3K_ASYNC_PIPELINE_LABEL_CHS "异步管线编译"
+#define VITA3K_ASYNC_PIPELINE_INFO_0_CHS "异步编译着色器管线，以减少画面卡顿。"
+#define VITA3K_COMPILE_OVERLAY_LABEL_CHS "着色器编译浮层提示"
+#define VITA3K_MEMORY_MAPPING_LABEL_CHS "内存映射方式"
+#define VITA3K_MEMORY_MAPPING_INFO_0_CHS "GPU 内存映射方式。越高级的映射模式性能越好，但需要 GPU 硬件支持。"
+#define OPTION_VAL_DOUBLE_BUFFER_CHS "双重缓冲"
+#define OPTION_VAL_EXTERNAL_HOST_CHS "外部主机"
+#define OPTION_VAL_PAGE_TABLE_CHS "页表映射"
+#define OPTION_VAL_NATIVE_BUFFER_CHS "原生缓冲区"
+#define VITA3K_HIGH_ACCURACY_LABEL_CHS "高精度渲染"
+#define VITA3K_HIGH_ACCURACY_INFO_0_CHS "启用更精确但速度较慢的渲染技术。"
+#define VITA3K_CPU_OPT_LABEL_CHS "CPU 优化 (Dynarmic JIT)"
+#define VITA3K_CPU_OPT_INFO_0_CHS "启用 Dynarmic JIT 动态编译，以实现更快的 CPU 模拟速度。"
+#define VITA3K_PKG_MODE_LABEL_CHS "游戏预加载方式"
+#define VITA3K_PKG_MODE_INFO_0_CHS "除手动加载并强制安装的更新和 DLC 外，所有游戏内容均遵循此设置。“直接运行免安装”：直接读取文件，不保存任何缓存；“持久化缓存”：直接读取文件，但保留已读取的缓存；“全面安装”：复制所有文件至本地，使启动速度更快。"
+#define OPTION_VAL_RUN_CHS "直接运行 (免安装)   "
+#define OPTION_VAL_CACHE_CHS "持久化缓存"
+#define OPTION_VAL_INSTALL_CHS "安装"
+#define VITA3K_PSTV_MODE_LABEL_CHS "PS TV 模式"
+#define VITA3K_PSTV_MODE_INFO_0_CHS "模拟 PlayStation TV 主机而非 PS Vita 手持设备。"
+#define VITA3K_MODULES_MODE_LABEL_CHS "系统模块加载模式"
 #define VITA3K_MODULES_MODE_INFO_0_CHS NULL
 #define OPTION_VAL_0_CHS "自动"
-#define OPTION_VAL_1_VITA3K_MODULES_MODE_CHS NULL
+#define OPTION_VAL_1_VITA3K_MODULES_MODE_CHS "自动与手动混合"
 #define OPTION_VAL_2_VITA3K_MODULES_MODE_CHS "手动"
-#define VITA3K_FPS_HACK_LABEL_CHS NULL
-#define VITA3K_FPS_HACK_INFO_0_CHS NULL
-#define VITA3K_SYS_BUTTON_LABEL_CHS NULL
-#define VITA3K_SYS_BUTTON_INFO_0_CHS NULL
-#define OPTION_VAL_0_VITA3K_SYS_BUTTON_CHS NULL
+#define VITA3K_FPS_HACK_LABEL_CHS "FPS 解锁补丁 (30 帧至 60 帧)"
+#define VITA3K_FPS_HACK_INFO_0_CHS "尝试让锁 30 帧的游戏运行在 60 帧下。可能会引发逻辑异常或画质问题。"
+#define VITA3K_SYS_BUTTON_LABEL_CHS "确认按键"
+#define VITA3K_SYS_BUTTON_INFO_0_CHS "选择用于执行确认操作的按键。"
+#define OPTION_VAL_0_VITA3K_SYS_BUTTON_CHS "圆圈键 (Circle/○)"
 #define OPTION_VAL_1_VITA3K_SYS_BUTTON_CHS "十字准星"
-#define VITA3K_AUDIO_VOLUME_LABEL_CHS NULL
-#define VITA3K_AUDIO_VOLUME_INFO_0_CHS NULL
+#define VITA3K_SYS_LANG_LABEL_CHS "系统语言"
+#define VITA3K_SYS_LANG_INFO_0_CHS NULL
+#define OPTION_VAL_0_VITA3K_SYS_LANG_CHS "日语"
+#define OPTION_VAL_1_VITA3K_SYS_LANG_CHS NULL
+#define OPTION_VAL_2_VITA3K_SYS_LANG_CHS "法语"
+#define OPTION_VAL_3_VITA3K_SYS_LANG_CHS "西班牙语"
+#define OPTION_VAL_4_VITA3K_SYS_LANG_CHS "德语"
+#define OPTION_VAL_5_CHS "意大利语"
+#define OPTION_VAL_6_CHS "荷兰语"
+#define OPTION_VAL_7_CHS NULL
+#define OPTION_VAL_8_VITA3K_SYS_LANG_CHS "俄语"
+#define OPTION_VAL_9_CHS "韩语"
+#define OPTION_VAL_10_CHS "繁体中文"
+#define OPTION_VAL_11_CHS "简体中文"
+#define OPTION_VAL_12_CHS NULL
+#define OPTION_VAL_13_CHS NULL
+#define OPTION_VAL_14_CHS NULL
+#define OPTION_VAL_15_CHS NULL
+#define OPTION_VAL_16_VITA3K_SYS_LANG_CHS "波兰语"
+#define OPTION_VAL_17_CHS NULL
+#define OPTION_VAL_18_CHS NULL
+#define OPTION_VAL_19_CHS NULL
+#define VITA3K_SYS_DATE_FORMAT_LABEL_CHS NULL
+#define VITA3K_SYS_DATE_FORMAT_INFO_0_CHS NULL
+#define OPTION_VAL_0_VITA3K_SYS_DATE_FORMAT_CHS NULL
+#define OPTION_VAL_1_VITA3K_SYS_DATE_FORMAT_CHS NULL
+#define OPTION_VAL_2_VITA3K_SYS_DATE_FORMAT_CHS NULL
+#define VITA3K_SYS_TIME_FORMAT_LABEL_CHS NULL
+#define VITA3K_SYS_TIME_FORMAT_INFO_0_CHS NULL
+#define OPTION_VAL_0_VITA3K_SYS_TIME_FORMAT_CHS NULL
+#define OPTION_VAL_1_VITA3K_SYS_TIME_FORMAT_CHS NULL
+#define VITA3K_AUDIO_VOLUME_LABEL_CHS "音频音量"
+#define VITA3K_AUDIO_VOLUME_INFO_0_CHS "主音频音量等级。"
 #define OPTION_VAL_0_VITA3K_AUDIO_VOLUME_CHS NULL
-#define OPTION_VAL_10_CHS NULL
+#define OPTION_VAL_10_VITA3K_AUDIO_VOLUME_CHS NULL
 #define OPTION_VAL_20_CHS NULL
 #define OPTION_VAL_30_CHS NULL
 #define OPTION_VAL_40_CHS NULL
@@ -2248,23 +4013,64 @@ struct retro_core_options_v2 options_ca = {
 #define OPTION_VAL_80_CHS NULL
 #define OPTION_VAL_90_CHS NULL
 #define OPTION_VAL_100_CHS NULL
-#define VITA3K_NGS_ENABLE_LABEL_CHS NULL
-#define VITA3K_NGS_ENABLE_INFO_0_CHS NULL
-#define VITA3K_PSN_SIGNED_IN_LABEL_CHS NULL
-#define VITA3K_PSN_SIGNED_IN_INFO_0_CHS NULL
-#define VITA3K_SURFACE_SYNC_LABEL_CHS NULL
-#define VITA3K_SURFACE_SYNC_INFO_0_CHS NULL
-#define OPTION_VAL_ENABLED_CHS NULL
-#define OPTION_VAL_DISABLED_CHS NULL
-#define VITA3K_FILE_LOADING_DELAY_LABEL_CHS NULL
-#define VITA3K_FILE_LOADING_DELAY_INFO_0_CHS NULL
-#define OPTION_VAL_0_VITA3K_FILE_LOADING_DELAY_CHS NULL
-#define OPTION_VAL_5_CHS NULL
-#define OPTION_VAL_10_VITA3K_FILE_LOADING_DELAY_CHS NULL
-#define OPTION_VAL_15_CHS NULL
-#define OPTION_VAL_20_VITA3K_FILE_LOADING_DELAY_CHS NULL
-#define OPTION_VAL_25_CHS NULL
-#define OPTION_VAL_30_VITA3K_FILE_LOADING_DELAY_CHS NULL
+#define VITA3K_NGS_ENABLE_LABEL_CHS "NGS 音频引擎"
+#define VITA3K_NGS_ENABLE_INFO_0_CHS "启用 NGS 音频引擎以获得增强的音频效果。"
+#define VITA3K_PSN_SIGNED_IN_LABEL_CHS "PSN 已登录"
+#define VITA3K_PSN_SIGNED_IN_INFO_0_CHS "模拟已登录 PSN 状态。部分游戏运行必需。"
+#define VITA3K_HTTP_ENABLE_LABEL_CHS NULL
+#define VITA3K_HTTP_ENABLE_INFO_0_CHS NULL
+#define VITA3K_HTTP_TIMEOUT_ATTEMPTS_LABEL_CHS NULL
+#define VITA3K_HTTP_TIMEOUT_ATTEMPTS_INFO_0_CHS NULL
+#define VITA3K_HTTP_TIMEOUT_SLEEP_LABEL_CHS NULL
+#define VITA3K_HTTP_TIMEOUT_SLEEP_INFO_0_CHS NULL
+#define OPTION_VAL_50_VITA3K_HTTP_TIMEOUT_SLEEP_CHS "50 毫秒"
+#define OPTION_VAL_100_VITA3K_HTTP_TIMEOUT_SLEEP_CHS "100 毫秒"
+#define OPTION_VAL_150_CHS "150 毫秒"
+#define OPTION_VAL_200_CHS "200 毫秒"
+#define OPTION_VAL_250_CHS NULL
+#define OPTION_VAL_300_CHS NULL
+#define OPTION_VAL_400_CHS NULL
+#define OPTION_VAL_500_CHS NULL
+#define OPTION_VAL_750_CHS NULL
+#define OPTION_VAL_1000_CHS NULL
+#define OPTION_VAL_1500_CHS NULL
+#define OPTION_VAL_2000_CHS NULL
+#define OPTION_VAL_2500_CHS NULL
+#define OPTION_VAL_3000_CHS NULL
+#define VITA3K_HTTP_READ_END_ATTEMPTS_LABEL_CHS NULL
+#define VITA3K_HTTP_READ_END_ATTEMPTS_INFO_0_CHS NULL
+#define VITA3K_HTTP_READ_END_SLEEP_LABEL_CHS NULL
+#define VITA3K_HTTP_READ_END_SLEEP_INFO_0_CHS NULL
+#define VITA3K_FRONT_CAMERA_LABEL_CHS NULL
+#define VITA3K_FRONT_CAMERA_INFO_0_CHS NULL
+#define OPTION_VAL_HOST_CHS NULL
+#define OPTION_VAL_IMAGE_CHS NULL
+#define OPTION_VAL_COLOR_CHS NULL
+#define VITA3K_FRONT_CAMERA_COLOR_LABEL_CHS NULL
+#define VITA3K_FRONT_CAMERA_COLOR_INFO_0_CHS NULL
+#define OPTION_VAL_0_VITA3K_FRONT_CAMERA_COLOR_CHS "黑色"
+#define OPTION_VAL_16777215_CHS "白色"
+#define OPTION_VAL_8421504_CHS "灰"
+#define OPTION_VAL_255_CHS "红色"
+#define OPTION_VAL_65280_CHS "绿色"
+#define OPTION_VAL_16711680_CHS "蓝色"
+#define VITA3K_BACK_CAMERA_LABEL_CHS NULL
+#define VITA3K_BACK_CAMERA_INFO_0_CHS NULL
+#define VITA3K_BACK_CAMERA_COLOR_LABEL_CHS NULL
+#define VITA3K_BACK_CAMERA_COLOR_INFO_0_CHS NULL
+#define VITA3K_SURFACE_SYNC_LABEL_CHS "表面同步 (Surface Sync)"
+#define VITA3K_SURFACE_SYNC_INFO_0_CHS "GPU 显存优化技术。可能提升 20-40% 的运行性能"
+#define OPTION_VAL_ENABLED_CHS "开启 (更精确)"
+#define OPTION_VAL_DISABLED_CHS "关闭 (速度更快)"
+#define VITA3K_FILE_LOADING_DELAY_LABEL_CHS "文件加载延迟"
+#define VITA3K_FILE_LOADING_DELAY_INFO_0_CHS "文件加载的延迟时间（单位：毫秒）。有助于改善对时序敏感的游戏的兼容性。"
+#define OPTION_VAL_0_VITA3K_FILE_LOADING_DELAY_CHS "0 毫秒"
+#define OPTION_VAL_5_VITA3K_FILE_LOADING_DELAY_CHS NULL
+#define OPTION_VAL_10_VITA3K_FILE_LOADING_DELAY_CHS "10 毫秒"
+#define OPTION_VAL_15_VITA3K_FILE_LOADING_DELAY_CHS NULL
+#define OPTION_VAL_20_VITA3K_FILE_LOADING_DELAY_CHS "20 毫秒"
+#define OPTION_VAL_25_CHS "25 毫秒"
+#define OPTION_VAL_30_VITA3K_FILE_LOADING_DELAY_CHS "30 毫秒"
 
 struct retro_core_option_v2_category option_cats_chs[] = {
     { "gpu", CATEGORY_GPU_LABEL_CHS, CATEGORY_GPU_INFO_0_CHS },
@@ -2272,6 +4078,10 @@ struct retro_core_option_v2_category option_cats_chs[] = {
     { "system", CATEGORY_SYSTEM_LABEL_CHS, CATEGORY_SYSTEM_INFO_0_CHS },
     { "audio", CATEGORY_AUDIO_LABEL_CHS, CATEGORY_AUDIO_INFO_0_CHS },
     { "network", CATEGORY_NETWORK_LABEL_CHS, CATEGORY_NETWORK_INFO_0_CHS },
+    { "install", CATEGORY_INSTALL_LABEL_CHS, CATEGORY_INSTALL_INFO_0_CHS },
+    { "camera", CATEGORY_CAMERA_LABEL_CHS, CATEGORY_CAMERA_INFO_0_CHS },
+    { "accounts", CATEGORY_ACCOUNTS_LABEL_CHS, CATEGORY_ACCOUNTS_INFO_0_CHS },
+    { "modules", CATEGORY_MODULES_LABEL_CHS, CATEGORY_MODULES_INFO_0_CHS },
     { NULL, NULL, NULL },
 };
 struct retro_core_option_v2_definition option_defs_chs[] = {
@@ -2435,9 +4245,10 @@ struct retro_core_option_v2_definition option_defs_chs[] = {
         NULL,
         VITA3K_PKG_MODE_INFO_0_CHS,
         NULL,
-        "system",
+        "install",
         {
             { "run", OPTION_VAL_RUN_CHS },
+            { "cache", OPTION_VAL_CACHE_CHS },
             { "install", OPTION_VAL_INSTALL_CHS },
             { NULL, NULL },
         },
@@ -2500,6 +4311,67 @@ struct retro_core_option_v2_definition option_defs_chs[] = {
         },
         "1"
     },
+    {
+        "vita3k_sys_lang",
+        VITA3K_SYS_LANG_LABEL_CHS,
+        NULL,
+        VITA3K_SYS_LANG_INFO_0_CHS,
+        NULL,
+        "system",
+        {
+            { "0", OPTION_VAL_0_VITA3K_SYS_LANG_CHS },
+            { "1", OPTION_VAL_1_VITA3K_SYS_LANG_CHS },
+            { "2", OPTION_VAL_2_VITA3K_SYS_LANG_CHS },
+            { "3", OPTION_VAL_3_VITA3K_SYS_LANG_CHS },
+            { "4", OPTION_VAL_4_VITA3K_SYS_LANG_CHS },
+            { "5", OPTION_VAL_5_CHS },
+            { "6", OPTION_VAL_6_CHS },
+            { "7", OPTION_VAL_7_CHS },
+            { "8", OPTION_VAL_8_VITA3K_SYS_LANG_CHS },
+            { "9", OPTION_VAL_9_CHS },
+            { "10", OPTION_VAL_10_CHS },
+            { "11", OPTION_VAL_11_CHS },
+            { "12", OPTION_VAL_12_CHS },
+            { "13", OPTION_VAL_13_CHS },
+            { "14", OPTION_VAL_14_CHS },
+            { "15", OPTION_VAL_15_CHS },
+            { "16", OPTION_VAL_16_VITA3K_SYS_LANG_CHS },
+            { "17", OPTION_VAL_17_CHS },
+            { "18", OPTION_VAL_18_CHS },
+            { "19", OPTION_VAL_19_CHS },
+            { NULL, NULL },
+        },
+        "1"
+    },
+    {
+        "vita3k_sys_date_format",
+        VITA3K_SYS_DATE_FORMAT_LABEL_CHS,
+        NULL,
+        VITA3K_SYS_DATE_FORMAT_INFO_0_CHS,
+        NULL,
+        "system",
+        {
+            { "0", OPTION_VAL_0_VITA3K_SYS_DATE_FORMAT_CHS },
+            { "1", OPTION_VAL_1_VITA3K_SYS_DATE_FORMAT_CHS },
+            { "2", OPTION_VAL_2_VITA3K_SYS_DATE_FORMAT_CHS },
+            { NULL, NULL },
+        },
+        "2"
+    },
+    {
+        "vita3k_sys_time_format",
+        VITA3K_SYS_TIME_FORMAT_LABEL_CHS,
+        NULL,
+        VITA3K_SYS_TIME_FORMAT_INFO_0_CHS,
+        NULL,
+        "system",
+        {
+            { "0", OPTION_VAL_0_VITA3K_SYS_TIME_FORMAT_CHS },
+            { "1", OPTION_VAL_1_VITA3K_SYS_TIME_FORMAT_CHS },
+            { NULL, NULL },
+        },
+        "0"
+    },
     // ── Audio ────────────────────────────────────────────────────────────
     {
         "vita3k_audio_volume",
@@ -2510,7 +4382,7 @@ struct retro_core_option_v2_definition option_defs_chs[] = {
         "audio",
         {
             { "0", OPTION_VAL_0_VITA3K_AUDIO_VOLUME_CHS },
-            { "10", OPTION_VAL_10_CHS },
+            { "10", OPTION_VAL_10_VITA3K_AUDIO_VOLUME_CHS },
             { "20", OPTION_VAL_20_CHS },
             { "30", OPTION_VAL_30_CHS },
             { "40", OPTION_VAL_40_CHS },
@@ -2554,6 +4426,204 @@ struct retro_core_option_v2_definition option_defs_chs[] = {
         "disabled"
     },
     {
+        "vita3k_http_enable",
+        VITA3K_HTTP_ENABLE_LABEL_CHS,
+        NULL,
+        VITA3K_HTTP_ENABLE_INFO_0_CHS,
+        NULL,
+        "network",
+        {
+            { "enabled", NULL },
+            { "disabled", NULL },
+            { NULL, NULL },
+        },
+        "enabled"
+    },
+    {
+        "vita3k_http_timeout_attempts",
+        VITA3K_HTTP_TIMEOUT_ATTEMPTS_LABEL_CHS,
+        NULL,
+        VITA3K_HTTP_TIMEOUT_ATTEMPTS_INFO_0_CHS,
+        NULL,
+        "network",
+        {
+            { "0", NULL },
+            { "5", NULL },
+            { "10", NULL },
+            { "15", NULL },
+            { "20", NULL },
+            { "25", NULL },
+            { "30", NULL },
+            { "35", NULL },
+            { "40", NULL },
+            { "45", NULL },
+            { "50", NULL },
+            { "55", NULL },
+            { "60", NULL },
+            { "65", NULL },
+            { "70", NULL },
+            { "75", NULL },
+            { "80", NULL },
+            { "85", NULL },
+            { "90", NULL },
+            { "95", NULL },
+            { "100", NULL },
+            { NULL, NULL },
+        },
+        "50"
+    },
+    {
+        "vita3k_http_timeout_sleep",
+        VITA3K_HTTP_TIMEOUT_SLEEP_LABEL_CHS,
+        NULL,
+        VITA3K_HTTP_TIMEOUT_SLEEP_INFO_0_CHS,
+        NULL,
+        "network",
+        {
+            { "50", OPTION_VAL_50_VITA3K_HTTP_TIMEOUT_SLEEP_CHS },
+            { "100", OPTION_VAL_100_VITA3K_HTTP_TIMEOUT_SLEEP_CHS },
+            { "150", OPTION_VAL_150_CHS },
+            { "200", OPTION_VAL_200_CHS },
+            { "250", OPTION_VAL_250_CHS },
+            { "300", OPTION_VAL_300_CHS },
+            { "400", OPTION_VAL_400_CHS },
+            { "500", OPTION_VAL_500_CHS },
+            { "750", OPTION_VAL_750_CHS },
+            { "1000", OPTION_VAL_1000_CHS },
+            { "1500", OPTION_VAL_1500_CHS },
+            { "2000", OPTION_VAL_2000_CHS },
+            { "2500", OPTION_VAL_2500_CHS },
+            { "3000", OPTION_VAL_3000_CHS },
+            { NULL, NULL },
+        },
+        "100"
+    },
+    {
+        "vita3k_http_read_end_attempts",
+        VITA3K_HTTP_READ_END_ATTEMPTS_LABEL_CHS,
+        NULL,
+        VITA3K_HTTP_READ_END_ATTEMPTS_INFO_0_CHS,
+        NULL,
+        "network",
+        {
+            { "0", NULL },
+            { "5", NULL },
+            { "10", NULL },
+            { "15", NULL },
+            { "20", NULL },
+            { "25", NULL },
+            { "30", NULL },
+            { "35", NULL },
+            { "40", NULL },
+            { "45", NULL },
+            { "50", NULL },
+            { "55", NULL },
+            { "60", NULL },
+            { "65", NULL },
+            { "70", NULL },
+            { "75", NULL },
+            { "80", NULL },
+            { "85", NULL },
+            { "90", NULL },
+            { "95", NULL },
+            { "100", NULL },
+            { NULL, NULL },
+        },
+        "10"
+    },
+    {
+        "vita3k_http_read_end_sleep",
+        VITA3K_HTTP_READ_END_SLEEP_LABEL_CHS,
+        NULL,
+        VITA3K_HTTP_READ_END_SLEEP_INFO_0_CHS,
+        NULL,
+        "network",
+        {
+            { "50", OPTION_VAL_50_VITA3K_HTTP_TIMEOUT_SLEEP_CHS },
+            { "100", OPTION_VAL_100_VITA3K_HTTP_TIMEOUT_SLEEP_CHS },
+            { "150", OPTION_VAL_150_CHS },
+            { "200", OPTION_VAL_200_CHS },
+            { "250", OPTION_VAL_250_CHS },
+            { "300", OPTION_VAL_300_CHS },
+            { "400", OPTION_VAL_400_CHS },
+            { "500", OPTION_VAL_500_CHS },
+            { "750", OPTION_VAL_750_CHS },
+            { "1000", OPTION_VAL_1000_CHS },
+            { "1500", OPTION_VAL_1500_CHS },
+            { "2000", OPTION_VAL_2000_CHS },
+            { "2500", OPTION_VAL_2500_CHS },
+            { "3000", OPTION_VAL_3000_CHS },
+            { NULL, NULL },
+        },
+        "250"
+    },
+    {
+        "vita3k_front_camera",
+        VITA3K_FRONT_CAMERA_LABEL_CHS,
+        NULL,
+        VITA3K_FRONT_CAMERA_INFO_0_CHS,
+        NULL,
+        "camera",
+        {
+            { "host", OPTION_VAL_HOST_CHS },
+            { "image", OPTION_VAL_IMAGE_CHS },
+            { "color", OPTION_VAL_COLOR_CHS },
+            { NULL, NULL },
+        },
+        "host"
+    },
+    {
+        "vita3k_front_camera_color",
+        VITA3K_FRONT_CAMERA_COLOR_LABEL_CHS,
+        NULL,
+        VITA3K_FRONT_CAMERA_COLOR_INFO_0_CHS,
+        NULL,
+        "camera",
+        {
+            { "0", OPTION_VAL_0_VITA3K_FRONT_CAMERA_COLOR_CHS },
+            { "16777215", OPTION_VAL_16777215_CHS },
+            { "8421504", OPTION_VAL_8421504_CHS },
+            { "255", OPTION_VAL_255_CHS },
+            { "65280", OPTION_VAL_65280_CHS },
+            { "16711680", OPTION_VAL_16711680_CHS },
+            { NULL, NULL },
+        },
+        "0"
+    },
+    {
+        "vita3k_back_camera",
+        VITA3K_BACK_CAMERA_LABEL_CHS,
+        NULL,
+        VITA3K_BACK_CAMERA_INFO_0_CHS,
+        NULL,
+        "camera",
+        {
+            { "host", OPTION_VAL_HOST_CHS },
+            { "image", OPTION_VAL_IMAGE_CHS },
+            { "color", OPTION_VAL_COLOR_CHS },
+            { NULL, NULL },
+        },
+        "host"
+    },
+    {
+        "vita3k_back_camera_color",
+        VITA3K_BACK_CAMERA_COLOR_LABEL_CHS,
+        NULL,
+        VITA3K_BACK_CAMERA_COLOR_INFO_0_CHS,
+        NULL,
+        "camera",
+        {
+            { "0", OPTION_VAL_0_VITA3K_FRONT_CAMERA_COLOR_CHS },
+            { "16777215", OPTION_VAL_16777215_CHS },
+            { "8421504", OPTION_VAL_8421504_CHS },
+            { "255", OPTION_VAL_255_CHS },
+            { "65280", OPTION_VAL_65280_CHS },
+            { "16711680", OPTION_VAL_16711680_CHS },
+            { NULL, NULL },
+        },
+        "0"
+    },
+    {
         "vita3k_surface_sync",
         VITA3K_SURFACE_SYNC_LABEL_CHS,
         NULL,
@@ -2576,9 +4646,9 @@ struct retro_core_option_v2_definition option_defs_chs[] = {
         "system",
         {
             { "0", OPTION_VAL_0_VITA3K_FILE_LOADING_DELAY_CHS },
-            { "5", OPTION_VAL_5_CHS },
+            { "5", OPTION_VAL_5_VITA3K_FILE_LOADING_DELAY_CHS },
             { "10", OPTION_VAL_10_VITA3K_FILE_LOADING_DELAY_CHS },
-            { "15", OPTION_VAL_15_CHS },
+            { "15", OPTION_VAL_15_VITA3K_FILE_LOADING_DELAY_CHS },
             { "20", OPTION_VAL_20_VITA3K_FILE_LOADING_DELAY_CHS },
             { "25", OPTION_VAL_25_CHS },
             { "30", OPTION_VAL_30_VITA3K_FILE_LOADING_DELAY_CHS },
@@ -2605,6 +4675,14 @@ struct retro_core_options_v2 options_chs = {
 #define CATEGORY_AUDIO_INFO_0_CHT NULL
 #define CATEGORY_NETWORK_LABEL_CHT "網路"
 #define CATEGORY_NETWORK_INFO_0_CHT NULL
+#define CATEGORY_INSTALL_LABEL_CHT "媒體"
+#define CATEGORY_INSTALL_INFO_0_CHT NULL
+#define CATEGORY_CAMERA_LABEL_CHT "鏡頭"
+#define CATEGORY_CAMERA_INFO_0_CHT NULL
+#define CATEGORY_ACCOUNTS_LABEL_CHT "帳號"
+#define CATEGORY_ACCOUNTS_INFO_0_CHT NULL
+#define CATEGORY_MODULES_LABEL_CHT NULL
+#define CATEGORY_MODULES_INFO_0_CHT NULL
 #define VITA3K_BACKEND_RENDERER_LABEL_CHT NULL
 #define VITA3K_BACKEND_RENDERER_INFO_0_CHT NULL
 #define OPTION_VAL_VULKAN_CHT NULL
@@ -2647,6 +4725,7 @@ struct retro_core_options_v2 options_chs = {
 #define VITA3K_PKG_MODE_LABEL_CHT NULL
 #define VITA3K_PKG_MODE_INFO_0_CHT NULL
 #define OPTION_VAL_RUN_CHT NULL
+#define OPTION_VAL_CACHE_CHT NULL
 #define OPTION_VAL_INSTALL_CHT NULL
 #define VITA3K_PSTV_MODE_LABEL_CHT NULL
 #define VITA3K_PSTV_MODE_INFO_0_CHT NULL
@@ -2661,10 +4740,41 @@ struct retro_core_options_v2 options_chs = {
 #define VITA3K_SYS_BUTTON_INFO_0_CHT NULL
 #define OPTION_VAL_0_VITA3K_SYS_BUTTON_CHT NULL
 #define OPTION_VAL_1_VITA3K_SYS_BUTTON_CHT "十字"
+#define VITA3K_SYS_LANG_LABEL_CHT NULL
+#define VITA3K_SYS_LANG_INFO_0_CHT NULL
+#define OPTION_VAL_0_VITA3K_SYS_LANG_CHT "日語"
+#define OPTION_VAL_1_VITA3K_SYS_LANG_CHT NULL
+#define OPTION_VAL_2_VITA3K_SYS_LANG_CHT "法語"
+#define OPTION_VAL_3_VITA3K_SYS_LANG_CHT "西班牙語"
+#define OPTION_VAL_4_VITA3K_SYS_LANG_CHT "德語"
+#define OPTION_VAL_5_CHT "意大利語"
+#define OPTION_VAL_6_CHT NULL
+#define OPTION_VAL_7_CHT NULL
+#define OPTION_VAL_8_VITA3K_SYS_LANG_CHT NULL
+#define OPTION_VAL_9_CHT NULL
+#define OPTION_VAL_10_CHT NULL
+#define OPTION_VAL_11_CHT NULL
+#define OPTION_VAL_12_CHT NULL
+#define OPTION_VAL_13_CHT NULL
+#define OPTION_VAL_14_CHT NULL
+#define OPTION_VAL_15_CHT NULL
+#define OPTION_VAL_16_VITA3K_SYS_LANG_CHT NULL
+#define OPTION_VAL_17_CHT NULL
+#define OPTION_VAL_18_CHT NULL
+#define OPTION_VAL_19_CHT NULL
+#define VITA3K_SYS_DATE_FORMAT_LABEL_CHT NULL
+#define VITA3K_SYS_DATE_FORMAT_INFO_0_CHT NULL
+#define OPTION_VAL_0_VITA3K_SYS_DATE_FORMAT_CHT NULL
+#define OPTION_VAL_1_VITA3K_SYS_DATE_FORMAT_CHT NULL
+#define OPTION_VAL_2_VITA3K_SYS_DATE_FORMAT_CHT NULL
+#define VITA3K_SYS_TIME_FORMAT_LABEL_CHT NULL
+#define VITA3K_SYS_TIME_FORMAT_INFO_0_CHT NULL
+#define OPTION_VAL_0_VITA3K_SYS_TIME_FORMAT_CHT NULL
+#define OPTION_VAL_1_VITA3K_SYS_TIME_FORMAT_CHT NULL
 #define VITA3K_AUDIO_VOLUME_LABEL_CHT NULL
 #define VITA3K_AUDIO_VOLUME_INFO_0_CHT NULL
 #define OPTION_VAL_0_VITA3K_AUDIO_VOLUME_CHT NULL
-#define OPTION_VAL_10_CHT NULL
+#define OPTION_VAL_10_VITA3K_AUDIO_VOLUME_CHT NULL
 #define OPTION_VAL_20_CHT NULL
 #define OPTION_VAL_30_CHT NULL
 #define OPTION_VAL_40_CHT NULL
@@ -2678,6 +4788,47 @@ struct retro_core_options_v2 options_chs = {
 #define VITA3K_NGS_ENABLE_INFO_0_CHT NULL
 #define VITA3K_PSN_SIGNED_IN_LABEL_CHT NULL
 #define VITA3K_PSN_SIGNED_IN_INFO_0_CHT NULL
+#define VITA3K_HTTP_ENABLE_LABEL_CHT NULL
+#define VITA3K_HTTP_ENABLE_INFO_0_CHT NULL
+#define VITA3K_HTTP_TIMEOUT_ATTEMPTS_LABEL_CHT NULL
+#define VITA3K_HTTP_TIMEOUT_ATTEMPTS_INFO_0_CHT NULL
+#define VITA3K_HTTP_TIMEOUT_SLEEP_LABEL_CHT NULL
+#define VITA3K_HTTP_TIMEOUT_SLEEP_INFO_0_CHT NULL
+#define OPTION_VAL_50_VITA3K_HTTP_TIMEOUT_SLEEP_CHT NULL
+#define OPTION_VAL_100_VITA3K_HTTP_TIMEOUT_SLEEP_CHT NULL
+#define OPTION_VAL_150_CHT NULL
+#define OPTION_VAL_200_CHT NULL
+#define OPTION_VAL_250_CHT NULL
+#define OPTION_VAL_300_CHT NULL
+#define OPTION_VAL_400_CHT NULL
+#define OPTION_VAL_500_CHT NULL
+#define OPTION_VAL_750_CHT NULL
+#define OPTION_VAL_1000_CHT NULL
+#define OPTION_VAL_1500_CHT NULL
+#define OPTION_VAL_2000_CHT NULL
+#define OPTION_VAL_2500_CHT NULL
+#define OPTION_VAL_3000_CHT NULL
+#define VITA3K_HTTP_READ_END_ATTEMPTS_LABEL_CHT NULL
+#define VITA3K_HTTP_READ_END_ATTEMPTS_INFO_0_CHT NULL
+#define VITA3K_HTTP_READ_END_SLEEP_LABEL_CHT NULL
+#define VITA3K_HTTP_READ_END_SLEEP_INFO_0_CHT NULL
+#define VITA3K_FRONT_CAMERA_LABEL_CHT NULL
+#define VITA3K_FRONT_CAMERA_INFO_0_CHT NULL
+#define OPTION_VAL_HOST_CHT NULL
+#define OPTION_VAL_IMAGE_CHT NULL
+#define OPTION_VAL_COLOR_CHT NULL
+#define VITA3K_FRONT_CAMERA_COLOR_LABEL_CHT NULL
+#define VITA3K_FRONT_CAMERA_COLOR_INFO_0_CHT NULL
+#define OPTION_VAL_0_VITA3K_FRONT_CAMERA_COLOR_CHT "黑色"
+#define OPTION_VAL_16777215_CHT "白色"
+#define OPTION_VAL_8421504_CHT "灰色"
+#define OPTION_VAL_255_CHT "亮紅色"
+#define OPTION_VAL_65280_CHT "亮綠色"
+#define OPTION_VAL_16711680_CHT "亮藍色"
+#define VITA3K_BACK_CAMERA_LABEL_CHT NULL
+#define VITA3K_BACK_CAMERA_INFO_0_CHT NULL
+#define VITA3K_BACK_CAMERA_COLOR_LABEL_CHT NULL
+#define VITA3K_BACK_CAMERA_COLOR_INFO_0_CHT NULL
 #define VITA3K_SURFACE_SYNC_LABEL_CHT NULL
 #define VITA3K_SURFACE_SYNC_INFO_0_CHT NULL
 #define OPTION_VAL_ENABLED_CHT NULL
@@ -2685,9 +4836,9 @@ struct retro_core_options_v2 options_chs = {
 #define VITA3K_FILE_LOADING_DELAY_LABEL_CHT NULL
 #define VITA3K_FILE_LOADING_DELAY_INFO_0_CHT NULL
 #define OPTION_VAL_0_VITA3K_FILE_LOADING_DELAY_CHT NULL
-#define OPTION_VAL_5_CHT NULL
+#define OPTION_VAL_5_VITA3K_FILE_LOADING_DELAY_CHT NULL
 #define OPTION_VAL_10_VITA3K_FILE_LOADING_DELAY_CHT NULL
-#define OPTION_VAL_15_CHT NULL
+#define OPTION_VAL_15_VITA3K_FILE_LOADING_DELAY_CHT NULL
 #define OPTION_VAL_20_VITA3K_FILE_LOADING_DELAY_CHT NULL
 #define OPTION_VAL_25_CHT NULL
 #define OPTION_VAL_30_VITA3K_FILE_LOADING_DELAY_CHT NULL
@@ -2698,6 +4849,10 @@ struct retro_core_option_v2_category option_cats_cht[] = {
     { "system", CATEGORY_SYSTEM_LABEL_CHT, CATEGORY_SYSTEM_INFO_0_CHT },
     { "audio", CATEGORY_AUDIO_LABEL_CHT, CATEGORY_AUDIO_INFO_0_CHT },
     { "network", CATEGORY_NETWORK_LABEL_CHT, CATEGORY_NETWORK_INFO_0_CHT },
+    { "install", CATEGORY_INSTALL_LABEL_CHT, CATEGORY_INSTALL_INFO_0_CHT },
+    { "camera", CATEGORY_CAMERA_LABEL_CHT, CATEGORY_CAMERA_INFO_0_CHT },
+    { "accounts", CATEGORY_ACCOUNTS_LABEL_CHT, CATEGORY_ACCOUNTS_INFO_0_CHT },
+    { "modules", CATEGORY_MODULES_LABEL_CHT, CATEGORY_MODULES_INFO_0_CHT },
     { NULL, NULL, NULL },
 };
 struct retro_core_option_v2_definition option_defs_cht[] = {
@@ -2861,9 +5016,10 @@ struct retro_core_option_v2_definition option_defs_cht[] = {
         NULL,
         VITA3K_PKG_MODE_INFO_0_CHT,
         NULL,
-        "system",
+        "install",
         {
             { "run", OPTION_VAL_RUN_CHT },
+            { "cache", OPTION_VAL_CACHE_CHT },
             { "install", OPTION_VAL_INSTALL_CHT },
             { NULL, NULL },
         },
@@ -2926,6 +5082,67 @@ struct retro_core_option_v2_definition option_defs_cht[] = {
         },
         "1"
     },
+    {
+        "vita3k_sys_lang",
+        VITA3K_SYS_LANG_LABEL_CHT,
+        NULL,
+        VITA3K_SYS_LANG_INFO_0_CHT,
+        NULL,
+        "system",
+        {
+            { "0", OPTION_VAL_0_VITA3K_SYS_LANG_CHT },
+            { "1", OPTION_VAL_1_VITA3K_SYS_LANG_CHT },
+            { "2", OPTION_VAL_2_VITA3K_SYS_LANG_CHT },
+            { "3", OPTION_VAL_3_VITA3K_SYS_LANG_CHT },
+            { "4", OPTION_VAL_4_VITA3K_SYS_LANG_CHT },
+            { "5", OPTION_VAL_5_CHT },
+            { "6", OPTION_VAL_6_CHT },
+            { "7", OPTION_VAL_7_CHT },
+            { "8", OPTION_VAL_8_VITA3K_SYS_LANG_CHT },
+            { "9", OPTION_VAL_9_CHT },
+            { "10", OPTION_VAL_10_CHT },
+            { "11", OPTION_VAL_11_CHT },
+            { "12", OPTION_VAL_12_CHT },
+            { "13", OPTION_VAL_13_CHT },
+            { "14", OPTION_VAL_14_CHT },
+            { "15", OPTION_VAL_15_CHT },
+            { "16", OPTION_VAL_16_VITA3K_SYS_LANG_CHT },
+            { "17", OPTION_VAL_17_CHT },
+            { "18", OPTION_VAL_18_CHT },
+            { "19", OPTION_VAL_19_CHT },
+            { NULL, NULL },
+        },
+        "1"
+    },
+    {
+        "vita3k_sys_date_format",
+        VITA3K_SYS_DATE_FORMAT_LABEL_CHT,
+        NULL,
+        VITA3K_SYS_DATE_FORMAT_INFO_0_CHT,
+        NULL,
+        "system",
+        {
+            { "0", OPTION_VAL_0_VITA3K_SYS_DATE_FORMAT_CHT },
+            { "1", OPTION_VAL_1_VITA3K_SYS_DATE_FORMAT_CHT },
+            { "2", OPTION_VAL_2_VITA3K_SYS_DATE_FORMAT_CHT },
+            { NULL, NULL },
+        },
+        "2"
+    },
+    {
+        "vita3k_sys_time_format",
+        VITA3K_SYS_TIME_FORMAT_LABEL_CHT,
+        NULL,
+        VITA3K_SYS_TIME_FORMAT_INFO_0_CHT,
+        NULL,
+        "system",
+        {
+            { "0", OPTION_VAL_0_VITA3K_SYS_TIME_FORMAT_CHT },
+            { "1", OPTION_VAL_1_VITA3K_SYS_TIME_FORMAT_CHT },
+            { NULL, NULL },
+        },
+        "0"
+    },
     // ── Audio ────────────────────────────────────────────────────────────
     {
         "vita3k_audio_volume",
@@ -2936,7 +5153,7 @@ struct retro_core_option_v2_definition option_defs_cht[] = {
         "audio",
         {
             { "0", OPTION_VAL_0_VITA3K_AUDIO_VOLUME_CHT },
-            { "10", OPTION_VAL_10_CHT },
+            { "10", OPTION_VAL_10_VITA3K_AUDIO_VOLUME_CHT },
             { "20", OPTION_VAL_20_CHT },
             { "30", OPTION_VAL_30_CHT },
             { "40", OPTION_VAL_40_CHT },
@@ -2980,6 +5197,204 @@ struct retro_core_option_v2_definition option_defs_cht[] = {
         "disabled"
     },
     {
+        "vita3k_http_enable",
+        VITA3K_HTTP_ENABLE_LABEL_CHT,
+        NULL,
+        VITA3K_HTTP_ENABLE_INFO_0_CHT,
+        NULL,
+        "network",
+        {
+            { "enabled", NULL },
+            { "disabled", NULL },
+            { NULL, NULL },
+        },
+        "enabled"
+    },
+    {
+        "vita3k_http_timeout_attempts",
+        VITA3K_HTTP_TIMEOUT_ATTEMPTS_LABEL_CHT,
+        NULL,
+        VITA3K_HTTP_TIMEOUT_ATTEMPTS_INFO_0_CHT,
+        NULL,
+        "network",
+        {
+            { "0", NULL },
+            { "5", NULL },
+            { "10", NULL },
+            { "15", NULL },
+            { "20", NULL },
+            { "25", NULL },
+            { "30", NULL },
+            { "35", NULL },
+            { "40", NULL },
+            { "45", NULL },
+            { "50", NULL },
+            { "55", NULL },
+            { "60", NULL },
+            { "65", NULL },
+            { "70", NULL },
+            { "75", NULL },
+            { "80", NULL },
+            { "85", NULL },
+            { "90", NULL },
+            { "95", NULL },
+            { "100", NULL },
+            { NULL, NULL },
+        },
+        "50"
+    },
+    {
+        "vita3k_http_timeout_sleep",
+        VITA3K_HTTP_TIMEOUT_SLEEP_LABEL_CHT,
+        NULL,
+        VITA3K_HTTP_TIMEOUT_SLEEP_INFO_0_CHT,
+        NULL,
+        "network",
+        {
+            { "50", OPTION_VAL_50_VITA3K_HTTP_TIMEOUT_SLEEP_CHT },
+            { "100", OPTION_VAL_100_VITA3K_HTTP_TIMEOUT_SLEEP_CHT },
+            { "150", OPTION_VAL_150_CHT },
+            { "200", OPTION_VAL_200_CHT },
+            { "250", OPTION_VAL_250_CHT },
+            { "300", OPTION_VAL_300_CHT },
+            { "400", OPTION_VAL_400_CHT },
+            { "500", OPTION_VAL_500_CHT },
+            { "750", OPTION_VAL_750_CHT },
+            { "1000", OPTION_VAL_1000_CHT },
+            { "1500", OPTION_VAL_1500_CHT },
+            { "2000", OPTION_VAL_2000_CHT },
+            { "2500", OPTION_VAL_2500_CHT },
+            { "3000", OPTION_VAL_3000_CHT },
+            { NULL, NULL },
+        },
+        "100"
+    },
+    {
+        "vita3k_http_read_end_attempts",
+        VITA3K_HTTP_READ_END_ATTEMPTS_LABEL_CHT,
+        NULL,
+        VITA3K_HTTP_READ_END_ATTEMPTS_INFO_0_CHT,
+        NULL,
+        "network",
+        {
+            { "0", NULL },
+            { "5", NULL },
+            { "10", NULL },
+            { "15", NULL },
+            { "20", NULL },
+            { "25", NULL },
+            { "30", NULL },
+            { "35", NULL },
+            { "40", NULL },
+            { "45", NULL },
+            { "50", NULL },
+            { "55", NULL },
+            { "60", NULL },
+            { "65", NULL },
+            { "70", NULL },
+            { "75", NULL },
+            { "80", NULL },
+            { "85", NULL },
+            { "90", NULL },
+            { "95", NULL },
+            { "100", NULL },
+            { NULL, NULL },
+        },
+        "10"
+    },
+    {
+        "vita3k_http_read_end_sleep",
+        VITA3K_HTTP_READ_END_SLEEP_LABEL_CHT,
+        NULL,
+        VITA3K_HTTP_READ_END_SLEEP_INFO_0_CHT,
+        NULL,
+        "network",
+        {
+            { "50", OPTION_VAL_50_VITA3K_HTTP_TIMEOUT_SLEEP_CHT },
+            { "100", OPTION_VAL_100_VITA3K_HTTP_TIMEOUT_SLEEP_CHT },
+            { "150", OPTION_VAL_150_CHT },
+            { "200", OPTION_VAL_200_CHT },
+            { "250", OPTION_VAL_250_CHT },
+            { "300", OPTION_VAL_300_CHT },
+            { "400", OPTION_VAL_400_CHT },
+            { "500", OPTION_VAL_500_CHT },
+            { "750", OPTION_VAL_750_CHT },
+            { "1000", OPTION_VAL_1000_CHT },
+            { "1500", OPTION_VAL_1500_CHT },
+            { "2000", OPTION_VAL_2000_CHT },
+            { "2500", OPTION_VAL_2500_CHT },
+            { "3000", OPTION_VAL_3000_CHT },
+            { NULL, NULL },
+        },
+        "250"
+    },
+    {
+        "vita3k_front_camera",
+        VITA3K_FRONT_CAMERA_LABEL_CHT,
+        NULL,
+        VITA3K_FRONT_CAMERA_INFO_0_CHT,
+        NULL,
+        "camera",
+        {
+            { "host", OPTION_VAL_HOST_CHT },
+            { "image", OPTION_VAL_IMAGE_CHT },
+            { "color", OPTION_VAL_COLOR_CHT },
+            { NULL, NULL },
+        },
+        "host"
+    },
+    {
+        "vita3k_front_camera_color",
+        VITA3K_FRONT_CAMERA_COLOR_LABEL_CHT,
+        NULL,
+        VITA3K_FRONT_CAMERA_COLOR_INFO_0_CHT,
+        NULL,
+        "camera",
+        {
+            { "0", OPTION_VAL_0_VITA3K_FRONT_CAMERA_COLOR_CHT },
+            { "16777215", OPTION_VAL_16777215_CHT },
+            { "8421504", OPTION_VAL_8421504_CHT },
+            { "255", OPTION_VAL_255_CHT },
+            { "65280", OPTION_VAL_65280_CHT },
+            { "16711680", OPTION_VAL_16711680_CHT },
+            { NULL, NULL },
+        },
+        "0"
+    },
+    {
+        "vita3k_back_camera",
+        VITA3K_BACK_CAMERA_LABEL_CHT,
+        NULL,
+        VITA3K_BACK_CAMERA_INFO_0_CHT,
+        NULL,
+        "camera",
+        {
+            { "host", OPTION_VAL_HOST_CHT },
+            { "image", OPTION_VAL_IMAGE_CHT },
+            { "color", OPTION_VAL_COLOR_CHT },
+            { NULL, NULL },
+        },
+        "host"
+    },
+    {
+        "vita3k_back_camera_color",
+        VITA3K_BACK_CAMERA_COLOR_LABEL_CHT,
+        NULL,
+        VITA3K_BACK_CAMERA_COLOR_INFO_0_CHT,
+        NULL,
+        "camera",
+        {
+            { "0", OPTION_VAL_0_VITA3K_FRONT_CAMERA_COLOR_CHT },
+            { "16777215", OPTION_VAL_16777215_CHT },
+            { "8421504", OPTION_VAL_8421504_CHT },
+            { "255", OPTION_VAL_255_CHT },
+            { "65280", OPTION_VAL_65280_CHT },
+            { "16711680", OPTION_VAL_16711680_CHT },
+            { NULL, NULL },
+        },
+        "0"
+    },
+    {
         "vita3k_surface_sync",
         VITA3K_SURFACE_SYNC_LABEL_CHT,
         NULL,
@@ -3002,9 +5417,9 @@ struct retro_core_option_v2_definition option_defs_cht[] = {
         "system",
         {
             { "0", OPTION_VAL_0_VITA3K_FILE_LOADING_DELAY_CHT },
-            { "5", OPTION_VAL_5_CHT },
+            { "5", OPTION_VAL_5_VITA3K_FILE_LOADING_DELAY_CHT },
             { "10", OPTION_VAL_10_VITA3K_FILE_LOADING_DELAY_CHT },
-            { "15", OPTION_VAL_15_CHT },
+            { "15", OPTION_VAL_15_VITA3K_FILE_LOADING_DELAY_CHT },
             { "20", OPTION_VAL_20_VITA3K_FILE_LOADING_DELAY_CHT },
             { "25", OPTION_VAL_25_CHT },
             { "30", OPTION_VAL_30_VITA3K_FILE_LOADING_DELAY_CHT },
@@ -3031,6 +5446,14 @@ struct retro_core_options_v2 options_cht = {
 #define CATEGORY_AUDIO_INFO_0_CS NULL
 #define CATEGORY_NETWORK_LABEL_CS "Síť"
 #define CATEGORY_NETWORK_INFO_0_CS NULL
+#define CATEGORY_INSTALL_LABEL_CS "Obsah"
+#define CATEGORY_INSTALL_INFO_0_CS NULL
+#define CATEGORY_CAMERA_LABEL_CS "Kamera"
+#define CATEGORY_CAMERA_INFO_0_CS NULL
+#define CATEGORY_ACCOUNTS_LABEL_CS "Účty"
+#define CATEGORY_ACCOUNTS_INFO_0_CS NULL
+#define CATEGORY_MODULES_LABEL_CS NULL
+#define CATEGORY_MODULES_INFO_0_CS NULL
 #define VITA3K_BACKEND_RENDERER_LABEL_CS NULL
 #define VITA3K_BACKEND_RENDERER_INFO_0_CS NULL
 #define OPTION_VAL_VULKAN_CS NULL
@@ -3073,6 +5496,7 @@ struct retro_core_options_v2 options_cht = {
 #define VITA3K_PKG_MODE_LABEL_CS NULL
 #define VITA3K_PKG_MODE_INFO_0_CS NULL
 #define OPTION_VAL_RUN_CS NULL
+#define OPTION_VAL_CACHE_CS NULL
 #define OPTION_VAL_INSTALL_CS NULL
 #define VITA3K_PSTV_MODE_LABEL_CS NULL
 #define VITA3K_PSTV_MODE_INFO_0_CS NULL
@@ -3087,10 +5511,41 @@ struct retro_core_options_v2 options_cht = {
 #define VITA3K_SYS_BUTTON_INFO_0_CS NULL
 #define OPTION_VAL_0_VITA3K_SYS_BUTTON_CS NULL
 #define OPTION_VAL_1_VITA3K_SYS_BUTTON_CS "Kříž"
+#define VITA3K_SYS_LANG_LABEL_CS NULL
+#define VITA3K_SYS_LANG_INFO_0_CS NULL
+#define OPTION_VAL_0_VITA3K_SYS_LANG_CS "Japonština"
+#define OPTION_VAL_1_VITA3K_SYS_LANG_CS NULL
+#define OPTION_VAL_2_VITA3K_SYS_LANG_CS "Francouzština"
+#define OPTION_VAL_3_VITA3K_SYS_LANG_CS "Španělština"
+#define OPTION_VAL_4_VITA3K_SYS_LANG_CS "Němčina"
+#define OPTION_VAL_5_CS "Italský"
+#define OPTION_VAL_6_CS NULL
+#define OPTION_VAL_7_CS NULL
+#define OPTION_VAL_8_VITA3K_SYS_LANG_CS NULL
+#define OPTION_VAL_9_CS NULL
+#define OPTION_VAL_10_CS NULL
+#define OPTION_VAL_11_CS NULL
+#define OPTION_VAL_12_CS NULL
+#define OPTION_VAL_13_CS NULL
+#define OPTION_VAL_14_CS NULL
+#define OPTION_VAL_15_CS NULL
+#define OPTION_VAL_16_VITA3K_SYS_LANG_CS NULL
+#define OPTION_VAL_17_CS NULL
+#define OPTION_VAL_18_CS NULL
+#define OPTION_VAL_19_CS NULL
+#define VITA3K_SYS_DATE_FORMAT_LABEL_CS NULL
+#define VITA3K_SYS_DATE_FORMAT_INFO_0_CS NULL
+#define OPTION_VAL_0_VITA3K_SYS_DATE_FORMAT_CS NULL
+#define OPTION_VAL_1_VITA3K_SYS_DATE_FORMAT_CS NULL
+#define OPTION_VAL_2_VITA3K_SYS_DATE_FORMAT_CS NULL
+#define VITA3K_SYS_TIME_FORMAT_LABEL_CS NULL
+#define VITA3K_SYS_TIME_FORMAT_INFO_0_CS NULL
+#define OPTION_VAL_0_VITA3K_SYS_TIME_FORMAT_CS NULL
+#define OPTION_VAL_1_VITA3K_SYS_TIME_FORMAT_CS NULL
 #define VITA3K_AUDIO_VOLUME_LABEL_CS NULL
 #define VITA3K_AUDIO_VOLUME_INFO_0_CS NULL
 #define OPTION_VAL_0_VITA3K_AUDIO_VOLUME_CS NULL
-#define OPTION_VAL_10_CS NULL
+#define OPTION_VAL_10_VITA3K_AUDIO_VOLUME_CS NULL
 #define OPTION_VAL_20_CS NULL
 #define OPTION_VAL_30_CS NULL
 #define OPTION_VAL_40_CS NULL
@@ -3104,6 +5559,47 @@ struct retro_core_options_v2 options_cht = {
 #define VITA3K_NGS_ENABLE_INFO_0_CS NULL
 #define VITA3K_PSN_SIGNED_IN_LABEL_CS NULL
 #define VITA3K_PSN_SIGNED_IN_INFO_0_CS NULL
+#define VITA3K_HTTP_ENABLE_LABEL_CS NULL
+#define VITA3K_HTTP_ENABLE_INFO_0_CS NULL
+#define VITA3K_HTTP_TIMEOUT_ATTEMPTS_LABEL_CS NULL
+#define VITA3K_HTTP_TIMEOUT_ATTEMPTS_INFO_0_CS NULL
+#define VITA3K_HTTP_TIMEOUT_SLEEP_LABEL_CS NULL
+#define VITA3K_HTTP_TIMEOUT_SLEEP_INFO_0_CS NULL
+#define OPTION_VAL_50_VITA3K_HTTP_TIMEOUT_SLEEP_CS NULL
+#define OPTION_VAL_100_VITA3K_HTTP_TIMEOUT_SLEEP_CS NULL
+#define OPTION_VAL_150_CS NULL
+#define OPTION_VAL_200_CS NULL
+#define OPTION_VAL_250_CS NULL
+#define OPTION_VAL_300_CS NULL
+#define OPTION_VAL_400_CS NULL
+#define OPTION_VAL_500_CS NULL
+#define OPTION_VAL_750_CS NULL
+#define OPTION_VAL_1000_CS NULL
+#define OPTION_VAL_1500_CS NULL
+#define OPTION_VAL_2000_CS NULL
+#define OPTION_VAL_2500_CS NULL
+#define OPTION_VAL_3000_CS NULL
+#define VITA3K_HTTP_READ_END_ATTEMPTS_LABEL_CS NULL
+#define VITA3K_HTTP_READ_END_ATTEMPTS_INFO_0_CS NULL
+#define VITA3K_HTTP_READ_END_SLEEP_LABEL_CS NULL
+#define VITA3K_HTTP_READ_END_SLEEP_INFO_0_CS NULL
+#define VITA3K_FRONT_CAMERA_LABEL_CS NULL
+#define VITA3K_FRONT_CAMERA_INFO_0_CS NULL
+#define OPTION_VAL_HOST_CS NULL
+#define OPTION_VAL_IMAGE_CS NULL
+#define OPTION_VAL_COLOR_CS NULL
+#define VITA3K_FRONT_CAMERA_COLOR_LABEL_CS NULL
+#define VITA3K_FRONT_CAMERA_COLOR_INFO_0_CS NULL
+#define OPTION_VAL_0_VITA3K_FRONT_CAMERA_COLOR_CS "Černá"
+#define OPTION_VAL_16777215_CS "Bílá"
+#define OPTION_VAL_8421504_CS "Šedá"
+#define OPTION_VAL_255_CS "Červený"
+#define OPTION_VAL_65280_CS "Zelený"
+#define OPTION_VAL_16711680_CS "Modrý"
+#define VITA3K_BACK_CAMERA_LABEL_CS NULL
+#define VITA3K_BACK_CAMERA_INFO_0_CS NULL
+#define VITA3K_BACK_CAMERA_COLOR_LABEL_CS NULL
+#define VITA3K_BACK_CAMERA_COLOR_INFO_0_CS NULL
 #define VITA3K_SURFACE_SYNC_LABEL_CS NULL
 #define VITA3K_SURFACE_SYNC_INFO_0_CS NULL
 #define OPTION_VAL_ENABLED_CS NULL
@@ -3111,9 +5607,9 @@ struct retro_core_options_v2 options_cht = {
 #define VITA3K_FILE_LOADING_DELAY_LABEL_CS NULL
 #define VITA3K_FILE_LOADING_DELAY_INFO_0_CS NULL
 #define OPTION_VAL_0_VITA3K_FILE_LOADING_DELAY_CS NULL
-#define OPTION_VAL_5_CS NULL
+#define OPTION_VAL_5_VITA3K_FILE_LOADING_DELAY_CS NULL
 #define OPTION_VAL_10_VITA3K_FILE_LOADING_DELAY_CS NULL
-#define OPTION_VAL_15_CS NULL
+#define OPTION_VAL_15_VITA3K_FILE_LOADING_DELAY_CS NULL
 #define OPTION_VAL_20_VITA3K_FILE_LOADING_DELAY_CS NULL
 #define OPTION_VAL_25_CS NULL
 #define OPTION_VAL_30_VITA3K_FILE_LOADING_DELAY_CS NULL
@@ -3124,6 +5620,10 @@ struct retro_core_option_v2_category option_cats_cs[] = {
     { "system", CATEGORY_SYSTEM_LABEL_CS, CATEGORY_SYSTEM_INFO_0_CS },
     { "audio", CATEGORY_AUDIO_LABEL_CS, CATEGORY_AUDIO_INFO_0_CS },
     { "network", CATEGORY_NETWORK_LABEL_CS, CATEGORY_NETWORK_INFO_0_CS },
+    { "install", CATEGORY_INSTALL_LABEL_CS, CATEGORY_INSTALL_INFO_0_CS },
+    { "camera", CATEGORY_CAMERA_LABEL_CS, CATEGORY_CAMERA_INFO_0_CS },
+    { "accounts", CATEGORY_ACCOUNTS_LABEL_CS, CATEGORY_ACCOUNTS_INFO_0_CS },
+    { "modules", CATEGORY_MODULES_LABEL_CS, CATEGORY_MODULES_INFO_0_CS },
     { NULL, NULL, NULL },
 };
 struct retro_core_option_v2_definition option_defs_cs[] = {
@@ -3287,9 +5787,10 @@ struct retro_core_option_v2_definition option_defs_cs[] = {
         NULL,
         VITA3K_PKG_MODE_INFO_0_CS,
         NULL,
-        "system",
+        "install",
         {
             { "run", OPTION_VAL_RUN_CS },
+            { "cache", OPTION_VAL_CACHE_CS },
             { "install", OPTION_VAL_INSTALL_CS },
             { NULL, NULL },
         },
@@ -3352,6 +5853,67 @@ struct retro_core_option_v2_definition option_defs_cs[] = {
         },
         "1"
     },
+    {
+        "vita3k_sys_lang",
+        VITA3K_SYS_LANG_LABEL_CS,
+        NULL,
+        VITA3K_SYS_LANG_INFO_0_CS,
+        NULL,
+        "system",
+        {
+            { "0", OPTION_VAL_0_VITA3K_SYS_LANG_CS },
+            { "1", OPTION_VAL_1_VITA3K_SYS_LANG_CS },
+            { "2", OPTION_VAL_2_VITA3K_SYS_LANG_CS },
+            { "3", OPTION_VAL_3_VITA3K_SYS_LANG_CS },
+            { "4", OPTION_VAL_4_VITA3K_SYS_LANG_CS },
+            { "5", OPTION_VAL_5_CS },
+            { "6", OPTION_VAL_6_CS },
+            { "7", OPTION_VAL_7_CS },
+            { "8", OPTION_VAL_8_VITA3K_SYS_LANG_CS },
+            { "9", OPTION_VAL_9_CS },
+            { "10", OPTION_VAL_10_CS },
+            { "11", OPTION_VAL_11_CS },
+            { "12", OPTION_VAL_12_CS },
+            { "13", OPTION_VAL_13_CS },
+            { "14", OPTION_VAL_14_CS },
+            { "15", OPTION_VAL_15_CS },
+            { "16", OPTION_VAL_16_VITA3K_SYS_LANG_CS },
+            { "17", OPTION_VAL_17_CS },
+            { "18", OPTION_VAL_18_CS },
+            { "19", OPTION_VAL_19_CS },
+            { NULL, NULL },
+        },
+        "1"
+    },
+    {
+        "vita3k_sys_date_format",
+        VITA3K_SYS_DATE_FORMAT_LABEL_CS,
+        NULL,
+        VITA3K_SYS_DATE_FORMAT_INFO_0_CS,
+        NULL,
+        "system",
+        {
+            { "0", OPTION_VAL_0_VITA3K_SYS_DATE_FORMAT_CS },
+            { "1", OPTION_VAL_1_VITA3K_SYS_DATE_FORMAT_CS },
+            { "2", OPTION_VAL_2_VITA3K_SYS_DATE_FORMAT_CS },
+            { NULL, NULL },
+        },
+        "2"
+    },
+    {
+        "vita3k_sys_time_format",
+        VITA3K_SYS_TIME_FORMAT_LABEL_CS,
+        NULL,
+        VITA3K_SYS_TIME_FORMAT_INFO_0_CS,
+        NULL,
+        "system",
+        {
+            { "0", OPTION_VAL_0_VITA3K_SYS_TIME_FORMAT_CS },
+            { "1", OPTION_VAL_1_VITA3K_SYS_TIME_FORMAT_CS },
+            { NULL, NULL },
+        },
+        "0"
+    },
     // ── Audio ────────────────────────────────────────────────────────────
     {
         "vita3k_audio_volume",
@@ -3362,7 +5924,7 @@ struct retro_core_option_v2_definition option_defs_cs[] = {
         "audio",
         {
             { "0", OPTION_VAL_0_VITA3K_AUDIO_VOLUME_CS },
-            { "10", OPTION_VAL_10_CS },
+            { "10", OPTION_VAL_10_VITA3K_AUDIO_VOLUME_CS },
             { "20", OPTION_VAL_20_CS },
             { "30", OPTION_VAL_30_CS },
             { "40", OPTION_VAL_40_CS },
@@ -3406,6 +5968,204 @@ struct retro_core_option_v2_definition option_defs_cs[] = {
         "disabled"
     },
     {
+        "vita3k_http_enable",
+        VITA3K_HTTP_ENABLE_LABEL_CS,
+        NULL,
+        VITA3K_HTTP_ENABLE_INFO_0_CS,
+        NULL,
+        "network",
+        {
+            { "enabled", NULL },
+            { "disabled", NULL },
+            { NULL, NULL },
+        },
+        "enabled"
+    },
+    {
+        "vita3k_http_timeout_attempts",
+        VITA3K_HTTP_TIMEOUT_ATTEMPTS_LABEL_CS,
+        NULL,
+        VITA3K_HTTP_TIMEOUT_ATTEMPTS_INFO_0_CS,
+        NULL,
+        "network",
+        {
+            { "0", NULL },
+            { "5", NULL },
+            { "10", NULL },
+            { "15", NULL },
+            { "20", NULL },
+            { "25", NULL },
+            { "30", NULL },
+            { "35", NULL },
+            { "40", NULL },
+            { "45", NULL },
+            { "50", NULL },
+            { "55", NULL },
+            { "60", NULL },
+            { "65", NULL },
+            { "70", NULL },
+            { "75", NULL },
+            { "80", NULL },
+            { "85", NULL },
+            { "90", NULL },
+            { "95", NULL },
+            { "100", NULL },
+            { NULL, NULL },
+        },
+        "50"
+    },
+    {
+        "vita3k_http_timeout_sleep",
+        VITA3K_HTTP_TIMEOUT_SLEEP_LABEL_CS,
+        NULL,
+        VITA3K_HTTP_TIMEOUT_SLEEP_INFO_0_CS,
+        NULL,
+        "network",
+        {
+            { "50", OPTION_VAL_50_VITA3K_HTTP_TIMEOUT_SLEEP_CS },
+            { "100", OPTION_VAL_100_VITA3K_HTTP_TIMEOUT_SLEEP_CS },
+            { "150", OPTION_VAL_150_CS },
+            { "200", OPTION_VAL_200_CS },
+            { "250", OPTION_VAL_250_CS },
+            { "300", OPTION_VAL_300_CS },
+            { "400", OPTION_VAL_400_CS },
+            { "500", OPTION_VAL_500_CS },
+            { "750", OPTION_VAL_750_CS },
+            { "1000", OPTION_VAL_1000_CS },
+            { "1500", OPTION_VAL_1500_CS },
+            { "2000", OPTION_VAL_2000_CS },
+            { "2500", OPTION_VAL_2500_CS },
+            { "3000", OPTION_VAL_3000_CS },
+            { NULL, NULL },
+        },
+        "100"
+    },
+    {
+        "vita3k_http_read_end_attempts",
+        VITA3K_HTTP_READ_END_ATTEMPTS_LABEL_CS,
+        NULL,
+        VITA3K_HTTP_READ_END_ATTEMPTS_INFO_0_CS,
+        NULL,
+        "network",
+        {
+            { "0", NULL },
+            { "5", NULL },
+            { "10", NULL },
+            { "15", NULL },
+            { "20", NULL },
+            { "25", NULL },
+            { "30", NULL },
+            { "35", NULL },
+            { "40", NULL },
+            { "45", NULL },
+            { "50", NULL },
+            { "55", NULL },
+            { "60", NULL },
+            { "65", NULL },
+            { "70", NULL },
+            { "75", NULL },
+            { "80", NULL },
+            { "85", NULL },
+            { "90", NULL },
+            { "95", NULL },
+            { "100", NULL },
+            { NULL, NULL },
+        },
+        "10"
+    },
+    {
+        "vita3k_http_read_end_sleep",
+        VITA3K_HTTP_READ_END_SLEEP_LABEL_CS,
+        NULL,
+        VITA3K_HTTP_READ_END_SLEEP_INFO_0_CS,
+        NULL,
+        "network",
+        {
+            { "50", OPTION_VAL_50_VITA3K_HTTP_TIMEOUT_SLEEP_CS },
+            { "100", OPTION_VAL_100_VITA3K_HTTP_TIMEOUT_SLEEP_CS },
+            { "150", OPTION_VAL_150_CS },
+            { "200", OPTION_VAL_200_CS },
+            { "250", OPTION_VAL_250_CS },
+            { "300", OPTION_VAL_300_CS },
+            { "400", OPTION_VAL_400_CS },
+            { "500", OPTION_VAL_500_CS },
+            { "750", OPTION_VAL_750_CS },
+            { "1000", OPTION_VAL_1000_CS },
+            { "1500", OPTION_VAL_1500_CS },
+            { "2000", OPTION_VAL_2000_CS },
+            { "2500", OPTION_VAL_2500_CS },
+            { "3000", OPTION_VAL_3000_CS },
+            { NULL, NULL },
+        },
+        "250"
+    },
+    {
+        "vita3k_front_camera",
+        VITA3K_FRONT_CAMERA_LABEL_CS,
+        NULL,
+        VITA3K_FRONT_CAMERA_INFO_0_CS,
+        NULL,
+        "camera",
+        {
+            { "host", OPTION_VAL_HOST_CS },
+            { "image", OPTION_VAL_IMAGE_CS },
+            { "color", OPTION_VAL_COLOR_CS },
+            { NULL, NULL },
+        },
+        "host"
+    },
+    {
+        "vita3k_front_camera_color",
+        VITA3K_FRONT_CAMERA_COLOR_LABEL_CS,
+        NULL,
+        VITA3K_FRONT_CAMERA_COLOR_INFO_0_CS,
+        NULL,
+        "camera",
+        {
+            { "0", OPTION_VAL_0_VITA3K_FRONT_CAMERA_COLOR_CS },
+            { "16777215", OPTION_VAL_16777215_CS },
+            { "8421504", OPTION_VAL_8421504_CS },
+            { "255", OPTION_VAL_255_CS },
+            { "65280", OPTION_VAL_65280_CS },
+            { "16711680", OPTION_VAL_16711680_CS },
+            { NULL, NULL },
+        },
+        "0"
+    },
+    {
+        "vita3k_back_camera",
+        VITA3K_BACK_CAMERA_LABEL_CS,
+        NULL,
+        VITA3K_BACK_CAMERA_INFO_0_CS,
+        NULL,
+        "camera",
+        {
+            { "host", OPTION_VAL_HOST_CS },
+            { "image", OPTION_VAL_IMAGE_CS },
+            { "color", OPTION_VAL_COLOR_CS },
+            { NULL, NULL },
+        },
+        "host"
+    },
+    {
+        "vita3k_back_camera_color",
+        VITA3K_BACK_CAMERA_COLOR_LABEL_CS,
+        NULL,
+        VITA3K_BACK_CAMERA_COLOR_INFO_0_CS,
+        NULL,
+        "camera",
+        {
+            { "0", OPTION_VAL_0_VITA3K_FRONT_CAMERA_COLOR_CS },
+            { "16777215", OPTION_VAL_16777215_CS },
+            { "8421504", OPTION_VAL_8421504_CS },
+            { "255", OPTION_VAL_255_CS },
+            { "65280", OPTION_VAL_65280_CS },
+            { "16711680", OPTION_VAL_16711680_CS },
+            { NULL, NULL },
+        },
+        "0"
+    },
+    {
         "vita3k_surface_sync",
         VITA3K_SURFACE_SYNC_LABEL_CS,
         NULL,
@@ -3428,9 +6188,9 @@ struct retro_core_option_v2_definition option_defs_cs[] = {
         "system",
         {
             { "0", OPTION_VAL_0_VITA3K_FILE_LOADING_DELAY_CS },
-            { "5", OPTION_VAL_5_CS },
+            { "5", OPTION_VAL_5_VITA3K_FILE_LOADING_DELAY_CS },
             { "10", OPTION_VAL_10_VITA3K_FILE_LOADING_DELAY_CS },
-            { "15", OPTION_VAL_15_CS },
+            { "15", OPTION_VAL_15_VITA3K_FILE_LOADING_DELAY_CS },
             { "20", OPTION_VAL_20_VITA3K_FILE_LOADING_DELAY_CS },
             { "25", OPTION_VAL_25_CS },
             { "30", OPTION_VAL_30_VITA3K_FILE_LOADING_DELAY_CS },
@@ -3457,6 +6217,14 @@ struct retro_core_options_v2 options_cs = {
 #define CATEGORY_AUDIO_INFO_0_CY NULL
 #define CATEGORY_NETWORK_LABEL_CY "Rhwydwaith"
 #define CATEGORY_NETWORK_INFO_0_CY NULL
+#define CATEGORY_INSTALL_LABEL_CY NULL
+#define CATEGORY_INSTALL_INFO_0_CY NULL
+#define CATEGORY_CAMERA_LABEL_CY NULL
+#define CATEGORY_CAMERA_INFO_0_CY NULL
+#define CATEGORY_ACCOUNTS_LABEL_CY NULL
+#define CATEGORY_ACCOUNTS_INFO_0_CY NULL
+#define CATEGORY_MODULES_LABEL_CY NULL
+#define CATEGORY_MODULES_INFO_0_CY NULL
 #define VITA3K_BACKEND_RENDERER_LABEL_CY NULL
 #define VITA3K_BACKEND_RENDERER_INFO_0_CY NULL
 #define OPTION_VAL_VULKAN_CY NULL
@@ -3499,6 +6267,7 @@ struct retro_core_options_v2 options_cs = {
 #define VITA3K_PKG_MODE_LABEL_CY NULL
 #define VITA3K_PKG_MODE_INFO_0_CY NULL
 #define OPTION_VAL_RUN_CY NULL
+#define OPTION_VAL_CACHE_CY NULL
 #define OPTION_VAL_INSTALL_CY NULL
 #define VITA3K_PSTV_MODE_LABEL_CY NULL
 #define VITA3K_PSTV_MODE_INFO_0_CY NULL
@@ -3513,10 +6282,41 @@ struct retro_core_options_v2 options_cs = {
 #define VITA3K_SYS_BUTTON_INFO_0_CY NULL
 #define OPTION_VAL_0_VITA3K_SYS_BUTTON_CY NULL
 #define OPTION_VAL_1_VITA3K_SYS_BUTTON_CY NULL
+#define VITA3K_SYS_LANG_LABEL_CY NULL
+#define VITA3K_SYS_LANG_INFO_0_CY NULL
+#define OPTION_VAL_0_VITA3K_SYS_LANG_CY NULL
+#define OPTION_VAL_1_VITA3K_SYS_LANG_CY NULL
+#define OPTION_VAL_2_VITA3K_SYS_LANG_CY NULL
+#define OPTION_VAL_3_VITA3K_SYS_LANG_CY NULL
+#define OPTION_VAL_4_VITA3K_SYS_LANG_CY NULL
+#define OPTION_VAL_5_CY NULL
+#define OPTION_VAL_6_CY NULL
+#define OPTION_VAL_7_CY NULL
+#define OPTION_VAL_8_VITA3K_SYS_LANG_CY NULL
+#define OPTION_VAL_9_CY NULL
+#define OPTION_VAL_10_CY NULL
+#define OPTION_VAL_11_CY NULL
+#define OPTION_VAL_12_CY NULL
+#define OPTION_VAL_13_CY NULL
+#define OPTION_VAL_14_CY NULL
+#define OPTION_VAL_15_CY NULL
+#define OPTION_VAL_16_VITA3K_SYS_LANG_CY NULL
+#define OPTION_VAL_17_CY NULL
+#define OPTION_VAL_18_CY NULL
+#define OPTION_VAL_19_CY NULL
+#define VITA3K_SYS_DATE_FORMAT_LABEL_CY NULL
+#define VITA3K_SYS_DATE_FORMAT_INFO_0_CY NULL
+#define OPTION_VAL_0_VITA3K_SYS_DATE_FORMAT_CY NULL
+#define OPTION_VAL_1_VITA3K_SYS_DATE_FORMAT_CY NULL
+#define OPTION_VAL_2_VITA3K_SYS_DATE_FORMAT_CY NULL
+#define VITA3K_SYS_TIME_FORMAT_LABEL_CY NULL
+#define VITA3K_SYS_TIME_FORMAT_INFO_0_CY NULL
+#define OPTION_VAL_0_VITA3K_SYS_TIME_FORMAT_CY NULL
+#define OPTION_VAL_1_VITA3K_SYS_TIME_FORMAT_CY NULL
 #define VITA3K_AUDIO_VOLUME_LABEL_CY NULL
 #define VITA3K_AUDIO_VOLUME_INFO_0_CY NULL
 #define OPTION_VAL_0_VITA3K_AUDIO_VOLUME_CY NULL
-#define OPTION_VAL_10_CY NULL
+#define OPTION_VAL_10_VITA3K_AUDIO_VOLUME_CY NULL
 #define OPTION_VAL_20_CY NULL
 #define OPTION_VAL_30_CY NULL
 #define OPTION_VAL_40_CY NULL
@@ -3530,6 +6330,47 @@ struct retro_core_options_v2 options_cs = {
 #define VITA3K_NGS_ENABLE_INFO_0_CY NULL
 #define VITA3K_PSN_SIGNED_IN_LABEL_CY NULL
 #define VITA3K_PSN_SIGNED_IN_INFO_0_CY NULL
+#define VITA3K_HTTP_ENABLE_LABEL_CY NULL
+#define VITA3K_HTTP_ENABLE_INFO_0_CY NULL
+#define VITA3K_HTTP_TIMEOUT_ATTEMPTS_LABEL_CY NULL
+#define VITA3K_HTTP_TIMEOUT_ATTEMPTS_INFO_0_CY NULL
+#define VITA3K_HTTP_TIMEOUT_SLEEP_LABEL_CY NULL
+#define VITA3K_HTTP_TIMEOUT_SLEEP_INFO_0_CY NULL
+#define OPTION_VAL_50_VITA3K_HTTP_TIMEOUT_SLEEP_CY NULL
+#define OPTION_VAL_100_VITA3K_HTTP_TIMEOUT_SLEEP_CY NULL
+#define OPTION_VAL_150_CY NULL
+#define OPTION_VAL_200_CY NULL
+#define OPTION_VAL_250_CY NULL
+#define OPTION_VAL_300_CY NULL
+#define OPTION_VAL_400_CY NULL
+#define OPTION_VAL_500_CY NULL
+#define OPTION_VAL_750_CY NULL
+#define OPTION_VAL_1000_CY NULL
+#define OPTION_VAL_1500_CY NULL
+#define OPTION_VAL_2000_CY NULL
+#define OPTION_VAL_2500_CY NULL
+#define OPTION_VAL_3000_CY NULL
+#define VITA3K_HTTP_READ_END_ATTEMPTS_LABEL_CY NULL
+#define VITA3K_HTTP_READ_END_ATTEMPTS_INFO_0_CY NULL
+#define VITA3K_HTTP_READ_END_SLEEP_LABEL_CY NULL
+#define VITA3K_HTTP_READ_END_SLEEP_INFO_0_CY NULL
+#define VITA3K_FRONT_CAMERA_LABEL_CY NULL
+#define VITA3K_FRONT_CAMERA_INFO_0_CY NULL
+#define OPTION_VAL_HOST_CY NULL
+#define OPTION_VAL_IMAGE_CY NULL
+#define OPTION_VAL_COLOR_CY NULL
+#define VITA3K_FRONT_CAMERA_COLOR_LABEL_CY NULL
+#define VITA3K_FRONT_CAMERA_COLOR_INFO_0_CY NULL
+#define OPTION_VAL_0_VITA3K_FRONT_CAMERA_COLOR_CY NULL
+#define OPTION_VAL_16777215_CY NULL
+#define OPTION_VAL_8421504_CY NULL
+#define OPTION_VAL_255_CY "Coch"
+#define OPTION_VAL_65280_CY NULL
+#define OPTION_VAL_16711680_CY NULL
+#define VITA3K_BACK_CAMERA_LABEL_CY NULL
+#define VITA3K_BACK_CAMERA_INFO_0_CY NULL
+#define VITA3K_BACK_CAMERA_COLOR_LABEL_CY NULL
+#define VITA3K_BACK_CAMERA_COLOR_INFO_0_CY NULL
 #define VITA3K_SURFACE_SYNC_LABEL_CY NULL
 #define VITA3K_SURFACE_SYNC_INFO_0_CY NULL
 #define OPTION_VAL_ENABLED_CY NULL
@@ -3537,9 +6378,9 @@ struct retro_core_options_v2 options_cs = {
 #define VITA3K_FILE_LOADING_DELAY_LABEL_CY NULL
 #define VITA3K_FILE_LOADING_DELAY_INFO_0_CY NULL
 #define OPTION_VAL_0_VITA3K_FILE_LOADING_DELAY_CY NULL
-#define OPTION_VAL_5_CY NULL
+#define OPTION_VAL_5_VITA3K_FILE_LOADING_DELAY_CY NULL
 #define OPTION_VAL_10_VITA3K_FILE_LOADING_DELAY_CY NULL
-#define OPTION_VAL_15_CY NULL
+#define OPTION_VAL_15_VITA3K_FILE_LOADING_DELAY_CY NULL
 #define OPTION_VAL_20_VITA3K_FILE_LOADING_DELAY_CY NULL
 #define OPTION_VAL_25_CY NULL
 #define OPTION_VAL_30_VITA3K_FILE_LOADING_DELAY_CY NULL
@@ -3550,6 +6391,10 @@ struct retro_core_option_v2_category option_cats_cy[] = {
     { "system", CATEGORY_SYSTEM_LABEL_CY, CATEGORY_SYSTEM_INFO_0_CY },
     { "audio", CATEGORY_AUDIO_LABEL_CY, CATEGORY_AUDIO_INFO_0_CY },
     { "network", CATEGORY_NETWORK_LABEL_CY, CATEGORY_NETWORK_INFO_0_CY },
+    { "install", CATEGORY_INSTALL_LABEL_CY, CATEGORY_INSTALL_INFO_0_CY },
+    { "camera", CATEGORY_CAMERA_LABEL_CY, CATEGORY_CAMERA_INFO_0_CY },
+    { "accounts", CATEGORY_ACCOUNTS_LABEL_CY, CATEGORY_ACCOUNTS_INFO_0_CY },
+    { "modules", CATEGORY_MODULES_LABEL_CY, CATEGORY_MODULES_INFO_0_CY },
     { NULL, NULL, NULL },
 };
 struct retro_core_option_v2_definition option_defs_cy[] = {
@@ -3713,9 +6558,10 @@ struct retro_core_option_v2_definition option_defs_cy[] = {
         NULL,
         VITA3K_PKG_MODE_INFO_0_CY,
         NULL,
-        "system",
+        "install",
         {
             { "run", OPTION_VAL_RUN_CY },
+            { "cache", OPTION_VAL_CACHE_CY },
             { "install", OPTION_VAL_INSTALL_CY },
             { NULL, NULL },
         },
@@ -3778,6 +6624,67 @@ struct retro_core_option_v2_definition option_defs_cy[] = {
         },
         "1"
     },
+    {
+        "vita3k_sys_lang",
+        VITA3K_SYS_LANG_LABEL_CY,
+        NULL,
+        VITA3K_SYS_LANG_INFO_0_CY,
+        NULL,
+        "system",
+        {
+            { "0", OPTION_VAL_0_VITA3K_SYS_LANG_CY },
+            { "1", OPTION_VAL_1_VITA3K_SYS_LANG_CY },
+            { "2", OPTION_VAL_2_VITA3K_SYS_LANG_CY },
+            { "3", OPTION_VAL_3_VITA3K_SYS_LANG_CY },
+            { "4", OPTION_VAL_4_VITA3K_SYS_LANG_CY },
+            { "5", OPTION_VAL_5_CY },
+            { "6", OPTION_VAL_6_CY },
+            { "7", OPTION_VAL_7_CY },
+            { "8", OPTION_VAL_8_VITA3K_SYS_LANG_CY },
+            { "9", OPTION_VAL_9_CY },
+            { "10", OPTION_VAL_10_CY },
+            { "11", OPTION_VAL_11_CY },
+            { "12", OPTION_VAL_12_CY },
+            { "13", OPTION_VAL_13_CY },
+            { "14", OPTION_VAL_14_CY },
+            { "15", OPTION_VAL_15_CY },
+            { "16", OPTION_VAL_16_VITA3K_SYS_LANG_CY },
+            { "17", OPTION_VAL_17_CY },
+            { "18", OPTION_VAL_18_CY },
+            { "19", OPTION_VAL_19_CY },
+            { NULL, NULL },
+        },
+        "1"
+    },
+    {
+        "vita3k_sys_date_format",
+        VITA3K_SYS_DATE_FORMAT_LABEL_CY,
+        NULL,
+        VITA3K_SYS_DATE_FORMAT_INFO_0_CY,
+        NULL,
+        "system",
+        {
+            { "0", OPTION_VAL_0_VITA3K_SYS_DATE_FORMAT_CY },
+            { "1", OPTION_VAL_1_VITA3K_SYS_DATE_FORMAT_CY },
+            { "2", OPTION_VAL_2_VITA3K_SYS_DATE_FORMAT_CY },
+            { NULL, NULL },
+        },
+        "2"
+    },
+    {
+        "vita3k_sys_time_format",
+        VITA3K_SYS_TIME_FORMAT_LABEL_CY,
+        NULL,
+        VITA3K_SYS_TIME_FORMAT_INFO_0_CY,
+        NULL,
+        "system",
+        {
+            { "0", OPTION_VAL_0_VITA3K_SYS_TIME_FORMAT_CY },
+            { "1", OPTION_VAL_1_VITA3K_SYS_TIME_FORMAT_CY },
+            { NULL, NULL },
+        },
+        "0"
+    },
     // ── Audio ────────────────────────────────────────────────────────────
     {
         "vita3k_audio_volume",
@@ -3788,7 +6695,7 @@ struct retro_core_option_v2_definition option_defs_cy[] = {
         "audio",
         {
             { "0", OPTION_VAL_0_VITA3K_AUDIO_VOLUME_CY },
-            { "10", OPTION_VAL_10_CY },
+            { "10", OPTION_VAL_10_VITA3K_AUDIO_VOLUME_CY },
             { "20", OPTION_VAL_20_CY },
             { "30", OPTION_VAL_30_CY },
             { "40", OPTION_VAL_40_CY },
@@ -3832,6 +6739,204 @@ struct retro_core_option_v2_definition option_defs_cy[] = {
         "disabled"
     },
     {
+        "vita3k_http_enable",
+        VITA3K_HTTP_ENABLE_LABEL_CY,
+        NULL,
+        VITA3K_HTTP_ENABLE_INFO_0_CY,
+        NULL,
+        "network",
+        {
+            { "enabled", NULL },
+            { "disabled", NULL },
+            { NULL, NULL },
+        },
+        "enabled"
+    },
+    {
+        "vita3k_http_timeout_attempts",
+        VITA3K_HTTP_TIMEOUT_ATTEMPTS_LABEL_CY,
+        NULL,
+        VITA3K_HTTP_TIMEOUT_ATTEMPTS_INFO_0_CY,
+        NULL,
+        "network",
+        {
+            { "0", NULL },
+            { "5", NULL },
+            { "10", NULL },
+            { "15", NULL },
+            { "20", NULL },
+            { "25", NULL },
+            { "30", NULL },
+            { "35", NULL },
+            { "40", NULL },
+            { "45", NULL },
+            { "50", NULL },
+            { "55", NULL },
+            { "60", NULL },
+            { "65", NULL },
+            { "70", NULL },
+            { "75", NULL },
+            { "80", NULL },
+            { "85", NULL },
+            { "90", NULL },
+            { "95", NULL },
+            { "100", NULL },
+            { NULL, NULL },
+        },
+        "50"
+    },
+    {
+        "vita3k_http_timeout_sleep",
+        VITA3K_HTTP_TIMEOUT_SLEEP_LABEL_CY,
+        NULL,
+        VITA3K_HTTP_TIMEOUT_SLEEP_INFO_0_CY,
+        NULL,
+        "network",
+        {
+            { "50", OPTION_VAL_50_VITA3K_HTTP_TIMEOUT_SLEEP_CY },
+            { "100", OPTION_VAL_100_VITA3K_HTTP_TIMEOUT_SLEEP_CY },
+            { "150", OPTION_VAL_150_CY },
+            { "200", OPTION_VAL_200_CY },
+            { "250", OPTION_VAL_250_CY },
+            { "300", OPTION_VAL_300_CY },
+            { "400", OPTION_VAL_400_CY },
+            { "500", OPTION_VAL_500_CY },
+            { "750", OPTION_VAL_750_CY },
+            { "1000", OPTION_VAL_1000_CY },
+            { "1500", OPTION_VAL_1500_CY },
+            { "2000", OPTION_VAL_2000_CY },
+            { "2500", OPTION_VAL_2500_CY },
+            { "3000", OPTION_VAL_3000_CY },
+            { NULL, NULL },
+        },
+        "100"
+    },
+    {
+        "vita3k_http_read_end_attempts",
+        VITA3K_HTTP_READ_END_ATTEMPTS_LABEL_CY,
+        NULL,
+        VITA3K_HTTP_READ_END_ATTEMPTS_INFO_0_CY,
+        NULL,
+        "network",
+        {
+            { "0", NULL },
+            { "5", NULL },
+            { "10", NULL },
+            { "15", NULL },
+            { "20", NULL },
+            { "25", NULL },
+            { "30", NULL },
+            { "35", NULL },
+            { "40", NULL },
+            { "45", NULL },
+            { "50", NULL },
+            { "55", NULL },
+            { "60", NULL },
+            { "65", NULL },
+            { "70", NULL },
+            { "75", NULL },
+            { "80", NULL },
+            { "85", NULL },
+            { "90", NULL },
+            { "95", NULL },
+            { "100", NULL },
+            { NULL, NULL },
+        },
+        "10"
+    },
+    {
+        "vita3k_http_read_end_sleep",
+        VITA3K_HTTP_READ_END_SLEEP_LABEL_CY,
+        NULL,
+        VITA3K_HTTP_READ_END_SLEEP_INFO_0_CY,
+        NULL,
+        "network",
+        {
+            { "50", OPTION_VAL_50_VITA3K_HTTP_TIMEOUT_SLEEP_CY },
+            { "100", OPTION_VAL_100_VITA3K_HTTP_TIMEOUT_SLEEP_CY },
+            { "150", OPTION_VAL_150_CY },
+            { "200", OPTION_VAL_200_CY },
+            { "250", OPTION_VAL_250_CY },
+            { "300", OPTION_VAL_300_CY },
+            { "400", OPTION_VAL_400_CY },
+            { "500", OPTION_VAL_500_CY },
+            { "750", OPTION_VAL_750_CY },
+            { "1000", OPTION_VAL_1000_CY },
+            { "1500", OPTION_VAL_1500_CY },
+            { "2000", OPTION_VAL_2000_CY },
+            { "2500", OPTION_VAL_2500_CY },
+            { "3000", OPTION_VAL_3000_CY },
+            { NULL, NULL },
+        },
+        "250"
+    },
+    {
+        "vita3k_front_camera",
+        VITA3K_FRONT_CAMERA_LABEL_CY,
+        NULL,
+        VITA3K_FRONT_CAMERA_INFO_0_CY,
+        NULL,
+        "camera",
+        {
+            { "host", OPTION_VAL_HOST_CY },
+            { "image", OPTION_VAL_IMAGE_CY },
+            { "color", OPTION_VAL_COLOR_CY },
+            { NULL, NULL },
+        },
+        "host"
+    },
+    {
+        "vita3k_front_camera_color",
+        VITA3K_FRONT_CAMERA_COLOR_LABEL_CY,
+        NULL,
+        VITA3K_FRONT_CAMERA_COLOR_INFO_0_CY,
+        NULL,
+        "camera",
+        {
+            { "0", OPTION_VAL_0_VITA3K_FRONT_CAMERA_COLOR_CY },
+            { "16777215", OPTION_VAL_16777215_CY },
+            { "8421504", OPTION_VAL_8421504_CY },
+            { "255", OPTION_VAL_255_CY },
+            { "65280", OPTION_VAL_65280_CY },
+            { "16711680", OPTION_VAL_16711680_CY },
+            { NULL, NULL },
+        },
+        "0"
+    },
+    {
+        "vita3k_back_camera",
+        VITA3K_BACK_CAMERA_LABEL_CY,
+        NULL,
+        VITA3K_BACK_CAMERA_INFO_0_CY,
+        NULL,
+        "camera",
+        {
+            { "host", OPTION_VAL_HOST_CY },
+            { "image", OPTION_VAL_IMAGE_CY },
+            { "color", OPTION_VAL_COLOR_CY },
+            { NULL, NULL },
+        },
+        "host"
+    },
+    {
+        "vita3k_back_camera_color",
+        VITA3K_BACK_CAMERA_COLOR_LABEL_CY,
+        NULL,
+        VITA3K_BACK_CAMERA_COLOR_INFO_0_CY,
+        NULL,
+        "camera",
+        {
+            { "0", OPTION_VAL_0_VITA3K_FRONT_CAMERA_COLOR_CY },
+            { "16777215", OPTION_VAL_16777215_CY },
+            { "8421504", OPTION_VAL_8421504_CY },
+            { "255", OPTION_VAL_255_CY },
+            { "65280", OPTION_VAL_65280_CY },
+            { "16711680", OPTION_VAL_16711680_CY },
+            { NULL, NULL },
+        },
+        "0"
+    },
+    {
         "vita3k_surface_sync",
         VITA3K_SURFACE_SYNC_LABEL_CY,
         NULL,
@@ -3854,9 +6959,9 @@ struct retro_core_option_v2_definition option_defs_cy[] = {
         "system",
         {
             { "0", OPTION_VAL_0_VITA3K_FILE_LOADING_DELAY_CY },
-            { "5", OPTION_VAL_5_CY },
+            { "5", OPTION_VAL_5_VITA3K_FILE_LOADING_DELAY_CY },
             { "10", OPTION_VAL_10_VITA3K_FILE_LOADING_DELAY_CY },
-            { "15", OPTION_VAL_15_CY },
+            { "15", OPTION_VAL_15_VITA3K_FILE_LOADING_DELAY_CY },
             { "20", OPTION_VAL_20_VITA3K_FILE_LOADING_DELAY_CY },
             { "25", OPTION_VAL_25_CY },
             { "30", OPTION_VAL_30_VITA3K_FILE_LOADING_DELAY_CY },
@@ -3883,6 +6988,14 @@ struct retro_core_options_v2 options_cy = {
 #define CATEGORY_AUDIO_INFO_0_DA NULL
 #define CATEGORY_NETWORK_LABEL_DA "Netværk"
 #define CATEGORY_NETWORK_INFO_0_DA NULL
+#define CATEGORY_INSTALL_LABEL_DA NULL
+#define CATEGORY_INSTALL_INFO_0_DA NULL
+#define CATEGORY_CAMERA_LABEL_DA "Kamera"
+#define CATEGORY_CAMERA_INFO_0_DA NULL
+#define CATEGORY_ACCOUNTS_LABEL_DA NULL
+#define CATEGORY_ACCOUNTS_INFO_0_DA NULL
+#define CATEGORY_MODULES_LABEL_DA NULL
+#define CATEGORY_MODULES_INFO_0_DA NULL
 #define VITA3K_BACKEND_RENDERER_LABEL_DA NULL
 #define VITA3K_BACKEND_RENDERER_INFO_0_DA NULL
 #define OPTION_VAL_VULKAN_DA NULL
@@ -3925,6 +7038,7 @@ struct retro_core_options_v2 options_cy = {
 #define VITA3K_PKG_MODE_LABEL_DA NULL
 #define VITA3K_PKG_MODE_INFO_0_DA NULL
 #define OPTION_VAL_RUN_DA NULL
+#define OPTION_VAL_CACHE_DA NULL
 #define OPTION_VAL_INSTALL_DA NULL
 #define VITA3K_PSTV_MODE_LABEL_DA NULL
 #define VITA3K_PSTV_MODE_INFO_0_DA NULL
@@ -3939,10 +7053,41 @@ struct retro_core_options_v2 options_cy = {
 #define VITA3K_SYS_BUTTON_INFO_0_DA NULL
 #define OPTION_VAL_0_VITA3K_SYS_BUTTON_DA NULL
 #define OPTION_VAL_1_VITA3K_SYS_BUTTON_DA NULL
+#define VITA3K_SYS_LANG_LABEL_DA NULL
+#define VITA3K_SYS_LANG_INFO_0_DA NULL
+#define OPTION_VAL_0_VITA3K_SYS_LANG_DA NULL
+#define OPTION_VAL_1_VITA3K_SYS_LANG_DA NULL
+#define OPTION_VAL_2_VITA3K_SYS_LANG_DA NULL
+#define OPTION_VAL_3_VITA3K_SYS_LANG_DA NULL
+#define OPTION_VAL_4_VITA3K_SYS_LANG_DA NULL
+#define OPTION_VAL_5_DA NULL
+#define OPTION_VAL_6_DA NULL
+#define OPTION_VAL_7_DA NULL
+#define OPTION_VAL_8_VITA3K_SYS_LANG_DA NULL
+#define OPTION_VAL_9_DA NULL
+#define OPTION_VAL_10_DA NULL
+#define OPTION_VAL_11_DA NULL
+#define OPTION_VAL_12_DA NULL
+#define OPTION_VAL_13_DA NULL
+#define OPTION_VAL_14_DA NULL
+#define OPTION_VAL_15_DA NULL
+#define OPTION_VAL_16_VITA3K_SYS_LANG_DA NULL
+#define OPTION_VAL_17_DA NULL
+#define OPTION_VAL_18_DA NULL
+#define OPTION_VAL_19_DA NULL
+#define VITA3K_SYS_DATE_FORMAT_LABEL_DA NULL
+#define VITA3K_SYS_DATE_FORMAT_INFO_0_DA NULL
+#define OPTION_VAL_0_VITA3K_SYS_DATE_FORMAT_DA NULL
+#define OPTION_VAL_1_VITA3K_SYS_DATE_FORMAT_DA NULL
+#define OPTION_VAL_2_VITA3K_SYS_DATE_FORMAT_DA NULL
+#define VITA3K_SYS_TIME_FORMAT_LABEL_DA NULL
+#define VITA3K_SYS_TIME_FORMAT_INFO_0_DA NULL
+#define OPTION_VAL_0_VITA3K_SYS_TIME_FORMAT_DA NULL
+#define OPTION_VAL_1_VITA3K_SYS_TIME_FORMAT_DA NULL
 #define VITA3K_AUDIO_VOLUME_LABEL_DA NULL
 #define VITA3K_AUDIO_VOLUME_INFO_0_DA NULL
 #define OPTION_VAL_0_VITA3K_AUDIO_VOLUME_DA NULL
-#define OPTION_VAL_10_DA NULL
+#define OPTION_VAL_10_VITA3K_AUDIO_VOLUME_DA NULL
 #define OPTION_VAL_20_DA NULL
 #define OPTION_VAL_30_DA NULL
 #define OPTION_VAL_40_DA NULL
@@ -3956,6 +7101,47 @@ struct retro_core_options_v2 options_cy = {
 #define VITA3K_NGS_ENABLE_INFO_0_DA NULL
 #define VITA3K_PSN_SIGNED_IN_LABEL_DA NULL
 #define VITA3K_PSN_SIGNED_IN_INFO_0_DA NULL
+#define VITA3K_HTTP_ENABLE_LABEL_DA NULL
+#define VITA3K_HTTP_ENABLE_INFO_0_DA NULL
+#define VITA3K_HTTP_TIMEOUT_ATTEMPTS_LABEL_DA NULL
+#define VITA3K_HTTP_TIMEOUT_ATTEMPTS_INFO_0_DA NULL
+#define VITA3K_HTTP_TIMEOUT_SLEEP_LABEL_DA NULL
+#define VITA3K_HTTP_TIMEOUT_SLEEP_INFO_0_DA NULL
+#define OPTION_VAL_50_VITA3K_HTTP_TIMEOUT_SLEEP_DA NULL
+#define OPTION_VAL_100_VITA3K_HTTP_TIMEOUT_SLEEP_DA NULL
+#define OPTION_VAL_150_DA NULL
+#define OPTION_VAL_200_DA NULL
+#define OPTION_VAL_250_DA NULL
+#define OPTION_VAL_300_DA NULL
+#define OPTION_VAL_400_DA NULL
+#define OPTION_VAL_500_DA NULL
+#define OPTION_VAL_750_DA NULL
+#define OPTION_VAL_1000_DA NULL
+#define OPTION_VAL_1500_DA NULL
+#define OPTION_VAL_2000_DA NULL
+#define OPTION_VAL_2500_DA NULL
+#define OPTION_VAL_3000_DA NULL
+#define VITA3K_HTTP_READ_END_ATTEMPTS_LABEL_DA NULL
+#define VITA3K_HTTP_READ_END_ATTEMPTS_INFO_0_DA NULL
+#define VITA3K_HTTP_READ_END_SLEEP_LABEL_DA NULL
+#define VITA3K_HTTP_READ_END_SLEEP_INFO_0_DA NULL
+#define VITA3K_FRONT_CAMERA_LABEL_DA NULL
+#define VITA3K_FRONT_CAMERA_INFO_0_DA NULL
+#define OPTION_VAL_HOST_DA NULL
+#define OPTION_VAL_IMAGE_DA NULL
+#define OPTION_VAL_COLOR_DA NULL
+#define VITA3K_FRONT_CAMERA_COLOR_LABEL_DA NULL
+#define VITA3K_FRONT_CAMERA_COLOR_INFO_0_DA NULL
+#define OPTION_VAL_0_VITA3K_FRONT_CAMERA_COLOR_DA NULL
+#define OPTION_VAL_16777215_DA NULL
+#define OPTION_VAL_8421504_DA NULL
+#define OPTION_VAL_255_DA NULL
+#define OPTION_VAL_65280_DA NULL
+#define OPTION_VAL_16711680_DA NULL
+#define VITA3K_BACK_CAMERA_LABEL_DA NULL
+#define VITA3K_BACK_CAMERA_INFO_0_DA NULL
+#define VITA3K_BACK_CAMERA_COLOR_LABEL_DA NULL
+#define VITA3K_BACK_CAMERA_COLOR_INFO_0_DA NULL
 #define VITA3K_SURFACE_SYNC_LABEL_DA NULL
 #define VITA3K_SURFACE_SYNC_INFO_0_DA NULL
 #define OPTION_VAL_ENABLED_DA NULL
@@ -3963,9 +7149,9 @@ struct retro_core_options_v2 options_cy = {
 #define VITA3K_FILE_LOADING_DELAY_LABEL_DA NULL
 #define VITA3K_FILE_LOADING_DELAY_INFO_0_DA NULL
 #define OPTION_VAL_0_VITA3K_FILE_LOADING_DELAY_DA NULL
-#define OPTION_VAL_5_DA NULL
+#define OPTION_VAL_5_VITA3K_FILE_LOADING_DELAY_DA NULL
 #define OPTION_VAL_10_VITA3K_FILE_LOADING_DELAY_DA NULL
-#define OPTION_VAL_15_DA NULL
+#define OPTION_VAL_15_VITA3K_FILE_LOADING_DELAY_DA NULL
 #define OPTION_VAL_20_VITA3K_FILE_LOADING_DELAY_DA NULL
 #define OPTION_VAL_25_DA NULL
 #define OPTION_VAL_30_VITA3K_FILE_LOADING_DELAY_DA NULL
@@ -3976,6 +7162,10 @@ struct retro_core_option_v2_category option_cats_da[] = {
     { "system", CATEGORY_SYSTEM_LABEL_DA, CATEGORY_SYSTEM_INFO_0_DA },
     { "audio", CATEGORY_AUDIO_LABEL_DA, CATEGORY_AUDIO_INFO_0_DA },
     { "network", CATEGORY_NETWORK_LABEL_DA, CATEGORY_NETWORK_INFO_0_DA },
+    { "install", CATEGORY_INSTALL_LABEL_DA, CATEGORY_INSTALL_INFO_0_DA },
+    { "camera", CATEGORY_CAMERA_LABEL_DA, CATEGORY_CAMERA_INFO_0_DA },
+    { "accounts", CATEGORY_ACCOUNTS_LABEL_DA, CATEGORY_ACCOUNTS_INFO_0_DA },
+    { "modules", CATEGORY_MODULES_LABEL_DA, CATEGORY_MODULES_INFO_0_DA },
     { NULL, NULL, NULL },
 };
 struct retro_core_option_v2_definition option_defs_da[] = {
@@ -4139,9 +7329,10 @@ struct retro_core_option_v2_definition option_defs_da[] = {
         NULL,
         VITA3K_PKG_MODE_INFO_0_DA,
         NULL,
-        "system",
+        "install",
         {
             { "run", OPTION_VAL_RUN_DA },
+            { "cache", OPTION_VAL_CACHE_DA },
             { "install", OPTION_VAL_INSTALL_DA },
             { NULL, NULL },
         },
@@ -4204,6 +7395,67 @@ struct retro_core_option_v2_definition option_defs_da[] = {
         },
         "1"
     },
+    {
+        "vita3k_sys_lang",
+        VITA3K_SYS_LANG_LABEL_DA,
+        NULL,
+        VITA3K_SYS_LANG_INFO_0_DA,
+        NULL,
+        "system",
+        {
+            { "0", OPTION_VAL_0_VITA3K_SYS_LANG_DA },
+            { "1", OPTION_VAL_1_VITA3K_SYS_LANG_DA },
+            { "2", OPTION_VAL_2_VITA3K_SYS_LANG_DA },
+            { "3", OPTION_VAL_3_VITA3K_SYS_LANG_DA },
+            { "4", OPTION_VAL_4_VITA3K_SYS_LANG_DA },
+            { "5", OPTION_VAL_5_DA },
+            { "6", OPTION_VAL_6_DA },
+            { "7", OPTION_VAL_7_DA },
+            { "8", OPTION_VAL_8_VITA3K_SYS_LANG_DA },
+            { "9", OPTION_VAL_9_DA },
+            { "10", OPTION_VAL_10_DA },
+            { "11", OPTION_VAL_11_DA },
+            { "12", OPTION_VAL_12_DA },
+            { "13", OPTION_VAL_13_DA },
+            { "14", OPTION_VAL_14_DA },
+            { "15", OPTION_VAL_15_DA },
+            { "16", OPTION_VAL_16_VITA3K_SYS_LANG_DA },
+            { "17", OPTION_VAL_17_DA },
+            { "18", OPTION_VAL_18_DA },
+            { "19", OPTION_VAL_19_DA },
+            { NULL, NULL },
+        },
+        "1"
+    },
+    {
+        "vita3k_sys_date_format",
+        VITA3K_SYS_DATE_FORMAT_LABEL_DA,
+        NULL,
+        VITA3K_SYS_DATE_FORMAT_INFO_0_DA,
+        NULL,
+        "system",
+        {
+            { "0", OPTION_VAL_0_VITA3K_SYS_DATE_FORMAT_DA },
+            { "1", OPTION_VAL_1_VITA3K_SYS_DATE_FORMAT_DA },
+            { "2", OPTION_VAL_2_VITA3K_SYS_DATE_FORMAT_DA },
+            { NULL, NULL },
+        },
+        "2"
+    },
+    {
+        "vita3k_sys_time_format",
+        VITA3K_SYS_TIME_FORMAT_LABEL_DA,
+        NULL,
+        VITA3K_SYS_TIME_FORMAT_INFO_0_DA,
+        NULL,
+        "system",
+        {
+            { "0", OPTION_VAL_0_VITA3K_SYS_TIME_FORMAT_DA },
+            { "1", OPTION_VAL_1_VITA3K_SYS_TIME_FORMAT_DA },
+            { NULL, NULL },
+        },
+        "0"
+    },
     // ── Audio ────────────────────────────────────────────────────────────
     {
         "vita3k_audio_volume",
@@ -4214,7 +7466,7 @@ struct retro_core_option_v2_definition option_defs_da[] = {
         "audio",
         {
             { "0", OPTION_VAL_0_VITA3K_AUDIO_VOLUME_DA },
-            { "10", OPTION_VAL_10_DA },
+            { "10", OPTION_VAL_10_VITA3K_AUDIO_VOLUME_DA },
             { "20", OPTION_VAL_20_DA },
             { "30", OPTION_VAL_30_DA },
             { "40", OPTION_VAL_40_DA },
@@ -4258,6 +7510,204 @@ struct retro_core_option_v2_definition option_defs_da[] = {
         "disabled"
     },
     {
+        "vita3k_http_enable",
+        VITA3K_HTTP_ENABLE_LABEL_DA,
+        NULL,
+        VITA3K_HTTP_ENABLE_INFO_0_DA,
+        NULL,
+        "network",
+        {
+            { "enabled", NULL },
+            { "disabled", NULL },
+            { NULL, NULL },
+        },
+        "enabled"
+    },
+    {
+        "vita3k_http_timeout_attempts",
+        VITA3K_HTTP_TIMEOUT_ATTEMPTS_LABEL_DA,
+        NULL,
+        VITA3K_HTTP_TIMEOUT_ATTEMPTS_INFO_0_DA,
+        NULL,
+        "network",
+        {
+            { "0", NULL },
+            { "5", NULL },
+            { "10", NULL },
+            { "15", NULL },
+            { "20", NULL },
+            { "25", NULL },
+            { "30", NULL },
+            { "35", NULL },
+            { "40", NULL },
+            { "45", NULL },
+            { "50", NULL },
+            { "55", NULL },
+            { "60", NULL },
+            { "65", NULL },
+            { "70", NULL },
+            { "75", NULL },
+            { "80", NULL },
+            { "85", NULL },
+            { "90", NULL },
+            { "95", NULL },
+            { "100", NULL },
+            { NULL, NULL },
+        },
+        "50"
+    },
+    {
+        "vita3k_http_timeout_sleep",
+        VITA3K_HTTP_TIMEOUT_SLEEP_LABEL_DA,
+        NULL,
+        VITA3K_HTTP_TIMEOUT_SLEEP_INFO_0_DA,
+        NULL,
+        "network",
+        {
+            { "50", OPTION_VAL_50_VITA3K_HTTP_TIMEOUT_SLEEP_DA },
+            { "100", OPTION_VAL_100_VITA3K_HTTP_TIMEOUT_SLEEP_DA },
+            { "150", OPTION_VAL_150_DA },
+            { "200", OPTION_VAL_200_DA },
+            { "250", OPTION_VAL_250_DA },
+            { "300", OPTION_VAL_300_DA },
+            { "400", OPTION_VAL_400_DA },
+            { "500", OPTION_VAL_500_DA },
+            { "750", OPTION_VAL_750_DA },
+            { "1000", OPTION_VAL_1000_DA },
+            { "1500", OPTION_VAL_1500_DA },
+            { "2000", OPTION_VAL_2000_DA },
+            { "2500", OPTION_VAL_2500_DA },
+            { "3000", OPTION_VAL_3000_DA },
+            { NULL, NULL },
+        },
+        "100"
+    },
+    {
+        "vita3k_http_read_end_attempts",
+        VITA3K_HTTP_READ_END_ATTEMPTS_LABEL_DA,
+        NULL,
+        VITA3K_HTTP_READ_END_ATTEMPTS_INFO_0_DA,
+        NULL,
+        "network",
+        {
+            { "0", NULL },
+            { "5", NULL },
+            { "10", NULL },
+            { "15", NULL },
+            { "20", NULL },
+            { "25", NULL },
+            { "30", NULL },
+            { "35", NULL },
+            { "40", NULL },
+            { "45", NULL },
+            { "50", NULL },
+            { "55", NULL },
+            { "60", NULL },
+            { "65", NULL },
+            { "70", NULL },
+            { "75", NULL },
+            { "80", NULL },
+            { "85", NULL },
+            { "90", NULL },
+            { "95", NULL },
+            { "100", NULL },
+            { NULL, NULL },
+        },
+        "10"
+    },
+    {
+        "vita3k_http_read_end_sleep",
+        VITA3K_HTTP_READ_END_SLEEP_LABEL_DA,
+        NULL,
+        VITA3K_HTTP_READ_END_SLEEP_INFO_0_DA,
+        NULL,
+        "network",
+        {
+            { "50", OPTION_VAL_50_VITA3K_HTTP_TIMEOUT_SLEEP_DA },
+            { "100", OPTION_VAL_100_VITA3K_HTTP_TIMEOUT_SLEEP_DA },
+            { "150", OPTION_VAL_150_DA },
+            { "200", OPTION_VAL_200_DA },
+            { "250", OPTION_VAL_250_DA },
+            { "300", OPTION_VAL_300_DA },
+            { "400", OPTION_VAL_400_DA },
+            { "500", OPTION_VAL_500_DA },
+            { "750", OPTION_VAL_750_DA },
+            { "1000", OPTION_VAL_1000_DA },
+            { "1500", OPTION_VAL_1500_DA },
+            { "2000", OPTION_VAL_2000_DA },
+            { "2500", OPTION_VAL_2500_DA },
+            { "3000", OPTION_VAL_3000_DA },
+            { NULL, NULL },
+        },
+        "250"
+    },
+    {
+        "vita3k_front_camera",
+        VITA3K_FRONT_CAMERA_LABEL_DA,
+        NULL,
+        VITA3K_FRONT_CAMERA_INFO_0_DA,
+        NULL,
+        "camera",
+        {
+            { "host", OPTION_VAL_HOST_DA },
+            { "image", OPTION_VAL_IMAGE_DA },
+            { "color", OPTION_VAL_COLOR_DA },
+            { NULL, NULL },
+        },
+        "host"
+    },
+    {
+        "vita3k_front_camera_color",
+        VITA3K_FRONT_CAMERA_COLOR_LABEL_DA,
+        NULL,
+        VITA3K_FRONT_CAMERA_COLOR_INFO_0_DA,
+        NULL,
+        "camera",
+        {
+            { "0", OPTION_VAL_0_VITA3K_FRONT_CAMERA_COLOR_DA },
+            { "16777215", OPTION_VAL_16777215_DA },
+            { "8421504", OPTION_VAL_8421504_DA },
+            { "255", OPTION_VAL_255_DA },
+            { "65280", OPTION_VAL_65280_DA },
+            { "16711680", OPTION_VAL_16711680_DA },
+            { NULL, NULL },
+        },
+        "0"
+    },
+    {
+        "vita3k_back_camera",
+        VITA3K_BACK_CAMERA_LABEL_DA,
+        NULL,
+        VITA3K_BACK_CAMERA_INFO_0_DA,
+        NULL,
+        "camera",
+        {
+            { "host", OPTION_VAL_HOST_DA },
+            { "image", OPTION_VAL_IMAGE_DA },
+            { "color", OPTION_VAL_COLOR_DA },
+            { NULL, NULL },
+        },
+        "host"
+    },
+    {
+        "vita3k_back_camera_color",
+        VITA3K_BACK_CAMERA_COLOR_LABEL_DA,
+        NULL,
+        VITA3K_BACK_CAMERA_COLOR_INFO_0_DA,
+        NULL,
+        "camera",
+        {
+            { "0", OPTION_VAL_0_VITA3K_FRONT_CAMERA_COLOR_DA },
+            { "16777215", OPTION_VAL_16777215_DA },
+            { "8421504", OPTION_VAL_8421504_DA },
+            { "255", OPTION_VAL_255_DA },
+            { "65280", OPTION_VAL_65280_DA },
+            { "16711680", OPTION_VAL_16711680_DA },
+            { NULL, NULL },
+        },
+        "0"
+    },
+    {
         "vita3k_surface_sync",
         VITA3K_SURFACE_SYNC_LABEL_DA,
         NULL,
@@ -4280,9 +7730,9 @@ struct retro_core_option_v2_definition option_defs_da[] = {
         "system",
         {
             { "0", OPTION_VAL_0_VITA3K_FILE_LOADING_DELAY_DA },
-            { "5", OPTION_VAL_5_DA },
+            { "5", OPTION_VAL_5_VITA3K_FILE_LOADING_DELAY_DA },
             { "10", OPTION_VAL_10_VITA3K_FILE_LOADING_DELAY_DA },
-            { "15", OPTION_VAL_15_DA },
+            { "15", OPTION_VAL_15_VITA3K_FILE_LOADING_DELAY_DA },
             { "20", OPTION_VAL_20_VITA3K_FILE_LOADING_DELAY_DA },
             { "25", OPTION_VAL_25_DA },
             { "30", OPTION_VAL_30_VITA3K_FILE_LOADING_DELAY_DA },
@@ -4309,6 +7759,14 @@ struct retro_core_options_v2 options_da = {
 #define CATEGORY_AUDIO_INFO_0_DE "Optionen zur Audioausgabe."
 #define CATEGORY_NETWORK_LABEL_DE "Netzwerk"
 #define CATEGORY_NETWORK_INFO_0_DE "Optionen für das Netzwerk."
+#define CATEGORY_INSTALL_LABEL_DE "Inhalt"
+#define CATEGORY_INSTALL_INFO_0_DE "Ladeverfahren für Spiele, Updates und DLCs."
+#define CATEGORY_CAMERA_LABEL_DE "Kameratreiber"
+#define CATEGORY_CAMERA_INFO_0_DE "Ansicht der Front- und Rückkamera der Vita."
+#define CATEGORY_ACCOUNTS_LABEL_DE "Benutzerkonten"
+#define CATEGORY_ACCOUNTS_INFO_0_DE "Konten (Benutzer) der Vita in ux0/user, jeweils mit eigenen Speicherständen und Trophäen."
+#define CATEGORY_MODULES_LABEL_DE "Module"
+#define CATEGORY_MODULES_INFO_0_DE "Firmwaremodule (vs0/sys/external), die bei den Modulmodi „Automatisch und manuell“ oder „Manuell“ geladen werden."
 #define VITA3K_BACKEND_RENDERER_LABEL_DE "Renderer-Backend"
 #define VITA3K_BACKEND_RENDERER_INFO_0_DE "Grafik-Backend auswählen. Vulkan wird empfohlen."
 #define OPTION_VAL_VULKAN_DE NULL
@@ -4346,29 +7804,61 @@ struct retro_core_options_v2 options_da = {
 #define OPTION_VAL_NATIVE_BUFFER_DE "Nativer Puffer"
 #define VITA3K_HIGH_ACCURACY_LABEL_DE "Hochpräzises Rendering"
 #define VITA3K_HIGH_ACCURACY_INFO_0_DE "Genauere, aber langsamere Rendering-Techniken aktivieren."
-#define VITA3K_CPU_OPT_LABEL_DE NULL
-#define VITA3K_CPU_OPT_INFO_0_DE NULL
-#define VITA3K_PKG_MODE_LABEL_DE NULL
-#define VITA3K_PKG_MODE_INFO_0_DE NULL
-#define OPTION_VAL_RUN_DE NULL
-#define OPTION_VAL_INSTALL_DE NULL
-#define VITA3K_PSTV_MODE_LABEL_DE NULL
-#define VITA3K_PSTV_MODE_INFO_0_DE NULL
-#define VITA3K_MODULES_MODE_LABEL_DE NULL
-#define VITA3K_MODULES_MODE_INFO_0_DE NULL
+#define VITA3K_CPU_OPT_LABEL_DE "CPU-Optimierungen (Dynarmic-JIT)"
+#define VITA3K_CPU_OPT_INFO_0_DE "Dynarmic-JIT für eine schnellere CPU-Emulation aktivieren."
+#define VITA3K_PKG_MODE_LABEL_DE "Spiel vorladen"
+#define VITA3K_PKG_MODE_INFO_0_DE "Alle Inhalte folgen dieser Einstellung, außer Updates und DLCs, die beim manuellen Laden zwingend installiert werden. „Ohne Installation ausführen“ liest die Dateien direkt ein und speichert nichts. „Dauerhafter Cache“ funktioniert genauso, behält aber die gelesenen Daten. „Installieren“ kopiert alle Dateien, damit der Start schneller erfolgt."
+#define OPTION_VAL_RUN_DE "Ohne Installation ausführen"
+#define OPTION_VAL_CACHE_DE "Dauerhafter Cache"
+#define OPTION_VAL_INSTALL_DE "Installieren"
+#define VITA3K_PSTV_MODE_LABEL_DE "PS-TV-Modus"
+#define VITA3K_PSTV_MODE_INFO_0_DE "Eine PlayStation TV statt einer PS Vita emulieren."
+#define VITA3K_MODULES_MODE_LABEL_DE "Modulmodus"
+#define VITA3K_MODULES_MODE_INFO_0_DE "Legt fest, wie Systemmodule geladen werden. Automatisch: die Implementierung des Cores sowie die Firmwaremodule, von denen der Core weiß, dass er sie benötigt. Automatisch und manuell: diese Module sowie die unter „Module“ aktivierten. Manuell: nur die unter „Module“ aktivierten. Automatisch wird empfohlen."
 #define OPTION_VAL_0_DE "Automatisch"
-#define OPTION_VAL_1_VITA3K_MODULES_MODE_DE NULL
+#define OPTION_VAL_1_VITA3K_MODULES_MODE_DE "Automatisch und manuell"
 #define OPTION_VAL_2_VITA3K_MODULES_MODE_DE "Manuell"
-#define VITA3K_FPS_HACK_LABEL_DE NULL
-#define VITA3K_FPS_HACK_INFO_0_DE NULL
-#define VITA3K_SYS_BUTTON_LABEL_DE NULL
-#define VITA3K_SYS_BUTTON_INFO_0_DE NULL
-#define OPTION_VAL_0_VITA3K_SYS_BUTTON_DE NULL
+#define VITA3K_FPS_HACK_LABEL_DE "FPS-Hack (30 auf 60 FPS)"
+#define VITA3K_FPS_HACK_INFO_0_DE "Versuchen, auf 30 FPS begrenzte Spiele mit 60 FPS auszuführen. Kann Probleme verursachen."
+#define VITA3K_SYS_BUTTON_LABEL_DE "Bestätigungstaste"
+#define VITA3K_SYS_BUTTON_INFO_0_DE "Legt fest, welche Taste zum Bestätigen verwendet wird."
+#define OPTION_VAL_0_VITA3K_SYS_BUTTON_DE "Kreis"
 #define OPTION_VAL_1_VITA3K_SYS_BUTTON_DE "Kreuz"
-#define VITA3K_AUDIO_VOLUME_LABEL_DE NULL
-#define VITA3K_AUDIO_VOLUME_INFO_0_DE NULL
+#define VITA3K_SYS_LANG_LABEL_DE "Systemsprache"
+#define VITA3K_SYS_LANG_INFO_0_DE "Sprache der Konsole, die Spiele für ihre Texte verwenden und in der Systemdialoge angezeigt werden. Wird beim nächsten Start des Spiels wirksam."
+#define OPTION_VAL_0_VITA3K_SYS_LANG_DE "Japanisch"
+#define OPTION_VAL_1_VITA3K_SYS_LANG_DE "Englisch (Vereinigte Staaten)"
+#define OPTION_VAL_2_VITA3K_SYS_LANG_DE "Französisch"
+#define OPTION_VAL_3_VITA3K_SYS_LANG_DE "Spanisch"
+#define OPTION_VAL_4_VITA3K_SYS_LANG_DE "Deutsch"
+#define OPTION_VAL_5_DE "Italienisch"
+#define OPTION_VAL_6_DE "Niederländisch"
+#define OPTION_VAL_7_DE "Portugiesisch (Portugal)"
+#define OPTION_VAL_8_VITA3K_SYS_LANG_DE "Russisch"
+#define OPTION_VAL_9_DE "Koreanisch"
+#define OPTION_VAL_10_DE "Chinesisch (traditionell)"
+#define OPTION_VAL_11_DE "Chinesisch (vereinfacht)"
+#define OPTION_VAL_12_DE "Finnisch"
+#define OPTION_VAL_13_DE "Schwedisch"
+#define OPTION_VAL_14_DE "Dänisch"
+#define OPTION_VAL_15_DE "Norwegisch"
+#define OPTION_VAL_16_VITA3K_SYS_LANG_DE "Polnisch"
+#define OPTION_VAL_17_DE "Portugiesisch (Brasilien)"
+#define OPTION_VAL_18_DE "Englisch (Vereinigtes Königreich)"
+#define OPTION_VAL_19_DE "Türkisch"
+#define VITA3K_SYS_DATE_FORMAT_LABEL_DE "Datumsformat"
+#define VITA3K_SYS_DATE_FORMAT_INFO_0_DE "So schreibt die Konsole Datumsangaben, etwa für Spiele und Systemdialoge (z. B. Datenlisten). Datum und Uhrzeit selbst stammen vom Host. Wird beim nächsten Start des Spiels angewendet."
+#define OPTION_VAL_0_VITA3K_SYS_DATE_FORMAT_DE "JJJJ/MM/TT"
+#define OPTION_VAL_1_VITA3K_SYS_DATE_FORMAT_DE "TT/MM/JJJJ"
+#define OPTION_VAL_2_VITA3K_SYS_DATE_FORMAT_DE "MM/TT/JJJJ"
+#define VITA3K_SYS_TIME_FORMAT_LABEL_DE "Uhrzeitformat"
+#define VITA3K_SYS_TIME_FORMAT_INFO_0_DE "Legt fest, ob die Konsole die Uhrzeit im 12- oder 24-Stunden-Format anzeigt, etwa in Spielen und Systemdialogen. Wird beim nächsten Start des Spiels angewendet."
+#define OPTION_VAL_0_VITA3K_SYS_TIME_FORMAT_DE "12-Stunden"
+#define OPTION_VAL_1_VITA3K_SYS_TIME_FORMAT_DE "24-Stunden"
+#define VITA3K_AUDIO_VOLUME_LABEL_DE "Audiolautstärke"
+#define VITA3K_AUDIO_VOLUME_INFO_0_DE "Die Hauptlautstärke."
 #define OPTION_VAL_0_VITA3K_AUDIO_VOLUME_DE "0 %"
-#define OPTION_VAL_10_DE "10 %"
+#define OPTION_VAL_10_VITA3K_AUDIO_VOLUME_DE "10 %"
 #define OPTION_VAL_20_DE "20 %"
 #define OPTION_VAL_30_DE "30 %"
 #define OPTION_VAL_40_DE "40 %"
@@ -4378,20 +7868,61 @@ struct retro_core_options_v2 options_da = {
 #define OPTION_VAL_80_DE "80 %"
 #define OPTION_VAL_90_DE "90 %"
 #define OPTION_VAL_100_DE "100 %"
-#define VITA3K_NGS_ENABLE_LABEL_DE NULL
-#define VITA3K_NGS_ENABLE_INFO_0_DE NULL
-#define VITA3K_PSN_SIGNED_IN_LABEL_DE NULL
-#define VITA3K_PSN_SIGNED_IN_INFO_0_DE NULL
-#define VITA3K_SURFACE_SYNC_LABEL_DE NULL
-#define VITA3K_SURFACE_SYNC_INFO_0_DE NULL
+#define VITA3K_NGS_ENABLE_LABEL_DE "NGS-Audio-Engine"
+#define VITA3K_NGS_ENABLE_INFO_0_DE "NGS-Audio-Engine für verbesserten Klang aktivieren."
+#define VITA3K_PSN_SIGNED_IN_LABEL_DE "Bei PSN angemeldet"
+#define VITA3K_PSN_SIGNED_IN_INFO_0_DE "Anmeldung bei PSN simulieren. Wird von einigen Spielen benötigt."
+#define VITA3K_HTTP_ENABLE_LABEL_DE NULL
+#define VITA3K_HTTP_ENABLE_INFO_0_DE "HTTP-Netzwerkunterstützung für Apps aktivieren, die diese verwenden. Wird beim nächsten Start des Spiels angewendet."
+#define VITA3K_HTTP_TIMEOUT_ATTEMPTS_LABEL_DE "HTTP-Timeout-Versuche"
+#define VITA3K_HTTP_TIMEOUT_ATTEMPTS_INFO_0_DE "Wie oft erneut versucht wird, eine Verbindung herzustellen, wenn der Server nicht antwortet. Kann bei einer sehr instabilen oder sehr langsamen Verbindung hilfreich sein. Wird beim nächsten Start des Spiels angewendet."
+#define VITA3K_HTTP_TIMEOUT_SLEEP_LABEL_DE "HTTP-Timeout-Wartezeit"
+#define VITA3K_HTTP_TIMEOUT_SLEEP_INFO_0_DE "Wie lange zwischen Verbindungsversuchen gewartet wird. Kann bei einer sehr instabilen oder sehr langsamen Verbindung hilfreich sein. Wird beim nächsten Start des Spiels angewendet."
+#define OPTION_VAL_50_VITA3K_HTTP_TIMEOUT_SLEEP_DE NULL
+#define OPTION_VAL_100_VITA3K_HTTP_TIMEOUT_SLEEP_DE NULL
+#define OPTION_VAL_150_DE NULL
+#define OPTION_VAL_200_DE NULL
+#define OPTION_VAL_250_DE NULL
+#define OPTION_VAL_300_DE NULL
+#define OPTION_VAL_400_DE NULL
+#define OPTION_VAL_500_DE NULL
+#define OPTION_VAL_750_DE NULL
+#define OPTION_VAL_1000_DE NULL
+#define OPTION_VAL_1500_DE NULL
+#define OPTION_VAL_2000_DE NULL
+#define OPTION_VAL_2500_DE NULL
+#define OPTION_VAL_3000_DE NULL
+#define VITA3K_HTTP_READ_END_ATTEMPTS_LABEL_DE "HTTP-Wiederholungsversuche beim Leseende"
+#define VITA3K_HTTP_READ_END_ATTEMPTS_INFO_0_DE "Wie oft erneut versucht wird, wenn keine weiteren Daten zum Lesen verfügbar sind. Ein niedrigerer Wert kann die Leistung verbessern, bei einer sehr schlechten Verbindung aber zu Instabilität im Spiel führen. Wird beim nächsten Start des Spiels angewendet."
+#define VITA3K_HTTP_READ_END_SLEEP_LABEL_DE "HTTP-Wartezeit beim Leseende"
+#define VITA3K_HTTP_READ_END_SLEEP_INFO_0_DE "Wie lange zwischen erneuten Leseversuchen gewartet wird. Ein niedrigerer Wert kann die Leistung verbessern, bei einer sehr schlechten Verbindung aber zu Instabilität im Spiel führen. Wird beim nächsten Start des Spiels angewendet."
+#define VITA3K_FRONT_CAMERA_LABEL_DE "Frontkamera"
+#define VITA3K_FRONT_CAMERA_INFO_0_DE "Was die Frontkamera der Vita erfasst. Host-Kamera: die Kamera von RetroArch (Einstellungen > Datenschutz > Kamerazugriff muss aktiviert sein; außerdem muss ein Kameratreiber für diese Plattform verfügbar sein). Bild: system/vita3k/camera/front.png oder front.jpg. Volltonfarbe: die Frontkamerafarbe. Wenn eine Quelle nicht verfügbar ist, wird die nächste verwendet. Wird beim nächsten Öffnen der Kamera im Spiel angewendet."
+#define OPTION_VAL_HOST_DE "Hostkamera"
+#define OPTION_VAL_IMAGE_DE "Bild"
+#define OPTION_VAL_COLOR_DE "Volltonfarbe"
+#define VITA3K_FRONT_CAMERA_COLOR_LABEL_DE "Farbe der Frontkamera"
+#define VITA3K_FRONT_CAMERA_COLOR_INFO_0_DE "Die Farbe, die die Frontkamera bei „Volltonfarbe“ anzeigt."
+#define OPTION_VAL_0_VITA3K_FRONT_CAMERA_COLOR_DE "Schwarz"
+#define OPTION_VAL_16777215_DE "Weiß"
+#define OPTION_VAL_8421504_DE "Grau"
+#define OPTION_VAL_255_DE "Rot"
+#define OPTION_VAL_65280_DE "Grün"
+#define OPTION_VAL_16711680_DE "Blau"
+#define VITA3K_BACK_CAMERA_LABEL_DE "Rückkamera"
+#define VITA3K_BACK_CAMERA_INFO_0_DE "Was die Rückkamera der Vita erfasst. Host-Kamera: die Kamera von RetroArch (Einstellungen > Datenschutz > Kamerazugriff muss aktiviert sein; außerdem muss ein Kameratreiber für diese Plattform verfügbar sein). Bild: system/vita3k/camera/back.png oder back.jpg. Volltonfarbe: die Backkamerafarbe. Wenn eine Quelle nicht verfügbar ist, wird die nächste verwendet. Wird beim nächsten Öffnen der Kamera im Spiel angewendet."
+#define VITA3K_BACK_CAMERA_COLOR_LABEL_DE "Farbe der Rückkamera"
+#define VITA3K_BACK_CAMERA_COLOR_INFO_0_DE "Die Farbe, die die Rückkamera bei „Volltonfarbe“ anzeigt."
+#define VITA3K_SURFACE_SYNC_LABEL_DE "Oberflächensynchronisierung"
+#define VITA3K_SURFACE_SYNC_INFO_0_DE "GPU-Speicheroptimierung. Kann die Leistung um 20–40 % verbessern."
 #define OPTION_VAL_ENABLED_DE "Aktiviert (genauer)"
 #define OPTION_VAL_DISABLED_DE "Deaktiviert (schneller)"
-#define VITA3K_FILE_LOADING_DELAY_LABEL_DE NULL
-#define VITA3K_FILE_LOADING_DELAY_INFO_0_DE NULL
+#define VITA3K_FILE_LOADING_DELAY_LABEL_DE "Dateiladeverzögerung"
+#define VITA3K_FILE_LOADING_DELAY_INFO_0_DE "Verzögerung beim Laden von Dateien in Millisekunden. Hilft bei zeitempfindlichen Spielen."
 #define OPTION_VAL_0_VITA3K_FILE_LOADING_DELAY_DE NULL
-#define OPTION_VAL_5_DE NULL
+#define OPTION_VAL_5_VITA3K_FILE_LOADING_DELAY_DE NULL
 #define OPTION_VAL_10_VITA3K_FILE_LOADING_DELAY_DE NULL
-#define OPTION_VAL_15_DE NULL
+#define OPTION_VAL_15_VITA3K_FILE_LOADING_DELAY_DE NULL
 #define OPTION_VAL_20_VITA3K_FILE_LOADING_DELAY_DE NULL
 #define OPTION_VAL_25_DE NULL
 #define OPTION_VAL_30_VITA3K_FILE_LOADING_DELAY_DE NULL
@@ -4402,6 +7933,10 @@ struct retro_core_option_v2_category option_cats_de[] = {
     { "system", CATEGORY_SYSTEM_LABEL_DE, CATEGORY_SYSTEM_INFO_0_DE },
     { "audio", CATEGORY_AUDIO_LABEL_DE, CATEGORY_AUDIO_INFO_0_DE },
     { "network", CATEGORY_NETWORK_LABEL_DE, CATEGORY_NETWORK_INFO_0_DE },
+    { "install", CATEGORY_INSTALL_LABEL_DE, CATEGORY_INSTALL_INFO_0_DE },
+    { "camera", CATEGORY_CAMERA_LABEL_DE, CATEGORY_CAMERA_INFO_0_DE },
+    { "accounts", CATEGORY_ACCOUNTS_LABEL_DE, CATEGORY_ACCOUNTS_INFO_0_DE },
+    { "modules", CATEGORY_MODULES_LABEL_DE, CATEGORY_MODULES_INFO_0_DE },
     { NULL, NULL, NULL },
 };
 struct retro_core_option_v2_definition option_defs_de[] = {
@@ -4565,9 +8100,10 @@ struct retro_core_option_v2_definition option_defs_de[] = {
         NULL,
         VITA3K_PKG_MODE_INFO_0_DE,
         NULL,
-        "system",
+        "install",
         {
             { "run", OPTION_VAL_RUN_DE },
+            { "cache", OPTION_VAL_CACHE_DE },
             { "install", OPTION_VAL_INSTALL_DE },
             { NULL, NULL },
         },
@@ -4630,6 +8166,67 @@ struct retro_core_option_v2_definition option_defs_de[] = {
         },
         "1"
     },
+    {
+        "vita3k_sys_lang",
+        VITA3K_SYS_LANG_LABEL_DE,
+        NULL,
+        VITA3K_SYS_LANG_INFO_0_DE,
+        NULL,
+        "system",
+        {
+            { "0", OPTION_VAL_0_VITA3K_SYS_LANG_DE },
+            { "1", OPTION_VAL_1_VITA3K_SYS_LANG_DE },
+            { "2", OPTION_VAL_2_VITA3K_SYS_LANG_DE },
+            { "3", OPTION_VAL_3_VITA3K_SYS_LANG_DE },
+            { "4", OPTION_VAL_4_VITA3K_SYS_LANG_DE },
+            { "5", OPTION_VAL_5_DE },
+            { "6", OPTION_VAL_6_DE },
+            { "7", OPTION_VAL_7_DE },
+            { "8", OPTION_VAL_8_VITA3K_SYS_LANG_DE },
+            { "9", OPTION_VAL_9_DE },
+            { "10", OPTION_VAL_10_DE },
+            { "11", OPTION_VAL_11_DE },
+            { "12", OPTION_VAL_12_DE },
+            { "13", OPTION_VAL_13_DE },
+            { "14", OPTION_VAL_14_DE },
+            { "15", OPTION_VAL_15_DE },
+            { "16", OPTION_VAL_16_VITA3K_SYS_LANG_DE },
+            { "17", OPTION_VAL_17_DE },
+            { "18", OPTION_VAL_18_DE },
+            { "19", OPTION_VAL_19_DE },
+            { NULL, NULL },
+        },
+        "1"
+    },
+    {
+        "vita3k_sys_date_format",
+        VITA3K_SYS_DATE_FORMAT_LABEL_DE,
+        NULL,
+        VITA3K_SYS_DATE_FORMAT_INFO_0_DE,
+        NULL,
+        "system",
+        {
+            { "0", OPTION_VAL_0_VITA3K_SYS_DATE_FORMAT_DE },
+            { "1", OPTION_VAL_1_VITA3K_SYS_DATE_FORMAT_DE },
+            { "2", OPTION_VAL_2_VITA3K_SYS_DATE_FORMAT_DE },
+            { NULL, NULL },
+        },
+        "2"
+    },
+    {
+        "vita3k_sys_time_format",
+        VITA3K_SYS_TIME_FORMAT_LABEL_DE,
+        NULL,
+        VITA3K_SYS_TIME_FORMAT_INFO_0_DE,
+        NULL,
+        "system",
+        {
+            { "0", OPTION_VAL_0_VITA3K_SYS_TIME_FORMAT_DE },
+            { "1", OPTION_VAL_1_VITA3K_SYS_TIME_FORMAT_DE },
+            { NULL, NULL },
+        },
+        "0"
+    },
     // ── Audio ────────────────────────────────────────────────────────────
     {
         "vita3k_audio_volume",
@@ -4640,7 +8237,7 @@ struct retro_core_option_v2_definition option_defs_de[] = {
         "audio",
         {
             { "0", OPTION_VAL_0_VITA3K_AUDIO_VOLUME_DE },
-            { "10", OPTION_VAL_10_DE },
+            { "10", OPTION_VAL_10_VITA3K_AUDIO_VOLUME_DE },
             { "20", OPTION_VAL_20_DE },
             { "30", OPTION_VAL_30_DE },
             { "40", OPTION_VAL_40_DE },
@@ -4684,6 +8281,204 @@ struct retro_core_option_v2_definition option_defs_de[] = {
         "disabled"
     },
     {
+        "vita3k_http_enable",
+        VITA3K_HTTP_ENABLE_LABEL_DE,
+        NULL,
+        VITA3K_HTTP_ENABLE_INFO_0_DE,
+        NULL,
+        "network",
+        {
+            { "enabled", NULL },
+            { "disabled", NULL },
+            { NULL, NULL },
+        },
+        "enabled"
+    },
+    {
+        "vita3k_http_timeout_attempts",
+        VITA3K_HTTP_TIMEOUT_ATTEMPTS_LABEL_DE,
+        NULL,
+        VITA3K_HTTP_TIMEOUT_ATTEMPTS_INFO_0_DE,
+        NULL,
+        "network",
+        {
+            { "0", NULL },
+            { "5", NULL },
+            { "10", NULL },
+            { "15", NULL },
+            { "20", NULL },
+            { "25", NULL },
+            { "30", NULL },
+            { "35", NULL },
+            { "40", NULL },
+            { "45", NULL },
+            { "50", NULL },
+            { "55", NULL },
+            { "60", NULL },
+            { "65", NULL },
+            { "70", NULL },
+            { "75", NULL },
+            { "80", NULL },
+            { "85", NULL },
+            { "90", NULL },
+            { "95", NULL },
+            { "100", NULL },
+            { NULL, NULL },
+        },
+        "50"
+    },
+    {
+        "vita3k_http_timeout_sleep",
+        VITA3K_HTTP_TIMEOUT_SLEEP_LABEL_DE,
+        NULL,
+        VITA3K_HTTP_TIMEOUT_SLEEP_INFO_0_DE,
+        NULL,
+        "network",
+        {
+            { "50", OPTION_VAL_50_VITA3K_HTTP_TIMEOUT_SLEEP_DE },
+            { "100", OPTION_VAL_100_VITA3K_HTTP_TIMEOUT_SLEEP_DE },
+            { "150", OPTION_VAL_150_DE },
+            { "200", OPTION_VAL_200_DE },
+            { "250", OPTION_VAL_250_DE },
+            { "300", OPTION_VAL_300_DE },
+            { "400", OPTION_VAL_400_DE },
+            { "500", OPTION_VAL_500_DE },
+            { "750", OPTION_VAL_750_DE },
+            { "1000", OPTION_VAL_1000_DE },
+            { "1500", OPTION_VAL_1500_DE },
+            { "2000", OPTION_VAL_2000_DE },
+            { "2500", OPTION_VAL_2500_DE },
+            { "3000", OPTION_VAL_3000_DE },
+            { NULL, NULL },
+        },
+        "100"
+    },
+    {
+        "vita3k_http_read_end_attempts",
+        VITA3K_HTTP_READ_END_ATTEMPTS_LABEL_DE,
+        NULL,
+        VITA3K_HTTP_READ_END_ATTEMPTS_INFO_0_DE,
+        NULL,
+        "network",
+        {
+            { "0", NULL },
+            { "5", NULL },
+            { "10", NULL },
+            { "15", NULL },
+            { "20", NULL },
+            { "25", NULL },
+            { "30", NULL },
+            { "35", NULL },
+            { "40", NULL },
+            { "45", NULL },
+            { "50", NULL },
+            { "55", NULL },
+            { "60", NULL },
+            { "65", NULL },
+            { "70", NULL },
+            { "75", NULL },
+            { "80", NULL },
+            { "85", NULL },
+            { "90", NULL },
+            { "95", NULL },
+            { "100", NULL },
+            { NULL, NULL },
+        },
+        "10"
+    },
+    {
+        "vita3k_http_read_end_sleep",
+        VITA3K_HTTP_READ_END_SLEEP_LABEL_DE,
+        NULL,
+        VITA3K_HTTP_READ_END_SLEEP_INFO_0_DE,
+        NULL,
+        "network",
+        {
+            { "50", OPTION_VAL_50_VITA3K_HTTP_TIMEOUT_SLEEP_DE },
+            { "100", OPTION_VAL_100_VITA3K_HTTP_TIMEOUT_SLEEP_DE },
+            { "150", OPTION_VAL_150_DE },
+            { "200", OPTION_VAL_200_DE },
+            { "250", OPTION_VAL_250_DE },
+            { "300", OPTION_VAL_300_DE },
+            { "400", OPTION_VAL_400_DE },
+            { "500", OPTION_VAL_500_DE },
+            { "750", OPTION_VAL_750_DE },
+            { "1000", OPTION_VAL_1000_DE },
+            { "1500", OPTION_VAL_1500_DE },
+            { "2000", OPTION_VAL_2000_DE },
+            { "2500", OPTION_VAL_2500_DE },
+            { "3000", OPTION_VAL_3000_DE },
+            { NULL, NULL },
+        },
+        "250"
+    },
+    {
+        "vita3k_front_camera",
+        VITA3K_FRONT_CAMERA_LABEL_DE,
+        NULL,
+        VITA3K_FRONT_CAMERA_INFO_0_DE,
+        NULL,
+        "camera",
+        {
+            { "host", OPTION_VAL_HOST_DE },
+            { "image", OPTION_VAL_IMAGE_DE },
+            { "color", OPTION_VAL_COLOR_DE },
+            { NULL, NULL },
+        },
+        "host"
+    },
+    {
+        "vita3k_front_camera_color",
+        VITA3K_FRONT_CAMERA_COLOR_LABEL_DE,
+        NULL,
+        VITA3K_FRONT_CAMERA_COLOR_INFO_0_DE,
+        NULL,
+        "camera",
+        {
+            { "0", OPTION_VAL_0_VITA3K_FRONT_CAMERA_COLOR_DE },
+            { "16777215", OPTION_VAL_16777215_DE },
+            { "8421504", OPTION_VAL_8421504_DE },
+            { "255", OPTION_VAL_255_DE },
+            { "65280", OPTION_VAL_65280_DE },
+            { "16711680", OPTION_VAL_16711680_DE },
+            { NULL, NULL },
+        },
+        "0"
+    },
+    {
+        "vita3k_back_camera",
+        VITA3K_BACK_CAMERA_LABEL_DE,
+        NULL,
+        VITA3K_BACK_CAMERA_INFO_0_DE,
+        NULL,
+        "camera",
+        {
+            { "host", OPTION_VAL_HOST_DE },
+            { "image", OPTION_VAL_IMAGE_DE },
+            { "color", OPTION_VAL_COLOR_DE },
+            { NULL, NULL },
+        },
+        "host"
+    },
+    {
+        "vita3k_back_camera_color",
+        VITA3K_BACK_CAMERA_COLOR_LABEL_DE,
+        NULL,
+        VITA3K_BACK_CAMERA_COLOR_INFO_0_DE,
+        NULL,
+        "camera",
+        {
+            { "0", OPTION_VAL_0_VITA3K_FRONT_CAMERA_COLOR_DE },
+            { "16777215", OPTION_VAL_16777215_DE },
+            { "8421504", OPTION_VAL_8421504_DE },
+            { "255", OPTION_VAL_255_DE },
+            { "65280", OPTION_VAL_65280_DE },
+            { "16711680", OPTION_VAL_16711680_DE },
+            { NULL, NULL },
+        },
+        "0"
+    },
+    {
         "vita3k_surface_sync",
         VITA3K_SURFACE_SYNC_LABEL_DE,
         NULL,
@@ -4706,9 +8501,9 @@ struct retro_core_option_v2_definition option_defs_de[] = {
         "system",
         {
             { "0", OPTION_VAL_0_VITA3K_FILE_LOADING_DELAY_DE },
-            { "5", OPTION_VAL_5_DE },
+            { "5", OPTION_VAL_5_VITA3K_FILE_LOADING_DELAY_DE },
             { "10", OPTION_VAL_10_VITA3K_FILE_LOADING_DELAY_DE },
-            { "15", OPTION_VAL_15_DE },
+            { "15", OPTION_VAL_15_VITA3K_FILE_LOADING_DELAY_DE },
             { "20", OPTION_VAL_20_VITA3K_FILE_LOADING_DELAY_DE },
             { "25", OPTION_VAL_25_DE },
             { "30", OPTION_VAL_30_VITA3K_FILE_LOADING_DELAY_DE },
@@ -4735,6 +8530,14 @@ struct retro_core_options_v2 options_de = {
 #define CATEGORY_AUDIO_INFO_0_EL NULL
 #define CATEGORY_NETWORK_LABEL_EL "Δίκτυο"
 #define CATEGORY_NETWORK_INFO_0_EL NULL
+#define CATEGORY_INSTALL_LABEL_EL "Περιεχόμενο"
+#define CATEGORY_INSTALL_INFO_0_EL NULL
+#define CATEGORY_CAMERA_LABEL_EL "Οδηγός Κάμερας"
+#define CATEGORY_CAMERA_INFO_0_EL NULL
+#define CATEGORY_ACCOUNTS_LABEL_EL "Λογαριασμοί"
+#define CATEGORY_ACCOUNTS_INFO_0_EL NULL
+#define CATEGORY_MODULES_LABEL_EL NULL
+#define CATEGORY_MODULES_INFO_0_EL NULL
 #define VITA3K_BACKEND_RENDERER_LABEL_EL NULL
 #define VITA3K_BACKEND_RENDERER_INFO_0_EL NULL
 #define OPTION_VAL_VULKAN_EL NULL
@@ -4777,6 +8580,7 @@ struct retro_core_options_v2 options_de = {
 #define VITA3K_PKG_MODE_LABEL_EL NULL
 #define VITA3K_PKG_MODE_INFO_0_EL NULL
 #define OPTION_VAL_RUN_EL NULL
+#define OPTION_VAL_CACHE_EL NULL
 #define OPTION_VAL_INSTALL_EL NULL
 #define VITA3K_PSTV_MODE_LABEL_EL NULL
 #define VITA3K_PSTV_MODE_INFO_0_EL NULL
@@ -4791,10 +8595,41 @@ struct retro_core_options_v2 options_de = {
 #define VITA3K_SYS_BUTTON_INFO_0_EL NULL
 #define OPTION_VAL_0_VITA3K_SYS_BUTTON_EL NULL
 #define OPTION_VAL_1_VITA3K_SYS_BUTTON_EL NULL
+#define VITA3K_SYS_LANG_LABEL_EL NULL
+#define VITA3K_SYS_LANG_INFO_0_EL NULL
+#define OPTION_VAL_0_VITA3K_SYS_LANG_EL "Ιαπωνικά"
+#define OPTION_VAL_1_VITA3K_SYS_LANG_EL NULL
+#define OPTION_VAL_2_VITA3K_SYS_LANG_EL "Γαλλική γλώσσα"
+#define OPTION_VAL_3_VITA3K_SYS_LANG_EL "Ισπανικά"
+#define OPTION_VAL_4_VITA3K_SYS_LANG_EL "Γερμανός"
+#define OPTION_VAL_5_EL "Ιταλικά"
+#define OPTION_VAL_6_EL NULL
+#define OPTION_VAL_7_EL NULL
+#define OPTION_VAL_8_VITA3K_SYS_LANG_EL NULL
+#define OPTION_VAL_9_EL NULL
+#define OPTION_VAL_10_EL NULL
+#define OPTION_VAL_11_EL NULL
+#define OPTION_VAL_12_EL NULL
+#define OPTION_VAL_13_EL NULL
+#define OPTION_VAL_14_EL NULL
+#define OPTION_VAL_15_EL NULL
+#define OPTION_VAL_16_VITA3K_SYS_LANG_EL NULL
+#define OPTION_VAL_17_EL NULL
+#define OPTION_VAL_18_EL NULL
+#define OPTION_VAL_19_EL NULL
+#define VITA3K_SYS_DATE_FORMAT_LABEL_EL NULL
+#define VITA3K_SYS_DATE_FORMAT_INFO_0_EL NULL
+#define OPTION_VAL_0_VITA3K_SYS_DATE_FORMAT_EL NULL
+#define OPTION_VAL_1_VITA3K_SYS_DATE_FORMAT_EL NULL
+#define OPTION_VAL_2_VITA3K_SYS_DATE_FORMAT_EL NULL
+#define VITA3K_SYS_TIME_FORMAT_LABEL_EL NULL
+#define VITA3K_SYS_TIME_FORMAT_INFO_0_EL NULL
+#define OPTION_VAL_0_VITA3K_SYS_TIME_FORMAT_EL NULL
+#define OPTION_VAL_1_VITA3K_SYS_TIME_FORMAT_EL NULL
 #define VITA3K_AUDIO_VOLUME_LABEL_EL NULL
 #define VITA3K_AUDIO_VOLUME_INFO_0_EL NULL
 #define OPTION_VAL_0_VITA3K_AUDIO_VOLUME_EL NULL
-#define OPTION_VAL_10_EL NULL
+#define OPTION_VAL_10_VITA3K_AUDIO_VOLUME_EL NULL
 #define OPTION_VAL_20_EL NULL
 #define OPTION_VAL_30_EL NULL
 #define OPTION_VAL_40_EL NULL
@@ -4808,6 +8643,47 @@ struct retro_core_options_v2 options_de = {
 #define VITA3K_NGS_ENABLE_INFO_0_EL NULL
 #define VITA3K_PSN_SIGNED_IN_LABEL_EL NULL
 #define VITA3K_PSN_SIGNED_IN_INFO_0_EL NULL
+#define VITA3K_HTTP_ENABLE_LABEL_EL NULL
+#define VITA3K_HTTP_ENABLE_INFO_0_EL NULL
+#define VITA3K_HTTP_TIMEOUT_ATTEMPTS_LABEL_EL NULL
+#define VITA3K_HTTP_TIMEOUT_ATTEMPTS_INFO_0_EL NULL
+#define VITA3K_HTTP_TIMEOUT_SLEEP_LABEL_EL NULL
+#define VITA3K_HTTP_TIMEOUT_SLEEP_INFO_0_EL NULL
+#define OPTION_VAL_50_VITA3K_HTTP_TIMEOUT_SLEEP_EL NULL
+#define OPTION_VAL_100_VITA3K_HTTP_TIMEOUT_SLEEP_EL NULL
+#define OPTION_VAL_150_EL NULL
+#define OPTION_VAL_200_EL NULL
+#define OPTION_VAL_250_EL NULL
+#define OPTION_VAL_300_EL NULL
+#define OPTION_VAL_400_EL NULL
+#define OPTION_VAL_500_EL NULL
+#define OPTION_VAL_750_EL NULL
+#define OPTION_VAL_1000_EL NULL
+#define OPTION_VAL_1500_EL NULL
+#define OPTION_VAL_2000_EL NULL
+#define OPTION_VAL_2500_EL NULL
+#define OPTION_VAL_3000_EL NULL
+#define VITA3K_HTTP_READ_END_ATTEMPTS_LABEL_EL NULL
+#define VITA3K_HTTP_READ_END_ATTEMPTS_INFO_0_EL NULL
+#define VITA3K_HTTP_READ_END_SLEEP_LABEL_EL NULL
+#define VITA3K_HTTP_READ_END_SLEEP_INFO_0_EL NULL
+#define VITA3K_FRONT_CAMERA_LABEL_EL NULL
+#define VITA3K_FRONT_CAMERA_INFO_0_EL NULL
+#define OPTION_VAL_HOST_EL NULL
+#define OPTION_VAL_IMAGE_EL NULL
+#define OPTION_VAL_COLOR_EL NULL
+#define VITA3K_FRONT_CAMERA_COLOR_LABEL_EL NULL
+#define VITA3K_FRONT_CAMERA_COLOR_INFO_0_EL NULL
+#define OPTION_VAL_0_VITA3K_FRONT_CAMERA_COLOR_EL NULL
+#define OPTION_VAL_16777215_EL NULL
+#define OPTION_VAL_8421504_EL NULL
+#define OPTION_VAL_255_EL "Κόκκινο"
+#define OPTION_VAL_65280_EL "Πράσινο"
+#define OPTION_VAL_16711680_EL "Μπλε"
+#define VITA3K_BACK_CAMERA_LABEL_EL NULL
+#define VITA3K_BACK_CAMERA_INFO_0_EL NULL
+#define VITA3K_BACK_CAMERA_COLOR_LABEL_EL NULL
+#define VITA3K_BACK_CAMERA_COLOR_INFO_0_EL NULL
 #define VITA3K_SURFACE_SYNC_LABEL_EL NULL
 #define VITA3K_SURFACE_SYNC_INFO_0_EL NULL
 #define OPTION_VAL_ENABLED_EL NULL
@@ -4815,9 +8691,9 @@ struct retro_core_options_v2 options_de = {
 #define VITA3K_FILE_LOADING_DELAY_LABEL_EL NULL
 #define VITA3K_FILE_LOADING_DELAY_INFO_0_EL NULL
 #define OPTION_VAL_0_VITA3K_FILE_LOADING_DELAY_EL NULL
-#define OPTION_VAL_5_EL NULL
+#define OPTION_VAL_5_VITA3K_FILE_LOADING_DELAY_EL NULL
 #define OPTION_VAL_10_VITA3K_FILE_LOADING_DELAY_EL NULL
-#define OPTION_VAL_15_EL NULL
+#define OPTION_VAL_15_VITA3K_FILE_LOADING_DELAY_EL NULL
 #define OPTION_VAL_20_VITA3K_FILE_LOADING_DELAY_EL NULL
 #define OPTION_VAL_25_EL NULL
 #define OPTION_VAL_30_VITA3K_FILE_LOADING_DELAY_EL NULL
@@ -4828,6 +8704,10 @@ struct retro_core_option_v2_category option_cats_el[] = {
     { "system", CATEGORY_SYSTEM_LABEL_EL, CATEGORY_SYSTEM_INFO_0_EL },
     { "audio", CATEGORY_AUDIO_LABEL_EL, CATEGORY_AUDIO_INFO_0_EL },
     { "network", CATEGORY_NETWORK_LABEL_EL, CATEGORY_NETWORK_INFO_0_EL },
+    { "install", CATEGORY_INSTALL_LABEL_EL, CATEGORY_INSTALL_INFO_0_EL },
+    { "camera", CATEGORY_CAMERA_LABEL_EL, CATEGORY_CAMERA_INFO_0_EL },
+    { "accounts", CATEGORY_ACCOUNTS_LABEL_EL, CATEGORY_ACCOUNTS_INFO_0_EL },
+    { "modules", CATEGORY_MODULES_LABEL_EL, CATEGORY_MODULES_INFO_0_EL },
     { NULL, NULL, NULL },
 };
 struct retro_core_option_v2_definition option_defs_el[] = {
@@ -4991,9 +8871,10 @@ struct retro_core_option_v2_definition option_defs_el[] = {
         NULL,
         VITA3K_PKG_MODE_INFO_0_EL,
         NULL,
-        "system",
+        "install",
         {
             { "run", OPTION_VAL_RUN_EL },
+            { "cache", OPTION_VAL_CACHE_EL },
             { "install", OPTION_VAL_INSTALL_EL },
             { NULL, NULL },
         },
@@ -5056,6 +8937,67 @@ struct retro_core_option_v2_definition option_defs_el[] = {
         },
         "1"
     },
+    {
+        "vita3k_sys_lang",
+        VITA3K_SYS_LANG_LABEL_EL,
+        NULL,
+        VITA3K_SYS_LANG_INFO_0_EL,
+        NULL,
+        "system",
+        {
+            { "0", OPTION_VAL_0_VITA3K_SYS_LANG_EL },
+            { "1", OPTION_VAL_1_VITA3K_SYS_LANG_EL },
+            { "2", OPTION_VAL_2_VITA3K_SYS_LANG_EL },
+            { "3", OPTION_VAL_3_VITA3K_SYS_LANG_EL },
+            { "4", OPTION_VAL_4_VITA3K_SYS_LANG_EL },
+            { "5", OPTION_VAL_5_EL },
+            { "6", OPTION_VAL_6_EL },
+            { "7", OPTION_VAL_7_EL },
+            { "8", OPTION_VAL_8_VITA3K_SYS_LANG_EL },
+            { "9", OPTION_VAL_9_EL },
+            { "10", OPTION_VAL_10_EL },
+            { "11", OPTION_VAL_11_EL },
+            { "12", OPTION_VAL_12_EL },
+            { "13", OPTION_VAL_13_EL },
+            { "14", OPTION_VAL_14_EL },
+            { "15", OPTION_VAL_15_EL },
+            { "16", OPTION_VAL_16_VITA3K_SYS_LANG_EL },
+            { "17", OPTION_VAL_17_EL },
+            { "18", OPTION_VAL_18_EL },
+            { "19", OPTION_VAL_19_EL },
+            { NULL, NULL },
+        },
+        "1"
+    },
+    {
+        "vita3k_sys_date_format",
+        VITA3K_SYS_DATE_FORMAT_LABEL_EL,
+        NULL,
+        VITA3K_SYS_DATE_FORMAT_INFO_0_EL,
+        NULL,
+        "system",
+        {
+            { "0", OPTION_VAL_0_VITA3K_SYS_DATE_FORMAT_EL },
+            { "1", OPTION_VAL_1_VITA3K_SYS_DATE_FORMAT_EL },
+            { "2", OPTION_VAL_2_VITA3K_SYS_DATE_FORMAT_EL },
+            { NULL, NULL },
+        },
+        "2"
+    },
+    {
+        "vita3k_sys_time_format",
+        VITA3K_SYS_TIME_FORMAT_LABEL_EL,
+        NULL,
+        VITA3K_SYS_TIME_FORMAT_INFO_0_EL,
+        NULL,
+        "system",
+        {
+            { "0", OPTION_VAL_0_VITA3K_SYS_TIME_FORMAT_EL },
+            { "1", OPTION_VAL_1_VITA3K_SYS_TIME_FORMAT_EL },
+            { NULL, NULL },
+        },
+        "0"
+    },
     // ── Audio ────────────────────────────────────────────────────────────
     {
         "vita3k_audio_volume",
@@ -5066,7 +9008,7 @@ struct retro_core_option_v2_definition option_defs_el[] = {
         "audio",
         {
             { "0", OPTION_VAL_0_VITA3K_AUDIO_VOLUME_EL },
-            { "10", OPTION_VAL_10_EL },
+            { "10", OPTION_VAL_10_VITA3K_AUDIO_VOLUME_EL },
             { "20", OPTION_VAL_20_EL },
             { "30", OPTION_VAL_30_EL },
             { "40", OPTION_VAL_40_EL },
@@ -5110,6 +9052,204 @@ struct retro_core_option_v2_definition option_defs_el[] = {
         "disabled"
     },
     {
+        "vita3k_http_enable",
+        VITA3K_HTTP_ENABLE_LABEL_EL,
+        NULL,
+        VITA3K_HTTP_ENABLE_INFO_0_EL,
+        NULL,
+        "network",
+        {
+            { "enabled", NULL },
+            { "disabled", NULL },
+            { NULL, NULL },
+        },
+        "enabled"
+    },
+    {
+        "vita3k_http_timeout_attempts",
+        VITA3K_HTTP_TIMEOUT_ATTEMPTS_LABEL_EL,
+        NULL,
+        VITA3K_HTTP_TIMEOUT_ATTEMPTS_INFO_0_EL,
+        NULL,
+        "network",
+        {
+            { "0", NULL },
+            { "5", NULL },
+            { "10", NULL },
+            { "15", NULL },
+            { "20", NULL },
+            { "25", NULL },
+            { "30", NULL },
+            { "35", NULL },
+            { "40", NULL },
+            { "45", NULL },
+            { "50", NULL },
+            { "55", NULL },
+            { "60", NULL },
+            { "65", NULL },
+            { "70", NULL },
+            { "75", NULL },
+            { "80", NULL },
+            { "85", NULL },
+            { "90", NULL },
+            { "95", NULL },
+            { "100", NULL },
+            { NULL, NULL },
+        },
+        "50"
+    },
+    {
+        "vita3k_http_timeout_sleep",
+        VITA3K_HTTP_TIMEOUT_SLEEP_LABEL_EL,
+        NULL,
+        VITA3K_HTTP_TIMEOUT_SLEEP_INFO_0_EL,
+        NULL,
+        "network",
+        {
+            { "50", OPTION_VAL_50_VITA3K_HTTP_TIMEOUT_SLEEP_EL },
+            { "100", OPTION_VAL_100_VITA3K_HTTP_TIMEOUT_SLEEP_EL },
+            { "150", OPTION_VAL_150_EL },
+            { "200", OPTION_VAL_200_EL },
+            { "250", OPTION_VAL_250_EL },
+            { "300", OPTION_VAL_300_EL },
+            { "400", OPTION_VAL_400_EL },
+            { "500", OPTION_VAL_500_EL },
+            { "750", OPTION_VAL_750_EL },
+            { "1000", OPTION_VAL_1000_EL },
+            { "1500", OPTION_VAL_1500_EL },
+            { "2000", OPTION_VAL_2000_EL },
+            { "2500", OPTION_VAL_2500_EL },
+            { "3000", OPTION_VAL_3000_EL },
+            { NULL, NULL },
+        },
+        "100"
+    },
+    {
+        "vita3k_http_read_end_attempts",
+        VITA3K_HTTP_READ_END_ATTEMPTS_LABEL_EL,
+        NULL,
+        VITA3K_HTTP_READ_END_ATTEMPTS_INFO_0_EL,
+        NULL,
+        "network",
+        {
+            { "0", NULL },
+            { "5", NULL },
+            { "10", NULL },
+            { "15", NULL },
+            { "20", NULL },
+            { "25", NULL },
+            { "30", NULL },
+            { "35", NULL },
+            { "40", NULL },
+            { "45", NULL },
+            { "50", NULL },
+            { "55", NULL },
+            { "60", NULL },
+            { "65", NULL },
+            { "70", NULL },
+            { "75", NULL },
+            { "80", NULL },
+            { "85", NULL },
+            { "90", NULL },
+            { "95", NULL },
+            { "100", NULL },
+            { NULL, NULL },
+        },
+        "10"
+    },
+    {
+        "vita3k_http_read_end_sleep",
+        VITA3K_HTTP_READ_END_SLEEP_LABEL_EL,
+        NULL,
+        VITA3K_HTTP_READ_END_SLEEP_INFO_0_EL,
+        NULL,
+        "network",
+        {
+            { "50", OPTION_VAL_50_VITA3K_HTTP_TIMEOUT_SLEEP_EL },
+            { "100", OPTION_VAL_100_VITA3K_HTTP_TIMEOUT_SLEEP_EL },
+            { "150", OPTION_VAL_150_EL },
+            { "200", OPTION_VAL_200_EL },
+            { "250", OPTION_VAL_250_EL },
+            { "300", OPTION_VAL_300_EL },
+            { "400", OPTION_VAL_400_EL },
+            { "500", OPTION_VAL_500_EL },
+            { "750", OPTION_VAL_750_EL },
+            { "1000", OPTION_VAL_1000_EL },
+            { "1500", OPTION_VAL_1500_EL },
+            { "2000", OPTION_VAL_2000_EL },
+            { "2500", OPTION_VAL_2500_EL },
+            { "3000", OPTION_VAL_3000_EL },
+            { NULL, NULL },
+        },
+        "250"
+    },
+    {
+        "vita3k_front_camera",
+        VITA3K_FRONT_CAMERA_LABEL_EL,
+        NULL,
+        VITA3K_FRONT_CAMERA_INFO_0_EL,
+        NULL,
+        "camera",
+        {
+            { "host", OPTION_VAL_HOST_EL },
+            { "image", OPTION_VAL_IMAGE_EL },
+            { "color", OPTION_VAL_COLOR_EL },
+            { NULL, NULL },
+        },
+        "host"
+    },
+    {
+        "vita3k_front_camera_color",
+        VITA3K_FRONT_CAMERA_COLOR_LABEL_EL,
+        NULL,
+        VITA3K_FRONT_CAMERA_COLOR_INFO_0_EL,
+        NULL,
+        "camera",
+        {
+            { "0", OPTION_VAL_0_VITA3K_FRONT_CAMERA_COLOR_EL },
+            { "16777215", OPTION_VAL_16777215_EL },
+            { "8421504", OPTION_VAL_8421504_EL },
+            { "255", OPTION_VAL_255_EL },
+            { "65280", OPTION_VAL_65280_EL },
+            { "16711680", OPTION_VAL_16711680_EL },
+            { NULL, NULL },
+        },
+        "0"
+    },
+    {
+        "vita3k_back_camera",
+        VITA3K_BACK_CAMERA_LABEL_EL,
+        NULL,
+        VITA3K_BACK_CAMERA_INFO_0_EL,
+        NULL,
+        "camera",
+        {
+            { "host", OPTION_VAL_HOST_EL },
+            { "image", OPTION_VAL_IMAGE_EL },
+            { "color", OPTION_VAL_COLOR_EL },
+            { NULL, NULL },
+        },
+        "host"
+    },
+    {
+        "vita3k_back_camera_color",
+        VITA3K_BACK_CAMERA_COLOR_LABEL_EL,
+        NULL,
+        VITA3K_BACK_CAMERA_COLOR_INFO_0_EL,
+        NULL,
+        "camera",
+        {
+            { "0", OPTION_VAL_0_VITA3K_FRONT_CAMERA_COLOR_EL },
+            { "16777215", OPTION_VAL_16777215_EL },
+            { "8421504", OPTION_VAL_8421504_EL },
+            { "255", OPTION_VAL_255_EL },
+            { "65280", OPTION_VAL_65280_EL },
+            { "16711680", OPTION_VAL_16711680_EL },
+            { NULL, NULL },
+        },
+        "0"
+    },
+    {
         "vita3k_surface_sync",
         VITA3K_SURFACE_SYNC_LABEL_EL,
         NULL,
@@ -5132,9 +9272,9 @@ struct retro_core_option_v2_definition option_defs_el[] = {
         "system",
         {
             { "0", OPTION_VAL_0_VITA3K_FILE_LOADING_DELAY_EL },
-            { "5", OPTION_VAL_5_EL },
+            { "5", OPTION_VAL_5_VITA3K_FILE_LOADING_DELAY_EL },
             { "10", OPTION_VAL_10_VITA3K_FILE_LOADING_DELAY_EL },
-            { "15", OPTION_VAL_15_EL },
+            { "15", OPTION_VAL_15_VITA3K_FILE_LOADING_DELAY_EL },
             { "20", OPTION_VAL_20_VITA3K_FILE_LOADING_DELAY_EL },
             { "25", OPTION_VAL_25_EL },
             { "30", OPTION_VAL_30_VITA3K_FILE_LOADING_DELAY_EL },
@@ -5161,6 +9301,14 @@ struct retro_core_options_v2 options_el = {
 #define CATEGORY_AUDIO_INFO_0_EN NULL
 #define CATEGORY_NETWORK_LABEL_EN NULL
 #define CATEGORY_NETWORK_INFO_0_EN NULL
+#define CATEGORY_INSTALL_LABEL_EN NULL
+#define CATEGORY_INSTALL_INFO_0_EN NULL
+#define CATEGORY_CAMERA_LABEL_EN NULL
+#define CATEGORY_CAMERA_INFO_0_EN NULL
+#define CATEGORY_ACCOUNTS_LABEL_EN NULL
+#define CATEGORY_ACCOUNTS_INFO_0_EN NULL
+#define CATEGORY_MODULES_LABEL_EN NULL
+#define CATEGORY_MODULES_INFO_0_EN NULL
 #define VITA3K_BACKEND_RENDERER_LABEL_EN NULL
 #define VITA3K_BACKEND_RENDERER_INFO_0_EN NULL
 #define OPTION_VAL_VULKAN_EN NULL
@@ -5203,6 +9351,7 @@ struct retro_core_options_v2 options_el = {
 #define VITA3K_PKG_MODE_LABEL_EN NULL
 #define VITA3K_PKG_MODE_INFO_0_EN NULL
 #define OPTION_VAL_RUN_EN NULL
+#define OPTION_VAL_CACHE_EN NULL
 #define OPTION_VAL_INSTALL_EN NULL
 #define VITA3K_PSTV_MODE_LABEL_EN NULL
 #define VITA3K_PSTV_MODE_INFO_0_EN NULL
@@ -5217,10 +9366,41 @@ struct retro_core_options_v2 options_el = {
 #define VITA3K_SYS_BUTTON_INFO_0_EN NULL
 #define OPTION_VAL_0_VITA3K_SYS_BUTTON_EN NULL
 #define OPTION_VAL_1_VITA3K_SYS_BUTTON_EN NULL
+#define VITA3K_SYS_LANG_LABEL_EN NULL
+#define VITA3K_SYS_LANG_INFO_0_EN NULL
+#define OPTION_VAL_0_VITA3K_SYS_LANG_EN NULL
+#define OPTION_VAL_1_VITA3K_SYS_LANG_EN NULL
+#define OPTION_VAL_2_VITA3K_SYS_LANG_EN NULL
+#define OPTION_VAL_3_VITA3K_SYS_LANG_EN NULL
+#define OPTION_VAL_4_VITA3K_SYS_LANG_EN NULL
+#define OPTION_VAL_5_EN NULL
+#define OPTION_VAL_6_EN NULL
+#define OPTION_VAL_7_EN NULL
+#define OPTION_VAL_8_VITA3K_SYS_LANG_EN NULL
+#define OPTION_VAL_9_EN NULL
+#define OPTION_VAL_10_EN NULL
+#define OPTION_VAL_11_EN NULL
+#define OPTION_VAL_12_EN NULL
+#define OPTION_VAL_13_EN NULL
+#define OPTION_VAL_14_EN NULL
+#define OPTION_VAL_15_EN NULL
+#define OPTION_VAL_16_VITA3K_SYS_LANG_EN NULL
+#define OPTION_VAL_17_EN NULL
+#define OPTION_VAL_18_EN NULL
+#define OPTION_VAL_19_EN NULL
+#define VITA3K_SYS_DATE_FORMAT_LABEL_EN NULL
+#define VITA3K_SYS_DATE_FORMAT_INFO_0_EN NULL
+#define OPTION_VAL_0_VITA3K_SYS_DATE_FORMAT_EN NULL
+#define OPTION_VAL_1_VITA3K_SYS_DATE_FORMAT_EN NULL
+#define OPTION_VAL_2_VITA3K_SYS_DATE_FORMAT_EN NULL
+#define VITA3K_SYS_TIME_FORMAT_LABEL_EN NULL
+#define VITA3K_SYS_TIME_FORMAT_INFO_0_EN NULL
+#define OPTION_VAL_0_VITA3K_SYS_TIME_FORMAT_EN NULL
+#define OPTION_VAL_1_VITA3K_SYS_TIME_FORMAT_EN NULL
 #define VITA3K_AUDIO_VOLUME_LABEL_EN NULL
 #define VITA3K_AUDIO_VOLUME_INFO_0_EN NULL
 #define OPTION_VAL_0_VITA3K_AUDIO_VOLUME_EN NULL
-#define OPTION_VAL_10_EN NULL
+#define OPTION_VAL_10_VITA3K_AUDIO_VOLUME_EN NULL
 #define OPTION_VAL_20_EN NULL
 #define OPTION_VAL_30_EN NULL
 #define OPTION_VAL_40_EN NULL
@@ -5234,6 +9414,47 @@ struct retro_core_options_v2 options_el = {
 #define VITA3K_NGS_ENABLE_INFO_0_EN NULL
 #define VITA3K_PSN_SIGNED_IN_LABEL_EN NULL
 #define VITA3K_PSN_SIGNED_IN_INFO_0_EN NULL
+#define VITA3K_HTTP_ENABLE_LABEL_EN NULL
+#define VITA3K_HTTP_ENABLE_INFO_0_EN NULL
+#define VITA3K_HTTP_TIMEOUT_ATTEMPTS_LABEL_EN NULL
+#define VITA3K_HTTP_TIMEOUT_ATTEMPTS_INFO_0_EN NULL
+#define VITA3K_HTTP_TIMEOUT_SLEEP_LABEL_EN NULL
+#define VITA3K_HTTP_TIMEOUT_SLEEP_INFO_0_EN NULL
+#define OPTION_VAL_50_VITA3K_HTTP_TIMEOUT_SLEEP_EN NULL
+#define OPTION_VAL_100_VITA3K_HTTP_TIMEOUT_SLEEP_EN NULL
+#define OPTION_VAL_150_EN NULL
+#define OPTION_VAL_200_EN NULL
+#define OPTION_VAL_250_EN NULL
+#define OPTION_VAL_300_EN NULL
+#define OPTION_VAL_400_EN NULL
+#define OPTION_VAL_500_EN NULL
+#define OPTION_VAL_750_EN NULL
+#define OPTION_VAL_1000_EN NULL
+#define OPTION_VAL_1500_EN NULL
+#define OPTION_VAL_2000_EN NULL
+#define OPTION_VAL_2500_EN NULL
+#define OPTION_VAL_3000_EN NULL
+#define VITA3K_HTTP_READ_END_ATTEMPTS_LABEL_EN NULL
+#define VITA3K_HTTP_READ_END_ATTEMPTS_INFO_0_EN NULL
+#define VITA3K_HTTP_READ_END_SLEEP_LABEL_EN NULL
+#define VITA3K_HTTP_READ_END_SLEEP_INFO_0_EN NULL
+#define VITA3K_FRONT_CAMERA_LABEL_EN NULL
+#define VITA3K_FRONT_CAMERA_INFO_0_EN NULL
+#define OPTION_VAL_HOST_EN NULL
+#define OPTION_VAL_IMAGE_EN NULL
+#define OPTION_VAL_COLOR_EN NULL
+#define VITA3K_FRONT_CAMERA_COLOR_LABEL_EN NULL
+#define VITA3K_FRONT_CAMERA_COLOR_INFO_0_EN NULL
+#define OPTION_VAL_0_VITA3K_FRONT_CAMERA_COLOR_EN NULL
+#define OPTION_VAL_16777215_EN NULL
+#define OPTION_VAL_8421504_EN "Grey"
+#define OPTION_VAL_255_EN NULL
+#define OPTION_VAL_65280_EN NULL
+#define OPTION_VAL_16711680_EN NULL
+#define VITA3K_BACK_CAMERA_LABEL_EN NULL
+#define VITA3K_BACK_CAMERA_INFO_0_EN NULL
+#define VITA3K_BACK_CAMERA_COLOR_LABEL_EN NULL
+#define VITA3K_BACK_CAMERA_COLOR_INFO_0_EN NULL
 #define VITA3K_SURFACE_SYNC_LABEL_EN NULL
 #define VITA3K_SURFACE_SYNC_INFO_0_EN NULL
 #define OPTION_VAL_ENABLED_EN NULL
@@ -5241,9 +9462,9 @@ struct retro_core_options_v2 options_el = {
 #define VITA3K_FILE_LOADING_DELAY_LABEL_EN NULL
 #define VITA3K_FILE_LOADING_DELAY_INFO_0_EN NULL
 #define OPTION_VAL_0_VITA3K_FILE_LOADING_DELAY_EN NULL
-#define OPTION_VAL_5_EN NULL
+#define OPTION_VAL_5_VITA3K_FILE_LOADING_DELAY_EN NULL
 #define OPTION_VAL_10_VITA3K_FILE_LOADING_DELAY_EN NULL
-#define OPTION_VAL_15_EN NULL
+#define OPTION_VAL_15_VITA3K_FILE_LOADING_DELAY_EN NULL
 #define OPTION_VAL_20_VITA3K_FILE_LOADING_DELAY_EN NULL
 #define OPTION_VAL_25_EN NULL
 #define OPTION_VAL_30_VITA3K_FILE_LOADING_DELAY_EN NULL
@@ -5254,6 +9475,10 @@ struct retro_core_option_v2_category option_cats_en[] = {
     { "system", CATEGORY_SYSTEM_LABEL_EN, CATEGORY_SYSTEM_INFO_0_EN },
     { "audio", CATEGORY_AUDIO_LABEL_EN, CATEGORY_AUDIO_INFO_0_EN },
     { "network", CATEGORY_NETWORK_LABEL_EN, CATEGORY_NETWORK_INFO_0_EN },
+    { "install", CATEGORY_INSTALL_LABEL_EN, CATEGORY_INSTALL_INFO_0_EN },
+    { "camera", CATEGORY_CAMERA_LABEL_EN, CATEGORY_CAMERA_INFO_0_EN },
+    { "accounts", CATEGORY_ACCOUNTS_LABEL_EN, CATEGORY_ACCOUNTS_INFO_0_EN },
+    { "modules", CATEGORY_MODULES_LABEL_EN, CATEGORY_MODULES_INFO_0_EN },
     { NULL, NULL, NULL },
 };
 struct retro_core_option_v2_definition option_defs_en[] = {
@@ -5417,9 +9642,10 @@ struct retro_core_option_v2_definition option_defs_en[] = {
         NULL,
         VITA3K_PKG_MODE_INFO_0_EN,
         NULL,
-        "system",
+        "install",
         {
             { "run", OPTION_VAL_RUN_EN },
+            { "cache", OPTION_VAL_CACHE_EN },
             { "install", OPTION_VAL_INSTALL_EN },
             { NULL, NULL },
         },
@@ -5482,6 +9708,67 @@ struct retro_core_option_v2_definition option_defs_en[] = {
         },
         "1"
     },
+    {
+        "vita3k_sys_lang",
+        VITA3K_SYS_LANG_LABEL_EN,
+        NULL,
+        VITA3K_SYS_LANG_INFO_0_EN,
+        NULL,
+        "system",
+        {
+            { "0", OPTION_VAL_0_VITA3K_SYS_LANG_EN },
+            { "1", OPTION_VAL_1_VITA3K_SYS_LANG_EN },
+            { "2", OPTION_VAL_2_VITA3K_SYS_LANG_EN },
+            { "3", OPTION_VAL_3_VITA3K_SYS_LANG_EN },
+            { "4", OPTION_VAL_4_VITA3K_SYS_LANG_EN },
+            { "5", OPTION_VAL_5_EN },
+            { "6", OPTION_VAL_6_EN },
+            { "7", OPTION_VAL_7_EN },
+            { "8", OPTION_VAL_8_VITA3K_SYS_LANG_EN },
+            { "9", OPTION_VAL_9_EN },
+            { "10", OPTION_VAL_10_EN },
+            { "11", OPTION_VAL_11_EN },
+            { "12", OPTION_VAL_12_EN },
+            { "13", OPTION_VAL_13_EN },
+            { "14", OPTION_VAL_14_EN },
+            { "15", OPTION_VAL_15_EN },
+            { "16", OPTION_VAL_16_VITA3K_SYS_LANG_EN },
+            { "17", OPTION_VAL_17_EN },
+            { "18", OPTION_VAL_18_EN },
+            { "19", OPTION_VAL_19_EN },
+            { NULL, NULL },
+        },
+        "1"
+    },
+    {
+        "vita3k_sys_date_format",
+        VITA3K_SYS_DATE_FORMAT_LABEL_EN,
+        NULL,
+        VITA3K_SYS_DATE_FORMAT_INFO_0_EN,
+        NULL,
+        "system",
+        {
+            { "0", OPTION_VAL_0_VITA3K_SYS_DATE_FORMAT_EN },
+            { "1", OPTION_VAL_1_VITA3K_SYS_DATE_FORMAT_EN },
+            { "2", OPTION_VAL_2_VITA3K_SYS_DATE_FORMAT_EN },
+            { NULL, NULL },
+        },
+        "2"
+    },
+    {
+        "vita3k_sys_time_format",
+        VITA3K_SYS_TIME_FORMAT_LABEL_EN,
+        NULL,
+        VITA3K_SYS_TIME_FORMAT_INFO_0_EN,
+        NULL,
+        "system",
+        {
+            { "0", OPTION_VAL_0_VITA3K_SYS_TIME_FORMAT_EN },
+            { "1", OPTION_VAL_1_VITA3K_SYS_TIME_FORMAT_EN },
+            { NULL, NULL },
+        },
+        "0"
+    },
     // ── Audio ────────────────────────────────────────────────────────────
     {
         "vita3k_audio_volume",
@@ -5492,7 +9779,7 @@ struct retro_core_option_v2_definition option_defs_en[] = {
         "audio",
         {
             { "0", OPTION_VAL_0_VITA3K_AUDIO_VOLUME_EN },
-            { "10", OPTION_VAL_10_EN },
+            { "10", OPTION_VAL_10_VITA3K_AUDIO_VOLUME_EN },
             { "20", OPTION_VAL_20_EN },
             { "30", OPTION_VAL_30_EN },
             { "40", OPTION_VAL_40_EN },
@@ -5536,6 +9823,204 @@ struct retro_core_option_v2_definition option_defs_en[] = {
         "disabled"
     },
     {
+        "vita3k_http_enable",
+        VITA3K_HTTP_ENABLE_LABEL_EN,
+        NULL,
+        VITA3K_HTTP_ENABLE_INFO_0_EN,
+        NULL,
+        "network",
+        {
+            { "enabled", NULL },
+            { "disabled", NULL },
+            { NULL, NULL },
+        },
+        "enabled"
+    },
+    {
+        "vita3k_http_timeout_attempts",
+        VITA3K_HTTP_TIMEOUT_ATTEMPTS_LABEL_EN,
+        NULL,
+        VITA3K_HTTP_TIMEOUT_ATTEMPTS_INFO_0_EN,
+        NULL,
+        "network",
+        {
+            { "0", NULL },
+            { "5", NULL },
+            { "10", NULL },
+            { "15", NULL },
+            { "20", NULL },
+            { "25", NULL },
+            { "30", NULL },
+            { "35", NULL },
+            { "40", NULL },
+            { "45", NULL },
+            { "50", NULL },
+            { "55", NULL },
+            { "60", NULL },
+            { "65", NULL },
+            { "70", NULL },
+            { "75", NULL },
+            { "80", NULL },
+            { "85", NULL },
+            { "90", NULL },
+            { "95", NULL },
+            { "100", NULL },
+            { NULL, NULL },
+        },
+        "50"
+    },
+    {
+        "vita3k_http_timeout_sleep",
+        VITA3K_HTTP_TIMEOUT_SLEEP_LABEL_EN,
+        NULL,
+        VITA3K_HTTP_TIMEOUT_SLEEP_INFO_0_EN,
+        NULL,
+        "network",
+        {
+            { "50", OPTION_VAL_50_VITA3K_HTTP_TIMEOUT_SLEEP_EN },
+            { "100", OPTION_VAL_100_VITA3K_HTTP_TIMEOUT_SLEEP_EN },
+            { "150", OPTION_VAL_150_EN },
+            { "200", OPTION_VAL_200_EN },
+            { "250", OPTION_VAL_250_EN },
+            { "300", OPTION_VAL_300_EN },
+            { "400", OPTION_VAL_400_EN },
+            { "500", OPTION_VAL_500_EN },
+            { "750", OPTION_VAL_750_EN },
+            { "1000", OPTION_VAL_1000_EN },
+            { "1500", OPTION_VAL_1500_EN },
+            { "2000", OPTION_VAL_2000_EN },
+            { "2500", OPTION_VAL_2500_EN },
+            { "3000", OPTION_VAL_3000_EN },
+            { NULL, NULL },
+        },
+        "100"
+    },
+    {
+        "vita3k_http_read_end_attempts",
+        VITA3K_HTTP_READ_END_ATTEMPTS_LABEL_EN,
+        NULL,
+        VITA3K_HTTP_READ_END_ATTEMPTS_INFO_0_EN,
+        NULL,
+        "network",
+        {
+            { "0", NULL },
+            { "5", NULL },
+            { "10", NULL },
+            { "15", NULL },
+            { "20", NULL },
+            { "25", NULL },
+            { "30", NULL },
+            { "35", NULL },
+            { "40", NULL },
+            { "45", NULL },
+            { "50", NULL },
+            { "55", NULL },
+            { "60", NULL },
+            { "65", NULL },
+            { "70", NULL },
+            { "75", NULL },
+            { "80", NULL },
+            { "85", NULL },
+            { "90", NULL },
+            { "95", NULL },
+            { "100", NULL },
+            { NULL, NULL },
+        },
+        "10"
+    },
+    {
+        "vita3k_http_read_end_sleep",
+        VITA3K_HTTP_READ_END_SLEEP_LABEL_EN,
+        NULL,
+        VITA3K_HTTP_READ_END_SLEEP_INFO_0_EN,
+        NULL,
+        "network",
+        {
+            { "50", OPTION_VAL_50_VITA3K_HTTP_TIMEOUT_SLEEP_EN },
+            { "100", OPTION_VAL_100_VITA3K_HTTP_TIMEOUT_SLEEP_EN },
+            { "150", OPTION_VAL_150_EN },
+            { "200", OPTION_VAL_200_EN },
+            { "250", OPTION_VAL_250_EN },
+            { "300", OPTION_VAL_300_EN },
+            { "400", OPTION_VAL_400_EN },
+            { "500", OPTION_VAL_500_EN },
+            { "750", OPTION_VAL_750_EN },
+            { "1000", OPTION_VAL_1000_EN },
+            { "1500", OPTION_VAL_1500_EN },
+            { "2000", OPTION_VAL_2000_EN },
+            { "2500", OPTION_VAL_2500_EN },
+            { "3000", OPTION_VAL_3000_EN },
+            { NULL, NULL },
+        },
+        "250"
+    },
+    {
+        "vita3k_front_camera",
+        VITA3K_FRONT_CAMERA_LABEL_EN,
+        NULL,
+        VITA3K_FRONT_CAMERA_INFO_0_EN,
+        NULL,
+        "camera",
+        {
+            { "host", OPTION_VAL_HOST_EN },
+            { "image", OPTION_VAL_IMAGE_EN },
+            { "color", OPTION_VAL_COLOR_EN },
+            { NULL, NULL },
+        },
+        "host"
+    },
+    {
+        "vita3k_front_camera_color",
+        VITA3K_FRONT_CAMERA_COLOR_LABEL_EN,
+        NULL,
+        VITA3K_FRONT_CAMERA_COLOR_INFO_0_EN,
+        NULL,
+        "camera",
+        {
+            { "0", OPTION_VAL_0_VITA3K_FRONT_CAMERA_COLOR_EN },
+            { "16777215", OPTION_VAL_16777215_EN },
+            { "8421504", OPTION_VAL_8421504_EN },
+            { "255", OPTION_VAL_255_EN },
+            { "65280", OPTION_VAL_65280_EN },
+            { "16711680", OPTION_VAL_16711680_EN },
+            { NULL, NULL },
+        },
+        "0"
+    },
+    {
+        "vita3k_back_camera",
+        VITA3K_BACK_CAMERA_LABEL_EN,
+        NULL,
+        VITA3K_BACK_CAMERA_INFO_0_EN,
+        NULL,
+        "camera",
+        {
+            { "host", OPTION_VAL_HOST_EN },
+            { "image", OPTION_VAL_IMAGE_EN },
+            { "color", OPTION_VAL_COLOR_EN },
+            { NULL, NULL },
+        },
+        "host"
+    },
+    {
+        "vita3k_back_camera_color",
+        VITA3K_BACK_CAMERA_COLOR_LABEL_EN,
+        NULL,
+        VITA3K_BACK_CAMERA_COLOR_INFO_0_EN,
+        NULL,
+        "camera",
+        {
+            { "0", OPTION_VAL_0_VITA3K_FRONT_CAMERA_COLOR_EN },
+            { "16777215", OPTION_VAL_16777215_EN },
+            { "8421504", OPTION_VAL_8421504_EN },
+            { "255", OPTION_VAL_255_EN },
+            { "65280", OPTION_VAL_65280_EN },
+            { "16711680", OPTION_VAL_16711680_EN },
+            { NULL, NULL },
+        },
+        "0"
+    },
+    {
         "vita3k_surface_sync",
         VITA3K_SURFACE_SYNC_LABEL_EN,
         NULL,
@@ -5558,9 +10043,9 @@ struct retro_core_option_v2_definition option_defs_en[] = {
         "system",
         {
             { "0", OPTION_VAL_0_VITA3K_FILE_LOADING_DELAY_EN },
-            { "5", OPTION_VAL_5_EN },
+            { "5", OPTION_VAL_5_VITA3K_FILE_LOADING_DELAY_EN },
             { "10", OPTION_VAL_10_VITA3K_FILE_LOADING_DELAY_EN },
-            { "15", OPTION_VAL_15_EN },
+            { "15", OPTION_VAL_15_VITA3K_FILE_LOADING_DELAY_EN },
             { "20", OPTION_VAL_20_VITA3K_FILE_LOADING_DELAY_EN },
             { "25", OPTION_VAL_25_EN },
             { "30", OPTION_VAL_30_VITA3K_FILE_LOADING_DELAY_EN },
@@ -5587,6 +10072,14 @@ struct retro_core_options_v2 options_en = {
 #define CATEGORY_AUDIO_INFO_0_EO NULL
 #define CATEGORY_NETWORK_LABEL_EO "Reto"
 #define CATEGORY_NETWORK_INFO_0_EO NULL
+#define CATEGORY_INSTALL_LABEL_EO "Enhavo"
+#define CATEGORY_INSTALL_INFO_0_EO NULL
+#define CATEGORY_CAMERA_LABEL_EO "Kamerao"
+#define CATEGORY_CAMERA_INFO_0_EO NULL
+#define CATEGORY_ACCOUNTS_LABEL_EO "Kontoj"
+#define CATEGORY_ACCOUNTS_INFO_0_EO NULL
+#define CATEGORY_MODULES_LABEL_EO NULL
+#define CATEGORY_MODULES_INFO_0_EO NULL
 #define VITA3K_BACKEND_RENDERER_LABEL_EO NULL
 #define VITA3K_BACKEND_RENDERER_INFO_0_EO NULL
 #define OPTION_VAL_VULKAN_EO NULL
@@ -5629,6 +10122,7 @@ struct retro_core_options_v2 options_en = {
 #define VITA3K_PKG_MODE_LABEL_EO NULL
 #define VITA3K_PKG_MODE_INFO_0_EO NULL
 #define OPTION_VAL_RUN_EO NULL
+#define OPTION_VAL_CACHE_EO NULL
 #define OPTION_VAL_INSTALL_EO NULL
 #define VITA3K_PSTV_MODE_LABEL_EO NULL
 #define VITA3K_PSTV_MODE_INFO_0_EO NULL
@@ -5643,10 +10137,41 @@ struct retro_core_options_v2 options_en = {
 #define VITA3K_SYS_BUTTON_INFO_0_EO NULL
 #define OPTION_VAL_0_VITA3K_SYS_BUTTON_EO NULL
 #define OPTION_VAL_1_VITA3K_SYS_BUTTON_EO "Kruco"
+#define VITA3K_SYS_LANG_LABEL_EO NULL
+#define VITA3K_SYS_LANG_INFO_0_EO NULL
+#define OPTION_VAL_0_VITA3K_SYS_LANG_EO "Japana"
+#define OPTION_VAL_1_VITA3K_SYS_LANG_EO NULL
+#define OPTION_VAL_2_VITA3K_SYS_LANG_EO "Franca"
+#define OPTION_VAL_3_VITA3K_SYS_LANG_EO "Hispana"
+#define OPTION_VAL_4_VITA3K_SYS_LANG_EO "Germana"
+#define OPTION_VAL_5_EO "Itala"
+#define OPTION_VAL_6_EO NULL
+#define OPTION_VAL_7_EO NULL
+#define OPTION_VAL_8_VITA3K_SYS_LANG_EO NULL
+#define OPTION_VAL_9_EO NULL
+#define OPTION_VAL_10_EO NULL
+#define OPTION_VAL_11_EO NULL
+#define OPTION_VAL_12_EO NULL
+#define OPTION_VAL_13_EO NULL
+#define OPTION_VAL_14_EO NULL
+#define OPTION_VAL_15_EO NULL
+#define OPTION_VAL_16_VITA3K_SYS_LANG_EO NULL
+#define OPTION_VAL_17_EO NULL
+#define OPTION_VAL_18_EO NULL
+#define OPTION_VAL_19_EO NULL
+#define VITA3K_SYS_DATE_FORMAT_LABEL_EO NULL
+#define VITA3K_SYS_DATE_FORMAT_INFO_0_EO NULL
+#define OPTION_VAL_0_VITA3K_SYS_DATE_FORMAT_EO NULL
+#define OPTION_VAL_1_VITA3K_SYS_DATE_FORMAT_EO NULL
+#define OPTION_VAL_2_VITA3K_SYS_DATE_FORMAT_EO NULL
+#define VITA3K_SYS_TIME_FORMAT_LABEL_EO NULL
+#define VITA3K_SYS_TIME_FORMAT_INFO_0_EO NULL
+#define OPTION_VAL_0_VITA3K_SYS_TIME_FORMAT_EO NULL
+#define OPTION_VAL_1_VITA3K_SYS_TIME_FORMAT_EO NULL
 #define VITA3K_AUDIO_VOLUME_LABEL_EO NULL
 #define VITA3K_AUDIO_VOLUME_INFO_0_EO NULL
 #define OPTION_VAL_0_VITA3K_AUDIO_VOLUME_EO NULL
-#define OPTION_VAL_10_EO NULL
+#define OPTION_VAL_10_VITA3K_AUDIO_VOLUME_EO NULL
 #define OPTION_VAL_20_EO NULL
 #define OPTION_VAL_30_EO NULL
 #define OPTION_VAL_40_EO NULL
@@ -5660,6 +10185,47 @@ struct retro_core_options_v2 options_en = {
 #define VITA3K_NGS_ENABLE_INFO_0_EO NULL
 #define VITA3K_PSN_SIGNED_IN_LABEL_EO NULL
 #define VITA3K_PSN_SIGNED_IN_INFO_0_EO NULL
+#define VITA3K_HTTP_ENABLE_LABEL_EO NULL
+#define VITA3K_HTTP_ENABLE_INFO_0_EO NULL
+#define VITA3K_HTTP_TIMEOUT_ATTEMPTS_LABEL_EO NULL
+#define VITA3K_HTTP_TIMEOUT_ATTEMPTS_INFO_0_EO NULL
+#define VITA3K_HTTP_TIMEOUT_SLEEP_LABEL_EO NULL
+#define VITA3K_HTTP_TIMEOUT_SLEEP_INFO_0_EO NULL
+#define OPTION_VAL_50_VITA3K_HTTP_TIMEOUT_SLEEP_EO NULL
+#define OPTION_VAL_100_VITA3K_HTTP_TIMEOUT_SLEEP_EO NULL
+#define OPTION_VAL_150_EO NULL
+#define OPTION_VAL_200_EO NULL
+#define OPTION_VAL_250_EO NULL
+#define OPTION_VAL_300_EO NULL
+#define OPTION_VAL_400_EO NULL
+#define OPTION_VAL_500_EO NULL
+#define OPTION_VAL_750_EO NULL
+#define OPTION_VAL_1000_EO NULL
+#define OPTION_VAL_1500_EO NULL
+#define OPTION_VAL_2000_EO NULL
+#define OPTION_VAL_2500_EO NULL
+#define OPTION_VAL_3000_EO NULL
+#define VITA3K_HTTP_READ_END_ATTEMPTS_LABEL_EO NULL
+#define VITA3K_HTTP_READ_END_ATTEMPTS_INFO_0_EO NULL
+#define VITA3K_HTTP_READ_END_SLEEP_LABEL_EO NULL
+#define VITA3K_HTTP_READ_END_SLEEP_INFO_0_EO NULL
+#define VITA3K_FRONT_CAMERA_LABEL_EO NULL
+#define VITA3K_FRONT_CAMERA_INFO_0_EO NULL
+#define OPTION_VAL_HOST_EO NULL
+#define OPTION_VAL_IMAGE_EO NULL
+#define OPTION_VAL_COLOR_EO NULL
+#define VITA3K_FRONT_CAMERA_COLOR_LABEL_EO NULL
+#define VITA3K_FRONT_CAMERA_COLOR_INFO_0_EO NULL
+#define OPTION_VAL_0_VITA3K_FRONT_CAMERA_COLOR_EO "Nigra"
+#define OPTION_VAL_16777215_EO "Blanka"
+#define OPTION_VAL_8421504_EO "Griza"
+#define OPTION_VAL_255_EO "Ruĝa"
+#define OPTION_VAL_65280_EO "Verda"
+#define OPTION_VAL_16711680_EO "Blua"
+#define VITA3K_BACK_CAMERA_LABEL_EO NULL
+#define VITA3K_BACK_CAMERA_INFO_0_EO NULL
+#define VITA3K_BACK_CAMERA_COLOR_LABEL_EO NULL
+#define VITA3K_BACK_CAMERA_COLOR_INFO_0_EO NULL
 #define VITA3K_SURFACE_SYNC_LABEL_EO NULL
 #define VITA3K_SURFACE_SYNC_INFO_0_EO NULL
 #define OPTION_VAL_ENABLED_EO NULL
@@ -5667,9 +10233,9 @@ struct retro_core_options_v2 options_en = {
 #define VITA3K_FILE_LOADING_DELAY_LABEL_EO NULL
 #define VITA3K_FILE_LOADING_DELAY_INFO_0_EO NULL
 #define OPTION_VAL_0_VITA3K_FILE_LOADING_DELAY_EO NULL
-#define OPTION_VAL_5_EO NULL
+#define OPTION_VAL_5_VITA3K_FILE_LOADING_DELAY_EO NULL
 #define OPTION_VAL_10_VITA3K_FILE_LOADING_DELAY_EO NULL
-#define OPTION_VAL_15_EO NULL
+#define OPTION_VAL_15_VITA3K_FILE_LOADING_DELAY_EO NULL
 #define OPTION_VAL_20_VITA3K_FILE_LOADING_DELAY_EO NULL
 #define OPTION_VAL_25_EO NULL
 #define OPTION_VAL_30_VITA3K_FILE_LOADING_DELAY_EO NULL
@@ -5680,6 +10246,10 @@ struct retro_core_option_v2_category option_cats_eo[] = {
     { "system", CATEGORY_SYSTEM_LABEL_EO, CATEGORY_SYSTEM_INFO_0_EO },
     { "audio", CATEGORY_AUDIO_LABEL_EO, CATEGORY_AUDIO_INFO_0_EO },
     { "network", CATEGORY_NETWORK_LABEL_EO, CATEGORY_NETWORK_INFO_0_EO },
+    { "install", CATEGORY_INSTALL_LABEL_EO, CATEGORY_INSTALL_INFO_0_EO },
+    { "camera", CATEGORY_CAMERA_LABEL_EO, CATEGORY_CAMERA_INFO_0_EO },
+    { "accounts", CATEGORY_ACCOUNTS_LABEL_EO, CATEGORY_ACCOUNTS_INFO_0_EO },
+    { "modules", CATEGORY_MODULES_LABEL_EO, CATEGORY_MODULES_INFO_0_EO },
     { NULL, NULL, NULL },
 };
 struct retro_core_option_v2_definition option_defs_eo[] = {
@@ -5843,9 +10413,10 @@ struct retro_core_option_v2_definition option_defs_eo[] = {
         NULL,
         VITA3K_PKG_MODE_INFO_0_EO,
         NULL,
-        "system",
+        "install",
         {
             { "run", OPTION_VAL_RUN_EO },
+            { "cache", OPTION_VAL_CACHE_EO },
             { "install", OPTION_VAL_INSTALL_EO },
             { NULL, NULL },
         },
@@ -5908,6 +10479,67 @@ struct retro_core_option_v2_definition option_defs_eo[] = {
         },
         "1"
     },
+    {
+        "vita3k_sys_lang",
+        VITA3K_SYS_LANG_LABEL_EO,
+        NULL,
+        VITA3K_SYS_LANG_INFO_0_EO,
+        NULL,
+        "system",
+        {
+            { "0", OPTION_VAL_0_VITA3K_SYS_LANG_EO },
+            { "1", OPTION_VAL_1_VITA3K_SYS_LANG_EO },
+            { "2", OPTION_VAL_2_VITA3K_SYS_LANG_EO },
+            { "3", OPTION_VAL_3_VITA3K_SYS_LANG_EO },
+            { "4", OPTION_VAL_4_VITA3K_SYS_LANG_EO },
+            { "5", OPTION_VAL_5_EO },
+            { "6", OPTION_VAL_6_EO },
+            { "7", OPTION_VAL_7_EO },
+            { "8", OPTION_VAL_8_VITA3K_SYS_LANG_EO },
+            { "9", OPTION_VAL_9_EO },
+            { "10", OPTION_VAL_10_EO },
+            { "11", OPTION_VAL_11_EO },
+            { "12", OPTION_VAL_12_EO },
+            { "13", OPTION_VAL_13_EO },
+            { "14", OPTION_VAL_14_EO },
+            { "15", OPTION_VAL_15_EO },
+            { "16", OPTION_VAL_16_VITA3K_SYS_LANG_EO },
+            { "17", OPTION_VAL_17_EO },
+            { "18", OPTION_VAL_18_EO },
+            { "19", OPTION_VAL_19_EO },
+            { NULL, NULL },
+        },
+        "1"
+    },
+    {
+        "vita3k_sys_date_format",
+        VITA3K_SYS_DATE_FORMAT_LABEL_EO,
+        NULL,
+        VITA3K_SYS_DATE_FORMAT_INFO_0_EO,
+        NULL,
+        "system",
+        {
+            { "0", OPTION_VAL_0_VITA3K_SYS_DATE_FORMAT_EO },
+            { "1", OPTION_VAL_1_VITA3K_SYS_DATE_FORMAT_EO },
+            { "2", OPTION_VAL_2_VITA3K_SYS_DATE_FORMAT_EO },
+            { NULL, NULL },
+        },
+        "2"
+    },
+    {
+        "vita3k_sys_time_format",
+        VITA3K_SYS_TIME_FORMAT_LABEL_EO,
+        NULL,
+        VITA3K_SYS_TIME_FORMAT_INFO_0_EO,
+        NULL,
+        "system",
+        {
+            { "0", OPTION_VAL_0_VITA3K_SYS_TIME_FORMAT_EO },
+            { "1", OPTION_VAL_1_VITA3K_SYS_TIME_FORMAT_EO },
+            { NULL, NULL },
+        },
+        "0"
+    },
     // ── Audio ────────────────────────────────────────────────────────────
     {
         "vita3k_audio_volume",
@@ -5918,7 +10550,7 @@ struct retro_core_option_v2_definition option_defs_eo[] = {
         "audio",
         {
             { "0", OPTION_VAL_0_VITA3K_AUDIO_VOLUME_EO },
-            { "10", OPTION_VAL_10_EO },
+            { "10", OPTION_VAL_10_VITA3K_AUDIO_VOLUME_EO },
             { "20", OPTION_VAL_20_EO },
             { "30", OPTION_VAL_30_EO },
             { "40", OPTION_VAL_40_EO },
@@ -5962,6 +10594,204 @@ struct retro_core_option_v2_definition option_defs_eo[] = {
         "disabled"
     },
     {
+        "vita3k_http_enable",
+        VITA3K_HTTP_ENABLE_LABEL_EO,
+        NULL,
+        VITA3K_HTTP_ENABLE_INFO_0_EO,
+        NULL,
+        "network",
+        {
+            { "enabled", NULL },
+            { "disabled", NULL },
+            { NULL, NULL },
+        },
+        "enabled"
+    },
+    {
+        "vita3k_http_timeout_attempts",
+        VITA3K_HTTP_TIMEOUT_ATTEMPTS_LABEL_EO,
+        NULL,
+        VITA3K_HTTP_TIMEOUT_ATTEMPTS_INFO_0_EO,
+        NULL,
+        "network",
+        {
+            { "0", NULL },
+            { "5", NULL },
+            { "10", NULL },
+            { "15", NULL },
+            { "20", NULL },
+            { "25", NULL },
+            { "30", NULL },
+            { "35", NULL },
+            { "40", NULL },
+            { "45", NULL },
+            { "50", NULL },
+            { "55", NULL },
+            { "60", NULL },
+            { "65", NULL },
+            { "70", NULL },
+            { "75", NULL },
+            { "80", NULL },
+            { "85", NULL },
+            { "90", NULL },
+            { "95", NULL },
+            { "100", NULL },
+            { NULL, NULL },
+        },
+        "50"
+    },
+    {
+        "vita3k_http_timeout_sleep",
+        VITA3K_HTTP_TIMEOUT_SLEEP_LABEL_EO,
+        NULL,
+        VITA3K_HTTP_TIMEOUT_SLEEP_INFO_0_EO,
+        NULL,
+        "network",
+        {
+            { "50", OPTION_VAL_50_VITA3K_HTTP_TIMEOUT_SLEEP_EO },
+            { "100", OPTION_VAL_100_VITA3K_HTTP_TIMEOUT_SLEEP_EO },
+            { "150", OPTION_VAL_150_EO },
+            { "200", OPTION_VAL_200_EO },
+            { "250", OPTION_VAL_250_EO },
+            { "300", OPTION_VAL_300_EO },
+            { "400", OPTION_VAL_400_EO },
+            { "500", OPTION_VAL_500_EO },
+            { "750", OPTION_VAL_750_EO },
+            { "1000", OPTION_VAL_1000_EO },
+            { "1500", OPTION_VAL_1500_EO },
+            { "2000", OPTION_VAL_2000_EO },
+            { "2500", OPTION_VAL_2500_EO },
+            { "3000", OPTION_VAL_3000_EO },
+            { NULL, NULL },
+        },
+        "100"
+    },
+    {
+        "vita3k_http_read_end_attempts",
+        VITA3K_HTTP_READ_END_ATTEMPTS_LABEL_EO,
+        NULL,
+        VITA3K_HTTP_READ_END_ATTEMPTS_INFO_0_EO,
+        NULL,
+        "network",
+        {
+            { "0", NULL },
+            { "5", NULL },
+            { "10", NULL },
+            { "15", NULL },
+            { "20", NULL },
+            { "25", NULL },
+            { "30", NULL },
+            { "35", NULL },
+            { "40", NULL },
+            { "45", NULL },
+            { "50", NULL },
+            { "55", NULL },
+            { "60", NULL },
+            { "65", NULL },
+            { "70", NULL },
+            { "75", NULL },
+            { "80", NULL },
+            { "85", NULL },
+            { "90", NULL },
+            { "95", NULL },
+            { "100", NULL },
+            { NULL, NULL },
+        },
+        "10"
+    },
+    {
+        "vita3k_http_read_end_sleep",
+        VITA3K_HTTP_READ_END_SLEEP_LABEL_EO,
+        NULL,
+        VITA3K_HTTP_READ_END_SLEEP_INFO_0_EO,
+        NULL,
+        "network",
+        {
+            { "50", OPTION_VAL_50_VITA3K_HTTP_TIMEOUT_SLEEP_EO },
+            { "100", OPTION_VAL_100_VITA3K_HTTP_TIMEOUT_SLEEP_EO },
+            { "150", OPTION_VAL_150_EO },
+            { "200", OPTION_VAL_200_EO },
+            { "250", OPTION_VAL_250_EO },
+            { "300", OPTION_VAL_300_EO },
+            { "400", OPTION_VAL_400_EO },
+            { "500", OPTION_VAL_500_EO },
+            { "750", OPTION_VAL_750_EO },
+            { "1000", OPTION_VAL_1000_EO },
+            { "1500", OPTION_VAL_1500_EO },
+            { "2000", OPTION_VAL_2000_EO },
+            { "2500", OPTION_VAL_2500_EO },
+            { "3000", OPTION_VAL_3000_EO },
+            { NULL, NULL },
+        },
+        "250"
+    },
+    {
+        "vita3k_front_camera",
+        VITA3K_FRONT_CAMERA_LABEL_EO,
+        NULL,
+        VITA3K_FRONT_CAMERA_INFO_0_EO,
+        NULL,
+        "camera",
+        {
+            { "host", OPTION_VAL_HOST_EO },
+            { "image", OPTION_VAL_IMAGE_EO },
+            { "color", OPTION_VAL_COLOR_EO },
+            { NULL, NULL },
+        },
+        "host"
+    },
+    {
+        "vita3k_front_camera_color",
+        VITA3K_FRONT_CAMERA_COLOR_LABEL_EO,
+        NULL,
+        VITA3K_FRONT_CAMERA_COLOR_INFO_0_EO,
+        NULL,
+        "camera",
+        {
+            { "0", OPTION_VAL_0_VITA3K_FRONT_CAMERA_COLOR_EO },
+            { "16777215", OPTION_VAL_16777215_EO },
+            { "8421504", OPTION_VAL_8421504_EO },
+            { "255", OPTION_VAL_255_EO },
+            { "65280", OPTION_VAL_65280_EO },
+            { "16711680", OPTION_VAL_16711680_EO },
+            { NULL, NULL },
+        },
+        "0"
+    },
+    {
+        "vita3k_back_camera",
+        VITA3K_BACK_CAMERA_LABEL_EO,
+        NULL,
+        VITA3K_BACK_CAMERA_INFO_0_EO,
+        NULL,
+        "camera",
+        {
+            { "host", OPTION_VAL_HOST_EO },
+            { "image", OPTION_VAL_IMAGE_EO },
+            { "color", OPTION_VAL_COLOR_EO },
+            { NULL, NULL },
+        },
+        "host"
+    },
+    {
+        "vita3k_back_camera_color",
+        VITA3K_BACK_CAMERA_COLOR_LABEL_EO,
+        NULL,
+        VITA3K_BACK_CAMERA_COLOR_INFO_0_EO,
+        NULL,
+        "camera",
+        {
+            { "0", OPTION_VAL_0_VITA3K_FRONT_CAMERA_COLOR_EO },
+            { "16777215", OPTION_VAL_16777215_EO },
+            { "8421504", OPTION_VAL_8421504_EO },
+            { "255", OPTION_VAL_255_EO },
+            { "65280", OPTION_VAL_65280_EO },
+            { "16711680", OPTION_VAL_16711680_EO },
+            { NULL, NULL },
+        },
+        "0"
+    },
+    {
         "vita3k_surface_sync",
         VITA3K_SURFACE_SYNC_LABEL_EO,
         NULL,
@@ -5984,9 +10814,9 @@ struct retro_core_option_v2_definition option_defs_eo[] = {
         "system",
         {
             { "0", OPTION_VAL_0_VITA3K_FILE_LOADING_DELAY_EO },
-            { "5", OPTION_VAL_5_EO },
+            { "5", OPTION_VAL_5_VITA3K_FILE_LOADING_DELAY_EO },
             { "10", OPTION_VAL_10_VITA3K_FILE_LOADING_DELAY_EO },
-            { "15", OPTION_VAL_15_EO },
+            { "15", OPTION_VAL_15_VITA3K_FILE_LOADING_DELAY_EO },
             { "20", OPTION_VAL_20_VITA3K_FILE_LOADING_DELAY_EO },
             { "25", OPTION_VAL_25_EO },
             { "30", OPTION_VAL_30_VITA3K_FILE_LOADING_DELAY_EO },
@@ -6013,6 +10843,14 @@ struct retro_core_options_v2 options_eo = {
 #define CATEGORY_AUDIO_INFO_0_ES "Opciones de salida de audio."
 #define CATEGORY_NETWORK_LABEL_ES "Red"
 #define CATEGORY_NETWORK_INFO_0_ES "Opciones de red."
+#define CATEGORY_INSTALL_LABEL_ES "Contenido"
+#define CATEGORY_INSTALL_INFO_0_ES "Establece la forma de cargar juegos, actualizaciones y contenidos descargables (DLC)."
+#define CATEGORY_CAMERA_LABEL_ES "Cámara"
+#define CATEGORY_CAMERA_INFO_0_ES "Lo que verán las cámaras frontal y trasera de la Vita."
+#define CATEGORY_ACCOUNTS_LABEL_ES "Cuentas"
+#define CATEGORY_ACCOUNTS_INFO_0_ES "Las cuentas (usuarios) de la Vita almacenadas en ux0/user, con sus correspondientes datos guardados y trofeos."
+#define CATEGORY_MODULES_LABEL_ES "Módulos"
+#define CATEGORY_MODULES_INFO_0_ES "Los módulos del firmware (vs0/sys/external) que se cargarán cuando el Modo de módulos esté configurado como Automático y manual o como Manual."
 #define VITA3K_BACKEND_RENDERER_LABEL_ES "Back-end de renderizado"
 #define VITA3K_BACKEND_RENDERER_INFO_0_ES "Selecciona el back-end de gráficos. Se recomienda Vulkan."
 #define OPTION_VAL_VULKAN_ES NULL
@@ -6026,7 +10864,7 @@ struct retro_core_options_v2 options_eo = {
 #define VITA3K_SCREEN_FILTER_LABEL_ES "Filtro de pantalla"
 #define VITA3K_SCREEN_FILTER_INFO_0_ES "El filtro de posprocesado que se aplicará a los fotogramas renderizados."
 #define OPTION_VAL_BILINEAR_ES "Bilineal"
-#define OPTION_VAL_NEAREST_ES "Más cercano"
+#define OPTION_VAL_NEAREST_ES "Vecino más próximo"
 #define OPTION_VAL_BICUBIC_ES "Bicúbico"
 #define OPTION_VAL_FXAA_ES "FXAA (Fast Approximate Anti-Aliasing)"
 #define OPTION_VAL_FSR_ES NULL
@@ -6052,14 +10890,15 @@ struct retro_core_options_v2 options_eo = {
 #define VITA3K_HIGH_ACCURACY_INFO_0_ES "Permite el uso de técnicas de renderizado más fieles, pero más lentas."
 #define VITA3K_CPU_OPT_LABEL_ES "Optimizaciones de CPU (JIT dinámico)"
 #define VITA3K_CPU_OPT_INFO_0_ES "Activa el JIT dinámico para que la emulación de la GPU sea más rápida."
-#define VITA3K_PKG_MODE_LABEL_ES "PKG de juego"
-#define VITA3K_PKG_MODE_INFO_0_ES "Establece la forma de ejecutar un archivo PKG de un juego. Ejecutar sin instalar: el juego se ejecutará en cuestión de segundos y se desencriptarán los archivos del PKG a la carpeta del sistema la primera vez que los lea un juego, después se eliminarán al cerrar el juego. Instalar: se desencriptará e instalará el juego entero en ux0/app la primera vez que se arranque, tal y como hace Vita3K, que tardará según el tamaño del juego y ocupará más espacio en disco. Los juegos que ya estén instalados se ejecutarán desde la ruta de instalación. las actualizaciones y los contenidos descargables se instalarán siempre."
+#define VITA3K_PKG_MODE_LABEL_ES "Precargar juego"
+#define VITA3K_PKG_MODE_INFO_0_ES "Todos los contenidos seguirán este ajuste, a excepción de las actualizaciones y contenidos descargables que se hayan instalado forzosamente (es decir, que se hayan cargado a mano). Ejecutar sin instalar: lee los datos del archivo sin conservar nada. Caché persistente: lo mismo, pero conserva lo que se haya leído. Instalar: copia todos los archivos para arrancar más rápidamente."
 #define OPTION_VAL_RUN_ES "Ejecutar sin instalar"
+#define OPTION_VAL_CACHE_ES "Caché persistente"
 #define OPTION_VAL_INSTALL_ES "Instalar"
 #define VITA3K_PSTV_MODE_LABEL_ES "Modo PS TV"
 #define VITA3K_PSTV_MODE_INFO_0_ES "Emula una PlayStation TV en lugar de una PS Vita."
 #define VITA3K_MODULES_MODE_LABEL_ES "Modo de módulos"
-#define VITA3K_MODULES_MODE_INFO_0_ES "La forma de cargar los módulos del sistema. Se recomienda el modo automático."
+#define VITA3K_MODULES_MODE_INFO_0_ES "La forma de cargar los módulos del sistema. Automático: la implementación del núcleo y los módulos del firmware que el núcleo sabe que son necesarios. Automático y manual: utiliza los de la opción Automático más los módulos activados en su opción. Manual: utiliza únicamente los módulos activados en la opción Módulos. Se recomienda el modo automático."
 #define OPTION_VAL_0_ES "Automático"
 #define OPTION_VAL_1_VITA3K_MODULES_MODE_ES "Automático y manual"
 #define OPTION_VAL_2_VITA3K_MODULES_MODE_ES NULL
@@ -6069,10 +10908,41 @@ struct retro_core_options_v2 options_eo = {
 #define VITA3K_SYS_BUTTON_INFO_0_ES "El botón que se usará para confirmar acciones."
 #define OPTION_VAL_0_VITA3K_SYS_BUTTON_ES "Círculo"
 #define OPTION_VAL_1_VITA3K_SYS_BUTTON_ES "Cruz/X"
+#define VITA3K_SYS_LANG_LABEL_ES "Idioma del sistema"
+#define VITA3K_SYS_LANG_INFO_0_ES "El idioma de la consola, usado por los juegos para mostrar sus textos y ventanas del sistema. Esta opción se aplicará la próxima vez que se ejecute un juego."
+#define OPTION_VAL_0_VITA3K_SYS_LANG_ES "Japonés"
+#define OPTION_VAL_1_VITA3K_SYS_LANG_ES "Inglés (Estados Unidos)"
+#define OPTION_VAL_2_VITA3K_SYS_LANG_ES "Francés"
+#define OPTION_VAL_3_VITA3K_SYS_LANG_ES "Español"
+#define OPTION_VAL_4_VITA3K_SYS_LANG_ES "Alemán"
+#define OPTION_VAL_5_ES "Italiano"
+#define OPTION_VAL_6_ES "Holandés"
+#define OPTION_VAL_7_ES "Portugués (Portugal)"
+#define OPTION_VAL_8_VITA3K_SYS_LANG_ES "Ruso"
+#define OPTION_VAL_9_ES "Coreano"
+#define OPTION_VAL_10_ES "Chino (tradicional)"
+#define OPTION_VAL_11_ES "Chino (simplificado)"
+#define OPTION_VAL_12_ES "Finlandés"
+#define OPTION_VAL_13_ES "Sueco"
+#define OPTION_VAL_14_ES "Danés"
+#define OPTION_VAL_15_ES "Noruego"
+#define OPTION_VAL_16_VITA3K_SYS_LANG_ES "Polaco"
+#define OPTION_VAL_17_ES "Portugués (Brasil)"
+#define OPTION_VAL_18_ES "Inglés (Reino Unido)"
+#define OPTION_VAL_19_ES "Turco"
+#define VITA3K_SYS_DATE_FORMAT_LABEL_ES "Formato de fecha"
+#define VITA3K_SYS_DATE_FORMAT_INFO_0_ES "La forma con la que la consola mostrará las fechas en juegos y ventanas del sistema (por ejemplo, en las listas de datos guardados). La fecha y hora en sí son leídas del equipo. Esta opción se aplicará la próxima vez que se ejecute un juego."
+#define OPTION_VAL_0_VITA3K_SYS_DATE_FORMAT_ES "AAAA/MM/DD"
+#define OPTION_VAL_1_VITA3K_SYS_DATE_FORMAT_ES "DD/MM/AAAA"
+#define OPTION_VAL_2_VITA3K_SYS_DATE_FORMAT_ES "MM/DD/AAAA"
+#define VITA3K_SYS_TIME_FORMAT_LABEL_ES "Formato de hora"
+#define VITA3K_SYS_TIME_FORMAT_INFO_0_ES "Indica si la consola mostrará la hora en formato de 12 o 24 horas en juegos y ventanas del sistema. Esta opción se aplicará la próxima vez que se ejecute un juego."
+#define OPTION_VAL_0_VITA3K_SYS_TIME_FORMAT_ES "12 horas"
+#define OPTION_VAL_1_VITA3K_SYS_TIME_FORMAT_ES "24 horas"
 #define VITA3K_AUDIO_VOLUME_LABEL_ES "Volumen de audio"
 #define VITA3K_AUDIO_VOLUME_INFO_0_ES "El nivel de volumen maestro del audio."
 #define OPTION_VAL_0_VITA3K_AUDIO_VOLUME_ES "0 %"
-#define OPTION_VAL_10_ES "10 %"
+#define OPTION_VAL_10_VITA3K_AUDIO_VOLUME_ES "10 %"
 #define OPTION_VAL_20_ES "20 %"
 #define OPTION_VAL_30_ES "30 %"
 #define OPTION_VAL_40_ES "40 %"
@@ -6086,6 +10956,47 @@ struct retro_core_options_v2 options_eo = {
 #define VITA3K_NGS_ENABLE_INFO_0_ES "Activa el motor NGS de audio para reproducir audio mejorado."
 #define VITA3K_PSN_SIGNED_IN_LABEL_ES "Inicio de sesión en PSN"
 #define VITA3K_PSN_SIGNED_IN_INFO_0_ES "Simula que se ha iniciado sesión en PSN. Necesario para algunos juegos."
+#define VITA3K_HTTP_ENABLE_LABEL_ES NULL
+#define VITA3K_HTTP_ENABLE_INFO_0_ES "Activa el soporte de red HTTP en aquellas aplicaciones que lo necesiten. Esta opción se aplicará la próxima vez que se ejecute un juego."
+#define VITA3K_HTTP_TIMEOUT_ATTEMPTS_LABEL_ES "Intentos de espera de HTTP"
+#define VITA3K_HTTP_TIMEOUT_ATTEMPTS_INFO_0_ES "La cantidad de reintentos de conexión que se harán si el servidor no responde. Podría ayudar con conexiones inestables o muy lentas. Esta opción se aplicará la próxima vez que se ejecute un juego."
+#define VITA3K_HTTP_TIMEOUT_SLEEP_LABEL_ES "Espera entre reintentos de HTTP"
+#define VITA3K_HTTP_TIMEOUT_SLEEP_INFO_0_ES "El tiempo que se esperará entre reintentos de conexión. Podría ayudar con conexiones inestables o muy lentas. Esta opción se aplicará la próxima vez que se ejecute un juego."
+#define OPTION_VAL_50_VITA3K_HTTP_TIMEOUT_SLEEP_ES "50 ms"
+#define OPTION_VAL_100_VITA3K_HTTP_TIMEOUT_SLEEP_ES "100 ms"
+#define OPTION_VAL_150_ES "150 ms"
+#define OPTION_VAL_200_ES "200 ms"
+#define OPTION_VAL_250_ES "250 ms"
+#define OPTION_VAL_300_ES "300 ms"
+#define OPTION_VAL_400_ES "400 ms"
+#define OPTION_VAL_500_ES "500 ms"
+#define OPTION_VAL_750_ES "750 ms"
+#define OPTION_VAL_1000_ES "1000 ms"
+#define OPTION_VAL_1500_ES "1500 ms"
+#define OPTION_VAL_2000_ES "2000 ms"
+#define OPTION_VAL_2500_ES "2500 ms"
+#define OPTION_VAL_3000_ES "3000 ms"
+#define VITA3K_HTTP_READ_END_ATTEMPTS_LABEL_ES "Intentos de fin de lectura en HTTP"
+#define VITA3K_HTTP_READ_END_ATTEMPTS_INFO_0_ES "El número de reintentos que se harán cuando se acaben los datos a leer. Un valor más bajo podría mejorar el rendimiento, pero podría provocar inestabilidades en los juegos si la conexión es mala. Esta opción se aplicará la próxima vez que se ejecute un juego."
+#define VITA3K_HTTP_READ_END_SLEEP_LABEL_ES "Espera para intentar fin de lectura en HTTP"
+#define VITA3K_HTTP_READ_END_SLEEP_INFO_0_ES "El tiempo que se esperará antes de reintentar una lectura. Un valor más bajo podría mejorar el rendimiento, pero podría provocar inestabilidades en los juegos si la conexión es mala. Esta opción se aplicará la próxima vez que se ejecute un juego."
+#define VITA3K_FRONT_CAMERA_LABEL_ES "Cámara frontal"
+#define VITA3K_FRONT_CAMERA_INFO_0_ES "Establece lo que verá la cámara frontal de la Vita. Cámara del equipo: la cámara de RetroArch (es necesario activar Ajustes > Privacidad > Acceso a cámara y que exista un controlador de cámara para esta plataforma). Imagen: system/vita3k/camera/front.png o front.jpg. Color sólido: el color de la cámara frontal. Si una opción no está disponible, se pasará a usar la siguiente. Esta opción se aplicará la próxima vez que un juego abra la cámara."
+#define OPTION_VAL_HOST_ES "Cámara del equipo"
+#define OPTION_VAL_IMAGE_ES "Imagen"
+#define OPTION_VAL_COLOR_ES "Color sólido"
+#define VITA3K_FRONT_CAMERA_COLOR_LABEL_ES "Color de cámara frontal"
+#define VITA3K_FRONT_CAMERA_COLOR_INFO_0_ES "El color que mostrará la cámara frontal al utilizar la opción Color sólido."
+#define OPTION_VAL_0_VITA3K_FRONT_CAMERA_COLOR_ES "Negro"
+#define OPTION_VAL_16777215_ES "Blanco"
+#define OPTION_VAL_8421504_ES "Gris"
+#define OPTION_VAL_255_ES "Rojo"
+#define OPTION_VAL_65280_ES "Verde"
+#define OPTION_VAL_16711680_ES "Azul"
+#define VITA3K_BACK_CAMERA_LABEL_ES "Cámara trasera"
+#define VITA3K_BACK_CAMERA_INFO_0_ES "Establece lo que verá la cámara trasera de la Vita. Cámara del equipo: la cámara de RetroArch (es necesario activar Ajustes > Privacidad > Acceso a cámara y que exista un controlador de cámara para esta plataforma). Imagen: system/vita3k/camera/back.png o back.jpg. Color sólido: el color de la cámara trasera. Si una opción no está disponible, se pasará a usar la siguiente. Esta opción se aplicará la próxima vez que un juego abra la cámara."
+#define VITA3K_BACK_CAMERA_COLOR_LABEL_ES "Color de cámara trasera"
+#define VITA3K_BACK_CAMERA_COLOR_INFO_0_ES "El color que mostrará la cámara trasera al utilizar la opción Color sólido."
 #define VITA3K_SURFACE_SYNC_LABEL_ES "Sincronizar superficie"
 #define VITA3K_SURFACE_SYNC_INFO_0_ES "Optimización de memoria de GPU. Podría mejorar el rendimiento en un 20-40 %."
 #define OPTION_VAL_ENABLED_ES "Sí (más fiel)"
@@ -6093,9 +11004,9 @@ struct retro_core_options_v2 options_eo = {
 #define VITA3K_FILE_LOADING_DELAY_LABEL_ES "Retraso en carga de archivos"
 #define VITA3K_FILE_LOADING_DELAY_INFO_0_ES "Retrasa la carga de archivos (en milisegundos). Ayudará a aquellos juegos que sean sensibles a la rapidez de carga."
 #define OPTION_VAL_0_VITA3K_FILE_LOADING_DELAY_ES "0 ms"
-#define OPTION_VAL_5_ES "5 ms"
+#define OPTION_VAL_5_VITA3K_FILE_LOADING_DELAY_ES "5 ms"
 #define OPTION_VAL_10_VITA3K_FILE_LOADING_DELAY_ES "10 ms"
-#define OPTION_VAL_15_ES "15 ms"
+#define OPTION_VAL_15_VITA3K_FILE_LOADING_DELAY_ES "15 ms"
 #define OPTION_VAL_20_VITA3K_FILE_LOADING_DELAY_ES "20 ms"
 #define OPTION_VAL_25_ES "25 ms"
 #define OPTION_VAL_30_VITA3K_FILE_LOADING_DELAY_ES "30 ms"
@@ -6106,6 +11017,10 @@ struct retro_core_option_v2_category option_cats_es[] = {
     { "system", CATEGORY_SYSTEM_LABEL_ES, CATEGORY_SYSTEM_INFO_0_ES },
     { "audio", CATEGORY_AUDIO_LABEL_ES, CATEGORY_AUDIO_INFO_0_ES },
     { "network", CATEGORY_NETWORK_LABEL_ES, CATEGORY_NETWORK_INFO_0_ES },
+    { "install", CATEGORY_INSTALL_LABEL_ES, CATEGORY_INSTALL_INFO_0_ES },
+    { "camera", CATEGORY_CAMERA_LABEL_ES, CATEGORY_CAMERA_INFO_0_ES },
+    { "accounts", CATEGORY_ACCOUNTS_LABEL_ES, CATEGORY_ACCOUNTS_INFO_0_ES },
+    { "modules", CATEGORY_MODULES_LABEL_ES, CATEGORY_MODULES_INFO_0_ES },
     { NULL, NULL, NULL },
 };
 struct retro_core_option_v2_definition option_defs_es[] = {
@@ -6269,9 +11184,10 @@ struct retro_core_option_v2_definition option_defs_es[] = {
         NULL,
         VITA3K_PKG_MODE_INFO_0_ES,
         NULL,
-        "system",
+        "install",
         {
             { "run", OPTION_VAL_RUN_ES },
+            { "cache", OPTION_VAL_CACHE_ES },
             { "install", OPTION_VAL_INSTALL_ES },
             { NULL, NULL },
         },
@@ -6334,6 +11250,67 @@ struct retro_core_option_v2_definition option_defs_es[] = {
         },
         "1"
     },
+    {
+        "vita3k_sys_lang",
+        VITA3K_SYS_LANG_LABEL_ES,
+        NULL,
+        VITA3K_SYS_LANG_INFO_0_ES,
+        NULL,
+        "system",
+        {
+            { "0", OPTION_VAL_0_VITA3K_SYS_LANG_ES },
+            { "1", OPTION_VAL_1_VITA3K_SYS_LANG_ES },
+            { "2", OPTION_VAL_2_VITA3K_SYS_LANG_ES },
+            { "3", OPTION_VAL_3_VITA3K_SYS_LANG_ES },
+            { "4", OPTION_VAL_4_VITA3K_SYS_LANG_ES },
+            { "5", OPTION_VAL_5_ES },
+            { "6", OPTION_VAL_6_ES },
+            { "7", OPTION_VAL_7_ES },
+            { "8", OPTION_VAL_8_VITA3K_SYS_LANG_ES },
+            { "9", OPTION_VAL_9_ES },
+            { "10", OPTION_VAL_10_ES },
+            { "11", OPTION_VAL_11_ES },
+            { "12", OPTION_VAL_12_ES },
+            { "13", OPTION_VAL_13_ES },
+            { "14", OPTION_VAL_14_ES },
+            { "15", OPTION_VAL_15_ES },
+            { "16", OPTION_VAL_16_VITA3K_SYS_LANG_ES },
+            { "17", OPTION_VAL_17_ES },
+            { "18", OPTION_VAL_18_ES },
+            { "19", OPTION_VAL_19_ES },
+            { NULL, NULL },
+        },
+        "1"
+    },
+    {
+        "vita3k_sys_date_format",
+        VITA3K_SYS_DATE_FORMAT_LABEL_ES,
+        NULL,
+        VITA3K_SYS_DATE_FORMAT_INFO_0_ES,
+        NULL,
+        "system",
+        {
+            { "0", OPTION_VAL_0_VITA3K_SYS_DATE_FORMAT_ES },
+            { "1", OPTION_VAL_1_VITA3K_SYS_DATE_FORMAT_ES },
+            { "2", OPTION_VAL_2_VITA3K_SYS_DATE_FORMAT_ES },
+            { NULL, NULL },
+        },
+        "2"
+    },
+    {
+        "vita3k_sys_time_format",
+        VITA3K_SYS_TIME_FORMAT_LABEL_ES,
+        NULL,
+        VITA3K_SYS_TIME_FORMAT_INFO_0_ES,
+        NULL,
+        "system",
+        {
+            { "0", OPTION_VAL_0_VITA3K_SYS_TIME_FORMAT_ES },
+            { "1", OPTION_VAL_1_VITA3K_SYS_TIME_FORMAT_ES },
+            { NULL, NULL },
+        },
+        "0"
+    },
     // ── Audio ────────────────────────────────────────────────────────────
     {
         "vita3k_audio_volume",
@@ -6344,7 +11321,7 @@ struct retro_core_option_v2_definition option_defs_es[] = {
         "audio",
         {
             { "0", OPTION_VAL_0_VITA3K_AUDIO_VOLUME_ES },
-            { "10", OPTION_VAL_10_ES },
+            { "10", OPTION_VAL_10_VITA3K_AUDIO_VOLUME_ES },
             { "20", OPTION_VAL_20_ES },
             { "30", OPTION_VAL_30_ES },
             { "40", OPTION_VAL_40_ES },
@@ -6388,6 +11365,204 @@ struct retro_core_option_v2_definition option_defs_es[] = {
         "disabled"
     },
     {
+        "vita3k_http_enable",
+        VITA3K_HTTP_ENABLE_LABEL_ES,
+        NULL,
+        VITA3K_HTTP_ENABLE_INFO_0_ES,
+        NULL,
+        "network",
+        {
+            { "enabled", NULL },
+            { "disabled", NULL },
+            { NULL, NULL },
+        },
+        "enabled"
+    },
+    {
+        "vita3k_http_timeout_attempts",
+        VITA3K_HTTP_TIMEOUT_ATTEMPTS_LABEL_ES,
+        NULL,
+        VITA3K_HTTP_TIMEOUT_ATTEMPTS_INFO_0_ES,
+        NULL,
+        "network",
+        {
+            { "0", NULL },
+            { "5", NULL },
+            { "10", NULL },
+            { "15", NULL },
+            { "20", NULL },
+            { "25", NULL },
+            { "30", NULL },
+            { "35", NULL },
+            { "40", NULL },
+            { "45", NULL },
+            { "50", NULL },
+            { "55", NULL },
+            { "60", NULL },
+            { "65", NULL },
+            { "70", NULL },
+            { "75", NULL },
+            { "80", NULL },
+            { "85", NULL },
+            { "90", NULL },
+            { "95", NULL },
+            { "100", NULL },
+            { NULL, NULL },
+        },
+        "50"
+    },
+    {
+        "vita3k_http_timeout_sleep",
+        VITA3K_HTTP_TIMEOUT_SLEEP_LABEL_ES,
+        NULL,
+        VITA3K_HTTP_TIMEOUT_SLEEP_INFO_0_ES,
+        NULL,
+        "network",
+        {
+            { "50", OPTION_VAL_50_VITA3K_HTTP_TIMEOUT_SLEEP_ES },
+            { "100", OPTION_VAL_100_VITA3K_HTTP_TIMEOUT_SLEEP_ES },
+            { "150", OPTION_VAL_150_ES },
+            { "200", OPTION_VAL_200_ES },
+            { "250", OPTION_VAL_250_ES },
+            { "300", OPTION_VAL_300_ES },
+            { "400", OPTION_VAL_400_ES },
+            { "500", OPTION_VAL_500_ES },
+            { "750", OPTION_VAL_750_ES },
+            { "1000", OPTION_VAL_1000_ES },
+            { "1500", OPTION_VAL_1500_ES },
+            { "2000", OPTION_VAL_2000_ES },
+            { "2500", OPTION_VAL_2500_ES },
+            { "3000", OPTION_VAL_3000_ES },
+            { NULL, NULL },
+        },
+        "100"
+    },
+    {
+        "vita3k_http_read_end_attempts",
+        VITA3K_HTTP_READ_END_ATTEMPTS_LABEL_ES,
+        NULL,
+        VITA3K_HTTP_READ_END_ATTEMPTS_INFO_0_ES,
+        NULL,
+        "network",
+        {
+            { "0", NULL },
+            { "5", NULL },
+            { "10", NULL },
+            { "15", NULL },
+            { "20", NULL },
+            { "25", NULL },
+            { "30", NULL },
+            { "35", NULL },
+            { "40", NULL },
+            { "45", NULL },
+            { "50", NULL },
+            { "55", NULL },
+            { "60", NULL },
+            { "65", NULL },
+            { "70", NULL },
+            { "75", NULL },
+            { "80", NULL },
+            { "85", NULL },
+            { "90", NULL },
+            { "95", NULL },
+            { "100", NULL },
+            { NULL, NULL },
+        },
+        "10"
+    },
+    {
+        "vita3k_http_read_end_sleep",
+        VITA3K_HTTP_READ_END_SLEEP_LABEL_ES,
+        NULL,
+        VITA3K_HTTP_READ_END_SLEEP_INFO_0_ES,
+        NULL,
+        "network",
+        {
+            { "50", OPTION_VAL_50_VITA3K_HTTP_TIMEOUT_SLEEP_ES },
+            { "100", OPTION_VAL_100_VITA3K_HTTP_TIMEOUT_SLEEP_ES },
+            { "150", OPTION_VAL_150_ES },
+            { "200", OPTION_VAL_200_ES },
+            { "250", OPTION_VAL_250_ES },
+            { "300", OPTION_VAL_300_ES },
+            { "400", OPTION_VAL_400_ES },
+            { "500", OPTION_VAL_500_ES },
+            { "750", OPTION_VAL_750_ES },
+            { "1000", OPTION_VAL_1000_ES },
+            { "1500", OPTION_VAL_1500_ES },
+            { "2000", OPTION_VAL_2000_ES },
+            { "2500", OPTION_VAL_2500_ES },
+            { "3000", OPTION_VAL_3000_ES },
+            { NULL, NULL },
+        },
+        "250"
+    },
+    {
+        "vita3k_front_camera",
+        VITA3K_FRONT_CAMERA_LABEL_ES,
+        NULL,
+        VITA3K_FRONT_CAMERA_INFO_0_ES,
+        NULL,
+        "camera",
+        {
+            { "host", OPTION_VAL_HOST_ES },
+            { "image", OPTION_VAL_IMAGE_ES },
+            { "color", OPTION_VAL_COLOR_ES },
+            { NULL, NULL },
+        },
+        "host"
+    },
+    {
+        "vita3k_front_camera_color",
+        VITA3K_FRONT_CAMERA_COLOR_LABEL_ES,
+        NULL,
+        VITA3K_FRONT_CAMERA_COLOR_INFO_0_ES,
+        NULL,
+        "camera",
+        {
+            { "0", OPTION_VAL_0_VITA3K_FRONT_CAMERA_COLOR_ES },
+            { "16777215", OPTION_VAL_16777215_ES },
+            { "8421504", OPTION_VAL_8421504_ES },
+            { "255", OPTION_VAL_255_ES },
+            { "65280", OPTION_VAL_65280_ES },
+            { "16711680", OPTION_VAL_16711680_ES },
+            { NULL, NULL },
+        },
+        "0"
+    },
+    {
+        "vita3k_back_camera",
+        VITA3K_BACK_CAMERA_LABEL_ES,
+        NULL,
+        VITA3K_BACK_CAMERA_INFO_0_ES,
+        NULL,
+        "camera",
+        {
+            { "host", OPTION_VAL_HOST_ES },
+            { "image", OPTION_VAL_IMAGE_ES },
+            { "color", OPTION_VAL_COLOR_ES },
+            { NULL, NULL },
+        },
+        "host"
+    },
+    {
+        "vita3k_back_camera_color",
+        VITA3K_BACK_CAMERA_COLOR_LABEL_ES,
+        NULL,
+        VITA3K_BACK_CAMERA_COLOR_INFO_0_ES,
+        NULL,
+        "camera",
+        {
+            { "0", OPTION_VAL_0_VITA3K_FRONT_CAMERA_COLOR_ES },
+            { "16777215", OPTION_VAL_16777215_ES },
+            { "8421504", OPTION_VAL_8421504_ES },
+            { "255", OPTION_VAL_255_ES },
+            { "65280", OPTION_VAL_65280_ES },
+            { "16711680", OPTION_VAL_16711680_ES },
+            { NULL, NULL },
+        },
+        "0"
+    },
+    {
         "vita3k_surface_sync",
         VITA3K_SURFACE_SYNC_LABEL_ES,
         NULL,
@@ -6410,9 +11585,9 @@ struct retro_core_option_v2_definition option_defs_es[] = {
         "system",
         {
             { "0", OPTION_VAL_0_VITA3K_FILE_LOADING_DELAY_ES },
-            { "5", OPTION_VAL_5_ES },
+            { "5", OPTION_VAL_5_VITA3K_FILE_LOADING_DELAY_ES },
             { "10", OPTION_VAL_10_VITA3K_FILE_LOADING_DELAY_ES },
-            { "15", OPTION_VAL_15_ES },
+            { "15", OPTION_VAL_15_VITA3K_FILE_LOADING_DELAY_ES },
             { "20", OPTION_VAL_20_VITA3K_FILE_LOADING_DELAY_ES },
             { "25", OPTION_VAL_25_ES },
             { "30", OPTION_VAL_30_VITA3K_FILE_LOADING_DELAY_ES },
@@ -6439,6 +11614,14 @@ struct retro_core_options_v2 options_es = {
 #define CATEGORY_AUDIO_INFO_0_FA NULL
 #define CATEGORY_NETWORK_LABEL_FA "شبکه"
 #define CATEGORY_NETWORK_INFO_0_FA NULL
+#define CATEGORY_INSTALL_LABEL_FA NULL
+#define CATEGORY_INSTALL_INFO_0_FA NULL
+#define CATEGORY_CAMERA_LABEL_FA "دوربین"
+#define CATEGORY_CAMERA_INFO_0_FA NULL
+#define CATEGORY_ACCOUNTS_LABEL_FA "حساب‌ها"
+#define CATEGORY_ACCOUNTS_INFO_0_FA NULL
+#define CATEGORY_MODULES_LABEL_FA NULL
+#define CATEGORY_MODULES_INFO_0_FA NULL
 #define VITA3K_BACKEND_RENDERER_LABEL_FA NULL
 #define VITA3K_BACKEND_RENDERER_INFO_0_FA NULL
 #define OPTION_VAL_VULKAN_FA NULL
@@ -6481,6 +11664,7 @@ struct retro_core_options_v2 options_es = {
 #define VITA3K_PKG_MODE_LABEL_FA NULL
 #define VITA3K_PKG_MODE_INFO_0_FA NULL
 #define OPTION_VAL_RUN_FA NULL
+#define OPTION_VAL_CACHE_FA NULL
 #define OPTION_VAL_INSTALL_FA NULL
 #define VITA3K_PSTV_MODE_LABEL_FA NULL
 #define VITA3K_PSTV_MODE_INFO_0_FA NULL
@@ -6495,10 +11679,41 @@ struct retro_core_options_v2 options_es = {
 #define VITA3K_SYS_BUTTON_INFO_0_FA NULL
 #define OPTION_VAL_0_VITA3K_SYS_BUTTON_FA NULL
 #define OPTION_VAL_1_VITA3K_SYS_BUTTON_FA NULL
+#define VITA3K_SYS_LANG_LABEL_FA NULL
+#define VITA3K_SYS_LANG_INFO_0_FA NULL
+#define OPTION_VAL_0_VITA3K_SYS_LANG_FA NULL
+#define OPTION_VAL_1_VITA3K_SYS_LANG_FA NULL
+#define OPTION_VAL_2_VITA3K_SYS_LANG_FA NULL
+#define OPTION_VAL_3_VITA3K_SYS_LANG_FA NULL
+#define OPTION_VAL_4_VITA3K_SYS_LANG_FA NULL
+#define OPTION_VAL_5_FA NULL
+#define OPTION_VAL_6_FA NULL
+#define OPTION_VAL_7_FA NULL
+#define OPTION_VAL_8_VITA3K_SYS_LANG_FA NULL
+#define OPTION_VAL_9_FA NULL
+#define OPTION_VAL_10_FA NULL
+#define OPTION_VAL_11_FA NULL
+#define OPTION_VAL_12_FA NULL
+#define OPTION_VAL_13_FA NULL
+#define OPTION_VAL_14_FA NULL
+#define OPTION_VAL_15_FA NULL
+#define OPTION_VAL_16_VITA3K_SYS_LANG_FA NULL
+#define OPTION_VAL_17_FA NULL
+#define OPTION_VAL_18_FA NULL
+#define OPTION_VAL_19_FA NULL
+#define VITA3K_SYS_DATE_FORMAT_LABEL_FA NULL
+#define VITA3K_SYS_DATE_FORMAT_INFO_0_FA NULL
+#define OPTION_VAL_0_VITA3K_SYS_DATE_FORMAT_FA NULL
+#define OPTION_VAL_1_VITA3K_SYS_DATE_FORMAT_FA NULL
+#define OPTION_VAL_2_VITA3K_SYS_DATE_FORMAT_FA NULL
+#define VITA3K_SYS_TIME_FORMAT_LABEL_FA NULL
+#define VITA3K_SYS_TIME_FORMAT_INFO_0_FA NULL
+#define OPTION_VAL_0_VITA3K_SYS_TIME_FORMAT_FA NULL
+#define OPTION_VAL_1_VITA3K_SYS_TIME_FORMAT_FA NULL
 #define VITA3K_AUDIO_VOLUME_LABEL_FA NULL
 #define VITA3K_AUDIO_VOLUME_INFO_0_FA NULL
 #define OPTION_VAL_0_VITA3K_AUDIO_VOLUME_FA NULL
-#define OPTION_VAL_10_FA NULL
+#define OPTION_VAL_10_VITA3K_AUDIO_VOLUME_FA NULL
 #define OPTION_VAL_20_FA NULL
 #define OPTION_VAL_30_FA NULL
 #define OPTION_VAL_40_FA NULL
@@ -6512,6 +11727,47 @@ struct retro_core_options_v2 options_es = {
 #define VITA3K_NGS_ENABLE_INFO_0_FA NULL
 #define VITA3K_PSN_SIGNED_IN_LABEL_FA NULL
 #define VITA3K_PSN_SIGNED_IN_INFO_0_FA NULL
+#define VITA3K_HTTP_ENABLE_LABEL_FA NULL
+#define VITA3K_HTTP_ENABLE_INFO_0_FA NULL
+#define VITA3K_HTTP_TIMEOUT_ATTEMPTS_LABEL_FA NULL
+#define VITA3K_HTTP_TIMEOUT_ATTEMPTS_INFO_0_FA NULL
+#define VITA3K_HTTP_TIMEOUT_SLEEP_LABEL_FA NULL
+#define VITA3K_HTTP_TIMEOUT_SLEEP_INFO_0_FA NULL
+#define OPTION_VAL_50_VITA3K_HTTP_TIMEOUT_SLEEP_FA NULL
+#define OPTION_VAL_100_VITA3K_HTTP_TIMEOUT_SLEEP_FA NULL
+#define OPTION_VAL_150_FA NULL
+#define OPTION_VAL_200_FA NULL
+#define OPTION_VAL_250_FA NULL
+#define OPTION_VAL_300_FA NULL
+#define OPTION_VAL_400_FA NULL
+#define OPTION_VAL_500_FA NULL
+#define OPTION_VAL_750_FA NULL
+#define OPTION_VAL_1000_FA NULL
+#define OPTION_VAL_1500_FA NULL
+#define OPTION_VAL_2000_FA NULL
+#define OPTION_VAL_2500_FA NULL
+#define OPTION_VAL_3000_FA NULL
+#define VITA3K_HTTP_READ_END_ATTEMPTS_LABEL_FA NULL
+#define VITA3K_HTTP_READ_END_ATTEMPTS_INFO_0_FA NULL
+#define VITA3K_HTTP_READ_END_SLEEP_LABEL_FA NULL
+#define VITA3K_HTTP_READ_END_SLEEP_INFO_0_FA NULL
+#define VITA3K_FRONT_CAMERA_LABEL_FA NULL
+#define VITA3K_FRONT_CAMERA_INFO_0_FA NULL
+#define OPTION_VAL_HOST_FA NULL
+#define OPTION_VAL_IMAGE_FA NULL
+#define OPTION_VAL_COLOR_FA NULL
+#define VITA3K_FRONT_CAMERA_COLOR_LABEL_FA NULL
+#define VITA3K_FRONT_CAMERA_COLOR_INFO_0_FA NULL
+#define OPTION_VAL_0_VITA3K_FRONT_CAMERA_COLOR_FA NULL
+#define OPTION_VAL_16777215_FA NULL
+#define OPTION_VAL_8421504_FA NULL
+#define OPTION_VAL_255_FA NULL
+#define OPTION_VAL_65280_FA NULL
+#define OPTION_VAL_16711680_FA NULL
+#define VITA3K_BACK_CAMERA_LABEL_FA NULL
+#define VITA3K_BACK_CAMERA_INFO_0_FA NULL
+#define VITA3K_BACK_CAMERA_COLOR_LABEL_FA NULL
+#define VITA3K_BACK_CAMERA_COLOR_INFO_0_FA NULL
 #define VITA3K_SURFACE_SYNC_LABEL_FA NULL
 #define VITA3K_SURFACE_SYNC_INFO_0_FA NULL
 #define OPTION_VAL_ENABLED_FA NULL
@@ -6519,9 +11775,9 @@ struct retro_core_options_v2 options_es = {
 #define VITA3K_FILE_LOADING_DELAY_LABEL_FA NULL
 #define VITA3K_FILE_LOADING_DELAY_INFO_0_FA NULL
 #define OPTION_VAL_0_VITA3K_FILE_LOADING_DELAY_FA NULL
-#define OPTION_VAL_5_FA NULL
+#define OPTION_VAL_5_VITA3K_FILE_LOADING_DELAY_FA NULL
 #define OPTION_VAL_10_VITA3K_FILE_LOADING_DELAY_FA NULL
-#define OPTION_VAL_15_FA NULL
+#define OPTION_VAL_15_VITA3K_FILE_LOADING_DELAY_FA NULL
 #define OPTION_VAL_20_VITA3K_FILE_LOADING_DELAY_FA NULL
 #define OPTION_VAL_25_FA NULL
 #define OPTION_VAL_30_VITA3K_FILE_LOADING_DELAY_FA NULL
@@ -6532,6 +11788,10 @@ struct retro_core_option_v2_category option_cats_fa[] = {
     { "system", CATEGORY_SYSTEM_LABEL_FA, CATEGORY_SYSTEM_INFO_0_FA },
     { "audio", CATEGORY_AUDIO_LABEL_FA, CATEGORY_AUDIO_INFO_0_FA },
     { "network", CATEGORY_NETWORK_LABEL_FA, CATEGORY_NETWORK_INFO_0_FA },
+    { "install", CATEGORY_INSTALL_LABEL_FA, CATEGORY_INSTALL_INFO_0_FA },
+    { "camera", CATEGORY_CAMERA_LABEL_FA, CATEGORY_CAMERA_INFO_0_FA },
+    { "accounts", CATEGORY_ACCOUNTS_LABEL_FA, CATEGORY_ACCOUNTS_INFO_0_FA },
+    { "modules", CATEGORY_MODULES_LABEL_FA, CATEGORY_MODULES_INFO_0_FA },
     { NULL, NULL, NULL },
 };
 struct retro_core_option_v2_definition option_defs_fa[] = {
@@ -6695,9 +11955,10 @@ struct retro_core_option_v2_definition option_defs_fa[] = {
         NULL,
         VITA3K_PKG_MODE_INFO_0_FA,
         NULL,
-        "system",
+        "install",
         {
             { "run", OPTION_VAL_RUN_FA },
+            { "cache", OPTION_VAL_CACHE_FA },
             { "install", OPTION_VAL_INSTALL_FA },
             { NULL, NULL },
         },
@@ -6760,6 +12021,67 @@ struct retro_core_option_v2_definition option_defs_fa[] = {
         },
         "1"
     },
+    {
+        "vita3k_sys_lang",
+        VITA3K_SYS_LANG_LABEL_FA,
+        NULL,
+        VITA3K_SYS_LANG_INFO_0_FA,
+        NULL,
+        "system",
+        {
+            { "0", OPTION_VAL_0_VITA3K_SYS_LANG_FA },
+            { "1", OPTION_VAL_1_VITA3K_SYS_LANG_FA },
+            { "2", OPTION_VAL_2_VITA3K_SYS_LANG_FA },
+            { "3", OPTION_VAL_3_VITA3K_SYS_LANG_FA },
+            { "4", OPTION_VAL_4_VITA3K_SYS_LANG_FA },
+            { "5", OPTION_VAL_5_FA },
+            { "6", OPTION_VAL_6_FA },
+            { "7", OPTION_VAL_7_FA },
+            { "8", OPTION_VAL_8_VITA3K_SYS_LANG_FA },
+            { "9", OPTION_VAL_9_FA },
+            { "10", OPTION_VAL_10_FA },
+            { "11", OPTION_VAL_11_FA },
+            { "12", OPTION_VAL_12_FA },
+            { "13", OPTION_VAL_13_FA },
+            { "14", OPTION_VAL_14_FA },
+            { "15", OPTION_VAL_15_FA },
+            { "16", OPTION_VAL_16_VITA3K_SYS_LANG_FA },
+            { "17", OPTION_VAL_17_FA },
+            { "18", OPTION_VAL_18_FA },
+            { "19", OPTION_VAL_19_FA },
+            { NULL, NULL },
+        },
+        "1"
+    },
+    {
+        "vita3k_sys_date_format",
+        VITA3K_SYS_DATE_FORMAT_LABEL_FA,
+        NULL,
+        VITA3K_SYS_DATE_FORMAT_INFO_0_FA,
+        NULL,
+        "system",
+        {
+            { "0", OPTION_VAL_0_VITA3K_SYS_DATE_FORMAT_FA },
+            { "1", OPTION_VAL_1_VITA3K_SYS_DATE_FORMAT_FA },
+            { "2", OPTION_VAL_2_VITA3K_SYS_DATE_FORMAT_FA },
+            { NULL, NULL },
+        },
+        "2"
+    },
+    {
+        "vita3k_sys_time_format",
+        VITA3K_SYS_TIME_FORMAT_LABEL_FA,
+        NULL,
+        VITA3K_SYS_TIME_FORMAT_INFO_0_FA,
+        NULL,
+        "system",
+        {
+            { "0", OPTION_VAL_0_VITA3K_SYS_TIME_FORMAT_FA },
+            { "1", OPTION_VAL_1_VITA3K_SYS_TIME_FORMAT_FA },
+            { NULL, NULL },
+        },
+        "0"
+    },
     // ── Audio ────────────────────────────────────────────────────────────
     {
         "vita3k_audio_volume",
@@ -6770,7 +12092,7 @@ struct retro_core_option_v2_definition option_defs_fa[] = {
         "audio",
         {
             { "0", OPTION_VAL_0_VITA3K_AUDIO_VOLUME_FA },
-            { "10", OPTION_VAL_10_FA },
+            { "10", OPTION_VAL_10_VITA3K_AUDIO_VOLUME_FA },
             { "20", OPTION_VAL_20_FA },
             { "30", OPTION_VAL_30_FA },
             { "40", OPTION_VAL_40_FA },
@@ -6814,6 +12136,204 @@ struct retro_core_option_v2_definition option_defs_fa[] = {
         "disabled"
     },
     {
+        "vita3k_http_enable",
+        VITA3K_HTTP_ENABLE_LABEL_FA,
+        NULL,
+        VITA3K_HTTP_ENABLE_INFO_0_FA,
+        NULL,
+        "network",
+        {
+            { "enabled", NULL },
+            { "disabled", NULL },
+            { NULL, NULL },
+        },
+        "enabled"
+    },
+    {
+        "vita3k_http_timeout_attempts",
+        VITA3K_HTTP_TIMEOUT_ATTEMPTS_LABEL_FA,
+        NULL,
+        VITA3K_HTTP_TIMEOUT_ATTEMPTS_INFO_0_FA,
+        NULL,
+        "network",
+        {
+            { "0", NULL },
+            { "5", NULL },
+            { "10", NULL },
+            { "15", NULL },
+            { "20", NULL },
+            { "25", NULL },
+            { "30", NULL },
+            { "35", NULL },
+            { "40", NULL },
+            { "45", NULL },
+            { "50", NULL },
+            { "55", NULL },
+            { "60", NULL },
+            { "65", NULL },
+            { "70", NULL },
+            { "75", NULL },
+            { "80", NULL },
+            { "85", NULL },
+            { "90", NULL },
+            { "95", NULL },
+            { "100", NULL },
+            { NULL, NULL },
+        },
+        "50"
+    },
+    {
+        "vita3k_http_timeout_sleep",
+        VITA3K_HTTP_TIMEOUT_SLEEP_LABEL_FA,
+        NULL,
+        VITA3K_HTTP_TIMEOUT_SLEEP_INFO_0_FA,
+        NULL,
+        "network",
+        {
+            { "50", OPTION_VAL_50_VITA3K_HTTP_TIMEOUT_SLEEP_FA },
+            { "100", OPTION_VAL_100_VITA3K_HTTP_TIMEOUT_SLEEP_FA },
+            { "150", OPTION_VAL_150_FA },
+            { "200", OPTION_VAL_200_FA },
+            { "250", OPTION_VAL_250_FA },
+            { "300", OPTION_VAL_300_FA },
+            { "400", OPTION_VAL_400_FA },
+            { "500", OPTION_VAL_500_FA },
+            { "750", OPTION_VAL_750_FA },
+            { "1000", OPTION_VAL_1000_FA },
+            { "1500", OPTION_VAL_1500_FA },
+            { "2000", OPTION_VAL_2000_FA },
+            { "2500", OPTION_VAL_2500_FA },
+            { "3000", OPTION_VAL_3000_FA },
+            { NULL, NULL },
+        },
+        "100"
+    },
+    {
+        "vita3k_http_read_end_attempts",
+        VITA3K_HTTP_READ_END_ATTEMPTS_LABEL_FA,
+        NULL,
+        VITA3K_HTTP_READ_END_ATTEMPTS_INFO_0_FA,
+        NULL,
+        "network",
+        {
+            { "0", NULL },
+            { "5", NULL },
+            { "10", NULL },
+            { "15", NULL },
+            { "20", NULL },
+            { "25", NULL },
+            { "30", NULL },
+            { "35", NULL },
+            { "40", NULL },
+            { "45", NULL },
+            { "50", NULL },
+            { "55", NULL },
+            { "60", NULL },
+            { "65", NULL },
+            { "70", NULL },
+            { "75", NULL },
+            { "80", NULL },
+            { "85", NULL },
+            { "90", NULL },
+            { "95", NULL },
+            { "100", NULL },
+            { NULL, NULL },
+        },
+        "10"
+    },
+    {
+        "vita3k_http_read_end_sleep",
+        VITA3K_HTTP_READ_END_SLEEP_LABEL_FA,
+        NULL,
+        VITA3K_HTTP_READ_END_SLEEP_INFO_0_FA,
+        NULL,
+        "network",
+        {
+            { "50", OPTION_VAL_50_VITA3K_HTTP_TIMEOUT_SLEEP_FA },
+            { "100", OPTION_VAL_100_VITA3K_HTTP_TIMEOUT_SLEEP_FA },
+            { "150", OPTION_VAL_150_FA },
+            { "200", OPTION_VAL_200_FA },
+            { "250", OPTION_VAL_250_FA },
+            { "300", OPTION_VAL_300_FA },
+            { "400", OPTION_VAL_400_FA },
+            { "500", OPTION_VAL_500_FA },
+            { "750", OPTION_VAL_750_FA },
+            { "1000", OPTION_VAL_1000_FA },
+            { "1500", OPTION_VAL_1500_FA },
+            { "2000", OPTION_VAL_2000_FA },
+            { "2500", OPTION_VAL_2500_FA },
+            { "3000", OPTION_VAL_3000_FA },
+            { NULL, NULL },
+        },
+        "250"
+    },
+    {
+        "vita3k_front_camera",
+        VITA3K_FRONT_CAMERA_LABEL_FA,
+        NULL,
+        VITA3K_FRONT_CAMERA_INFO_0_FA,
+        NULL,
+        "camera",
+        {
+            { "host", OPTION_VAL_HOST_FA },
+            { "image", OPTION_VAL_IMAGE_FA },
+            { "color", OPTION_VAL_COLOR_FA },
+            { NULL, NULL },
+        },
+        "host"
+    },
+    {
+        "vita3k_front_camera_color",
+        VITA3K_FRONT_CAMERA_COLOR_LABEL_FA,
+        NULL,
+        VITA3K_FRONT_CAMERA_COLOR_INFO_0_FA,
+        NULL,
+        "camera",
+        {
+            { "0", OPTION_VAL_0_VITA3K_FRONT_CAMERA_COLOR_FA },
+            { "16777215", OPTION_VAL_16777215_FA },
+            { "8421504", OPTION_VAL_8421504_FA },
+            { "255", OPTION_VAL_255_FA },
+            { "65280", OPTION_VAL_65280_FA },
+            { "16711680", OPTION_VAL_16711680_FA },
+            { NULL, NULL },
+        },
+        "0"
+    },
+    {
+        "vita3k_back_camera",
+        VITA3K_BACK_CAMERA_LABEL_FA,
+        NULL,
+        VITA3K_BACK_CAMERA_INFO_0_FA,
+        NULL,
+        "camera",
+        {
+            { "host", OPTION_VAL_HOST_FA },
+            { "image", OPTION_VAL_IMAGE_FA },
+            { "color", OPTION_VAL_COLOR_FA },
+            { NULL, NULL },
+        },
+        "host"
+    },
+    {
+        "vita3k_back_camera_color",
+        VITA3K_BACK_CAMERA_COLOR_LABEL_FA,
+        NULL,
+        VITA3K_BACK_CAMERA_COLOR_INFO_0_FA,
+        NULL,
+        "camera",
+        {
+            { "0", OPTION_VAL_0_VITA3K_FRONT_CAMERA_COLOR_FA },
+            { "16777215", OPTION_VAL_16777215_FA },
+            { "8421504", OPTION_VAL_8421504_FA },
+            { "255", OPTION_VAL_255_FA },
+            { "65280", OPTION_VAL_65280_FA },
+            { "16711680", OPTION_VAL_16711680_FA },
+            { NULL, NULL },
+        },
+        "0"
+    },
+    {
         "vita3k_surface_sync",
         VITA3K_SURFACE_SYNC_LABEL_FA,
         NULL,
@@ -6836,9 +12356,9 @@ struct retro_core_option_v2_definition option_defs_fa[] = {
         "system",
         {
             { "0", OPTION_VAL_0_VITA3K_FILE_LOADING_DELAY_FA },
-            { "5", OPTION_VAL_5_FA },
+            { "5", OPTION_VAL_5_VITA3K_FILE_LOADING_DELAY_FA },
             { "10", OPTION_VAL_10_VITA3K_FILE_LOADING_DELAY_FA },
-            { "15", OPTION_VAL_15_FA },
+            { "15", OPTION_VAL_15_VITA3K_FILE_LOADING_DELAY_FA },
             { "20", OPTION_VAL_20_VITA3K_FILE_LOADING_DELAY_FA },
             { "25", OPTION_VAL_25_FA },
             { "30", OPTION_VAL_30_VITA3K_FILE_LOADING_DELAY_FA },
@@ -6865,6 +12385,14 @@ struct retro_core_options_v2 options_fa = {
 #define CATEGORY_AUDIO_INFO_0_FI NULL
 #define CATEGORY_NETWORK_LABEL_FI "Verkko"
 #define CATEGORY_NETWORK_INFO_0_FI NULL
+#define CATEGORY_INSTALL_LABEL_FI "Sisältö"
+#define CATEGORY_INSTALL_INFO_0_FI NULL
+#define CATEGORY_CAMERA_LABEL_FI "Kamera"
+#define CATEGORY_CAMERA_INFO_0_FI NULL
+#define CATEGORY_ACCOUNTS_LABEL_FI "Tilit"
+#define CATEGORY_ACCOUNTS_INFO_0_FI NULL
+#define CATEGORY_MODULES_LABEL_FI NULL
+#define CATEGORY_MODULES_INFO_0_FI NULL
 #define VITA3K_BACKEND_RENDERER_LABEL_FI NULL
 #define VITA3K_BACKEND_RENDERER_INFO_0_FI NULL
 #define OPTION_VAL_VULKAN_FI NULL
@@ -6907,6 +12435,7 @@ struct retro_core_options_v2 options_fa = {
 #define VITA3K_PKG_MODE_LABEL_FI NULL
 #define VITA3K_PKG_MODE_INFO_0_FI NULL
 #define OPTION_VAL_RUN_FI NULL
+#define OPTION_VAL_CACHE_FI NULL
 #define OPTION_VAL_INSTALL_FI NULL
 #define VITA3K_PSTV_MODE_LABEL_FI NULL
 #define VITA3K_PSTV_MODE_INFO_0_FI NULL
@@ -6921,10 +12450,41 @@ struct retro_core_options_v2 options_fa = {
 #define VITA3K_SYS_BUTTON_INFO_0_FI NULL
 #define OPTION_VAL_0_VITA3K_SYS_BUTTON_FI NULL
 #define OPTION_VAL_1_VITA3K_SYS_BUTTON_FI "Risti"
+#define VITA3K_SYS_LANG_LABEL_FI NULL
+#define VITA3K_SYS_LANG_INFO_0_FI NULL
+#define OPTION_VAL_0_VITA3K_SYS_LANG_FI NULL
+#define OPTION_VAL_1_VITA3K_SYS_LANG_FI NULL
+#define OPTION_VAL_2_VITA3K_SYS_LANG_FI NULL
+#define OPTION_VAL_3_VITA3K_SYS_LANG_FI NULL
+#define OPTION_VAL_4_VITA3K_SYS_LANG_FI NULL
+#define OPTION_VAL_5_FI NULL
+#define OPTION_VAL_6_FI NULL
+#define OPTION_VAL_7_FI NULL
+#define OPTION_VAL_8_VITA3K_SYS_LANG_FI NULL
+#define OPTION_VAL_9_FI NULL
+#define OPTION_VAL_10_FI NULL
+#define OPTION_VAL_11_FI NULL
+#define OPTION_VAL_12_FI NULL
+#define OPTION_VAL_13_FI NULL
+#define OPTION_VAL_14_FI NULL
+#define OPTION_VAL_15_FI NULL
+#define OPTION_VAL_16_VITA3K_SYS_LANG_FI NULL
+#define OPTION_VAL_17_FI NULL
+#define OPTION_VAL_18_FI NULL
+#define OPTION_VAL_19_FI NULL
+#define VITA3K_SYS_DATE_FORMAT_LABEL_FI NULL
+#define VITA3K_SYS_DATE_FORMAT_INFO_0_FI NULL
+#define OPTION_VAL_0_VITA3K_SYS_DATE_FORMAT_FI NULL
+#define OPTION_VAL_1_VITA3K_SYS_DATE_FORMAT_FI NULL
+#define OPTION_VAL_2_VITA3K_SYS_DATE_FORMAT_FI NULL
+#define VITA3K_SYS_TIME_FORMAT_LABEL_FI NULL
+#define VITA3K_SYS_TIME_FORMAT_INFO_0_FI NULL
+#define OPTION_VAL_0_VITA3K_SYS_TIME_FORMAT_FI NULL
+#define OPTION_VAL_1_VITA3K_SYS_TIME_FORMAT_FI NULL
 #define VITA3K_AUDIO_VOLUME_LABEL_FI NULL
 #define VITA3K_AUDIO_VOLUME_INFO_0_FI NULL
 #define OPTION_VAL_0_VITA3K_AUDIO_VOLUME_FI NULL
-#define OPTION_VAL_10_FI NULL
+#define OPTION_VAL_10_VITA3K_AUDIO_VOLUME_FI NULL
 #define OPTION_VAL_20_FI "20 %"
 #define OPTION_VAL_30_FI "30 %"
 #define OPTION_VAL_40_FI "40 %"
@@ -6938,6 +12498,47 @@ struct retro_core_options_v2 options_fa = {
 #define VITA3K_NGS_ENABLE_INFO_0_FI NULL
 #define VITA3K_PSN_SIGNED_IN_LABEL_FI NULL
 #define VITA3K_PSN_SIGNED_IN_INFO_0_FI NULL
+#define VITA3K_HTTP_ENABLE_LABEL_FI NULL
+#define VITA3K_HTTP_ENABLE_INFO_0_FI NULL
+#define VITA3K_HTTP_TIMEOUT_ATTEMPTS_LABEL_FI NULL
+#define VITA3K_HTTP_TIMEOUT_ATTEMPTS_INFO_0_FI NULL
+#define VITA3K_HTTP_TIMEOUT_SLEEP_LABEL_FI NULL
+#define VITA3K_HTTP_TIMEOUT_SLEEP_INFO_0_FI NULL
+#define OPTION_VAL_50_VITA3K_HTTP_TIMEOUT_SLEEP_FI NULL
+#define OPTION_VAL_100_VITA3K_HTTP_TIMEOUT_SLEEP_FI NULL
+#define OPTION_VAL_150_FI NULL
+#define OPTION_VAL_200_FI NULL
+#define OPTION_VAL_250_FI NULL
+#define OPTION_VAL_300_FI NULL
+#define OPTION_VAL_400_FI NULL
+#define OPTION_VAL_500_FI NULL
+#define OPTION_VAL_750_FI NULL
+#define OPTION_VAL_1000_FI NULL
+#define OPTION_VAL_1500_FI NULL
+#define OPTION_VAL_2000_FI NULL
+#define OPTION_VAL_2500_FI NULL
+#define OPTION_VAL_3000_FI NULL
+#define VITA3K_HTTP_READ_END_ATTEMPTS_LABEL_FI NULL
+#define VITA3K_HTTP_READ_END_ATTEMPTS_INFO_0_FI NULL
+#define VITA3K_HTTP_READ_END_SLEEP_LABEL_FI NULL
+#define VITA3K_HTTP_READ_END_SLEEP_INFO_0_FI NULL
+#define VITA3K_FRONT_CAMERA_LABEL_FI NULL
+#define VITA3K_FRONT_CAMERA_INFO_0_FI NULL
+#define OPTION_VAL_HOST_FI NULL
+#define OPTION_VAL_IMAGE_FI NULL
+#define OPTION_VAL_COLOR_FI NULL
+#define VITA3K_FRONT_CAMERA_COLOR_LABEL_FI NULL
+#define VITA3K_FRONT_CAMERA_COLOR_INFO_0_FI NULL
+#define OPTION_VAL_0_VITA3K_FRONT_CAMERA_COLOR_FI "Musta"
+#define OPTION_VAL_16777215_FI "Valkoinen"
+#define OPTION_VAL_8421504_FI "Harmaa"
+#define OPTION_VAL_255_FI "Punainen"
+#define OPTION_VAL_65280_FI "Vihreä"
+#define OPTION_VAL_16711680_FI "Sininen"
+#define VITA3K_BACK_CAMERA_LABEL_FI NULL
+#define VITA3K_BACK_CAMERA_INFO_0_FI NULL
+#define VITA3K_BACK_CAMERA_COLOR_LABEL_FI NULL
+#define VITA3K_BACK_CAMERA_COLOR_INFO_0_FI NULL
 #define VITA3K_SURFACE_SYNC_LABEL_FI NULL
 #define VITA3K_SURFACE_SYNC_INFO_0_FI NULL
 #define OPTION_VAL_ENABLED_FI NULL
@@ -6945,9 +12546,9 @@ struct retro_core_options_v2 options_fa = {
 #define VITA3K_FILE_LOADING_DELAY_LABEL_FI NULL
 #define VITA3K_FILE_LOADING_DELAY_INFO_0_FI NULL
 #define OPTION_VAL_0_VITA3K_FILE_LOADING_DELAY_FI NULL
-#define OPTION_VAL_5_FI NULL
+#define OPTION_VAL_5_VITA3K_FILE_LOADING_DELAY_FI NULL
 #define OPTION_VAL_10_VITA3K_FILE_LOADING_DELAY_FI NULL
-#define OPTION_VAL_15_FI NULL
+#define OPTION_VAL_15_VITA3K_FILE_LOADING_DELAY_FI NULL
 #define OPTION_VAL_20_VITA3K_FILE_LOADING_DELAY_FI NULL
 #define OPTION_VAL_25_FI NULL
 #define OPTION_VAL_30_VITA3K_FILE_LOADING_DELAY_FI NULL
@@ -6958,6 +12559,10 @@ struct retro_core_option_v2_category option_cats_fi[] = {
     { "system", CATEGORY_SYSTEM_LABEL_FI, CATEGORY_SYSTEM_INFO_0_FI },
     { "audio", CATEGORY_AUDIO_LABEL_FI, CATEGORY_AUDIO_INFO_0_FI },
     { "network", CATEGORY_NETWORK_LABEL_FI, CATEGORY_NETWORK_INFO_0_FI },
+    { "install", CATEGORY_INSTALL_LABEL_FI, CATEGORY_INSTALL_INFO_0_FI },
+    { "camera", CATEGORY_CAMERA_LABEL_FI, CATEGORY_CAMERA_INFO_0_FI },
+    { "accounts", CATEGORY_ACCOUNTS_LABEL_FI, CATEGORY_ACCOUNTS_INFO_0_FI },
+    { "modules", CATEGORY_MODULES_LABEL_FI, CATEGORY_MODULES_INFO_0_FI },
     { NULL, NULL, NULL },
 };
 struct retro_core_option_v2_definition option_defs_fi[] = {
@@ -7121,9 +12726,10 @@ struct retro_core_option_v2_definition option_defs_fi[] = {
         NULL,
         VITA3K_PKG_MODE_INFO_0_FI,
         NULL,
-        "system",
+        "install",
         {
             { "run", OPTION_VAL_RUN_FI },
+            { "cache", OPTION_VAL_CACHE_FI },
             { "install", OPTION_VAL_INSTALL_FI },
             { NULL, NULL },
         },
@@ -7186,6 +12792,67 @@ struct retro_core_option_v2_definition option_defs_fi[] = {
         },
         "1"
     },
+    {
+        "vita3k_sys_lang",
+        VITA3K_SYS_LANG_LABEL_FI,
+        NULL,
+        VITA3K_SYS_LANG_INFO_0_FI,
+        NULL,
+        "system",
+        {
+            { "0", OPTION_VAL_0_VITA3K_SYS_LANG_FI },
+            { "1", OPTION_VAL_1_VITA3K_SYS_LANG_FI },
+            { "2", OPTION_VAL_2_VITA3K_SYS_LANG_FI },
+            { "3", OPTION_VAL_3_VITA3K_SYS_LANG_FI },
+            { "4", OPTION_VAL_4_VITA3K_SYS_LANG_FI },
+            { "5", OPTION_VAL_5_FI },
+            { "6", OPTION_VAL_6_FI },
+            { "7", OPTION_VAL_7_FI },
+            { "8", OPTION_VAL_8_VITA3K_SYS_LANG_FI },
+            { "9", OPTION_VAL_9_FI },
+            { "10", OPTION_VAL_10_FI },
+            { "11", OPTION_VAL_11_FI },
+            { "12", OPTION_VAL_12_FI },
+            { "13", OPTION_VAL_13_FI },
+            { "14", OPTION_VAL_14_FI },
+            { "15", OPTION_VAL_15_FI },
+            { "16", OPTION_VAL_16_VITA3K_SYS_LANG_FI },
+            { "17", OPTION_VAL_17_FI },
+            { "18", OPTION_VAL_18_FI },
+            { "19", OPTION_VAL_19_FI },
+            { NULL, NULL },
+        },
+        "1"
+    },
+    {
+        "vita3k_sys_date_format",
+        VITA3K_SYS_DATE_FORMAT_LABEL_FI,
+        NULL,
+        VITA3K_SYS_DATE_FORMAT_INFO_0_FI,
+        NULL,
+        "system",
+        {
+            { "0", OPTION_VAL_0_VITA3K_SYS_DATE_FORMAT_FI },
+            { "1", OPTION_VAL_1_VITA3K_SYS_DATE_FORMAT_FI },
+            { "2", OPTION_VAL_2_VITA3K_SYS_DATE_FORMAT_FI },
+            { NULL, NULL },
+        },
+        "2"
+    },
+    {
+        "vita3k_sys_time_format",
+        VITA3K_SYS_TIME_FORMAT_LABEL_FI,
+        NULL,
+        VITA3K_SYS_TIME_FORMAT_INFO_0_FI,
+        NULL,
+        "system",
+        {
+            { "0", OPTION_VAL_0_VITA3K_SYS_TIME_FORMAT_FI },
+            { "1", OPTION_VAL_1_VITA3K_SYS_TIME_FORMAT_FI },
+            { NULL, NULL },
+        },
+        "0"
+    },
     // ── Audio ────────────────────────────────────────────────────────────
     {
         "vita3k_audio_volume",
@@ -7196,7 +12863,7 @@ struct retro_core_option_v2_definition option_defs_fi[] = {
         "audio",
         {
             { "0", OPTION_VAL_0_VITA3K_AUDIO_VOLUME_FI },
-            { "10", OPTION_VAL_10_FI },
+            { "10", OPTION_VAL_10_VITA3K_AUDIO_VOLUME_FI },
             { "20", OPTION_VAL_20_FI },
             { "30", OPTION_VAL_30_FI },
             { "40", OPTION_VAL_40_FI },
@@ -7240,6 +12907,204 @@ struct retro_core_option_v2_definition option_defs_fi[] = {
         "disabled"
     },
     {
+        "vita3k_http_enable",
+        VITA3K_HTTP_ENABLE_LABEL_FI,
+        NULL,
+        VITA3K_HTTP_ENABLE_INFO_0_FI,
+        NULL,
+        "network",
+        {
+            { "enabled", NULL },
+            { "disabled", NULL },
+            { NULL, NULL },
+        },
+        "enabled"
+    },
+    {
+        "vita3k_http_timeout_attempts",
+        VITA3K_HTTP_TIMEOUT_ATTEMPTS_LABEL_FI,
+        NULL,
+        VITA3K_HTTP_TIMEOUT_ATTEMPTS_INFO_0_FI,
+        NULL,
+        "network",
+        {
+            { "0", NULL },
+            { "5", NULL },
+            { "10", NULL },
+            { "15", NULL },
+            { "20", NULL },
+            { "25", NULL },
+            { "30", NULL },
+            { "35", NULL },
+            { "40", NULL },
+            { "45", NULL },
+            { "50", NULL },
+            { "55", NULL },
+            { "60", NULL },
+            { "65", NULL },
+            { "70", NULL },
+            { "75", NULL },
+            { "80", NULL },
+            { "85", NULL },
+            { "90", NULL },
+            { "95", NULL },
+            { "100", NULL },
+            { NULL, NULL },
+        },
+        "50"
+    },
+    {
+        "vita3k_http_timeout_sleep",
+        VITA3K_HTTP_TIMEOUT_SLEEP_LABEL_FI,
+        NULL,
+        VITA3K_HTTP_TIMEOUT_SLEEP_INFO_0_FI,
+        NULL,
+        "network",
+        {
+            { "50", OPTION_VAL_50_VITA3K_HTTP_TIMEOUT_SLEEP_FI },
+            { "100", OPTION_VAL_100_VITA3K_HTTP_TIMEOUT_SLEEP_FI },
+            { "150", OPTION_VAL_150_FI },
+            { "200", OPTION_VAL_200_FI },
+            { "250", OPTION_VAL_250_FI },
+            { "300", OPTION_VAL_300_FI },
+            { "400", OPTION_VAL_400_FI },
+            { "500", OPTION_VAL_500_FI },
+            { "750", OPTION_VAL_750_FI },
+            { "1000", OPTION_VAL_1000_FI },
+            { "1500", OPTION_VAL_1500_FI },
+            { "2000", OPTION_VAL_2000_FI },
+            { "2500", OPTION_VAL_2500_FI },
+            { "3000", OPTION_VAL_3000_FI },
+            { NULL, NULL },
+        },
+        "100"
+    },
+    {
+        "vita3k_http_read_end_attempts",
+        VITA3K_HTTP_READ_END_ATTEMPTS_LABEL_FI,
+        NULL,
+        VITA3K_HTTP_READ_END_ATTEMPTS_INFO_0_FI,
+        NULL,
+        "network",
+        {
+            { "0", NULL },
+            { "5", NULL },
+            { "10", NULL },
+            { "15", NULL },
+            { "20", NULL },
+            { "25", NULL },
+            { "30", NULL },
+            { "35", NULL },
+            { "40", NULL },
+            { "45", NULL },
+            { "50", NULL },
+            { "55", NULL },
+            { "60", NULL },
+            { "65", NULL },
+            { "70", NULL },
+            { "75", NULL },
+            { "80", NULL },
+            { "85", NULL },
+            { "90", NULL },
+            { "95", NULL },
+            { "100", NULL },
+            { NULL, NULL },
+        },
+        "10"
+    },
+    {
+        "vita3k_http_read_end_sleep",
+        VITA3K_HTTP_READ_END_SLEEP_LABEL_FI,
+        NULL,
+        VITA3K_HTTP_READ_END_SLEEP_INFO_0_FI,
+        NULL,
+        "network",
+        {
+            { "50", OPTION_VAL_50_VITA3K_HTTP_TIMEOUT_SLEEP_FI },
+            { "100", OPTION_VAL_100_VITA3K_HTTP_TIMEOUT_SLEEP_FI },
+            { "150", OPTION_VAL_150_FI },
+            { "200", OPTION_VAL_200_FI },
+            { "250", OPTION_VAL_250_FI },
+            { "300", OPTION_VAL_300_FI },
+            { "400", OPTION_VAL_400_FI },
+            { "500", OPTION_VAL_500_FI },
+            { "750", OPTION_VAL_750_FI },
+            { "1000", OPTION_VAL_1000_FI },
+            { "1500", OPTION_VAL_1500_FI },
+            { "2000", OPTION_VAL_2000_FI },
+            { "2500", OPTION_VAL_2500_FI },
+            { "3000", OPTION_VAL_3000_FI },
+            { NULL, NULL },
+        },
+        "250"
+    },
+    {
+        "vita3k_front_camera",
+        VITA3K_FRONT_CAMERA_LABEL_FI,
+        NULL,
+        VITA3K_FRONT_CAMERA_INFO_0_FI,
+        NULL,
+        "camera",
+        {
+            { "host", OPTION_VAL_HOST_FI },
+            { "image", OPTION_VAL_IMAGE_FI },
+            { "color", OPTION_VAL_COLOR_FI },
+            { NULL, NULL },
+        },
+        "host"
+    },
+    {
+        "vita3k_front_camera_color",
+        VITA3K_FRONT_CAMERA_COLOR_LABEL_FI,
+        NULL,
+        VITA3K_FRONT_CAMERA_COLOR_INFO_0_FI,
+        NULL,
+        "camera",
+        {
+            { "0", OPTION_VAL_0_VITA3K_FRONT_CAMERA_COLOR_FI },
+            { "16777215", OPTION_VAL_16777215_FI },
+            { "8421504", OPTION_VAL_8421504_FI },
+            { "255", OPTION_VAL_255_FI },
+            { "65280", OPTION_VAL_65280_FI },
+            { "16711680", OPTION_VAL_16711680_FI },
+            { NULL, NULL },
+        },
+        "0"
+    },
+    {
+        "vita3k_back_camera",
+        VITA3K_BACK_CAMERA_LABEL_FI,
+        NULL,
+        VITA3K_BACK_CAMERA_INFO_0_FI,
+        NULL,
+        "camera",
+        {
+            { "host", OPTION_VAL_HOST_FI },
+            { "image", OPTION_VAL_IMAGE_FI },
+            { "color", OPTION_VAL_COLOR_FI },
+            { NULL, NULL },
+        },
+        "host"
+    },
+    {
+        "vita3k_back_camera_color",
+        VITA3K_BACK_CAMERA_COLOR_LABEL_FI,
+        NULL,
+        VITA3K_BACK_CAMERA_COLOR_INFO_0_FI,
+        NULL,
+        "camera",
+        {
+            { "0", OPTION_VAL_0_VITA3K_FRONT_CAMERA_COLOR_FI },
+            { "16777215", OPTION_VAL_16777215_FI },
+            { "8421504", OPTION_VAL_8421504_FI },
+            { "255", OPTION_VAL_255_FI },
+            { "65280", OPTION_VAL_65280_FI },
+            { "16711680", OPTION_VAL_16711680_FI },
+            { NULL, NULL },
+        },
+        "0"
+    },
+    {
         "vita3k_surface_sync",
         VITA3K_SURFACE_SYNC_LABEL_FI,
         NULL,
@@ -7262,9 +13127,9 @@ struct retro_core_option_v2_definition option_defs_fi[] = {
         "system",
         {
             { "0", OPTION_VAL_0_VITA3K_FILE_LOADING_DELAY_FI },
-            { "5", OPTION_VAL_5_FI },
+            { "5", OPTION_VAL_5_VITA3K_FILE_LOADING_DELAY_FI },
             { "10", OPTION_VAL_10_VITA3K_FILE_LOADING_DELAY_FI },
-            { "15", OPTION_VAL_15_FI },
+            { "15", OPTION_VAL_15_VITA3K_FILE_LOADING_DELAY_FI },
             { "20", OPTION_VAL_20_VITA3K_FILE_LOADING_DELAY_FI },
             { "25", OPTION_VAL_25_FI },
             { "30", OPTION_VAL_30_VITA3K_FILE_LOADING_DELAY_FI },
@@ -7291,6 +13156,14 @@ struct retro_core_options_v2 options_fi = {
 #define CATEGORY_AUDIO_INFO_0_FR NULL
 #define CATEGORY_NETWORK_LABEL_FR "Réseau"
 #define CATEGORY_NETWORK_INFO_0_FR NULL
+#define CATEGORY_INSTALL_LABEL_FR "Contenu"
+#define CATEGORY_INSTALL_INFO_0_FR NULL
+#define CATEGORY_CAMERA_LABEL_FR "Appareil photo "
+#define CATEGORY_CAMERA_INFO_0_FR NULL
+#define CATEGORY_ACCOUNTS_LABEL_FR "Comptes"
+#define CATEGORY_ACCOUNTS_INFO_0_FR NULL
+#define CATEGORY_MODULES_LABEL_FR NULL
+#define CATEGORY_MODULES_INFO_0_FR NULL
 #define VITA3K_BACKEND_RENDERER_LABEL_FR NULL
 #define VITA3K_BACKEND_RENDERER_INFO_0_FR NULL
 #define OPTION_VAL_VULKAN_FR NULL
@@ -7333,6 +13206,7 @@ struct retro_core_options_v2 options_fi = {
 #define VITA3K_PKG_MODE_LABEL_FR NULL
 #define VITA3K_PKG_MODE_INFO_0_FR NULL
 #define OPTION_VAL_RUN_FR NULL
+#define OPTION_VAL_CACHE_FR NULL
 #define OPTION_VAL_INSTALL_FR NULL
 #define VITA3K_PSTV_MODE_LABEL_FR NULL
 #define VITA3K_PSTV_MODE_INFO_0_FR NULL
@@ -7347,10 +13221,41 @@ struct retro_core_options_v2 options_fi = {
 #define VITA3K_SYS_BUTTON_INFO_0_FR NULL
 #define OPTION_VAL_0_VITA3K_SYS_BUTTON_FR NULL
 #define OPTION_VAL_1_VITA3K_SYS_BUTTON_FR "Croix"
+#define VITA3K_SYS_LANG_LABEL_FR "Langue du système"
+#define VITA3K_SYS_LANG_INFO_0_FR NULL
+#define OPTION_VAL_0_VITA3K_SYS_LANG_FR "Japonais"
+#define OPTION_VAL_1_VITA3K_SYS_LANG_FR NULL
+#define OPTION_VAL_2_VITA3K_SYS_LANG_FR "Français"
+#define OPTION_VAL_3_VITA3K_SYS_LANG_FR "Espagnol"
+#define OPTION_VAL_4_VITA3K_SYS_LANG_FR "Allemand"
+#define OPTION_VAL_5_FR "Italien"
+#define OPTION_VAL_6_FR "Néerlandais"
+#define OPTION_VAL_7_FR NULL
+#define OPTION_VAL_8_VITA3K_SYS_LANG_FR "Russe"
+#define OPTION_VAL_9_FR "Coréen"
+#define OPTION_VAL_10_FR "Chinois (traditionnel)"
+#define OPTION_VAL_11_FR "Chinois (simplifié)"
+#define OPTION_VAL_12_FR NULL
+#define OPTION_VAL_13_FR NULL
+#define OPTION_VAL_14_FR NULL
+#define OPTION_VAL_15_FR NULL
+#define OPTION_VAL_16_VITA3K_SYS_LANG_FR NULL
+#define OPTION_VAL_17_FR NULL
+#define OPTION_VAL_18_FR NULL
+#define OPTION_VAL_19_FR NULL
+#define VITA3K_SYS_DATE_FORMAT_LABEL_FR NULL
+#define VITA3K_SYS_DATE_FORMAT_INFO_0_FR NULL
+#define OPTION_VAL_0_VITA3K_SYS_DATE_FORMAT_FR NULL
+#define OPTION_VAL_1_VITA3K_SYS_DATE_FORMAT_FR NULL
+#define OPTION_VAL_2_VITA3K_SYS_DATE_FORMAT_FR NULL
+#define VITA3K_SYS_TIME_FORMAT_LABEL_FR NULL
+#define VITA3K_SYS_TIME_FORMAT_INFO_0_FR NULL
+#define OPTION_VAL_0_VITA3K_SYS_TIME_FORMAT_FR NULL
+#define OPTION_VAL_1_VITA3K_SYS_TIME_FORMAT_FR NULL
 #define VITA3K_AUDIO_VOLUME_LABEL_FR NULL
 #define VITA3K_AUDIO_VOLUME_INFO_0_FR NULL
-#define OPTION_VAL_0_VITA3K_AUDIO_VOLUME_FR "0 %"
-#define OPTION_VAL_10_FR "10 %"
+#define OPTION_VAL_0_VITA3K_AUDIO_VOLUME_FR NULL
+#define OPTION_VAL_10_VITA3K_AUDIO_VOLUME_FR NULL
 #define OPTION_VAL_20_FR "20 %"
 #define OPTION_VAL_30_FR "30 %"
 #define OPTION_VAL_40_FR "40 %"
@@ -7364,6 +13269,47 @@ struct retro_core_options_v2 options_fi = {
 #define VITA3K_NGS_ENABLE_INFO_0_FR NULL
 #define VITA3K_PSN_SIGNED_IN_LABEL_FR NULL
 #define VITA3K_PSN_SIGNED_IN_INFO_0_FR NULL
+#define VITA3K_HTTP_ENABLE_LABEL_FR NULL
+#define VITA3K_HTTP_ENABLE_INFO_0_FR NULL
+#define VITA3K_HTTP_TIMEOUT_ATTEMPTS_LABEL_FR NULL
+#define VITA3K_HTTP_TIMEOUT_ATTEMPTS_INFO_0_FR NULL
+#define VITA3K_HTTP_TIMEOUT_SLEEP_LABEL_FR NULL
+#define VITA3K_HTTP_TIMEOUT_SLEEP_INFO_0_FR NULL
+#define OPTION_VAL_50_VITA3K_HTTP_TIMEOUT_SLEEP_FR NULL
+#define OPTION_VAL_100_VITA3K_HTTP_TIMEOUT_SLEEP_FR NULL
+#define OPTION_VAL_150_FR NULL
+#define OPTION_VAL_200_FR NULL
+#define OPTION_VAL_250_FR NULL
+#define OPTION_VAL_300_FR NULL
+#define OPTION_VAL_400_FR NULL
+#define OPTION_VAL_500_FR NULL
+#define OPTION_VAL_750_FR NULL
+#define OPTION_VAL_1000_FR NULL
+#define OPTION_VAL_1500_FR NULL
+#define OPTION_VAL_2000_FR NULL
+#define OPTION_VAL_2500_FR NULL
+#define OPTION_VAL_3000_FR NULL
+#define VITA3K_HTTP_READ_END_ATTEMPTS_LABEL_FR NULL
+#define VITA3K_HTTP_READ_END_ATTEMPTS_INFO_0_FR NULL
+#define VITA3K_HTTP_READ_END_SLEEP_LABEL_FR NULL
+#define VITA3K_HTTP_READ_END_SLEEP_INFO_0_FR NULL
+#define VITA3K_FRONT_CAMERA_LABEL_FR NULL
+#define VITA3K_FRONT_CAMERA_INFO_0_FR NULL
+#define OPTION_VAL_HOST_FR NULL
+#define OPTION_VAL_IMAGE_FR NULL
+#define OPTION_VAL_COLOR_FR NULL
+#define VITA3K_FRONT_CAMERA_COLOR_LABEL_FR NULL
+#define VITA3K_FRONT_CAMERA_COLOR_INFO_0_FR NULL
+#define OPTION_VAL_0_VITA3K_FRONT_CAMERA_COLOR_FR "Noire"
+#define OPTION_VAL_16777215_FR "Blanche"
+#define OPTION_VAL_8421504_FR "Grise"
+#define OPTION_VAL_255_FR "Rouge"
+#define OPTION_VAL_65280_FR "Vert"
+#define OPTION_VAL_16711680_FR "Bleu"
+#define VITA3K_BACK_CAMERA_LABEL_FR NULL
+#define VITA3K_BACK_CAMERA_INFO_0_FR NULL
+#define VITA3K_BACK_CAMERA_COLOR_LABEL_FR NULL
+#define VITA3K_BACK_CAMERA_COLOR_INFO_0_FR NULL
 #define VITA3K_SURFACE_SYNC_LABEL_FR NULL
 #define VITA3K_SURFACE_SYNC_INFO_0_FR NULL
 #define OPTION_VAL_ENABLED_FR NULL
@@ -7371,9 +13317,9 @@ struct retro_core_options_v2 options_fi = {
 #define VITA3K_FILE_LOADING_DELAY_LABEL_FR NULL
 #define VITA3K_FILE_LOADING_DELAY_INFO_0_FR NULL
 #define OPTION_VAL_0_VITA3K_FILE_LOADING_DELAY_FR NULL
-#define OPTION_VAL_5_FR NULL
+#define OPTION_VAL_5_VITA3K_FILE_LOADING_DELAY_FR NULL
 #define OPTION_VAL_10_VITA3K_FILE_LOADING_DELAY_FR NULL
-#define OPTION_VAL_15_FR NULL
+#define OPTION_VAL_15_VITA3K_FILE_LOADING_DELAY_FR NULL
 #define OPTION_VAL_20_VITA3K_FILE_LOADING_DELAY_FR NULL
 #define OPTION_VAL_25_FR NULL
 #define OPTION_VAL_30_VITA3K_FILE_LOADING_DELAY_FR NULL
@@ -7384,6 +13330,10 @@ struct retro_core_option_v2_category option_cats_fr[] = {
     { "system", CATEGORY_SYSTEM_LABEL_FR, CATEGORY_SYSTEM_INFO_0_FR },
     { "audio", CATEGORY_AUDIO_LABEL_FR, CATEGORY_AUDIO_INFO_0_FR },
     { "network", CATEGORY_NETWORK_LABEL_FR, CATEGORY_NETWORK_INFO_0_FR },
+    { "install", CATEGORY_INSTALL_LABEL_FR, CATEGORY_INSTALL_INFO_0_FR },
+    { "camera", CATEGORY_CAMERA_LABEL_FR, CATEGORY_CAMERA_INFO_0_FR },
+    { "accounts", CATEGORY_ACCOUNTS_LABEL_FR, CATEGORY_ACCOUNTS_INFO_0_FR },
+    { "modules", CATEGORY_MODULES_LABEL_FR, CATEGORY_MODULES_INFO_0_FR },
     { NULL, NULL, NULL },
 };
 struct retro_core_option_v2_definition option_defs_fr[] = {
@@ -7547,9 +13497,10 @@ struct retro_core_option_v2_definition option_defs_fr[] = {
         NULL,
         VITA3K_PKG_MODE_INFO_0_FR,
         NULL,
-        "system",
+        "install",
         {
             { "run", OPTION_VAL_RUN_FR },
+            { "cache", OPTION_VAL_CACHE_FR },
             { "install", OPTION_VAL_INSTALL_FR },
             { NULL, NULL },
         },
@@ -7612,6 +13563,67 @@ struct retro_core_option_v2_definition option_defs_fr[] = {
         },
         "1"
     },
+    {
+        "vita3k_sys_lang",
+        VITA3K_SYS_LANG_LABEL_FR,
+        NULL,
+        VITA3K_SYS_LANG_INFO_0_FR,
+        NULL,
+        "system",
+        {
+            { "0", OPTION_VAL_0_VITA3K_SYS_LANG_FR },
+            { "1", OPTION_VAL_1_VITA3K_SYS_LANG_FR },
+            { "2", OPTION_VAL_2_VITA3K_SYS_LANG_FR },
+            { "3", OPTION_VAL_3_VITA3K_SYS_LANG_FR },
+            { "4", OPTION_VAL_4_VITA3K_SYS_LANG_FR },
+            { "5", OPTION_VAL_5_FR },
+            { "6", OPTION_VAL_6_FR },
+            { "7", OPTION_VAL_7_FR },
+            { "8", OPTION_VAL_8_VITA3K_SYS_LANG_FR },
+            { "9", OPTION_VAL_9_FR },
+            { "10", OPTION_VAL_10_FR },
+            { "11", OPTION_VAL_11_FR },
+            { "12", OPTION_VAL_12_FR },
+            { "13", OPTION_VAL_13_FR },
+            { "14", OPTION_VAL_14_FR },
+            { "15", OPTION_VAL_15_FR },
+            { "16", OPTION_VAL_16_VITA3K_SYS_LANG_FR },
+            { "17", OPTION_VAL_17_FR },
+            { "18", OPTION_VAL_18_FR },
+            { "19", OPTION_VAL_19_FR },
+            { NULL, NULL },
+        },
+        "1"
+    },
+    {
+        "vita3k_sys_date_format",
+        VITA3K_SYS_DATE_FORMAT_LABEL_FR,
+        NULL,
+        VITA3K_SYS_DATE_FORMAT_INFO_0_FR,
+        NULL,
+        "system",
+        {
+            { "0", OPTION_VAL_0_VITA3K_SYS_DATE_FORMAT_FR },
+            { "1", OPTION_VAL_1_VITA3K_SYS_DATE_FORMAT_FR },
+            { "2", OPTION_VAL_2_VITA3K_SYS_DATE_FORMAT_FR },
+            { NULL, NULL },
+        },
+        "2"
+    },
+    {
+        "vita3k_sys_time_format",
+        VITA3K_SYS_TIME_FORMAT_LABEL_FR,
+        NULL,
+        VITA3K_SYS_TIME_FORMAT_INFO_0_FR,
+        NULL,
+        "system",
+        {
+            { "0", OPTION_VAL_0_VITA3K_SYS_TIME_FORMAT_FR },
+            { "1", OPTION_VAL_1_VITA3K_SYS_TIME_FORMAT_FR },
+            { NULL, NULL },
+        },
+        "0"
+    },
     // ── Audio ────────────────────────────────────────────────────────────
     {
         "vita3k_audio_volume",
@@ -7622,7 +13634,7 @@ struct retro_core_option_v2_definition option_defs_fr[] = {
         "audio",
         {
             { "0", OPTION_VAL_0_VITA3K_AUDIO_VOLUME_FR },
-            { "10", OPTION_VAL_10_FR },
+            { "10", OPTION_VAL_10_VITA3K_AUDIO_VOLUME_FR },
             { "20", OPTION_VAL_20_FR },
             { "30", OPTION_VAL_30_FR },
             { "40", OPTION_VAL_40_FR },
@@ -7666,6 +13678,204 @@ struct retro_core_option_v2_definition option_defs_fr[] = {
         "disabled"
     },
     {
+        "vita3k_http_enable",
+        VITA3K_HTTP_ENABLE_LABEL_FR,
+        NULL,
+        VITA3K_HTTP_ENABLE_INFO_0_FR,
+        NULL,
+        "network",
+        {
+            { "enabled", NULL },
+            { "disabled", NULL },
+            { NULL, NULL },
+        },
+        "enabled"
+    },
+    {
+        "vita3k_http_timeout_attempts",
+        VITA3K_HTTP_TIMEOUT_ATTEMPTS_LABEL_FR,
+        NULL,
+        VITA3K_HTTP_TIMEOUT_ATTEMPTS_INFO_0_FR,
+        NULL,
+        "network",
+        {
+            { "0", NULL },
+            { "5", NULL },
+            { "10", NULL },
+            { "15", NULL },
+            { "20", NULL },
+            { "25", NULL },
+            { "30", NULL },
+            { "35", NULL },
+            { "40", NULL },
+            { "45", NULL },
+            { "50", NULL },
+            { "55", NULL },
+            { "60", NULL },
+            { "65", NULL },
+            { "70", NULL },
+            { "75", NULL },
+            { "80", NULL },
+            { "85", NULL },
+            { "90", NULL },
+            { "95", NULL },
+            { "100", NULL },
+            { NULL, NULL },
+        },
+        "50"
+    },
+    {
+        "vita3k_http_timeout_sleep",
+        VITA3K_HTTP_TIMEOUT_SLEEP_LABEL_FR,
+        NULL,
+        VITA3K_HTTP_TIMEOUT_SLEEP_INFO_0_FR,
+        NULL,
+        "network",
+        {
+            { "50", OPTION_VAL_50_VITA3K_HTTP_TIMEOUT_SLEEP_FR },
+            { "100", OPTION_VAL_100_VITA3K_HTTP_TIMEOUT_SLEEP_FR },
+            { "150", OPTION_VAL_150_FR },
+            { "200", OPTION_VAL_200_FR },
+            { "250", OPTION_VAL_250_FR },
+            { "300", OPTION_VAL_300_FR },
+            { "400", OPTION_VAL_400_FR },
+            { "500", OPTION_VAL_500_FR },
+            { "750", OPTION_VAL_750_FR },
+            { "1000", OPTION_VAL_1000_FR },
+            { "1500", OPTION_VAL_1500_FR },
+            { "2000", OPTION_VAL_2000_FR },
+            { "2500", OPTION_VAL_2500_FR },
+            { "3000", OPTION_VAL_3000_FR },
+            { NULL, NULL },
+        },
+        "100"
+    },
+    {
+        "vita3k_http_read_end_attempts",
+        VITA3K_HTTP_READ_END_ATTEMPTS_LABEL_FR,
+        NULL,
+        VITA3K_HTTP_READ_END_ATTEMPTS_INFO_0_FR,
+        NULL,
+        "network",
+        {
+            { "0", NULL },
+            { "5", NULL },
+            { "10", NULL },
+            { "15", NULL },
+            { "20", NULL },
+            { "25", NULL },
+            { "30", NULL },
+            { "35", NULL },
+            { "40", NULL },
+            { "45", NULL },
+            { "50", NULL },
+            { "55", NULL },
+            { "60", NULL },
+            { "65", NULL },
+            { "70", NULL },
+            { "75", NULL },
+            { "80", NULL },
+            { "85", NULL },
+            { "90", NULL },
+            { "95", NULL },
+            { "100", NULL },
+            { NULL, NULL },
+        },
+        "10"
+    },
+    {
+        "vita3k_http_read_end_sleep",
+        VITA3K_HTTP_READ_END_SLEEP_LABEL_FR,
+        NULL,
+        VITA3K_HTTP_READ_END_SLEEP_INFO_0_FR,
+        NULL,
+        "network",
+        {
+            { "50", OPTION_VAL_50_VITA3K_HTTP_TIMEOUT_SLEEP_FR },
+            { "100", OPTION_VAL_100_VITA3K_HTTP_TIMEOUT_SLEEP_FR },
+            { "150", OPTION_VAL_150_FR },
+            { "200", OPTION_VAL_200_FR },
+            { "250", OPTION_VAL_250_FR },
+            { "300", OPTION_VAL_300_FR },
+            { "400", OPTION_VAL_400_FR },
+            { "500", OPTION_VAL_500_FR },
+            { "750", OPTION_VAL_750_FR },
+            { "1000", OPTION_VAL_1000_FR },
+            { "1500", OPTION_VAL_1500_FR },
+            { "2000", OPTION_VAL_2000_FR },
+            { "2500", OPTION_VAL_2500_FR },
+            { "3000", OPTION_VAL_3000_FR },
+            { NULL, NULL },
+        },
+        "250"
+    },
+    {
+        "vita3k_front_camera",
+        VITA3K_FRONT_CAMERA_LABEL_FR,
+        NULL,
+        VITA3K_FRONT_CAMERA_INFO_0_FR,
+        NULL,
+        "camera",
+        {
+            { "host", OPTION_VAL_HOST_FR },
+            { "image", OPTION_VAL_IMAGE_FR },
+            { "color", OPTION_VAL_COLOR_FR },
+            { NULL, NULL },
+        },
+        "host"
+    },
+    {
+        "vita3k_front_camera_color",
+        VITA3K_FRONT_CAMERA_COLOR_LABEL_FR,
+        NULL,
+        VITA3K_FRONT_CAMERA_COLOR_INFO_0_FR,
+        NULL,
+        "camera",
+        {
+            { "0", OPTION_VAL_0_VITA3K_FRONT_CAMERA_COLOR_FR },
+            { "16777215", OPTION_VAL_16777215_FR },
+            { "8421504", OPTION_VAL_8421504_FR },
+            { "255", OPTION_VAL_255_FR },
+            { "65280", OPTION_VAL_65280_FR },
+            { "16711680", OPTION_VAL_16711680_FR },
+            { NULL, NULL },
+        },
+        "0"
+    },
+    {
+        "vita3k_back_camera",
+        VITA3K_BACK_CAMERA_LABEL_FR,
+        NULL,
+        VITA3K_BACK_CAMERA_INFO_0_FR,
+        NULL,
+        "camera",
+        {
+            { "host", OPTION_VAL_HOST_FR },
+            { "image", OPTION_VAL_IMAGE_FR },
+            { "color", OPTION_VAL_COLOR_FR },
+            { NULL, NULL },
+        },
+        "host"
+    },
+    {
+        "vita3k_back_camera_color",
+        VITA3K_BACK_CAMERA_COLOR_LABEL_FR,
+        NULL,
+        VITA3K_BACK_CAMERA_COLOR_INFO_0_FR,
+        NULL,
+        "camera",
+        {
+            { "0", OPTION_VAL_0_VITA3K_FRONT_CAMERA_COLOR_FR },
+            { "16777215", OPTION_VAL_16777215_FR },
+            { "8421504", OPTION_VAL_8421504_FR },
+            { "255", OPTION_VAL_255_FR },
+            { "65280", OPTION_VAL_65280_FR },
+            { "16711680", OPTION_VAL_16711680_FR },
+            { NULL, NULL },
+        },
+        "0"
+    },
+    {
         "vita3k_surface_sync",
         VITA3K_SURFACE_SYNC_LABEL_FR,
         NULL,
@@ -7688,9 +13898,9 @@ struct retro_core_option_v2_definition option_defs_fr[] = {
         "system",
         {
             { "0", OPTION_VAL_0_VITA3K_FILE_LOADING_DELAY_FR },
-            { "5", OPTION_VAL_5_FR },
+            { "5", OPTION_VAL_5_VITA3K_FILE_LOADING_DELAY_FR },
             { "10", OPTION_VAL_10_VITA3K_FILE_LOADING_DELAY_FR },
-            { "15", OPTION_VAL_15_FR },
+            { "15", OPTION_VAL_15_VITA3K_FILE_LOADING_DELAY_FR },
             { "20", OPTION_VAL_20_VITA3K_FILE_LOADING_DELAY_FR },
             { "25", OPTION_VAL_25_FR },
             { "30", OPTION_VAL_30_VITA3K_FILE_LOADING_DELAY_FR },
@@ -7717,6 +13927,14 @@ struct retro_core_options_v2 options_fr = {
 #define CATEGORY_AUDIO_INFO_0_GA "Roghanna aschuir fuaime."
 #define CATEGORY_NETWORK_LABEL_GA "Líonra"
 #define CATEGORY_NETWORK_INFO_0_GA "Roghanna líonra."
+#define CATEGORY_INSTALL_LABEL_GA "Ábhar"
+#define CATEGORY_INSTALL_INFO_0_GA "An chaoi a luchtútar cluiche, nuashonrú agus DLCanna."
+#define CATEGORY_CAMERA_LABEL_GA "Ceamara"
+#define CATEGORY_CAMERA_INFO_0_GA "An rud a fheiceann ceamaraí tosaigh agus cúil an Vita."
+#define CATEGORY_ACCOUNTS_LABEL_GA "Cuntais"
+#define CATEGORY_ACCOUNTS_INFO_0_GA "Cuntais (úsáideoirí) an Vita in ux0/user, gach ceann acu lena shábháilchomhaid agus a thrófaithe féin."
+#define CATEGORY_MODULES_LABEL_GA "Modúil"
+#define CATEGORY_MODULES_INFO_0_GA "Na modúil firmware (vs0/sys/external) atá le luchtú nuair atá an Mód Modúl socraithe ar 'Uathoibríoch & Lámhleabhar' nó ar 'Lámhleabhar'."
 #define VITA3K_BACKEND_RENDERER_LABEL_GA "Rindreálaí Cúil"
 #define VITA3K_BACKEND_RENDERER_INFO_0_GA "Roghnaigh an t-inneall grafaicí. Moltar Vulkan."
 #define OPTION_VAL_VULKAN_GA NULL
@@ -7756,14 +13974,15 @@ struct retro_core_options_v2 options_fr = {
 #define VITA3K_HIGH_ACCURACY_INFO_0_GA "Cumasaigh teicnící rindreála atá níos cruinne ach níos moille."
 #define VITA3K_CPU_OPT_LABEL_GA "Optamuithe LAP (Dynarmic JIT)"
 #define VITA3K_CPU_OPT_INFO_0_GA "Cumasaigh Dynarmic JIT le haghaidh aithris LAP níos tapúla."
-#define VITA3K_PKG_MODE_LABEL_GA "PKG Cluiche"
-#define VITA3K_PKG_MODE_INFO_0_GA "An chaoi a rithetar comhad PKG cluiche. Rith gan Suiteáil: tosaíonn an cluiche laistigh de soicindí, agus díchriptítear comhad ón PKG agus cuirtear i bhfillteán an chórais é an chéad uair a léann an cluiche é; baintear gach rud nuair a dhúntar an cluiche. Suiteáil: díchriptítear an cluiche ar fad agus suiteáiltear é i ux0/app an chéad uair — mar a dhéanann Vita3K — próiseas a thógann am de réir mhéid an chluiche agus a úsáideann an méid sin spáis ar an diosca. Rithfear cluiche atá suiteáilte cheana féin óna shuiteáil féin, cibé acu modh a roghnaítear. Bíonn nuashonruithe agus DLC á suiteáil i gcónaí."
+#define VITA3K_PKG_MODE_LABEL_GA "Réamh-lódáil Cluiche"
+#define VITA3K_PKG_MODE_INFO_0_GA "Leanann an t-ábhar ar fad an socrú seo, seachas nuashonruithe agus DLC a shuiteáiltear go héigeantach (a luchtú de láimh). Rith gan Suiteáil: léitear sonraí ó chomhad, ní choinnítear aon rud. Taisce Bhuan: mar an gcéanna, ach coinnítear an t-ábhar a léadh. Suiteáil: cóipeáiltear na comhaid ar fad chun go dtosóidh an clár níos tapúla."
 #define OPTION_VAL_RUN_GA "Rith gan a shuiteáil"
+#define OPTION_VAL_CACHE_GA "Taisce Bhuan"
 #define OPTION_VAL_INSTALL_GA "Suiteáil"
 #define VITA3K_PSTV_MODE_LABEL_GA "Mód PS TV"
 #define VITA3K_PSTV_MODE_INFO_0_GA "Déan aithris ar PlayStation TV in áit PS Vita."
 #define VITA3K_MODULES_MODE_LABEL_GA "Mód na Modúl"
-#define VITA3K_MODULES_MODE_INFO_0_GA "An chaoi a luchtútar modúil an chórais. Moltar an modh uathoibríoch."
+#define VITA3K_MODULES_MODE_INFO_0_GA "An chaoi a luchtútar modúil an chórais. Uathoibríoch: cur i bhfeidhm an chroíleacáin féin, chomh maith leis na modúil fhirmeara a bhfuil a fhios ag an gcroíleacán go bhfuil gá leo. Uathoibríoch & Lámhleabhar: na cinn sin, móide na cinn atá curtha ar siúl faoi 'Modúil'. Lámhleabhar: na cinn atá curtha ar siúl faoi 'Modúil' amháin. Moltar an rogha Uathoibríoch."
 #define OPTION_VAL_0_GA "Uathoibríoch"
 #define OPTION_VAL_1_VITA3K_MODULES_MODE_GA "Uathoibríoch agus Láimhe"
 #define OPTION_VAL_2_VITA3K_MODULES_MODE_GA "Lámhleabhar"
@@ -7773,10 +13992,41 @@ struct retro_core_options_v2 options_fr = {
 #define VITA3K_SYS_BUTTON_INFO_0_GA "Cén cnaipe a úsáidtear le haghaidh gníomhartha deimhnithe."
 #define OPTION_VAL_0_VITA3K_SYS_BUTTON_GA "Ciorcal"
 #define OPTION_VAL_1_VITA3K_SYS_BUTTON_GA "Cros"
+#define VITA3K_SYS_LANG_LABEL_GA "Teanga an Chórais"
+#define VITA3K_SYS_LANG_INFO_0_GA "Teanga an chonsóil, a úsáideann cluichí dá dtéacs agus a thaispeántar i ndialóga an chórais. Tiocfaidh sé i bhfeidhm an chéad uair eile a sheoltar an cluiche."
+#define OPTION_VAL_0_VITA3K_SYS_LANG_GA "Seapáinis"
+#define OPTION_VAL_1_VITA3K_SYS_LANG_GA "Béarla (Stáit Aontaithe)"
+#define OPTION_VAL_2_VITA3K_SYS_LANG_GA "Fraincis"
+#define OPTION_VAL_3_VITA3K_SYS_LANG_GA "Spáinnis"
+#define OPTION_VAL_4_VITA3K_SYS_LANG_GA "Gearmáinis"
+#define OPTION_VAL_5_GA "Iodáilis"
+#define OPTION_VAL_6_GA "Ollannais"
+#define OPTION_VAL_7_GA "Portaingéilis (An Phortaingéil)"
+#define OPTION_VAL_8_VITA3K_SYS_LANG_GA "Rúisis"
+#define OPTION_VAL_9_GA "Cóiréis"
+#define OPTION_VAL_10_GA "Sínis (Traidisiúnta)"
+#define OPTION_VAL_11_GA "Sínis (Shimplithe)"
+#define OPTION_VAL_12_GA "Fionlainnis"
+#define OPTION_VAL_13_GA "Sualainnis"
+#define OPTION_VAL_14_GA "Danmhairgis"
+#define OPTION_VAL_15_GA "Ioruais"
+#define OPTION_VAL_16_VITA3K_SYS_LANG_GA "Polainnis"
+#define OPTION_VAL_17_GA "Portaingéilis (An Bhrasaíl)"
+#define OPTION_VAL_18_GA "Béarla (An Ríocht Aontaithe)"
+#define OPTION_VAL_19_GA "Tuircis"
+#define VITA3K_SYS_DATE_FORMAT_LABEL_GA "Formáid Dáta"
+#define VITA3K_SYS_DATE_FORMAT_INFO_0_GA "An chaoi a scríobhann an consól dátaí, i gcás cluichí agus dialóga an chórais (liostaí sonraí sábhála, mar shampla). Is iad dáta agus am an óstaigh a úsáidtear. Tiocfaidh sé seo i bhfeidhm an chéad uair eile a sheoltar an cluiche."
+#define OPTION_VAL_0_VITA3K_SYS_DATE_FORMAT_GA "BBBB/MM/LL"
+#define OPTION_VAL_1_VITA3K_SYS_DATE_FORMAT_GA "LL/MM/BBBB"
+#define OPTION_VAL_2_VITA3K_SYS_DATE_FORMAT_GA "MM/LL/BBBB"
+#define VITA3K_SYS_TIME_FORMAT_LABEL_GA "Formáid Ama"
+#define VITA3K_SYS_TIME_FORMAT_INFO_0_GA "Cibé acu a thaispeántar an t-am ar an gconsól i bhformáid 12 uair an chloig nó 24 uair an chloig, i gcás cluichí agus dialóga an chórais. Tiocfaidh sé seo i bhfeidhm an chéad uair eile a sheoltar an cluiche."
+#define OPTION_VAL_0_VITA3K_SYS_TIME_FORMAT_GA "12 Uair an Chloig"
+#define OPTION_VAL_1_VITA3K_SYS_TIME_FORMAT_GA "24 Uair an Chloig"
 #define VITA3K_AUDIO_VOLUME_LABEL_GA "Airde na Fuaime"
 #define VITA3K_AUDIO_VOLUME_INFO_0_GA "Príomhleibhéal toirte fuaime."
 #define OPTION_VAL_0_VITA3K_AUDIO_VOLUME_GA NULL
-#define OPTION_VAL_10_GA NULL
+#define OPTION_VAL_10_VITA3K_AUDIO_VOLUME_GA NULL
 #define OPTION_VAL_20_GA NULL
 #define OPTION_VAL_30_GA NULL
 #define OPTION_VAL_40_GA NULL
@@ -7790,6 +14040,47 @@ struct retro_core_options_v2 options_fr = {
 #define VITA3K_NGS_ENABLE_INFO_0_GA "Cumasaigh inneall fuaime NGS le haghaidh fuaim fheabhsaithe."
 #define VITA3K_PSN_SIGNED_IN_LABEL_GA "Logáilte isteach i PSN"
 #define VITA3K_PSN_SIGNED_IN_INFO_0_GA "Lig ort go bhfuil tú logáilte isteach i PSN. Riachtanach do chuid cluichí áirithe."
+#define VITA3K_HTTP_ENABLE_LABEL_GA NULL
+#define VITA3K_HTTP_ENABLE_INFO_0_GA "Cumasaigh tacaíocht líonraithe HTTP d'aippanna a bhaineann úsáid as. Beidh feidhm leis an gcéad uair eile a sheoltar an cluiche."
+#define VITA3K_HTTP_TIMEOUT_ATTEMPTS_LABEL_GA "Iarrachtaí maidir le Teorainn Ama HTTP"
+#define VITA3K_HTTP_TIMEOUT_ATTEMPTS_INFO_0_GA "An líon uaireanta a dhéanfar iarracht athcheangail nuair nach bhfreagraíonn an freastalaí. D’fhéadfadh sé seo a bheith úsáideach i gcás nasc atá an-éagobhsaí nó an-mhall. Tiocfaidh sé i bhfeidhm an chéad uair eile a sheoltar an cluiche."
+#define VITA3K_HTTP_TIMEOUT_SLEEP_LABEL_GA "Sos Tréimhse Amach HTTP"
+#define VITA3K_HTTP_TIMEOUT_SLEEP_INFO_0_GA "An fad ama le fanacht idir iarrachtaí athcheangail. D’fhéadfadh sé seo a bheith úsáideach i gcás nasc atá an-éagobhsaí nó an-mhall. Tiocfaidh sé i bhfeidhm an chéad uair eile a sheoltar an cluiche."
+#define OPTION_VAL_50_VITA3K_HTTP_TIMEOUT_SLEEP_GA NULL
+#define OPTION_VAL_100_VITA3K_HTTP_TIMEOUT_SLEEP_GA NULL
+#define OPTION_VAL_150_GA NULL
+#define OPTION_VAL_200_GA NULL
+#define OPTION_VAL_250_GA NULL
+#define OPTION_VAL_300_GA NULL
+#define OPTION_VAL_400_GA NULL
+#define OPTION_VAL_500_GA NULL
+#define OPTION_VAL_750_GA NULL
+#define OPTION_VAL_1000_GA NULL
+#define OPTION_VAL_1500_GA NULL
+#define OPTION_VAL_2000_GA NULL
+#define OPTION_VAL_2500_GA NULL
+#define OPTION_VAL_3000_GA NULL
+#define VITA3K_HTTP_READ_END_ATTEMPTS_LABEL_GA "Iarrachtaí chun Deireadh Léitheoireachta HTTP a Bhaint Amach"
+#define VITA3K_HTTP_READ_END_ATTEMPTS_INFO_0_GA "Cé mhéad iarracht bhreise ba chóir a dhéanamh nuair nach bhfuil aon sonraí eile le léamh. Má laghdaítear an líon seo, d’fhéadfadh feidhmíocht feabhsú, ach d’fhéadfadh sé cluichí a dhéanamh éagobhsaí má bhíonn an nasc sách dona. Tiocfaidh sé seo i bhfeidhm an chéad uair eile a sheoltar an cluiche."
+#define VITA3K_HTTP_READ_END_SLEEP_LABEL_GA "Codladh ag Deireadh Léitheoireachta HTTP"
+#define VITA3K_HTTP_READ_END_SLEEP_INFO_0_GA "An fad ama le fanacht idir iarrachtaí athléite. Má laghdaítear an t-am seo, d’fhéadfadh feidhmíocht feabhsú, ach d’fhéadfadh sé cluichí a dhéanamh éagobhsaí má bhíonn an nasc go dona. Tiocfaidh sé seo i bhfeidhm an chéad uair eile a sheoltar an cluiche."
+#define VITA3K_FRONT_CAMERA_LABEL_GA "Ceamara Tosaigh"
+#define VITA3K_FRONT_CAMERA_INFO_0_GA "An rud a fheiceann ceamara tosaigh an Vita. Ceamara Óstach: Ceamara RetroArch (ní mór 'Rochtain ar Cheamara' a bheith cumasaithe faoi Socruithe > Príobháideachas, agus ní mór tiománaí ceamara a bheith i láthair don ardán seo). Íomhá: system/vita3k/camera/front.png nó front.jpg. Dath Soladach: Dath an Cheamara Tosaigh. Mura bhfuil foinse ar fáil, úsáidtear an chéad cheann eile. Tiocfaidh an t-athrú i bhfeidhm an chéad uair eile a osclóidh an cluiche an ceamara."
+#define OPTION_VAL_HOST_GA "Ceamara an Óstaigh"
+#define OPTION_VAL_IMAGE_GA "Íomhá"
+#define OPTION_VAL_COLOR_GA "Dath Aonair"
+#define VITA3K_FRONT_CAMERA_COLOR_LABEL_GA "Dath an Cheamara Tosaigh"
+#define VITA3K_FRONT_CAMERA_COLOR_INFO_0_GA "An dath a thaispeánann an ceamara tosaigh le Dath Soladach."
+#define OPTION_VAL_0_VITA3K_FRONT_CAMERA_COLOR_GA "Dubh"
+#define OPTION_VAL_16777215_GA "Bán"
+#define OPTION_VAL_8421504_GA "Liath"
+#define OPTION_VAL_255_GA "Dearg"
+#define OPTION_VAL_65280_GA "Glas"
+#define OPTION_VAL_16711680_GA "Gorm"
+#define VITA3K_BACK_CAMERA_LABEL_GA "Ceamara Cúil"
+#define VITA3K_BACK_CAMERA_INFO_0_GA "An rud a fheiceann ceamara cúil an Vita. Ceamara Óstach: Ceamara RetroArch (ní mór 'Rochtain ar Cheamara' a bheith cumasaithe faoi Socruithe > Príobháideachas, agus ní mór tiománaí ceamara a bheith i láthair don ardán seo). Íomhá: system/vita3k/camera/back.png nó back.jpg. Dath Soladach: Dath an Cheamara Chúil. Mura mbíonn foinse ar fáil, úsáidtear an chéad cheann eile. Tagann sé seo i bhfeidhm an chéad uair eile a osclaíonn an cluiche an ceamara."
+#define VITA3K_BACK_CAMERA_COLOR_LABEL_GA "Dath an Cheamara Cúil"
+#define VITA3K_BACK_CAMERA_COLOR_INFO_0_GA "An dath a thaispeánann an ceamara cúil le Dath Soladach."
 #define VITA3K_SURFACE_SYNC_LABEL_GA "Sioncrónú Dromchla"
 #define VITA3K_SURFACE_SYNC_INFO_0_GA "Optamú cuimhne GPU. D’fhéadfadh sé feidhmíocht a fheabhsú faoi 20–40%."
 #define OPTION_VAL_ENABLED_GA "Cumasaithe (níos cruinne)"
@@ -7797,9 +14088,9 @@ struct retro_core_options_v2 options_fr = {
 #define VITA3K_FILE_LOADING_DELAY_LABEL_GA "Moill ar luchtú comhaid"
 #define VITA3K_FILE_LOADING_DELAY_INFO_0_GA "Moill i milleasoicindí maidir le luchtú comhad. Cuidíonn sé le cluichí a bhíonn ag brath ar uainiú beacht."
 #define OPTION_VAL_0_VITA3K_FILE_LOADING_DELAY_GA NULL
-#define OPTION_VAL_5_GA NULL
+#define OPTION_VAL_5_VITA3K_FILE_LOADING_DELAY_GA NULL
 #define OPTION_VAL_10_VITA3K_FILE_LOADING_DELAY_GA NULL
-#define OPTION_VAL_15_GA NULL
+#define OPTION_VAL_15_VITA3K_FILE_LOADING_DELAY_GA NULL
 #define OPTION_VAL_20_VITA3K_FILE_LOADING_DELAY_GA NULL
 #define OPTION_VAL_25_GA NULL
 #define OPTION_VAL_30_VITA3K_FILE_LOADING_DELAY_GA NULL
@@ -7810,6 +14101,10 @@ struct retro_core_option_v2_category option_cats_ga[] = {
     { "system", CATEGORY_SYSTEM_LABEL_GA, CATEGORY_SYSTEM_INFO_0_GA },
     { "audio", CATEGORY_AUDIO_LABEL_GA, CATEGORY_AUDIO_INFO_0_GA },
     { "network", CATEGORY_NETWORK_LABEL_GA, CATEGORY_NETWORK_INFO_0_GA },
+    { "install", CATEGORY_INSTALL_LABEL_GA, CATEGORY_INSTALL_INFO_0_GA },
+    { "camera", CATEGORY_CAMERA_LABEL_GA, CATEGORY_CAMERA_INFO_0_GA },
+    { "accounts", CATEGORY_ACCOUNTS_LABEL_GA, CATEGORY_ACCOUNTS_INFO_0_GA },
+    { "modules", CATEGORY_MODULES_LABEL_GA, CATEGORY_MODULES_INFO_0_GA },
     { NULL, NULL, NULL },
 };
 struct retro_core_option_v2_definition option_defs_ga[] = {
@@ -7973,9 +14268,10 @@ struct retro_core_option_v2_definition option_defs_ga[] = {
         NULL,
         VITA3K_PKG_MODE_INFO_0_GA,
         NULL,
-        "system",
+        "install",
         {
             { "run", OPTION_VAL_RUN_GA },
+            { "cache", OPTION_VAL_CACHE_GA },
             { "install", OPTION_VAL_INSTALL_GA },
             { NULL, NULL },
         },
@@ -8038,6 +14334,67 @@ struct retro_core_option_v2_definition option_defs_ga[] = {
         },
         "1"
     },
+    {
+        "vita3k_sys_lang",
+        VITA3K_SYS_LANG_LABEL_GA,
+        NULL,
+        VITA3K_SYS_LANG_INFO_0_GA,
+        NULL,
+        "system",
+        {
+            { "0", OPTION_VAL_0_VITA3K_SYS_LANG_GA },
+            { "1", OPTION_VAL_1_VITA3K_SYS_LANG_GA },
+            { "2", OPTION_VAL_2_VITA3K_SYS_LANG_GA },
+            { "3", OPTION_VAL_3_VITA3K_SYS_LANG_GA },
+            { "4", OPTION_VAL_4_VITA3K_SYS_LANG_GA },
+            { "5", OPTION_VAL_5_GA },
+            { "6", OPTION_VAL_6_GA },
+            { "7", OPTION_VAL_7_GA },
+            { "8", OPTION_VAL_8_VITA3K_SYS_LANG_GA },
+            { "9", OPTION_VAL_9_GA },
+            { "10", OPTION_VAL_10_GA },
+            { "11", OPTION_VAL_11_GA },
+            { "12", OPTION_VAL_12_GA },
+            { "13", OPTION_VAL_13_GA },
+            { "14", OPTION_VAL_14_GA },
+            { "15", OPTION_VAL_15_GA },
+            { "16", OPTION_VAL_16_VITA3K_SYS_LANG_GA },
+            { "17", OPTION_VAL_17_GA },
+            { "18", OPTION_VAL_18_GA },
+            { "19", OPTION_VAL_19_GA },
+            { NULL, NULL },
+        },
+        "1"
+    },
+    {
+        "vita3k_sys_date_format",
+        VITA3K_SYS_DATE_FORMAT_LABEL_GA,
+        NULL,
+        VITA3K_SYS_DATE_FORMAT_INFO_0_GA,
+        NULL,
+        "system",
+        {
+            { "0", OPTION_VAL_0_VITA3K_SYS_DATE_FORMAT_GA },
+            { "1", OPTION_VAL_1_VITA3K_SYS_DATE_FORMAT_GA },
+            { "2", OPTION_VAL_2_VITA3K_SYS_DATE_FORMAT_GA },
+            { NULL, NULL },
+        },
+        "2"
+    },
+    {
+        "vita3k_sys_time_format",
+        VITA3K_SYS_TIME_FORMAT_LABEL_GA,
+        NULL,
+        VITA3K_SYS_TIME_FORMAT_INFO_0_GA,
+        NULL,
+        "system",
+        {
+            { "0", OPTION_VAL_0_VITA3K_SYS_TIME_FORMAT_GA },
+            { "1", OPTION_VAL_1_VITA3K_SYS_TIME_FORMAT_GA },
+            { NULL, NULL },
+        },
+        "0"
+    },
     // ── Audio ────────────────────────────────────────────────────────────
     {
         "vita3k_audio_volume",
@@ -8048,7 +14405,7 @@ struct retro_core_option_v2_definition option_defs_ga[] = {
         "audio",
         {
             { "0", OPTION_VAL_0_VITA3K_AUDIO_VOLUME_GA },
-            { "10", OPTION_VAL_10_GA },
+            { "10", OPTION_VAL_10_VITA3K_AUDIO_VOLUME_GA },
             { "20", OPTION_VAL_20_GA },
             { "30", OPTION_VAL_30_GA },
             { "40", OPTION_VAL_40_GA },
@@ -8092,6 +14449,204 @@ struct retro_core_option_v2_definition option_defs_ga[] = {
         "disabled"
     },
     {
+        "vita3k_http_enable",
+        VITA3K_HTTP_ENABLE_LABEL_GA,
+        NULL,
+        VITA3K_HTTP_ENABLE_INFO_0_GA,
+        NULL,
+        "network",
+        {
+            { "enabled", NULL },
+            { "disabled", NULL },
+            { NULL, NULL },
+        },
+        "enabled"
+    },
+    {
+        "vita3k_http_timeout_attempts",
+        VITA3K_HTTP_TIMEOUT_ATTEMPTS_LABEL_GA,
+        NULL,
+        VITA3K_HTTP_TIMEOUT_ATTEMPTS_INFO_0_GA,
+        NULL,
+        "network",
+        {
+            { "0", NULL },
+            { "5", NULL },
+            { "10", NULL },
+            { "15", NULL },
+            { "20", NULL },
+            { "25", NULL },
+            { "30", NULL },
+            { "35", NULL },
+            { "40", NULL },
+            { "45", NULL },
+            { "50", NULL },
+            { "55", NULL },
+            { "60", NULL },
+            { "65", NULL },
+            { "70", NULL },
+            { "75", NULL },
+            { "80", NULL },
+            { "85", NULL },
+            { "90", NULL },
+            { "95", NULL },
+            { "100", NULL },
+            { NULL, NULL },
+        },
+        "50"
+    },
+    {
+        "vita3k_http_timeout_sleep",
+        VITA3K_HTTP_TIMEOUT_SLEEP_LABEL_GA,
+        NULL,
+        VITA3K_HTTP_TIMEOUT_SLEEP_INFO_0_GA,
+        NULL,
+        "network",
+        {
+            { "50", OPTION_VAL_50_VITA3K_HTTP_TIMEOUT_SLEEP_GA },
+            { "100", OPTION_VAL_100_VITA3K_HTTP_TIMEOUT_SLEEP_GA },
+            { "150", OPTION_VAL_150_GA },
+            { "200", OPTION_VAL_200_GA },
+            { "250", OPTION_VAL_250_GA },
+            { "300", OPTION_VAL_300_GA },
+            { "400", OPTION_VAL_400_GA },
+            { "500", OPTION_VAL_500_GA },
+            { "750", OPTION_VAL_750_GA },
+            { "1000", OPTION_VAL_1000_GA },
+            { "1500", OPTION_VAL_1500_GA },
+            { "2000", OPTION_VAL_2000_GA },
+            { "2500", OPTION_VAL_2500_GA },
+            { "3000", OPTION_VAL_3000_GA },
+            { NULL, NULL },
+        },
+        "100"
+    },
+    {
+        "vita3k_http_read_end_attempts",
+        VITA3K_HTTP_READ_END_ATTEMPTS_LABEL_GA,
+        NULL,
+        VITA3K_HTTP_READ_END_ATTEMPTS_INFO_0_GA,
+        NULL,
+        "network",
+        {
+            { "0", NULL },
+            { "5", NULL },
+            { "10", NULL },
+            { "15", NULL },
+            { "20", NULL },
+            { "25", NULL },
+            { "30", NULL },
+            { "35", NULL },
+            { "40", NULL },
+            { "45", NULL },
+            { "50", NULL },
+            { "55", NULL },
+            { "60", NULL },
+            { "65", NULL },
+            { "70", NULL },
+            { "75", NULL },
+            { "80", NULL },
+            { "85", NULL },
+            { "90", NULL },
+            { "95", NULL },
+            { "100", NULL },
+            { NULL, NULL },
+        },
+        "10"
+    },
+    {
+        "vita3k_http_read_end_sleep",
+        VITA3K_HTTP_READ_END_SLEEP_LABEL_GA,
+        NULL,
+        VITA3K_HTTP_READ_END_SLEEP_INFO_0_GA,
+        NULL,
+        "network",
+        {
+            { "50", OPTION_VAL_50_VITA3K_HTTP_TIMEOUT_SLEEP_GA },
+            { "100", OPTION_VAL_100_VITA3K_HTTP_TIMEOUT_SLEEP_GA },
+            { "150", OPTION_VAL_150_GA },
+            { "200", OPTION_VAL_200_GA },
+            { "250", OPTION_VAL_250_GA },
+            { "300", OPTION_VAL_300_GA },
+            { "400", OPTION_VAL_400_GA },
+            { "500", OPTION_VAL_500_GA },
+            { "750", OPTION_VAL_750_GA },
+            { "1000", OPTION_VAL_1000_GA },
+            { "1500", OPTION_VAL_1500_GA },
+            { "2000", OPTION_VAL_2000_GA },
+            { "2500", OPTION_VAL_2500_GA },
+            { "3000", OPTION_VAL_3000_GA },
+            { NULL, NULL },
+        },
+        "250"
+    },
+    {
+        "vita3k_front_camera",
+        VITA3K_FRONT_CAMERA_LABEL_GA,
+        NULL,
+        VITA3K_FRONT_CAMERA_INFO_0_GA,
+        NULL,
+        "camera",
+        {
+            { "host", OPTION_VAL_HOST_GA },
+            { "image", OPTION_VAL_IMAGE_GA },
+            { "color", OPTION_VAL_COLOR_GA },
+            { NULL, NULL },
+        },
+        "host"
+    },
+    {
+        "vita3k_front_camera_color",
+        VITA3K_FRONT_CAMERA_COLOR_LABEL_GA,
+        NULL,
+        VITA3K_FRONT_CAMERA_COLOR_INFO_0_GA,
+        NULL,
+        "camera",
+        {
+            { "0", OPTION_VAL_0_VITA3K_FRONT_CAMERA_COLOR_GA },
+            { "16777215", OPTION_VAL_16777215_GA },
+            { "8421504", OPTION_VAL_8421504_GA },
+            { "255", OPTION_VAL_255_GA },
+            { "65280", OPTION_VAL_65280_GA },
+            { "16711680", OPTION_VAL_16711680_GA },
+            { NULL, NULL },
+        },
+        "0"
+    },
+    {
+        "vita3k_back_camera",
+        VITA3K_BACK_CAMERA_LABEL_GA,
+        NULL,
+        VITA3K_BACK_CAMERA_INFO_0_GA,
+        NULL,
+        "camera",
+        {
+            { "host", OPTION_VAL_HOST_GA },
+            { "image", OPTION_VAL_IMAGE_GA },
+            { "color", OPTION_VAL_COLOR_GA },
+            { NULL, NULL },
+        },
+        "host"
+    },
+    {
+        "vita3k_back_camera_color",
+        VITA3K_BACK_CAMERA_COLOR_LABEL_GA,
+        NULL,
+        VITA3K_BACK_CAMERA_COLOR_INFO_0_GA,
+        NULL,
+        "camera",
+        {
+            { "0", OPTION_VAL_0_VITA3K_FRONT_CAMERA_COLOR_GA },
+            { "16777215", OPTION_VAL_16777215_GA },
+            { "8421504", OPTION_VAL_8421504_GA },
+            { "255", OPTION_VAL_255_GA },
+            { "65280", OPTION_VAL_65280_GA },
+            { "16711680", OPTION_VAL_16711680_GA },
+            { NULL, NULL },
+        },
+        "0"
+    },
+    {
         "vita3k_surface_sync",
         VITA3K_SURFACE_SYNC_LABEL_GA,
         NULL,
@@ -8114,9 +14669,9 @@ struct retro_core_option_v2_definition option_defs_ga[] = {
         "system",
         {
             { "0", OPTION_VAL_0_VITA3K_FILE_LOADING_DELAY_GA },
-            { "5", OPTION_VAL_5_GA },
+            { "5", OPTION_VAL_5_VITA3K_FILE_LOADING_DELAY_GA },
             { "10", OPTION_VAL_10_VITA3K_FILE_LOADING_DELAY_GA },
-            { "15", OPTION_VAL_15_GA },
+            { "15", OPTION_VAL_15_VITA3K_FILE_LOADING_DELAY_GA },
             { "20", OPTION_VAL_20_VITA3K_FILE_LOADING_DELAY_GA },
             { "25", OPTION_VAL_25_GA },
             { "30", OPTION_VAL_30_VITA3K_FILE_LOADING_DELAY_GA },
@@ -8143,6 +14698,14 @@ struct retro_core_options_v2 options_ga = {
 #define CATEGORY_AUDIO_INFO_0_GL NULL
 #define CATEGORY_NETWORK_LABEL_GL "Rede"
 #define CATEGORY_NETWORK_INFO_0_GL NULL
+#define CATEGORY_INSTALL_LABEL_GL "Contido"
+#define CATEGORY_INSTALL_INFO_0_GL NULL
+#define CATEGORY_CAMERA_LABEL_GL "Cámara"
+#define CATEGORY_CAMERA_INFO_0_GL NULL
+#define CATEGORY_ACCOUNTS_LABEL_GL "Contas"
+#define CATEGORY_ACCOUNTS_INFO_0_GL NULL
+#define CATEGORY_MODULES_LABEL_GL NULL
+#define CATEGORY_MODULES_INFO_0_GL NULL
 #define VITA3K_BACKEND_RENDERER_LABEL_GL NULL
 #define VITA3K_BACKEND_RENDERER_INFO_0_GL NULL
 #define OPTION_VAL_VULKAN_GL NULL
@@ -8185,6 +14748,7 @@ struct retro_core_options_v2 options_ga = {
 #define VITA3K_PKG_MODE_LABEL_GL NULL
 #define VITA3K_PKG_MODE_INFO_0_GL NULL
 #define OPTION_VAL_RUN_GL NULL
+#define OPTION_VAL_CACHE_GL NULL
 #define OPTION_VAL_INSTALL_GL NULL
 #define VITA3K_PSTV_MODE_LABEL_GL NULL
 #define VITA3K_PSTV_MODE_INFO_0_GL NULL
@@ -8199,10 +14763,41 @@ struct retro_core_options_v2 options_ga = {
 #define VITA3K_SYS_BUTTON_INFO_0_GL NULL
 #define OPTION_VAL_0_VITA3K_SYS_BUTTON_GL NULL
 #define OPTION_VAL_1_VITA3K_SYS_BUTTON_GL "Cruz"
+#define VITA3K_SYS_LANG_LABEL_GL NULL
+#define VITA3K_SYS_LANG_INFO_0_GL NULL
+#define OPTION_VAL_0_VITA3K_SYS_LANG_GL "Xaponés"
+#define OPTION_VAL_1_VITA3K_SYS_LANG_GL NULL
+#define OPTION_VAL_2_VITA3K_SYS_LANG_GL "Francés"
+#define OPTION_VAL_3_VITA3K_SYS_LANG_GL "Español"
+#define OPTION_VAL_4_VITA3K_SYS_LANG_GL "Alemán"
+#define OPTION_VAL_5_GL "Italiano"
+#define OPTION_VAL_6_GL NULL
+#define OPTION_VAL_7_GL NULL
+#define OPTION_VAL_8_VITA3K_SYS_LANG_GL NULL
+#define OPTION_VAL_9_GL NULL
+#define OPTION_VAL_10_GL NULL
+#define OPTION_VAL_11_GL NULL
+#define OPTION_VAL_12_GL NULL
+#define OPTION_VAL_13_GL NULL
+#define OPTION_VAL_14_GL NULL
+#define OPTION_VAL_15_GL NULL
+#define OPTION_VAL_16_VITA3K_SYS_LANG_GL NULL
+#define OPTION_VAL_17_GL NULL
+#define OPTION_VAL_18_GL NULL
+#define OPTION_VAL_19_GL NULL
+#define VITA3K_SYS_DATE_FORMAT_LABEL_GL NULL
+#define VITA3K_SYS_DATE_FORMAT_INFO_0_GL NULL
+#define OPTION_VAL_0_VITA3K_SYS_DATE_FORMAT_GL NULL
+#define OPTION_VAL_1_VITA3K_SYS_DATE_FORMAT_GL NULL
+#define OPTION_VAL_2_VITA3K_SYS_DATE_FORMAT_GL NULL
+#define VITA3K_SYS_TIME_FORMAT_LABEL_GL NULL
+#define VITA3K_SYS_TIME_FORMAT_INFO_0_GL NULL
+#define OPTION_VAL_0_VITA3K_SYS_TIME_FORMAT_GL NULL
+#define OPTION_VAL_1_VITA3K_SYS_TIME_FORMAT_GL NULL
 #define VITA3K_AUDIO_VOLUME_LABEL_GL NULL
 #define VITA3K_AUDIO_VOLUME_INFO_0_GL NULL
 #define OPTION_VAL_0_VITA3K_AUDIO_VOLUME_GL NULL
-#define OPTION_VAL_10_GL NULL
+#define OPTION_VAL_10_VITA3K_AUDIO_VOLUME_GL NULL
 #define OPTION_VAL_20_GL NULL
 #define OPTION_VAL_30_GL NULL
 #define OPTION_VAL_40_GL NULL
@@ -8216,6 +14811,47 @@ struct retro_core_options_v2 options_ga = {
 #define VITA3K_NGS_ENABLE_INFO_0_GL NULL
 #define VITA3K_PSN_SIGNED_IN_LABEL_GL NULL
 #define VITA3K_PSN_SIGNED_IN_INFO_0_GL NULL
+#define VITA3K_HTTP_ENABLE_LABEL_GL NULL
+#define VITA3K_HTTP_ENABLE_INFO_0_GL NULL
+#define VITA3K_HTTP_TIMEOUT_ATTEMPTS_LABEL_GL NULL
+#define VITA3K_HTTP_TIMEOUT_ATTEMPTS_INFO_0_GL NULL
+#define VITA3K_HTTP_TIMEOUT_SLEEP_LABEL_GL NULL
+#define VITA3K_HTTP_TIMEOUT_SLEEP_INFO_0_GL NULL
+#define OPTION_VAL_50_VITA3K_HTTP_TIMEOUT_SLEEP_GL NULL
+#define OPTION_VAL_100_VITA3K_HTTP_TIMEOUT_SLEEP_GL NULL
+#define OPTION_VAL_150_GL NULL
+#define OPTION_VAL_200_GL NULL
+#define OPTION_VAL_250_GL NULL
+#define OPTION_VAL_300_GL NULL
+#define OPTION_VAL_400_GL NULL
+#define OPTION_VAL_500_GL NULL
+#define OPTION_VAL_750_GL NULL
+#define OPTION_VAL_1000_GL NULL
+#define OPTION_VAL_1500_GL NULL
+#define OPTION_VAL_2000_GL NULL
+#define OPTION_VAL_2500_GL NULL
+#define OPTION_VAL_3000_GL NULL
+#define VITA3K_HTTP_READ_END_ATTEMPTS_LABEL_GL NULL
+#define VITA3K_HTTP_READ_END_ATTEMPTS_INFO_0_GL NULL
+#define VITA3K_HTTP_READ_END_SLEEP_LABEL_GL NULL
+#define VITA3K_HTTP_READ_END_SLEEP_INFO_0_GL NULL
+#define VITA3K_FRONT_CAMERA_LABEL_GL NULL
+#define VITA3K_FRONT_CAMERA_INFO_0_GL NULL
+#define OPTION_VAL_HOST_GL NULL
+#define OPTION_VAL_IMAGE_GL NULL
+#define OPTION_VAL_COLOR_GL NULL
+#define VITA3K_FRONT_CAMERA_COLOR_LABEL_GL NULL
+#define VITA3K_FRONT_CAMERA_COLOR_INFO_0_GL NULL
+#define OPTION_VAL_0_VITA3K_FRONT_CAMERA_COLOR_GL "Negro"
+#define OPTION_VAL_16777215_GL "Branco"
+#define OPTION_VAL_8421504_GL "Gris"
+#define OPTION_VAL_255_GL "Vermello"
+#define OPTION_VAL_65280_GL "Verde"
+#define OPTION_VAL_16711680_GL "Azul"
+#define VITA3K_BACK_CAMERA_LABEL_GL NULL
+#define VITA3K_BACK_CAMERA_INFO_0_GL NULL
+#define VITA3K_BACK_CAMERA_COLOR_LABEL_GL NULL
+#define VITA3K_BACK_CAMERA_COLOR_INFO_0_GL NULL
 #define VITA3K_SURFACE_SYNC_LABEL_GL NULL
 #define VITA3K_SURFACE_SYNC_INFO_0_GL NULL
 #define OPTION_VAL_ENABLED_GL NULL
@@ -8223,9 +14859,9 @@ struct retro_core_options_v2 options_ga = {
 #define VITA3K_FILE_LOADING_DELAY_LABEL_GL NULL
 #define VITA3K_FILE_LOADING_DELAY_INFO_0_GL NULL
 #define OPTION_VAL_0_VITA3K_FILE_LOADING_DELAY_GL NULL
-#define OPTION_VAL_5_GL NULL
+#define OPTION_VAL_5_VITA3K_FILE_LOADING_DELAY_GL NULL
 #define OPTION_VAL_10_VITA3K_FILE_LOADING_DELAY_GL NULL
-#define OPTION_VAL_15_GL NULL
+#define OPTION_VAL_15_VITA3K_FILE_LOADING_DELAY_GL NULL
 #define OPTION_VAL_20_VITA3K_FILE_LOADING_DELAY_GL NULL
 #define OPTION_VAL_25_GL NULL
 #define OPTION_VAL_30_VITA3K_FILE_LOADING_DELAY_GL NULL
@@ -8236,6 +14872,10 @@ struct retro_core_option_v2_category option_cats_gl[] = {
     { "system", CATEGORY_SYSTEM_LABEL_GL, CATEGORY_SYSTEM_INFO_0_GL },
     { "audio", CATEGORY_AUDIO_LABEL_GL, CATEGORY_AUDIO_INFO_0_GL },
     { "network", CATEGORY_NETWORK_LABEL_GL, CATEGORY_NETWORK_INFO_0_GL },
+    { "install", CATEGORY_INSTALL_LABEL_GL, CATEGORY_INSTALL_INFO_0_GL },
+    { "camera", CATEGORY_CAMERA_LABEL_GL, CATEGORY_CAMERA_INFO_0_GL },
+    { "accounts", CATEGORY_ACCOUNTS_LABEL_GL, CATEGORY_ACCOUNTS_INFO_0_GL },
+    { "modules", CATEGORY_MODULES_LABEL_GL, CATEGORY_MODULES_INFO_0_GL },
     { NULL, NULL, NULL },
 };
 struct retro_core_option_v2_definition option_defs_gl[] = {
@@ -8399,9 +15039,10 @@ struct retro_core_option_v2_definition option_defs_gl[] = {
         NULL,
         VITA3K_PKG_MODE_INFO_0_GL,
         NULL,
-        "system",
+        "install",
         {
             { "run", OPTION_VAL_RUN_GL },
+            { "cache", OPTION_VAL_CACHE_GL },
             { "install", OPTION_VAL_INSTALL_GL },
             { NULL, NULL },
         },
@@ -8464,6 +15105,67 @@ struct retro_core_option_v2_definition option_defs_gl[] = {
         },
         "1"
     },
+    {
+        "vita3k_sys_lang",
+        VITA3K_SYS_LANG_LABEL_GL,
+        NULL,
+        VITA3K_SYS_LANG_INFO_0_GL,
+        NULL,
+        "system",
+        {
+            { "0", OPTION_VAL_0_VITA3K_SYS_LANG_GL },
+            { "1", OPTION_VAL_1_VITA3K_SYS_LANG_GL },
+            { "2", OPTION_VAL_2_VITA3K_SYS_LANG_GL },
+            { "3", OPTION_VAL_3_VITA3K_SYS_LANG_GL },
+            { "4", OPTION_VAL_4_VITA3K_SYS_LANG_GL },
+            { "5", OPTION_VAL_5_GL },
+            { "6", OPTION_VAL_6_GL },
+            { "7", OPTION_VAL_7_GL },
+            { "8", OPTION_VAL_8_VITA3K_SYS_LANG_GL },
+            { "9", OPTION_VAL_9_GL },
+            { "10", OPTION_VAL_10_GL },
+            { "11", OPTION_VAL_11_GL },
+            { "12", OPTION_VAL_12_GL },
+            { "13", OPTION_VAL_13_GL },
+            { "14", OPTION_VAL_14_GL },
+            { "15", OPTION_VAL_15_GL },
+            { "16", OPTION_VAL_16_VITA3K_SYS_LANG_GL },
+            { "17", OPTION_VAL_17_GL },
+            { "18", OPTION_VAL_18_GL },
+            { "19", OPTION_VAL_19_GL },
+            { NULL, NULL },
+        },
+        "1"
+    },
+    {
+        "vita3k_sys_date_format",
+        VITA3K_SYS_DATE_FORMAT_LABEL_GL,
+        NULL,
+        VITA3K_SYS_DATE_FORMAT_INFO_0_GL,
+        NULL,
+        "system",
+        {
+            { "0", OPTION_VAL_0_VITA3K_SYS_DATE_FORMAT_GL },
+            { "1", OPTION_VAL_1_VITA3K_SYS_DATE_FORMAT_GL },
+            { "2", OPTION_VAL_2_VITA3K_SYS_DATE_FORMAT_GL },
+            { NULL, NULL },
+        },
+        "2"
+    },
+    {
+        "vita3k_sys_time_format",
+        VITA3K_SYS_TIME_FORMAT_LABEL_GL,
+        NULL,
+        VITA3K_SYS_TIME_FORMAT_INFO_0_GL,
+        NULL,
+        "system",
+        {
+            { "0", OPTION_VAL_0_VITA3K_SYS_TIME_FORMAT_GL },
+            { "1", OPTION_VAL_1_VITA3K_SYS_TIME_FORMAT_GL },
+            { NULL, NULL },
+        },
+        "0"
+    },
     // ── Audio ────────────────────────────────────────────────────────────
     {
         "vita3k_audio_volume",
@@ -8474,7 +15176,7 @@ struct retro_core_option_v2_definition option_defs_gl[] = {
         "audio",
         {
             { "0", OPTION_VAL_0_VITA3K_AUDIO_VOLUME_GL },
-            { "10", OPTION_VAL_10_GL },
+            { "10", OPTION_VAL_10_VITA3K_AUDIO_VOLUME_GL },
             { "20", OPTION_VAL_20_GL },
             { "30", OPTION_VAL_30_GL },
             { "40", OPTION_VAL_40_GL },
@@ -8518,6 +15220,204 @@ struct retro_core_option_v2_definition option_defs_gl[] = {
         "disabled"
     },
     {
+        "vita3k_http_enable",
+        VITA3K_HTTP_ENABLE_LABEL_GL,
+        NULL,
+        VITA3K_HTTP_ENABLE_INFO_0_GL,
+        NULL,
+        "network",
+        {
+            { "enabled", NULL },
+            { "disabled", NULL },
+            { NULL, NULL },
+        },
+        "enabled"
+    },
+    {
+        "vita3k_http_timeout_attempts",
+        VITA3K_HTTP_TIMEOUT_ATTEMPTS_LABEL_GL,
+        NULL,
+        VITA3K_HTTP_TIMEOUT_ATTEMPTS_INFO_0_GL,
+        NULL,
+        "network",
+        {
+            { "0", NULL },
+            { "5", NULL },
+            { "10", NULL },
+            { "15", NULL },
+            { "20", NULL },
+            { "25", NULL },
+            { "30", NULL },
+            { "35", NULL },
+            { "40", NULL },
+            { "45", NULL },
+            { "50", NULL },
+            { "55", NULL },
+            { "60", NULL },
+            { "65", NULL },
+            { "70", NULL },
+            { "75", NULL },
+            { "80", NULL },
+            { "85", NULL },
+            { "90", NULL },
+            { "95", NULL },
+            { "100", NULL },
+            { NULL, NULL },
+        },
+        "50"
+    },
+    {
+        "vita3k_http_timeout_sleep",
+        VITA3K_HTTP_TIMEOUT_SLEEP_LABEL_GL,
+        NULL,
+        VITA3K_HTTP_TIMEOUT_SLEEP_INFO_0_GL,
+        NULL,
+        "network",
+        {
+            { "50", OPTION_VAL_50_VITA3K_HTTP_TIMEOUT_SLEEP_GL },
+            { "100", OPTION_VAL_100_VITA3K_HTTP_TIMEOUT_SLEEP_GL },
+            { "150", OPTION_VAL_150_GL },
+            { "200", OPTION_VAL_200_GL },
+            { "250", OPTION_VAL_250_GL },
+            { "300", OPTION_VAL_300_GL },
+            { "400", OPTION_VAL_400_GL },
+            { "500", OPTION_VAL_500_GL },
+            { "750", OPTION_VAL_750_GL },
+            { "1000", OPTION_VAL_1000_GL },
+            { "1500", OPTION_VAL_1500_GL },
+            { "2000", OPTION_VAL_2000_GL },
+            { "2500", OPTION_VAL_2500_GL },
+            { "3000", OPTION_VAL_3000_GL },
+            { NULL, NULL },
+        },
+        "100"
+    },
+    {
+        "vita3k_http_read_end_attempts",
+        VITA3K_HTTP_READ_END_ATTEMPTS_LABEL_GL,
+        NULL,
+        VITA3K_HTTP_READ_END_ATTEMPTS_INFO_0_GL,
+        NULL,
+        "network",
+        {
+            { "0", NULL },
+            { "5", NULL },
+            { "10", NULL },
+            { "15", NULL },
+            { "20", NULL },
+            { "25", NULL },
+            { "30", NULL },
+            { "35", NULL },
+            { "40", NULL },
+            { "45", NULL },
+            { "50", NULL },
+            { "55", NULL },
+            { "60", NULL },
+            { "65", NULL },
+            { "70", NULL },
+            { "75", NULL },
+            { "80", NULL },
+            { "85", NULL },
+            { "90", NULL },
+            { "95", NULL },
+            { "100", NULL },
+            { NULL, NULL },
+        },
+        "10"
+    },
+    {
+        "vita3k_http_read_end_sleep",
+        VITA3K_HTTP_READ_END_SLEEP_LABEL_GL,
+        NULL,
+        VITA3K_HTTP_READ_END_SLEEP_INFO_0_GL,
+        NULL,
+        "network",
+        {
+            { "50", OPTION_VAL_50_VITA3K_HTTP_TIMEOUT_SLEEP_GL },
+            { "100", OPTION_VAL_100_VITA3K_HTTP_TIMEOUT_SLEEP_GL },
+            { "150", OPTION_VAL_150_GL },
+            { "200", OPTION_VAL_200_GL },
+            { "250", OPTION_VAL_250_GL },
+            { "300", OPTION_VAL_300_GL },
+            { "400", OPTION_VAL_400_GL },
+            { "500", OPTION_VAL_500_GL },
+            { "750", OPTION_VAL_750_GL },
+            { "1000", OPTION_VAL_1000_GL },
+            { "1500", OPTION_VAL_1500_GL },
+            { "2000", OPTION_VAL_2000_GL },
+            { "2500", OPTION_VAL_2500_GL },
+            { "3000", OPTION_VAL_3000_GL },
+            { NULL, NULL },
+        },
+        "250"
+    },
+    {
+        "vita3k_front_camera",
+        VITA3K_FRONT_CAMERA_LABEL_GL,
+        NULL,
+        VITA3K_FRONT_CAMERA_INFO_0_GL,
+        NULL,
+        "camera",
+        {
+            { "host", OPTION_VAL_HOST_GL },
+            { "image", OPTION_VAL_IMAGE_GL },
+            { "color", OPTION_VAL_COLOR_GL },
+            { NULL, NULL },
+        },
+        "host"
+    },
+    {
+        "vita3k_front_camera_color",
+        VITA3K_FRONT_CAMERA_COLOR_LABEL_GL,
+        NULL,
+        VITA3K_FRONT_CAMERA_COLOR_INFO_0_GL,
+        NULL,
+        "camera",
+        {
+            { "0", OPTION_VAL_0_VITA3K_FRONT_CAMERA_COLOR_GL },
+            { "16777215", OPTION_VAL_16777215_GL },
+            { "8421504", OPTION_VAL_8421504_GL },
+            { "255", OPTION_VAL_255_GL },
+            { "65280", OPTION_VAL_65280_GL },
+            { "16711680", OPTION_VAL_16711680_GL },
+            { NULL, NULL },
+        },
+        "0"
+    },
+    {
+        "vita3k_back_camera",
+        VITA3K_BACK_CAMERA_LABEL_GL,
+        NULL,
+        VITA3K_BACK_CAMERA_INFO_0_GL,
+        NULL,
+        "camera",
+        {
+            { "host", OPTION_VAL_HOST_GL },
+            { "image", OPTION_VAL_IMAGE_GL },
+            { "color", OPTION_VAL_COLOR_GL },
+            { NULL, NULL },
+        },
+        "host"
+    },
+    {
+        "vita3k_back_camera_color",
+        VITA3K_BACK_CAMERA_COLOR_LABEL_GL,
+        NULL,
+        VITA3K_BACK_CAMERA_COLOR_INFO_0_GL,
+        NULL,
+        "camera",
+        {
+            { "0", OPTION_VAL_0_VITA3K_FRONT_CAMERA_COLOR_GL },
+            { "16777215", OPTION_VAL_16777215_GL },
+            { "8421504", OPTION_VAL_8421504_GL },
+            { "255", OPTION_VAL_255_GL },
+            { "65280", OPTION_VAL_65280_GL },
+            { "16711680", OPTION_VAL_16711680_GL },
+            { NULL, NULL },
+        },
+        "0"
+    },
+    {
         "vita3k_surface_sync",
         VITA3K_SURFACE_SYNC_LABEL_GL,
         NULL,
@@ -8540,9 +15440,9 @@ struct retro_core_option_v2_definition option_defs_gl[] = {
         "system",
         {
             { "0", OPTION_VAL_0_VITA3K_FILE_LOADING_DELAY_GL },
-            { "5", OPTION_VAL_5_GL },
+            { "5", OPTION_VAL_5_VITA3K_FILE_LOADING_DELAY_GL },
             { "10", OPTION_VAL_10_VITA3K_FILE_LOADING_DELAY_GL },
-            { "15", OPTION_VAL_15_GL },
+            { "15", OPTION_VAL_15_VITA3K_FILE_LOADING_DELAY_GL },
             { "20", OPTION_VAL_20_VITA3K_FILE_LOADING_DELAY_GL },
             { "25", OPTION_VAL_25_GL },
             { "30", OPTION_VAL_30_VITA3K_FILE_LOADING_DELAY_GL },
@@ -8569,6 +15469,14 @@ struct retro_core_options_v2 options_gl = {
 #define CATEGORY_AUDIO_INFO_0_HE NULL
 #define CATEGORY_NETWORK_LABEL_HE "רשת"
 #define CATEGORY_NETWORK_INFO_0_HE NULL
+#define CATEGORY_INSTALL_LABEL_HE NULL
+#define CATEGORY_INSTALL_INFO_0_HE NULL
+#define CATEGORY_CAMERA_LABEL_HE "מצלמה"
+#define CATEGORY_CAMERA_INFO_0_HE NULL
+#define CATEGORY_ACCOUNTS_LABEL_HE NULL
+#define CATEGORY_ACCOUNTS_INFO_0_HE NULL
+#define CATEGORY_MODULES_LABEL_HE NULL
+#define CATEGORY_MODULES_INFO_0_HE NULL
 #define VITA3K_BACKEND_RENDERER_LABEL_HE NULL
 #define VITA3K_BACKEND_RENDERER_INFO_0_HE NULL
 #define OPTION_VAL_VULKAN_HE NULL
@@ -8611,6 +15519,7 @@ struct retro_core_options_v2 options_gl = {
 #define VITA3K_PKG_MODE_LABEL_HE NULL
 #define VITA3K_PKG_MODE_INFO_0_HE NULL
 #define OPTION_VAL_RUN_HE NULL
+#define OPTION_VAL_CACHE_HE NULL
 #define OPTION_VAL_INSTALL_HE NULL
 #define VITA3K_PSTV_MODE_LABEL_HE NULL
 #define VITA3K_PSTV_MODE_INFO_0_HE NULL
@@ -8625,10 +15534,41 @@ struct retro_core_options_v2 options_gl = {
 #define VITA3K_SYS_BUTTON_INFO_0_HE NULL
 #define OPTION_VAL_0_VITA3K_SYS_BUTTON_HE NULL
 #define OPTION_VAL_1_VITA3K_SYS_BUTTON_HE NULL
+#define VITA3K_SYS_LANG_LABEL_HE NULL
+#define VITA3K_SYS_LANG_INFO_0_HE NULL
+#define OPTION_VAL_0_VITA3K_SYS_LANG_HE NULL
+#define OPTION_VAL_1_VITA3K_SYS_LANG_HE NULL
+#define OPTION_VAL_2_VITA3K_SYS_LANG_HE NULL
+#define OPTION_VAL_3_VITA3K_SYS_LANG_HE NULL
+#define OPTION_VAL_4_VITA3K_SYS_LANG_HE NULL
+#define OPTION_VAL_5_HE NULL
+#define OPTION_VAL_6_HE NULL
+#define OPTION_VAL_7_HE NULL
+#define OPTION_VAL_8_VITA3K_SYS_LANG_HE NULL
+#define OPTION_VAL_9_HE NULL
+#define OPTION_VAL_10_HE NULL
+#define OPTION_VAL_11_HE NULL
+#define OPTION_VAL_12_HE NULL
+#define OPTION_VAL_13_HE NULL
+#define OPTION_VAL_14_HE NULL
+#define OPTION_VAL_15_HE NULL
+#define OPTION_VAL_16_VITA3K_SYS_LANG_HE NULL
+#define OPTION_VAL_17_HE NULL
+#define OPTION_VAL_18_HE NULL
+#define OPTION_VAL_19_HE NULL
+#define VITA3K_SYS_DATE_FORMAT_LABEL_HE NULL
+#define VITA3K_SYS_DATE_FORMAT_INFO_0_HE NULL
+#define OPTION_VAL_0_VITA3K_SYS_DATE_FORMAT_HE NULL
+#define OPTION_VAL_1_VITA3K_SYS_DATE_FORMAT_HE NULL
+#define OPTION_VAL_2_VITA3K_SYS_DATE_FORMAT_HE NULL
+#define VITA3K_SYS_TIME_FORMAT_LABEL_HE NULL
+#define VITA3K_SYS_TIME_FORMAT_INFO_0_HE NULL
+#define OPTION_VAL_0_VITA3K_SYS_TIME_FORMAT_HE NULL
+#define OPTION_VAL_1_VITA3K_SYS_TIME_FORMAT_HE NULL
 #define VITA3K_AUDIO_VOLUME_LABEL_HE NULL
 #define VITA3K_AUDIO_VOLUME_INFO_0_HE NULL
 #define OPTION_VAL_0_VITA3K_AUDIO_VOLUME_HE NULL
-#define OPTION_VAL_10_HE NULL
+#define OPTION_VAL_10_VITA3K_AUDIO_VOLUME_HE NULL
 #define OPTION_VAL_20_HE NULL
 #define OPTION_VAL_30_HE NULL
 #define OPTION_VAL_40_HE NULL
@@ -8642,6 +15582,47 @@ struct retro_core_options_v2 options_gl = {
 #define VITA3K_NGS_ENABLE_INFO_0_HE NULL
 #define VITA3K_PSN_SIGNED_IN_LABEL_HE NULL
 #define VITA3K_PSN_SIGNED_IN_INFO_0_HE NULL
+#define VITA3K_HTTP_ENABLE_LABEL_HE NULL
+#define VITA3K_HTTP_ENABLE_INFO_0_HE NULL
+#define VITA3K_HTTP_TIMEOUT_ATTEMPTS_LABEL_HE NULL
+#define VITA3K_HTTP_TIMEOUT_ATTEMPTS_INFO_0_HE NULL
+#define VITA3K_HTTP_TIMEOUT_SLEEP_LABEL_HE NULL
+#define VITA3K_HTTP_TIMEOUT_SLEEP_INFO_0_HE NULL
+#define OPTION_VAL_50_VITA3K_HTTP_TIMEOUT_SLEEP_HE NULL
+#define OPTION_VAL_100_VITA3K_HTTP_TIMEOUT_SLEEP_HE NULL
+#define OPTION_VAL_150_HE NULL
+#define OPTION_VAL_200_HE NULL
+#define OPTION_VAL_250_HE NULL
+#define OPTION_VAL_300_HE NULL
+#define OPTION_VAL_400_HE NULL
+#define OPTION_VAL_500_HE NULL
+#define OPTION_VAL_750_HE NULL
+#define OPTION_VAL_1000_HE NULL
+#define OPTION_VAL_1500_HE NULL
+#define OPTION_VAL_2000_HE NULL
+#define OPTION_VAL_2500_HE NULL
+#define OPTION_VAL_3000_HE NULL
+#define VITA3K_HTTP_READ_END_ATTEMPTS_LABEL_HE NULL
+#define VITA3K_HTTP_READ_END_ATTEMPTS_INFO_0_HE NULL
+#define VITA3K_HTTP_READ_END_SLEEP_LABEL_HE NULL
+#define VITA3K_HTTP_READ_END_SLEEP_INFO_0_HE NULL
+#define VITA3K_FRONT_CAMERA_LABEL_HE NULL
+#define VITA3K_FRONT_CAMERA_INFO_0_HE NULL
+#define OPTION_VAL_HOST_HE NULL
+#define OPTION_VAL_IMAGE_HE NULL
+#define OPTION_VAL_COLOR_HE NULL
+#define VITA3K_FRONT_CAMERA_COLOR_LABEL_HE NULL
+#define VITA3K_FRONT_CAMERA_COLOR_INFO_0_HE NULL
+#define OPTION_VAL_0_VITA3K_FRONT_CAMERA_COLOR_HE NULL
+#define OPTION_VAL_16777215_HE NULL
+#define OPTION_VAL_8421504_HE NULL
+#define OPTION_VAL_255_HE NULL
+#define OPTION_VAL_65280_HE NULL
+#define OPTION_VAL_16711680_HE NULL
+#define VITA3K_BACK_CAMERA_LABEL_HE NULL
+#define VITA3K_BACK_CAMERA_INFO_0_HE NULL
+#define VITA3K_BACK_CAMERA_COLOR_LABEL_HE NULL
+#define VITA3K_BACK_CAMERA_COLOR_INFO_0_HE NULL
 #define VITA3K_SURFACE_SYNC_LABEL_HE NULL
 #define VITA3K_SURFACE_SYNC_INFO_0_HE NULL
 #define OPTION_VAL_ENABLED_HE NULL
@@ -8649,9 +15630,9 @@ struct retro_core_options_v2 options_gl = {
 #define VITA3K_FILE_LOADING_DELAY_LABEL_HE NULL
 #define VITA3K_FILE_LOADING_DELAY_INFO_0_HE NULL
 #define OPTION_VAL_0_VITA3K_FILE_LOADING_DELAY_HE NULL
-#define OPTION_VAL_5_HE NULL
+#define OPTION_VAL_5_VITA3K_FILE_LOADING_DELAY_HE NULL
 #define OPTION_VAL_10_VITA3K_FILE_LOADING_DELAY_HE NULL
-#define OPTION_VAL_15_HE NULL
+#define OPTION_VAL_15_VITA3K_FILE_LOADING_DELAY_HE NULL
 #define OPTION_VAL_20_VITA3K_FILE_LOADING_DELAY_HE NULL
 #define OPTION_VAL_25_HE NULL
 #define OPTION_VAL_30_VITA3K_FILE_LOADING_DELAY_HE NULL
@@ -8662,6 +15643,10 @@ struct retro_core_option_v2_category option_cats_he[] = {
     { "system", CATEGORY_SYSTEM_LABEL_HE, CATEGORY_SYSTEM_INFO_0_HE },
     { "audio", CATEGORY_AUDIO_LABEL_HE, CATEGORY_AUDIO_INFO_0_HE },
     { "network", CATEGORY_NETWORK_LABEL_HE, CATEGORY_NETWORK_INFO_0_HE },
+    { "install", CATEGORY_INSTALL_LABEL_HE, CATEGORY_INSTALL_INFO_0_HE },
+    { "camera", CATEGORY_CAMERA_LABEL_HE, CATEGORY_CAMERA_INFO_0_HE },
+    { "accounts", CATEGORY_ACCOUNTS_LABEL_HE, CATEGORY_ACCOUNTS_INFO_0_HE },
+    { "modules", CATEGORY_MODULES_LABEL_HE, CATEGORY_MODULES_INFO_0_HE },
     { NULL, NULL, NULL },
 };
 struct retro_core_option_v2_definition option_defs_he[] = {
@@ -8825,9 +15810,10 @@ struct retro_core_option_v2_definition option_defs_he[] = {
         NULL,
         VITA3K_PKG_MODE_INFO_0_HE,
         NULL,
-        "system",
+        "install",
         {
             { "run", OPTION_VAL_RUN_HE },
+            { "cache", OPTION_VAL_CACHE_HE },
             { "install", OPTION_VAL_INSTALL_HE },
             { NULL, NULL },
         },
@@ -8890,6 +15876,67 @@ struct retro_core_option_v2_definition option_defs_he[] = {
         },
         "1"
     },
+    {
+        "vita3k_sys_lang",
+        VITA3K_SYS_LANG_LABEL_HE,
+        NULL,
+        VITA3K_SYS_LANG_INFO_0_HE,
+        NULL,
+        "system",
+        {
+            { "0", OPTION_VAL_0_VITA3K_SYS_LANG_HE },
+            { "1", OPTION_VAL_1_VITA3K_SYS_LANG_HE },
+            { "2", OPTION_VAL_2_VITA3K_SYS_LANG_HE },
+            { "3", OPTION_VAL_3_VITA3K_SYS_LANG_HE },
+            { "4", OPTION_VAL_4_VITA3K_SYS_LANG_HE },
+            { "5", OPTION_VAL_5_HE },
+            { "6", OPTION_VAL_6_HE },
+            { "7", OPTION_VAL_7_HE },
+            { "8", OPTION_VAL_8_VITA3K_SYS_LANG_HE },
+            { "9", OPTION_VAL_9_HE },
+            { "10", OPTION_VAL_10_HE },
+            { "11", OPTION_VAL_11_HE },
+            { "12", OPTION_VAL_12_HE },
+            { "13", OPTION_VAL_13_HE },
+            { "14", OPTION_VAL_14_HE },
+            { "15", OPTION_VAL_15_HE },
+            { "16", OPTION_VAL_16_VITA3K_SYS_LANG_HE },
+            { "17", OPTION_VAL_17_HE },
+            { "18", OPTION_VAL_18_HE },
+            { "19", OPTION_VAL_19_HE },
+            { NULL, NULL },
+        },
+        "1"
+    },
+    {
+        "vita3k_sys_date_format",
+        VITA3K_SYS_DATE_FORMAT_LABEL_HE,
+        NULL,
+        VITA3K_SYS_DATE_FORMAT_INFO_0_HE,
+        NULL,
+        "system",
+        {
+            { "0", OPTION_VAL_0_VITA3K_SYS_DATE_FORMAT_HE },
+            { "1", OPTION_VAL_1_VITA3K_SYS_DATE_FORMAT_HE },
+            { "2", OPTION_VAL_2_VITA3K_SYS_DATE_FORMAT_HE },
+            { NULL, NULL },
+        },
+        "2"
+    },
+    {
+        "vita3k_sys_time_format",
+        VITA3K_SYS_TIME_FORMAT_LABEL_HE,
+        NULL,
+        VITA3K_SYS_TIME_FORMAT_INFO_0_HE,
+        NULL,
+        "system",
+        {
+            { "0", OPTION_VAL_0_VITA3K_SYS_TIME_FORMAT_HE },
+            { "1", OPTION_VAL_1_VITA3K_SYS_TIME_FORMAT_HE },
+            { NULL, NULL },
+        },
+        "0"
+    },
     // ── Audio ────────────────────────────────────────────────────────────
     {
         "vita3k_audio_volume",
@@ -8900,7 +15947,7 @@ struct retro_core_option_v2_definition option_defs_he[] = {
         "audio",
         {
             { "0", OPTION_VAL_0_VITA3K_AUDIO_VOLUME_HE },
-            { "10", OPTION_VAL_10_HE },
+            { "10", OPTION_VAL_10_VITA3K_AUDIO_VOLUME_HE },
             { "20", OPTION_VAL_20_HE },
             { "30", OPTION_VAL_30_HE },
             { "40", OPTION_VAL_40_HE },
@@ -8944,6 +15991,204 @@ struct retro_core_option_v2_definition option_defs_he[] = {
         "disabled"
     },
     {
+        "vita3k_http_enable",
+        VITA3K_HTTP_ENABLE_LABEL_HE,
+        NULL,
+        VITA3K_HTTP_ENABLE_INFO_0_HE,
+        NULL,
+        "network",
+        {
+            { "enabled", NULL },
+            { "disabled", NULL },
+            { NULL, NULL },
+        },
+        "enabled"
+    },
+    {
+        "vita3k_http_timeout_attempts",
+        VITA3K_HTTP_TIMEOUT_ATTEMPTS_LABEL_HE,
+        NULL,
+        VITA3K_HTTP_TIMEOUT_ATTEMPTS_INFO_0_HE,
+        NULL,
+        "network",
+        {
+            { "0", NULL },
+            { "5", NULL },
+            { "10", NULL },
+            { "15", NULL },
+            { "20", NULL },
+            { "25", NULL },
+            { "30", NULL },
+            { "35", NULL },
+            { "40", NULL },
+            { "45", NULL },
+            { "50", NULL },
+            { "55", NULL },
+            { "60", NULL },
+            { "65", NULL },
+            { "70", NULL },
+            { "75", NULL },
+            { "80", NULL },
+            { "85", NULL },
+            { "90", NULL },
+            { "95", NULL },
+            { "100", NULL },
+            { NULL, NULL },
+        },
+        "50"
+    },
+    {
+        "vita3k_http_timeout_sleep",
+        VITA3K_HTTP_TIMEOUT_SLEEP_LABEL_HE,
+        NULL,
+        VITA3K_HTTP_TIMEOUT_SLEEP_INFO_0_HE,
+        NULL,
+        "network",
+        {
+            { "50", OPTION_VAL_50_VITA3K_HTTP_TIMEOUT_SLEEP_HE },
+            { "100", OPTION_VAL_100_VITA3K_HTTP_TIMEOUT_SLEEP_HE },
+            { "150", OPTION_VAL_150_HE },
+            { "200", OPTION_VAL_200_HE },
+            { "250", OPTION_VAL_250_HE },
+            { "300", OPTION_VAL_300_HE },
+            { "400", OPTION_VAL_400_HE },
+            { "500", OPTION_VAL_500_HE },
+            { "750", OPTION_VAL_750_HE },
+            { "1000", OPTION_VAL_1000_HE },
+            { "1500", OPTION_VAL_1500_HE },
+            { "2000", OPTION_VAL_2000_HE },
+            { "2500", OPTION_VAL_2500_HE },
+            { "3000", OPTION_VAL_3000_HE },
+            { NULL, NULL },
+        },
+        "100"
+    },
+    {
+        "vita3k_http_read_end_attempts",
+        VITA3K_HTTP_READ_END_ATTEMPTS_LABEL_HE,
+        NULL,
+        VITA3K_HTTP_READ_END_ATTEMPTS_INFO_0_HE,
+        NULL,
+        "network",
+        {
+            { "0", NULL },
+            { "5", NULL },
+            { "10", NULL },
+            { "15", NULL },
+            { "20", NULL },
+            { "25", NULL },
+            { "30", NULL },
+            { "35", NULL },
+            { "40", NULL },
+            { "45", NULL },
+            { "50", NULL },
+            { "55", NULL },
+            { "60", NULL },
+            { "65", NULL },
+            { "70", NULL },
+            { "75", NULL },
+            { "80", NULL },
+            { "85", NULL },
+            { "90", NULL },
+            { "95", NULL },
+            { "100", NULL },
+            { NULL, NULL },
+        },
+        "10"
+    },
+    {
+        "vita3k_http_read_end_sleep",
+        VITA3K_HTTP_READ_END_SLEEP_LABEL_HE,
+        NULL,
+        VITA3K_HTTP_READ_END_SLEEP_INFO_0_HE,
+        NULL,
+        "network",
+        {
+            { "50", OPTION_VAL_50_VITA3K_HTTP_TIMEOUT_SLEEP_HE },
+            { "100", OPTION_VAL_100_VITA3K_HTTP_TIMEOUT_SLEEP_HE },
+            { "150", OPTION_VAL_150_HE },
+            { "200", OPTION_VAL_200_HE },
+            { "250", OPTION_VAL_250_HE },
+            { "300", OPTION_VAL_300_HE },
+            { "400", OPTION_VAL_400_HE },
+            { "500", OPTION_VAL_500_HE },
+            { "750", OPTION_VAL_750_HE },
+            { "1000", OPTION_VAL_1000_HE },
+            { "1500", OPTION_VAL_1500_HE },
+            { "2000", OPTION_VAL_2000_HE },
+            { "2500", OPTION_VAL_2500_HE },
+            { "3000", OPTION_VAL_3000_HE },
+            { NULL, NULL },
+        },
+        "250"
+    },
+    {
+        "vita3k_front_camera",
+        VITA3K_FRONT_CAMERA_LABEL_HE,
+        NULL,
+        VITA3K_FRONT_CAMERA_INFO_0_HE,
+        NULL,
+        "camera",
+        {
+            { "host", OPTION_VAL_HOST_HE },
+            { "image", OPTION_VAL_IMAGE_HE },
+            { "color", OPTION_VAL_COLOR_HE },
+            { NULL, NULL },
+        },
+        "host"
+    },
+    {
+        "vita3k_front_camera_color",
+        VITA3K_FRONT_CAMERA_COLOR_LABEL_HE,
+        NULL,
+        VITA3K_FRONT_CAMERA_COLOR_INFO_0_HE,
+        NULL,
+        "camera",
+        {
+            { "0", OPTION_VAL_0_VITA3K_FRONT_CAMERA_COLOR_HE },
+            { "16777215", OPTION_VAL_16777215_HE },
+            { "8421504", OPTION_VAL_8421504_HE },
+            { "255", OPTION_VAL_255_HE },
+            { "65280", OPTION_VAL_65280_HE },
+            { "16711680", OPTION_VAL_16711680_HE },
+            { NULL, NULL },
+        },
+        "0"
+    },
+    {
+        "vita3k_back_camera",
+        VITA3K_BACK_CAMERA_LABEL_HE,
+        NULL,
+        VITA3K_BACK_CAMERA_INFO_0_HE,
+        NULL,
+        "camera",
+        {
+            { "host", OPTION_VAL_HOST_HE },
+            { "image", OPTION_VAL_IMAGE_HE },
+            { "color", OPTION_VAL_COLOR_HE },
+            { NULL, NULL },
+        },
+        "host"
+    },
+    {
+        "vita3k_back_camera_color",
+        VITA3K_BACK_CAMERA_COLOR_LABEL_HE,
+        NULL,
+        VITA3K_BACK_CAMERA_COLOR_INFO_0_HE,
+        NULL,
+        "camera",
+        {
+            { "0", OPTION_VAL_0_VITA3K_FRONT_CAMERA_COLOR_HE },
+            { "16777215", OPTION_VAL_16777215_HE },
+            { "8421504", OPTION_VAL_8421504_HE },
+            { "255", OPTION_VAL_255_HE },
+            { "65280", OPTION_VAL_65280_HE },
+            { "16711680", OPTION_VAL_16711680_HE },
+            { NULL, NULL },
+        },
+        "0"
+    },
+    {
         "vita3k_surface_sync",
         VITA3K_SURFACE_SYNC_LABEL_HE,
         NULL,
@@ -8966,9 +16211,9 @@ struct retro_core_option_v2_definition option_defs_he[] = {
         "system",
         {
             { "0", OPTION_VAL_0_VITA3K_FILE_LOADING_DELAY_HE },
-            { "5", OPTION_VAL_5_HE },
+            { "5", OPTION_VAL_5_VITA3K_FILE_LOADING_DELAY_HE },
             { "10", OPTION_VAL_10_VITA3K_FILE_LOADING_DELAY_HE },
-            { "15", OPTION_VAL_15_HE },
+            { "15", OPTION_VAL_15_VITA3K_FILE_LOADING_DELAY_HE },
             { "20", OPTION_VAL_20_VITA3K_FILE_LOADING_DELAY_HE },
             { "25", OPTION_VAL_25_HE },
             { "30", OPTION_VAL_30_VITA3K_FILE_LOADING_DELAY_HE },
@@ -8995,6 +16240,14 @@ struct retro_core_options_v2 options_he = {
 #define CATEGORY_AUDIO_INFO_0_HR NULL
 #define CATEGORY_NETWORK_LABEL_HR "Mreža"
 #define CATEGORY_NETWORK_INFO_0_HR NULL
+#define CATEGORY_INSTALL_LABEL_HR "Sadržaj"
+#define CATEGORY_INSTALL_INFO_0_HR NULL
+#define CATEGORY_CAMERA_LABEL_HR NULL
+#define CATEGORY_CAMERA_INFO_0_HR NULL
+#define CATEGORY_ACCOUNTS_LABEL_HR NULL
+#define CATEGORY_ACCOUNTS_INFO_0_HR NULL
+#define CATEGORY_MODULES_LABEL_HR NULL
+#define CATEGORY_MODULES_INFO_0_HR NULL
 #define VITA3K_BACKEND_RENDERER_LABEL_HR NULL
 #define VITA3K_BACKEND_RENDERER_INFO_0_HR NULL
 #define OPTION_VAL_VULKAN_HR NULL
@@ -9037,6 +16290,7 @@ struct retro_core_options_v2 options_he = {
 #define VITA3K_PKG_MODE_LABEL_HR NULL
 #define VITA3K_PKG_MODE_INFO_0_HR NULL
 #define OPTION_VAL_RUN_HR NULL
+#define OPTION_VAL_CACHE_HR NULL
 #define OPTION_VAL_INSTALL_HR NULL
 #define VITA3K_PSTV_MODE_LABEL_HR NULL
 #define VITA3K_PSTV_MODE_INFO_0_HR NULL
@@ -9051,10 +16305,41 @@ struct retro_core_options_v2 options_he = {
 #define VITA3K_SYS_BUTTON_INFO_0_HR NULL
 #define OPTION_VAL_0_VITA3K_SYS_BUTTON_HR NULL
 #define OPTION_VAL_1_VITA3K_SYS_BUTTON_HR NULL
+#define VITA3K_SYS_LANG_LABEL_HR NULL
+#define VITA3K_SYS_LANG_INFO_0_HR NULL
+#define OPTION_VAL_0_VITA3K_SYS_LANG_HR "Japanski"
+#define OPTION_VAL_1_VITA3K_SYS_LANG_HR NULL
+#define OPTION_VAL_2_VITA3K_SYS_LANG_HR "Francuski"
+#define OPTION_VAL_3_VITA3K_SYS_LANG_HR "Španjolski"
+#define OPTION_VAL_4_VITA3K_SYS_LANG_HR "Njemački"
+#define OPTION_VAL_5_HR "Talijanski"
+#define OPTION_VAL_6_HR NULL
+#define OPTION_VAL_7_HR NULL
+#define OPTION_VAL_8_VITA3K_SYS_LANG_HR NULL
+#define OPTION_VAL_9_HR NULL
+#define OPTION_VAL_10_HR NULL
+#define OPTION_VAL_11_HR NULL
+#define OPTION_VAL_12_HR NULL
+#define OPTION_VAL_13_HR NULL
+#define OPTION_VAL_14_HR NULL
+#define OPTION_VAL_15_HR NULL
+#define OPTION_VAL_16_VITA3K_SYS_LANG_HR NULL
+#define OPTION_VAL_17_HR NULL
+#define OPTION_VAL_18_HR NULL
+#define OPTION_VAL_19_HR NULL
+#define VITA3K_SYS_DATE_FORMAT_LABEL_HR NULL
+#define VITA3K_SYS_DATE_FORMAT_INFO_0_HR NULL
+#define OPTION_VAL_0_VITA3K_SYS_DATE_FORMAT_HR NULL
+#define OPTION_VAL_1_VITA3K_SYS_DATE_FORMAT_HR NULL
+#define OPTION_VAL_2_VITA3K_SYS_DATE_FORMAT_HR NULL
+#define VITA3K_SYS_TIME_FORMAT_LABEL_HR NULL
+#define VITA3K_SYS_TIME_FORMAT_INFO_0_HR NULL
+#define OPTION_VAL_0_VITA3K_SYS_TIME_FORMAT_HR NULL
+#define OPTION_VAL_1_VITA3K_SYS_TIME_FORMAT_HR NULL
 #define VITA3K_AUDIO_VOLUME_LABEL_HR NULL
 #define VITA3K_AUDIO_VOLUME_INFO_0_HR NULL
 #define OPTION_VAL_0_VITA3K_AUDIO_VOLUME_HR NULL
-#define OPTION_VAL_10_HR NULL
+#define OPTION_VAL_10_VITA3K_AUDIO_VOLUME_HR NULL
 #define OPTION_VAL_20_HR NULL
 #define OPTION_VAL_30_HR NULL
 #define OPTION_VAL_40_HR NULL
@@ -9068,6 +16353,47 @@ struct retro_core_options_v2 options_he = {
 #define VITA3K_NGS_ENABLE_INFO_0_HR NULL
 #define VITA3K_PSN_SIGNED_IN_LABEL_HR NULL
 #define VITA3K_PSN_SIGNED_IN_INFO_0_HR NULL
+#define VITA3K_HTTP_ENABLE_LABEL_HR NULL
+#define VITA3K_HTTP_ENABLE_INFO_0_HR NULL
+#define VITA3K_HTTP_TIMEOUT_ATTEMPTS_LABEL_HR NULL
+#define VITA3K_HTTP_TIMEOUT_ATTEMPTS_INFO_0_HR NULL
+#define VITA3K_HTTP_TIMEOUT_SLEEP_LABEL_HR NULL
+#define VITA3K_HTTP_TIMEOUT_SLEEP_INFO_0_HR NULL
+#define OPTION_VAL_50_VITA3K_HTTP_TIMEOUT_SLEEP_HR NULL
+#define OPTION_VAL_100_VITA3K_HTTP_TIMEOUT_SLEEP_HR NULL
+#define OPTION_VAL_150_HR NULL
+#define OPTION_VAL_200_HR NULL
+#define OPTION_VAL_250_HR NULL
+#define OPTION_VAL_300_HR NULL
+#define OPTION_VAL_400_HR NULL
+#define OPTION_VAL_500_HR NULL
+#define OPTION_VAL_750_HR NULL
+#define OPTION_VAL_1000_HR NULL
+#define OPTION_VAL_1500_HR NULL
+#define OPTION_VAL_2000_HR NULL
+#define OPTION_VAL_2500_HR NULL
+#define OPTION_VAL_3000_HR NULL
+#define VITA3K_HTTP_READ_END_ATTEMPTS_LABEL_HR NULL
+#define VITA3K_HTTP_READ_END_ATTEMPTS_INFO_0_HR NULL
+#define VITA3K_HTTP_READ_END_SLEEP_LABEL_HR NULL
+#define VITA3K_HTTP_READ_END_SLEEP_INFO_0_HR NULL
+#define VITA3K_FRONT_CAMERA_LABEL_HR NULL
+#define VITA3K_FRONT_CAMERA_INFO_0_HR NULL
+#define OPTION_VAL_HOST_HR NULL
+#define OPTION_VAL_IMAGE_HR NULL
+#define OPTION_VAL_COLOR_HR NULL
+#define VITA3K_FRONT_CAMERA_COLOR_LABEL_HR NULL
+#define VITA3K_FRONT_CAMERA_COLOR_INFO_0_HR NULL
+#define OPTION_VAL_0_VITA3K_FRONT_CAMERA_COLOR_HR NULL
+#define OPTION_VAL_16777215_HR NULL
+#define OPTION_VAL_8421504_HR "Siva"
+#define OPTION_VAL_255_HR NULL
+#define OPTION_VAL_65280_HR NULL
+#define OPTION_VAL_16711680_HR NULL
+#define VITA3K_BACK_CAMERA_LABEL_HR NULL
+#define VITA3K_BACK_CAMERA_INFO_0_HR NULL
+#define VITA3K_BACK_CAMERA_COLOR_LABEL_HR NULL
+#define VITA3K_BACK_CAMERA_COLOR_INFO_0_HR NULL
 #define VITA3K_SURFACE_SYNC_LABEL_HR NULL
 #define VITA3K_SURFACE_SYNC_INFO_0_HR NULL
 #define OPTION_VAL_ENABLED_HR NULL
@@ -9075,9 +16401,9 @@ struct retro_core_options_v2 options_he = {
 #define VITA3K_FILE_LOADING_DELAY_LABEL_HR NULL
 #define VITA3K_FILE_LOADING_DELAY_INFO_0_HR NULL
 #define OPTION_VAL_0_VITA3K_FILE_LOADING_DELAY_HR NULL
-#define OPTION_VAL_5_HR NULL
+#define OPTION_VAL_5_VITA3K_FILE_LOADING_DELAY_HR NULL
 #define OPTION_VAL_10_VITA3K_FILE_LOADING_DELAY_HR NULL
-#define OPTION_VAL_15_HR NULL
+#define OPTION_VAL_15_VITA3K_FILE_LOADING_DELAY_HR NULL
 #define OPTION_VAL_20_VITA3K_FILE_LOADING_DELAY_HR NULL
 #define OPTION_VAL_25_HR NULL
 #define OPTION_VAL_30_VITA3K_FILE_LOADING_DELAY_HR NULL
@@ -9088,6 +16414,10 @@ struct retro_core_option_v2_category option_cats_hr[] = {
     { "system", CATEGORY_SYSTEM_LABEL_HR, CATEGORY_SYSTEM_INFO_0_HR },
     { "audio", CATEGORY_AUDIO_LABEL_HR, CATEGORY_AUDIO_INFO_0_HR },
     { "network", CATEGORY_NETWORK_LABEL_HR, CATEGORY_NETWORK_INFO_0_HR },
+    { "install", CATEGORY_INSTALL_LABEL_HR, CATEGORY_INSTALL_INFO_0_HR },
+    { "camera", CATEGORY_CAMERA_LABEL_HR, CATEGORY_CAMERA_INFO_0_HR },
+    { "accounts", CATEGORY_ACCOUNTS_LABEL_HR, CATEGORY_ACCOUNTS_INFO_0_HR },
+    { "modules", CATEGORY_MODULES_LABEL_HR, CATEGORY_MODULES_INFO_0_HR },
     { NULL, NULL, NULL },
 };
 struct retro_core_option_v2_definition option_defs_hr[] = {
@@ -9251,9 +16581,10 @@ struct retro_core_option_v2_definition option_defs_hr[] = {
         NULL,
         VITA3K_PKG_MODE_INFO_0_HR,
         NULL,
-        "system",
+        "install",
         {
             { "run", OPTION_VAL_RUN_HR },
+            { "cache", OPTION_VAL_CACHE_HR },
             { "install", OPTION_VAL_INSTALL_HR },
             { NULL, NULL },
         },
@@ -9316,6 +16647,67 @@ struct retro_core_option_v2_definition option_defs_hr[] = {
         },
         "1"
     },
+    {
+        "vita3k_sys_lang",
+        VITA3K_SYS_LANG_LABEL_HR,
+        NULL,
+        VITA3K_SYS_LANG_INFO_0_HR,
+        NULL,
+        "system",
+        {
+            { "0", OPTION_VAL_0_VITA3K_SYS_LANG_HR },
+            { "1", OPTION_VAL_1_VITA3K_SYS_LANG_HR },
+            { "2", OPTION_VAL_2_VITA3K_SYS_LANG_HR },
+            { "3", OPTION_VAL_3_VITA3K_SYS_LANG_HR },
+            { "4", OPTION_VAL_4_VITA3K_SYS_LANG_HR },
+            { "5", OPTION_VAL_5_HR },
+            { "6", OPTION_VAL_6_HR },
+            { "7", OPTION_VAL_7_HR },
+            { "8", OPTION_VAL_8_VITA3K_SYS_LANG_HR },
+            { "9", OPTION_VAL_9_HR },
+            { "10", OPTION_VAL_10_HR },
+            { "11", OPTION_VAL_11_HR },
+            { "12", OPTION_VAL_12_HR },
+            { "13", OPTION_VAL_13_HR },
+            { "14", OPTION_VAL_14_HR },
+            { "15", OPTION_VAL_15_HR },
+            { "16", OPTION_VAL_16_VITA3K_SYS_LANG_HR },
+            { "17", OPTION_VAL_17_HR },
+            { "18", OPTION_VAL_18_HR },
+            { "19", OPTION_VAL_19_HR },
+            { NULL, NULL },
+        },
+        "1"
+    },
+    {
+        "vita3k_sys_date_format",
+        VITA3K_SYS_DATE_FORMAT_LABEL_HR,
+        NULL,
+        VITA3K_SYS_DATE_FORMAT_INFO_0_HR,
+        NULL,
+        "system",
+        {
+            { "0", OPTION_VAL_0_VITA3K_SYS_DATE_FORMAT_HR },
+            { "1", OPTION_VAL_1_VITA3K_SYS_DATE_FORMAT_HR },
+            { "2", OPTION_VAL_2_VITA3K_SYS_DATE_FORMAT_HR },
+            { NULL, NULL },
+        },
+        "2"
+    },
+    {
+        "vita3k_sys_time_format",
+        VITA3K_SYS_TIME_FORMAT_LABEL_HR,
+        NULL,
+        VITA3K_SYS_TIME_FORMAT_INFO_0_HR,
+        NULL,
+        "system",
+        {
+            { "0", OPTION_VAL_0_VITA3K_SYS_TIME_FORMAT_HR },
+            { "1", OPTION_VAL_1_VITA3K_SYS_TIME_FORMAT_HR },
+            { NULL, NULL },
+        },
+        "0"
+    },
     // ── Audio ────────────────────────────────────────────────────────────
     {
         "vita3k_audio_volume",
@@ -9326,7 +16718,7 @@ struct retro_core_option_v2_definition option_defs_hr[] = {
         "audio",
         {
             { "0", OPTION_VAL_0_VITA3K_AUDIO_VOLUME_HR },
-            { "10", OPTION_VAL_10_HR },
+            { "10", OPTION_VAL_10_VITA3K_AUDIO_VOLUME_HR },
             { "20", OPTION_VAL_20_HR },
             { "30", OPTION_VAL_30_HR },
             { "40", OPTION_VAL_40_HR },
@@ -9370,6 +16762,204 @@ struct retro_core_option_v2_definition option_defs_hr[] = {
         "disabled"
     },
     {
+        "vita3k_http_enable",
+        VITA3K_HTTP_ENABLE_LABEL_HR,
+        NULL,
+        VITA3K_HTTP_ENABLE_INFO_0_HR,
+        NULL,
+        "network",
+        {
+            { "enabled", NULL },
+            { "disabled", NULL },
+            { NULL, NULL },
+        },
+        "enabled"
+    },
+    {
+        "vita3k_http_timeout_attempts",
+        VITA3K_HTTP_TIMEOUT_ATTEMPTS_LABEL_HR,
+        NULL,
+        VITA3K_HTTP_TIMEOUT_ATTEMPTS_INFO_0_HR,
+        NULL,
+        "network",
+        {
+            { "0", NULL },
+            { "5", NULL },
+            { "10", NULL },
+            { "15", NULL },
+            { "20", NULL },
+            { "25", NULL },
+            { "30", NULL },
+            { "35", NULL },
+            { "40", NULL },
+            { "45", NULL },
+            { "50", NULL },
+            { "55", NULL },
+            { "60", NULL },
+            { "65", NULL },
+            { "70", NULL },
+            { "75", NULL },
+            { "80", NULL },
+            { "85", NULL },
+            { "90", NULL },
+            { "95", NULL },
+            { "100", NULL },
+            { NULL, NULL },
+        },
+        "50"
+    },
+    {
+        "vita3k_http_timeout_sleep",
+        VITA3K_HTTP_TIMEOUT_SLEEP_LABEL_HR,
+        NULL,
+        VITA3K_HTTP_TIMEOUT_SLEEP_INFO_0_HR,
+        NULL,
+        "network",
+        {
+            { "50", OPTION_VAL_50_VITA3K_HTTP_TIMEOUT_SLEEP_HR },
+            { "100", OPTION_VAL_100_VITA3K_HTTP_TIMEOUT_SLEEP_HR },
+            { "150", OPTION_VAL_150_HR },
+            { "200", OPTION_VAL_200_HR },
+            { "250", OPTION_VAL_250_HR },
+            { "300", OPTION_VAL_300_HR },
+            { "400", OPTION_VAL_400_HR },
+            { "500", OPTION_VAL_500_HR },
+            { "750", OPTION_VAL_750_HR },
+            { "1000", OPTION_VAL_1000_HR },
+            { "1500", OPTION_VAL_1500_HR },
+            { "2000", OPTION_VAL_2000_HR },
+            { "2500", OPTION_VAL_2500_HR },
+            { "3000", OPTION_VAL_3000_HR },
+            { NULL, NULL },
+        },
+        "100"
+    },
+    {
+        "vita3k_http_read_end_attempts",
+        VITA3K_HTTP_READ_END_ATTEMPTS_LABEL_HR,
+        NULL,
+        VITA3K_HTTP_READ_END_ATTEMPTS_INFO_0_HR,
+        NULL,
+        "network",
+        {
+            { "0", NULL },
+            { "5", NULL },
+            { "10", NULL },
+            { "15", NULL },
+            { "20", NULL },
+            { "25", NULL },
+            { "30", NULL },
+            { "35", NULL },
+            { "40", NULL },
+            { "45", NULL },
+            { "50", NULL },
+            { "55", NULL },
+            { "60", NULL },
+            { "65", NULL },
+            { "70", NULL },
+            { "75", NULL },
+            { "80", NULL },
+            { "85", NULL },
+            { "90", NULL },
+            { "95", NULL },
+            { "100", NULL },
+            { NULL, NULL },
+        },
+        "10"
+    },
+    {
+        "vita3k_http_read_end_sleep",
+        VITA3K_HTTP_READ_END_SLEEP_LABEL_HR,
+        NULL,
+        VITA3K_HTTP_READ_END_SLEEP_INFO_0_HR,
+        NULL,
+        "network",
+        {
+            { "50", OPTION_VAL_50_VITA3K_HTTP_TIMEOUT_SLEEP_HR },
+            { "100", OPTION_VAL_100_VITA3K_HTTP_TIMEOUT_SLEEP_HR },
+            { "150", OPTION_VAL_150_HR },
+            { "200", OPTION_VAL_200_HR },
+            { "250", OPTION_VAL_250_HR },
+            { "300", OPTION_VAL_300_HR },
+            { "400", OPTION_VAL_400_HR },
+            { "500", OPTION_VAL_500_HR },
+            { "750", OPTION_VAL_750_HR },
+            { "1000", OPTION_VAL_1000_HR },
+            { "1500", OPTION_VAL_1500_HR },
+            { "2000", OPTION_VAL_2000_HR },
+            { "2500", OPTION_VAL_2500_HR },
+            { "3000", OPTION_VAL_3000_HR },
+            { NULL, NULL },
+        },
+        "250"
+    },
+    {
+        "vita3k_front_camera",
+        VITA3K_FRONT_CAMERA_LABEL_HR,
+        NULL,
+        VITA3K_FRONT_CAMERA_INFO_0_HR,
+        NULL,
+        "camera",
+        {
+            { "host", OPTION_VAL_HOST_HR },
+            { "image", OPTION_VAL_IMAGE_HR },
+            { "color", OPTION_VAL_COLOR_HR },
+            { NULL, NULL },
+        },
+        "host"
+    },
+    {
+        "vita3k_front_camera_color",
+        VITA3K_FRONT_CAMERA_COLOR_LABEL_HR,
+        NULL,
+        VITA3K_FRONT_CAMERA_COLOR_INFO_0_HR,
+        NULL,
+        "camera",
+        {
+            { "0", OPTION_VAL_0_VITA3K_FRONT_CAMERA_COLOR_HR },
+            { "16777215", OPTION_VAL_16777215_HR },
+            { "8421504", OPTION_VAL_8421504_HR },
+            { "255", OPTION_VAL_255_HR },
+            { "65280", OPTION_VAL_65280_HR },
+            { "16711680", OPTION_VAL_16711680_HR },
+            { NULL, NULL },
+        },
+        "0"
+    },
+    {
+        "vita3k_back_camera",
+        VITA3K_BACK_CAMERA_LABEL_HR,
+        NULL,
+        VITA3K_BACK_CAMERA_INFO_0_HR,
+        NULL,
+        "camera",
+        {
+            { "host", OPTION_VAL_HOST_HR },
+            { "image", OPTION_VAL_IMAGE_HR },
+            { "color", OPTION_VAL_COLOR_HR },
+            { NULL, NULL },
+        },
+        "host"
+    },
+    {
+        "vita3k_back_camera_color",
+        VITA3K_BACK_CAMERA_COLOR_LABEL_HR,
+        NULL,
+        VITA3K_BACK_CAMERA_COLOR_INFO_0_HR,
+        NULL,
+        "camera",
+        {
+            { "0", OPTION_VAL_0_VITA3K_FRONT_CAMERA_COLOR_HR },
+            { "16777215", OPTION_VAL_16777215_HR },
+            { "8421504", OPTION_VAL_8421504_HR },
+            { "255", OPTION_VAL_255_HR },
+            { "65280", OPTION_VAL_65280_HR },
+            { "16711680", OPTION_VAL_16711680_HR },
+            { NULL, NULL },
+        },
+        "0"
+    },
+    {
         "vita3k_surface_sync",
         VITA3K_SURFACE_SYNC_LABEL_HR,
         NULL,
@@ -9392,9 +16982,9 @@ struct retro_core_option_v2_definition option_defs_hr[] = {
         "system",
         {
             { "0", OPTION_VAL_0_VITA3K_FILE_LOADING_DELAY_HR },
-            { "5", OPTION_VAL_5_HR },
+            { "5", OPTION_VAL_5_VITA3K_FILE_LOADING_DELAY_HR },
             { "10", OPTION_VAL_10_VITA3K_FILE_LOADING_DELAY_HR },
-            { "15", OPTION_VAL_15_HR },
+            { "15", OPTION_VAL_15_VITA3K_FILE_LOADING_DELAY_HR },
             { "20", OPTION_VAL_20_VITA3K_FILE_LOADING_DELAY_HR },
             { "25", OPTION_VAL_25_HR },
             { "30", OPTION_VAL_30_VITA3K_FILE_LOADING_DELAY_HR },
@@ -9421,6 +17011,14 @@ struct retro_core_options_v2 options_hr = {
 #define CATEGORY_AUDIO_INFO_0_HU NULL
 #define CATEGORY_NETWORK_LABEL_HU "Hálózat"
 #define CATEGORY_NETWORK_INFO_0_HU NULL
+#define CATEGORY_INSTALL_LABEL_HU "Tartalom"
+#define CATEGORY_INSTALL_INFO_0_HU NULL
+#define CATEGORY_CAMERA_LABEL_HU "Kamera"
+#define CATEGORY_CAMERA_INFO_0_HU NULL
+#define CATEGORY_ACCOUNTS_LABEL_HU "Fiókok"
+#define CATEGORY_ACCOUNTS_INFO_0_HU NULL
+#define CATEGORY_MODULES_LABEL_HU NULL
+#define CATEGORY_MODULES_INFO_0_HU NULL
 #define VITA3K_BACKEND_RENDERER_LABEL_HU NULL
 #define VITA3K_BACKEND_RENDERER_INFO_0_HU NULL
 #define OPTION_VAL_VULKAN_HU NULL
@@ -9463,6 +17061,7 @@ struct retro_core_options_v2 options_hr = {
 #define VITA3K_PKG_MODE_LABEL_HU NULL
 #define VITA3K_PKG_MODE_INFO_0_HU NULL
 #define OPTION_VAL_RUN_HU NULL
+#define OPTION_VAL_CACHE_HU NULL
 #define OPTION_VAL_INSTALL_HU NULL
 #define VITA3K_PSTV_MODE_LABEL_HU NULL
 #define VITA3K_PSTV_MODE_INFO_0_HU NULL
@@ -9477,10 +17076,41 @@ struct retro_core_options_v2 options_hr = {
 #define VITA3K_SYS_BUTTON_INFO_0_HU NULL
 #define OPTION_VAL_0_VITA3K_SYS_BUTTON_HU NULL
 #define OPTION_VAL_1_VITA3K_SYS_BUTTON_HU "Kereszt"
+#define VITA3K_SYS_LANG_LABEL_HU NULL
+#define VITA3K_SYS_LANG_INFO_0_HU NULL
+#define OPTION_VAL_0_VITA3K_SYS_LANG_HU "japán"
+#define OPTION_VAL_1_VITA3K_SYS_LANG_HU NULL
+#define OPTION_VAL_2_VITA3K_SYS_LANG_HU "francia"
+#define OPTION_VAL_3_VITA3K_SYS_LANG_HU "spanyol"
+#define OPTION_VAL_4_VITA3K_SYS_LANG_HU "német"
+#define OPTION_VAL_5_HU "olasz"
+#define OPTION_VAL_6_HU NULL
+#define OPTION_VAL_7_HU NULL
+#define OPTION_VAL_8_VITA3K_SYS_LANG_HU NULL
+#define OPTION_VAL_9_HU NULL
+#define OPTION_VAL_10_HU NULL
+#define OPTION_VAL_11_HU NULL
+#define OPTION_VAL_12_HU NULL
+#define OPTION_VAL_13_HU NULL
+#define OPTION_VAL_14_HU NULL
+#define OPTION_VAL_15_HU NULL
+#define OPTION_VAL_16_VITA3K_SYS_LANG_HU NULL
+#define OPTION_VAL_17_HU NULL
+#define OPTION_VAL_18_HU NULL
+#define OPTION_VAL_19_HU NULL
+#define VITA3K_SYS_DATE_FORMAT_LABEL_HU NULL
+#define VITA3K_SYS_DATE_FORMAT_INFO_0_HU NULL
+#define OPTION_VAL_0_VITA3K_SYS_DATE_FORMAT_HU NULL
+#define OPTION_VAL_1_VITA3K_SYS_DATE_FORMAT_HU NULL
+#define OPTION_VAL_2_VITA3K_SYS_DATE_FORMAT_HU NULL
+#define VITA3K_SYS_TIME_FORMAT_LABEL_HU NULL
+#define VITA3K_SYS_TIME_FORMAT_INFO_0_HU NULL
+#define OPTION_VAL_0_VITA3K_SYS_TIME_FORMAT_HU NULL
+#define OPTION_VAL_1_VITA3K_SYS_TIME_FORMAT_HU NULL
 #define VITA3K_AUDIO_VOLUME_LABEL_HU NULL
 #define VITA3K_AUDIO_VOLUME_INFO_0_HU NULL
 #define OPTION_VAL_0_VITA3K_AUDIO_VOLUME_HU NULL
-#define OPTION_VAL_10_HU NULL
+#define OPTION_VAL_10_VITA3K_AUDIO_VOLUME_HU NULL
 #define OPTION_VAL_20_HU NULL
 #define OPTION_VAL_30_HU NULL
 #define OPTION_VAL_40_HU NULL
@@ -9494,6 +17124,47 @@ struct retro_core_options_v2 options_hr = {
 #define VITA3K_NGS_ENABLE_INFO_0_HU NULL
 #define VITA3K_PSN_SIGNED_IN_LABEL_HU NULL
 #define VITA3K_PSN_SIGNED_IN_INFO_0_HU NULL
+#define VITA3K_HTTP_ENABLE_LABEL_HU NULL
+#define VITA3K_HTTP_ENABLE_INFO_0_HU NULL
+#define VITA3K_HTTP_TIMEOUT_ATTEMPTS_LABEL_HU NULL
+#define VITA3K_HTTP_TIMEOUT_ATTEMPTS_INFO_0_HU NULL
+#define VITA3K_HTTP_TIMEOUT_SLEEP_LABEL_HU NULL
+#define VITA3K_HTTP_TIMEOUT_SLEEP_INFO_0_HU NULL
+#define OPTION_VAL_50_VITA3K_HTTP_TIMEOUT_SLEEP_HU NULL
+#define OPTION_VAL_100_VITA3K_HTTP_TIMEOUT_SLEEP_HU NULL
+#define OPTION_VAL_150_HU NULL
+#define OPTION_VAL_200_HU NULL
+#define OPTION_VAL_250_HU NULL
+#define OPTION_VAL_300_HU NULL
+#define OPTION_VAL_400_HU NULL
+#define OPTION_VAL_500_HU NULL
+#define OPTION_VAL_750_HU NULL
+#define OPTION_VAL_1000_HU NULL
+#define OPTION_VAL_1500_HU NULL
+#define OPTION_VAL_2000_HU NULL
+#define OPTION_VAL_2500_HU NULL
+#define OPTION_VAL_3000_HU NULL
+#define VITA3K_HTTP_READ_END_ATTEMPTS_LABEL_HU NULL
+#define VITA3K_HTTP_READ_END_ATTEMPTS_INFO_0_HU NULL
+#define VITA3K_HTTP_READ_END_SLEEP_LABEL_HU NULL
+#define VITA3K_HTTP_READ_END_SLEEP_INFO_0_HU NULL
+#define VITA3K_FRONT_CAMERA_LABEL_HU NULL
+#define VITA3K_FRONT_CAMERA_INFO_0_HU NULL
+#define OPTION_VAL_HOST_HU NULL
+#define OPTION_VAL_IMAGE_HU NULL
+#define OPTION_VAL_COLOR_HU NULL
+#define VITA3K_FRONT_CAMERA_COLOR_LABEL_HU NULL
+#define VITA3K_FRONT_CAMERA_COLOR_INFO_0_HU NULL
+#define OPTION_VAL_0_VITA3K_FRONT_CAMERA_COLOR_HU "Fekete"
+#define OPTION_VAL_16777215_HU "Fehér"
+#define OPTION_VAL_8421504_HU "Szürke"
+#define OPTION_VAL_255_HU "Vörös"
+#define OPTION_VAL_65280_HU "Zöld"
+#define OPTION_VAL_16711680_HU "Kék"
+#define VITA3K_BACK_CAMERA_LABEL_HU NULL
+#define VITA3K_BACK_CAMERA_INFO_0_HU NULL
+#define VITA3K_BACK_CAMERA_COLOR_LABEL_HU NULL
+#define VITA3K_BACK_CAMERA_COLOR_INFO_0_HU NULL
 #define VITA3K_SURFACE_SYNC_LABEL_HU NULL
 #define VITA3K_SURFACE_SYNC_INFO_0_HU NULL
 #define OPTION_VAL_ENABLED_HU NULL
@@ -9501,9 +17172,9 @@ struct retro_core_options_v2 options_hr = {
 #define VITA3K_FILE_LOADING_DELAY_LABEL_HU NULL
 #define VITA3K_FILE_LOADING_DELAY_INFO_0_HU NULL
 #define OPTION_VAL_0_VITA3K_FILE_LOADING_DELAY_HU NULL
-#define OPTION_VAL_5_HU NULL
+#define OPTION_VAL_5_VITA3K_FILE_LOADING_DELAY_HU NULL
 #define OPTION_VAL_10_VITA3K_FILE_LOADING_DELAY_HU NULL
-#define OPTION_VAL_15_HU NULL
+#define OPTION_VAL_15_VITA3K_FILE_LOADING_DELAY_HU NULL
 #define OPTION_VAL_20_VITA3K_FILE_LOADING_DELAY_HU NULL
 #define OPTION_VAL_25_HU NULL
 #define OPTION_VAL_30_VITA3K_FILE_LOADING_DELAY_HU NULL
@@ -9514,6 +17185,10 @@ struct retro_core_option_v2_category option_cats_hu[] = {
     { "system", CATEGORY_SYSTEM_LABEL_HU, CATEGORY_SYSTEM_INFO_0_HU },
     { "audio", CATEGORY_AUDIO_LABEL_HU, CATEGORY_AUDIO_INFO_0_HU },
     { "network", CATEGORY_NETWORK_LABEL_HU, CATEGORY_NETWORK_INFO_0_HU },
+    { "install", CATEGORY_INSTALL_LABEL_HU, CATEGORY_INSTALL_INFO_0_HU },
+    { "camera", CATEGORY_CAMERA_LABEL_HU, CATEGORY_CAMERA_INFO_0_HU },
+    { "accounts", CATEGORY_ACCOUNTS_LABEL_HU, CATEGORY_ACCOUNTS_INFO_0_HU },
+    { "modules", CATEGORY_MODULES_LABEL_HU, CATEGORY_MODULES_INFO_0_HU },
     { NULL, NULL, NULL },
 };
 struct retro_core_option_v2_definition option_defs_hu[] = {
@@ -9677,9 +17352,10 @@ struct retro_core_option_v2_definition option_defs_hu[] = {
         NULL,
         VITA3K_PKG_MODE_INFO_0_HU,
         NULL,
-        "system",
+        "install",
         {
             { "run", OPTION_VAL_RUN_HU },
+            { "cache", OPTION_VAL_CACHE_HU },
             { "install", OPTION_VAL_INSTALL_HU },
             { NULL, NULL },
         },
@@ -9742,6 +17418,67 @@ struct retro_core_option_v2_definition option_defs_hu[] = {
         },
         "1"
     },
+    {
+        "vita3k_sys_lang",
+        VITA3K_SYS_LANG_LABEL_HU,
+        NULL,
+        VITA3K_SYS_LANG_INFO_0_HU,
+        NULL,
+        "system",
+        {
+            { "0", OPTION_VAL_0_VITA3K_SYS_LANG_HU },
+            { "1", OPTION_VAL_1_VITA3K_SYS_LANG_HU },
+            { "2", OPTION_VAL_2_VITA3K_SYS_LANG_HU },
+            { "3", OPTION_VAL_3_VITA3K_SYS_LANG_HU },
+            { "4", OPTION_VAL_4_VITA3K_SYS_LANG_HU },
+            { "5", OPTION_VAL_5_HU },
+            { "6", OPTION_VAL_6_HU },
+            { "7", OPTION_VAL_7_HU },
+            { "8", OPTION_VAL_8_VITA3K_SYS_LANG_HU },
+            { "9", OPTION_VAL_9_HU },
+            { "10", OPTION_VAL_10_HU },
+            { "11", OPTION_VAL_11_HU },
+            { "12", OPTION_VAL_12_HU },
+            { "13", OPTION_VAL_13_HU },
+            { "14", OPTION_VAL_14_HU },
+            { "15", OPTION_VAL_15_HU },
+            { "16", OPTION_VAL_16_VITA3K_SYS_LANG_HU },
+            { "17", OPTION_VAL_17_HU },
+            { "18", OPTION_VAL_18_HU },
+            { "19", OPTION_VAL_19_HU },
+            { NULL, NULL },
+        },
+        "1"
+    },
+    {
+        "vita3k_sys_date_format",
+        VITA3K_SYS_DATE_FORMAT_LABEL_HU,
+        NULL,
+        VITA3K_SYS_DATE_FORMAT_INFO_0_HU,
+        NULL,
+        "system",
+        {
+            { "0", OPTION_VAL_0_VITA3K_SYS_DATE_FORMAT_HU },
+            { "1", OPTION_VAL_1_VITA3K_SYS_DATE_FORMAT_HU },
+            { "2", OPTION_VAL_2_VITA3K_SYS_DATE_FORMAT_HU },
+            { NULL, NULL },
+        },
+        "2"
+    },
+    {
+        "vita3k_sys_time_format",
+        VITA3K_SYS_TIME_FORMAT_LABEL_HU,
+        NULL,
+        VITA3K_SYS_TIME_FORMAT_INFO_0_HU,
+        NULL,
+        "system",
+        {
+            { "0", OPTION_VAL_0_VITA3K_SYS_TIME_FORMAT_HU },
+            { "1", OPTION_VAL_1_VITA3K_SYS_TIME_FORMAT_HU },
+            { NULL, NULL },
+        },
+        "0"
+    },
     // ── Audio ────────────────────────────────────────────────────────────
     {
         "vita3k_audio_volume",
@@ -9752,7 +17489,7 @@ struct retro_core_option_v2_definition option_defs_hu[] = {
         "audio",
         {
             { "0", OPTION_VAL_0_VITA3K_AUDIO_VOLUME_HU },
-            { "10", OPTION_VAL_10_HU },
+            { "10", OPTION_VAL_10_VITA3K_AUDIO_VOLUME_HU },
             { "20", OPTION_VAL_20_HU },
             { "30", OPTION_VAL_30_HU },
             { "40", OPTION_VAL_40_HU },
@@ -9796,6 +17533,204 @@ struct retro_core_option_v2_definition option_defs_hu[] = {
         "disabled"
     },
     {
+        "vita3k_http_enable",
+        VITA3K_HTTP_ENABLE_LABEL_HU,
+        NULL,
+        VITA3K_HTTP_ENABLE_INFO_0_HU,
+        NULL,
+        "network",
+        {
+            { "enabled", NULL },
+            { "disabled", NULL },
+            { NULL, NULL },
+        },
+        "enabled"
+    },
+    {
+        "vita3k_http_timeout_attempts",
+        VITA3K_HTTP_TIMEOUT_ATTEMPTS_LABEL_HU,
+        NULL,
+        VITA3K_HTTP_TIMEOUT_ATTEMPTS_INFO_0_HU,
+        NULL,
+        "network",
+        {
+            { "0", NULL },
+            { "5", NULL },
+            { "10", NULL },
+            { "15", NULL },
+            { "20", NULL },
+            { "25", NULL },
+            { "30", NULL },
+            { "35", NULL },
+            { "40", NULL },
+            { "45", NULL },
+            { "50", NULL },
+            { "55", NULL },
+            { "60", NULL },
+            { "65", NULL },
+            { "70", NULL },
+            { "75", NULL },
+            { "80", NULL },
+            { "85", NULL },
+            { "90", NULL },
+            { "95", NULL },
+            { "100", NULL },
+            { NULL, NULL },
+        },
+        "50"
+    },
+    {
+        "vita3k_http_timeout_sleep",
+        VITA3K_HTTP_TIMEOUT_SLEEP_LABEL_HU,
+        NULL,
+        VITA3K_HTTP_TIMEOUT_SLEEP_INFO_0_HU,
+        NULL,
+        "network",
+        {
+            { "50", OPTION_VAL_50_VITA3K_HTTP_TIMEOUT_SLEEP_HU },
+            { "100", OPTION_VAL_100_VITA3K_HTTP_TIMEOUT_SLEEP_HU },
+            { "150", OPTION_VAL_150_HU },
+            { "200", OPTION_VAL_200_HU },
+            { "250", OPTION_VAL_250_HU },
+            { "300", OPTION_VAL_300_HU },
+            { "400", OPTION_VAL_400_HU },
+            { "500", OPTION_VAL_500_HU },
+            { "750", OPTION_VAL_750_HU },
+            { "1000", OPTION_VAL_1000_HU },
+            { "1500", OPTION_VAL_1500_HU },
+            { "2000", OPTION_VAL_2000_HU },
+            { "2500", OPTION_VAL_2500_HU },
+            { "3000", OPTION_VAL_3000_HU },
+            { NULL, NULL },
+        },
+        "100"
+    },
+    {
+        "vita3k_http_read_end_attempts",
+        VITA3K_HTTP_READ_END_ATTEMPTS_LABEL_HU,
+        NULL,
+        VITA3K_HTTP_READ_END_ATTEMPTS_INFO_0_HU,
+        NULL,
+        "network",
+        {
+            { "0", NULL },
+            { "5", NULL },
+            { "10", NULL },
+            { "15", NULL },
+            { "20", NULL },
+            { "25", NULL },
+            { "30", NULL },
+            { "35", NULL },
+            { "40", NULL },
+            { "45", NULL },
+            { "50", NULL },
+            { "55", NULL },
+            { "60", NULL },
+            { "65", NULL },
+            { "70", NULL },
+            { "75", NULL },
+            { "80", NULL },
+            { "85", NULL },
+            { "90", NULL },
+            { "95", NULL },
+            { "100", NULL },
+            { NULL, NULL },
+        },
+        "10"
+    },
+    {
+        "vita3k_http_read_end_sleep",
+        VITA3K_HTTP_READ_END_SLEEP_LABEL_HU,
+        NULL,
+        VITA3K_HTTP_READ_END_SLEEP_INFO_0_HU,
+        NULL,
+        "network",
+        {
+            { "50", OPTION_VAL_50_VITA3K_HTTP_TIMEOUT_SLEEP_HU },
+            { "100", OPTION_VAL_100_VITA3K_HTTP_TIMEOUT_SLEEP_HU },
+            { "150", OPTION_VAL_150_HU },
+            { "200", OPTION_VAL_200_HU },
+            { "250", OPTION_VAL_250_HU },
+            { "300", OPTION_VAL_300_HU },
+            { "400", OPTION_VAL_400_HU },
+            { "500", OPTION_VAL_500_HU },
+            { "750", OPTION_VAL_750_HU },
+            { "1000", OPTION_VAL_1000_HU },
+            { "1500", OPTION_VAL_1500_HU },
+            { "2000", OPTION_VAL_2000_HU },
+            { "2500", OPTION_VAL_2500_HU },
+            { "3000", OPTION_VAL_3000_HU },
+            { NULL, NULL },
+        },
+        "250"
+    },
+    {
+        "vita3k_front_camera",
+        VITA3K_FRONT_CAMERA_LABEL_HU,
+        NULL,
+        VITA3K_FRONT_CAMERA_INFO_0_HU,
+        NULL,
+        "camera",
+        {
+            { "host", OPTION_VAL_HOST_HU },
+            { "image", OPTION_VAL_IMAGE_HU },
+            { "color", OPTION_VAL_COLOR_HU },
+            { NULL, NULL },
+        },
+        "host"
+    },
+    {
+        "vita3k_front_camera_color",
+        VITA3K_FRONT_CAMERA_COLOR_LABEL_HU,
+        NULL,
+        VITA3K_FRONT_CAMERA_COLOR_INFO_0_HU,
+        NULL,
+        "camera",
+        {
+            { "0", OPTION_VAL_0_VITA3K_FRONT_CAMERA_COLOR_HU },
+            { "16777215", OPTION_VAL_16777215_HU },
+            { "8421504", OPTION_VAL_8421504_HU },
+            { "255", OPTION_VAL_255_HU },
+            { "65280", OPTION_VAL_65280_HU },
+            { "16711680", OPTION_VAL_16711680_HU },
+            { NULL, NULL },
+        },
+        "0"
+    },
+    {
+        "vita3k_back_camera",
+        VITA3K_BACK_CAMERA_LABEL_HU,
+        NULL,
+        VITA3K_BACK_CAMERA_INFO_0_HU,
+        NULL,
+        "camera",
+        {
+            { "host", OPTION_VAL_HOST_HU },
+            { "image", OPTION_VAL_IMAGE_HU },
+            { "color", OPTION_VAL_COLOR_HU },
+            { NULL, NULL },
+        },
+        "host"
+    },
+    {
+        "vita3k_back_camera_color",
+        VITA3K_BACK_CAMERA_COLOR_LABEL_HU,
+        NULL,
+        VITA3K_BACK_CAMERA_COLOR_INFO_0_HU,
+        NULL,
+        "camera",
+        {
+            { "0", OPTION_VAL_0_VITA3K_FRONT_CAMERA_COLOR_HU },
+            { "16777215", OPTION_VAL_16777215_HU },
+            { "8421504", OPTION_VAL_8421504_HU },
+            { "255", OPTION_VAL_255_HU },
+            { "65280", OPTION_VAL_65280_HU },
+            { "16711680", OPTION_VAL_16711680_HU },
+            { NULL, NULL },
+        },
+        "0"
+    },
+    {
         "vita3k_surface_sync",
         VITA3K_SURFACE_SYNC_LABEL_HU,
         NULL,
@@ -9818,9 +17753,9 @@ struct retro_core_option_v2_definition option_defs_hu[] = {
         "system",
         {
             { "0", OPTION_VAL_0_VITA3K_FILE_LOADING_DELAY_HU },
-            { "5", OPTION_VAL_5_HU },
+            { "5", OPTION_VAL_5_VITA3K_FILE_LOADING_DELAY_HU },
             { "10", OPTION_VAL_10_VITA3K_FILE_LOADING_DELAY_HU },
-            { "15", OPTION_VAL_15_HU },
+            { "15", OPTION_VAL_15_VITA3K_FILE_LOADING_DELAY_HU },
             { "20", OPTION_VAL_20_VITA3K_FILE_LOADING_DELAY_HU },
             { "25", OPTION_VAL_25_HU },
             { "30", OPTION_VAL_30_VITA3K_FILE_LOADING_DELAY_HU },
@@ -9847,6 +17782,14 @@ struct retro_core_options_v2 options_hu = {
 #define CATEGORY_AUDIO_INFO_0_ID NULL
 #define CATEGORY_NETWORK_LABEL_ID "Jejaring"
 #define CATEGORY_NETWORK_INFO_0_ID NULL
+#define CATEGORY_INSTALL_LABEL_ID NULL
+#define CATEGORY_INSTALL_INFO_0_ID NULL
+#define CATEGORY_CAMERA_LABEL_ID "Kamera"
+#define CATEGORY_CAMERA_INFO_0_ID NULL
+#define CATEGORY_ACCOUNTS_LABEL_ID NULL
+#define CATEGORY_ACCOUNTS_INFO_0_ID NULL
+#define CATEGORY_MODULES_LABEL_ID NULL
+#define CATEGORY_MODULES_INFO_0_ID NULL
 #define VITA3K_BACKEND_RENDERER_LABEL_ID NULL
 #define VITA3K_BACKEND_RENDERER_INFO_0_ID NULL
 #define OPTION_VAL_VULKAN_ID NULL
@@ -9889,6 +17832,7 @@ struct retro_core_options_v2 options_hu = {
 #define VITA3K_PKG_MODE_LABEL_ID NULL
 #define VITA3K_PKG_MODE_INFO_0_ID NULL
 #define OPTION_VAL_RUN_ID NULL
+#define OPTION_VAL_CACHE_ID NULL
 #define OPTION_VAL_INSTALL_ID NULL
 #define VITA3K_PSTV_MODE_LABEL_ID NULL
 #define VITA3K_PSTV_MODE_INFO_0_ID NULL
@@ -9903,10 +17847,41 @@ struct retro_core_options_v2 options_hu = {
 #define VITA3K_SYS_BUTTON_INFO_0_ID NULL
 #define OPTION_VAL_0_VITA3K_SYS_BUTTON_ID NULL
 #define OPTION_VAL_1_VITA3K_SYS_BUTTON_ID "Silang"
+#define VITA3K_SYS_LANG_LABEL_ID NULL
+#define VITA3K_SYS_LANG_INFO_0_ID NULL
+#define OPTION_VAL_0_VITA3K_SYS_LANG_ID "Bahasa Jepang"
+#define OPTION_VAL_1_VITA3K_SYS_LANG_ID NULL
+#define OPTION_VAL_2_VITA3K_SYS_LANG_ID "Bahasa Perancis"
+#define OPTION_VAL_3_VITA3K_SYS_LANG_ID "Bahasa Spanyol"
+#define OPTION_VAL_4_VITA3K_SYS_LANG_ID "Bahasa Jerman"
+#define OPTION_VAL_5_ID "Bahasa Itali"
+#define OPTION_VAL_6_ID NULL
+#define OPTION_VAL_7_ID NULL
+#define OPTION_VAL_8_VITA3K_SYS_LANG_ID NULL
+#define OPTION_VAL_9_ID NULL
+#define OPTION_VAL_10_ID NULL
+#define OPTION_VAL_11_ID NULL
+#define OPTION_VAL_12_ID NULL
+#define OPTION_VAL_13_ID NULL
+#define OPTION_VAL_14_ID NULL
+#define OPTION_VAL_15_ID NULL
+#define OPTION_VAL_16_VITA3K_SYS_LANG_ID NULL
+#define OPTION_VAL_17_ID NULL
+#define OPTION_VAL_18_ID NULL
+#define OPTION_VAL_19_ID NULL
+#define VITA3K_SYS_DATE_FORMAT_LABEL_ID NULL
+#define VITA3K_SYS_DATE_FORMAT_INFO_0_ID NULL
+#define OPTION_VAL_0_VITA3K_SYS_DATE_FORMAT_ID NULL
+#define OPTION_VAL_1_VITA3K_SYS_DATE_FORMAT_ID NULL
+#define OPTION_VAL_2_VITA3K_SYS_DATE_FORMAT_ID NULL
+#define VITA3K_SYS_TIME_FORMAT_LABEL_ID NULL
+#define VITA3K_SYS_TIME_FORMAT_INFO_0_ID NULL
+#define OPTION_VAL_0_VITA3K_SYS_TIME_FORMAT_ID NULL
+#define OPTION_VAL_1_VITA3K_SYS_TIME_FORMAT_ID NULL
 #define VITA3K_AUDIO_VOLUME_LABEL_ID NULL
 #define VITA3K_AUDIO_VOLUME_INFO_0_ID NULL
 #define OPTION_VAL_0_VITA3K_AUDIO_VOLUME_ID NULL
-#define OPTION_VAL_10_ID NULL
+#define OPTION_VAL_10_VITA3K_AUDIO_VOLUME_ID NULL
 #define OPTION_VAL_20_ID NULL
 #define OPTION_VAL_30_ID NULL
 #define OPTION_VAL_40_ID NULL
@@ -9920,6 +17895,47 @@ struct retro_core_options_v2 options_hu = {
 #define VITA3K_NGS_ENABLE_INFO_0_ID NULL
 #define VITA3K_PSN_SIGNED_IN_LABEL_ID NULL
 #define VITA3K_PSN_SIGNED_IN_INFO_0_ID NULL
+#define VITA3K_HTTP_ENABLE_LABEL_ID NULL
+#define VITA3K_HTTP_ENABLE_INFO_0_ID NULL
+#define VITA3K_HTTP_TIMEOUT_ATTEMPTS_LABEL_ID NULL
+#define VITA3K_HTTP_TIMEOUT_ATTEMPTS_INFO_0_ID NULL
+#define VITA3K_HTTP_TIMEOUT_SLEEP_LABEL_ID NULL
+#define VITA3K_HTTP_TIMEOUT_SLEEP_INFO_0_ID NULL
+#define OPTION_VAL_50_VITA3K_HTTP_TIMEOUT_SLEEP_ID NULL
+#define OPTION_VAL_100_VITA3K_HTTP_TIMEOUT_SLEEP_ID NULL
+#define OPTION_VAL_150_ID NULL
+#define OPTION_VAL_200_ID NULL
+#define OPTION_VAL_250_ID NULL
+#define OPTION_VAL_300_ID NULL
+#define OPTION_VAL_400_ID NULL
+#define OPTION_VAL_500_ID NULL
+#define OPTION_VAL_750_ID NULL
+#define OPTION_VAL_1000_ID NULL
+#define OPTION_VAL_1500_ID NULL
+#define OPTION_VAL_2000_ID NULL
+#define OPTION_VAL_2500_ID NULL
+#define OPTION_VAL_3000_ID NULL
+#define VITA3K_HTTP_READ_END_ATTEMPTS_LABEL_ID NULL
+#define VITA3K_HTTP_READ_END_ATTEMPTS_INFO_0_ID NULL
+#define VITA3K_HTTP_READ_END_SLEEP_LABEL_ID NULL
+#define VITA3K_HTTP_READ_END_SLEEP_INFO_0_ID NULL
+#define VITA3K_FRONT_CAMERA_LABEL_ID NULL
+#define VITA3K_FRONT_CAMERA_INFO_0_ID NULL
+#define OPTION_VAL_HOST_ID NULL
+#define OPTION_VAL_IMAGE_ID NULL
+#define OPTION_VAL_COLOR_ID NULL
+#define VITA3K_FRONT_CAMERA_COLOR_LABEL_ID NULL
+#define VITA3K_FRONT_CAMERA_COLOR_INFO_0_ID NULL
+#define OPTION_VAL_0_VITA3K_FRONT_CAMERA_COLOR_ID "Hitam"
+#define OPTION_VAL_16777215_ID "Putih"
+#define OPTION_VAL_8421504_ID NULL
+#define OPTION_VAL_255_ID NULL
+#define OPTION_VAL_65280_ID NULL
+#define OPTION_VAL_16711680_ID NULL
+#define VITA3K_BACK_CAMERA_LABEL_ID NULL
+#define VITA3K_BACK_CAMERA_INFO_0_ID NULL
+#define VITA3K_BACK_CAMERA_COLOR_LABEL_ID NULL
+#define VITA3K_BACK_CAMERA_COLOR_INFO_0_ID NULL
 #define VITA3K_SURFACE_SYNC_LABEL_ID NULL
 #define VITA3K_SURFACE_SYNC_INFO_0_ID NULL
 #define OPTION_VAL_ENABLED_ID NULL
@@ -9927,9 +17943,9 @@ struct retro_core_options_v2 options_hu = {
 #define VITA3K_FILE_LOADING_DELAY_LABEL_ID NULL
 #define VITA3K_FILE_LOADING_DELAY_INFO_0_ID NULL
 #define OPTION_VAL_0_VITA3K_FILE_LOADING_DELAY_ID NULL
-#define OPTION_VAL_5_ID NULL
+#define OPTION_VAL_5_VITA3K_FILE_LOADING_DELAY_ID NULL
 #define OPTION_VAL_10_VITA3K_FILE_LOADING_DELAY_ID NULL
-#define OPTION_VAL_15_ID NULL
+#define OPTION_VAL_15_VITA3K_FILE_LOADING_DELAY_ID NULL
 #define OPTION_VAL_20_VITA3K_FILE_LOADING_DELAY_ID NULL
 #define OPTION_VAL_25_ID NULL
 #define OPTION_VAL_30_VITA3K_FILE_LOADING_DELAY_ID NULL
@@ -9940,6 +17956,10 @@ struct retro_core_option_v2_category option_cats_id[] = {
     { "system", CATEGORY_SYSTEM_LABEL_ID, CATEGORY_SYSTEM_INFO_0_ID },
     { "audio", CATEGORY_AUDIO_LABEL_ID, CATEGORY_AUDIO_INFO_0_ID },
     { "network", CATEGORY_NETWORK_LABEL_ID, CATEGORY_NETWORK_INFO_0_ID },
+    { "install", CATEGORY_INSTALL_LABEL_ID, CATEGORY_INSTALL_INFO_0_ID },
+    { "camera", CATEGORY_CAMERA_LABEL_ID, CATEGORY_CAMERA_INFO_0_ID },
+    { "accounts", CATEGORY_ACCOUNTS_LABEL_ID, CATEGORY_ACCOUNTS_INFO_0_ID },
+    { "modules", CATEGORY_MODULES_LABEL_ID, CATEGORY_MODULES_INFO_0_ID },
     { NULL, NULL, NULL },
 };
 struct retro_core_option_v2_definition option_defs_id[] = {
@@ -10103,9 +18123,10 @@ struct retro_core_option_v2_definition option_defs_id[] = {
         NULL,
         VITA3K_PKG_MODE_INFO_0_ID,
         NULL,
-        "system",
+        "install",
         {
             { "run", OPTION_VAL_RUN_ID },
+            { "cache", OPTION_VAL_CACHE_ID },
             { "install", OPTION_VAL_INSTALL_ID },
             { NULL, NULL },
         },
@@ -10168,6 +18189,67 @@ struct retro_core_option_v2_definition option_defs_id[] = {
         },
         "1"
     },
+    {
+        "vita3k_sys_lang",
+        VITA3K_SYS_LANG_LABEL_ID,
+        NULL,
+        VITA3K_SYS_LANG_INFO_0_ID,
+        NULL,
+        "system",
+        {
+            { "0", OPTION_VAL_0_VITA3K_SYS_LANG_ID },
+            { "1", OPTION_VAL_1_VITA3K_SYS_LANG_ID },
+            { "2", OPTION_VAL_2_VITA3K_SYS_LANG_ID },
+            { "3", OPTION_VAL_3_VITA3K_SYS_LANG_ID },
+            { "4", OPTION_VAL_4_VITA3K_SYS_LANG_ID },
+            { "5", OPTION_VAL_5_ID },
+            { "6", OPTION_VAL_6_ID },
+            { "7", OPTION_VAL_7_ID },
+            { "8", OPTION_VAL_8_VITA3K_SYS_LANG_ID },
+            { "9", OPTION_VAL_9_ID },
+            { "10", OPTION_VAL_10_ID },
+            { "11", OPTION_VAL_11_ID },
+            { "12", OPTION_VAL_12_ID },
+            { "13", OPTION_VAL_13_ID },
+            { "14", OPTION_VAL_14_ID },
+            { "15", OPTION_VAL_15_ID },
+            { "16", OPTION_VAL_16_VITA3K_SYS_LANG_ID },
+            { "17", OPTION_VAL_17_ID },
+            { "18", OPTION_VAL_18_ID },
+            { "19", OPTION_VAL_19_ID },
+            { NULL, NULL },
+        },
+        "1"
+    },
+    {
+        "vita3k_sys_date_format",
+        VITA3K_SYS_DATE_FORMAT_LABEL_ID,
+        NULL,
+        VITA3K_SYS_DATE_FORMAT_INFO_0_ID,
+        NULL,
+        "system",
+        {
+            { "0", OPTION_VAL_0_VITA3K_SYS_DATE_FORMAT_ID },
+            { "1", OPTION_VAL_1_VITA3K_SYS_DATE_FORMAT_ID },
+            { "2", OPTION_VAL_2_VITA3K_SYS_DATE_FORMAT_ID },
+            { NULL, NULL },
+        },
+        "2"
+    },
+    {
+        "vita3k_sys_time_format",
+        VITA3K_SYS_TIME_FORMAT_LABEL_ID,
+        NULL,
+        VITA3K_SYS_TIME_FORMAT_INFO_0_ID,
+        NULL,
+        "system",
+        {
+            { "0", OPTION_VAL_0_VITA3K_SYS_TIME_FORMAT_ID },
+            { "1", OPTION_VAL_1_VITA3K_SYS_TIME_FORMAT_ID },
+            { NULL, NULL },
+        },
+        "0"
+    },
     // ── Audio ────────────────────────────────────────────────────────────
     {
         "vita3k_audio_volume",
@@ -10178,7 +18260,7 @@ struct retro_core_option_v2_definition option_defs_id[] = {
         "audio",
         {
             { "0", OPTION_VAL_0_VITA3K_AUDIO_VOLUME_ID },
-            { "10", OPTION_VAL_10_ID },
+            { "10", OPTION_VAL_10_VITA3K_AUDIO_VOLUME_ID },
             { "20", OPTION_VAL_20_ID },
             { "30", OPTION_VAL_30_ID },
             { "40", OPTION_VAL_40_ID },
@@ -10222,6 +18304,204 @@ struct retro_core_option_v2_definition option_defs_id[] = {
         "disabled"
     },
     {
+        "vita3k_http_enable",
+        VITA3K_HTTP_ENABLE_LABEL_ID,
+        NULL,
+        VITA3K_HTTP_ENABLE_INFO_0_ID,
+        NULL,
+        "network",
+        {
+            { "enabled", NULL },
+            { "disabled", NULL },
+            { NULL, NULL },
+        },
+        "enabled"
+    },
+    {
+        "vita3k_http_timeout_attempts",
+        VITA3K_HTTP_TIMEOUT_ATTEMPTS_LABEL_ID,
+        NULL,
+        VITA3K_HTTP_TIMEOUT_ATTEMPTS_INFO_0_ID,
+        NULL,
+        "network",
+        {
+            { "0", NULL },
+            { "5", NULL },
+            { "10", NULL },
+            { "15", NULL },
+            { "20", NULL },
+            { "25", NULL },
+            { "30", NULL },
+            { "35", NULL },
+            { "40", NULL },
+            { "45", NULL },
+            { "50", NULL },
+            { "55", NULL },
+            { "60", NULL },
+            { "65", NULL },
+            { "70", NULL },
+            { "75", NULL },
+            { "80", NULL },
+            { "85", NULL },
+            { "90", NULL },
+            { "95", NULL },
+            { "100", NULL },
+            { NULL, NULL },
+        },
+        "50"
+    },
+    {
+        "vita3k_http_timeout_sleep",
+        VITA3K_HTTP_TIMEOUT_SLEEP_LABEL_ID,
+        NULL,
+        VITA3K_HTTP_TIMEOUT_SLEEP_INFO_0_ID,
+        NULL,
+        "network",
+        {
+            { "50", OPTION_VAL_50_VITA3K_HTTP_TIMEOUT_SLEEP_ID },
+            { "100", OPTION_VAL_100_VITA3K_HTTP_TIMEOUT_SLEEP_ID },
+            { "150", OPTION_VAL_150_ID },
+            { "200", OPTION_VAL_200_ID },
+            { "250", OPTION_VAL_250_ID },
+            { "300", OPTION_VAL_300_ID },
+            { "400", OPTION_VAL_400_ID },
+            { "500", OPTION_VAL_500_ID },
+            { "750", OPTION_VAL_750_ID },
+            { "1000", OPTION_VAL_1000_ID },
+            { "1500", OPTION_VAL_1500_ID },
+            { "2000", OPTION_VAL_2000_ID },
+            { "2500", OPTION_VAL_2500_ID },
+            { "3000", OPTION_VAL_3000_ID },
+            { NULL, NULL },
+        },
+        "100"
+    },
+    {
+        "vita3k_http_read_end_attempts",
+        VITA3K_HTTP_READ_END_ATTEMPTS_LABEL_ID,
+        NULL,
+        VITA3K_HTTP_READ_END_ATTEMPTS_INFO_0_ID,
+        NULL,
+        "network",
+        {
+            { "0", NULL },
+            { "5", NULL },
+            { "10", NULL },
+            { "15", NULL },
+            { "20", NULL },
+            { "25", NULL },
+            { "30", NULL },
+            { "35", NULL },
+            { "40", NULL },
+            { "45", NULL },
+            { "50", NULL },
+            { "55", NULL },
+            { "60", NULL },
+            { "65", NULL },
+            { "70", NULL },
+            { "75", NULL },
+            { "80", NULL },
+            { "85", NULL },
+            { "90", NULL },
+            { "95", NULL },
+            { "100", NULL },
+            { NULL, NULL },
+        },
+        "10"
+    },
+    {
+        "vita3k_http_read_end_sleep",
+        VITA3K_HTTP_READ_END_SLEEP_LABEL_ID,
+        NULL,
+        VITA3K_HTTP_READ_END_SLEEP_INFO_0_ID,
+        NULL,
+        "network",
+        {
+            { "50", OPTION_VAL_50_VITA3K_HTTP_TIMEOUT_SLEEP_ID },
+            { "100", OPTION_VAL_100_VITA3K_HTTP_TIMEOUT_SLEEP_ID },
+            { "150", OPTION_VAL_150_ID },
+            { "200", OPTION_VAL_200_ID },
+            { "250", OPTION_VAL_250_ID },
+            { "300", OPTION_VAL_300_ID },
+            { "400", OPTION_VAL_400_ID },
+            { "500", OPTION_VAL_500_ID },
+            { "750", OPTION_VAL_750_ID },
+            { "1000", OPTION_VAL_1000_ID },
+            { "1500", OPTION_VAL_1500_ID },
+            { "2000", OPTION_VAL_2000_ID },
+            { "2500", OPTION_VAL_2500_ID },
+            { "3000", OPTION_VAL_3000_ID },
+            { NULL, NULL },
+        },
+        "250"
+    },
+    {
+        "vita3k_front_camera",
+        VITA3K_FRONT_CAMERA_LABEL_ID,
+        NULL,
+        VITA3K_FRONT_CAMERA_INFO_0_ID,
+        NULL,
+        "camera",
+        {
+            { "host", OPTION_VAL_HOST_ID },
+            { "image", OPTION_VAL_IMAGE_ID },
+            { "color", OPTION_VAL_COLOR_ID },
+            { NULL, NULL },
+        },
+        "host"
+    },
+    {
+        "vita3k_front_camera_color",
+        VITA3K_FRONT_CAMERA_COLOR_LABEL_ID,
+        NULL,
+        VITA3K_FRONT_CAMERA_COLOR_INFO_0_ID,
+        NULL,
+        "camera",
+        {
+            { "0", OPTION_VAL_0_VITA3K_FRONT_CAMERA_COLOR_ID },
+            { "16777215", OPTION_VAL_16777215_ID },
+            { "8421504", OPTION_VAL_8421504_ID },
+            { "255", OPTION_VAL_255_ID },
+            { "65280", OPTION_VAL_65280_ID },
+            { "16711680", OPTION_VAL_16711680_ID },
+            { NULL, NULL },
+        },
+        "0"
+    },
+    {
+        "vita3k_back_camera",
+        VITA3K_BACK_CAMERA_LABEL_ID,
+        NULL,
+        VITA3K_BACK_CAMERA_INFO_0_ID,
+        NULL,
+        "camera",
+        {
+            { "host", OPTION_VAL_HOST_ID },
+            { "image", OPTION_VAL_IMAGE_ID },
+            { "color", OPTION_VAL_COLOR_ID },
+            { NULL, NULL },
+        },
+        "host"
+    },
+    {
+        "vita3k_back_camera_color",
+        VITA3K_BACK_CAMERA_COLOR_LABEL_ID,
+        NULL,
+        VITA3K_BACK_CAMERA_COLOR_INFO_0_ID,
+        NULL,
+        "camera",
+        {
+            { "0", OPTION_VAL_0_VITA3K_FRONT_CAMERA_COLOR_ID },
+            { "16777215", OPTION_VAL_16777215_ID },
+            { "8421504", OPTION_VAL_8421504_ID },
+            { "255", OPTION_VAL_255_ID },
+            { "65280", OPTION_VAL_65280_ID },
+            { "16711680", OPTION_VAL_16711680_ID },
+            { NULL, NULL },
+        },
+        "0"
+    },
+    {
         "vita3k_surface_sync",
         VITA3K_SURFACE_SYNC_LABEL_ID,
         NULL,
@@ -10244,9 +18524,9 @@ struct retro_core_option_v2_definition option_defs_id[] = {
         "system",
         {
             { "0", OPTION_VAL_0_VITA3K_FILE_LOADING_DELAY_ID },
-            { "5", OPTION_VAL_5_ID },
+            { "5", OPTION_VAL_5_VITA3K_FILE_LOADING_DELAY_ID },
             { "10", OPTION_VAL_10_VITA3K_FILE_LOADING_DELAY_ID },
-            { "15", OPTION_VAL_15_ID },
+            { "15", OPTION_VAL_15_VITA3K_FILE_LOADING_DELAY_ID },
             { "20", OPTION_VAL_20_VITA3K_FILE_LOADING_DELAY_ID },
             { "25", OPTION_VAL_25_ID },
             { "30", OPTION_VAL_30_VITA3K_FILE_LOADING_DELAY_ID },
@@ -10273,6 +18553,14 @@ struct retro_core_options_v2 options_id = {
 #define CATEGORY_AUDIO_INFO_0_IT NULL
 #define CATEGORY_NETWORK_LABEL_IT "Rete"
 #define CATEGORY_NETWORK_INFO_0_IT NULL
+#define CATEGORY_INSTALL_LABEL_IT "Contenuto"
+#define CATEGORY_INSTALL_INFO_0_IT NULL
+#define CATEGORY_CAMERA_LABEL_IT "Fotocamera"
+#define CATEGORY_CAMERA_INFO_0_IT NULL
+#define CATEGORY_ACCOUNTS_LABEL_IT "Account"
+#define CATEGORY_ACCOUNTS_INFO_0_IT NULL
+#define CATEGORY_MODULES_LABEL_IT NULL
+#define CATEGORY_MODULES_INFO_0_IT NULL
 #define VITA3K_BACKEND_RENDERER_LABEL_IT NULL
 #define VITA3K_BACKEND_RENDERER_INFO_0_IT NULL
 #define OPTION_VAL_VULKAN_IT NULL
@@ -10315,6 +18603,7 @@ struct retro_core_options_v2 options_id = {
 #define VITA3K_PKG_MODE_LABEL_IT NULL
 #define VITA3K_PKG_MODE_INFO_0_IT NULL
 #define OPTION_VAL_RUN_IT NULL
+#define OPTION_VAL_CACHE_IT NULL
 #define OPTION_VAL_INSTALL_IT NULL
 #define VITA3K_PSTV_MODE_LABEL_IT NULL
 #define VITA3K_PSTV_MODE_INFO_0_IT NULL
@@ -10329,10 +18618,41 @@ struct retro_core_options_v2 options_id = {
 #define VITA3K_SYS_BUTTON_INFO_0_IT NULL
 #define OPTION_VAL_0_VITA3K_SYS_BUTTON_IT NULL
 #define OPTION_VAL_1_VITA3K_SYS_BUTTON_IT "Croce"
+#define VITA3K_SYS_LANG_LABEL_IT NULL
+#define VITA3K_SYS_LANG_INFO_0_IT NULL
+#define OPTION_VAL_0_VITA3K_SYS_LANG_IT "Giapponese"
+#define OPTION_VAL_1_VITA3K_SYS_LANG_IT NULL
+#define OPTION_VAL_2_VITA3K_SYS_LANG_IT "Francese"
+#define OPTION_VAL_3_VITA3K_SYS_LANG_IT "Spagnolo"
+#define OPTION_VAL_4_VITA3K_SYS_LANG_IT "Tedesco"
+#define OPTION_VAL_5_IT "Italiano"
+#define OPTION_VAL_6_IT NULL
+#define OPTION_VAL_7_IT NULL
+#define OPTION_VAL_8_VITA3K_SYS_LANG_IT NULL
+#define OPTION_VAL_9_IT NULL
+#define OPTION_VAL_10_IT NULL
+#define OPTION_VAL_11_IT NULL
+#define OPTION_VAL_12_IT NULL
+#define OPTION_VAL_13_IT NULL
+#define OPTION_VAL_14_IT NULL
+#define OPTION_VAL_15_IT NULL
+#define OPTION_VAL_16_VITA3K_SYS_LANG_IT NULL
+#define OPTION_VAL_17_IT NULL
+#define OPTION_VAL_18_IT NULL
+#define OPTION_VAL_19_IT NULL
+#define VITA3K_SYS_DATE_FORMAT_LABEL_IT NULL
+#define VITA3K_SYS_DATE_FORMAT_INFO_0_IT NULL
+#define OPTION_VAL_0_VITA3K_SYS_DATE_FORMAT_IT NULL
+#define OPTION_VAL_1_VITA3K_SYS_DATE_FORMAT_IT NULL
+#define OPTION_VAL_2_VITA3K_SYS_DATE_FORMAT_IT NULL
+#define VITA3K_SYS_TIME_FORMAT_LABEL_IT NULL
+#define VITA3K_SYS_TIME_FORMAT_INFO_0_IT NULL
+#define OPTION_VAL_0_VITA3K_SYS_TIME_FORMAT_IT NULL
+#define OPTION_VAL_1_VITA3K_SYS_TIME_FORMAT_IT NULL
 #define VITA3K_AUDIO_VOLUME_LABEL_IT NULL
 #define VITA3K_AUDIO_VOLUME_INFO_0_IT NULL
 #define OPTION_VAL_0_VITA3K_AUDIO_VOLUME_IT NULL
-#define OPTION_VAL_10_IT NULL
+#define OPTION_VAL_10_VITA3K_AUDIO_VOLUME_IT NULL
 #define OPTION_VAL_20_IT NULL
 #define OPTION_VAL_30_IT NULL
 #define OPTION_VAL_40_IT NULL
@@ -10346,6 +18666,47 @@ struct retro_core_options_v2 options_id = {
 #define VITA3K_NGS_ENABLE_INFO_0_IT NULL
 #define VITA3K_PSN_SIGNED_IN_LABEL_IT NULL
 #define VITA3K_PSN_SIGNED_IN_INFO_0_IT NULL
+#define VITA3K_HTTP_ENABLE_LABEL_IT NULL
+#define VITA3K_HTTP_ENABLE_INFO_0_IT NULL
+#define VITA3K_HTTP_TIMEOUT_ATTEMPTS_LABEL_IT NULL
+#define VITA3K_HTTP_TIMEOUT_ATTEMPTS_INFO_0_IT NULL
+#define VITA3K_HTTP_TIMEOUT_SLEEP_LABEL_IT NULL
+#define VITA3K_HTTP_TIMEOUT_SLEEP_INFO_0_IT NULL
+#define OPTION_VAL_50_VITA3K_HTTP_TIMEOUT_SLEEP_IT NULL
+#define OPTION_VAL_100_VITA3K_HTTP_TIMEOUT_SLEEP_IT NULL
+#define OPTION_VAL_150_IT NULL
+#define OPTION_VAL_200_IT NULL
+#define OPTION_VAL_250_IT NULL
+#define OPTION_VAL_300_IT NULL
+#define OPTION_VAL_400_IT NULL
+#define OPTION_VAL_500_IT NULL
+#define OPTION_VAL_750_IT NULL
+#define OPTION_VAL_1000_IT NULL
+#define OPTION_VAL_1500_IT NULL
+#define OPTION_VAL_2000_IT NULL
+#define OPTION_VAL_2500_IT NULL
+#define OPTION_VAL_3000_IT NULL
+#define VITA3K_HTTP_READ_END_ATTEMPTS_LABEL_IT NULL
+#define VITA3K_HTTP_READ_END_ATTEMPTS_INFO_0_IT NULL
+#define VITA3K_HTTP_READ_END_SLEEP_LABEL_IT NULL
+#define VITA3K_HTTP_READ_END_SLEEP_INFO_0_IT NULL
+#define VITA3K_FRONT_CAMERA_LABEL_IT NULL
+#define VITA3K_FRONT_CAMERA_INFO_0_IT NULL
+#define OPTION_VAL_HOST_IT NULL
+#define OPTION_VAL_IMAGE_IT NULL
+#define OPTION_VAL_COLOR_IT NULL
+#define VITA3K_FRONT_CAMERA_COLOR_LABEL_IT NULL
+#define VITA3K_FRONT_CAMERA_COLOR_INFO_0_IT NULL
+#define OPTION_VAL_0_VITA3K_FRONT_CAMERA_COLOR_IT "Nero"
+#define OPTION_VAL_16777215_IT "Bianco"
+#define OPTION_VAL_8421504_IT "Grigio"
+#define OPTION_VAL_255_IT "Rosso"
+#define OPTION_VAL_65280_IT "Verde"
+#define OPTION_VAL_16711680_IT "Blu"
+#define VITA3K_BACK_CAMERA_LABEL_IT NULL
+#define VITA3K_BACK_CAMERA_INFO_0_IT NULL
+#define VITA3K_BACK_CAMERA_COLOR_LABEL_IT NULL
+#define VITA3K_BACK_CAMERA_COLOR_INFO_0_IT NULL
 #define VITA3K_SURFACE_SYNC_LABEL_IT NULL
 #define VITA3K_SURFACE_SYNC_INFO_0_IT NULL
 #define OPTION_VAL_ENABLED_IT NULL
@@ -10353,9 +18714,9 @@ struct retro_core_options_v2 options_id = {
 #define VITA3K_FILE_LOADING_DELAY_LABEL_IT NULL
 #define VITA3K_FILE_LOADING_DELAY_INFO_0_IT NULL
 #define OPTION_VAL_0_VITA3K_FILE_LOADING_DELAY_IT NULL
-#define OPTION_VAL_5_IT NULL
+#define OPTION_VAL_5_VITA3K_FILE_LOADING_DELAY_IT NULL
 #define OPTION_VAL_10_VITA3K_FILE_LOADING_DELAY_IT NULL
-#define OPTION_VAL_15_IT NULL
+#define OPTION_VAL_15_VITA3K_FILE_LOADING_DELAY_IT NULL
 #define OPTION_VAL_20_VITA3K_FILE_LOADING_DELAY_IT NULL
 #define OPTION_VAL_25_IT NULL
 #define OPTION_VAL_30_VITA3K_FILE_LOADING_DELAY_IT NULL
@@ -10366,6 +18727,10 @@ struct retro_core_option_v2_category option_cats_it[] = {
     { "system", CATEGORY_SYSTEM_LABEL_IT, CATEGORY_SYSTEM_INFO_0_IT },
     { "audio", CATEGORY_AUDIO_LABEL_IT, CATEGORY_AUDIO_INFO_0_IT },
     { "network", CATEGORY_NETWORK_LABEL_IT, CATEGORY_NETWORK_INFO_0_IT },
+    { "install", CATEGORY_INSTALL_LABEL_IT, CATEGORY_INSTALL_INFO_0_IT },
+    { "camera", CATEGORY_CAMERA_LABEL_IT, CATEGORY_CAMERA_INFO_0_IT },
+    { "accounts", CATEGORY_ACCOUNTS_LABEL_IT, CATEGORY_ACCOUNTS_INFO_0_IT },
+    { "modules", CATEGORY_MODULES_LABEL_IT, CATEGORY_MODULES_INFO_0_IT },
     { NULL, NULL, NULL },
 };
 struct retro_core_option_v2_definition option_defs_it[] = {
@@ -10529,9 +18894,10 @@ struct retro_core_option_v2_definition option_defs_it[] = {
         NULL,
         VITA3K_PKG_MODE_INFO_0_IT,
         NULL,
-        "system",
+        "install",
         {
             { "run", OPTION_VAL_RUN_IT },
+            { "cache", OPTION_VAL_CACHE_IT },
             { "install", OPTION_VAL_INSTALL_IT },
             { NULL, NULL },
         },
@@ -10594,6 +18960,67 @@ struct retro_core_option_v2_definition option_defs_it[] = {
         },
         "1"
     },
+    {
+        "vita3k_sys_lang",
+        VITA3K_SYS_LANG_LABEL_IT,
+        NULL,
+        VITA3K_SYS_LANG_INFO_0_IT,
+        NULL,
+        "system",
+        {
+            { "0", OPTION_VAL_0_VITA3K_SYS_LANG_IT },
+            { "1", OPTION_VAL_1_VITA3K_SYS_LANG_IT },
+            { "2", OPTION_VAL_2_VITA3K_SYS_LANG_IT },
+            { "3", OPTION_VAL_3_VITA3K_SYS_LANG_IT },
+            { "4", OPTION_VAL_4_VITA3K_SYS_LANG_IT },
+            { "5", OPTION_VAL_5_IT },
+            { "6", OPTION_VAL_6_IT },
+            { "7", OPTION_VAL_7_IT },
+            { "8", OPTION_VAL_8_VITA3K_SYS_LANG_IT },
+            { "9", OPTION_VAL_9_IT },
+            { "10", OPTION_VAL_10_IT },
+            { "11", OPTION_VAL_11_IT },
+            { "12", OPTION_VAL_12_IT },
+            { "13", OPTION_VAL_13_IT },
+            { "14", OPTION_VAL_14_IT },
+            { "15", OPTION_VAL_15_IT },
+            { "16", OPTION_VAL_16_VITA3K_SYS_LANG_IT },
+            { "17", OPTION_VAL_17_IT },
+            { "18", OPTION_VAL_18_IT },
+            { "19", OPTION_VAL_19_IT },
+            { NULL, NULL },
+        },
+        "1"
+    },
+    {
+        "vita3k_sys_date_format",
+        VITA3K_SYS_DATE_FORMAT_LABEL_IT,
+        NULL,
+        VITA3K_SYS_DATE_FORMAT_INFO_0_IT,
+        NULL,
+        "system",
+        {
+            { "0", OPTION_VAL_0_VITA3K_SYS_DATE_FORMAT_IT },
+            { "1", OPTION_VAL_1_VITA3K_SYS_DATE_FORMAT_IT },
+            { "2", OPTION_VAL_2_VITA3K_SYS_DATE_FORMAT_IT },
+            { NULL, NULL },
+        },
+        "2"
+    },
+    {
+        "vita3k_sys_time_format",
+        VITA3K_SYS_TIME_FORMAT_LABEL_IT,
+        NULL,
+        VITA3K_SYS_TIME_FORMAT_INFO_0_IT,
+        NULL,
+        "system",
+        {
+            { "0", OPTION_VAL_0_VITA3K_SYS_TIME_FORMAT_IT },
+            { "1", OPTION_VAL_1_VITA3K_SYS_TIME_FORMAT_IT },
+            { NULL, NULL },
+        },
+        "0"
+    },
     // ── Audio ────────────────────────────────────────────────────────────
     {
         "vita3k_audio_volume",
@@ -10604,7 +19031,7 @@ struct retro_core_option_v2_definition option_defs_it[] = {
         "audio",
         {
             { "0", OPTION_VAL_0_VITA3K_AUDIO_VOLUME_IT },
-            { "10", OPTION_VAL_10_IT },
+            { "10", OPTION_VAL_10_VITA3K_AUDIO_VOLUME_IT },
             { "20", OPTION_VAL_20_IT },
             { "30", OPTION_VAL_30_IT },
             { "40", OPTION_VAL_40_IT },
@@ -10648,6 +19075,204 @@ struct retro_core_option_v2_definition option_defs_it[] = {
         "disabled"
     },
     {
+        "vita3k_http_enable",
+        VITA3K_HTTP_ENABLE_LABEL_IT,
+        NULL,
+        VITA3K_HTTP_ENABLE_INFO_0_IT,
+        NULL,
+        "network",
+        {
+            { "enabled", NULL },
+            { "disabled", NULL },
+            { NULL, NULL },
+        },
+        "enabled"
+    },
+    {
+        "vita3k_http_timeout_attempts",
+        VITA3K_HTTP_TIMEOUT_ATTEMPTS_LABEL_IT,
+        NULL,
+        VITA3K_HTTP_TIMEOUT_ATTEMPTS_INFO_0_IT,
+        NULL,
+        "network",
+        {
+            { "0", NULL },
+            { "5", NULL },
+            { "10", NULL },
+            { "15", NULL },
+            { "20", NULL },
+            { "25", NULL },
+            { "30", NULL },
+            { "35", NULL },
+            { "40", NULL },
+            { "45", NULL },
+            { "50", NULL },
+            { "55", NULL },
+            { "60", NULL },
+            { "65", NULL },
+            { "70", NULL },
+            { "75", NULL },
+            { "80", NULL },
+            { "85", NULL },
+            { "90", NULL },
+            { "95", NULL },
+            { "100", NULL },
+            { NULL, NULL },
+        },
+        "50"
+    },
+    {
+        "vita3k_http_timeout_sleep",
+        VITA3K_HTTP_TIMEOUT_SLEEP_LABEL_IT,
+        NULL,
+        VITA3K_HTTP_TIMEOUT_SLEEP_INFO_0_IT,
+        NULL,
+        "network",
+        {
+            { "50", OPTION_VAL_50_VITA3K_HTTP_TIMEOUT_SLEEP_IT },
+            { "100", OPTION_VAL_100_VITA3K_HTTP_TIMEOUT_SLEEP_IT },
+            { "150", OPTION_VAL_150_IT },
+            { "200", OPTION_VAL_200_IT },
+            { "250", OPTION_VAL_250_IT },
+            { "300", OPTION_VAL_300_IT },
+            { "400", OPTION_VAL_400_IT },
+            { "500", OPTION_VAL_500_IT },
+            { "750", OPTION_VAL_750_IT },
+            { "1000", OPTION_VAL_1000_IT },
+            { "1500", OPTION_VAL_1500_IT },
+            { "2000", OPTION_VAL_2000_IT },
+            { "2500", OPTION_VAL_2500_IT },
+            { "3000", OPTION_VAL_3000_IT },
+            { NULL, NULL },
+        },
+        "100"
+    },
+    {
+        "vita3k_http_read_end_attempts",
+        VITA3K_HTTP_READ_END_ATTEMPTS_LABEL_IT,
+        NULL,
+        VITA3K_HTTP_READ_END_ATTEMPTS_INFO_0_IT,
+        NULL,
+        "network",
+        {
+            { "0", NULL },
+            { "5", NULL },
+            { "10", NULL },
+            { "15", NULL },
+            { "20", NULL },
+            { "25", NULL },
+            { "30", NULL },
+            { "35", NULL },
+            { "40", NULL },
+            { "45", NULL },
+            { "50", NULL },
+            { "55", NULL },
+            { "60", NULL },
+            { "65", NULL },
+            { "70", NULL },
+            { "75", NULL },
+            { "80", NULL },
+            { "85", NULL },
+            { "90", NULL },
+            { "95", NULL },
+            { "100", NULL },
+            { NULL, NULL },
+        },
+        "10"
+    },
+    {
+        "vita3k_http_read_end_sleep",
+        VITA3K_HTTP_READ_END_SLEEP_LABEL_IT,
+        NULL,
+        VITA3K_HTTP_READ_END_SLEEP_INFO_0_IT,
+        NULL,
+        "network",
+        {
+            { "50", OPTION_VAL_50_VITA3K_HTTP_TIMEOUT_SLEEP_IT },
+            { "100", OPTION_VAL_100_VITA3K_HTTP_TIMEOUT_SLEEP_IT },
+            { "150", OPTION_VAL_150_IT },
+            { "200", OPTION_VAL_200_IT },
+            { "250", OPTION_VAL_250_IT },
+            { "300", OPTION_VAL_300_IT },
+            { "400", OPTION_VAL_400_IT },
+            { "500", OPTION_VAL_500_IT },
+            { "750", OPTION_VAL_750_IT },
+            { "1000", OPTION_VAL_1000_IT },
+            { "1500", OPTION_VAL_1500_IT },
+            { "2000", OPTION_VAL_2000_IT },
+            { "2500", OPTION_VAL_2500_IT },
+            { "3000", OPTION_VAL_3000_IT },
+            { NULL, NULL },
+        },
+        "250"
+    },
+    {
+        "vita3k_front_camera",
+        VITA3K_FRONT_CAMERA_LABEL_IT,
+        NULL,
+        VITA3K_FRONT_CAMERA_INFO_0_IT,
+        NULL,
+        "camera",
+        {
+            { "host", OPTION_VAL_HOST_IT },
+            { "image", OPTION_VAL_IMAGE_IT },
+            { "color", OPTION_VAL_COLOR_IT },
+            { NULL, NULL },
+        },
+        "host"
+    },
+    {
+        "vita3k_front_camera_color",
+        VITA3K_FRONT_CAMERA_COLOR_LABEL_IT,
+        NULL,
+        VITA3K_FRONT_CAMERA_COLOR_INFO_0_IT,
+        NULL,
+        "camera",
+        {
+            { "0", OPTION_VAL_0_VITA3K_FRONT_CAMERA_COLOR_IT },
+            { "16777215", OPTION_VAL_16777215_IT },
+            { "8421504", OPTION_VAL_8421504_IT },
+            { "255", OPTION_VAL_255_IT },
+            { "65280", OPTION_VAL_65280_IT },
+            { "16711680", OPTION_VAL_16711680_IT },
+            { NULL, NULL },
+        },
+        "0"
+    },
+    {
+        "vita3k_back_camera",
+        VITA3K_BACK_CAMERA_LABEL_IT,
+        NULL,
+        VITA3K_BACK_CAMERA_INFO_0_IT,
+        NULL,
+        "camera",
+        {
+            { "host", OPTION_VAL_HOST_IT },
+            { "image", OPTION_VAL_IMAGE_IT },
+            { "color", OPTION_VAL_COLOR_IT },
+            { NULL, NULL },
+        },
+        "host"
+    },
+    {
+        "vita3k_back_camera_color",
+        VITA3K_BACK_CAMERA_COLOR_LABEL_IT,
+        NULL,
+        VITA3K_BACK_CAMERA_COLOR_INFO_0_IT,
+        NULL,
+        "camera",
+        {
+            { "0", OPTION_VAL_0_VITA3K_FRONT_CAMERA_COLOR_IT },
+            { "16777215", OPTION_VAL_16777215_IT },
+            { "8421504", OPTION_VAL_8421504_IT },
+            { "255", OPTION_VAL_255_IT },
+            { "65280", OPTION_VAL_65280_IT },
+            { "16711680", OPTION_VAL_16711680_IT },
+            { NULL, NULL },
+        },
+        "0"
+    },
+    {
         "vita3k_surface_sync",
         VITA3K_SURFACE_SYNC_LABEL_IT,
         NULL,
@@ -10670,9 +19295,9 @@ struct retro_core_option_v2_definition option_defs_it[] = {
         "system",
         {
             { "0", OPTION_VAL_0_VITA3K_FILE_LOADING_DELAY_IT },
-            { "5", OPTION_VAL_5_IT },
+            { "5", OPTION_VAL_5_VITA3K_FILE_LOADING_DELAY_IT },
             { "10", OPTION_VAL_10_VITA3K_FILE_LOADING_DELAY_IT },
-            { "15", OPTION_VAL_15_IT },
+            { "15", OPTION_VAL_15_VITA3K_FILE_LOADING_DELAY_IT },
             { "20", OPTION_VAL_20_VITA3K_FILE_LOADING_DELAY_IT },
             { "25", OPTION_VAL_25_IT },
             { "30", OPTION_VAL_30_VITA3K_FILE_LOADING_DELAY_IT },
@@ -10699,6 +19324,14 @@ struct retro_core_options_v2 options_it = {
 #define CATEGORY_AUDIO_INFO_0_JA NULL
 #define CATEGORY_NETWORK_LABEL_JA "ネットワーク"
 #define CATEGORY_NETWORK_INFO_0_JA NULL
+#define CATEGORY_INSTALL_LABEL_JA "コンテンツ"
+#define CATEGORY_INSTALL_INFO_0_JA NULL
+#define CATEGORY_CAMERA_LABEL_JA "カメラ"
+#define CATEGORY_CAMERA_INFO_0_JA NULL
+#define CATEGORY_ACCOUNTS_LABEL_JA "アカウント"
+#define CATEGORY_ACCOUNTS_INFO_0_JA NULL
+#define CATEGORY_MODULES_LABEL_JA NULL
+#define CATEGORY_MODULES_INFO_0_JA NULL
 #define VITA3K_BACKEND_RENDERER_LABEL_JA NULL
 #define VITA3K_BACKEND_RENDERER_INFO_0_JA NULL
 #define OPTION_VAL_VULKAN_JA NULL
@@ -10741,6 +19374,7 @@ struct retro_core_options_v2 options_it = {
 #define VITA3K_PKG_MODE_LABEL_JA NULL
 #define VITA3K_PKG_MODE_INFO_0_JA NULL
 #define OPTION_VAL_RUN_JA NULL
+#define OPTION_VAL_CACHE_JA NULL
 #define OPTION_VAL_INSTALL_JA NULL
 #define VITA3K_PSTV_MODE_LABEL_JA NULL
 #define VITA3K_PSTV_MODE_INFO_0_JA NULL
@@ -10755,10 +19389,41 @@ struct retro_core_options_v2 options_it = {
 #define VITA3K_SYS_BUTTON_INFO_0_JA NULL
 #define OPTION_VAL_0_VITA3K_SYS_BUTTON_JA NULL
 #define OPTION_VAL_1_VITA3K_SYS_BUTTON_JA "クロス"
+#define VITA3K_SYS_LANG_LABEL_JA NULL
+#define VITA3K_SYS_LANG_INFO_0_JA NULL
+#define OPTION_VAL_0_VITA3K_SYS_LANG_JA "日本語"
+#define OPTION_VAL_1_VITA3K_SYS_LANG_JA NULL
+#define OPTION_VAL_2_VITA3K_SYS_LANG_JA "フランス語"
+#define OPTION_VAL_3_VITA3K_SYS_LANG_JA "スペイン語"
+#define OPTION_VAL_4_VITA3K_SYS_LANG_JA "ドイツ語"
+#define OPTION_VAL_5_JA "イタリア語"
+#define OPTION_VAL_6_JA NULL
+#define OPTION_VAL_7_JA NULL
+#define OPTION_VAL_8_VITA3K_SYS_LANG_JA NULL
+#define OPTION_VAL_9_JA NULL
+#define OPTION_VAL_10_JA NULL
+#define OPTION_VAL_11_JA NULL
+#define OPTION_VAL_12_JA NULL
+#define OPTION_VAL_13_JA NULL
+#define OPTION_VAL_14_JA NULL
+#define OPTION_VAL_15_JA NULL
+#define OPTION_VAL_16_VITA3K_SYS_LANG_JA NULL
+#define OPTION_VAL_17_JA NULL
+#define OPTION_VAL_18_JA NULL
+#define OPTION_VAL_19_JA NULL
+#define VITA3K_SYS_DATE_FORMAT_LABEL_JA NULL
+#define VITA3K_SYS_DATE_FORMAT_INFO_0_JA NULL
+#define OPTION_VAL_0_VITA3K_SYS_DATE_FORMAT_JA NULL
+#define OPTION_VAL_1_VITA3K_SYS_DATE_FORMAT_JA NULL
+#define OPTION_VAL_2_VITA3K_SYS_DATE_FORMAT_JA NULL
+#define VITA3K_SYS_TIME_FORMAT_LABEL_JA NULL
+#define VITA3K_SYS_TIME_FORMAT_INFO_0_JA NULL
+#define OPTION_VAL_0_VITA3K_SYS_TIME_FORMAT_JA NULL
+#define OPTION_VAL_1_VITA3K_SYS_TIME_FORMAT_JA NULL
 #define VITA3K_AUDIO_VOLUME_LABEL_JA NULL
 #define VITA3K_AUDIO_VOLUME_INFO_0_JA NULL
 #define OPTION_VAL_0_VITA3K_AUDIO_VOLUME_JA NULL
-#define OPTION_VAL_10_JA NULL
+#define OPTION_VAL_10_VITA3K_AUDIO_VOLUME_JA NULL
 #define OPTION_VAL_20_JA NULL
 #define OPTION_VAL_30_JA NULL
 #define OPTION_VAL_40_JA NULL
@@ -10772,6 +19437,47 @@ struct retro_core_options_v2 options_it = {
 #define VITA3K_NGS_ENABLE_INFO_0_JA NULL
 #define VITA3K_PSN_SIGNED_IN_LABEL_JA NULL
 #define VITA3K_PSN_SIGNED_IN_INFO_0_JA NULL
+#define VITA3K_HTTP_ENABLE_LABEL_JA NULL
+#define VITA3K_HTTP_ENABLE_INFO_0_JA NULL
+#define VITA3K_HTTP_TIMEOUT_ATTEMPTS_LABEL_JA NULL
+#define VITA3K_HTTP_TIMEOUT_ATTEMPTS_INFO_0_JA NULL
+#define VITA3K_HTTP_TIMEOUT_SLEEP_LABEL_JA NULL
+#define VITA3K_HTTP_TIMEOUT_SLEEP_INFO_0_JA NULL
+#define OPTION_VAL_50_VITA3K_HTTP_TIMEOUT_SLEEP_JA NULL
+#define OPTION_VAL_100_VITA3K_HTTP_TIMEOUT_SLEEP_JA NULL
+#define OPTION_VAL_150_JA NULL
+#define OPTION_VAL_200_JA NULL
+#define OPTION_VAL_250_JA NULL
+#define OPTION_VAL_300_JA NULL
+#define OPTION_VAL_400_JA NULL
+#define OPTION_VAL_500_JA NULL
+#define OPTION_VAL_750_JA NULL
+#define OPTION_VAL_1000_JA NULL
+#define OPTION_VAL_1500_JA NULL
+#define OPTION_VAL_2000_JA NULL
+#define OPTION_VAL_2500_JA NULL
+#define OPTION_VAL_3000_JA NULL
+#define VITA3K_HTTP_READ_END_ATTEMPTS_LABEL_JA NULL
+#define VITA3K_HTTP_READ_END_ATTEMPTS_INFO_0_JA NULL
+#define VITA3K_HTTP_READ_END_SLEEP_LABEL_JA NULL
+#define VITA3K_HTTP_READ_END_SLEEP_INFO_0_JA NULL
+#define VITA3K_FRONT_CAMERA_LABEL_JA NULL
+#define VITA3K_FRONT_CAMERA_INFO_0_JA NULL
+#define OPTION_VAL_HOST_JA NULL
+#define OPTION_VAL_IMAGE_JA NULL
+#define OPTION_VAL_COLOR_JA NULL
+#define VITA3K_FRONT_CAMERA_COLOR_LABEL_JA NULL
+#define VITA3K_FRONT_CAMERA_COLOR_INFO_0_JA NULL
+#define OPTION_VAL_0_VITA3K_FRONT_CAMERA_COLOR_JA "黒"
+#define OPTION_VAL_16777215_JA "白"
+#define OPTION_VAL_8421504_JA "グレー"
+#define OPTION_VAL_255_JA "レッド"
+#define OPTION_VAL_65280_JA "グリーン"
+#define OPTION_VAL_16711680_JA "ブルー"
+#define VITA3K_BACK_CAMERA_LABEL_JA NULL
+#define VITA3K_BACK_CAMERA_INFO_0_JA NULL
+#define VITA3K_BACK_CAMERA_COLOR_LABEL_JA NULL
+#define VITA3K_BACK_CAMERA_COLOR_INFO_0_JA NULL
 #define VITA3K_SURFACE_SYNC_LABEL_JA NULL
 #define VITA3K_SURFACE_SYNC_INFO_0_JA NULL
 #define OPTION_VAL_ENABLED_JA NULL
@@ -10779,9 +19485,9 @@ struct retro_core_options_v2 options_it = {
 #define VITA3K_FILE_LOADING_DELAY_LABEL_JA NULL
 #define VITA3K_FILE_LOADING_DELAY_INFO_0_JA NULL
 #define OPTION_VAL_0_VITA3K_FILE_LOADING_DELAY_JA NULL
-#define OPTION_VAL_5_JA NULL
+#define OPTION_VAL_5_VITA3K_FILE_LOADING_DELAY_JA NULL
 #define OPTION_VAL_10_VITA3K_FILE_LOADING_DELAY_JA NULL
-#define OPTION_VAL_15_JA NULL
+#define OPTION_VAL_15_VITA3K_FILE_LOADING_DELAY_JA NULL
 #define OPTION_VAL_20_VITA3K_FILE_LOADING_DELAY_JA NULL
 #define OPTION_VAL_25_JA NULL
 #define OPTION_VAL_30_VITA3K_FILE_LOADING_DELAY_JA NULL
@@ -10792,6 +19498,10 @@ struct retro_core_option_v2_category option_cats_ja[] = {
     { "system", CATEGORY_SYSTEM_LABEL_JA, CATEGORY_SYSTEM_INFO_0_JA },
     { "audio", CATEGORY_AUDIO_LABEL_JA, CATEGORY_AUDIO_INFO_0_JA },
     { "network", CATEGORY_NETWORK_LABEL_JA, CATEGORY_NETWORK_INFO_0_JA },
+    { "install", CATEGORY_INSTALL_LABEL_JA, CATEGORY_INSTALL_INFO_0_JA },
+    { "camera", CATEGORY_CAMERA_LABEL_JA, CATEGORY_CAMERA_INFO_0_JA },
+    { "accounts", CATEGORY_ACCOUNTS_LABEL_JA, CATEGORY_ACCOUNTS_INFO_0_JA },
+    { "modules", CATEGORY_MODULES_LABEL_JA, CATEGORY_MODULES_INFO_0_JA },
     { NULL, NULL, NULL },
 };
 struct retro_core_option_v2_definition option_defs_ja[] = {
@@ -10955,9 +19665,10 @@ struct retro_core_option_v2_definition option_defs_ja[] = {
         NULL,
         VITA3K_PKG_MODE_INFO_0_JA,
         NULL,
-        "system",
+        "install",
         {
             { "run", OPTION_VAL_RUN_JA },
+            { "cache", OPTION_VAL_CACHE_JA },
             { "install", OPTION_VAL_INSTALL_JA },
             { NULL, NULL },
         },
@@ -11020,6 +19731,67 @@ struct retro_core_option_v2_definition option_defs_ja[] = {
         },
         "1"
     },
+    {
+        "vita3k_sys_lang",
+        VITA3K_SYS_LANG_LABEL_JA,
+        NULL,
+        VITA3K_SYS_LANG_INFO_0_JA,
+        NULL,
+        "system",
+        {
+            { "0", OPTION_VAL_0_VITA3K_SYS_LANG_JA },
+            { "1", OPTION_VAL_1_VITA3K_SYS_LANG_JA },
+            { "2", OPTION_VAL_2_VITA3K_SYS_LANG_JA },
+            { "3", OPTION_VAL_3_VITA3K_SYS_LANG_JA },
+            { "4", OPTION_VAL_4_VITA3K_SYS_LANG_JA },
+            { "5", OPTION_VAL_5_JA },
+            { "6", OPTION_VAL_6_JA },
+            { "7", OPTION_VAL_7_JA },
+            { "8", OPTION_VAL_8_VITA3K_SYS_LANG_JA },
+            { "9", OPTION_VAL_9_JA },
+            { "10", OPTION_VAL_10_JA },
+            { "11", OPTION_VAL_11_JA },
+            { "12", OPTION_VAL_12_JA },
+            { "13", OPTION_VAL_13_JA },
+            { "14", OPTION_VAL_14_JA },
+            { "15", OPTION_VAL_15_JA },
+            { "16", OPTION_VAL_16_VITA3K_SYS_LANG_JA },
+            { "17", OPTION_VAL_17_JA },
+            { "18", OPTION_VAL_18_JA },
+            { "19", OPTION_VAL_19_JA },
+            { NULL, NULL },
+        },
+        "1"
+    },
+    {
+        "vita3k_sys_date_format",
+        VITA3K_SYS_DATE_FORMAT_LABEL_JA,
+        NULL,
+        VITA3K_SYS_DATE_FORMAT_INFO_0_JA,
+        NULL,
+        "system",
+        {
+            { "0", OPTION_VAL_0_VITA3K_SYS_DATE_FORMAT_JA },
+            { "1", OPTION_VAL_1_VITA3K_SYS_DATE_FORMAT_JA },
+            { "2", OPTION_VAL_2_VITA3K_SYS_DATE_FORMAT_JA },
+            { NULL, NULL },
+        },
+        "2"
+    },
+    {
+        "vita3k_sys_time_format",
+        VITA3K_SYS_TIME_FORMAT_LABEL_JA,
+        NULL,
+        VITA3K_SYS_TIME_FORMAT_INFO_0_JA,
+        NULL,
+        "system",
+        {
+            { "0", OPTION_VAL_0_VITA3K_SYS_TIME_FORMAT_JA },
+            { "1", OPTION_VAL_1_VITA3K_SYS_TIME_FORMAT_JA },
+            { NULL, NULL },
+        },
+        "0"
+    },
     // ── Audio ────────────────────────────────────────────────────────────
     {
         "vita3k_audio_volume",
@@ -11030,7 +19802,7 @@ struct retro_core_option_v2_definition option_defs_ja[] = {
         "audio",
         {
             { "0", OPTION_VAL_0_VITA3K_AUDIO_VOLUME_JA },
-            { "10", OPTION_VAL_10_JA },
+            { "10", OPTION_VAL_10_VITA3K_AUDIO_VOLUME_JA },
             { "20", OPTION_VAL_20_JA },
             { "30", OPTION_VAL_30_JA },
             { "40", OPTION_VAL_40_JA },
@@ -11074,6 +19846,204 @@ struct retro_core_option_v2_definition option_defs_ja[] = {
         "disabled"
     },
     {
+        "vita3k_http_enable",
+        VITA3K_HTTP_ENABLE_LABEL_JA,
+        NULL,
+        VITA3K_HTTP_ENABLE_INFO_0_JA,
+        NULL,
+        "network",
+        {
+            { "enabled", NULL },
+            { "disabled", NULL },
+            { NULL, NULL },
+        },
+        "enabled"
+    },
+    {
+        "vita3k_http_timeout_attempts",
+        VITA3K_HTTP_TIMEOUT_ATTEMPTS_LABEL_JA,
+        NULL,
+        VITA3K_HTTP_TIMEOUT_ATTEMPTS_INFO_0_JA,
+        NULL,
+        "network",
+        {
+            { "0", NULL },
+            { "5", NULL },
+            { "10", NULL },
+            { "15", NULL },
+            { "20", NULL },
+            { "25", NULL },
+            { "30", NULL },
+            { "35", NULL },
+            { "40", NULL },
+            { "45", NULL },
+            { "50", NULL },
+            { "55", NULL },
+            { "60", NULL },
+            { "65", NULL },
+            { "70", NULL },
+            { "75", NULL },
+            { "80", NULL },
+            { "85", NULL },
+            { "90", NULL },
+            { "95", NULL },
+            { "100", NULL },
+            { NULL, NULL },
+        },
+        "50"
+    },
+    {
+        "vita3k_http_timeout_sleep",
+        VITA3K_HTTP_TIMEOUT_SLEEP_LABEL_JA,
+        NULL,
+        VITA3K_HTTP_TIMEOUT_SLEEP_INFO_0_JA,
+        NULL,
+        "network",
+        {
+            { "50", OPTION_VAL_50_VITA3K_HTTP_TIMEOUT_SLEEP_JA },
+            { "100", OPTION_VAL_100_VITA3K_HTTP_TIMEOUT_SLEEP_JA },
+            { "150", OPTION_VAL_150_JA },
+            { "200", OPTION_VAL_200_JA },
+            { "250", OPTION_VAL_250_JA },
+            { "300", OPTION_VAL_300_JA },
+            { "400", OPTION_VAL_400_JA },
+            { "500", OPTION_VAL_500_JA },
+            { "750", OPTION_VAL_750_JA },
+            { "1000", OPTION_VAL_1000_JA },
+            { "1500", OPTION_VAL_1500_JA },
+            { "2000", OPTION_VAL_2000_JA },
+            { "2500", OPTION_VAL_2500_JA },
+            { "3000", OPTION_VAL_3000_JA },
+            { NULL, NULL },
+        },
+        "100"
+    },
+    {
+        "vita3k_http_read_end_attempts",
+        VITA3K_HTTP_READ_END_ATTEMPTS_LABEL_JA,
+        NULL,
+        VITA3K_HTTP_READ_END_ATTEMPTS_INFO_0_JA,
+        NULL,
+        "network",
+        {
+            { "0", NULL },
+            { "5", NULL },
+            { "10", NULL },
+            { "15", NULL },
+            { "20", NULL },
+            { "25", NULL },
+            { "30", NULL },
+            { "35", NULL },
+            { "40", NULL },
+            { "45", NULL },
+            { "50", NULL },
+            { "55", NULL },
+            { "60", NULL },
+            { "65", NULL },
+            { "70", NULL },
+            { "75", NULL },
+            { "80", NULL },
+            { "85", NULL },
+            { "90", NULL },
+            { "95", NULL },
+            { "100", NULL },
+            { NULL, NULL },
+        },
+        "10"
+    },
+    {
+        "vita3k_http_read_end_sleep",
+        VITA3K_HTTP_READ_END_SLEEP_LABEL_JA,
+        NULL,
+        VITA3K_HTTP_READ_END_SLEEP_INFO_0_JA,
+        NULL,
+        "network",
+        {
+            { "50", OPTION_VAL_50_VITA3K_HTTP_TIMEOUT_SLEEP_JA },
+            { "100", OPTION_VAL_100_VITA3K_HTTP_TIMEOUT_SLEEP_JA },
+            { "150", OPTION_VAL_150_JA },
+            { "200", OPTION_VAL_200_JA },
+            { "250", OPTION_VAL_250_JA },
+            { "300", OPTION_VAL_300_JA },
+            { "400", OPTION_VAL_400_JA },
+            { "500", OPTION_VAL_500_JA },
+            { "750", OPTION_VAL_750_JA },
+            { "1000", OPTION_VAL_1000_JA },
+            { "1500", OPTION_VAL_1500_JA },
+            { "2000", OPTION_VAL_2000_JA },
+            { "2500", OPTION_VAL_2500_JA },
+            { "3000", OPTION_VAL_3000_JA },
+            { NULL, NULL },
+        },
+        "250"
+    },
+    {
+        "vita3k_front_camera",
+        VITA3K_FRONT_CAMERA_LABEL_JA,
+        NULL,
+        VITA3K_FRONT_CAMERA_INFO_0_JA,
+        NULL,
+        "camera",
+        {
+            { "host", OPTION_VAL_HOST_JA },
+            { "image", OPTION_VAL_IMAGE_JA },
+            { "color", OPTION_VAL_COLOR_JA },
+            { NULL, NULL },
+        },
+        "host"
+    },
+    {
+        "vita3k_front_camera_color",
+        VITA3K_FRONT_CAMERA_COLOR_LABEL_JA,
+        NULL,
+        VITA3K_FRONT_CAMERA_COLOR_INFO_0_JA,
+        NULL,
+        "camera",
+        {
+            { "0", OPTION_VAL_0_VITA3K_FRONT_CAMERA_COLOR_JA },
+            { "16777215", OPTION_VAL_16777215_JA },
+            { "8421504", OPTION_VAL_8421504_JA },
+            { "255", OPTION_VAL_255_JA },
+            { "65280", OPTION_VAL_65280_JA },
+            { "16711680", OPTION_VAL_16711680_JA },
+            { NULL, NULL },
+        },
+        "0"
+    },
+    {
+        "vita3k_back_camera",
+        VITA3K_BACK_CAMERA_LABEL_JA,
+        NULL,
+        VITA3K_BACK_CAMERA_INFO_0_JA,
+        NULL,
+        "camera",
+        {
+            { "host", OPTION_VAL_HOST_JA },
+            { "image", OPTION_VAL_IMAGE_JA },
+            { "color", OPTION_VAL_COLOR_JA },
+            { NULL, NULL },
+        },
+        "host"
+    },
+    {
+        "vita3k_back_camera_color",
+        VITA3K_BACK_CAMERA_COLOR_LABEL_JA,
+        NULL,
+        VITA3K_BACK_CAMERA_COLOR_INFO_0_JA,
+        NULL,
+        "camera",
+        {
+            { "0", OPTION_VAL_0_VITA3K_FRONT_CAMERA_COLOR_JA },
+            { "16777215", OPTION_VAL_16777215_JA },
+            { "8421504", OPTION_VAL_8421504_JA },
+            { "255", OPTION_VAL_255_JA },
+            { "65280", OPTION_VAL_65280_JA },
+            { "16711680", OPTION_VAL_16711680_JA },
+            { NULL, NULL },
+        },
+        "0"
+    },
+    {
         "vita3k_surface_sync",
         VITA3K_SURFACE_SYNC_LABEL_JA,
         NULL,
@@ -11096,9 +20066,9 @@ struct retro_core_option_v2_definition option_defs_ja[] = {
         "system",
         {
             { "0", OPTION_VAL_0_VITA3K_FILE_LOADING_DELAY_JA },
-            { "5", OPTION_VAL_5_JA },
+            { "5", OPTION_VAL_5_VITA3K_FILE_LOADING_DELAY_JA },
             { "10", OPTION_VAL_10_VITA3K_FILE_LOADING_DELAY_JA },
-            { "15", OPTION_VAL_15_JA },
+            { "15", OPTION_VAL_15_VITA3K_FILE_LOADING_DELAY_JA },
             { "20", OPTION_VAL_20_VITA3K_FILE_LOADING_DELAY_JA },
             { "25", OPTION_VAL_25_JA },
             { "30", OPTION_VAL_30_VITA3K_FILE_LOADING_DELAY_JA },
@@ -11125,6 +20095,14 @@ struct retro_core_options_v2 options_ja = {
 #define CATEGORY_AUDIO_INFO_0_KO NULL
 #define CATEGORY_NETWORK_LABEL_KO "네트워크"
 #define CATEGORY_NETWORK_INFO_0_KO NULL
+#define CATEGORY_INSTALL_LABEL_KO "콘텐츠"
+#define CATEGORY_INSTALL_INFO_0_KO NULL
+#define CATEGORY_CAMERA_LABEL_KO "카메라 드라이버"
+#define CATEGORY_CAMERA_INFO_0_KO NULL
+#define CATEGORY_ACCOUNTS_LABEL_KO "계정"
+#define CATEGORY_ACCOUNTS_INFO_0_KO NULL
+#define CATEGORY_MODULES_LABEL_KO NULL
+#define CATEGORY_MODULES_INFO_0_KO NULL
 #define VITA3K_BACKEND_RENDERER_LABEL_KO NULL
 #define VITA3K_BACKEND_RENDERER_INFO_0_KO NULL
 #define OPTION_VAL_VULKAN_KO NULL
@@ -11167,6 +20145,7 @@ struct retro_core_options_v2 options_ja = {
 #define VITA3K_PKG_MODE_LABEL_KO NULL
 #define VITA3K_PKG_MODE_INFO_0_KO NULL
 #define OPTION_VAL_RUN_KO NULL
+#define OPTION_VAL_CACHE_KO NULL
 #define OPTION_VAL_INSTALL_KO NULL
 #define VITA3K_PSTV_MODE_LABEL_KO NULL
 #define VITA3K_PSTV_MODE_INFO_0_KO NULL
@@ -11181,10 +20160,41 @@ struct retro_core_options_v2 options_ja = {
 #define VITA3K_SYS_BUTTON_INFO_0_KO NULL
 #define OPTION_VAL_0_VITA3K_SYS_BUTTON_KO NULL
 #define OPTION_VAL_1_VITA3K_SYS_BUTTON_KO "십자"
+#define VITA3K_SYS_LANG_LABEL_KO NULL
+#define VITA3K_SYS_LANG_INFO_0_KO NULL
+#define OPTION_VAL_0_VITA3K_SYS_LANG_KO "일본어"
+#define OPTION_VAL_1_VITA3K_SYS_LANG_KO NULL
+#define OPTION_VAL_2_VITA3K_SYS_LANG_KO "프랑스어"
+#define OPTION_VAL_3_VITA3K_SYS_LANG_KO "스페인어"
+#define OPTION_VAL_4_VITA3K_SYS_LANG_KO "독일어"
+#define OPTION_VAL_5_KO "이탈리아어"
+#define OPTION_VAL_6_KO "네덜란드어"
+#define OPTION_VAL_7_KO NULL
+#define OPTION_VAL_8_VITA3K_SYS_LANG_KO "러시아어"
+#define OPTION_VAL_9_KO "한국어"
+#define OPTION_VAL_10_KO NULL
+#define OPTION_VAL_11_KO NULL
+#define OPTION_VAL_12_KO NULL
+#define OPTION_VAL_13_KO NULL
+#define OPTION_VAL_14_KO NULL
+#define OPTION_VAL_15_KO NULL
+#define OPTION_VAL_16_VITA3K_SYS_LANG_KO NULL
+#define OPTION_VAL_17_KO NULL
+#define OPTION_VAL_18_KO NULL
+#define OPTION_VAL_19_KO NULL
+#define VITA3K_SYS_DATE_FORMAT_LABEL_KO NULL
+#define VITA3K_SYS_DATE_FORMAT_INFO_0_KO NULL
+#define OPTION_VAL_0_VITA3K_SYS_DATE_FORMAT_KO NULL
+#define OPTION_VAL_1_VITA3K_SYS_DATE_FORMAT_KO NULL
+#define OPTION_VAL_2_VITA3K_SYS_DATE_FORMAT_KO NULL
+#define VITA3K_SYS_TIME_FORMAT_LABEL_KO NULL
+#define VITA3K_SYS_TIME_FORMAT_INFO_0_KO NULL
+#define OPTION_VAL_0_VITA3K_SYS_TIME_FORMAT_KO NULL
+#define OPTION_VAL_1_VITA3K_SYS_TIME_FORMAT_KO NULL
 #define VITA3K_AUDIO_VOLUME_LABEL_KO NULL
 #define VITA3K_AUDIO_VOLUME_INFO_0_KO NULL
 #define OPTION_VAL_0_VITA3K_AUDIO_VOLUME_KO NULL
-#define OPTION_VAL_10_KO NULL
+#define OPTION_VAL_10_VITA3K_AUDIO_VOLUME_KO NULL
 #define OPTION_VAL_20_KO NULL
 #define OPTION_VAL_30_KO NULL
 #define OPTION_VAL_40_KO NULL
@@ -11198,6 +20208,47 @@ struct retro_core_options_v2 options_ja = {
 #define VITA3K_NGS_ENABLE_INFO_0_KO NULL
 #define VITA3K_PSN_SIGNED_IN_LABEL_KO NULL
 #define VITA3K_PSN_SIGNED_IN_INFO_0_KO NULL
+#define VITA3K_HTTP_ENABLE_LABEL_KO NULL
+#define VITA3K_HTTP_ENABLE_INFO_0_KO NULL
+#define VITA3K_HTTP_TIMEOUT_ATTEMPTS_LABEL_KO NULL
+#define VITA3K_HTTP_TIMEOUT_ATTEMPTS_INFO_0_KO NULL
+#define VITA3K_HTTP_TIMEOUT_SLEEP_LABEL_KO NULL
+#define VITA3K_HTTP_TIMEOUT_SLEEP_INFO_0_KO NULL
+#define OPTION_VAL_50_VITA3K_HTTP_TIMEOUT_SLEEP_KO NULL
+#define OPTION_VAL_100_VITA3K_HTTP_TIMEOUT_SLEEP_KO NULL
+#define OPTION_VAL_150_KO NULL
+#define OPTION_VAL_200_KO NULL
+#define OPTION_VAL_250_KO NULL
+#define OPTION_VAL_300_KO NULL
+#define OPTION_VAL_400_KO NULL
+#define OPTION_VAL_500_KO NULL
+#define OPTION_VAL_750_KO NULL
+#define OPTION_VAL_1000_KO NULL
+#define OPTION_VAL_1500_KO NULL
+#define OPTION_VAL_2000_KO NULL
+#define OPTION_VAL_2500_KO NULL
+#define OPTION_VAL_3000_KO NULL
+#define VITA3K_HTTP_READ_END_ATTEMPTS_LABEL_KO NULL
+#define VITA3K_HTTP_READ_END_ATTEMPTS_INFO_0_KO NULL
+#define VITA3K_HTTP_READ_END_SLEEP_LABEL_KO NULL
+#define VITA3K_HTTP_READ_END_SLEEP_INFO_0_KO NULL
+#define VITA3K_FRONT_CAMERA_LABEL_KO NULL
+#define VITA3K_FRONT_CAMERA_INFO_0_KO NULL
+#define OPTION_VAL_HOST_KO NULL
+#define OPTION_VAL_IMAGE_KO NULL
+#define OPTION_VAL_COLOR_KO NULL
+#define VITA3K_FRONT_CAMERA_COLOR_LABEL_KO NULL
+#define VITA3K_FRONT_CAMERA_COLOR_INFO_0_KO NULL
+#define OPTION_VAL_0_VITA3K_FRONT_CAMERA_COLOR_KO "검정"
+#define OPTION_VAL_16777215_KO "흰색"
+#define OPTION_VAL_8421504_KO "회색"
+#define OPTION_VAL_255_KO "빨간색"
+#define OPTION_VAL_65280_KO "녹색"
+#define OPTION_VAL_16711680_KO "파란색"
+#define VITA3K_BACK_CAMERA_LABEL_KO NULL
+#define VITA3K_BACK_CAMERA_INFO_0_KO NULL
+#define VITA3K_BACK_CAMERA_COLOR_LABEL_KO NULL
+#define VITA3K_BACK_CAMERA_COLOR_INFO_0_KO NULL
 #define VITA3K_SURFACE_SYNC_LABEL_KO NULL
 #define VITA3K_SURFACE_SYNC_INFO_0_KO NULL
 #define OPTION_VAL_ENABLED_KO NULL
@@ -11205,9 +20256,9 @@ struct retro_core_options_v2 options_ja = {
 #define VITA3K_FILE_LOADING_DELAY_LABEL_KO NULL
 #define VITA3K_FILE_LOADING_DELAY_INFO_0_KO NULL
 #define OPTION_VAL_0_VITA3K_FILE_LOADING_DELAY_KO NULL
-#define OPTION_VAL_5_KO NULL
+#define OPTION_VAL_5_VITA3K_FILE_LOADING_DELAY_KO NULL
 #define OPTION_VAL_10_VITA3K_FILE_LOADING_DELAY_KO NULL
-#define OPTION_VAL_15_KO NULL
+#define OPTION_VAL_15_VITA3K_FILE_LOADING_DELAY_KO NULL
 #define OPTION_VAL_20_VITA3K_FILE_LOADING_DELAY_KO NULL
 #define OPTION_VAL_25_KO NULL
 #define OPTION_VAL_30_VITA3K_FILE_LOADING_DELAY_KO NULL
@@ -11218,6 +20269,10 @@ struct retro_core_option_v2_category option_cats_ko[] = {
     { "system", CATEGORY_SYSTEM_LABEL_KO, CATEGORY_SYSTEM_INFO_0_KO },
     { "audio", CATEGORY_AUDIO_LABEL_KO, CATEGORY_AUDIO_INFO_0_KO },
     { "network", CATEGORY_NETWORK_LABEL_KO, CATEGORY_NETWORK_INFO_0_KO },
+    { "install", CATEGORY_INSTALL_LABEL_KO, CATEGORY_INSTALL_INFO_0_KO },
+    { "camera", CATEGORY_CAMERA_LABEL_KO, CATEGORY_CAMERA_INFO_0_KO },
+    { "accounts", CATEGORY_ACCOUNTS_LABEL_KO, CATEGORY_ACCOUNTS_INFO_0_KO },
+    { "modules", CATEGORY_MODULES_LABEL_KO, CATEGORY_MODULES_INFO_0_KO },
     { NULL, NULL, NULL },
 };
 struct retro_core_option_v2_definition option_defs_ko[] = {
@@ -11381,9 +20436,10 @@ struct retro_core_option_v2_definition option_defs_ko[] = {
         NULL,
         VITA3K_PKG_MODE_INFO_0_KO,
         NULL,
-        "system",
+        "install",
         {
             { "run", OPTION_VAL_RUN_KO },
+            { "cache", OPTION_VAL_CACHE_KO },
             { "install", OPTION_VAL_INSTALL_KO },
             { NULL, NULL },
         },
@@ -11446,6 +20502,67 @@ struct retro_core_option_v2_definition option_defs_ko[] = {
         },
         "1"
     },
+    {
+        "vita3k_sys_lang",
+        VITA3K_SYS_LANG_LABEL_KO,
+        NULL,
+        VITA3K_SYS_LANG_INFO_0_KO,
+        NULL,
+        "system",
+        {
+            { "0", OPTION_VAL_0_VITA3K_SYS_LANG_KO },
+            { "1", OPTION_VAL_1_VITA3K_SYS_LANG_KO },
+            { "2", OPTION_VAL_2_VITA3K_SYS_LANG_KO },
+            { "3", OPTION_VAL_3_VITA3K_SYS_LANG_KO },
+            { "4", OPTION_VAL_4_VITA3K_SYS_LANG_KO },
+            { "5", OPTION_VAL_5_KO },
+            { "6", OPTION_VAL_6_KO },
+            { "7", OPTION_VAL_7_KO },
+            { "8", OPTION_VAL_8_VITA3K_SYS_LANG_KO },
+            { "9", OPTION_VAL_9_KO },
+            { "10", OPTION_VAL_10_KO },
+            { "11", OPTION_VAL_11_KO },
+            { "12", OPTION_VAL_12_KO },
+            { "13", OPTION_VAL_13_KO },
+            { "14", OPTION_VAL_14_KO },
+            { "15", OPTION_VAL_15_KO },
+            { "16", OPTION_VAL_16_VITA3K_SYS_LANG_KO },
+            { "17", OPTION_VAL_17_KO },
+            { "18", OPTION_VAL_18_KO },
+            { "19", OPTION_VAL_19_KO },
+            { NULL, NULL },
+        },
+        "1"
+    },
+    {
+        "vita3k_sys_date_format",
+        VITA3K_SYS_DATE_FORMAT_LABEL_KO,
+        NULL,
+        VITA3K_SYS_DATE_FORMAT_INFO_0_KO,
+        NULL,
+        "system",
+        {
+            { "0", OPTION_VAL_0_VITA3K_SYS_DATE_FORMAT_KO },
+            { "1", OPTION_VAL_1_VITA3K_SYS_DATE_FORMAT_KO },
+            { "2", OPTION_VAL_2_VITA3K_SYS_DATE_FORMAT_KO },
+            { NULL, NULL },
+        },
+        "2"
+    },
+    {
+        "vita3k_sys_time_format",
+        VITA3K_SYS_TIME_FORMAT_LABEL_KO,
+        NULL,
+        VITA3K_SYS_TIME_FORMAT_INFO_0_KO,
+        NULL,
+        "system",
+        {
+            { "0", OPTION_VAL_0_VITA3K_SYS_TIME_FORMAT_KO },
+            { "1", OPTION_VAL_1_VITA3K_SYS_TIME_FORMAT_KO },
+            { NULL, NULL },
+        },
+        "0"
+    },
     // ── Audio ────────────────────────────────────────────────────────────
     {
         "vita3k_audio_volume",
@@ -11456,7 +20573,7 @@ struct retro_core_option_v2_definition option_defs_ko[] = {
         "audio",
         {
             { "0", OPTION_VAL_0_VITA3K_AUDIO_VOLUME_KO },
-            { "10", OPTION_VAL_10_KO },
+            { "10", OPTION_VAL_10_VITA3K_AUDIO_VOLUME_KO },
             { "20", OPTION_VAL_20_KO },
             { "30", OPTION_VAL_30_KO },
             { "40", OPTION_VAL_40_KO },
@@ -11500,6 +20617,204 @@ struct retro_core_option_v2_definition option_defs_ko[] = {
         "disabled"
     },
     {
+        "vita3k_http_enable",
+        VITA3K_HTTP_ENABLE_LABEL_KO,
+        NULL,
+        VITA3K_HTTP_ENABLE_INFO_0_KO,
+        NULL,
+        "network",
+        {
+            { "enabled", NULL },
+            { "disabled", NULL },
+            { NULL, NULL },
+        },
+        "enabled"
+    },
+    {
+        "vita3k_http_timeout_attempts",
+        VITA3K_HTTP_TIMEOUT_ATTEMPTS_LABEL_KO,
+        NULL,
+        VITA3K_HTTP_TIMEOUT_ATTEMPTS_INFO_0_KO,
+        NULL,
+        "network",
+        {
+            { "0", NULL },
+            { "5", NULL },
+            { "10", NULL },
+            { "15", NULL },
+            { "20", NULL },
+            { "25", NULL },
+            { "30", NULL },
+            { "35", NULL },
+            { "40", NULL },
+            { "45", NULL },
+            { "50", NULL },
+            { "55", NULL },
+            { "60", NULL },
+            { "65", NULL },
+            { "70", NULL },
+            { "75", NULL },
+            { "80", NULL },
+            { "85", NULL },
+            { "90", NULL },
+            { "95", NULL },
+            { "100", NULL },
+            { NULL, NULL },
+        },
+        "50"
+    },
+    {
+        "vita3k_http_timeout_sleep",
+        VITA3K_HTTP_TIMEOUT_SLEEP_LABEL_KO,
+        NULL,
+        VITA3K_HTTP_TIMEOUT_SLEEP_INFO_0_KO,
+        NULL,
+        "network",
+        {
+            { "50", OPTION_VAL_50_VITA3K_HTTP_TIMEOUT_SLEEP_KO },
+            { "100", OPTION_VAL_100_VITA3K_HTTP_TIMEOUT_SLEEP_KO },
+            { "150", OPTION_VAL_150_KO },
+            { "200", OPTION_VAL_200_KO },
+            { "250", OPTION_VAL_250_KO },
+            { "300", OPTION_VAL_300_KO },
+            { "400", OPTION_VAL_400_KO },
+            { "500", OPTION_VAL_500_KO },
+            { "750", OPTION_VAL_750_KO },
+            { "1000", OPTION_VAL_1000_KO },
+            { "1500", OPTION_VAL_1500_KO },
+            { "2000", OPTION_VAL_2000_KO },
+            { "2500", OPTION_VAL_2500_KO },
+            { "3000", OPTION_VAL_3000_KO },
+            { NULL, NULL },
+        },
+        "100"
+    },
+    {
+        "vita3k_http_read_end_attempts",
+        VITA3K_HTTP_READ_END_ATTEMPTS_LABEL_KO,
+        NULL,
+        VITA3K_HTTP_READ_END_ATTEMPTS_INFO_0_KO,
+        NULL,
+        "network",
+        {
+            { "0", NULL },
+            { "5", NULL },
+            { "10", NULL },
+            { "15", NULL },
+            { "20", NULL },
+            { "25", NULL },
+            { "30", NULL },
+            { "35", NULL },
+            { "40", NULL },
+            { "45", NULL },
+            { "50", NULL },
+            { "55", NULL },
+            { "60", NULL },
+            { "65", NULL },
+            { "70", NULL },
+            { "75", NULL },
+            { "80", NULL },
+            { "85", NULL },
+            { "90", NULL },
+            { "95", NULL },
+            { "100", NULL },
+            { NULL, NULL },
+        },
+        "10"
+    },
+    {
+        "vita3k_http_read_end_sleep",
+        VITA3K_HTTP_READ_END_SLEEP_LABEL_KO,
+        NULL,
+        VITA3K_HTTP_READ_END_SLEEP_INFO_0_KO,
+        NULL,
+        "network",
+        {
+            { "50", OPTION_VAL_50_VITA3K_HTTP_TIMEOUT_SLEEP_KO },
+            { "100", OPTION_VAL_100_VITA3K_HTTP_TIMEOUT_SLEEP_KO },
+            { "150", OPTION_VAL_150_KO },
+            { "200", OPTION_VAL_200_KO },
+            { "250", OPTION_VAL_250_KO },
+            { "300", OPTION_VAL_300_KO },
+            { "400", OPTION_VAL_400_KO },
+            { "500", OPTION_VAL_500_KO },
+            { "750", OPTION_VAL_750_KO },
+            { "1000", OPTION_VAL_1000_KO },
+            { "1500", OPTION_VAL_1500_KO },
+            { "2000", OPTION_VAL_2000_KO },
+            { "2500", OPTION_VAL_2500_KO },
+            { "3000", OPTION_VAL_3000_KO },
+            { NULL, NULL },
+        },
+        "250"
+    },
+    {
+        "vita3k_front_camera",
+        VITA3K_FRONT_CAMERA_LABEL_KO,
+        NULL,
+        VITA3K_FRONT_CAMERA_INFO_0_KO,
+        NULL,
+        "camera",
+        {
+            { "host", OPTION_VAL_HOST_KO },
+            { "image", OPTION_VAL_IMAGE_KO },
+            { "color", OPTION_VAL_COLOR_KO },
+            { NULL, NULL },
+        },
+        "host"
+    },
+    {
+        "vita3k_front_camera_color",
+        VITA3K_FRONT_CAMERA_COLOR_LABEL_KO,
+        NULL,
+        VITA3K_FRONT_CAMERA_COLOR_INFO_0_KO,
+        NULL,
+        "camera",
+        {
+            { "0", OPTION_VAL_0_VITA3K_FRONT_CAMERA_COLOR_KO },
+            { "16777215", OPTION_VAL_16777215_KO },
+            { "8421504", OPTION_VAL_8421504_KO },
+            { "255", OPTION_VAL_255_KO },
+            { "65280", OPTION_VAL_65280_KO },
+            { "16711680", OPTION_VAL_16711680_KO },
+            { NULL, NULL },
+        },
+        "0"
+    },
+    {
+        "vita3k_back_camera",
+        VITA3K_BACK_CAMERA_LABEL_KO,
+        NULL,
+        VITA3K_BACK_CAMERA_INFO_0_KO,
+        NULL,
+        "camera",
+        {
+            { "host", OPTION_VAL_HOST_KO },
+            { "image", OPTION_VAL_IMAGE_KO },
+            { "color", OPTION_VAL_COLOR_KO },
+            { NULL, NULL },
+        },
+        "host"
+    },
+    {
+        "vita3k_back_camera_color",
+        VITA3K_BACK_CAMERA_COLOR_LABEL_KO,
+        NULL,
+        VITA3K_BACK_CAMERA_COLOR_INFO_0_KO,
+        NULL,
+        "camera",
+        {
+            { "0", OPTION_VAL_0_VITA3K_FRONT_CAMERA_COLOR_KO },
+            { "16777215", OPTION_VAL_16777215_KO },
+            { "8421504", OPTION_VAL_8421504_KO },
+            { "255", OPTION_VAL_255_KO },
+            { "65280", OPTION_VAL_65280_KO },
+            { "16711680", OPTION_VAL_16711680_KO },
+            { NULL, NULL },
+        },
+        "0"
+    },
+    {
         "vita3k_surface_sync",
         VITA3K_SURFACE_SYNC_LABEL_KO,
         NULL,
@@ -11522,9 +20837,9 @@ struct retro_core_option_v2_definition option_defs_ko[] = {
         "system",
         {
             { "0", OPTION_VAL_0_VITA3K_FILE_LOADING_DELAY_KO },
-            { "5", OPTION_VAL_5_KO },
+            { "5", OPTION_VAL_5_VITA3K_FILE_LOADING_DELAY_KO },
             { "10", OPTION_VAL_10_VITA3K_FILE_LOADING_DELAY_KO },
-            { "15", OPTION_VAL_15_KO },
+            { "15", OPTION_VAL_15_VITA3K_FILE_LOADING_DELAY_KO },
             { "20", OPTION_VAL_20_VITA3K_FILE_LOADING_DELAY_KO },
             { "25", OPTION_VAL_25_KO },
             { "30", OPTION_VAL_30_VITA3K_FILE_LOADING_DELAY_KO },
@@ -11551,6 +20866,14 @@ struct retro_core_options_v2 options_ko = {
 #define CATEGORY_AUDIO_INFO_0_NL NULL
 #define CATEGORY_NETWORK_LABEL_NL "Netwerk"
 #define CATEGORY_NETWORK_INFO_0_NL NULL
+#define CATEGORY_INSTALL_LABEL_NL "Inhoud"
+#define CATEGORY_INSTALL_INFO_0_NL NULL
+#define CATEGORY_CAMERA_LABEL_NL NULL
+#define CATEGORY_CAMERA_INFO_0_NL NULL
+#define CATEGORY_ACCOUNTS_LABEL_NL NULL
+#define CATEGORY_ACCOUNTS_INFO_0_NL NULL
+#define CATEGORY_MODULES_LABEL_NL NULL
+#define CATEGORY_MODULES_INFO_0_NL NULL
 #define VITA3K_BACKEND_RENDERER_LABEL_NL NULL
 #define VITA3K_BACKEND_RENDERER_INFO_0_NL NULL
 #define OPTION_VAL_VULKAN_NL NULL
@@ -11593,6 +20916,7 @@ struct retro_core_options_v2 options_ko = {
 #define VITA3K_PKG_MODE_LABEL_NL NULL
 #define VITA3K_PKG_MODE_INFO_0_NL NULL
 #define OPTION_VAL_RUN_NL NULL
+#define OPTION_VAL_CACHE_NL NULL
 #define OPTION_VAL_INSTALL_NL NULL
 #define VITA3K_PSTV_MODE_LABEL_NL NULL
 #define VITA3K_PSTV_MODE_INFO_0_NL NULL
@@ -11607,10 +20931,41 @@ struct retro_core_options_v2 options_ko = {
 #define VITA3K_SYS_BUTTON_INFO_0_NL NULL
 #define OPTION_VAL_0_VITA3K_SYS_BUTTON_NL NULL
 #define OPTION_VAL_1_VITA3K_SYS_BUTTON_NL NULL
+#define VITA3K_SYS_LANG_LABEL_NL NULL
+#define VITA3K_SYS_LANG_INFO_0_NL NULL
+#define OPTION_VAL_0_VITA3K_SYS_LANG_NL "Japans"
+#define OPTION_VAL_1_VITA3K_SYS_LANG_NL NULL
+#define OPTION_VAL_2_VITA3K_SYS_LANG_NL "Frans"
+#define OPTION_VAL_3_VITA3K_SYS_LANG_NL "Spaans"
+#define OPTION_VAL_4_VITA3K_SYS_LANG_NL "Duits"
+#define OPTION_VAL_5_NL "Italiaans"
+#define OPTION_VAL_6_NL NULL
+#define OPTION_VAL_7_NL NULL
+#define OPTION_VAL_8_VITA3K_SYS_LANG_NL NULL
+#define OPTION_VAL_9_NL NULL
+#define OPTION_VAL_10_NL NULL
+#define OPTION_VAL_11_NL NULL
+#define OPTION_VAL_12_NL NULL
+#define OPTION_VAL_13_NL NULL
+#define OPTION_VAL_14_NL NULL
+#define OPTION_VAL_15_NL NULL
+#define OPTION_VAL_16_VITA3K_SYS_LANG_NL NULL
+#define OPTION_VAL_17_NL NULL
+#define OPTION_VAL_18_NL NULL
+#define OPTION_VAL_19_NL NULL
+#define VITA3K_SYS_DATE_FORMAT_LABEL_NL NULL
+#define VITA3K_SYS_DATE_FORMAT_INFO_0_NL NULL
+#define OPTION_VAL_0_VITA3K_SYS_DATE_FORMAT_NL NULL
+#define OPTION_VAL_1_VITA3K_SYS_DATE_FORMAT_NL NULL
+#define OPTION_VAL_2_VITA3K_SYS_DATE_FORMAT_NL NULL
+#define VITA3K_SYS_TIME_FORMAT_LABEL_NL NULL
+#define VITA3K_SYS_TIME_FORMAT_INFO_0_NL NULL
+#define OPTION_VAL_0_VITA3K_SYS_TIME_FORMAT_NL NULL
+#define OPTION_VAL_1_VITA3K_SYS_TIME_FORMAT_NL NULL
 #define VITA3K_AUDIO_VOLUME_LABEL_NL NULL
 #define VITA3K_AUDIO_VOLUME_INFO_0_NL NULL
 #define OPTION_VAL_0_VITA3K_AUDIO_VOLUME_NL NULL
-#define OPTION_VAL_10_NL NULL
+#define OPTION_VAL_10_VITA3K_AUDIO_VOLUME_NL NULL
 #define OPTION_VAL_20_NL NULL
 #define OPTION_VAL_30_NL NULL
 #define OPTION_VAL_40_NL NULL
@@ -11624,6 +20979,47 @@ struct retro_core_options_v2 options_ko = {
 #define VITA3K_NGS_ENABLE_INFO_0_NL NULL
 #define VITA3K_PSN_SIGNED_IN_LABEL_NL NULL
 #define VITA3K_PSN_SIGNED_IN_INFO_0_NL NULL
+#define VITA3K_HTTP_ENABLE_LABEL_NL NULL
+#define VITA3K_HTTP_ENABLE_INFO_0_NL NULL
+#define VITA3K_HTTP_TIMEOUT_ATTEMPTS_LABEL_NL NULL
+#define VITA3K_HTTP_TIMEOUT_ATTEMPTS_INFO_0_NL NULL
+#define VITA3K_HTTP_TIMEOUT_SLEEP_LABEL_NL NULL
+#define VITA3K_HTTP_TIMEOUT_SLEEP_INFO_0_NL NULL
+#define OPTION_VAL_50_VITA3K_HTTP_TIMEOUT_SLEEP_NL NULL
+#define OPTION_VAL_100_VITA3K_HTTP_TIMEOUT_SLEEP_NL NULL
+#define OPTION_VAL_150_NL NULL
+#define OPTION_VAL_200_NL NULL
+#define OPTION_VAL_250_NL NULL
+#define OPTION_VAL_300_NL NULL
+#define OPTION_VAL_400_NL NULL
+#define OPTION_VAL_500_NL NULL
+#define OPTION_VAL_750_NL NULL
+#define OPTION_VAL_1000_NL NULL
+#define OPTION_VAL_1500_NL NULL
+#define OPTION_VAL_2000_NL NULL
+#define OPTION_VAL_2500_NL NULL
+#define OPTION_VAL_3000_NL NULL
+#define VITA3K_HTTP_READ_END_ATTEMPTS_LABEL_NL NULL
+#define VITA3K_HTTP_READ_END_ATTEMPTS_INFO_0_NL NULL
+#define VITA3K_HTTP_READ_END_SLEEP_LABEL_NL NULL
+#define VITA3K_HTTP_READ_END_SLEEP_INFO_0_NL NULL
+#define VITA3K_FRONT_CAMERA_LABEL_NL NULL
+#define VITA3K_FRONT_CAMERA_INFO_0_NL NULL
+#define OPTION_VAL_HOST_NL NULL
+#define OPTION_VAL_IMAGE_NL NULL
+#define OPTION_VAL_COLOR_NL NULL
+#define VITA3K_FRONT_CAMERA_COLOR_LABEL_NL NULL
+#define VITA3K_FRONT_CAMERA_COLOR_INFO_0_NL NULL
+#define OPTION_VAL_0_VITA3K_FRONT_CAMERA_COLOR_NL NULL
+#define OPTION_VAL_16777215_NL NULL
+#define OPTION_VAL_8421504_NL NULL
+#define OPTION_VAL_255_NL "Rood"
+#define OPTION_VAL_65280_NL "Groen"
+#define OPTION_VAL_16711680_NL "Blauw"
+#define VITA3K_BACK_CAMERA_LABEL_NL NULL
+#define VITA3K_BACK_CAMERA_INFO_0_NL NULL
+#define VITA3K_BACK_CAMERA_COLOR_LABEL_NL NULL
+#define VITA3K_BACK_CAMERA_COLOR_INFO_0_NL NULL
 #define VITA3K_SURFACE_SYNC_LABEL_NL NULL
 #define VITA3K_SURFACE_SYNC_INFO_0_NL NULL
 #define OPTION_VAL_ENABLED_NL NULL
@@ -11631,9 +21027,9 @@ struct retro_core_options_v2 options_ko = {
 #define VITA3K_FILE_LOADING_DELAY_LABEL_NL NULL
 #define VITA3K_FILE_LOADING_DELAY_INFO_0_NL NULL
 #define OPTION_VAL_0_VITA3K_FILE_LOADING_DELAY_NL NULL
-#define OPTION_VAL_5_NL NULL
+#define OPTION_VAL_5_VITA3K_FILE_LOADING_DELAY_NL NULL
 #define OPTION_VAL_10_VITA3K_FILE_LOADING_DELAY_NL NULL
-#define OPTION_VAL_15_NL NULL
+#define OPTION_VAL_15_VITA3K_FILE_LOADING_DELAY_NL NULL
 #define OPTION_VAL_20_VITA3K_FILE_LOADING_DELAY_NL NULL
 #define OPTION_VAL_25_NL NULL
 #define OPTION_VAL_30_VITA3K_FILE_LOADING_DELAY_NL NULL
@@ -11644,6 +21040,10 @@ struct retro_core_option_v2_category option_cats_nl[] = {
     { "system", CATEGORY_SYSTEM_LABEL_NL, CATEGORY_SYSTEM_INFO_0_NL },
     { "audio", CATEGORY_AUDIO_LABEL_NL, CATEGORY_AUDIO_INFO_0_NL },
     { "network", CATEGORY_NETWORK_LABEL_NL, CATEGORY_NETWORK_INFO_0_NL },
+    { "install", CATEGORY_INSTALL_LABEL_NL, CATEGORY_INSTALL_INFO_0_NL },
+    { "camera", CATEGORY_CAMERA_LABEL_NL, CATEGORY_CAMERA_INFO_0_NL },
+    { "accounts", CATEGORY_ACCOUNTS_LABEL_NL, CATEGORY_ACCOUNTS_INFO_0_NL },
+    { "modules", CATEGORY_MODULES_LABEL_NL, CATEGORY_MODULES_INFO_0_NL },
     { NULL, NULL, NULL },
 };
 struct retro_core_option_v2_definition option_defs_nl[] = {
@@ -11807,9 +21207,10 @@ struct retro_core_option_v2_definition option_defs_nl[] = {
         NULL,
         VITA3K_PKG_MODE_INFO_0_NL,
         NULL,
-        "system",
+        "install",
         {
             { "run", OPTION_VAL_RUN_NL },
+            { "cache", OPTION_VAL_CACHE_NL },
             { "install", OPTION_VAL_INSTALL_NL },
             { NULL, NULL },
         },
@@ -11872,6 +21273,67 @@ struct retro_core_option_v2_definition option_defs_nl[] = {
         },
         "1"
     },
+    {
+        "vita3k_sys_lang",
+        VITA3K_SYS_LANG_LABEL_NL,
+        NULL,
+        VITA3K_SYS_LANG_INFO_0_NL,
+        NULL,
+        "system",
+        {
+            { "0", OPTION_VAL_0_VITA3K_SYS_LANG_NL },
+            { "1", OPTION_VAL_1_VITA3K_SYS_LANG_NL },
+            { "2", OPTION_VAL_2_VITA3K_SYS_LANG_NL },
+            { "3", OPTION_VAL_3_VITA3K_SYS_LANG_NL },
+            { "4", OPTION_VAL_4_VITA3K_SYS_LANG_NL },
+            { "5", OPTION_VAL_5_NL },
+            { "6", OPTION_VAL_6_NL },
+            { "7", OPTION_VAL_7_NL },
+            { "8", OPTION_VAL_8_VITA3K_SYS_LANG_NL },
+            { "9", OPTION_VAL_9_NL },
+            { "10", OPTION_VAL_10_NL },
+            { "11", OPTION_VAL_11_NL },
+            { "12", OPTION_VAL_12_NL },
+            { "13", OPTION_VAL_13_NL },
+            { "14", OPTION_VAL_14_NL },
+            { "15", OPTION_VAL_15_NL },
+            { "16", OPTION_VAL_16_VITA3K_SYS_LANG_NL },
+            { "17", OPTION_VAL_17_NL },
+            { "18", OPTION_VAL_18_NL },
+            { "19", OPTION_VAL_19_NL },
+            { NULL, NULL },
+        },
+        "1"
+    },
+    {
+        "vita3k_sys_date_format",
+        VITA3K_SYS_DATE_FORMAT_LABEL_NL,
+        NULL,
+        VITA3K_SYS_DATE_FORMAT_INFO_0_NL,
+        NULL,
+        "system",
+        {
+            { "0", OPTION_VAL_0_VITA3K_SYS_DATE_FORMAT_NL },
+            { "1", OPTION_VAL_1_VITA3K_SYS_DATE_FORMAT_NL },
+            { "2", OPTION_VAL_2_VITA3K_SYS_DATE_FORMAT_NL },
+            { NULL, NULL },
+        },
+        "2"
+    },
+    {
+        "vita3k_sys_time_format",
+        VITA3K_SYS_TIME_FORMAT_LABEL_NL,
+        NULL,
+        VITA3K_SYS_TIME_FORMAT_INFO_0_NL,
+        NULL,
+        "system",
+        {
+            { "0", OPTION_VAL_0_VITA3K_SYS_TIME_FORMAT_NL },
+            { "1", OPTION_VAL_1_VITA3K_SYS_TIME_FORMAT_NL },
+            { NULL, NULL },
+        },
+        "0"
+    },
     // ── Audio ────────────────────────────────────────────────────────────
     {
         "vita3k_audio_volume",
@@ -11882,7 +21344,7 @@ struct retro_core_option_v2_definition option_defs_nl[] = {
         "audio",
         {
             { "0", OPTION_VAL_0_VITA3K_AUDIO_VOLUME_NL },
-            { "10", OPTION_VAL_10_NL },
+            { "10", OPTION_VAL_10_VITA3K_AUDIO_VOLUME_NL },
             { "20", OPTION_VAL_20_NL },
             { "30", OPTION_VAL_30_NL },
             { "40", OPTION_VAL_40_NL },
@@ -11926,6 +21388,204 @@ struct retro_core_option_v2_definition option_defs_nl[] = {
         "disabled"
     },
     {
+        "vita3k_http_enable",
+        VITA3K_HTTP_ENABLE_LABEL_NL,
+        NULL,
+        VITA3K_HTTP_ENABLE_INFO_0_NL,
+        NULL,
+        "network",
+        {
+            { "enabled", NULL },
+            { "disabled", NULL },
+            { NULL, NULL },
+        },
+        "enabled"
+    },
+    {
+        "vita3k_http_timeout_attempts",
+        VITA3K_HTTP_TIMEOUT_ATTEMPTS_LABEL_NL,
+        NULL,
+        VITA3K_HTTP_TIMEOUT_ATTEMPTS_INFO_0_NL,
+        NULL,
+        "network",
+        {
+            { "0", NULL },
+            { "5", NULL },
+            { "10", NULL },
+            { "15", NULL },
+            { "20", NULL },
+            { "25", NULL },
+            { "30", NULL },
+            { "35", NULL },
+            { "40", NULL },
+            { "45", NULL },
+            { "50", NULL },
+            { "55", NULL },
+            { "60", NULL },
+            { "65", NULL },
+            { "70", NULL },
+            { "75", NULL },
+            { "80", NULL },
+            { "85", NULL },
+            { "90", NULL },
+            { "95", NULL },
+            { "100", NULL },
+            { NULL, NULL },
+        },
+        "50"
+    },
+    {
+        "vita3k_http_timeout_sleep",
+        VITA3K_HTTP_TIMEOUT_SLEEP_LABEL_NL,
+        NULL,
+        VITA3K_HTTP_TIMEOUT_SLEEP_INFO_0_NL,
+        NULL,
+        "network",
+        {
+            { "50", OPTION_VAL_50_VITA3K_HTTP_TIMEOUT_SLEEP_NL },
+            { "100", OPTION_VAL_100_VITA3K_HTTP_TIMEOUT_SLEEP_NL },
+            { "150", OPTION_VAL_150_NL },
+            { "200", OPTION_VAL_200_NL },
+            { "250", OPTION_VAL_250_NL },
+            { "300", OPTION_VAL_300_NL },
+            { "400", OPTION_VAL_400_NL },
+            { "500", OPTION_VAL_500_NL },
+            { "750", OPTION_VAL_750_NL },
+            { "1000", OPTION_VAL_1000_NL },
+            { "1500", OPTION_VAL_1500_NL },
+            { "2000", OPTION_VAL_2000_NL },
+            { "2500", OPTION_VAL_2500_NL },
+            { "3000", OPTION_VAL_3000_NL },
+            { NULL, NULL },
+        },
+        "100"
+    },
+    {
+        "vita3k_http_read_end_attempts",
+        VITA3K_HTTP_READ_END_ATTEMPTS_LABEL_NL,
+        NULL,
+        VITA3K_HTTP_READ_END_ATTEMPTS_INFO_0_NL,
+        NULL,
+        "network",
+        {
+            { "0", NULL },
+            { "5", NULL },
+            { "10", NULL },
+            { "15", NULL },
+            { "20", NULL },
+            { "25", NULL },
+            { "30", NULL },
+            { "35", NULL },
+            { "40", NULL },
+            { "45", NULL },
+            { "50", NULL },
+            { "55", NULL },
+            { "60", NULL },
+            { "65", NULL },
+            { "70", NULL },
+            { "75", NULL },
+            { "80", NULL },
+            { "85", NULL },
+            { "90", NULL },
+            { "95", NULL },
+            { "100", NULL },
+            { NULL, NULL },
+        },
+        "10"
+    },
+    {
+        "vita3k_http_read_end_sleep",
+        VITA3K_HTTP_READ_END_SLEEP_LABEL_NL,
+        NULL,
+        VITA3K_HTTP_READ_END_SLEEP_INFO_0_NL,
+        NULL,
+        "network",
+        {
+            { "50", OPTION_VAL_50_VITA3K_HTTP_TIMEOUT_SLEEP_NL },
+            { "100", OPTION_VAL_100_VITA3K_HTTP_TIMEOUT_SLEEP_NL },
+            { "150", OPTION_VAL_150_NL },
+            { "200", OPTION_VAL_200_NL },
+            { "250", OPTION_VAL_250_NL },
+            { "300", OPTION_VAL_300_NL },
+            { "400", OPTION_VAL_400_NL },
+            { "500", OPTION_VAL_500_NL },
+            { "750", OPTION_VAL_750_NL },
+            { "1000", OPTION_VAL_1000_NL },
+            { "1500", OPTION_VAL_1500_NL },
+            { "2000", OPTION_VAL_2000_NL },
+            { "2500", OPTION_VAL_2500_NL },
+            { "3000", OPTION_VAL_3000_NL },
+            { NULL, NULL },
+        },
+        "250"
+    },
+    {
+        "vita3k_front_camera",
+        VITA3K_FRONT_CAMERA_LABEL_NL,
+        NULL,
+        VITA3K_FRONT_CAMERA_INFO_0_NL,
+        NULL,
+        "camera",
+        {
+            { "host", OPTION_VAL_HOST_NL },
+            { "image", OPTION_VAL_IMAGE_NL },
+            { "color", OPTION_VAL_COLOR_NL },
+            { NULL, NULL },
+        },
+        "host"
+    },
+    {
+        "vita3k_front_camera_color",
+        VITA3K_FRONT_CAMERA_COLOR_LABEL_NL,
+        NULL,
+        VITA3K_FRONT_CAMERA_COLOR_INFO_0_NL,
+        NULL,
+        "camera",
+        {
+            { "0", OPTION_VAL_0_VITA3K_FRONT_CAMERA_COLOR_NL },
+            { "16777215", OPTION_VAL_16777215_NL },
+            { "8421504", OPTION_VAL_8421504_NL },
+            { "255", OPTION_VAL_255_NL },
+            { "65280", OPTION_VAL_65280_NL },
+            { "16711680", OPTION_VAL_16711680_NL },
+            { NULL, NULL },
+        },
+        "0"
+    },
+    {
+        "vita3k_back_camera",
+        VITA3K_BACK_CAMERA_LABEL_NL,
+        NULL,
+        VITA3K_BACK_CAMERA_INFO_0_NL,
+        NULL,
+        "camera",
+        {
+            { "host", OPTION_VAL_HOST_NL },
+            { "image", OPTION_VAL_IMAGE_NL },
+            { "color", OPTION_VAL_COLOR_NL },
+            { NULL, NULL },
+        },
+        "host"
+    },
+    {
+        "vita3k_back_camera_color",
+        VITA3K_BACK_CAMERA_COLOR_LABEL_NL,
+        NULL,
+        VITA3K_BACK_CAMERA_COLOR_INFO_0_NL,
+        NULL,
+        "camera",
+        {
+            { "0", OPTION_VAL_0_VITA3K_FRONT_CAMERA_COLOR_NL },
+            { "16777215", OPTION_VAL_16777215_NL },
+            { "8421504", OPTION_VAL_8421504_NL },
+            { "255", OPTION_VAL_255_NL },
+            { "65280", OPTION_VAL_65280_NL },
+            { "16711680", OPTION_VAL_16711680_NL },
+            { NULL, NULL },
+        },
+        "0"
+    },
+    {
         "vita3k_surface_sync",
         VITA3K_SURFACE_SYNC_LABEL_NL,
         NULL,
@@ -11948,9 +21608,9 @@ struct retro_core_option_v2_definition option_defs_nl[] = {
         "system",
         {
             { "0", OPTION_VAL_0_VITA3K_FILE_LOADING_DELAY_NL },
-            { "5", OPTION_VAL_5_NL },
+            { "5", OPTION_VAL_5_VITA3K_FILE_LOADING_DELAY_NL },
             { "10", OPTION_VAL_10_VITA3K_FILE_LOADING_DELAY_NL },
-            { "15", OPTION_VAL_15_NL },
+            { "15", OPTION_VAL_15_VITA3K_FILE_LOADING_DELAY_NL },
             { "20", OPTION_VAL_20_VITA3K_FILE_LOADING_DELAY_NL },
             { "25", OPTION_VAL_25_NL },
             { "30", OPTION_VAL_30_VITA3K_FILE_LOADING_DELAY_NL },
@@ -11977,6 +21637,14 @@ struct retro_core_options_v2 options_nl = {
 #define CATEGORY_AUDIO_INFO_0_NO NULL
 #define CATEGORY_NETWORK_LABEL_NO "Nettverk"
 #define CATEGORY_NETWORK_INFO_0_NO NULL
+#define CATEGORY_INSTALL_LABEL_NO "Innhold"
+#define CATEGORY_INSTALL_INFO_0_NO NULL
+#define CATEGORY_CAMERA_LABEL_NO "Kamera"
+#define CATEGORY_CAMERA_INFO_0_NO NULL
+#define CATEGORY_ACCOUNTS_LABEL_NO "Kontoer"
+#define CATEGORY_ACCOUNTS_INFO_0_NO NULL
+#define CATEGORY_MODULES_LABEL_NO NULL
+#define CATEGORY_MODULES_INFO_0_NO NULL
 #define VITA3K_BACKEND_RENDERER_LABEL_NO NULL
 #define VITA3K_BACKEND_RENDERER_INFO_0_NO NULL
 #define OPTION_VAL_VULKAN_NO NULL
@@ -12019,6 +21687,7 @@ struct retro_core_options_v2 options_nl = {
 #define VITA3K_PKG_MODE_LABEL_NO NULL
 #define VITA3K_PKG_MODE_INFO_0_NO NULL
 #define OPTION_VAL_RUN_NO NULL
+#define OPTION_VAL_CACHE_NO NULL
 #define OPTION_VAL_INSTALL_NO NULL
 #define VITA3K_PSTV_MODE_LABEL_NO NULL
 #define VITA3K_PSTV_MODE_INFO_0_NO NULL
@@ -12033,10 +21702,41 @@ struct retro_core_options_v2 options_nl = {
 #define VITA3K_SYS_BUTTON_INFO_0_NO NULL
 #define OPTION_VAL_0_VITA3K_SYS_BUTTON_NO NULL
 #define OPTION_VAL_1_VITA3K_SYS_BUTTON_NO NULL
+#define VITA3K_SYS_LANG_LABEL_NO NULL
+#define VITA3K_SYS_LANG_INFO_0_NO NULL
+#define OPTION_VAL_0_VITA3K_SYS_LANG_NO NULL
+#define OPTION_VAL_1_VITA3K_SYS_LANG_NO NULL
+#define OPTION_VAL_2_VITA3K_SYS_LANG_NO NULL
+#define OPTION_VAL_3_VITA3K_SYS_LANG_NO NULL
+#define OPTION_VAL_4_VITA3K_SYS_LANG_NO NULL
+#define OPTION_VAL_5_NO NULL
+#define OPTION_VAL_6_NO NULL
+#define OPTION_VAL_7_NO NULL
+#define OPTION_VAL_8_VITA3K_SYS_LANG_NO NULL
+#define OPTION_VAL_9_NO NULL
+#define OPTION_VAL_10_NO NULL
+#define OPTION_VAL_11_NO NULL
+#define OPTION_VAL_12_NO NULL
+#define OPTION_VAL_13_NO NULL
+#define OPTION_VAL_14_NO NULL
+#define OPTION_VAL_15_NO NULL
+#define OPTION_VAL_16_VITA3K_SYS_LANG_NO NULL
+#define OPTION_VAL_17_NO NULL
+#define OPTION_VAL_18_NO NULL
+#define OPTION_VAL_19_NO NULL
+#define VITA3K_SYS_DATE_FORMAT_LABEL_NO NULL
+#define VITA3K_SYS_DATE_FORMAT_INFO_0_NO NULL
+#define OPTION_VAL_0_VITA3K_SYS_DATE_FORMAT_NO NULL
+#define OPTION_VAL_1_VITA3K_SYS_DATE_FORMAT_NO NULL
+#define OPTION_VAL_2_VITA3K_SYS_DATE_FORMAT_NO NULL
+#define VITA3K_SYS_TIME_FORMAT_LABEL_NO NULL
+#define VITA3K_SYS_TIME_FORMAT_INFO_0_NO NULL
+#define OPTION_VAL_0_VITA3K_SYS_TIME_FORMAT_NO NULL
+#define OPTION_VAL_1_VITA3K_SYS_TIME_FORMAT_NO NULL
 #define VITA3K_AUDIO_VOLUME_LABEL_NO NULL
 #define VITA3K_AUDIO_VOLUME_INFO_0_NO NULL
 #define OPTION_VAL_0_VITA3K_AUDIO_VOLUME_NO NULL
-#define OPTION_VAL_10_NO NULL
+#define OPTION_VAL_10_VITA3K_AUDIO_VOLUME_NO NULL
 #define OPTION_VAL_20_NO NULL
 #define OPTION_VAL_30_NO NULL
 #define OPTION_VAL_40_NO NULL
@@ -12050,6 +21750,47 @@ struct retro_core_options_v2 options_nl = {
 #define VITA3K_NGS_ENABLE_INFO_0_NO NULL
 #define VITA3K_PSN_SIGNED_IN_LABEL_NO NULL
 #define VITA3K_PSN_SIGNED_IN_INFO_0_NO NULL
+#define VITA3K_HTTP_ENABLE_LABEL_NO NULL
+#define VITA3K_HTTP_ENABLE_INFO_0_NO NULL
+#define VITA3K_HTTP_TIMEOUT_ATTEMPTS_LABEL_NO NULL
+#define VITA3K_HTTP_TIMEOUT_ATTEMPTS_INFO_0_NO NULL
+#define VITA3K_HTTP_TIMEOUT_SLEEP_LABEL_NO NULL
+#define VITA3K_HTTP_TIMEOUT_SLEEP_INFO_0_NO NULL
+#define OPTION_VAL_50_VITA3K_HTTP_TIMEOUT_SLEEP_NO NULL
+#define OPTION_VAL_100_VITA3K_HTTP_TIMEOUT_SLEEP_NO NULL
+#define OPTION_VAL_150_NO NULL
+#define OPTION_VAL_200_NO NULL
+#define OPTION_VAL_250_NO NULL
+#define OPTION_VAL_300_NO NULL
+#define OPTION_VAL_400_NO NULL
+#define OPTION_VAL_500_NO NULL
+#define OPTION_VAL_750_NO NULL
+#define OPTION_VAL_1000_NO NULL
+#define OPTION_VAL_1500_NO NULL
+#define OPTION_VAL_2000_NO NULL
+#define OPTION_VAL_2500_NO NULL
+#define OPTION_VAL_3000_NO NULL
+#define VITA3K_HTTP_READ_END_ATTEMPTS_LABEL_NO NULL
+#define VITA3K_HTTP_READ_END_ATTEMPTS_INFO_0_NO NULL
+#define VITA3K_HTTP_READ_END_SLEEP_LABEL_NO NULL
+#define VITA3K_HTTP_READ_END_SLEEP_INFO_0_NO NULL
+#define VITA3K_FRONT_CAMERA_LABEL_NO NULL
+#define VITA3K_FRONT_CAMERA_INFO_0_NO NULL
+#define OPTION_VAL_HOST_NO NULL
+#define OPTION_VAL_IMAGE_NO NULL
+#define OPTION_VAL_COLOR_NO NULL
+#define VITA3K_FRONT_CAMERA_COLOR_LABEL_NO NULL
+#define VITA3K_FRONT_CAMERA_COLOR_INFO_0_NO NULL
+#define OPTION_VAL_0_VITA3K_FRONT_CAMERA_COLOR_NO NULL
+#define OPTION_VAL_16777215_NO NULL
+#define OPTION_VAL_8421504_NO NULL
+#define OPTION_VAL_255_NO "Rød"
+#define OPTION_VAL_65280_NO "Grønn"
+#define OPTION_VAL_16711680_NO "Blå"
+#define VITA3K_BACK_CAMERA_LABEL_NO NULL
+#define VITA3K_BACK_CAMERA_INFO_0_NO NULL
+#define VITA3K_BACK_CAMERA_COLOR_LABEL_NO NULL
+#define VITA3K_BACK_CAMERA_COLOR_INFO_0_NO NULL
 #define VITA3K_SURFACE_SYNC_LABEL_NO NULL
 #define VITA3K_SURFACE_SYNC_INFO_0_NO NULL
 #define OPTION_VAL_ENABLED_NO NULL
@@ -12057,9 +21798,9 @@ struct retro_core_options_v2 options_nl = {
 #define VITA3K_FILE_LOADING_DELAY_LABEL_NO NULL
 #define VITA3K_FILE_LOADING_DELAY_INFO_0_NO NULL
 #define OPTION_VAL_0_VITA3K_FILE_LOADING_DELAY_NO NULL
-#define OPTION_VAL_5_NO NULL
+#define OPTION_VAL_5_VITA3K_FILE_LOADING_DELAY_NO NULL
 #define OPTION_VAL_10_VITA3K_FILE_LOADING_DELAY_NO NULL
-#define OPTION_VAL_15_NO NULL
+#define OPTION_VAL_15_VITA3K_FILE_LOADING_DELAY_NO NULL
 #define OPTION_VAL_20_VITA3K_FILE_LOADING_DELAY_NO NULL
 #define OPTION_VAL_25_NO NULL
 #define OPTION_VAL_30_VITA3K_FILE_LOADING_DELAY_NO NULL
@@ -12070,6 +21811,10 @@ struct retro_core_option_v2_category option_cats_no[] = {
     { "system", CATEGORY_SYSTEM_LABEL_NO, CATEGORY_SYSTEM_INFO_0_NO },
     { "audio", CATEGORY_AUDIO_LABEL_NO, CATEGORY_AUDIO_INFO_0_NO },
     { "network", CATEGORY_NETWORK_LABEL_NO, CATEGORY_NETWORK_INFO_0_NO },
+    { "install", CATEGORY_INSTALL_LABEL_NO, CATEGORY_INSTALL_INFO_0_NO },
+    { "camera", CATEGORY_CAMERA_LABEL_NO, CATEGORY_CAMERA_INFO_0_NO },
+    { "accounts", CATEGORY_ACCOUNTS_LABEL_NO, CATEGORY_ACCOUNTS_INFO_0_NO },
+    { "modules", CATEGORY_MODULES_LABEL_NO, CATEGORY_MODULES_INFO_0_NO },
     { NULL, NULL, NULL },
 };
 struct retro_core_option_v2_definition option_defs_no[] = {
@@ -12233,9 +21978,10 @@ struct retro_core_option_v2_definition option_defs_no[] = {
         NULL,
         VITA3K_PKG_MODE_INFO_0_NO,
         NULL,
-        "system",
+        "install",
         {
             { "run", OPTION_VAL_RUN_NO },
+            { "cache", OPTION_VAL_CACHE_NO },
             { "install", OPTION_VAL_INSTALL_NO },
             { NULL, NULL },
         },
@@ -12298,6 +22044,67 @@ struct retro_core_option_v2_definition option_defs_no[] = {
         },
         "1"
     },
+    {
+        "vita3k_sys_lang",
+        VITA3K_SYS_LANG_LABEL_NO,
+        NULL,
+        VITA3K_SYS_LANG_INFO_0_NO,
+        NULL,
+        "system",
+        {
+            { "0", OPTION_VAL_0_VITA3K_SYS_LANG_NO },
+            { "1", OPTION_VAL_1_VITA3K_SYS_LANG_NO },
+            { "2", OPTION_VAL_2_VITA3K_SYS_LANG_NO },
+            { "3", OPTION_VAL_3_VITA3K_SYS_LANG_NO },
+            { "4", OPTION_VAL_4_VITA3K_SYS_LANG_NO },
+            { "5", OPTION_VAL_5_NO },
+            { "6", OPTION_VAL_6_NO },
+            { "7", OPTION_VAL_7_NO },
+            { "8", OPTION_VAL_8_VITA3K_SYS_LANG_NO },
+            { "9", OPTION_VAL_9_NO },
+            { "10", OPTION_VAL_10_NO },
+            { "11", OPTION_VAL_11_NO },
+            { "12", OPTION_VAL_12_NO },
+            { "13", OPTION_VAL_13_NO },
+            { "14", OPTION_VAL_14_NO },
+            { "15", OPTION_VAL_15_NO },
+            { "16", OPTION_VAL_16_VITA3K_SYS_LANG_NO },
+            { "17", OPTION_VAL_17_NO },
+            { "18", OPTION_VAL_18_NO },
+            { "19", OPTION_VAL_19_NO },
+            { NULL, NULL },
+        },
+        "1"
+    },
+    {
+        "vita3k_sys_date_format",
+        VITA3K_SYS_DATE_FORMAT_LABEL_NO,
+        NULL,
+        VITA3K_SYS_DATE_FORMAT_INFO_0_NO,
+        NULL,
+        "system",
+        {
+            { "0", OPTION_VAL_0_VITA3K_SYS_DATE_FORMAT_NO },
+            { "1", OPTION_VAL_1_VITA3K_SYS_DATE_FORMAT_NO },
+            { "2", OPTION_VAL_2_VITA3K_SYS_DATE_FORMAT_NO },
+            { NULL, NULL },
+        },
+        "2"
+    },
+    {
+        "vita3k_sys_time_format",
+        VITA3K_SYS_TIME_FORMAT_LABEL_NO,
+        NULL,
+        VITA3K_SYS_TIME_FORMAT_INFO_0_NO,
+        NULL,
+        "system",
+        {
+            { "0", OPTION_VAL_0_VITA3K_SYS_TIME_FORMAT_NO },
+            { "1", OPTION_VAL_1_VITA3K_SYS_TIME_FORMAT_NO },
+            { NULL, NULL },
+        },
+        "0"
+    },
     // ── Audio ────────────────────────────────────────────────────────────
     {
         "vita3k_audio_volume",
@@ -12308,7 +22115,7 @@ struct retro_core_option_v2_definition option_defs_no[] = {
         "audio",
         {
             { "0", OPTION_VAL_0_VITA3K_AUDIO_VOLUME_NO },
-            { "10", OPTION_VAL_10_NO },
+            { "10", OPTION_VAL_10_VITA3K_AUDIO_VOLUME_NO },
             { "20", OPTION_VAL_20_NO },
             { "30", OPTION_VAL_30_NO },
             { "40", OPTION_VAL_40_NO },
@@ -12352,6 +22159,204 @@ struct retro_core_option_v2_definition option_defs_no[] = {
         "disabled"
     },
     {
+        "vita3k_http_enable",
+        VITA3K_HTTP_ENABLE_LABEL_NO,
+        NULL,
+        VITA3K_HTTP_ENABLE_INFO_0_NO,
+        NULL,
+        "network",
+        {
+            { "enabled", NULL },
+            { "disabled", NULL },
+            { NULL, NULL },
+        },
+        "enabled"
+    },
+    {
+        "vita3k_http_timeout_attempts",
+        VITA3K_HTTP_TIMEOUT_ATTEMPTS_LABEL_NO,
+        NULL,
+        VITA3K_HTTP_TIMEOUT_ATTEMPTS_INFO_0_NO,
+        NULL,
+        "network",
+        {
+            { "0", NULL },
+            { "5", NULL },
+            { "10", NULL },
+            { "15", NULL },
+            { "20", NULL },
+            { "25", NULL },
+            { "30", NULL },
+            { "35", NULL },
+            { "40", NULL },
+            { "45", NULL },
+            { "50", NULL },
+            { "55", NULL },
+            { "60", NULL },
+            { "65", NULL },
+            { "70", NULL },
+            { "75", NULL },
+            { "80", NULL },
+            { "85", NULL },
+            { "90", NULL },
+            { "95", NULL },
+            { "100", NULL },
+            { NULL, NULL },
+        },
+        "50"
+    },
+    {
+        "vita3k_http_timeout_sleep",
+        VITA3K_HTTP_TIMEOUT_SLEEP_LABEL_NO,
+        NULL,
+        VITA3K_HTTP_TIMEOUT_SLEEP_INFO_0_NO,
+        NULL,
+        "network",
+        {
+            { "50", OPTION_VAL_50_VITA3K_HTTP_TIMEOUT_SLEEP_NO },
+            { "100", OPTION_VAL_100_VITA3K_HTTP_TIMEOUT_SLEEP_NO },
+            { "150", OPTION_VAL_150_NO },
+            { "200", OPTION_VAL_200_NO },
+            { "250", OPTION_VAL_250_NO },
+            { "300", OPTION_VAL_300_NO },
+            { "400", OPTION_VAL_400_NO },
+            { "500", OPTION_VAL_500_NO },
+            { "750", OPTION_VAL_750_NO },
+            { "1000", OPTION_VAL_1000_NO },
+            { "1500", OPTION_VAL_1500_NO },
+            { "2000", OPTION_VAL_2000_NO },
+            { "2500", OPTION_VAL_2500_NO },
+            { "3000", OPTION_VAL_3000_NO },
+            { NULL, NULL },
+        },
+        "100"
+    },
+    {
+        "vita3k_http_read_end_attempts",
+        VITA3K_HTTP_READ_END_ATTEMPTS_LABEL_NO,
+        NULL,
+        VITA3K_HTTP_READ_END_ATTEMPTS_INFO_0_NO,
+        NULL,
+        "network",
+        {
+            { "0", NULL },
+            { "5", NULL },
+            { "10", NULL },
+            { "15", NULL },
+            { "20", NULL },
+            { "25", NULL },
+            { "30", NULL },
+            { "35", NULL },
+            { "40", NULL },
+            { "45", NULL },
+            { "50", NULL },
+            { "55", NULL },
+            { "60", NULL },
+            { "65", NULL },
+            { "70", NULL },
+            { "75", NULL },
+            { "80", NULL },
+            { "85", NULL },
+            { "90", NULL },
+            { "95", NULL },
+            { "100", NULL },
+            { NULL, NULL },
+        },
+        "10"
+    },
+    {
+        "vita3k_http_read_end_sleep",
+        VITA3K_HTTP_READ_END_SLEEP_LABEL_NO,
+        NULL,
+        VITA3K_HTTP_READ_END_SLEEP_INFO_0_NO,
+        NULL,
+        "network",
+        {
+            { "50", OPTION_VAL_50_VITA3K_HTTP_TIMEOUT_SLEEP_NO },
+            { "100", OPTION_VAL_100_VITA3K_HTTP_TIMEOUT_SLEEP_NO },
+            { "150", OPTION_VAL_150_NO },
+            { "200", OPTION_VAL_200_NO },
+            { "250", OPTION_VAL_250_NO },
+            { "300", OPTION_VAL_300_NO },
+            { "400", OPTION_VAL_400_NO },
+            { "500", OPTION_VAL_500_NO },
+            { "750", OPTION_VAL_750_NO },
+            { "1000", OPTION_VAL_1000_NO },
+            { "1500", OPTION_VAL_1500_NO },
+            { "2000", OPTION_VAL_2000_NO },
+            { "2500", OPTION_VAL_2500_NO },
+            { "3000", OPTION_VAL_3000_NO },
+            { NULL, NULL },
+        },
+        "250"
+    },
+    {
+        "vita3k_front_camera",
+        VITA3K_FRONT_CAMERA_LABEL_NO,
+        NULL,
+        VITA3K_FRONT_CAMERA_INFO_0_NO,
+        NULL,
+        "camera",
+        {
+            { "host", OPTION_VAL_HOST_NO },
+            { "image", OPTION_VAL_IMAGE_NO },
+            { "color", OPTION_VAL_COLOR_NO },
+            { NULL, NULL },
+        },
+        "host"
+    },
+    {
+        "vita3k_front_camera_color",
+        VITA3K_FRONT_CAMERA_COLOR_LABEL_NO,
+        NULL,
+        VITA3K_FRONT_CAMERA_COLOR_INFO_0_NO,
+        NULL,
+        "camera",
+        {
+            { "0", OPTION_VAL_0_VITA3K_FRONT_CAMERA_COLOR_NO },
+            { "16777215", OPTION_VAL_16777215_NO },
+            { "8421504", OPTION_VAL_8421504_NO },
+            { "255", OPTION_VAL_255_NO },
+            { "65280", OPTION_VAL_65280_NO },
+            { "16711680", OPTION_VAL_16711680_NO },
+            { NULL, NULL },
+        },
+        "0"
+    },
+    {
+        "vita3k_back_camera",
+        VITA3K_BACK_CAMERA_LABEL_NO,
+        NULL,
+        VITA3K_BACK_CAMERA_INFO_0_NO,
+        NULL,
+        "camera",
+        {
+            { "host", OPTION_VAL_HOST_NO },
+            { "image", OPTION_VAL_IMAGE_NO },
+            { "color", OPTION_VAL_COLOR_NO },
+            { NULL, NULL },
+        },
+        "host"
+    },
+    {
+        "vita3k_back_camera_color",
+        VITA3K_BACK_CAMERA_COLOR_LABEL_NO,
+        NULL,
+        VITA3K_BACK_CAMERA_COLOR_INFO_0_NO,
+        NULL,
+        "camera",
+        {
+            { "0", OPTION_VAL_0_VITA3K_FRONT_CAMERA_COLOR_NO },
+            { "16777215", OPTION_VAL_16777215_NO },
+            { "8421504", OPTION_VAL_8421504_NO },
+            { "255", OPTION_VAL_255_NO },
+            { "65280", OPTION_VAL_65280_NO },
+            { "16711680", OPTION_VAL_16711680_NO },
+            { NULL, NULL },
+        },
+        "0"
+    },
+    {
         "vita3k_surface_sync",
         VITA3K_SURFACE_SYNC_LABEL_NO,
         NULL,
@@ -12374,9 +22379,9 @@ struct retro_core_option_v2_definition option_defs_no[] = {
         "system",
         {
             { "0", OPTION_VAL_0_VITA3K_FILE_LOADING_DELAY_NO },
-            { "5", OPTION_VAL_5_NO },
+            { "5", OPTION_VAL_5_VITA3K_FILE_LOADING_DELAY_NO },
             { "10", OPTION_VAL_10_VITA3K_FILE_LOADING_DELAY_NO },
-            { "15", OPTION_VAL_15_NO },
+            { "15", OPTION_VAL_15_VITA3K_FILE_LOADING_DELAY_NO },
             { "20", OPTION_VAL_20_VITA3K_FILE_LOADING_DELAY_NO },
             { "25", OPTION_VAL_25_NO },
             { "30", OPTION_VAL_30_VITA3K_FILE_LOADING_DELAY_NO },
@@ -12403,6 +22408,14 @@ struct retro_core_options_v2 options_no = {
 #define CATEGORY_AUDIO_INFO_0_OR NULL
 #define CATEGORY_NETWORK_LABEL_OR NULL
 #define CATEGORY_NETWORK_INFO_0_OR NULL
+#define CATEGORY_INSTALL_LABEL_OR NULL
+#define CATEGORY_INSTALL_INFO_0_OR NULL
+#define CATEGORY_CAMERA_LABEL_OR NULL
+#define CATEGORY_CAMERA_INFO_0_OR NULL
+#define CATEGORY_ACCOUNTS_LABEL_OR NULL
+#define CATEGORY_ACCOUNTS_INFO_0_OR NULL
+#define CATEGORY_MODULES_LABEL_OR NULL
+#define CATEGORY_MODULES_INFO_0_OR NULL
 #define VITA3K_BACKEND_RENDERER_LABEL_OR NULL
 #define VITA3K_BACKEND_RENDERER_INFO_0_OR NULL
 #define OPTION_VAL_VULKAN_OR NULL
@@ -12445,6 +22458,7 @@ struct retro_core_options_v2 options_no = {
 #define VITA3K_PKG_MODE_LABEL_OR NULL
 #define VITA3K_PKG_MODE_INFO_0_OR NULL
 #define OPTION_VAL_RUN_OR NULL
+#define OPTION_VAL_CACHE_OR NULL
 #define OPTION_VAL_INSTALL_OR NULL
 #define VITA3K_PSTV_MODE_LABEL_OR NULL
 #define VITA3K_PSTV_MODE_INFO_0_OR NULL
@@ -12459,10 +22473,41 @@ struct retro_core_options_v2 options_no = {
 #define VITA3K_SYS_BUTTON_INFO_0_OR NULL
 #define OPTION_VAL_0_VITA3K_SYS_BUTTON_OR NULL
 #define OPTION_VAL_1_VITA3K_SYS_BUTTON_OR NULL
+#define VITA3K_SYS_LANG_LABEL_OR NULL
+#define VITA3K_SYS_LANG_INFO_0_OR NULL
+#define OPTION_VAL_0_VITA3K_SYS_LANG_OR NULL
+#define OPTION_VAL_1_VITA3K_SYS_LANG_OR NULL
+#define OPTION_VAL_2_VITA3K_SYS_LANG_OR NULL
+#define OPTION_VAL_3_VITA3K_SYS_LANG_OR NULL
+#define OPTION_VAL_4_VITA3K_SYS_LANG_OR NULL
+#define OPTION_VAL_5_OR NULL
+#define OPTION_VAL_6_OR NULL
+#define OPTION_VAL_7_OR NULL
+#define OPTION_VAL_8_VITA3K_SYS_LANG_OR NULL
+#define OPTION_VAL_9_OR NULL
+#define OPTION_VAL_10_OR NULL
+#define OPTION_VAL_11_OR NULL
+#define OPTION_VAL_12_OR NULL
+#define OPTION_VAL_13_OR NULL
+#define OPTION_VAL_14_OR NULL
+#define OPTION_VAL_15_OR NULL
+#define OPTION_VAL_16_VITA3K_SYS_LANG_OR NULL
+#define OPTION_VAL_17_OR NULL
+#define OPTION_VAL_18_OR NULL
+#define OPTION_VAL_19_OR NULL
+#define VITA3K_SYS_DATE_FORMAT_LABEL_OR NULL
+#define VITA3K_SYS_DATE_FORMAT_INFO_0_OR NULL
+#define OPTION_VAL_0_VITA3K_SYS_DATE_FORMAT_OR NULL
+#define OPTION_VAL_1_VITA3K_SYS_DATE_FORMAT_OR NULL
+#define OPTION_VAL_2_VITA3K_SYS_DATE_FORMAT_OR NULL
+#define VITA3K_SYS_TIME_FORMAT_LABEL_OR NULL
+#define VITA3K_SYS_TIME_FORMAT_INFO_0_OR NULL
+#define OPTION_VAL_0_VITA3K_SYS_TIME_FORMAT_OR NULL
+#define OPTION_VAL_1_VITA3K_SYS_TIME_FORMAT_OR NULL
 #define VITA3K_AUDIO_VOLUME_LABEL_OR NULL
 #define VITA3K_AUDIO_VOLUME_INFO_0_OR NULL
 #define OPTION_VAL_0_VITA3K_AUDIO_VOLUME_OR NULL
-#define OPTION_VAL_10_OR NULL
+#define OPTION_VAL_10_VITA3K_AUDIO_VOLUME_OR NULL
 #define OPTION_VAL_20_OR NULL
 #define OPTION_VAL_30_OR NULL
 #define OPTION_VAL_40_OR NULL
@@ -12476,6 +22521,47 @@ struct retro_core_options_v2 options_no = {
 #define VITA3K_NGS_ENABLE_INFO_0_OR NULL
 #define VITA3K_PSN_SIGNED_IN_LABEL_OR NULL
 #define VITA3K_PSN_SIGNED_IN_INFO_0_OR NULL
+#define VITA3K_HTTP_ENABLE_LABEL_OR NULL
+#define VITA3K_HTTP_ENABLE_INFO_0_OR NULL
+#define VITA3K_HTTP_TIMEOUT_ATTEMPTS_LABEL_OR NULL
+#define VITA3K_HTTP_TIMEOUT_ATTEMPTS_INFO_0_OR NULL
+#define VITA3K_HTTP_TIMEOUT_SLEEP_LABEL_OR NULL
+#define VITA3K_HTTP_TIMEOUT_SLEEP_INFO_0_OR NULL
+#define OPTION_VAL_50_VITA3K_HTTP_TIMEOUT_SLEEP_OR NULL
+#define OPTION_VAL_100_VITA3K_HTTP_TIMEOUT_SLEEP_OR NULL
+#define OPTION_VAL_150_OR NULL
+#define OPTION_VAL_200_OR NULL
+#define OPTION_VAL_250_OR NULL
+#define OPTION_VAL_300_OR NULL
+#define OPTION_VAL_400_OR NULL
+#define OPTION_VAL_500_OR NULL
+#define OPTION_VAL_750_OR NULL
+#define OPTION_VAL_1000_OR NULL
+#define OPTION_VAL_1500_OR NULL
+#define OPTION_VAL_2000_OR NULL
+#define OPTION_VAL_2500_OR NULL
+#define OPTION_VAL_3000_OR NULL
+#define VITA3K_HTTP_READ_END_ATTEMPTS_LABEL_OR NULL
+#define VITA3K_HTTP_READ_END_ATTEMPTS_INFO_0_OR NULL
+#define VITA3K_HTTP_READ_END_SLEEP_LABEL_OR NULL
+#define VITA3K_HTTP_READ_END_SLEEP_INFO_0_OR NULL
+#define VITA3K_FRONT_CAMERA_LABEL_OR NULL
+#define VITA3K_FRONT_CAMERA_INFO_0_OR NULL
+#define OPTION_VAL_HOST_OR NULL
+#define OPTION_VAL_IMAGE_OR NULL
+#define OPTION_VAL_COLOR_OR NULL
+#define VITA3K_FRONT_CAMERA_COLOR_LABEL_OR NULL
+#define VITA3K_FRONT_CAMERA_COLOR_INFO_0_OR NULL
+#define OPTION_VAL_0_VITA3K_FRONT_CAMERA_COLOR_OR NULL
+#define OPTION_VAL_16777215_OR NULL
+#define OPTION_VAL_8421504_OR NULL
+#define OPTION_VAL_255_OR NULL
+#define OPTION_VAL_65280_OR NULL
+#define OPTION_VAL_16711680_OR NULL
+#define VITA3K_BACK_CAMERA_LABEL_OR NULL
+#define VITA3K_BACK_CAMERA_INFO_0_OR NULL
+#define VITA3K_BACK_CAMERA_COLOR_LABEL_OR NULL
+#define VITA3K_BACK_CAMERA_COLOR_INFO_0_OR NULL
 #define VITA3K_SURFACE_SYNC_LABEL_OR NULL
 #define VITA3K_SURFACE_SYNC_INFO_0_OR NULL
 #define OPTION_VAL_ENABLED_OR NULL
@@ -12483,9 +22569,9 @@ struct retro_core_options_v2 options_no = {
 #define VITA3K_FILE_LOADING_DELAY_LABEL_OR NULL
 #define VITA3K_FILE_LOADING_DELAY_INFO_0_OR NULL
 #define OPTION_VAL_0_VITA3K_FILE_LOADING_DELAY_OR NULL
-#define OPTION_VAL_5_OR NULL
+#define OPTION_VAL_5_VITA3K_FILE_LOADING_DELAY_OR NULL
 #define OPTION_VAL_10_VITA3K_FILE_LOADING_DELAY_OR NULL
-#define OPTION_VAL_15_OR NULL
+#define OPTION_VAL_15_VITA3K_FILE_LOADING_DELAY_OR NULL
 #define OPTION_VAL_20_VITA3K_FILE_LOADING_DELAY_OR NULL
 #define OPTION_VAL_25_OR NULL
 #define OPTION_VAL_30_VITA3K_FILE_LOADING_DELAY_OR NULL
@@ -12496,6 +22582,10 @@ struct retro_core_option_v2_category option_cats_or[] = {
     { "system", CATEGORY_SYSTEM_LABEL_OR, CATEGORY_SYSTEM_INFO_0_OR },
     { "audio", CATEGORY_AUDIO_LABEL_OR, CATEGORY_AUDIO_INFO_0_OR },
     { "network", CATEGORY_NETWORK_LABEL_OR, CATEGORY_NETWORK_INFO_0_OR },
+    { "install", CATEGORY_INSTALL_LABEL_OR, CATEGORY_INSTALL_INFO_0_OR },
+    { "camera", CATEGORY_CAMERA_LABEL_OR, CATEGORY_CAMERA_INFO_0_OR },
+    { "accounts", CATEGORY_ACCOUNTS_LABEL_OR, CATEGORY_ACCOUNTS_INFO_0_OR },
+    { "modules", CATEGORY_MODULES_LABEL_OR, CATEGORY_MODULES_INFO_0_OR },
     { NULL, NULL, NULL },
 };
 struct retro_core_option_v2_definition option_defs_or[] = {
@@ -12659,9 +22749,10 @@ struct retro_core_option_v2_definition option_defs_or[] = {
         NULL,
         VITA3K_PKG_MODE_INFO_0_OR,
         NULL,
-        "system",
+        "install",
         {
             { "run", OPTION_VAL_RUN_OR },
+            { "cache", OPTION_VAL_CACHE_OR },
             { "install", OPTION_VAL_INSTALL_OR },
             { NULL, NULL },
         },
@@ -12724,6 +22815,67 @@ struct retro_core_option_v2_definition option_defs_or[] = {
         },
         "1"
     },
+    {
+        "vita3k_sys_lang",
+        VITA3K_SYS_LANG_LABEL_OR,
+        NULL,
+        VITA3K_SYS_LANG_INFO_0_OR,
+        NULL,
+        "system",
+        {
+            { "0", OPTION_VAL_0_VITA3K_SYS_LANG_OR },
+            { "1", OPTION_VAL_1_VITA3K_SYS_LANG_OR },
+            { "2", OPTION_VAL_2_VITA3K_SYS_LANG_OR },
+            { "3", OPTION_VAL_3_VITA3K_SYS_LANG_OR },
+            { "4", OPTION_VAL_4_VITA3K_SYS_LANG_OR },
+            { "5", OPTION_VAL_5_OR },
+            { "6", OPTION_VAL_6_OR },
+            { "7", OPTION_VAL_7_OR },
+            { "8", OPTION_VAL_8_VITA3K_SYS_LANG_OR },
+            { "9", OPTION_VAL_9_OR },
+            { "10", OPTION_VAL_10_OR },
+            { "11", OPTION_VAL_11_OR },
+            { "12", OPTION_VAL_12_OR },
+            { "13", OPTION_VAL_13_OR },
+            { "14", OPTION_VAL_14_OR },
+            { "15", OPTION_VAL_15_OR },
+            { "16", OPTION_VAL_16_VITA3K_SYS_LANG_OR },
+            { "17", OPTION_VAL_17_OR },
+            { "18", OPTION_VAL_18_OR },
+            { "19", OPTION_VAL_19_OR },
+            { NULL, NULL },
+        },
+        "1"
+    },
+    {
+        "vita3k_sys_date_format",
+        VITA3K_SYS_DATE_FORMAT_LABEL_OR,
+        NULL,
+        VITA3K_SYS_DATE_FORMAT_INFO_0_OR,
+        NULL,
+        "system",
+        {
+            { "0", OPTION_VAL_0_VITA3K_SYS_DATE_FORMAT_OR },
+            { "1", OPTION_VAL_1_VITA3K_SYS_DATE_FORMAT_OR },
+            { "2", OPTION_VAL_2_VITA3K_SYS_DATE_FORMAT_OR },
+            { NULL, NULL },
+        },
+        "2"
+    },
+    {
+        "vita3k_sys_time_format",
+        VITA3K_SYS_TIME_FORMAT_LABEL_OR,
+        NULL,
+        VITA3K_SYS_TIME_FORMAT_INFO_0_OR,
+        NULL,
+        "system",
+        {
+            { "0", OPTION_VAL_0_VITA3K_SYS_TIME_FORMAT_OR },
+            { "1", OPTION_VAL_1_VITA3K_SYS_TIME_FORMAT_OR },
+            { NULL, NULL },
+        },
+        "0"
+    },
     // ── Audio ────────────────────────────────────────────────────────────
     {
         "vita3k_audio_volume",
@@ -12734,7 +22886,7 @@ struct retro_core_option_v2_definition option_defs_or[] = {
         "audio",
         {
             { "0", OPTION_VAL_0_VITA3K_AUDIO_VOLUME_OR },
-            { "10", OPTION_VAL_10_OR },
+            { "10", OPTION_VAL_10_VITA3K_AUDIO_VOLUME_OR },
             { "20", OPTION_VAL_20_OR },
             { "30", OPTION_VAL_30_OR },
             { "40", OPTION_VAL_40_OR },
@@ -12778,6 +22930,204 @@ struct retro_core_option_v2_definition option_defs_or[] = {
         "disabled"
     },
     {
+        "vita3k_http_enable",
+        VITA3K_HTTP_ENABLE_LABEL_OR,
+        NULL,
+        VITA3K_HTTP_ENABLE_INFO_0_OR,
+        NULL,
+        "network",
+        {
+            { "enabled", NULL },
+            { "disabled", NULL },
+            { NULL, NULL },
+        },
+        "enabled"
+    },
+    {
+        "vita3k_http_timeout_attempts",
+        VITA3K_HTTP_TIMEOUT_ATTEMPTS_LABEL_OR,
+        NULL,
+        VITA3K_HTTP_TIMEOUT_ATTEMPTS_INFO_0_OR,
+        NULL,
+        "network",
+        {
+            { "0", NULL },
+            { "5", NULL },
+            { "10", NULL },
+            { "15", NULL },
+            { "20", NULL },
+            { "25", NULL },
+            { "30", NULL },
+            { "35", NULL },
+            { "40", NULL },
+            { "45", NULL },
+            { "50", NULL },
+            { "55", NULL },
+            { "60", NULL },
+            { "65", NULL },
+            { "70", NULL },
+            { "75", NULL },
+            { "80", NULL },
+            { "85", NULL },
+            { "90", NULL },
+            { "95", NULL },
+            { "100", NULL },
+            { NULL, NULL },
+        },
+        "50"
+    },
+    {
+        "vita3k_http_timeout_sleep",
+        VITA3K_HTTP_TIMEOUT_SLEEP_LABEL_OR,
+        NULL,
+        VITA3K_HTTP_TIMEOUT_SLEEP_INFO_0_OR,
+        NULL,
+        "network",
+        {
+            { "50", OPTION_VAL_50_VITA3K_HTTP_TIMEOUT_SLEEP_OR },
+            { "100", OPTION_VAL_100_VITA3K_HTTP_TIMEOUT_SLEEP_OR },
+            { "150", OPTION_VAL_150_OR },
+            { "200", OPTION_VAL_200_OR },
+            { "250", OPTION_VAL_250_OR },
+            { "300", OPTION_VAL_300_OR },
+            { "400", OPTION_VAL_400_OR },
+            { "500", OPTION_VAL_500_OR },
+            { "750", OPTION_VAL_750_OR },
+            { "1000", OPTION_VAL_1000_OR },
+            { "1500", OPTION_VAL_1500_OR },
+            { "2000", OPTION_VAL_2000_OR },
+            { "2500", OPTION_VAL_2500_OR },
+            { "3000", OPTION_VAL_3000_OR },
+            { NULL, NULL },
+        },
+        "100"
+    },
+    {
+        "vita3k_http_read_end_attempts",
+        VITA3K_HTTP_READ_END_ATTEMPTS_LABEL_OR,
+        NULL,
+        VITA3K_HTTP_READ_END_ATTEMPTS_INFO_0_OR,
+        NULL,
+        "network",
+        {
+            { "0", NULL },
+            { "5", NULL },
+            { "10", NULL },
+            { "15", NULL },
+            { "20", NULL },
+            { "25", NULL },
+            { "30", NULL },
+            { "35", NULL },
+            { "40", NULL },
+            { "45", NULL },
+            { "50", NULL },
+            { "55", NULL },
+            { "60", NULL },
+            { "65", NULL },
+            { "70", NULL },
+            { "75", NULL },
+            { "80", NULL },
+            { "85", NULL },
+            { "90", NULL },
+            { "95", NULL },
+            { "100", NULL },
+            { NULL, NULL },
+        },
+        "10"
+    },
+    {
+        "vita3k_http_read_end_sleep",
+        VITA3K_HTTP_READ_END_SLEEP_LABEL_OR,
+        NULL,
+        VITA3K_HTTP_READ_END_SLEEP_INFO_0_OR,
+        NULL,
+        "network",
+        {
+            { "50", OPTION_VAL_50_VITA3K_HTTP_TIMEOUT_SLEEP_OR },
+            { "100", OPTION_VAL_100_VITA3K_HTTP_TIMEOUT_SLEEP_OR },
+            { "150", OPTION_VAL_150_OR },
+            { "200", OPTION_VAL_200_OR },
+            { "250", OPTION_VAL_250_OR },
+            { "300", OPTION_VAL_300_OR },
+            { "400", OPTION_VAL_400_OR },
+            { "500", OPTION_VAL_500_OR },
+            { "750", OPTION_VAL_750_OR },
+            { "1000", OPTION_VAL_1000_OR },
+            { "1500", OPTION_VAL_1500_OR },
+            { "2000", OPTION_VAL_2000_OR },
+            { "2500", OPTION_VAL_2500_OR },
+            { "3000", OPTION_VAL_3000_OR },
+            { NULL, NULL },
+        },
+        "250"
+    },
+    {
+        "vita3k_front_camera",
+        VITA3K_FRONT_CAMERA_LABEL_OR,
+        NULL,
+        VITA3K_FRONT_CAMERA_INFO_0_OR,
+        NULL,
+        "camera",
+        {
+            { "host", OPTION_VAL_HOST_OR },
+            { "image", OPTION_VAL_IMAGE_OR },
+            { "color", OPTION_VAL_COLOR_OR },
+            { NULL, NULL },
+        },
+        "host"
+    },
+    {
+        "vita3k_front_camera_color",
+        VITA3K_FRONT_CAMERA_COLOR_LABEL_OR,
+        NULL,
+        VITA3K_FRONT_CAMERA_COLOR_INFO_0_OR,
+        NULL,
+        "camera",
+        {
+            { "0", OPTION_VAL_0_VITA3K_FRONT_CAMERA_COLOR_OR },
+            { "16777215", OPTION_VAL_16777215_OR },
+            { "8421504", OPTION_VAL_8421504_OR },
+            { "255", OPTION_VAL_255_OR },
+            { "65280", OPTION_VAL_65280_OR },
+            { "16711680", OPTION_VAL_16711680_OR },
+            { NULL, NULL },
+        },
+        "0"
+    },
+    {
+        "vita3k_back_camera",
+        VITA3K_BACK_CAMERA_LABEL_OR,
+        NULL,
+        VITA3K_BACK_CAMERA_INFO_0_OR,
+        NULL,
+        "camera",
+        {
+            { "host", OPTION_VAL_HOST_OR },
+            { "image", OPTION_VAL_IMAGE_OR },
+            { "color", OPTION_VAL_COLOR_OR },
+            { NULL, NULL },
+        },
+        "host"
+    },
+    {
+        "vita3k_back_camera_color",
+        VITA3K_BACK_CAMERA_COLOR_LABEL_OR,
+        NULL,
+        VITA3K_BACK_CAMERA_COLOR_INFO_0_OR,
+        NULL,
+        "camera",
+        {
+            { "0", OPTION_VAL_0_VITA3K_FRONT_CAMERA_COLOR_OR },
+            { "16777215", OPTION_VAL_16777215_OR },
+            { "8421504", OPTION_VAL_8421504_OR },
+            { "255", OPTION_VAL_255_OR },
+            { "65280", OPTION_VAL_65280_OR },
+            { "16711680", OPTION_VAL_16711680_OR },
+            { NULL, NULL },
+        },
+        "0"
+    },
+    {
         "vita3k_surface_sync",
         VITA3K_SURFACE_SYNC_LABEL_OR,
         NULL,
@@ -12800,9 +23150,9 @@ struct retro_core_option_v2_definition option_defs_or[] = {
         "system",
         {
             { "0", OPTION_VAL_0_VITA3K_FILE_LOADING_DELAY_OR },
-            { "5", OPTION_VAL_5_OR },
+            { "5", OPTION_VAL_5_VITA3K_FILE_LOADING_DELAY_OR },
             { "10", OPTION_VAL_10_VITA3K_FILE_LOADING_DELAY_OR },
-            { "15", OPTION_VAL_15_OR },
+            { "15", OPTION_VAL_15_VITA3K_FILE_LOADING_DELAY_OR },
             { "20", OPTION_VAL_20_VITA3K_FILE_LOADING_DELAY_OR },
             { "25", OPTION_VAL_25_OR },
             { "30", OPTION_VAL_30_VITA3K_FILE_LOADING_DELAY_OR },
@@ -12829,6 +23179,14 @@ struct retro_core_options_v2 options_or = {
 #define CATEGORY_AUDIO_INFO_0_PL NULL
 #define CATEGORY_NETWORK_LABEL_PL "Sieć"
 #define CATEGORY_NETWORK_INFO_0_PL NULL
+#define CATEGORY_INSTALL_LABEL_PL "Treść"
+#define CATEGORY_INSTALL_INFO_0_PL NULL
+#define CATEGORY_CAMERA_LABEL_PL "Kamera"
+#define CATEGORY_CAMERA_INFO_0_PL NULL
+#define CATEGORY_ACCOUNTS_LABEL_PL "Konta"
+#define CATEGORY_ACCOUNTS_INFO_0_PL NULL
+#define CATEGORY_MODULES_LABEL_PL NULL
+#define CATEGORY_MODULES_INFO_0_PL NULL
 #define VITA3K_BACKEND_RENDERER_LABEL_PL NULL
 #define VITA3K_BACKEND_RENDERER_INFO_0_PL NULL
 #define OPTION_VAL_VULKAN_PL NULL
@@ -12871,6 +23229,7 @@ struct retro_core_options_v2 options_or = {
 #define VITA3K_PKG_MODE_LABEL_PL NULL
 #define VITA3K_PKG_MODE_INFO_0_PL NULL
 #define OPTION_VAL_RUN_PL NULL
+#define OPTION_VAL_CACHE_PL NULL
 #define OPTION_VAL_INSTALL_PL NULL
 #define VITA3K_PSTV_MODE_LABEL_PL NULL
 #define VITA3K_PSTV_MODE_INFO_0_PL NULL
@@ -12885,10 +23244,41 @@ struct retro_core_options_v2 options_or = {
 #define VITA3K_SYS_BUTTON_INFO_0_PL NULL
 #define OPTION_VAL_0_VITA3K_SYS_BUTTON_PL NULL
 #define OPTION_VAL_1_VITA3K_SYS_BUTTON_PL "Krzyżyk"
+#define VITA3K_SYS_LANG_LABEL_PL NULL
+#define VITA3K_SYS_LANG_INFO_0_PL NULL
+#define OPTION_VAL_0_VITA3K_SYS_LANG_PL "japoński"
+#define OPTION_VAL_1_VITA3K_SYS_LANG_PL NULL
+#define OPTION_VAL_2_VITA3K_SYS_LANG_PL "francuski"
+#define OPTION_VAL_3_VITA3K_SYS_LANG_PL "hiszpański"
+#define OPTION_VAL_4_VITA3K_SYS_LANG_PL "niemiecki"
+#define OPTION_VAL_5_PL "włoski"
+#define OPTION_VAL_6_PL NULL
+#define OPTION_VAL_7_PL NULL
+#define OPTION_VAL_8_VITA3K_SYS_LANG_PL NULL
+#define OPTION_VAL_9_PL NULL
+#define OPTION_VAL_10_PL NULL
+#define OPTION_VAL_11_PL NULL
+#define OPTION_VAL_12_PL NULL
+#define OPTION_VAL_13_PL NULL
+#define OPTION_VAL_14_PL NULL
+#define OPTION_VAL_15_PL NULL
+#define OPTION_VAL_16_VITA3K_SYS_LANG_PL NULL
+#define OPTION_VAL_17_PL NULL
+#define OPTION_VAL_18_PL NULL
+#define OPTION_VAL_19_PL NULL
+#define VITA3K_SYS_DATE_FORMAT_LABEL_PL NULL
+#define VITA3K_SYS_DATE_FORMAT_INFO_0_PL NULL
+#define OPTION_VAL_0_VITA3K_SYS_DATE_FORMAT_PL NULL
+#define OPTION_VAL_1_VITA3K_SYS_DATE_FORMAT_PL NULL
+#define OPTION_VAL_2_VITA3K_SYS_DATE_FORMAT_PL NULL
+#define VITA3K_SYS_TIME_FORMAT_LABEL_PL NULL
+#define VITA3K_SYS_TIME_FORMAT_INFO_0_PL NULL
+#define OPTION_VAL_0_VITA3K_SYS_TIME_FORMAT_PL NULL
+#define OPTION_VAL_1_VITA3K_SYS_TIME_FORMAT_PL NULL
 #define VITA3K_AUDIO_VOLUME_LABEL_PL NULL
 #define VITA3K_AUDIO_VOLUME_INFO_0_PL NULL
 #define OPTION_VAL_0_VITA3K_AUDIO_VOLUME_PL NULL
-#define OPTION_VAL_10_PL NULL
+#define OPTION_VAL_10_VITA3K_AUDIO_VOLUME_PL NULL
 #define OPTION_VAL_20_PL NULL
 #define OPTION_VAL_30_PL "30 %"
 #define OPTION_VAL_40_PL NULL
@@ -12902,6 +23292,47 @@ struct retro_core_options_v2 options_or = {
 #define VITA3K_NGS_ENABLE_INFO_0_PL NULL
 #define VITA3K_PSN_SIGNED_IN_LABEL_PL NULL
 #define VITA3K_PSN_SIGNED_IN_INFO_0_PL NULL
+#define VITA3K_HTTP_ENABLE_LABEL_PL NULL
+#define VITA3K_HTTP_ENABLE_INFO_0_PL NULL
+#define VITA3K_HTTP_TIMEOUT_ATTEMPTS_LABEL_PL NULL
+#define VITA3K_HTTP_TIMEOUT_ATTEMPTS_INFO_0_PL NULL
+#define VITA3K_HTTP_TIMEOUT_SLEEP_LABEL_PL NULL
+#define VITA3K_HTTP_TIMEOUT_SLEEP_INFO_0_PL NULL
+#define OPTION_VAL_50_VITA3K_HTTP_TIMEOUT_SLEEP_PL NULL
+#define OPTION_VAL_100_VITA3K_HTTP_TIMEOUT_SLEEP_PL NULL
+#define OPTION_VAL_150_PL NULL
+#define OPTION_VAL_200_PL NULL
+#define OPTION_VAL_250_PL NULL
+#define OPTION_VAL_300_PL NULL
+#define OPTION_VAL_400_PL NULL
+#define OPTION_VAL_500_PL NULL
+#define OPTION_VAL_750_PL NULL
+#define OPTION_VAL_1000_PL NULL
+#define OPTION_VAL_1500_PL NULL
+#define OPTION_VAL_2000_PL NULL
+#define OPTION_VAL_2500_PL NULL
+#define OPTION_VAL_3000_PL NULL
+#define VITA3K_HTTP_READ_END_ATTEMPTS_LABEL_PL NULL
+#define VITA3K_HTTP_READ_END_ATTEMPTS_INFO_0_PL NULL
+#define VITA3K_HTTP_READ_END_SLEEP_LABEL_PL NULL
+#define VITA3K_HTTP_READ_END_SLEEP_INFO_0_PL NULL
+#define VITA3K_FRONT_CAMERA_LABEL_PL NULL
+#define VITA3K_FRONT_CAMERA_INFO_0_PL NULL
+#define OPTION_VAL_HOST_PL NULL
+#define OPTION_VAL_IMAGE_PL NULL
+#define OPTION_VAL_COLOR_PL NULL
+#define VITA3K_FRONT_CAMERA_COLOR_LABEL_PL NULL
+#define VITA3K_FRONT_CAMERA_COLOR_INFO_0_PL NULL
+#define OPTION_VAL_0_VITA3K_FRONT_CAMERA_COLOR_PL "Czarny"
+#define OPTION_VAL_16777215_PL "Biały"
+#define OPTION_VAL_8421504_PL "Szary"
+#define OPTION_VAL_255_PL "Czerwony"
+#define OPTION_VAL_65280_PL "Zielony"
+#define OPTION_VAL_16711680_PL "Niebieski"
+#define VITA3K_BACK_CAMERA_LABEL_PL NULL
+#define VITA3K_BACK_CAMERA_INFO_0_PL NULL
+#define VITA3K_BACK_CAMERA_COLOR_LABEL_PL NULL
+#define VITA3K_BACK_CAMERA_COLOR_INFO_0_PL NULL
 #define VITA3K_SURFACE_SYNC_LABEL_PL NULL
 #define VITA3K_SURFACE_SYNC_INFO_0_PL NULL
 #define OPTION_VAL_ENABLED_PL NULL
@@ -12909,9 +23340,9 @@ struct retro_core_options_v2 options_or = {
 #define VITA3K_FILE_LOADING_DELAY_LABEL_PL NULL
 #define VITA3K_FILE_LOADING_DELAY_INFO_0_PL NULL
 #define OPTION_VAL_0_VITA3K_FILE_LOADING_DELAY_PL NULL
-#define OPTION_VAL_5_PL NULL
+#define OPTION_VAL_5_VITA3K_FILE_LOADING_DELAY_PL NULL
 #define OPTION_VAL_10_VITA3K_FILE_LOADING_DELAY_PL NULL
-#define OPTION_VAL_15_PL NULL
+#define OPTION_VAL_15_VITA3K_FILE_LOADING_DELAY_PL NULL
 #define OPTION_VAL_20_VITA3K_FILE_LOADING_DELAY_PL NULL
 #define OPTION_VAL_25_PL NULL
 #define OPTION_VAL_30_VITA3K_FILE_LOADING_DELAY_PL NULL
@@ -12922,6 +23353,10 @@ struct retro_core_option_v2_category option_cats_pl[] = {
     { "system", CATEGORY_SYSTEM_LABEL_PL, CATEGORY_SYSTEM_INFO_0_PL },
     { "audio", CATEGORY_AUDIO_LABEL_PL, CATEGORY_AUDIO_INFO_0_PL },
     { "network", CATEGORY_NETWORK_LABEL_PL, CATEGORY_NETWORK_INFO_0_PL },
+    { "install", CATEGORY_INSTALL_LABEL_PL, CATEGORY_INSTALL_INFO_0_PL },
+    { "camera", CATEGORY_CAMERA_LABEL_PL, CATEGORY_CAMERA_INFO_0_PL },
+    { "accounts", CATEGORY_ACCOUNTS_LABEL_PL, CATEGORY_ACCOUNTS_INFO_0_PL },
+    { "modules", CATEGORY_MODULES_LABEL_PL, CATEGORY_MODULES_INFO_0_PL },
     { NULL, NULL, NULL },
 };
 struct retro_core_option_v2_definition option_defs_pl[] = {
@@ -13085,9 +23520,10 @@ struct retro_core_option_v2_definition option_defs_pl[] = {
         NULL,
         VITA3K_PKG_MODE_INFO_0_PL,
         NULL,
-        "system",
+        "install",
         {
             { "run", OPTION_VAL_RUN_PL },
+            { "cache", OPTION_VAL_CACHE_PL },
             { "install", OPTION_VAL_INSTALL_PL },
             { NULL, NULL },
         },
@@ -13150,6 +23586,67 @@ struct retro_core_option_v2_definition option_defs_pl[] = {
         },
         "1"
     },
+    {
+        "vita3k_sys_lang",
+        VITA3K_SYS_LANG_LABEL_PL,
+        NULL,
+        VITA3K_SYS_LANG_INFO_0_PL,
+        NULL,
+        "system",
+        {
+            { "0", OPTION_VAL_0_VITA3K_SYS_LANG_PL },
+            { "1", OPTION_VAL_1_VITA3K_SYS_LANG_PL },
+            { "2", OPTION_VAL_2_VITA3K_SYS_LANG_PL },
+            { "3", OPTION_VAL_3_VITA3K_SYS_LANG_PL },
+            { "4", OPTION_VAL_4_VITA3K_SYS_LANG_PL },
+            { "5", OPTION_VAL_5_PL },
+            { "6", OPTION_VAL_6_PL },
+            { "7", OPTION_VAL_7_PL },
+            { "8", OPTION_VAL_8_VITA3K_SYS_LANG_PL },
+            { "9", OPTION_VAL_9_PL },
+            { "10", OPTION_VAL_10_PL },
+            { "11", OPTION_VAL_11_PL },
+            { "12", OPTION_VAL_12_PL },
+            { "13", OPTION_VAL_13_PL },
+            { "14", OPTION_VAL_14_PL },
+            { "15", OPTION_VAL_15_PL },
+            { "16", OPTION_VAL_16_VITA3K_SYS_LANG_PL },
+            { "17", OPTION_VAL_17_PL },
+            { "18", OPTION_VAL_18_PL },
+            { "19", OPTION_VAL_19_PL },
+            { NULL, NULL },
+        },
+        "1"
+    },
+    {
+        "vita3k_sys_date_format",
+        VITA3K_SYS_DATE_FORMAT_LABEL_PL,
+        NULL,
+        VITA3K_SYS_DATE_FORMAT_INFO_0_PL,
+        NULL,
+        "system",
+        {
+            { "0", OPTION_VAL_0_VITA3K_SYS_DATE_FORMAT_PL },
+            { "1", OPTION_VAL_1_VITA3K_SYS_DATE_FORMAT_PL },
+            { "2", OPTION_VAL_2_VITA3K_SYS_DATE_FORMAT_PL },
+            { NULL, NULL },
+        },
+        "2"
+    },
+    {
+        "vita3k_sys_time_format",
+        VITA3K_SYS_TIME_FORMAT_LABEL_PL,
+        NULL,
+        VITA3K_SYS_TIME_FORMAT_INFO_0_PL,
+        NULL,
+        "system",
+        {
+            { "0", OPTION_VAL_0_VITA3K_SYS_TIME_FORMAT_PL },
+            { "1", OPTION_VAL_1_VITA3K_SYS_TIME_FORMAT_PL },
+            { NULL, NULL },
+        },
+        "0"
+    },
     // ── Audio ────────────────────────────────────────────────────────────
     {
         "vita3k_audio_volume",
@@ -13160,7 +23657,7 @@ struct retro_core_option_v2_definition option_defs_pl[] = {
         "audio",
         {
             { "0", OPTION_VAL_0_VITA3K_AUDIO_VOLUME_PL },
-            { "10", OPTION_VAL_10_PL },
+            { "10", OPTION_VAL_10_VITA3K_AUDIO_VOLUME_PL },
             { "20", OPTION_VAL_20_PL },
             { "30", OPTION_VAL_30_PL },
             { "40", OPTION_VAL_40_PL },
@@ -13204,6 +23701,204 @@ struct retro_core_option_v2_definition option_defs_pl[] = {
         "disabled"
     },
     {
+        "vita3k_http_enable",
+        VITA3K_HTTP_ENABLE_LABEL_PL,
+        NULL,
+        VITA3K_HTTP_ENABLE_INFO_0_PL,
+        NULL,
+        "network",
+        {
+            { "enabled", NULL },
+            { "disabled", NULL },
+            { NULL, NULL },
+        },
+        "enabled"
+    },
+    {
+        "vita3k_http_timeout_attempts",
+        VITA3K_HTTP_TIMEOUT_ATTEMPTS_LABEL_PL,
+        NULL,
+        VITA3K_HTTP_TIMEOUT_ATTEMPTS_INFO_0_PL,
+        NULL,
+        "network",
+        {
+            { "0", NULL },
+            { "5", NULL },
+            { "10", NULL },
+            { "15", NULL },
+            { "20", NULL },
+            { "25", NULL },
+            { "30", NULL },
+            { "35", NULL },
+            { "40", NULL },
+            { "45", NULL },
+            { "50", NULL },
+            { "55", NULL },
+            { "60", NULL },
+            { "65", NULL },
+            { "70", NULL },
+            { "75", NULL },
+            { "80", NULL },
+            { "85", NULL },
+            { "90", NULL },
+            { "95", NULL },
+            { "100", NULL },
+            { NULL, NULL },
+        },
+        "50"
+    },
+    {
+        "vita3k_http_timeout_sleep",
+        VITA3K_HTTP_TIMEOUT_SLEEP_LABEL_PL,
+        NULL,
+        VITA3K_HTTP_TIMEOUT_SLEEP_INFO_0_PL,
+        NULL,
+        "network",
+        {
+            { "50", OPTION_VAL_50_VITA3K_HTTP_TIMEOUT_SLEEP_PL },
+            { "100", OPTION_VAL_100_VITA3K_HTTP_TIMEOUT_SLEEP_PL },
+            { "150", OPTION_VAL_150_PL },
+            { "200", OPTION_VAL_200_PL },
+            { "250", OPTION_VAL_250_PL },
+            { "300", OPTION_VAL_300_PL },
+            { "400", OPTION_VAL_400_PL },
+            { "500", OPTION_VAL_500_PL },
+            { "750", OPTION_VAL_750_PL },
+            { "1000", OPTION_VAL_1000_PL },
+            { "1500", OPTION_VAL_1500_PL },
+            { "2000", OPTION_VAL_2000_PL },
+            { "2500", OPTION_VAL_2500_PL },
+            { "3000", OPTION_VAL_3000_PL },
+            { NULL, NULL },
+        },
+        "100"
+    },
+    {
+        "vita3k_http_read_end_attempts",
+        VITA3K_HTTP_READ_END_ATTEMPTS_LABEL_PL,
+        NULL,
+        VITA3K_HTTP_READ_END_ATTEMPTS_INFO_0_PL,
+        NULL,
+        "network",
+        {
+            { "0", NULL },
+            { "5", NULL },
+            { "10", NULL },
+            { "15", NULL },
+            { "20", NULL },
+            { "25", NULL },
+            { "30", NULL },
+            { "35", NULL },
+            { "40", NULL },
+            { "45", NULL },
+            { "50", NULL },
+            { "55", NULL },
+            { "60", NULL },
+            { "65", NULL },
+            { "70", NULL },
+            { "75", NULL },
+            { "80", NULL },
+            { "85", NULL },
+            { "90", NULL },
+            { "95", NULL },
+            { "100", NULL },
+            { NULL, NULL },
+        },
+        "10"
+    },
+    {
+        "vita3k_http_read_end_sleep",
+        VITA3K_HTTP_READ_END_SLEEP_LABEL_PL,
+        NULL,
+        VITA3K_HTTP_READ_END_SLEEP_INFO_0_PL,
+        NULL,
+        "network",
+        {
+            { "50", OPTION_VAL_50_VITA3K_HTTP_TIMEOUT_SLEEP_PL },
+            { "100", OPTION_VAL_100_VITA3K_HTTP_TIMEOUT_SLEEP_PL },
+            { "150", OPTION_VAL_150_PL },
+            { "200", OPTION_VAL_200_PL },
+            { "250", OPTION_VAL_250_PL },
+            { "300", OPTION_VAL_300_PL },
+            { "400", OPTION_VAL_400_PL },
+            { "500", OPTION_VAL_500_PL },
+            { "750", OPTION_VAL_750_PL },
+            { "1000", OPTION_VAL_1000_PL },
+            { "1500", OPTION_VAL_1500_PL },
+            { "2000", OPTION_VAL_2000_PL },
+            { "2500", OPTION_VAL_2500_PL },
+            { "3000", OPTION_VAL_3000_PL },
+            { NULL, NULL },
+        },
+        "250"
+    },
+    {
+        "vita3k_front_camera",
+        VITA3K_FRONT_CAMERA_LABEL_PL,
+        NULL,
+        VITA3K_FRONT_CAMERA_INFO_0_PL,
+        NULL,
+        "camera",
+        {
+            { "host", OPTION_VAL_HOST_PL },
+            { "image", OPTION_VAL_IMAGE_PL },
+            { "color", OPTION_VAL_COLOR_PL },
+            { NULL, NULL },
+        },
+        "host"
+    },
+    {
+        "vita3k_front_camera_color",
+        VITA3K_FRONT_CAMERA_COLOR_LABEL_PL,
+        NULL,
+        VITA3K_FRONT_CAMERA_COLOR_INFO_0_PL,
+        NULL,
+        "camera",
+        {
+            { "0", OPTION_VAL_0_VITA3K_FRONT_CAMERA_COLOR_PL },
+            { "16777215", OPTION_VAL_16777215_PL },
+            { "8421504", OPTION_VAL_8421504_PL },
+            { "255", OPTION_VAL_255_PL },
+            { "65280", OPTION_VAL_65280_PL },
+            { "16711680", OPTION_VAL_16711680_PL },
+            { NULL, NULL },
+        },
+        "0"
+    },
+    {
+        "vita3k_back_camera",
+        VITA3K_BACK_CAMERA_LABEL_PL,
+        NULL,
+        VITA3K_BACK_CAMERA_INFO_0_PL,
+        NULL,
+        "camera",
+        {
+            { "host", OPTION_VAL_HOST_PL },
+            { "image", OPTION_VAL_IMAGE_PL },
+            { "color", OPTION_VAL_COLOR_PL },
+            { NULL, NULL },
+        },
+        "host"
+    },
+    {
+        "vita3k_back_camera_color",
+        VITA3K_BACK_CAMERA_COLOR_LABEL_PL,
+        NULL,
+        VITA3K_BACK_CAMERA_COLOR_INFO_0_PL,
+        NULL,
+        "camera",
+        {
+            { "0", OPTION_VAL_0_VITA3K_FRONT_CAMERA_COLOR_PL },
+            { "16777215", OPTION_VAL_16777215_PL },
+            { "8421504", OPTION_VAL_8421504_PL },
+            { "255", OPTION_VAL_255_PL },
+            { "65280", OPTION_VAL_65280_PL },
+            { "16711680", OPTION_VAL_16711680_PL },
+            { NULL, NULL },
+        },
+        "0"
+    },
+    {
         "vita3k_surface_sync",
         VITA3K_SURFACE_SYNC_LABEL_PL,
         NULL,
@@ -13226,9 +23921,9 @@ struct retro_core_option_v2_definition option_defs_pl[] = {
         "system",
         {
             { "0", OPTION_VAL_0_VITA3K_FILE_LOADING_DELAY_PL },
-            { "5", OPTION_VAL_5_PL },
+            { "5", OPTION_VAL_5_VITA3K_FILE_LOADING_DELAY_PL },
             { "10", OPTION_VAL_10_VITA3K_FILE_LOADING_DELAY_PL },
-            { "15", OPTION_VAL_15_PL },
+            { "15", OPTION_VAL_15_VITA3K_FILE_LOADING_DELAY_PL },
             { "20", OPTION_VAL_20_VITA3K_FILE_LOADING_DELAY_PL },
             { "25", OPTION_VAL_25_PL },
             { "30", OPTION_VAL_30_VITA3K_FILE_LOADING_DELAY_PL },
@@ -13255,6 +23950,14 @@ struct retro_core_options_v2 options_pl = {
 #define CATEGORY_AUDIO_INFO_0_PT_BR NULL
 #define CATEGORY_NETWORK_LABEL_PT_BR "Rede"
 #define CATEGORY_NETWORK_INFO_0_PT_BR NULL
+#define CATEGORY_INSTALL_LABEL_PT_BR "Conteúdo"
+#define CATEGORY_INSTALL_INFO_0_PT_BR NULL
+#define CATEGORY_CAMERA_LABEL_PT_BR "Câmera"
+#define CATEGORY_CAMERA_INFO_0_PT_BR NULL
+#define CATEGORY_ACCOUNTS_LABEL_PT_BR "Contas"
+#define CATEGORY_ACCOUNTS_INFO_0_PT_BR NULL
+#define CATEGORY_MODULES_LABEL_PT_BR NULL
+#define CATEGORY_MODULES_INFO_0_PT_BR NULL
 #define VITA3K_BACKEND_RENDERER_LABEL_PT_BR NULL
 #define VITA3K_BACKEND_RENDERER_INFO_0_PT_BR NULL
 #define OPTION_VAL_VULKAN_PT_BR NULL
@@ -13297,6 +24000,7 @@ struct retro_core_options_v2 options_pl = {
 #define VITA3K_PKG_MODE_LABEL_PT_BR NULL
 #define VITA3K_PKG_MODE_INFO_0_PT_BR NULL
 #define OPTION_VAL_RUN_PT_BR NULL
+#define OPTION_VAL_CACHE_PT_BR NULL
 #define OPTION_VAL_INSTALL_PT_BR NULL
 #define VITA3K_PSTV_MODE_LABEL_PT_BR NULL
 #define VITA3K_PSTV_MODE_INFO_0_PT_BR NULL
@@ -13311,10 +24015,41 @@ struct retro_core_options_v2 options_pl = {
 #define VITA3K_SYS_BUTTON_INFO_0_PT_BR NULL
 #define OPTION_VAL_0_VITA3K_SYS_BUTTON_PT_BR NULL
 #define OPTION_VAL_1_VITA3K_SYS_BUTTON_PT_BR "Mira de cruz"
+#define VITA3K_SYS_LANG_LABEL_PT_BR NULL
+#define VITA3K_SYS_LANG_INFO_0_PT_BR NULL
+#define OPTION_VAL_0_VITA3K_SYS_LANG_PT_BR "Japonês"
+#define OPTION_VAL_1_VITA3K_SYS_LANG_PT_BR NULL
+#define OPTION_VAL_2_VITA3K_SYS_LANG_PT_BR "Francês"
+#define OPTION_VAL_3_VITA3K_SYS_LANG_PT_BR "Espanhol"
+#define OPTION_VAL_4_VITA3K_SYS_LANG_PT_BR "Alemão"
+#define OPTION_VAL_5_PT_BR "Italiano"
+#define OPTION_VAL_6_PT_BR NULL
+#define OPTION_VAL_7_PT_BR NULL
+#define OPTION_VAL_8_VITA3K_SYS_LANG_PT_BR NULL
+#define OPTION_VAL_9_PT_BR NULL
+#define OPTION_VAL_10_PT_BR NULL
+#define OPTION_VAL_11_PT_BR NULL
+#define OPTION_VAL_12_PT_BR NULL
+#define OPTION_VAL_13_PT_BR NULL
+#define OPTION_VAL_14_PT_BR NULL
+#define OPTION_VAL_15_PT_BR NULL
+#define OPTION_VAL_16_VITA3K_SYS_LANG_PT_BR NULL
+#define OPTION_VAL_17_PT_BR NULL
+#define OPTION_VAL_18_PT_BR NULL
+#define OPTION_VAL_19_PT_BR NULL
+#define VITA3K_SYS_DATE_FORMAT_LABEL_PT_BR NULL
+#define VITA3K_SYS_DATE_FORMAT_INFO_0_PT_BR NULL
+#define OPTION_VAL_0_VITA3K_SYS_DATE_FORMAT_PT_BR NULL
+#define OPTION_VAL_1_VITA3K_SYS_DATE_FORMAT_PT_BR NULL
+#define OPTION_VAL_2_VITA3K_SYS_DATE_FORMAT_PT_BR NULL
+#define VITA3K_SYS_TIME_FORMAT_LABEL_PT_BR NULL
+#define VITA3K_SYS_TIME_FORMAT_INFO_0_PT_BR NULL
+#define OPTION_VAL_0_VITA3K_SYS_TIME_FORMAT_PT_BR NULL
+#define OPTION_VAL_1_VITA3K_SYS_TIME_FORMAT_PT_BR NULL
 #define VITA3K_AUDIO_VOLUME_LABEL_PT_BR NULL
 #define VITA3K_AUDIO_VOLUME_INFO_0_PT_BR NULL
 #define OPTION_VAL_0_VITA3K_AUDIO_VOLUME_PT_BR NULL
-#define OPTION_VAL_10_PT_BR NULL
+#define OPTION_VAL_10_VITA3K_AUDIO_VOLUME_PT_BR NULL
 #define OPTION_VAL_20_PT_BR NULL
 #define OPTION_VAL_30_PT_BR NULL
 #define OPTION_VAL_40_PT_BR NULL
@@ -13328,6 +24063,47 @@ struct retro_core_options_v2 options_pl = {
 #define VITA3K_NGS_ENABLE_INFO_0_PT_BR NULL
 #define VITA3K_PSN_SIGNED_IN_LABEL_PT_BR NULL
 #define VITA3K_PSN_SIGNED_IN_INFO_0_PT_BR NULL
+#define VITA3K_HTTP_ENABLE_LABEL_PT_BR NULL
+#define VITA3K_HTTP_ENABLE_INFO_0_PT_BR NULL
+#define VITA3K_HTTP_TIMEOUT_ATTEMPTS_LABEL_PT_BR NULL
+#define VITA3K_HTTP_TIMEOUT_ATTEMPTS_INFO_0_PT_BR NULL
+#define VITA3K_HTTP_TIMEOUT_SLEEP_LABEL_PT_BR NULL
+#define VITA3K_HTTP_TIMEOUT_SLEEP_INFO_0_PT_BR NULL
+#define OPTION_VAL_50_VITA3K_HTTP_TIMEOUT_SLEEP_PT_BR NULL
+#define OPTION_VAL_100_VITA3K_HTTP_TIMEOUT_SLEEP_PT_BR NULL
+#define OPTION_VAL_150_PT_BR NULL
+#define OPTION_VAL_200_PT_BR NULL
+#define OPTION_VAL_250_PT_BR NULL
+#define OPTION_VAL_300_PT_BR NULL
+#define OPTION_VAL_400_PT_BR NULL
+#define OPTION_VAL_500_PT_BR NULL
+#define OPTION_VAL_750_PT_BR NULL
+#define OPTION_VAL_1000_PT_BR NULL
+#define OPTION_VAL_1500_PT_BR NULL
+#define OPTION_VAL_2000_PT_BR NULL
+#define OPTION_VAL_2500_PT_BR NULL
+#define OPTION_VAL_3000_PT_BR NULL
+#define VITA3K_HTTP_READ_END_ATTEMPTS_LABEL_PT_BR NULL
+#define VITA3K_HTTP_READ_END_ATTEMPTS_INFO_0_PT_BR NULL
+#define VITA3K_HTTP_READ_END_SLEEP_LABEL_PT_BR NULL
+#define VITA3K_HTTP_READ_END_SLEEP_INFO_0_PT_BR NULL
+#define VITA3K_FRONT_CAMERA_LABEL_PT_BR NULL
+#define VITA3K_FRONT_CAMERA_INFO_0_PT_BR NULL
+#define OPTION_VAL_HOST_PT_BR NULL
+#define OPTION_VAL_IMAGE_PT_BR NULL
+#define OPTION_VAL_COLOR_PT_BR NULL
+#define VITA3K_FRONT_CAMERA_COLOR_LABEL_PT_BR NULL
+#define VITA3K_FRONT_CAMERA_COLOR_INFO_0_PT_BR NULL
+#define OPTION_VAL_0_VITA3K_FRONT_CAMERA_COLOR_PT_BR "Preta"
+#define OPTION_VAL_16777215_PT_BR "Branca"
+#define OPTION_VAL_8421504_PT_BR "Cinza"
+#define OPTION_VAL_255_PT_BR "Vermelho"
+#define OPTION_VAL_65280_PT_BR "Verde"
+#define OPTION_VAL_16711680_PT_BR "Azul"
+#define VITA3K_BACK_CAMERA_LABEL_PT_BR NULL
+#define VITA3K_BACK_CAMERA_INFO_0_PT_BR NULL
+#define VITA3K_BACK_CAMERA_COLOR_LABEL_PT_BR NULL
+#define VITA3K_BACK_CAMERA_COLOR_INFO_0_PT_BR NULL
 #define VITA3K_SURFACE_SYNC_LABEL_PT_BR NULL
 #define VITA3K_SURFACE_SYNC_INFO_0_PT_BR NULL
 #define OPTION_VAL_ENABLED_PT_BR NULL
@@ -13335,9 +24111,9 @@ struct retro_core_options_v2 options_pl = {
 #define VITA3K_FILE_LOADING_DELAY_LABEL_PT_BR NULL
 #define VITA3K_FILE_LOADING_DELAY_INFO_0_PT_BR NULL
 #define OPTION_VAL_0_VITA3K_FILE_LOADING_DELAY_PT_BR NULL
-#define OPTION_VAL_5_PT_BR NULL
+#define OPTION_VAL_5_VITA3K_FILE_LOADING_DELAY_PT_BR NULL
 #define OPTION_VAL_10_VITA3K_FILE_LOADING_DELAY_PT_BR NULL
-#define OPTION_VAL_15_PT_BR NULL
+#define OPTION_VAL_15_VITA3K_FILE_LOADING_DELAY_PT_BR NULL
 #define OPTION_VAL_20_VITA3K_FILE_LOADING_DELAY_PT_BR NULL
 #define OPTION_VAL_25_PT_BR NULL
 #define OPTION_VAL_30_VITA3K_FILE_LOADING_DELAY_PT_BR NULL
@@ -13348,6 +24124,10 @@ struct retro_core_option_v2_category option_cats_pt_br[] = {
     { "system", CATEGORY_SYSTEM_LABEL_PT_BR, CATEGORY_SYSTEM_INFO_0_PT_BR },
     { "audio", CATEGORY_AUDIO_LABEL_PT_BR, CATEGORY_AUDIO_INFO_0_PT_BR },
     { "network", CATEGORY_NETWORK_LABEL_PT_BR, CATEGORY_NETWORK_INFO_0_PT_BR },
+    { "install", CATEGORY_INSTALL_LABEL_PT_BR, CATEGORY_INSTALL_INFO_0_PT_BR },
+    { "camera", CATEGORY_CAMERA_LABEL_PT_BR, CATEGORY_CAMERA_INFO_0_PT_BR },
+    { "accounts", CATEGORY_ACCOUNTS_LABEL_PT_BR, CATEGORY_ACCOUNTS_INFO_0_PT_BR },
+    { "modules", CATEGORY_MODULES_LABEL_PT_BR, CATEGORY_MODULES_INFO_0_PT_BR },
     { NULL, NULL, NULL },
 };
 struct retro_core_option_v2_definition option_defs_pt_br[] = {
@@ -13511,9 +24291,10 @@ struct retro_core_option_v2_definition option_defs_pt_br[] = {
         NULL,
         VITA3K_PKG_MODE_INFO_0_PT_BR,
         NULL,
-        "system",
+        "install",
         {
             { "run", OPTION_VAL_RUN_PT_BR },
+            { "cache", OPTION_VAL_CACHE_PT_BR },
             { "install", OPTION_VAL_INSTALL_PT_BR },
             { NULL, NULL },
         },
@@ -13576,6 +24357,67 @@ struct retro_core_option_v2_definition option_defs_pt_br[] = {
         },
         "1"
     },
+    {
+        "vita3k_sys_lang",
+        VITA3K_SYS_LANG_LABEL_PT_BR,
+        NULL,
+        VITA3K_SYS_LANG_INFO_0_PT_BR,
+        NULL,
+        "system",
+        {
+            { "0", OPTION_VAL_0_VITA3K_SYS_LANG_PT_BR },
+            { "1", OPTION_VAL_1_VITA3K_SYS_LANG_PT_BR },
+            { "2", OPTION_VAL_2_VITA3K_SYS_LANG_PT_BR },
+            { "3", OPTION_VAL_3_VITA3K_SYS_LANG_PT_BR },
+            { "4", OPTION_VAL_4_VITA3K_SYS_LANG_PT_BR },
+            { "5", OPTION_VAL_5_PT_BR },
+            { "6", OPTION_VAL_6_PT_BR },
+            { "7", OPTION_VAL_7_PT_BR },
+            { "8", OPTION_VAL_8_VITA3K_SYS_LANG_PT_BR },
+            { "9", OPTION_VAL_9_PT_BR },
+            { "10", OPTION_VAL_10_PT_BR },
+            { "11", OPTION_VAL_11_PT_BR },
+            { "12", OPTION_VAL_12_PT_BR },
+            { "13", OPTION_VAL_13_PT_BR },
+            { "14", OPTION_VAL_14_PT_BR },
+            { "15", OPTION_VAL_15_PT_BR },
+            { "16", OPTION_VAL_16_VITA3K_SYS_LANG_PT_BR },
+            { "17", OPTION_VAL_17_PT_BR },
+            { "18", OPTION_VAL_18_PT_BR },
+            { "19", OPTION_VAL_19_PT_BR },
+            { NULL, NULL },
+        },
+        "1"
+    },
+    {
+        "vita3k_sys_date_format",
+        VITA3K_SYS_DATE_FORMAT_LABEL_PT_BR,
+        NULL,
+        VITA3K_SYS_DATE_FORMAT_INFO_0_PT_BR,
+        NULL,
+        "system",
+        {
+            { "0", OPTION_VAL_0_VITA3K_SYS_DATE_FORMAT_PT_BR },
+            { "1", OPTION_VAL_1_VITA3K_SYS_DATE_FORMAT_PT_BR },
+            { "2", OPTION_VAL_2_VITA3K_SYS_DATE_FORMAT_PT_BR },
+            { NULL, NULL },
+        },
+        "2"
+    },
+    {
+        "vita3k_sys_time_format",
+        VITA3K_SYS_TIME_FORMAT_LABEL_PT_BR,
+        NULL,
+        VITA3K_SYS_TIME_FORMAT_INFO_0_PT_BR,
+        NULL,
+        "system",
+        {
+            { "0", OPTION_VAL_0_VITA3K_SYS_TIME_FORMAT_PT_BR },
+            { "1", OPTION_VAL_1_VITA3K_SYS_TIME_FORMAT_PT_BR },
+            { NULL, NULL },
+        },
+        "0"
+    },
     // ── Audio ────────────────────────────────────────────────────────────
     {
         "vita3k_audio_volume",
@@ -13586,7 +24428,7 @@ struct retro_core_option_v2_definition option_defs_pt_br[] = {
         "audio",
         {
             { "0", OPTION_VAL_0_VITA3K_AUDIO_VOLUME_PT_BR },
-            { "10", OPTION_VAL_10_PT_BR },
+            { "10", OPTION_VAL_10_VITA3K_AUDIO_VOLUME_PT_BR },
             { "20", OPTION_VAL_20_PT_BR },
             { "30", OPTION_VAL_30_PT_BR },
             { "40", OPTION_VAL_40_PT_BR },
@@ -13630,6 +24472,204 @@ struct retro_core_option_v2_definition option_defs_pt_br[] = {
         "disabled"
     },
     {
+        "vita3k_http_enable",
+        VITA3K_HTTP_ENABLE_LABEL_PT_BR,
+        NULL,
+        VITA3K_HTTP_ENABLE_INFO_0_PT_BR,
+        NULL,
+        "network",
+        {
+            { "enabled", NULL },
+            { "disabled", NULL },
+            { NULL, NULL },
+        },
+        "enabled"
+    },
+    {
+        "vita3k_http_timeout_attempts",
+        VITA3K_HTTP_TIMEOUT_ATTEMPTS_LABEL_PT_BR,
+        NULL,
+        VITA3K_HTTP_TIMEOUT_ATTEMPTS_INFO_0_PT_BR,
+        NULL,
+        "network",
+        {
+            { "0", NULL },
+            { "5", NULL },
+            { "10", NULL },
+            { "15", NULL },
+            { "20", NULL },
+            { "25", NULL },
+            { "30", NULL },
+            { "35", NULL },
+            { "40", NULL },
+            { "45", NULL },
+            { "50", NULL },
+            { "55", NULL },
+            { "60", NULL },
+            { "65", NULL },
+            { "70", NULL },
+            { "75", NULL },
+            { "80", NULL },
+            { "85", NULL },
+            { "90", NULL },
+            { "95", NULL },
+            { "100", NULL },
+            { NULL, NULL },
+        },
+        "50"
+    },
+    {
+        "vita3k_http_timeout_sleep",
+        VITA3K_HTTP_TIMEOUT_SLEEP_LABEL_PT_BR,
+        NULL,
+        VITA3K_HTTP_TIMEOUT_SLEEP_INFO_0_PT_BR,
+        NULL,
+        "network",
+        {
+            { "50", OPTION_VAL_50_VITA3K_HTTP_TIMEOUT_SLEEP_PT_BR },
+            { "100", OPTION_VAL_100_VITA3K_HTTP_TIMEOUT_SLEEP_PT_BR },
+            { "150", OPTION_VAL_150_PT_BR },
+            { "200", OPTION_VAL_200_PT_BR },
+            { "250", OPTION_VAL_250_PT_BR },
+            { "300", OPTION_VAL_300_PT_BR },
+            { "400", OPTION_VAL_400_PT_BR },
+            { "500", OPTION_VAL_500_PT_BR },
+            { "750", OPTION_VAL_750_PT_BR },
+            { "1000", OPTION_VAL_1000_PT_BR },
+            { "1500", OPTION_VAL_1500_PT_BR },
+            { "2000", OPTION_VAL_2000_PT_BR },
+            { "2500", OPTION_VAL_2500_PT_BR },
+            { "3000", OPTION_VAL_3000_PT_BR },
+            { NULL, NULL },
+        },
+        "100"
+    },
+    {
+        "vita3k_http_read_end_attempts",
+        VITA3K_HTTP_READ_END_ATTEMPTS_LABEL_PT_BR,
+        NULL,
+        VITA3K_HTTP_READ_END_ATTEMPTS_INFO_0_PT_BR,
+        NULL,
+        "network",
+        {
+            { "0", NULL },
+            { "5", NULL },
+            { "10", NULL },
+            { "15", NULL },
+            { "20", NULL },
+            { "25", NULL },
+            { "30", NULL },
+            { "35", NULL },
+            { "40", NULL },
+            { "45", NULL },
+            { "50", NULL },
+            { "55", NULL },
+            { "60", NULL },
+            { "65", NULL },
+            { "70", NULL },
+            { "75", NULL },
+            { "80", NULL },
+            { "85", NULL },
+            { "90", NULL },
+            { "95", NULL },
+            { "100", NULL },
+            { NULL, NULL },
+        },
+        "10"
+    },
+    {
+        "vita3k_http_read_end_sleep",
+        VITA3K_HTTP_READ_END_SLEEP_LABEL_PT_BR,
+        NULL,
+        VITA3K_HTTP_READ_END_SLEEP_INFO_0_PT_BR,
+        NULL,
+        "network",
+        {
+            { "50", OPTION_VAL_50_VITA3K_HTTP_TIMEOUT_SLEEP_PT_BR },
+            { "100", OPTION_VAL_100_VITA3K_HTTP_TIMEOUT_SLEEP_PT_BR },
+            { "150", OPTION_VAL_150_PT_BR },
+            { "200", OPTION_VAL_200_PT_BR },
+            { "250", OPTION_VAL_250_PT_BR },
+            { "300", OPTION_VAL_300_PT_BR },
+            { "400", OPTION_VAL_400_PT_BR },
+            { "500", OPTION_VAL_500_PT_BR },
+            { "750", OPTION_VAL_750_PT_BR },
+            { "1000", OPTION_VAL_1000_PT_BR },
+            { "1500", OPTION_VAL_1500_PT_BR },
+            { "2000", OPTION_VAL_2000_PT_BR },
+            { "2500", OPTION_VAL_2500_PT_BR },
+            { "3000", OPTION_VAL_3000_PT_BR },
+            { NULL, NULL },
+        },
+        "250"
+    },
+    {
+        "vita3k_front_camera",
+        VITA3K_FRONT_CAMERA_LABEL_PT_BR,
+        NULL,
+        VITA3K_FRONT_CAMERA_INFO_0_PT_BR,
+        NULL,
+        "camera",
+        {
+            { "host", OPTION_VAL_HOST_PT_BR },
+            { "image", OPTION_VAL_IMAGE_PT_BR },
+            { "color", OPTION_VAL_COLOR_PT_BR },
+            { NULL, NULL },
+        },
+        "host"
+    },
+    {
+        "vita3k_front_camera_color",
+        VITA3K_FRONT_CAMERA_COLOR_LABEL_PT_BR,
+        NULL,
+        VITA3K_FRONT_CAMERA_COLOR_INFO_0_PT_BR,
+        NULL,
+        "camera",
+        {
+            { "0", OPTION_VAL_0_VITA3K_FRONT_CAMERA_COLOR_PT_BR },
+            { "16777215", OPTION_VAL_16777215_PT_BR },
+            { "8421504", OPTION_VAL_8421504_PT_BR },
+            { "255", OPTION_VAL_255_PT_BR },
+            { "65280", OPTION_VAL_65280_PT_BR },
+            { "16711680", OPTION_VAL_16711680_PT_BR },
+            { NULL, NULL },
+        },
+        "0"
+    },
+    {
+        "vita3k_back_camera",
+        VITA3K_BACK_CAMERA_LABEL_PT_BR,
+        NULL,
+        VITA3K_BACK_CAMERA_INFO_0_PT_BR,
+        NULL,
+        "camera",
+        {
+            { "host", OPTION_VAL_HOST_PT_BR },
+            { "image", OPTION_VAL_IMAGE_PT_BR },
+            { "color", OPTION_VAL_COLOR_PT_BR },
+            { NULL, NULL },
+        },
+        "host"
+    },
+    {
+        "vita3k_back_camera_color",
+        VITA3K_BACK_CAMERA_COLOR_LABEL_PT_BR,
+        NULL,
+        VITA3K_BACK_CAMERA_COLOR_INFO_0_PT_BR,
+        NULL,
+        "camera",
+        {
+            { "0", OPTION_VAL_0_VITA3K_FRONT_CAMERA_COLOR_PT_BR },
+            { "16777215", OPTION_VAL_16777215_PT_BR },
+            { "8421504", OPTION_VAL_8421504_PT_BR },
+            { "255", OPTION_VAL_255_PT_BR },
+            { "65280", OPTION_VAL_65280_PT_BR },
+            { "16711680", OPTION_VAL_16711680_PT_BR },
+            { NULL, NULL },
+        },
+        "0"
+    },
+    {
         "vita3k_surface_sync",
         VITA3K_SURFACE_SYNC_LABEL_PT_BR,
         NULL,
@@ -13652,9 +24692,9 @@ struct retro_core_option_v2_definition option_defs_pt_br[] = {
         "system",
         {
             { "0", OPTION_VAL_0_VITA3K_FILE_LOADING_DELAY_PT_BR },
-            { "5", OPTION_VAL_5_PT_BR },
+            { "5", OPTION_VAL_5_VITA3K_FILE_LOADING_DELAY_PT_BR },
             { "10", OPTION_VAL_10_VITA3K_FILE_LOADING_DELAY_PT_BR },
-            { "15", OPTION_VAL_15_PT_BR },
+            { "15", OPTION_VAL_15_VITA3K_FILE_LOADING_DELAY_PT_BR },
             { "20", OPTION_VAL_20_VITA3K_FILE_LOADING_DELAY_PT_BR },
             { "25", OPTION_VAL_25_PT_BR },
             { "30", OPTION_VAL_30_VITA3K_FILE_LOADING_DELAY_PT_BR },
@@ -13681,6 +24721,14 @@ struct retro_core_options_v2 options_pt_br = {
 #define CATEGORY_AUDIO_INFO_0_PT_PT NULL
 #define CATEGORY_NETWORK_LABEL_PT_PT "Rede"
 #define CATEGORY_NETWORK_INFO_0_PT_PT NULL
+#define CATEGORY_INSTALL_LABEL_PT_PT "Conteúdo"
+#define CATEGORY_INSTALL_INFO_0_PT_PT NULL
+#define CATEGORY_CAMERA_LABEL_PT_PT "Câmara"
+#define CATEGORY_CAMERA_INFO_0_PT_PT NULL
+#define CATEGORY_ACCOUNTS_LABEL_PT_PT "Conta"
+#define CATEGORY_ACCOUNTS_INFO_0_PT_PT NULL
+#define CATEGORY_MODULES_LABEL_PT_PT NULL
+#define CATEGORY_MODULES_INFO_0_PT_PT NULL
 #define VITA3K_BACKEND_RENDERER_LABEL_PT_PT NULL
 #define VITA3K_BACKEND_RENDERER_INFO_0_PT_PT NULL
 #define OPTION_VAL_VULKAN_PT_PT NULL
@@ -13723,6 +24771,7 @@ struct retro_core_options_v2 options_pt_br = {
 #define VITA3K_PKG_MODE_LABEL_PT_PT NULL
 #define VITA3K_PKG_MODE_INFO_0_PT_PT NULL
 #define OPTION_VAL_RUN_PT_PT NULL
+#define OPTION_VAL_CACHE_PT_PT NULL
 #define OPTION_VAL_INSTALL_PT_PT NULL
 #define VITA3K_PSTV_MODE_LABEL_PT_PT NULL
 #define VITA3K_PSTV_MODE_INFO_0_PT_PT NULL
@@ -13737,10 +24786,41 @@ struct retro_core_options_v2 options_pt_br = {
 #define VITA3K_SYS_BUTTON_INFO_0_PT_PT NULL
 #define OPTION_VAL_0_VITA3K_SYS_BUTTON_PT_PT NULL
 #define OPTION_VAL_1_VITA3K_SYS_BUTTON_PT_PT NULL
+#define VITA3K_SYS_LANG_LABEL_PT_PT NULL
+#define VITA3K_SYS_LANG_INFO_0_PT_PT NULL
+#define OPTION_VAL_0_VITA3K_SYS_LANG_PT_PT "Japonês"
+#define OPTION_VAL_1_VITA3K_SYS_LANG_PT_PT NULL
+#define OPTION_VAL_2_VITA3K_SYS_LANG_PT_PT "Francês"
+#define OPTION_VAL_3_VITA3K_SYS_LANG_PT_PT "Espanhol"
+#define OPTION_VAL_4_VITA3K_SYS_LANG_PT_PT "Alemão"
+#define OPTION_VAL_5_PT_PT "Italiano"
+#define OPTION_VAL_6_PT_PT NULL
+#define OPTION_VAL_7_PT_PT NULL
+#define OPTION_VAL_8_VITA3K_SYS_LANG_PT_PT NULL
+#define OPTION_VAL_9_PT_PT NULL
+#define OPTION_VAL_10_PT_PT NULL
+#define OPTION_VAL_11_PT_PT NULL
+#define OPTION_VAL_12_PT_PT NULL
+#define OPTION_VAL_13_PT_PT NULL
+#define OPTION_VAL_14_PT_PT NULL
+#define OPTION_VAL_15_PT_PT NULL
+#define OPTION_VAL_16_VITA3K_SYS_LANG_PT_PT NULL
+#define OPTION_VAL_17_PT_PT NULL
+#define OPTION_VAL_18_PT_PT NULL
+#define OPTION_VAL_19_PT_PT NULL
+#define VITA3K_SYS_DATE_FORMAT_LABEL_PT_PT NULL
+#define VITA3K_SYS_DATE_FORMAT_INFO_0_PT_PT NULL
+#define OPTION_VAL_0_VITA3K_SYS_DATE_FORMAT_PT_PT NULL
+#define OPTION_VAL_1_VITA3K_SYS_DATE_FORMAT_PT_PT NULL
+#define OPTION_VAL_2_VITA3K_SYS_DATE_FORMAT_PT_PT NULL
+#define VITA3K_SYS_TIME_FORMAT_LABEL_PT_PT NULL
+#define VITA3K_SYS_TIME_FORMAT_INFO_0_PT_PT NULL
+#define OPTION_VAL_0_VITA3K_SYS_TIME_FORMAT_PT_PT NULL
+#define OPTION_VAL_1_VITA3K_SYS_TIME_FORMAT_PT_PT NULL
 #define VITA3K_AUDIO_VOLUME_LABEL_PT_PT NULL
 #define VITA3K_AUDIO_VOLUME_INFO_0_PT_PT NULL
 #define OPTION_VAL_0_VITA3K_AUDIO_VOLUME_PT_PT NULL
-#define OPTION_VAL_10_PT_PT NULL
+#define OPTION_VAL_10_VITA3K_AUDIO_VOLUME_PT_PT NULL
 #define OPTION_VAL_20_PT_PT NULL
 #define OPTION_VAL_30_PT_PT NULL
 #define OPTION_VAL_40_PT_PT NULL
@@ -13754,6 +24834,47 @@ struct retro_core_options_v2 options_pt_br = {
 #define VITA3K_NGS_ENABLE_INFO_0_PT_PT NULL
 #define VITA3K_PSN_SIGNED_IN_LABEL_PT_PT NULL
 #define VITA3K_PSN_SIGNED_IN_INFO_0_PT_PT NULL
+#define VITA3K_HTTP_ENABLE_LABEL_PT_PT NULL
+#define VITA3K_HTTP_ENABLE_INFO_0_PT_PT NULL
+#define VITA3K_HTTP_TIMEOUT_ATTEMPTS_LABEL_PT_PT NULL
+#define VITA3K_HTTP_TIMEOUT_ATTEMPTS_INFO_0_PT_PT NULL
+#define VITA3K_HTTP_TIMEOUT_SLEEP_LABEL_PT_PT NULL
+#define VITA3K_HTTP_TIMEOUT_SLEEP_INFO_0_PT_PT NULL
+#define OPTION_VAL_50_VITA3K_HTTP_TIMEOUT_SLEEP_PT_PT NULL
+#define OPTION_VAL_100_VITA3K_HTTP_TIMEOUT_SLEEP_PT_PT NULL
+#define OPTION_VAL_150_PT_PT NULL
+#define OPTION_VAL_200_PT_PT NULL
+#define OPTION_VAL_250_PT_PT NULL
+#define OPTION_VAL_300_PT_PT NULL
+#define OPTION_VAL_400_PT_PT NULL
+#define OPTION_VAL_500_PT_PT NULL
+#define OPTION_VAL_750_PT_PT NULL
+#define OPTION_VAL_1000_PT_PT NULL
+#define OPTION_VAL_1500_PT_PT NULL
+#define OPTION_VAL_2000_PT_PT NULL
+#define OPTION_VAL_2500_PT_PT NULL
+#define OPTION_VAL_3000_PT_PT NULL
+#define VITA3K_HTTP_READ_END_ATTEMPTS_LABEL_PT_PT NULL
+#define VITA3K_HTTP_READ_END_ATTEMPTS_INFO_0_PT_PT NULL
+#define VITA3K_HTTP_READ_END_SLEEP_LABEL_PT_PT NULL
+#define VITA3K_HTTP_READ_END_SLEEP_INFO_0_PT_PT NULL
+#define VITA3K_FRONT_CAMERA_LABEL_PT_PT NULL
+#define VITA3K_FRONT_CAMERA_INFO_0_PT_PT NULL
+#define OPTION_VAL_HOST_PT_PT NULL
+#define OPTION_VAL_IMAGE_PT_PT NULL
+#define OPTION_VAL_COLOR_PT_PT NULL
+#define VITA3K_FRONT_CAMERA_COLOR_LABEL_PT_PT NULL
+#define VITA3K_FRONT_CAMERA_COLOR_INFO_0_PT_PT NULL
+#define OPTION_VAL_0_VITA3K_FRONT_CAMERA_COLOR_PT_PT NULL
+#define OPTION_VAL_16777215_PT_PT NULL
+#define OPTION_VAL_8421504_PT_PT NULL
+#define OPTION_VAL_255_PT_PT "Vermelho"
+#define OPTION_VAL_65280_PT_PT "Verde"
+#define OPTION_VAL_16711680_PT_PT "Azul"
+#define VITA3K_BACK_CAMERA_LABEL_PT_PT NULL
+#define VITA3K_BACK_CAMERA_INFO_0_PT_PT NULL
+#define VITA3K_BACK_CAMERA_COLOR_LABEL_PT_PT NULL
+#define VITA3K_BACK_CAMERA_COLOR_INFO_0_PT_PT NULL
 #define VITA3K_SURFACE_SYNC_LABEL_PT_PT NULL
 #define VITA3K_SURFACE_SYNC_INFO_0_PT_PT NULL
 #define OPTION_VAL_ENABLED_PT_PT NULL
@@ -13761,9 +24882,9 @@ struct retro_core_options_v2 options_pt_br = {
 #define VITA3K_FILE_LOADING_DELAY_LABEL_PT_PT NULL
 #define VITA3K_FILE_LOADING_DELAY_INFO_0_PT_PT NULL
 #define OPTION_VAL_0_VITA3K_FILE_LOADING_DELAY_PT_PT NULL
-#define OPTION_VAL_5_PT_PT NULL
+#define OPTION_VAL_5_VITA3K_FILE_LOADING_DELAY_PT_PT NULL
 #define OPTION_VAL_10_VITA3K_FILE_LOADING_DELAY_PT_PT NULL
-#define OPTION_VAL_15_PT_PT NULL
+#define OPTION_VAL_15_VITA3K_FILE_LOADING_DELAY_PT_PT NULL
 #define OPTION_VAL_20_VITA3K_FILE_LOADING_DELAY_PT_PT NULL
 #define OPTION_VAL_25_PT_PT NULL
 #define OPTION_VAL_30_VITA3K_FILE_LOADING_DELAY_PT_PT NULL
@@ -13774,6 +24895,10 @@ struct retro_core_option_v2_category option_cats_pt_pt[] = {
     { "system", CATEGORY_SYSTEM_LABEL_PT_PT, CATEGORY_SYSTEM_INFO_0_PT_PT },
     { "audio", CATEGORY_AUDIO_LABEL_PT_PT, CATEGORY_AUDIO_INFO_0_PT_PT },
     { "network", CATEGORY_NETWORK_LABEL_PT_PT, CATEGORY_NETWORK_INFO_0_PT_PT },
+    { "install", CATEGORY_INSTALL_LABEL_PT_PT, CATEGORY_INSTALL_INFO_0_PT_PT },
+    { "camera", CATEGORY_CAMERA_LABEL_PT_PT, CATEGORY_CAMERA_INFO_0_PT_PT },
+    { "accounts", CATEGORY_ACCOUNTS_LABEL_PT_PT, CATEGORY_ACCOUNTS_INFO_0_PT_PT },
+    { "modules", CATEGORY_MODULES_LABEL_PT_PT, CATEGORY_MODULES_INFO_0_PT_PT },
     { NULL, NULL, NULL },
 };
 struct retro_core_option_v2_definition option_defs_pt_pt[] = {
@@ -13937,9 +25062,10 @@ struct retro_core_option_v2_definition option_defs_pt_pt[] = {
         NULL,
         VITA3K_PKG_MODE_INFO_0_PT_PT,
         NULL,
-        "system",
+        "install",
         {
             { "run", OPTION_VAL_RUN_PT_PT },
+            { "cache", OPTION_VAL_CACHE_PT_PT },
             { "install", OPTION_VAL_INSTALL_PT_PT },
             { NULL, NULL },
         },
@@ -14002,6 +25128,67 @@ struct retro_core_option_v2_definition option_defs_pt_pt[] = {
         },
         "1"
     },
+    {
+        "vita3k_sys_lang",
+        VITA3K_SYS_LANG_LABEL_PT_PT,
+        NULL,
+        VITA3K_SYS_LANG_INFO_0_PT_PT,
+        NULL,
+        "system",
+        {
+            { "0", OPTION_VAL_0_VITA3K_SYS_LANG_PT_PT },
+            { "1", OPTION_VAL_1_VITA3K_SYS_LANG_PT_PT },
+            { "2", OPTION_VAL_2_VITA3K_SYS_LANG_PT_PT },
+            { "3", OPTION_VAL_3_VITA3K_SYS_LANG_PT_PT },
+            { "4", OPTION_VAL_4_VITA3K_SYS_LANG_PT_PT },
+            { "5", OPTION_VAL_5_PT_PT },
+            { "6", OPTION_VAL_6_PT_PT },
+            { "7", OPTION_VAL_7_PT_PT },
+            { "8", OPTION_VAL_8_VITA3K_SYS_LANG_PT_PT },
+            { "9", OPTION_VAL_9_PT_PT },
+            { "10", OPTION_VAL_10_PT_PT },
+            { "11", OPTION_VAL_11_PT_PT },
+            { "12", OPTION_VAL_12_PT_PT },
+            { "13", OPTION_VAL_13_PT_PT },
+            { "14", OPTION_VAL_14_PT_PT },
+            { "15", OPTION_VAL_15_PT_PT },
+            { "16", OPTION_VAL_16_VITA3K_SYS_LANG_PT_PT },
+            { "17", OPTION_VAL_17_PT_PT },
+            { "18", OPTION_VAL_18_PT_PT },
+            { "19", OPTION_VAL_19_PT_PT },
+            { NULL, NULL },
+        },
+        "1"
+    },
+    {
+        "vita3k_sys_date_format",
+        VITA3K_SYS_DATE_FORMAT_LABEL_PT_PT,
+        NULL,
+        VITA3K_SYS_DATE_FORMAT_INFO_0_PT_PT,
+        NULL,
+        "system",
+        {
+            { "0", OPTION_VAL_0_VITA3K_SYS_DATE_FORMAT_PT_PT },
+            { "1", OPTION_VAL_1_VITA3K_SYS_DATE_FORMAT_PT_PT },
+            { "2", OPTION_VAL_2_VITA3K_SYS_DATE_FORMAT_PT_PT },
+            { NULL, NULL },
+        },
+        "2"
+    },
+    {
+        "vita3k_sys_time_format",
+        VITA3K_SYS_TIME_FORMAT_LABEL_PT_PT,
+        NULL,
+        VITA3K_SYS_TIME_FORMAT_INFO_0_PT_PT,
+        NULL,
+        "system",
+        {
+            { "0", OPTION_VAL_0_VITA3K_SYS_TIME_FORMAT_PT_PT },
+            { "1", OPTION_VAL_1_VITA3K_SYS_TIME_FORMAT_PT_PT },
+            { NULL, NULL },
+        },
+        "0"
+    },
     // ── Audio ────────────────────────────────────────────────────────────
     {
         "vita3k_audio_volume",
@@ -14012,7 +25199,7 @@ struct retro_core_option_v2_definition option_defs_pt_pt[] = {
         "audio",
         {
             { "0", OPTION_VAL_0_VITA3K_AUDIO_VOLUME_PT_PT },
-            { "10", OPTION_VAL_10_PT_PT },
+            { "10", OPTION_VAL_10_VITA3K_AUDIO_VOLUME_PT_PT },
             { "20", OPTION_VAL_20_PT_PT },
             { "30", OPTION_VAL_30_PT_PT },
             { "40", OPTION_VAL_40_PT_PT },
@@ -14056,6 +25243,204 @@ struct retro_core_option_v2_definition option_defs_pt_pt[] = {
         "disabled"
     },
     {
+        "vita3k_http_enable",
+        VITA3K_HTTP_ENABLE_LABEL_PT_PT,
+        NULL,
+        VITA3K_HTTP_ENABLE_INFO_0_PT_PT,
+        NULL,
+        "network",
+        {
+            { "enabled", NULL },
+            { "disabled", NULL },
+            { NULL, NULL },
+        },
+        "enabled"
+    },
+    {
+        "vita3k_http_timeout_attempts",
+        VITA3K_HTTP_TIMEOUT_ATTEMPTS_LABEL_PT_PT,
+        NULL,
+        VITA3K_HTTP_TIMEOUT_ATTEMPTS_INFO_0_PT_PT,
+        NULL,
+        "network",
+        {
+            { "0", NULL },
+            { "5", NULL },
+            { "10", NULL },
+            { "15", NULL },
+            { "20", NULL },
+            { "25", NULL },
+            { "30", NULL },
+            { "35", NULL },
+            { "40", NULL },
+            { "45", NULL },
+            { "50", NULL },
+            { "55", NULL },
+            { "60", NULL },
+            { "65", NULL },
+            { "70", NULL },
+            { "75", NULL },
+            { "80", NULL },
+            { "85", NULL },
+            { "90", NULL },
+            { "95", NULL },
+            { "100", NULL },
+            { NULL, NULL },
+        },
+        "50"
+    },
+    {
+        "vita3k_http_timeout_sleep",
+        VITA3K_HTTP_TIMEOUT_SLEEP_LABEL_PT_PT,
+        NULL,
+        VITA3K_HTTP_TIMEOUT_SLEEP_INFO_0_PT_PT,
+        NULL,
+        "network",
+        {
+            { "50", OPTION_VAL_50_VITA3K_HTTP_TIMEOUT_SLEEP_PT_PT },
+            { "100", OPTION_VAL_100_VITA3K_HTTP_TIMEOUT_SLEEP_PT_PT },
+            { "150", OPTION_VAL_150_PT_PT },
+            { "200", OPTION_VAL_200_PT_PT },
+            { "250", OPTION_VAL_250_PT_PT },
+            { "300", OPTION_VAL_300_PT_PT },
+            { "400", OPTION_VAL_400_PT_PT },
+            { "500", OPTION_VAL_500_PT_PT },
+            { "750", OPTION_VAL_750_PT_PT },
+            { "1000", OPTION_VAL_1000_PT_PT },
+            { "1500", OPTION_VAL_1500_PT_PT },
+            { "2000", OPTION_VAL_2000_PT_PT },
+            { "2500", OPTION_VAL_2500_PT_PT },
+            { "3000", OPTION_VAL_3000_PT_PT },
+            { NULL, NULL },
+        },
+        "100"
+    },
+    {
+        "vita3k_http_read_end_attempts",
+        VITA3K_HTTP_READ_END_ATTEMPTS_LABEL_PT_PT,
+        NULL,
+        VITA3K_HTTP_READ_END_ATTEMPTS_INFO_0_PT_PT,
+        NULL,
+        "network",
+        {
+            { "0", NULL },
+            { "5", NULL },
+            { "10", NULL },
+            { "15", NULL },
+            { "20", NULL },
+            { "25", NULL },
+            { "30", NULL },
+            { "35", NULL },
+            { "40", NULL },
+            { "45", NULL },
+            { "50", NULL },
+            { "55", NULL },
+            { "60", NULL },
+            { "65", NULL },
+            { "70", NULL },
+            { "75", NULL },
+            { "80", NULL },
+            { "85", NULL },
+            { "90", NULL },
+            { "95", NULL },
+            { "100", NULL },
+            { NULL, NULL },
+        },
+        "10"
+    },
+    {
+        "vita3k_http_read_end_sleep",
+        VITA3K_HTTP_READ_END_SLEEP_LABEL_PT_PT,
+        NULL,
+        VITA3K_HTTP_READ_END_SLEEP_INFO_0_PT_PT,
+        NULL,
+        "network",
+        {
+            { "50", OPTION_VAL_50_VITA3K_HTTP_TIMEOUT_SLEEP_PT_PT },
+            { "100", OPTION_VAL_100_VITA3K_HTTP_TIMEOUT_SLEEP_PT_PT },
+            { "150", OPTION_VAL_150_PT_PT },
+            { "200", OPTION_VAL_200_PT_PT },
+            { "250", OPTION_VAL_250_PT_PT },
+            { "300", OPTION_VAL_300_PT_PT },
+            { "400", OPTION_VAL_400_PT_PT },
+            { "500", OPTION_VAL_500_PT_PT },
+            { "750", OPTION_VAL_750_PT_PT },
+            { "1000", OPTION_VAL_1000_PT_PT },
+            { "1500", OPTION_VAL_1500_PT_PT },
+            { "2000", OPTION_VAL_2000_PT_PT },
+            { "2500", OPTION_VAL_2500_PT_PT },
+            { "3000", OPTION_VAL_3000_PT_PT },
+            { NULL, NULL },
+        },
+        "250"
+    },
+    {
+        "vita3k_front_camera",
+        VITA3K_FRONT_CAMERA_LABEL_PT_PT,
+        NULL,
+        VITA3K_FRONT_CAMERA_INFO_0_PT_PT,
+        NULL,
+        "camera",
+        {
+            { "host", OPTION_VAL_HOST_PT_PT },
+            { "image", OPTION_VAL_IMAGE_PT_PT },
+            { "color", OPTION_VAL_COLOR_PT_PT },
+            { NULL, NULL },
+        },
+        "host"
+    },
+    {
+        "vita3k_front_camera_color",
+        VITA3K_FRONT_CAMERA_COLOR_LABEL_PT_PT,
+        NULL,
+        VITA3K_FRONT_CAMERA_COLOR_INFO_0_PT_PT,
+        NULL,
+        "camera",
+        {
+            { "0", OPTION_VAL_0_VITA3K_FRONT_CAMERA_COLOR_PT_PT },
+            { "16777215", OPTION_VAL_16777215_PT_PT },
+            { "8421504", OPTION_VAL_8421504_PT_PT },
+            { "255", OPTION_VAL_255_PT_PT },
+            { "65280", OPTION_VAL_65280_PT_PT },
+            { "16711680", OPTION_VAL_16711680_PT_PT },
+            { NULL, NULL },
+        },
+        "0"
+    },
+    {
+        "vita3k_back_camera",
+        VITA3K_BACK_CAMERA_LABEL_PT_PT,
+        NULL,
+        VITA3K_BACK_CAMERA_INFO_0_PT_PT,
+        NULL,
+        "camera",
+        {
+            { "host", OPTION_VAL_HOST_PT_PT },
+            { "image", OPTION_VAL_IMAGE_PT_PT },
+            { "color", OPTION_VAL_COLOR_PT_PT },
+            { NULL, NULL },
+        },
+        "host"
+    },
+    {
+        "vita3k_back_camera_color",
+        VITA3K_BACK_CAMERA_COLOR_LABEL_PT_PT,
+        NULL,
+        VITA3K_BACK_CAMERA_COLOR_INFO_0_PT_PT,
+        NULL,
+        "camera",
+        {
+            { "0", OPTION_VAL_0_VITA3K_FRONT_CAMERA_COLOR_PT_PT },
+            { "16777215", OPTION_VAL_16777215_PT_PT },
+            { "8421504", OPTION_VAL_8421504_PT_PT },
+            { "255", OPTION_VAL_255_PT_PT },
+            { "65280", OPTION_VAL_65280_PT_PT },
+            { "16711680", OPTION_VAL_16711680_PT_PT },
+            { NULL, NULL },
+        },
+        "0"
+    },
+    {
         "vita3k_surface_sync",
         VITA3K_SURFACE_SYNC_LABEL_PT_PT,
         NULL,
@@ -14078,9 +25463,9 @@ struct retro_core_option_v2_definition option_defs_pt_pt[] = {
         "system",
         {
             { "0", OPTION_VAL_0_VITA3K_FILE_LOADING_DELAY_PT_PT },
-            { "5", OPTION_VAL_5_PT_PT },
+            { "5", OPTION_VAL_5_VITA3K_FILE_LOADING_DELAY_PT_PT },
             { "10", OPTION_VAL_10_VITA3K_FILE_LOADING_DELAY_PT_PT },
-            { "15", OPTION_VAL_15_PT_PT },
+            { "15", OPTION_VAL_15_VITA3K_FILE_LOADING_DELAY_PT_PT },
             { "20", OPTION_VAL_20_VITA3K_FILE_LOADING_DELAY_PT_PT },
             { "25", OPTION_VAL_25_PT_PT },
             { "30", OPTION_VAL_30_VITA3K_FILE_LOADING_DELAY_PT_PT },
@@ -14107,6 +25492,14 @@ struct retro_core_options_v2 options_pt_pt = {
 #define CATEGORY_AUDIO_INFO_0_RU NULL
 #define CATEGORY_NETWORK_LABEL_RU "Сетевая игра"
 #define CATEGORY_NETWORK_INFO_0_RU NULL
+#define CATEGORY_INSTALL_LABEL_RU "Контент"
+#define CATEGORY_INSTALL_INFO_0_RU NULL
+#define CATEGORY_CAMERA_LABEL_RU "Камера"
+#define CATEGORY_CAMERA_INFO_0_RU NULL
+#define CATEGORY_ACCOUNTS_LABEL_RU "Аккаунты"
+#define CATEGORY_ACCOUNTS_INFO_0_RU NULL
+#define CATEGORY_MODULES_LABEL_RU NULL
+#define CATEGORY_MODULES_INFO_0_RU NULL
 #define VITA3K_BACKEND_RENDERER_LABEL_RU NULL
 #define VITA3K_BACKEND_RENDERER_INFO_0_RU NULL
 #define OPTION_VAL_VULKAN_RU NULL
@@ -14149,6 +25542,7 @@ struct retro_core_options_v2 options_pt_pt = {
 #define VITA3K_PKG_MODE_LABEL_RU NULL
 #define VITA3K_PKG_MODE_INFO_0_RU NULL
 #define OPTION_VAL_RUN_RU NULL
+#define OPTION_VAL_CACHE_RU NULL
 #define OPTION_VAL_INSTALL_RU NULL
 #define VITA3K_PSTV_MODE_LABEL_RU NULL
 #define VITA3K_PSTV_MODE_INFO_0_RU NULL
@@ -14163,10 +25557,41 @@ struct retro_core_options_v2 options_pt_pt = {
 #define VITA3K_SYS_BUTTON_INFO_0_RU NULL
 #define OPTION_VAL_0_VITA3K_SYS_BUTTON_RU NULL
 #define OPTION_VAL_1_VITA3K_SYS_BUTTON_RU "Перекрестье"
+#define VITA3K_SYS_LANG_LABEL_RU NULL
+#define VITA3K_SYS_LANG_INFO_0_RU NULL
+#define OPTION_VAL_0_VITA3K_SYS_LANG_RU "Японский"
+#define OPTION_VAL_1_VITA3K_SYS_LANG_RU NULL
+#define OPTION_VAL_2_VITA3K_SYS_LANG_RU "Французский"
+#define OPTION_VAL_3_VITA3K_SYS_LANG_RU "Испанский"
+#define OPTION_VAL_4_VITA3K_SYS_LANG_RU "Немецкий"
+#define OPTION_VAL_5_RU "Итальянский"
+#define OPTION_VAL_6_RU NULL
+#define OPTION_VAL_7_RU NULL
+#define OPTION_VAL_8_VITA3K_SYS_LANG_RU NULL
+#define OPTION_VAL_9_RU NULL
+#define OPTION_VAL_10_RU NULL
+#define OPTION_VAL_11_RU NULL
+#define OPTION_VAL_12_RU NULL
+#define OPTION_VAL_13_RU NULL
+#define OPTION_VAL_14_RU NULL
+#define OPTION_VAL_15_RU NULL
+#define OPTION_VAL_16_VITA3K_SYS_LANG_RU NULL
+#define OPTION_VAL_17_RU NULL
+#define OPTION_VAL_18_RU NULL
+#define OPTION_VAL_19_RU NULL
+#define VITA3K_SYS_DATE_FORMAT_LABEL_RU NULL
+#define VITA3K_SYS_DATE_FORMAT_INFO_0_RU NULL
+#define OPTION_VAL_0_VITA3K_SYS_DATE_FORMAT_RU NULL
+#define OPTION_VAL_1_VITA3K_SYS_DATE_FORMAT_RU NULL
+#define OPTION_VAL_2_VITA3K_SYS_DATE_FORMAT_RU NULL
+#define VITA3K_SYS_TIME_FORMAT_LABEL_RU NULL
+#define VITA3K_SYS_TIME_FORMAT_INFO_0_RU NULL
+#define OPTION_VAL_0_VITA3K_SYS_TIME_FORMAT_RU NULL
+#define OPTION_VAL_1_VITA3K_SYS_TIME_FORMAT_RU NULL
 #define VITA3K_AUDIO_VOLUME_LABEL_RU NULL
 #define VITA3K_AUDIO_VOLUME_INFO_0_RU NULL
 #define OPTION_VAL_0_VITA3K_AUDIO_VOLUME_RU NULL
-#define OPTION_VAL_10_RU NULL
+#define OPTION_VAL_10_VITA3K_AUDIO_VOLUME_RU NULL
 #define OPTION_VAL_20_RU NULL
 #define OPTION_VAL_30_RU NULL
 #define OPTION_VAL_40_RU NULL
@@ -14180,6 +25605,47 @@ struct retro_core_options_v2 options_pt_pt = {
 #define VITA3K_NGS_ENABLE_INFO_0_RU NULL
 #define VITA3K_PSN_SIGNED_IN_LABEL_RU NULL
 #define VITA3K_PSN_SIGNED_IN_INFO_0_RU NULL
+#define VITA3K_HTTP_ENABLE_LABEL_RU NULL
+#define VITA3K_HTTP_ENABLE_INFO_0_RU NULL
+#define VITA3K_HTTP_TIMEOUT_ATTEMPTS_LABEL_RU NULL
+#define VITA3K_HTTP_TIMEOUT_ATTEMPTS_INFO_0_RU NULL
+#define VITA3K_HTTP_TIMEOUT_SLEEP_LABEL_RU NULL
+#define VITA3K_HTTP_TIMEOUT_SLEEP_INFO_0_RU NULL
+#define OPTION_VAL_50_VITA3K_HTTP_TIMEOUT_SLEEP_RU NULL
+#define OPTION_VAL_100_VITA3K_HTTP_TIMEOUT_SLEEP_RU NULL
+#define OPTION_VAL_150_RU NULL
+#define OPTION_VAL_200_RU NULL
+#define OPTION_VAL_250_RU NULL
+#define OPTION_VAL_300_RU NULL
+#define OPTION_VAL_400_RU NULL
+#define OPTION_VAL_500_RU NULL
+#define OPTION_VAL_750_RU NULL
+#define OPTION_VAL_1000_RU NULL
+#define OPTION_VAL_1500_RU NULL
+#define OPTION_VAL_2000_RU NULL
+#define OPTION_VAL_2500_RU NULL
+#define OPTION_VAL_3000_RU NULL
+#define VITA3K_HTTP_READ_END_ATTEMPTS_LABEL_RU NULL
+#define VITA3K_HTTP_READ_END_ATTEMPTS_INFO_0_RU NULL
+#define VITA3K_HTTP_READ_END_SLEEP_LABEL_RU NULL
+#define VITA3K_HTTP_READ_END_SLEEP_INFO_0_RU NULL
+#define VITA3K_FRONT_CAMERA_LABEL_RU NULL
+#define VITA3K_FRONT_CAMERA_INFO_0_RU NULL
+#define OPTION_VAL_HOST_RU NULL
+#define OPTION_VAL_IMAGE_RU NULL
+#define OPTION_VAL_COLOR_RU NULL
+#define VITA3K_FRONT_CAMERA_COLOR_LABEL_RU NULL
+#define VITA3K_FRONT_CAMERA_COLOR_INFO_0_RU NULL
+#define OPTION_VAL_0_VITA3K_FRONT_CAMERA_COLOR_RU "Чёрный"
+#define OPTION_VAL_16777215_RU "Белый"
+#define OPTION_VAL_8421504_RU "Серый"
+#define OPTION_VAL_255_RU "Красная"
+#define OPTION_VAL_65280_RU "Зелёная"
+#define OPTION_VAL_16711680_RU "Голубая"
+#define VITA3K_BACK_CAMERA_LABEL_RU NULL
+#define VITA3K_BACK_CAMERA_INFO_0_RU NULL
+#define VITA3K_BACK_CAMERA_COLOR_LABEL_RU NULL
+#define VITA3K_BACK_CAMERA_COLOR_INFO_0_RU NULL
 #define VITA3K_SURFACE_SYNC_LABEL_RU NULL
 #define VITA3K_SURFACE_SYNC_INFO_0_RU NULL
 #define OPTION_VAL_ENABLED_RU NULL
@@ -14187,9 +25653,9 @@ struct retro_core_options_v2 options_pt_pt = {
 #define VITA3K_FILE_LOADING_DELAY_LABEL_RU NULL
 #define VITA3K_FILE_LOADING_DELAY_INFO_0_RU NULL
 #define OPTION_VAL_0_VITA3K_FILE_LOADING_DELAY_RU NULL
-#define OPTION_VAL_5_RU NULL
+#define OPTION_VAL_5_VITA3K_FILE_LOADING_DELAY_RU NULL
 #define OPTION_VAL_10_VITA3K_FILE_LOADING_DELAY_RU NULL
-#define OPTION_VAL_15_RU NULL
+#define OPTION_VAL_15_VITA3K_FILE_LOADING_DELAY_RU NULL
 #define OPTION_VAL_20_VITA3K_FILE_LOADING_DELAY_RU NULL
 #define OPTION_VAL_25_RU NULL
 #define OPTION_VAL_30_VITA3K_FILE_LOADING_DELAY_RU NULL
@@ -14200,6 +25666,10 @@ struct retro_core_option_v2_category option_cats_ru[] = {
     { "system", CATEGORY_SYSTEM_LABEL_RU, CATEGORY_SYSTEM_INFO_0_RU },
     { "audio", CATEGORY_AUDIO_LABEL_RU, CATEGORY_AUDIO_INFO_0_RU },
     { "network", CATEGORY_NETWORK_LABEL_RU, CATEGORY_NETWORK_INFO_0_RU },
+    { "install", CATEGORY_INSTALL_LABEL_RU, CATEGORY_INSTALL_INFO_0_RU },
+    { "camera", CATEGORY_CAMERA_LABEL_RU, CATEGORY_CAMERA_INFO_0_RU },
+    { "accounts", CATEGORY_ACCOUNTS_LABEL_RU, CATEGORY_ACCOUNTS_INFO_0_RU },
+    { "modules", CATEGORY_MODULES_LABEL_RU, CATEGORY_MODULES_INFO_0_RU },
     { NULL, NULL, NULL },
 };
 struct retro_core_option_v2_definition option_defs_ru[] = {
@@ -14363,9 +25833,10 @@ struct retro_core_option_v2_definition option_defs_ru[] = {
         NULL,
         VITA3K_PKG_MODE_INFO_0_RU,
         NULL,
-        "system",
+        "install",
         {
             { "run", OPTION_VAL_RUN_RU },
+            { "cache", OPTION_VAL_CACHE_RU },
             { "install", OPTION_VAL_INSTALL_RU },
             { NULL, NULL },
         },
@@ -14428,6 +25899,67 @@ struct retro_core_option_v2_definition option_defs_ru[] = {
         },
         "1"
     },
+    {
+        "vita3k_sys_lang",
+        VITA3K_SYS_LANG_LABEL_RU,
+        NULL,
+        VITA3K_SYS_LANG_INFO_0_RU,
+        NULL,
+        "system",
+        {
+            { "0", OPTION_VAL_0_VITA3K_SYS_LANG_RU },
+            { "1", OPTION_VAL_1_VITA3K_SYS_LANG_RU },
+            { "2", OPTION_VAL_2_VITA3K_SYS_LANG_RU },
+            { "3", OPTION_VAL_3_VITA3K_SYS_LANG_RU },
+            { "4", OPTION_VAL_4_VITA3K_SYS_LANG_RU },
+            { "5", OPTION_VAL_5_RU },
+            { "6", OPTION_VAL_6_RU },
+            { "7", OPTION_VAL_7_RU },
+            { "8", OPTION_VAL_8_VITA3K_SYS_LANG_RU },
+            { "9", OPTION_VAL_9_RU },
+            { "10", OPTION_VAL_10_RU },
+            { "11", OPTION_VAL_11_RU },
+            { "12", OPTION_VAL_12_RU },
+            { "13", OPTION_VAL_13_RU },
+            { "14", OPTION_VAL_14_RU },
+            { "15", OPTION_VAL_15_RU },
+            { "16", OPTION_VAL_16_VITA3K_SYS_LANG_RU },
+            { "17", OPTION_VAL_17_RU },
+            { "18", OPTION_VAL_18_RU },
+            { "19", OPTION_VAL_19_RU },
+            { NULL, NULL },
+        },
+        "1"
+    },
+    {
+        "vita3k_sys_date_format",
+        VITA3K_SYS_DATE_FORMAT_LABEL_RU,
+        NULL,
+        VITA3K_SYS_DATE_FORMAT_INFO_0_RU,
+        NULL,
+        "system",
+        {
+            { "0", OPTION_VAL_0_VITA3K_SYS_DATE_FORMAT_RU },
+            { "1", OPTION_VAL_1_VITA3K_SYS_DATE_FORMAT_RU },
+            { "2", OPTION_VAL_2_VITA3K_SYS_DATE_FORMAT_RU },
+            { NULL, NULL },
+        },
+        "2"
+    },
+    {
+        "vita3k_sys_time_format",
+        VITA3K_SYS_TIME_FORMAT_LABEL_RU,
+        NULL,
+        VITA3K_SYS_TIME_FORMAT_INFO_0_RU,
+        NULL,
+        "system",
+        {
+            { "0", OPTION_VAL_0_VITA3K_SYS_TIME_FORMAT_RU },
+            { "1", OPTION_VAL_1_VITA3K_SYS_TIME_FORMAT_RU },
+            { NULL, NULL },
+        },
+        "0"
+    },
     // ── Audio ────────────────────────────────────────────────────────────
     {
         "vita3k_audio_volume",
@@ -14438,7 +25970,7 @@ struct retro_core_option_v2_definition option_defs_ru[] = {
         "audio",
         {
             { "0", OPTION_VAL_0_VITA3K_AUDIO_VOLUME_RU },
-            { "10", OPTION_VAL_10_RU },
+            { "10", OPTION_VAL_10_VITA3K_AUDIO_VOLUME_RU },
             { "20", OPTION_VAL_20_RU },
             { "30", OPTION_VAL_30_RU },
             { "40", OPTION_VAL_40_RU },
@@ -14482,6 +26014,204 @@ struct retro_core_option_v2_definition option_defs_ru[] = {
         "disabled"
     },
     {
+        "vita3k_http_enable",
+        VITA3K_HTTP_ENABLE_LABEL_RU,
+        NULL,
+        VITA3K_HTTP_ENABLE_INFO_0_RU,
+        NULL,
+        "network",
+        {
+            { "enabled", NULL },
+            { "disabled", NULL },
+            { NULL, NULL },
+        },
+        "enabled"
+    },
+    {
+        "vita3k_http_timeout_attempts",
+        VITA3K_HTTP_TIMEOUT_ATTEMPTS_LABEL_RU,
+        NULL,
+        VITA3K_HTTP_TIMEOUT_ATTEMPTS_INFO_0_RU,
+        NULL,
+        "network",
+        {
+            { "0", NULL },
+            { "5", NULL },
+            { "10", NULL },
+            { "15", NULL },
+            { "20", NULL },
+            { "25", NULL },
+            { "30", NULL },
+            { "35", NULL },
+            { "40", NULL },
+            { "45", NULL },
+            { "50", NULL },
+            { "55", NULL },
+            { "60", NULL },
+            { "65", NULL },
+            { "70", NULL },
+            { "75", NULL },
+            { "80", NULL },
+            { "85", NULL },
+            { "90", NULL },
+            { "95", NULL },
+            { "100", NULL },
+            { NULL, NULL },
+        },
+        "50"
+    },
+    {
+        "vita3k_http_timeout_sleep",
+        VITA3K_HTTP_TIMEOUT_SLEEP_LABEL_RU,
+        NULL,
+        VITA3K_HTTP_TIMEOUT_SLEEP_INFO_0_RU,
+        NULL,
+        "network",
+        {
+            { "50", OPTION_VAL_50_VITA3K_HTTP_TIMEOUT_SLEEP_RU },
+            { "100", OPTION_VAL_100_VITA3K_HTTP_TIMEOUT_SLEEP_RU },
+            { "150", OPTION_VAL_150_RU },
+            { "200", OPTION_VAL_200_RU },
+            { "250", OPTION_VAL_250_RU },
+            { "300", OPTION_VAL_300_RU },
+            { "400", OPTION_VAL_400_RU },
+            { "500", OPTION_VAL_500_RU },
+            { "750", OPTION_VAL_750_RU },
+            { "1000", OPTION_VAL_1000_RU },
+            { "1500", OPTION_VAL_1500_RU },
+            { "2000", OPTION_VAL_2000_RU },
+            { "2500", OPTION_VAL_2500_RU },
+            { "3000", OPTION_VAL_3000_RU },
+            { NULL, NULL },
+        },
+        "100"
+    },
+    {
+        "vita3k_http_read_end_attempts",
+        VITA3K_HTTP_READ_END_ATTEMPTS_LABEL_RU,
+        NULL,
+        VITA3K_HTTP_READ_END_ATTEMPTS_INFO_0_RU,
+        NULL,
+        "network",
+        {
+            { "0", NULL },
+            { "5", NULL },
+            { "10", NULL },
+            { "15", NULL },
+            { "20", NULL },
+            { "25", NULL },
+            { "30", NULL },
+            { "35", NULL },
+            { "40", NULL },
+            { "45", NULL },
+            { "50", NULL },
+            { "55", NULL },
+            { "60", NULL },
+            { "65", NULL },
+            { "70", NULL },
+            { "75", NULL },
+            { "80", NULL },
+            { "85", NULL },
+            { "90", NULL },
+            { "95", NULL },
+            { "100", NULL },
+            { NULL, NULL },
+        },
+        "10"
+    },
+    {
+        "vita3k_http_read_end_sleep",
+        VITA3K_HTTP_READ_END_SLEEP_LABEL_RU,
+        NULL,
+        VITA3K_HTTP_READ_END_SLEEP_INFO_0_RU,
+        NULL,
+        "network",
+        {
+            { "50", OPTION_VAL_50_VITA3K_HTTP_TIMEOUT_SLEEP_RU },
+            { "100", OPTION_VAL_100_VITA3K_HTTP_TIMEOUT_SLEEP_RU },
+            { "150", OPTION_VAL_150_RU },
+            { "200", OPTION_VAL_200_RU },
+            { "250", OPTION_VAL_250_RU },
+            { "300", OPTION_VAL_300_RU },
+            { "400", OPTION_VAL_400_RU },
+            { "500", OPTION_VAL_500_RU },
+            { "750", OPTION_VAL_750_RU },
+            { "1000", OPTION_VAL_1000_RU },
+            { "1500", OPTION_VAL_1500_RU },
+            { "2000", OPTION_VAL_2000_RU },
+            { "2500", OPTION_VAL_2500_RU },
+            { "3000", OPTION_VAL_3000_RU },
+            { NULL, NULL },
+        },
+        "250"
+    },
+    {
+        "vita3k_front_camera",
+        VITA3K_FRONT_CAMERA_LABEL_RU,
+        NULL,
+        VITA3K_FRONT_CAMERA_INFO_0_RU,
+        NULL,
+        "camera",
+        {
+            { "host", OPTION_VAL_HOST_RU },
+            { "image", OPTION_VAL_IMAGE_RU },
+            { "color", OPTION_VAL_COLOR_RU },
+            { NULL, NULL },
+        },
+        "host"
+    },
+    {
+        "vita3k_front_camera_color",
+        VITA3K_FRONT_CAMERA_COLOR_LABEL_RU,
+        NULL,
+        VITA3K_FRONT_CAMERA_COLOR_INFO_0_RU,
+        NULL,
+        "camera",
+        {
+            { "0", OPTION_VAL_0_VITA3K_FRONT_CAMERA_COLOR_RU },
+            { "16777215", OPTION_VAL_16777215_RU },
+            { "8421504", OPTION_VAL_8421504_RU },
+            { "255", OPTION_VAL_255_RU },
+            { "65280", OPTION_VAL_65280_RU },
+            { "16711680", OPTION_VAL_16711680_RU },
+            { NULL, NULL },
+        },
+        "0"
+    },
+    {
+        "vita3k_back_camera",
+        VITA3K_BACK_CAMERA_LABEL_RU,
+        NULL,
+        VITA3K_BACK_CAMERA_INFO_0_RU,
+        NULL,
+        "camera",
+        {
+            { "host", OPTION_VAL_HOST_RU },
+            { "image", OPTION_VAL_IMAGE_RU },
+            { "color", OPTION_VAL_COLOR_RU },
+            { NULL, NULL },
+        },
+        "host"
+    },
+    {
+        "vita3k_back_camera_color",
+        VITA3K_BACK_CAMERA_COLOR_LABEL_RU,
+        NULL,
+        VITA3K_BACK_CAMERA_COLOR_INFO_0_RU,
+        NULL,
+        "camera",
+        {
+            { "0", OPTION_VAL_0_VITA3K_FRONT_CAMERA_COLOR_RU },
+            { "16777215", OPTION_VAL_16777215_RU },
+            { "8421504", OPTION_VAL_8421504_RU },
+            { "255", OPTION_VAL_255_RU },
+            { "65280", OPTION_VAL_65280_RU },
+            { "16711680", OPTION_VAL_16711680_RU },
+            { NULL, NULL },
+        },
+        "0"
+    },
+    {
         "vita3k_surface_sync",
         VITA3K_SURFACE_SYNC_LABEL_RU,
         NULL,
@@ -14504,9 +26234,9 @@ struct retro_core_option_v2_definition option_defs_ru[] = {
         "system",
         {
             { "0", OPTION_VAL_0_VITA3K_FILE_LOADING_DELAY_RU },
-            { "5", OPTION_VAL_5_RU },
+            { "5", OPTION_VAL_5_VITA3K_FILE_LOADING_DELAY_RU },
             { "10", OPTION_VAL_10_VITA3K_FILE_LOADING_DELAY_RU },
-            { "15", OPTION_VAL_15_RU },
+            { "15", OPTION_VAL_15_VITA3K_FILE_LOADING_DELAY_RU },
             { "20", OPTION_VAL_20_VITA3K_FILE_LOADING_DELAY_RU },
             { "25", OPTION_VAL_25_RU },
             { "30", OPTION_VAL_30_VITA3K_FILE_LOADING_DELAY_RU },
@@ -14533,6 +26263,14 @@ struct retro_core_options_v2 options_ru = {
 #define CATEGORY_AUDIO_INFO_0_SK "Voľby zvukového výstupu."
 #define CATEGORY_NETWORK_LABEL_SK "Sieť"
 #define CATEGORY_NETWORK_INFO_0_SK "Voľby siete."
+#define CATEGORY_INSTALL_LABEL_SK "Obsah"
+#define CATEGORY_INSTALL_INFO_0_SK "Ako sa načítava hra, aktualizácia a DLC."
+#define CATEGORY_CAMERA_LABEL_SK "Kamera"
+#define CATEGORY_CAMERA_INFO_0_SK "Čo vidia predná a zadná kamera konzoly Vita."
+#define CATEGORY_ACCOUNTS_LABEL_SK "Účty"
+#define CATEGORY_ACCOUNTS_INFO_0_SK "Účty (používatelia) konzoly Vita v ux0/user, každý s vlastnými uloženými hrami a trofejami."
+#define CATEGORY_MODULES_LABEL_SK "Moduly"
+#define CATEGORY_MODULES_INFO_0_SK "Moduly firmvéru (vs0/sys/external), ktoré sa načítajú, keď je Režim modulov nastavený na Automaticky a ručne alebo Ručne."
 #define VITA3K_BACKEND_RENDERER_LABEL_SK "Renderer"
 #define VITA3K_BACKEND_RENDERER_INFO_0_SK "Vyberte grafický backend. Odporúča sa Vulkan."
 #define OPTION_VAL_VULKAN_SK NULL
@@ -14561,7 +26299,7 @@ struct retro_core_options_v2 options_ru = {
 #define VITA3K_V_SYNC_INFO_0_SK "Zapne alebo vypne vertikálnu synchronizáciu."
 #define VITA3K_ASYNC_PIPELINE_LABEL_SK "Asynchrónna kompilácia pipeline"
 #define VITA3K_ASYNC_PIPELINE_INFO_0_SK "Kompiluje pipeline shaderov asynchrónne, aby sa znížilo trhanie."
-#define VITA3K_COMPILE_OVERLAY_LABEL_SK NULL
+#define VITA3K_COMPILE_OVERLAY_LABEL_SK "Prekrytie kompilácie shaderov"
 #define VITA3K_MEMORY_MAPPING_LABEL_SK "Mapovanie pamäte"
 #define VITA3K_MEMORY_MAPPING_INFO_0_SK "Spôsob mapovania pamäte GPU. Vyššie metódy zlepšujú výkon, ale vyžadujú podporu GPU."
 #define OPTION_VAL_DOUBLE_BUFFER_SK "Dvojitý zásobník"
@@ -14572,14 +26310,15 @@ struct retro_core_options_v2 options_ru = {
 #define VITA3K_HIGH_ACCURACY_INFO_0_SK "Zapne presnejšie, ale pomalšie techniky vykresľovania."
 #define VITA3K_CPU_OPT_LABEL_SK "Optimalizácie CPU (Dynarmic JIT)"
 #define VITA3K_CPU_OPT_INFO_0_SK "Zapne Dynarmic JIT pre rýchlejšiu emuláciu procesora."
-#define VITA3K_PKG_MODE_LABEL_SK "PKG hry"
-#define VITA3K_PKG_MODE_INFO_0_SK "Ako sa spúšťa PKG hry. Spustiť bez inštalácie: hra sa spustí za pár sekúnd a súbor sa dešifruje z PKG, keď ho hra prvýkrát číta, do systémového priečinka; po zavretí hry sa všetko odstráni. Inštalovať: celá hra sa pri prvom spustení dešifruje a nainštaluje do ux0/app, ako to robí Vita3K, čo trvá úmerne veľkosti hry a zaberie jej veľkosť na disku. Už nainštalovaná hra beží zo svojej inštalácie v oboch prípadoch. Aktualizácie a DLC sa inštalujú vždy."
+#define VITA3K_PKG_MODE_LABEL_SK "Prednačítanie hry"
+#define VITA3K_PKG_MODE_INFO_0_SK "Všetok obsah sa riadi týmto nastavením okrem aktualizácií a DLC nainštalovaných vynútene (načítaných ručne). Spustiť bez inštalácie: číta zo súboru, nič sa neuchováva. Trvalá vyrovnávacia pamäť: to isté, ale uchová, čo sa prečítalo. Inštalovať: skopíruje všetky súbory, aby sa spúšťalo rýchlejšie."
 #define OPTION_VAL_RUN_SK "Spustiť bez inštalácie"
+#define OPTION_VAL_CACHE_SK "Trvalá vyrovnávacia pamäť"
 #define OPTION_VAL_INSTALL_SK "Inštalovať"
 #define VITA3K_PSTV_MODE_LABEL_SK "Režim PS TV"
 #define VITA3K_PSTV_MODE_INFO_0_SK "Emuluje PlayStation TV namiesto PS Vita."
 #define VITA3K_MODULES_MODE_LABEL_SK "Režim modulov"
-#define VITA3K_MODULES_MODE_INFO_0_SK "Ako sa načítavajú systémové moduly. Odporúča sa Automaticky."
+#define VITA3K_MODULES_MODE_INFO_0_SK "Ako sa načítavajú systémové moduly. Automaticky: vlastná implementácia jadra a moduly firmvéru, o ktorých jadro vie, že ich potrebuje. Automaticky a ručne: tieto a navyše tie, ktoré sú zapnuté v Moduloch. Ručne: len tie, ktoré sú zapnuté v Moduloch. Odporúča sa Automaticky."
 #define OPTION_VAL_0_SK "Automaticky"
 #define OPTION_VAL_1_VITA3K_MODULES_MODE_SK "Automaticky a ručne"
 #define OPTION_VAL_2_VITA3K_MODULES_MODE_SK "Ručne"
@@ -14589,10 +26328,41 @@ struct retro_core_options_v2 options_ru = {
 #define VITA3K_SYS_BUTTON_INFO_0_SK "Ktoré tlačidlo sa používa na potvrdenie."
 #define OPTION_VAL_0_VITA3K_SYS_BUTTON_SK "Krúžok"
 #define OPTION_VAL_1_VITA3K_SYS_BUTTON_SK "Kríž"
+#define VITA3K_SYS_LANG_LABEL_SK "Jazyk systému"
+#define VITA3K_SYS_LANG_INFO_0_SK "Jazyk konzoly, ktorý hry používajú pre svoje texty a v ktorom sa zobrazujú systémové dialógy. Prejaví sa pri ďalšom spustení hry."
+#define OPTION_VAL_0_VITA3K_SYS_LANG_SK "Japončina"
+#define OPTION_VAL_1_VITA3K_SYS_LANG_SK "Angličtina (Spojené štáty)"
+#define OPTION_VAL_2_VITA3K_SYS_LANG_SK "Francúzština"
+#define OPTION_VAL_3_VITA3K_SYS_LANG_SK "Španielčina"
+#define OPTION_VAL_4_VITA3K_SYS_LANG_SK "Nemčina"
+#define OPTION_VAL_5_SK "Taliančina"
+#define OPTION_VAL_6_SK "Holandčina"
+#define OPTION_VAL_7_SK "Portugalčina (Portugalsko)"
+#define OPTION_VAL_8_VITA3K_SYS_LANG_SK "Ruština"
+#define OPTION_VAL_9_SK "Kórejčina"
+#define OPTION_VAL_10_SK "Čínština (tradičná)"
+#define OPTION_VAL_11_SK "Čínština (zjednodušená)"
+#define OPTION_VAL_12_SK "Fínčina"
+#define OPTION_VAL_13_SK "Švédčina"
+#define OPTION_VAL_14_SK "Dánčina"
+#define OPTION_VAL_15_SK "Nórčina"
+#define OPTION_VAL_16_VITA3K_SYS_LANG_SK "Poľština"
+#define OPTION_VAL_17_SK "Portugalčina (Brazília)"
+#define OPTION_VAL_18_SK "Angličtina (Spojené kráľovstvo)"
+#define OPTION_VAL_19_SK "Turečtina"
+#define VITA3K_SYS_DATE_FORMAT_LABEL_SK "Formát dátumu"
+#define VITA3K_SYS_DATE_FORMAT_INFO_0_SK "Ako konzola zapisuje dátumy pre hry a systémové dialógy (napríklad zoznamy uložených hier). Samotný dátum a čas sa berú z hostiteľa. Prejaví sa pri ďalšom spustení hry."
+#define OPTION_VAL_0_VITA3K_SYS_DATE_FORMAT_SK "RRRR/MM/DD"
+#define OPTION_VAL_1_VITA3K_SYS_DATE_FORMAT_SK "DD/MM/RRRR"
+#define OPTION_VAL_2_VITA3K_SYS_DATE_FORMAT_SK "MM/DD/RRRR"
+#define VITA3K_SYS_TIME_FORMAT_LABEL_SK "Formát času"
+#define VITA3K_SYS_TIME_FORMAT_INFO_0_SK "Či konzola zobrazuje čas v 12- alebo 24-hodinovom formáte pre hry a systémové dialógy. Prejaví sa pri ďalšom spustení hry."
+#define OPTION_VAL_0_VITA3K_SYS_TIME_FORMAT_SK "12-hodinový"
+#define OPTION_VAL_1_VITA3K_SYS_TIME_FORMAT_SK "24-hodinový"
 #define VITA3K_AUDIO_VOLUME_LABEL_SK "Hlasitosť zvuku"
 #define VITA3K_AUDIO_VOLUME_INFO_0_SK "Hlavná úroveň hlasitosti zvuku."
 #define OPTION_VAL_0_VITA3K_AUDIO_VOLUME_SK NULL
-#define OPTION_VAL_10_SK NULL
+#define OPTION_VAL_10_VITA3K_AUDIO_VOLUME_SK NULL
 #define OPTION_VAL_20_SK NULL
 #define OPTION_VAL_30_SK NULL
 #define OPTION_VAL_40_SK NULL
@@ -14606,6 +26376,47 @@ struct retro_core_options_v2 options_ru = {
 #define VITA3K_NGS_ENABLE_INFO_0_SK "Zapne zvukový engine NGS pre lepší zvuk."
 #define VITA3K_PSN_SIGNED_IN_LABEL_SK "Prihlásený do PSN"
 #define VITA3K_PSN_SIGNED_IN_INFO_0_SK "Predstiera prihlásenie do PSN. Niektoré hry to vyžadujú."
+#define VITA3K_HTTP_ENABLE_LABEL_SK NULL
+#define VITA3K_HTTP_ENABLE_INFO_0_SK "Zapne podporu sieťového pripojenia HTTP pre aplikácie, ktoré ho používajú. Prejaví sa pri ďalšom spustení hry."
+#define VITA3K_HTTP_TIMEOUT_ATTEMPTS_LABEL_SK "Počet pokusov pri vypršaní HTTP"
+#define VITA3K_HTTP_TIMEOUT_ATTEMPTS_INFO_0_SK "Koľkokrát sa má opakovať pripojenie, keď server neodpovedá. Môže pomôcť pri veľmi nestabilnom alebo veľmi pomalom pripojení. Prejaví sa pri ďalšom spustení hry."
+#define VITA3K_HTTP_TIMEOUT_SLEEP_LABEL_SK "Pauza pri vypršaní HTTP"
+#define VITA3K_HTTP_TIMEOUT_SLEEP_INFO_0_SK "Ako dlho čakať medzi opakovanými pokusmi o pripojenie. Môže pomôcť pri veľmi nestabilnom alebo veľmi pomalom pripojení. Prejaví sa pri ďalšom spustení hry."
+#define OPTION_VAL_50_VITA3K_HTTP_TIMEOUT_SLEEP_SK NULL
+#define OPTION_VAL_100_VITA3K_HTTP_TIMEOUT_SLEEP_SK NULL
+#define OPTION_VAL_150_SK NULL
+#define OPTION_VAL_200_SK NULL
+#define OPTION_VAL_250_SK NULL
+#define OPTION_VAL_300_SK NULL
+#define OPTION_VAL_400_SK NULL
+#define OPTION_VAL_500_SK NULL
+#define OPTION_VAL_750_SK NULL
+#define OPTION_VAL_1000_SK NULL
+#define OPTION_VAL_1500_SK NULL
+#define OPTION_VAL_2000_SK NULL
+#define OPTION_VAL_2500_SK NULL
+#define OPTION_VAL_3000_SK NULL
+#define VITA3K_HTTP_READ_END_ATTEMPTS_LABEL_SK "Počet pokusov na konci čítania HTTP"
+#define VITA3K_HTTP_READ_END_ATTEMPTS_INFO_0_SK "Koľkokrát to skúsiť znova, keď už nie sú ďalšie dáta na čítanie. Nižšia hodnota môže zlepšiť výkon, ale pri dostatočne zlom pripojení môže spôsobiť nestabilitu hier. Prejaví sa pri ďalšom spustení hry."
+#define VITA3K_HTTP_READ_END_SLEEP_LABEL_SK "Pauza na konci čítania HTTP"
+#define VITA3K_HTTP_READ_END_SLEEP_INFO_0_SK "Ako dlho čakať medzi opakovanými pokusmi o čítanie. Nižšia hodnota môže zlepšiť výkon, ale pri dostatočne zlom pripojení môže spôsobiť nestabilitu hier. Prejaví sa pri ďalšom spustení hry."
+#define VITA3K_FRONT_CAMERA_LABEL_SK "Predná kamera"
+#define VITA3K_FRONT_CAMERA_INFO_0_SK "Čo vidí predná kamera konzoly Vita. Kamera hostiteľa: kamera RetroArchu (v Nastavenia > Súkromie musí byť zapnuté Povoliť kameru a pre túto platformu musí existovať ovládač kamery). Obrázok: system/vita3k/camera/front.png alebo front.jpg. Jednofarebná: Farba prednej kamery. Keď zdroj nie je dostupný, použije sa ďalší. Prejaví sa, keď hra nabudúce otvorí kameru."
+#define OPTION_VAL_HOST_SK "Kamera hostiteľa"
+#define OPTION_VAL_IMAGE_SK "Obrázok"
+#define OPTION_VAL_COLOR_SK "Jednofarebná"
+#define VITA3K_FRONT_CAMERA_COLOR_LABEL_SK "Farba prednej kamery"
+#define VITA3K_FRONT_CAMERA_COLOR_INFO_0_SK "Farba, ktorú predná kamera zobrazuje pri voľbe Jednofarebná."
+#define OPTION_VAL_0_VITA3K_FRONT_CAMERA_COLOR_SK "Čierna"
+#define OPTION_VAL_16777215_SK "Biela"
+#define OPTION_VAL_8421504_SK "Šedá"
+#define OPTION_VAL_255_SK "Červená"
+#define OPTION_VAL_65280_SK "Zelená"
+#define OPTION_VAL_16711680_SK "Modrá"
+#define VITA3K_BACK_CAMERA_LABEL_SK "Zadná kamera"
+#define VITA3K_BACK_CAMERA_INFO_0_SK "Čo vidí zadná kamera konzoly Vita. Kamera hostiteľa: kamera RetroArchu (v Nastavenia > Súkromie musí byť zapnuté Povoliť kameru a pre túto platformu musí existovať ovládač kamery). Obrázok: system/vita3k/camera/back.png alebo back.jpg. Jednofarebná: Farba zadnej kamery. Keď zdroj nie je dostupný, použije sa ďalší. Prejaví sa, keď hra nabudúce otvorí kameru."
+#define VITA3K_BACK_CAMERA_COLOR_LABEL_SK "Farba zadnej kamery"
+#define VITA3K_BACK_CAMERA_COLOR_INFO_0_SK "Farba, ktorú zadná kamera zobrazuje pri voľbe Jednofarebná."
 #define VITA3K_SURFACE_SYNC_LABEL_SK "Synchronizácia povrchov"
 #define VITA3K_SURFACE_SYNC_INFO_0_SK "Optimalizácia pamäte GPU. Môže zlepšiť výkon o 20-40 %."
 #define OPTION_VAL_ENABLED_SK "Zapnuté (presnejšie)"
@@ -14613,9 +26424,9 @@ struct retro_core_options_v2 options_ru = {
 #define VITA3K_FILE_LOADING_DELAY_LABEL_SK "Oneskorenie načítania súborov"
 #define VITA3K_FILE_LOADING_DELAY_INFO_0_SK "Oneskorenie načítania súborov v milisekundách. Pomáha pri hrách citlivých na časovanie."
 #define OPTION_VAL_0_VITA3K_FILE_LOADING_DELAY_SK NULL
-#define OPTION_VAL_5_SK NULL
+#define OPTION_VAL_5_VITA3K_FILE_LOADING_DELAY_SK NULL
 #define OPTION_VAL_10_VITA3K_FILE_LOADING_DELAY_SK NULL
-#define OPTION_VAL_15_SK NULL
+#define OPTION_VAL_15_VITA3K_FILE_LOADING_DELAY_SK NULL
 #define OPTION_VAL_20_VITA3K_FILE_LOADING_DELAY_SK NULL
 #define OPTION_VAL_25_SK NULL
 #define OPTION_VAL_30_VITA3K_FILE_LOADING_DELAY_SK NULL
@@ -14626,6 +26437,10 @@ struct retro_core_option_v2_category option_cats_sk[] = {
     { "system", CATEGORY_SYSTEM_LABEL_SK, CATEGORY_SYSTEM_INFO_0_SK },
     { "audio", CATEGORY_AUDIO_LABEL_SK, CATEGORY_AUDIO_INFO_0_SK },
     { "network", CATEGORY_NETWORK_LABEL_SK, CATEGORY_NETWORK_INFO_0_SK },
+    { "install", CATEGORY_INSTALL_LABEL_SK, CATEGORY_INSTALL_INFO_0_SK },
+    { "camera", CATEGORY_CAMERA_LABEL_SK, CATEGORY_CAMERA_INFO_0_SK },
+    { "accounts", CATEGORY_ACCOUNTS_LABEL_SK, CATEGORY_ACCOUNTS_INFO_0_SK },
+    { "modules", CATEGORY_MODULES_LABEL_SK, CATEGORY_MODULES_INFO_0_SK },
     { NULL, NULL, NULL },
 };
 struct retro_core_option_v2_definition option_defs_sk[] = {
@@ -14789,9 +26604,10 @@ struct retro_core_option_v2_definition option_defs_sk[] = {
         NULL,
         VITA3K_PKG_MODE_INFO_0_SK,
         NULL,
-        "system",
+        "install",
         {
             { "run", OPTION_VAL_RUN_SK },
+            { "cache", OPTION_VAL_CACHE_SK },
             { "install", OPTION_VAL_INSTALL_SK },
             { NULL, NULL },
         },
@@ -14854,6 +26670,67 @@ struct retro_core_option_v2_definition option_defs_sk[] = {
         },
         "1"
     },
+    {
+        "vita3k_sys_lang",
+        VITA3K_SYS_LANG_LABEL_SK,
+        NULL,
+        VITA3K_SYS_LANG_INFO_0_SK,
+        NULL,
+        "system",
+        {
+            { "0", OPTION_VAL_0_VITA3K_SYS_LANG_SK },
+            { "1", OPTION_VAL_1_VITA3K_SYS_LANG_SK },
+            { "2", OPTION_VAL_2_VITA3K_SYS_LANG_SK },
+            { "3", OPTION_VAL_3_VITA3K_SYS_LANG_SK },
+            { "4", OPTION_VAL_4_VITA3K_SYS_LANG_SK },
+            { "5", OPTION_VAL_5_SK },
+            { "6", OPTION_VAL_6_SK },
+            { "7", OPTION_VAL_7_SK },
+            { "8", OPTION_VAL_8_VITA3K_SYS_LANG_SK },
+            { "9", OPTION_VAL_9_SK },
+            { "10", OPTION_VAL_10_SK },
+            { "11", OPTION_VAL_11_SK },
+            { "12", OPTION_VAL_12_SK },
+            { "13", OPTION_VAL_13_SK },
+            { "14", OPTION_VAL_14_SK },
+            { "15", OPTION_VAL_15_SK },
+            { "16", OPTION_VAL_16_VITA3K_SYS_LANG_SK },
+            { "17", OPTION_VAL_17_SK },
+            { "18", OPTION_VAL_18_SK },
+            { "19", OPTION_VAL_19_SK },
+            { NULL, NULL },
+        },
+        "1"
+    },
+    {
+        "vita3k_sys_date_format",
+        VITA3K_SYS_DATE_FORMAT_LABEL_SK,
+        NULL,
+        VITA3K_SYS_DATE_FORMAT_INFO_0_SK,
+        NULL,
+        "system",
+        {
+            { "0", OPTION_VAL_0_VITA3K_SYS_DATE_FORMAT_SK },
+            { "1", OPTION_VAL_1_VITA3K_SYS_DATE_FORMAT_SK },
+            { "2", OPTION_VAL_2_VITA3K_SYS_DATE_FORMAT_SK },
+            { NULL, NULL },
+        },
+        "2"
+    },
+    {
+        "vita3k_sys_time_format",
+        VITA3K_SYS_TIME_FORMAT_LABEL_SK,
+        NULL,
+        VITA3K_SYS_TIME_FORMAT_INFO_0_SK,
+        NULL,
+        "system",
+        {
+            { "0", OPTION_VAL_0_VITA3K_SYS_TIME_FORMAT_SK },
+            { "1", OPTION_VAL_1_VITA3K_SYS_TIME_FORMAT_SK },
+            { NULL, NULL },
+        },
+        "0"
+    },
     // ── Audio ────────────────────────────────────────────────────────────
     {
         "vita3k_audio_volume",
@@ -14864,7 +26741,7 @@ struct retro_core_option_v2_definition option_defs_sk[] = {
         "audio",
         {
             { "0", OPTION_VAL_0_VITA3K_AUDIO_VOLUME_SK },
-            { "10", OPTION_VAL_10_SK },
+            { "10", OPTION_VAL_10_VITA3K_AUDIO_VOLUME_SK },
             { "20", OPTION_VAL_20_SK },
             { "30", OPTION_VAL_30_SK },
             { "40", OPTION_VAL_40_SK },
@@ -14908,6 +26785,204 @@ struct retro_core_option_v2_definition option_defs_sk[] = {
         "disabled"
     },
     {
+        "vita3k_http_enable",
+        VITA3K_HTTP_ENABLE_LABEL_SK,
+        NULL,
+        VITA3K_HTTP_ENABLE_INFO_0_SK,
+        NULL,
+        "network",
+        {
+            { "enabled", NULL },
+            { "disabled", NULL },
+            { NULL, NULL },
+        },
+        "enabled"
+    },
+    {
+        "vita3k_http_timeout_attempts",
+        VITA3K_HTTP_TIMEOUT_ATTEMPTS_LABEL_SK,
+        NULL,
+        VITA3K_HTTP_TIMEOUT_ATTEMPTS_INFO_0_SK,
+        NULL,
+        "network",
+        {
+            { "0", NULL },
+            { "5", NULL },
+            { "10", NULL },
+            { "15", NULL },
+            { "20", NULL },
+            { "25", NULL },
+            { "30", NULL },
+            { "35", NULL },
+            { "40", NULL },
+            { "45", NULL },
+            { "50", NULL },
+            { "55", NULL },
+            { "60", NULL },
+            { "65", NULL },
+            { "70", NULL },
+            { "75", NULL },
+            { "80", NULL },
+            { "85", NULL },
+            { "90", NULL },
+            { "95", NULL },
+            { "100", NULL },
+            { NULL, NULL },
+        },
+        "50"
+    },
+    {
+        "vita3k_http_timeout_sleep",
+        VITA3K_HTTP_TIMEOUT_SLEEP_LABEL_SK,
+        NULL,
+        VITA3K_HTTP_TIMEOUT_SLEEP_INFO_0_SK,
+        NULL,
+        "network",
+        {
+            { "50", OPTION_VAL_50_VITA3K_HTTP_TIMEOUT_SLEEP_SK },
+            { "100", OPTION_VAL_100_VITA3K_HTTP_TIMEOUT_SLEEP_SK },
+            { "150", OPTION_VAL_150_SK },
+            { "200", OPTION_VAL_200_SK },
+            { "250", OPTION_VAL_250_SK },
+            { "300", OPTION_VAL_300_SK },
+            { "400", OPTION_VAL_400_SK },
+            { "500", OPTION_VAL_500_SK },
+            { "750", OPTION_VAL_750_SK },
+            { "1000", OPTION_VAL_1000_SK },
+            { "1500", OPTION_VAL_1500_SK },
+            { "2000", OPTION_VAL_2000_SK },
+            { "2500", OPTION_VAL_2500_SK },
+            { "3000", OPTION_VAL_3000_SK },
+            { NULL, NULL },
+        },
+        "100"
+    },
+    {
+        "vita3k_http_read_end_attempts",
+        VITA3K_HTTP_READ_END_ATTEMPTS_LABEL_SK,
+        NULL,
+        VITA3K_HTTP_READ_END_ATTEMPTS_INFO_0_SK,
+        NULL,
+        "network",
+        {
+            { "0", NULL },
+            { "5", NULL },
+            { "10", NULL },
+            { "15", NULL },
+            { "20", NULL },
+            { "25", NULL },
+            { "30", NULL },
+            { "35", NULL },
+            { "40", NULL },
+            { "45", NULL },
+            { "50", NULL },
+            { "55", NULL },
+            { "60", NULL },
+            { "65", NULL },
+            { "70", NULL },
+            { "75", NULL },
+            { "80", NULL },
+            { "85", NULL },
+            { "90", NULL },
+            { "95", NULL },
+            { "100", NULL },
+            { NULL, NULL },
+        },
+        "10"
+    },
+    {
+        "vita3k_http_read_end_sleep",
+        VITA3K_HTTP_READ_END_SLEEP_LABEL_SK,
+        NULL,
+        VITA3K_HTTP_READ_END_SLEEP_INFO_0_SK,
+        NULL,
+        "network",
+        {
+            { "50", OPTION_VAL_50_VITA3K_HTTP_TIMEOUT_SLEEP_SK },
+            { "100", OPTION_VAL_100_VITA3K_HTTP_TIMEOUT_SLEEP_SK },
+            { "150", OPTION_VAL_150_SK },
+            { "200", OPTION_VAL_200_SK },
+            { "250", OPTION_VAL_250_SK },
+            { "300", OPTION_VAL_300_SK },
+            { "400", OPTION_VAL_400_SK },
+            { "500", OPTION_VAL_500_SK },
+            { "750", OPTION_VAL_750_SK },
+            { "1000", OPTION_VAL_1000_SK },
+            { "1500", OPTION_VAL_1500_SK },
+            { "2000", OPTION_VAL_2000_SK },
+            { "2500", OPTION_VAL_2500_SK },
+            { "3000", OPTION_VAL_3000_SK },
+            { NULL, NULL },
+        },
+        "250"
+    },
+    {
+        "vita3k_front_camera",
+        VITA3K_FRONT_CAMERA_LABEL_SK,
+        NULL,
+        VITA3K_FRONT_CAMERA_INFO_0_SK,
+        NULL,
+        "camera",
+        {
+            { "host", OPTION_VAL_HOST_SK },
+            { "image", OPTION_VAL_IMAGE_SK },
+            { "color", OPTION_VAL_COLOR_SK },
+            { NULL, NULL },
+        },
+        "host"
+    },
+    {
+        "vita3k_front_camera_color",
+        VITA3K_FRONT_CAMERA_COLOR_LABEL_SK,
+        NULL,
+        VITA3K_FRONT_CAMERA_COLOR_INFO_0_SK,
+        NULL,
+        "camera",
+        {
+            { "0", OPTION_VAL_0_VITA3K_FRONT_CAMERA_COLOR_SK },
+            { "16777215", OPTION_VAL_16777215_SK },
+            { "8421504", OPTION_VAL_8421504_SK },
+            { "255", OPTION_VAL_255_SK },
+            { "65280", OPTION_VAL_65280_SK },
+            { "16711680", OPTION_VAL_16711680_SK },
+            { NULL, NULL },
+        },
+        "0"
+    },
+    {
+        "vita3k_back_camera",
+        VITA3K_BACK_CAMERA_LABEL_SK,
+        NULL,
+        VITA3K_BACK_CAMERA_INFO_0_SK,
+        NULL,
+        "camera",
+        {
+            { "host", OPTION_VAL_HOST_SK },
+            { "image", OPTION_VAL_IMAGE_SK },
+            { "color", OPTION_VAL_COLOR_SK },
+            { NULL, NULL },
+        },
+        "host"
+    },
+    {
+        "vita3k_back_camera_color",
+        VITA3K_BACK_CAMERA_COLOR_LABEL_SK,
+        NULL,
+        VITA3K_BACK_CAMERA_COLOR_INFO_0_SK,
+        NULL,
+        "camera",
+        {
+            { "0", OPTION_VAL_0_VITA3K_FRONT_CAMERA_COLOR_SK },
+            { "16777215", OPTION_VAL_16777215_SK },
+            { "8421504", OPTION_VAL_8421504_SK },
+            { "255", OPTION_VAL_255_SK },
+            { "65280", OPTION_VAL_65280_SK },
+            { "16711680", OPTION_VAL_16711680_SK },
+            { NULL, NULL },
+        },
+        "0"
+    },
+    {
         "vita3k_surface_sync",
         VITA3K_SURFACE_SYNC_LABEL_SK,
         NULL,
@@ -14930,9 +27005,9 @@ struct retro_core_option_v2_definition option_defs_sk[] = {
         "system",
         {
             { "0", OPTION_VAL_0_VITA3K_FILE_LOADING_DELAY_SK },
-            { "5", OPTION_VAL_5_SK },
+            { "5", OPTION_VAL_5_VITA3K_FILE_LOADING_DELAY_SK },
             { "10", OPTION_VAL_10_VITA3K_FILE_LOADING_DELAY_SK },
-            { "15", OPTION_VAL_15_SK },
+            { "15", OPTION_VAL_15_VITA3K_FILE_LOADING_DELAY_SK },
             { "20", OPTION_VAL_20_VITA3K_FILE_LOADING_DELAY_SK },
             { "25", OPTION_VAL_25_SK },
             { "30", OPTION_VAL_30_VITA3K_FILE_LOADING_DELAY_SK },
@@ -14959,6 +27034,14 @@ struct retro_core_options_v2 options_sk = {
 #define CATEGORY_AUDIO_INFO_0_SR NULL
 #define CATEGORY_NETWORK_LABEL_SR "Mreža"
 #define CATEGORY_NETWORK_INFO_0_SR NULL
+#define CATEGORY_INSTALL_LABEL_SR NULL
+#define CATEGORY_INSTALL_INFO_0_SR NULL
+#define CATEGORY_CAMERA_LABEL_SR "Kamera"
+#define CATEGORY_CAMERA_INFO_0_SR NULL
+#define CATEGORY_ACCOUNTS_LABEL_SR NULL
+#define CATEGORY_ACCOUNTS_INFO_0_SR NULL
+#define CATEGORY_MODULES_LABEL_SR NULL
+#define CATEGORY_MODULES_INFO_0_SR NULL
 #define VITA3K_BACKEND_RENDERER_LABEL_SR NULL
 #define VITA3K_BACKEND_RENDERER_INFO_0_SR NULL
 #define OPTION_VAL_VULKAN_SR NULL
@@ -15001,6 +27084,7 @@ struct retro_core_options_v2 options_sk = {
 #define VITA3K_PKG_MODE_LABEL_SR NULL
 #define VITA3K_PKG_MODE_INFO_0_SR NULL
 #define OPTION_VAL_RUN_SR NULL
+#define OPTION_VAL_CACHE_SR NULL
 #define OPTION_VAL_INSTALL_SR NULL
 #define VITA3K_PSTV_MODE_LABEL_SR NULL
 #define VITA3K_PSTV_MODE_INFO_0_SR NULL
@@ -15015,10 +27099,41 @@ struct retro_core_options_v2 options_sk = {
 #define VITA3K_SYS_BUTTON_INFO_0_SR NULL
 #define OPTION_VAL_0_VITA3K_SYS_BUTTON_SR NULL
 #define OPTION_VAL_1_VITA3K_SYS_BUTTON_SR NULL
+#define VITA3K_SYS_LANG_LABEL_SR NULL
+#define VITA3K_SYS_LANG_INFO_0_SR NULL
+#define OPTION_VAL_0_VITA3K_SYS_LANG_SR NULL
+#define OPTION_VAL_1_VITA3K_SYS_LANG_SR NULL
+#define OPTION_VAL_2_VITA3K_SYS_LANG_SR NULL
+#define OPTION_VAL_3_VITA3K_SYS_LANG_SR NULL
+#define OPTION_VAL_4_VITA3K_SYS_LANG_SR NULL
+#define OPTION_VAL_5_SR NULL
+#define OPTION_VAL_6_SR NULL
+#define OPTION_VAL_7_SR NULL
+#define OPTION_VAL_8_VITA3K_SYS_LANG_SR NULL
+#define OPTION_VAL_9_SR NULL
+#define OPTION_VAL_10_SR NULL
+#define OPTION_VAL_11_SR NULL
+#define OPTION_VAL_12_SR NULL
+#define OPTION_VAL_13_SR NULL
+#define OPTION_VAL_14_SR NULL
+#define OPTION_VAL_15_SR NULL
+#define OPTION_VAL_16_VITA3K_SYS_LANG_SR NULL
+#define OPTION_VAL_17_SR NULL
+#define OPTION_VAL_18_SR NULL
+#define OPTION_VAL_19_SR NULL
+#define VITA3K_SYS_DATE_FORMAT_LABEL_SR NULL
+#define VITA3K_SYS_DATE_FORMAT_INFO_0_SR NULL
+#define OPTION_VAL_0_VITA3K_SYS_DATE_FORMAT_SR NULL
+#define OPTION_VAL_1_VITA3K_SYS_DATE_FORMAT_SR NULL
+#define OPTION_VAL_2_VITA3K_SYS_DATE_FORMAT_SR NULL
+#define VITA3K_SYS_TIME_FORMAT_LABEL_SR NULL
+#define VITA3K_SYS_TIME_FORMAT_INFO_0_SR NULL
+#define OPTION_VAL_0_VITA3K_SYS_TIME_FORMAT_SR NULL
+#define OPTION_VAL_1_VITA3K_SYS_TIME_FORMAT_SR NULL
 #define VITA3K_AUDIO_VOLUME_LABEL_SR NULL
 #define VITA3K_AUDIO_VOLUME_INFO_0_SR NULL
 #define OPTION_VAL_0_VITA3K_AUDIO_VOLUME_SR NULL
-#define OPTION_VAL_10_SR NULL
+#define OPTION_VAL_10_VITA3K_AUDIO_VOLUME_SR NULL
 #define OPTION_VAL_20_SR NULL
 #define OPTION_VAL_30_SR NULL
 #define OPTION_VAL_40_SR NULL
@@ -15032,6 +27147,47 @@ struct retro_core_options_v2 options_sk = {
 #define VITA3K_NGS_ENABLE_INFO_0_SR NULL
 #define VITA3K_PSN_SIGNED_IN_LABEL_SR NULL
 #define VITA3K_PSN_SIGNED_IN_INFO_0_SR NULL
+#define VITA3K_HTTP_ENABLE_LABEL_SR NULL
+#define VITA3K_HTTP_ENABLE_INFO_0_SR NULL
+#define VITA3K_HTTP_TIMEOUT_ATTEMPTS_LABEL_SR NULL
+#define VITA3K_HTTP_TIMEOUT_ATTEMPTS_INFO_0_SR NULL
+#define VITA3K_HTTP_TIMEOUT_SLEEP_LABEL_SR NULL
+#define VITA3K_HTTP_TIMEOUT_SLEEP_INFO_0_SR NULL
+#define OPTION_VAL_50_VITA3K_HTTP_TIMEOUT_SLEEP_SR NULL
+#define OPTION_VAL_100_VITA3K_HTTP_TIMEOUT_SLEEP_SR NULL
+#define OPTION_VAL_150_SR NULL
+#define OPTION_VAL_200_SR NULL
+#define OPTION_VAL_250_SR NULL
+#define OPTION_VAL_300_SR NULL
+#define OPTION_VAL_400_SR NULL
+#define OPTION_VAL_500_SR NULL
+#define OPTION_VAL_750_SR NULL
+#define OPTION_VAL_1000_SR NULL
+#define OPTION_VAL_1500_SR NULL
+#define OPTION_VAL_2000_SR NULL
+#define OPTION_VAL_2500_SR NULL
+#define OPTION_VAL_3000_SR NULL
+#define VITA3K_HTTP_READ_END_ATTEMPTS_LABEL_SR NULL
+#define VITA3K_HTTP_READ_END_ATTEMPTS_INFO_0_SR NULL
+#define VITA3K_HTTP_READ_END_SLEEP_LABEL_SR NULL
+#define VITA3K_HTTP_READ_END_SLEEP_INFO_0_SR NULL
+#define VITA3K_FRONT_CAMERA_LABEL_SR NULL
+#define VITA3K_FRONT_CAMERA_INFO_0_SR NULL
+#define OPTION_VAL_HOST_SR NULL
+#define OPTION_VAL_IMAGE_SR NULL
+#define OPTION_VAL_COLOR_SR NULL
+#define VITA3K_FRONT_CAMERA_COLOR_LABEL_SR NULL
+#define VITA3K_FRONT_CAMERA_COLOR_INFO_0_SR NULL
+#define OPTION_VAL_0_VITA3K_FRONT_CAMERA_COLOR_SR NULL
+#define OPTION_VAL_16777215_SR NULL
+#define OPTION_VAL_8421504_SR NULL
+#define OPTION_VAL_255_SR NULL
+#define OPTION_VAL_65280_SR NULL
+#define OPTION_VAL_16711680_SR NULL
+#define VITA3K_BACK_CAMERA_LABEL_SR NULL
+#define VITA3K_BACK_CAMERA_INFO_0_SR NULL
+#define VITA3K_BACK_CAMERA_COLOR_LABEL_SR NULL
+#define VITA3K_BACK_CAMERA_COLOR_INFO_0_SR NULL
 #define VITA3K_SURFACE_SYNC_LABEL_SR NULL
 #define VITA3K_SURFACE_SYNC_INFO_0_SR NULL
 #define OPTION_VAL_ENABLED_SR NULL
@@ -15039,9 +27195,9 @@ struct retro_core_options_v2 options_sk = {
 #define VITA3K_FILE_LOADING_DELAY_LABEL_SR NULL
 #define VITA3K_FILE_LOADING_DELAY_INFO_0_SR NULL
 #define OPTION_VAL_0_VITA3K_FILE_LOADING_DELAY_SR NULL
-#define OPTION_VAL_5_SR NULL
+#define OPTION_VAL_5_VITA3K_FILE_LOADING_DELAY_SR NULL
 #define OPTION_VAL_10_VITA3K_FILE_LOADING_DELAY_SR NULL
-#define OPTION_VAL_15_SR NULL
+#define OPTION_VAL_15_VITA3K_FILE_LOADING_DELAY_SR NULL
 #define OPTION_VAL_20_VITA3K_FILE_LOADING_DELAY_SR NULL
 #define OPTION_VAL_25_SR NULL
 #define OPTION_VAL_30_VITA3K_FILE_LOADING_DELAY_SR NULL
@@ -15052,6 +27208,10 @@ struct retro_core_option_v2_category option_cats_sr[] = {
     { "system", CATEGORY_SYSTEM_LABEL_SR, CATEGORY_SYSTEM_INFO_0_SR },
     { "audio", CATEGORY_AUDIO_LABEL_SR, CATEGORY_AUDIO_INFO_0_SR },
     { "network", CATEGORY_NETWORK_LABEL_SR, CATEGORY_NETWORK_INFO_0_SR },
+    { "install", CATEGORY_INSTALL_LABEL_SR, CATEGORY_INSTALL_INFO_0_SR },
+    { "camera", CATEGORY_CAMERA_LABEL_SR, CATEGORY_CAMERA_INFO_0_SR },
+    { "accounts", CATEGORY_ACCOUNTS_LABEL_SR, CATEGORY_ACCOUNTS_INFO_0_SR },
+    { "modules", CATEGORY_MODULES_LABEL_SR, CATEGORY_MODULES_INFO_0_SR },
     { NULL, NULL, NULL },
 };
 struct retro_core_option_v2_definition option_defs_sr[] = {
@@ -15215,9 +27375,10 @@ struct retro_core_option_v2_definition option_defs_sr[] = {
         NULL,
         VITA3K_PKG_MODE_INFO_0_SR,
         NULL,
-        "system",
+        "install",
         {
             { "run", OPTION_VAL_RUN_SR },
+            { "cache", OPTION_VAL_CACHE_SR },
             { "install", OPTION_VAL_INSTALL_SR },
             { NULL, NULL },
         },
@@ -15280,6 +27441,67 @@ struct retro_core_option_v2_definition option_defs_sr[] = {
         },
         "1"
     },
+    {
+        "vita3k_sys_lang",
+        VITA3K_SYS_LANG_LABEL_SR,
+        NULL,
+        VITA3K_SYS_LANG_INFO_0_SR,
+        NULL,
+        "system",
+        {
+            { "0", OPTION_VAL_0_VITA3K_SYS_LANG_SR },
+            { "1", OPTION_VAL_1_VITA3K_SYS_LANG_SR },
+            { "2", OPTION_VAL_2_VITA3K_SYS_LANG_SR },
+            { "3", OPTION_VAL_3_VITA3K_SYS_LANG_SR },
+            { "4", OPTION_VAL_4_VITA3K_SYS_LANG_SR },
+            { "5", OPTION_VAL_5_SR },
+            { "6", OPTION_VAL_6_SR },
+            { "7", OPTION_VAL_7_SR },
+            { "8", OPTION_VAL_8_VITA3K_SYS_LANG_SR },
+            { "9", OPTION_VAL_9_SR },
+            { "10", OPTION_VAL_10_SR },
+            { "11", OPTION_VAL_11_SR },
+            { "12", OPTION_VAL_12_SR },
+            { "13", OPTION_VAL_13_SR },
+            { "14", OPTION_VAL_14_SR },
+            { "15", OPTION_VAL_15_SR },
+            { "16", OPTION_VAL_16_VITA3K_SYS_LANG_SR },
+            { "17", OPTION_VAL_17_SR },
+            { "18", OPTION_VAL_18_SR },
+            { "19", OPTION_VAL_19_SR },
+            { NULL, NULL },
+        },
+        "1"
+    },
+    {
+        "vita3k_sys_date_format",
+        VITA3K_SYS_DATE_FORMAT_LABEL_SR,
+        NULL,
+        VITA3K_SYS_DATE_FORMAT_INFO_0_SR,
+        NULL,
+        "system",
+        {
+            { "0", OPTION_VAL_0_VITA3K_SYS_DATE_FORMAT_SR },
+            { "1", OPTION_VAL_1_VITA3K_SYS_DATE_FORMAT_SR },
+            { "2", OPTION_VAL_2_VITA3K_SYS_DATE_FORMAT_SR },
+            { NULL, NULL },
+        },
+        "2"
+    },
+    {
+        "vita3k_sys_time_format",
+        VITA3K_SYS_TIME_FORMAT_LABEL_SR,
+        NULL,
+        VITA3K_SYS_TIME_FORMAT_INFO_0_SR,
+        NULL,
+        "system",
+        {
+            { "0", OPTION_VAL_0_VITA3K_SYS_TIME_FORMAT_SR },
+            { "1", OPTION_VAL_1_VITA3K_SYS_TIME_FORMAT_SR },
+            { NULL, NULL },
+        },
+        "0"
+    },
     // ── Audio ────────────────────────────────────────────────────────────
     {
         "vita3k_audio_volume",
@@ -15290,7 +27512,7 @@ struct retro_core_option_v2_definition option_defs_sr[] = {
         "audio",
         {
             { "0", OPTION_VAL_0_VITA3K_AUDIO_VOLUME_SR },
-            { "10", OPTION_VAL_10_SR },
+            { "10", OPTION_VAL_10_VITA3K_AUDIO_VOLUME_SR },
             { "20", OPTION_VAL_20_SR },
             { "30", OPTION_VAL_30_SR },
             { "40", OPTION_VAL_40_SR },
@@ -15334,6 +27556,204 @@ struct retro_core_option_v2_definition option_defs_sr[] = {
         "disabled"
     },
     {
+        "vita3k_http_enable",
+        VITA3K_HTTP_ENABLE_LABEL_SR,
+        NULL,
+        VITA3K_HTTP_ENABLE_INFO_0_SR,
+        NULL,
+        "network",
+        {
+            { "enabled", NULL },
+            { "disabled", NULL },
+            { NULL, NULL },
+        },
+        "enabled"
+    },
+    {
+        "vita3k_http_timeout_attempts",
+        VITA3K_HTTP_TIMEOUT_ATTEMPTS_LABEL_SR,
+        NULL,
+        VITA3K_HTTP_TIMEOUT_ATTEMPTS_INFO_0_SR,
+        NULL,
+        "network",
+        {
+            { "0", NULL },
+            { "5", NULL },
+            { "10", NULL },
+            { "15", NULL },
+            { "20", NULL },
+            { "25", NULL },
+            { "30", NULL },
+            { "35", NULL },
+            { "40", NULL },
+            { "45", NULL },
+            { "50", NULL },
+            { "55", NULL },
+            { "60", NULL },
+            { "65", NULL },
+            { "70", NULL },
+            { "75", NULL },
+            { "80", NULL },
+            { "85", NULL },
+            { "90", NULL },
+            { "95", NULL },
+            { "100", NULL },
+            { NULL, NULL },
+        },
+        "50"
+    },
+    {
+        "vita3k_http_timeout_sleep",
+        VITA3K_HTTP_TIMEOUT_SLEEP_LABEL_SR,
+        NULL,
+        VITA3K_HTTP_TIMEOUT_SLEEP_INFO_0_SR,
+        NULL,
+        "network",
+        {
+            { "50", OPTION_VAL_50_VITA3K_HTTP_TIMEOUT_SLEEP_SR },
+            { "100", OPTION_VAL_100_VITA3K_HTTP_TIMEOUT_SLEEP_SR },
+            { "150", OPTION_VAL_150_SR },
+            { "200", OPTION_VAL_200_SR },
+            { "250", OPTION_VAL_250_SR },
+            { "300", OPTION_VAL_300_SR },
+            { "400", OPTION_VAL_400_SR },
+            { "500", OPTION_VAL_500_SR },
+            { "750", OPTION_VAL_750_SR },
+            { "1000", OPTION_VAL_1000_SR },
+            { "1500", OPTION_VAL_1500_SR },
+            { "2000", OPTION_VAL_2000_SR },
+            { "2500", OPTION_VAL_2500_SR },
+            { "3000", OPTION_VAL_3000_SR },
+            { NULL, NULL },
+        },
+        "100"
+    },
+    {
+        "vita3k_http_read_end_attempts",
+        VITA3K_HTTP_READ_END_ATTEMPTS_LABEL_SR,
+        NULL,
+        VITA3K_HTTP_READ_END_ATTEMPTS_INFO_0_SR,
+        NULL,
+        "network",
+        {
+            { "0", NULL },
+            { "5", NULL },
+            { "10", NULL },
+            { "15", NULL },
+            { "20", NULL },
+            { "25", NULL },
+            { "30", NULL },
+            { "35", NULL },
+            { "40", NULL },
+            { "45", NULL },
+            { "50", NULL },
+            { "55", NULL },
+            { "60", NULL },
+            { "65", NULL },
+            { "70", NULL },
+            { "75", NULL },
+            { "80", NULL },
+            { "85", NULL },
+            { "90", NULL },
+            { "95", NULL },
+            { "100", NULL },
+            { NULL, NULL },
+        },
+        "10"
+    },
+    {
+        "vita3k_http_read_end_sleep",
+        VITA3K_HTTP_READ_END_SLEEP_LABEL_SR,
+        NULL,
+        VITA3K_HTTP_READ_END_SLEEP_INFO_0_SR,
+        NULL,
+        "network",
+        {
+            { "50", OPTION_VAL_50_VITA3K_HTTP_TIMEOUT_SLEEP_SR },
+            { "100", OPTION_VAL_100_VITA3K_HTTP_TIMEOUT_SLEEP_SR },
+            { "150", OPTION_VAL_150_SR },
+            { "200", OPTION_VAL_200_SR },
+            { "250", OPTION_VAL_250_SR },
+            { "300", OPTION_VAL_300_SR },
+            { "400", OPTION_VAL_400_SR },
+            { "500", OPTION_VAL_500_SR },
+            { "750", OPTION_VAL_750_SR },
+            { "1000", OPTION_VAL_1000_SR },
+            { "1500", OPTION_VAL_1500_SR },
+            { "2000", OPTION_VAL_2000_SR },
+            { "2500", OPTION_VAL_2500_SR },
+            { "3000", OPTION_VAL_3000_SR },
+            { NULL, NULL },
+        },
+        "250"
+    },
+    {
+        "vita3k_front_camera",
+        VITA3K_FRONT_CAMERA_LABEL_SR,
+        NULL,
+        VITA3K_FRONT_CAMERA_INFO_0_SR,
+        NULL,
+        "camera",
+        {
+            { "host", OPTION_VAL_HOST_SR },
+            { "image", OPTION_VAL_IMAGE_SR },
+            { "color", OPTION_VAL_COLOR_SR },
+            { NULL, NULL },
+        },
+        "host"
+    },
+    {
+        "vita3k_front_camera_color",
+        VITA3K_FRONT_CAMERA_COLOR_LABEL_SR,
+        NULL,
+        VITA3K_FRONT_CAMERA_COLOR_INFO_0_SR,
+        NULL,
+        "camera",
+        {
+            { "0", OPTION_VAL_0_VITA3K_FRONT_CAMERA_COLOR_SR },
+            { "16777215", OPTION_VAL_16777215_SR },
+            { "8421504", OPTION_VAL_8421504_SR },
+            { "255", OPTION_VAL_255_SR },
+            { "65280", OPTION_VAL_65280_SR },
+            { "16711680", OPTION_VAL_16711680_SR },
+            { NULL, NULL },
+        },
+        "0"
+    },
+    {
+        "vita3k_back_camera",
+        VITA3K_BACK_CAMERA_LABEL_SR,
+        NULL,
+        VITA3K_BACK_CAMERA_INFO_0_SR,
+        NULL,
+        "camera",
+        {
+            { "host", OPTION_VAL_HOST_SR },
+            { "image", OPTION_VAL_IMAGE_SR },
+            { "color", OPTION_VAL_COLOR_SR },
+            { NULL, NULL },
+        },
+        "host"
+    },
+    {
+        "vita3k_back_camera_color",
+        VITA3K_BACK_CAMERA_COLOR_LABEL_SR,
+        NULL,
+        VITA3K_BACK_CAMERA_COLOR_INFO_0_SR,
+        NULL,
+        "camera",
+        {
+            { "0", OPTION_VAL_0_VITA3K_FRONT_CAMERA_COLOR_SR },
+            { "16777215", OPTION_VAL_16777215_SR },
+            { "8421504", OPTION_VAL_8421504_SR },
+            { "255", OPTION_VAL_255_SR },
+            { "65280", OPTION_VAL_65280_SR },
+            { "16711680", OPTION_VAL_16711680_SR },
+            { NULL, NULL },
+        },
+        "0"
+    },
+    {
         "vita3k_surface_sync",
         VITA3K_SURFACE_SYNC_LABEL_SR,
         NULL,
@@ -15356,9 +27776,9 @@ struct retro_core_option_v2_definition option_defs_sr[] = {
         "system",
         {
             { "0", OPTION_VAL_0_VITA3K_FILE_LOADING_DELAY_SR },
-            { "5", OPTION_VAL_5_SR },
+            { "5", OPTION_VAL_5_VITA3K_FILE_LOADING_DELAY_SR },
             { "10", OPTION_VAL_10_VITA3K_FILE_LOADING_DELAY_SR },
-            { "15", OPTION_VAL_15_SR },
+            { "15", OPTION_VAL_15_VITA3K_FILE_LOADING_DELAY_SR },
             { "20", OPTION_VAL_20_VITA3K_FILE_LOADING_DELAY_SR },
             { "25", OPTION_VAL_25_SR },
             { "30", OPTION_VAL_30_VITA3K_FILE_LOADING_DELAY_SR },
@@ -15385,6 +27805,14 @@ struct retro_core_options_v2 options_sr = {
 #define CATEGORY_AUDIO_INFO_0_SV "Alternativ för ljudutgång."
 #define CATEGORY_NETWORK_LABEL_SV "Nätverk"
 #define CATEGORY_NETWORK_INFO_0_SV "Nätverksalternativ."
+#define CATEGORY_INSTALL_LABEL_SV "Innehåll"
+#define CATEGORY_INSTALL_INFO_0_SV "Hur ett spel, en uppdatering och DLC läses in."
+#define CATEGORY_CAMERA_LABEL_SV "Kamera"
+#define CATEGORY_CAMERA_INFO_0_SV "Vad Vitas främre och bakre kameror ser."
+#define CATEGORY_ACCOUNTS_LABEL_SV "Konton"
+#define CATEGORY_ACCOUNTS_INFO_0_SV "Vitas konton i ux0/user, vart och ett med egna sparfiler och troféer."
+#define CATEGORY_MODULES_LABEL_SV "Moduler"
+#define CATEGORY_MODULES_INFO_0_SV "De fasta programvarumodulerna i vs0/sys/external som ska läsas in när modulläget är Auto och manuellt eller Manuellt."
 #define VITA3K_BACKEND_RENDERER_LABEL_SV "Bakändesrenderare"
 #define VITA3K_BACKEND_RENDERER_INFO_0_SV "Välj grafikbakände. Vulkan rekommenderas."
 #define OPTION_VAL_VULKAN_SV NULL
@@ -15413,7 +27841,7 @@ struct retro_core_options_v2 options_sr = {
 #define VITA3K_V_SYNC_INFO_0_SV "Aktivera eller inaktivera vertikal synkronisering."
 #define VITA3K_ASYNC_PIPELINE_LABEL_SV "Asynkron pipelinekompilering"
 #define VITA3K_ASYNC_PIPELINE_INFO_0_SV "Kompilera shaderpipelines asynkront för att minska ryckighet."
-#define VITA3K_COMPILE_OVERLAY_LABEL_SV NULL
+#define VITA3K_COMPILE_OVERLAY_LABEL_SV "Överlägg för shaderkompilering"
 #define VITA3K_MEMORY_MAPPING_LABEL_SV "Minnesmappning"
 #define VITA3K_MEMORY_MAPPING_INFO_0_SV "Metod för GPU-minnesmappning. Högre metoder förbättrar prestandan men kräver GPU-stöd."
 #define OPTION_VAL_DOUBLE_BUFFER_SV "Dubbelbuffert"
@@ -15424,14 +27852,15 @@ struct retro_core_options_v2 options_sr = {
 #define VITA3K_HIGH_ACCURACY_INFO_0_SV "Aktivera mer noggranna men långsammare renderingstekniker."
 #define VITA3K_CPU_OPT_LABEL_SV "CPU-optimeringar (Dynarmic JIT)"
 #define VITA3K_CPU_OPT_INFO_0_SV "Aktivera Dynarmic JIT för snabbare CPU-emulering."
-#define VITA3K_PKG_MODE_LABEL_SV "Spel-PKG"
-#define VITA3K_PKG_MODE_INFO_0_SV "Hur ett spels PKG körs. Kör utan installation: spelet startar på några sekunder och en fil dekrypteras från PKG-filen till systemmappen första gången spelet läser den. Allt tas bort när spelet stängs. Installera: hela spelet dekrypteras och installeras i ux0/app första gången, som i Vita3K. Det tar lika lång tid som spelet är stort och använder motsvarande diskutrymme. Ett redan installerat spel körs från installationen oavsett alternativ. Uppdateringar och DLC installeras alltid."
+#define VITA3K_PKG_MODE_LABEL_SV "Förinläsning av spel"
+#define VITA3K_PKG_MODE_INFO_0_SV "Allt innehåll följer denna inställning utom uppdateringar och DLC som tvångsinstalleras och läses in manuellt. Kör utan installation: läser från filen och sparar inget. Beständig cache: samma sak men behåller det som lästs. Installera: kopierar alla filer för snabbare start."
 #define OPTION_VAL_RUN_SV "Kör utan installation"
+#define OPTION_VAL_CACHE_SV "Beständig cache"
 #define OPTION_VAL_INSTALL_SV "Installera"
 #define VITA3K_PSTV_MODE_LABEL_SV "PS TV-läge"
 #define VITA3K_PSTV_MODE_INFO_0_SV "Emulera en PlayStation TV i stället för en PS Vita."
 #define VITA3K_MODULES_MODE_LABEL_SV "Modulläge"
-#define VITA3K_MODULES_MODE_INFO_0_SV "Hur systemmoduler läses in. Automatiskt rekommenderas."
+#define VITA3K_MODULES_MODE_INFO_0_SV "Hur systemmoduler läses in. Automatiskt: kärnans egen implementering och de inbyggda moduler som kärnan vet att den behöver. Auto och manuellt: dessa samt modulerna som aktiveras under Moduler. Manuellt: endast modulerna som aktiveras under Moduler. Automatiskt rekommenderas."
 #define OPTION_VAL_0_SV "Automatisk"
 #define OPTION_VAL_1_VITA3K_MODULES_MODE_SV "Automatiskt och manuellt"
 #define OPTION_VAL_2_VITA3K_MODULES_MODE_SV "Manuell"
@@ -15441,10 +27870,41 @@ struct retro_core_options_v2 options_sr = {
 #define VITA3K_SYS_BUTTON_INFO_0_SV "Vilken knapp som används för bekräftelseåtgärder."
 #define OPTION_VAL_0_VITA3K_SYS_BUTTON_SV "Cirkel"
 #define OPTION_VAL_1_VITA3K_SYS_BUTTON_SV "Kors"
+#define VITA3K_SYS_LANG_LABEL_SV "SPU: noggrann kontroll av denormala tal"
+#define VITA3K_SYS_LANG_INFO_0_SV "Konsolens språk, som spel använder för sin text och som visas i systemdialogerna. Tillämpas nästa gång spelet startas."
+#define OPTION_VAL_0_VITA3K_SYS_LANG_SV "Japanska"
+#define OPTION_VAL_1_VITA3K_SYS_LANG_SV "Engelska (USA)"
+#define OPTION_VAL_2_VITA3K_SYS_LANG_SV "Franska"
+#define OPTION_VAL_3_VITA3K_SYS_LANG_SV "Spanska"
+#define OPTION_VAL_4_VITA3K_SYS_LANG_SV "Tyska"
+#define OPTION_VAL_5_SV "Italienska"
+#define OPTION_VAL_6_SV "Nederländska"
+#define OPTION_VAL_7_SV "Portugisiska (Portugal)"
+#define OPTION_VAL_8_VITA3K_SYS_LANG_SV "Ryska"
+#define OPTION_VAL_9_SV "Koreanska"
+#define OPTION_VAL_10_SV "Kinesiska (traditionell)"
+#define OPTION_VAL_11_SV "Kinesiska (förenklad)"
+#define OPTION_VAL_12_SV "Finska"
+#define OPTION_VAL_13_SV "Svenska"
+#define OPTION_VAL_14_SV "Danska"
+#define OPTION_VAL_15_SV "Norska"
+#define OPTION_VAL_16_VITA3K_SYS_LANG_SV "Polska"
+#define OPTION_VAL_17_SV "Portugisiska (Brasilien)"
+#define OPTION_VAL_18_SV "Engelska (Storbritannien)"
+#define OPTION_VAL_19_SV "Turkiska"
+#define VITA3K_SYS_DATE_FORMAT_LABEL_SV "Datumformat"
+#define VITA3K_SYS_DATE_FORMAT_INFO_0_SV "Hur konsolen skriver datum i spel och systemdialoger, till exempel listor över sparade data. Datum och tid hämtas från värddatorn. Tillämpas nästa gång spelet startas."
+#define OPTION_VAL_0_VITA3K_SYS_DATE_FORMAT_SV "ÅÅÅÅ/MM/DD"
+#define OPTION_VAL_1_VITA3K_SYS_DATE_FORMAT_SV "DD/MM/ÅÅÅÅ"
+#define OPTION_VAL_2_VITA3K_SYS_DATE_FORMAT_SV "MM/DD/ÅÅÅÅ"
+#define VITA3K_SYS_TIME_FORMAT_LABEL_SV "Tidsformat"
+#define VITA3K_SYS_TIME_FORMAT_INFO_0_SV "Om konsolen visar tiden i 12- eller 24-timmarsformat i spel och systemdialoger. Tillämpas nästa gång spelet startas."
+#define OPTION_VAL_0_VITA3K_SYS_TIME_FORMAT_SV "12-timmarsformat"
+#define OPTION_VAL_1_VITA3K_SYS_TIME_FORMAT_SV "24-timmarsformat"
 #define VITA3K_AUDIO_VOLUME_LABEL_SV "Ljudvolym"
 #define VITA3K_AUDIO_VOLUME_INFO_0_SV "Huvudvolym för ljud."
-#define OPTION_VAL_0_VITA3K_AUDIO_VOLUME_SV NULL
-#define OPTION_VAL_10_SV NULL
+#define OPTION_VAL_0_VITA3K_AUDIO_VOLUME_SV "0 (standard)"
+#define OPTION_VAL_10_VITA3K_AUDIO_VOLUME_SV "10 %"
 #define OPTION_VAL_20_SV NULL
 #define OPTION_VAL_30_SV NULL
 #define OPTION_VAL_40_SV NULL
@@ -15458,6 +27918,47 @@ struct retro_core_options_v2 options_sr = {
 #define VITA3K_NGS_ENABLE_INFO_0_SV "Aktivera NGS-ljudmotorn för förbättrat ljud."
 #define VITA3K_PSN_SIGNED_IN_LABEL_SV "Inloggad på PSN"
 #define VITA3K_PSN_SIGNED_IN_INFO_0_SV "Låtsas vara inloggad på PSN. Krävs av vissa spel."
+#define VITA3K_HTTP_ENABLE_LABEL_SV NULL
+#define VITA3K_HTTP_ENABLE_INFO_0_SV "Aktivera HTTP-nätverksstöd för program som använder det. Tillämpas nästa gång spelet startas."
+#define VITA3K_HTTP_TIMEOUT_ATTEMPTS_LABEL_SV "Antal försök vid HTTP-tidsgräns"
+#define VITA3K_HTTP_TIMEOUT_ATTEMPTS_INFO_0_SV "Hur många gånger anslutningen ska försökas igen när servern inte svarar. Kan vara användbart med en mycket instabil eller långsam anslutning. Tillämpas nästa gång spelet startas."
+#define VITA3K_HTTP_TIMEOUT_SLEEP_LABEL_SV "Väntetid vid HTTP-tidsgräns"
+#define VITA3K_HTTP_TIMEOUT_SLEEP_INFO_0_SV "Hur länge systemet väntar mellan nya anslutningsförsök. Kan vara användbart med en mycket instabil eller långsam anslutning. Tillämpas nästa gång spelet startas."
+#define OPTION_VAL_50_VITA3K_HTTP_TIMEOUT_SLEEP_SV NULL
+#define OPTION_VAL_100_VITA3K_HTTP_TIMEOUT_SLEEP_SV NULL
+#define OPTION_VAL_150_SV NULL
+#define OPTION_VAL_200_SV NULL
+#define OPTION_VAL_250_SV NULL
+#define OPTION_VAL_300_SV NULL
+#define OPTION_VAL_400_SV NULL
+#define OPTION_VAL_500_SV NULL
+#define OPTION_VAL_750_SV NULL
+#define OPTION_VAL_1000_SV NULL
+#define OPTION_VAL_1500_SV NULL
+#define OPTION_VAL_2000_SV NULL
+#define OPTION_VAL_2500_SV NULL
+#define OPTION_VAL_3000_SV NULL
+#define VITA3K_HTTP_READ_END_ATTEMPTS_LABEL_SV "Antal försök efter slut på HTTP-läsning"
+#define VITA3K_HTTP_READ_END_ATTEMPTS_INFO_0_SV "Hur många nya försök som görs när det inte finns mer data att läsa. Färre kan förbättra prestandan men göra spel instabila med en tillräckligt dålig anslutning. Tillämpas nästa gång spelet startas."
+#define VITA3K_HTTP_READ_END_SLEEP_LABEL_SV "Väntetid efter slut på HTTP-läsning"
+#define VITA3K_HTTP_READ_END_SLEEP_INFO_0_SV "Hur länge systemet väntar mellan nya läsförsök. Färre kan förbättra prestandan men göra spel instabila med en tillräckligt dålig anslutning. Tillämpas nästa gång spelet startas."
+#define VITA3K_FRONT_CAMERA_LABEL_SV "Främre kamera"
+#define VITA3K_FRONT_CAMERA_INFO_0_SV "Vad Vitas främre kamera ser. Värdkamera: RetroArchs kamera; Inställningar > Sekretess > Kameraåtkomst måste vara aktiverat och en kameradrivrutin måste finnas för plattformen. Bild: system/vita3k/camera/front.png eller front.jpg. Helfärg: färgen för främre kamera. När en källa saknas används nästa. Tillämpas nästa gång spelet öppnar kameran."
+#define OPTION_VAL_HOST_SV "Värdkamera"
+#define OPTION_VAL_IMAGE_SV "Bild"
+#define OPTION_VAL_COLOR_SV "Helfärg"
+#define VITA3K_FRONT_CAMERA_COLOR_LABEL_SV "Färg för främre kamera"
+#define VITA3K_FRONT_CAMERA_COLOR_INFO_0_SV "Den färg som den främre kameran visar med Helfärg."
+#define OPTION_VAL_0_VITA3K_FRONT_CAMERA_COLOR_SV "Svart"
+#define OPTION_VAL_16777215_SV "Vit"
+#define OPTION_VAL_8421504_SV "Grå"
+#define OPTION_VAL_255_SV "Röd"
+#define OPTION_VAL_65280_SV "Grön"
+#define OPTION_VAL_16711680_SV "Blå"
+#define VITA3K_BACK_CAMERA_LABEL_SV "Bakre kamera"
+#define VITA3K_BACK_CAMERA_INFO_0_SV "Vad Vitas bakre kamera ser. Värdkamera: RetroArchs kamera; Inställningar > Sekretess > Kameraåtkomst måste vara aktiverat och en kameradrivrutin måste finnas för plattformen. Bild: system/vita3k/camera/back.png eller back.jpg. Helfärg: färgen för bakre kamera. När en källa saknas används nästa. Tillämpas nästa gång spelet öppnar kameran."
+#define VITA3K_BACK_CAMERA_COLOR_LABEL_SV "Färg för bakre kamera"
+#define VITA3K_BACK_CAMERA_COLOR_INFO_0_SV "Den färg som den bakre kameran visar med Helfärg."
 #define VITA3K_SURFACE_SYNC_LABEL_SV "Ytsynkronisering"
 #define VITA3K_SURFACE_SYNC_INFO_0_SV "Optimering av GPU-minne. Kan förbättra prestandan med 20 till 40 %."
 #define OPTION_VAL_ENABLED_SV "Aktiverad (mer noggrann)"
@@ -15465,9 +27966,9 @@ struct retro_core_options_v2 options_sr = {
 #define VITA3K_FILE_LOADING_DELAY_LABEL_SV "Fördröjning vid filinläsning"
 #define VITA3K_FILE_LOADING_DELAY_INFO_0_SV "Fördröjning i millisekunder för filinläsning. Hjälper spel som är känsliga för tidsinställning."
 #define OPTION_VAL_0_VITA3K_FILE_LOADING_DELAY_SV NULL
-#define OPTION_VAL_5_SV NULL
+#define OPTION_VAL_5_VITA3K_FILE_LOADING_DELAY_SV NULL
 #define OPTION_VAL_10_VITA3K_FILE_LOADING_DELAY_SV NULL
-#define OPTION_VAL_15_SV NULL
+#define OPTION_VAL_15_VITA3K_FILE_LOADING_DELAY_SV NULL
 #define OPTION_VAL_20_VITA3K_FILE_LOADING_DELAY_SV NULL
 #define OPTION_VAL_25_SV NULL
 #define OPTION_VAL_30_VITA3K_FILE_LOADING_DELAY_SV NULL
@@ -15478,6 +27979,10 @@ struct retro_core_option_v2_category option_cats_sv[] = {
     { "system", CATEGORY_SYSTEM_LABEL_SV, CATEGORY_SYSTEM_INFO_0_SV },
     { "audio", CATEGORY_AUDIO_LABEL_SV, CATEGORY_AUDIO_INFO_0_SV },
     { "network", CATEGORY_NETWORK_LABEL_SV, CATEGORY_NETWORK_INFO_0_SV },
+    { "install", CATEGORY_INSTALL_LABEL_SV, CATEGORY_INSTALL_INFO_0_SV },
+    { "camera", CATEGORY_CAMERA_LABEL_SV, CATEGORY_CAMERA_INFO_0_SV },
+    { "accounts", CATEGORY_ACCOUNTS_LABEL_SV, CATEGORY_ACCOUNTS_INFO_0_SV },
+    { "modules", CATEGORY_MODULES_LABEL_SV, CATEGORY_MODULES_INFO_0_SV },
     { NULL, NULL, NULL },
 };
 struct retro_core_option_v2_definition option_defs_sv[] = {
@@ -15641,9 +28146,10 @@ struct retro_core_option_v2_definition option_defs_sv[] = {
         NULL,
         VITA3K_PKG_MODE_INFO_0_SV,
         NULL,
-        "system",
+        "install",
         {
             { "run", OPTION_VAL_RUN_SV },
+            { "cache", OPTION_VAL_CACHE_SV },
             { "install", OPTION_VAL_INSTALL_SV },
             { NULL, NULL },
         },
@@ -15706,6 +28212,67 @@ struct retro_core_option_v2_definition option_defs_sv[] = {
         },
         "1"
     },
+    {
+        "vita3k_sys_lang",
+        VITA3K_SYS_LANG_LABEL_SV,
+        NULL,
+        VITA3K_SYS_LANG_INFO_0_SV,
+        NULL,
+        "system",
+        {
+            { "0", OPTION_VAL_0_VITA3K_SYS_LANG_SV },
+            { "1", OPTION_VAL_1_VITA3K_SYS_LANG_SV },
+            { "2", OPTION_VAL_2_VITA3K_SYS_LANG_SV },
+            { "3", OPTION_VAL_3_VITA3K_SYS_LANG_SV },
+            { "4", OPTION_VAL_4_VITA3K_SYS_LANG_SV },
+            { "5", OPTION_VAL_5_SV },
+            { "6", OPTION_VAL_6_SV },
+            { "7", OPTION_VAL_7_SV },
+            { "8", OPTION_VAL_8_VITA3K_SYS_LANG_SV },
+            { "9", OPTION_VAL_9_SV },
+            { "10", OPTION_VAL_10_SV },
+            { "11", OPTION_VAL_11_SV },
+            { "12", OPTION_VAL_12_SV },
+            { "13", OPTION_VAL_13_SV },
+            { "14", OPTION_VAL_14_SV },
+            { "15", OPTION_VAL_15_SV },
+            { "16", OPTION_VAL_16_VITA3K_SYS_LANG_SV },
+            { "17", OPTION_VAL_17_SV },
+            { "18", OPTION_VAL_18_SV },
+            { "19", OPTION_VAL_19_SV },
+            { NULL, NULL },
+        },
+        "1"
+    },
+    {
+        "vita3k_sys_date_format",
+        VITA3K_SYS_DATE_FORMAT_LABEL_SV,
+        NULL,
+        VITA3K_SYS_DATE_FORMAT_INFO_0_SV,
+        NULL,
+        "system",
+        {
+            { "0", OPTION_VAL_0_VITA3K_SYS_DATE_FORMAT_SV },
+            { "1", OPTION_VAL_1_VITA3K_SYS_DATE_FORMAT_SV },
+            { "2", OPTION_VAL_2_VITA3K_SYS_DATE_FORMAT_SV },
+            { NULL, NULL },
+        },
+        "2"
+    },
+    {
+        "vita3k_sys_time_format",
+        VITA3K_SYS_TIME_FORMAT_LABEL_SV,
+        NULL,
+        VITA3K_SYS_TIME_FORMAT_INFO_0_SV,
+        NULL,
+        "system",
+        {
+            { "0", OPTION_VAL_0_VITA3K_SYS_TIME_FORMAT_SV },
+            { "1", OPTION_VAL_1_VITA3K_SYS_TIME_FORMAT_SV },
+            { NULL, NULL },
+        },
+        "0"
+    },
     // ── Audio ────────────────────────────────────────────────────────────
     {
         "vita3k_audio_volume",
@@ -15716,7 +28283,7 @@ struct retro_core_option_v2_definition option_defs_sv[] = {
         "audio",
         {
             { "0", OPTION_VAL_0_VITA3K_AUDIO_VOLUME_SV },
-            { "10", OPTION_VAL_10_SV },
+            { "10", OPTION_VAL_10_VITA3K_AUDIO_VOLUME_SV },
             { "20", OPTION_VAL_20_SV },
             { "30", OPTION_VAL_30_SV },
             { "40", OPTION_VAL_40_SV },
@@ -15760,6 +28327,204 @@ struct retro_core_option_v2_definition option_defs_sv[] = {
         "disabled"
     },
     {
+        "vita3k_http_enable",
+        VITA3K_HTTP_ENABLE_LABEL_SV,
+        NULL,
+        VITA3K_HTTP_ENABLE_INFO_0_SV,
+        NULL,
+        "network",
+        {
+            { "enabled", NULL },
+            { "disabled", NULL },
+            { NULL, NULL },
+        },
+        "enabled"
+    },
+    {
+        "vita3k_http_timeout_attempts",
+        VITA3K_HTTP_TIMEOUT_ATTEMPTS_LABEL_SV,
+        NULL,
+        VITA3K_HTTP_TIMEOUT_ATTEMPTS_INFO_0_SV,
+        NULL,
+        "network",
+        {
+            { "0", NULL },
+            { "5", NULL },
+            { "10", NULL },
+            { "15", NULL },
+            { "20", NULL },
+            { "25", NULL },
+            { "30", NULL },
+            { "35", NULL },
+            { "40", NULL },
+            { "45", NULL },
+            { "50", NULL },
+            { "55", NULL },
+            { "60", NULL },
+            { "65", NULL },
+            { "70", NULL },
+            { "75", NULL },
+            { "80", NULL },
+            { "85", NULL },
+            { "90", NULL },
+            { "95", NULL },
+            { "100", NULL },
+            { NULL, NULL },
+        },
+        "50"
+    },
+    {
+        "vita3k_http_timeout_sleep",
+        VITA3K_HTTP_TIMEOUT_SLEEP_LABEL_SV,
+        NULL,
+        VITA3K_HTTP_TIMEOUT_SLEEP_INFO_0_SV,
+        NULL,
+        "network",
+        {
+            { "50", OPTION_VAL_50_VITA3K_HTTP_TIMEOUT_SLEEP_SV },
+            { "100", OPTION_VAL_100_VITA3K_HTTP_TIMEOUT_SLEEP_SV },
+            { "150", OPTION_VAL_150_SV },
+            { "200", OPTION_VAL_200_SV },
+            { "250", OPTION_VAL_250_SV },
+            { "300", OPTION_VAL_300_SV },
+            { "400", OPTION_VAL_400_SV },
+            { "500", OPTION_VAL_500_SV },
+            { "750", OPTION_VAL_750_SV },
+            { "1000", OPTION_VAL_1000_SV },
+            { "1500", OPTION_VAL_1500_SV },
+            { "2000", OPTION_VAL_2000_SV },
+            { "2500", OPTION_VAL_2500_SV },
+            { "3000", OPTION_VAL_3000_SV },
+            { NULL, NULL },
+        },
+        "100"
+    },
+    {
+        "vita3k_http_read_end_attempts",
+        VITA3K_HTTP_READ_END_ATTEMPTS_LABEL_SV,
+        NULL,
+        VITA3K_HTTP_READ_END_ATTEMPTS_INFO_0_SV,
+        NULL,
+        "network",
+        {
+            { "0", NULL },
+            { "5", NULL },
+            { "10", NULL },
+            { "15", NULL },
+            { "20", NULL },
+            { "25", NULL },
+            { "30", NULL },
+            { "35", NULL },
+            { "40", NULL },
+            { "45", NULL },
+            { "50", NULL },
+            { "55", NULL },
+            { "60", NULL },
+            { "65", NULL },
+            { "70", NULL },
+            { "75", NULL },
+            { "80", NULL },
+            { "85", NULL },
+            { "90", NULL },
+            { "95", NULL },
+            { "100", NULL },
+            { NULL, NULL },
+        },
+        "10"
+    },
+    {
+        "vita3k_http_read_end_sleep",
+        VITA3K_HTTP_READ_END_SLEEP_LABEL_SV,
+        NULL,
+        VITA3K_HTTP_READ_END_SLEEP_INFO_0_SV,
+        NULL,
+        "network",
+        {
+            { "50", OPTION_VAL_50_VITA3K_HTTP_TIMEOUT_SLEEP_SV },
+            { "100", OPTION_VAL_100_VITA3K_HTTP_TIMEOUT_SLEEP_SV },
+            { "150", OPTION_VAL_150_SV },
+            { "200", OPTION_VAL_200_SV },
+            { "250", OPTION_VAL_250_SV },
+            { "300", OPTION_VAL_300_SV },
+            { "400", OPTION_VAL_400_SV },
+            { "500", OPTION_VAL_500_SV },
+            { "750", OPTION_VAL_750_SV },
+            { "1000", OPTION_VAL_1000_SV },
+            { "1500", OPTION_VAL_1500_SV },
+            { "2000", OPTION_VAL_2000_SV },
+            { "2500", OPTION_VAL_2500_SV },
+            { "3000", OPTION_VAL_3000_SV },
+            { NULL, NULL },
+        },
+        "250"
+    },
+    {
+        "vita3k_front_camera",
+        VITA3K_FRONT_CAMERA_LABEL_SV,
+        NULL,
+        VITA3K_FRONT_CAMERA_INFO_0_SV,
+        NULL,
+        "camera",
+        {
+            { "host", OPTION_VAL_HOST_SV },
+            { "image", OPTION_VAL_IMAGE_SV },
+            { "color", OPTION_VAL_COLOR_SV },
+            { NULL, NULL },
+        },
+        "host"
+    },
+    {
+        "vita3k_front_camera_color",
+        VITA3K_FRONT_CAMERA_COLOR_LABEL_SV,
+        NULL,
+        VITA3K_FRONT_CAMERA_COLOR_INFO_0_SV,
+        NULL,
+        "camera",
+        {
+            { "0", OPTION_VAL_0_VITA3K_FRONT_CAMERA_COLOR_SV },
+            { "16777215", OPTION_VAL_16777215_SV },
+            { "8421504", OPTION_VAL_8421504_SV },
+            { "255", OPTION_VAL_255_SV },
+            { "65280", OPTION_VAL_65280_SV },
+            { "16711680", OPTION_VAL_16711680_SV },
+            { NULL, NULL },
+        },
+        "0"
+    },
+    {
+        "vita3k_back_camera",
+        VITA3K_BACK_CAMERA_LABEL_SV,
+        NULL,
+        VITA3K_BACK_CAMERA_INFO_0_SV,
+        NULL,
+        "camera",
+        {
+            { "host", OPTION_VAL_HOST_SV },
+            { "image", OPTION_VAL_IMAGE_SV },
+            { "color", OPTION_VAL_COLOR_SV },
+            { NULL, NULL },
+        },
+        "host"
+    },
+    {
+        "vita3k_back_camera_color",
+        VITA3K_BACK_CAMERA_COLOR_LABEL_SV,
+        NULL,
+        VITA3K_BACK_CAMERA_COLOR_INFO_0_SV,
+        NULL,
+        "camera",
+        {
+            { "0", OPTION_VAL_0_VITA3K_FRONT_CAMERA_COLOR_SV },
+            { "16777215", OPTION_VAL_16777215_SV },
+            { "8421504", OPTION_VAL_8421504_SV },
+            { "255", OPTION_VAL_255_SV },
+            { "65280", OPTION_VAL_65280_SV },
+            { "16711680", OPTION_VAL_16711680_SV },
+            { NULL, NULL },
+        },
+        "0"
+    },
+    {
         "vita3k_surface_sync",
         VITA3K_SURFACE_SYNC_LABEL_SV,
         NULL,
@@ -15782,9 +28547,9 @@ struct retro_core_option_v2_definition option_defs_sv[] = {
         "system",
         {
             { "0", OPTION_VAL_0_VITA3K_FILE_LOADING_DELAY_SV },
-            { "5", OPTION_VAL_5_SV },
+            { "5", OPTION_VAL_5_VITA3K_FILE_LOADING_DELAY_SV },
             { "10", OPTION_VAL_10_VITA3K_FILE_LOADING_DELAY_SV },
-            { "15", OPTION_VAL_15_SV },
+            { "15", OPTION_VAL_15_VITA3K_FILE_LOADING_DELAY_SV },
             { "20", OPTION_VAL_20_VITA3K_FILE_LOADING_DELAY_SV },
             { "25", OPTION_VAL_25_SV },
             { "30", OPTION_VAL_30_VITA3K_FILE_LOADING_DELAY_SV },
@@ -15811,6 +28576,14 @@ struct retro_core_options_v2 options_sv = {
 #define CATEGORY_AUDIO_INFO_0_TH NULL
 #define CATEGORY_NETWORK_LABEL_TH "เครือข่าย"
 #define CATEGORY_NETWORK_INFO_0_TH NULL
+#define CATEGORY_INSTALL_LABEL_TH "เนื้อหา"
+#define CATEGORY_INSTALL_INFO_0_TH NULL
+#define CATEGORY_CAMERA_LABEL_TH "กล้อง"
+#define CATEGORY_CAMERA_INFO_0_TH NULL
+#define CATEGORY_ACCOUNTS_LABEL_TH "บัญชีผู้ใช้"
+#define CATEGORY_ACCOUNTS_INFO_0_TH NULL
+#define CATEGORY_MODULES_LABEL_TH NULL
+#define CATEGORY_MODULES_INFO_0_TH NULL
 #define VITA3K_BACKEND_RENDERER_LABEL_TH NULL
 #define VITA3K_BACKEND_RENDERER_INFO_0_TH NULL
 #define OPTION_VAL_VULKAN_TH NULL
@@ -15853,6 +28626,7 @@ struct retro_core_options_v2 options_sv = {
 #define VITA3K_PKG_MODE_LABEL_TH NULL
 #define VITA3K_PKG_MODE_INFO_0_TH NULL
 #define OPTION_VAL_RUN_TH NULL
+#define OPTION_VAL_CACHE_TH NULL
 #define OPTION_VAL_INSTALL_TH NULL
 #define VITA3K_PSTV_MODE_LABEL_TH NULL
 #define VITA3K_PSTV_MODE_INFO_0_TH NULL
@@ -15867,10 +28641,41 @@ struct retro_core_options_v2 options_sv = {
 #define VITA3K_SYS_BUTTON_INFO_0_TH NULL
 #define OPTION_VAL_0_VITA3K_SYS_BUTTON_TH NULL
 #define OPTION_VAL_1_VITA3K_SYS_BUTTON_TH "กากบาท"
+#define VITA3K_SYS_LANG_LABEL_TH NULL
+#define VITA3K_SYS_LANG_INFO_0_TH NULL
+#define OPTION_VAL_0_VITA3K_SYS_LANG_TH "ญี่ปุ่น"
+#define OPTION_VAL_1_VITA3K_SYS_LANG_TH NULL
+#define OPTION_VAL_2_VITA3K_SYS_LANG_TH "ฝรั่งเศส"
+#define OPTION_VAL_3_VITA3K_SYS_LANG_TH "สเปน"
+#define OPTION_VAL_4_VITA3K_SYS_LANG_TH "เยอรมัน"
+#define OPTION_VAL_5_TH "อิตาลี"
+#define OPTION_VAL_6_TH NULL
+#define OPTION_VAL_7_TH NULL
+#define OPTION_VAL_8_VITA3K_SYS_LANG_TH NULL
+#define OPTION_VAL_9_TH NULL
+#define OPTION_VAL_10_TH NULL
+#define OPTION_VAL_11_TH NULL
+#define OPTION_VAL_12_TH NULL
+#define OPTION_VAL_13_TH NULL
+#define OPTION_VAL_14_TH NULL
+#define OPTION_VAL_15_TH NULL
+#define OPTION_VAL_16_VITA3K_SYS_LANG_TH NULL
+#define OPTION_VAL_17_TH NULL
+#define OPTION_VAL_18_TH NULL
+#define OPTION_VAL_19_TH NULL
+#define VITA3K_SYS_DATE_FORMAT_LABEL_TH NULL
+#define VITA3K_SYS_DATE_FORMAT_INFO_0_TH NULL
+#define OPTION_VAL_0_VITA3K_SYS_DATE_FORMAT_TH NULL
+#define OPTION_VAL_1_VITA3K_SYS_DATE_FORMAT_TH NULL
+#define OPTION_VAL_2_VITA3K_SYS_DATE_FORMAT_TH NULL
+#define VITA3K_SYS_TIME_FORMAT_LABEL_TH NULL
+#define VITA3K_SYS_TIME_FORMAT_INFO_0_TH NULL
+#define OPTION_VAL_0_VITA3K_SYS_TIME_FORMAT_TH NULL
+#define OPTION_VAL_1_VITA3K_SYS_TIME_FORMAT_TH NULL
 #define VITA3K_AUDIO_VOLUME_LABEL_TH NULL
 #define VITA3K_AUDIO_VOLUME_INFO_0_TH NULL
 #define OPTION_VAL_0_VITA3K_AUDIO_VOLUME_TH NULL
-#define OPTION_VAL_10_TH NULL
+#define OPTION_VAL_10_VITA3K_AUDIO_VOLUME_TH NULL
 #define OPTION_VAL_20_TH NULL
 #define OPTION_VAL_30_TH NULL
 #define OPTION_VAL_40_TH NULL
@@ -15884,6 +28689,47 @@ struct retro_core_options_v2 options_sv = {
 #define VITA3K_NGS_ENABLE_INFO_0_TH NULL
 #define VITA3K_PSN_SIGNED_IN_LABEL_TH NULL
 #define VITA3K_PSN_SIGNED_IN_INFO_0_TH NULL
+#define VITA3K_HTTP_ENABLE_LABEL_TH NULL
+#define VITA3K_HTTP_ENABLE_INFO_0_TH NULL
+#define VITA3K_HTTP_TIMEOUT_ATTEMPTS_LABEL_TH NULL
+#define VITA3K_HTTP_TIMEOUT_ATTEMPTS_INFO_0_TH NULL
+#define VITA3K_HTTP_TIMEOUT_SLEEP_LABEL_TH NULL
+#define VITA3K_HTTP_TIMEOUT_SLEEP_INFO_0_TH NULL
+#define OPTION_VAL_50_VITA3K_HTTP_TIMEOUT_SLEEP_TH NULL
+#define OPTION_VAL_100_VITA3K_HTTP_TIMEOUT_SLEEP_TH NULL
+#define OPTION_VAL_150_TH NULL
+#define OPTION_VAL_200_TH NULL
+#define OPTION_VAL_250_TH NULL
+#define OPTION_VAL_300_TH NULL
+#define OPTION_VAL_400_TH NULL
+#define OPTION_VAL_500_TH NULL
+#define OPTION_VAL_750_TH NULL
+#define OPTION_VAL_1000_TH NULL
+#define OPTION_VAL_1500_TH NULL
+#define OPTION_VAL_2000_TH NULL
+#define OPTION_VAL_2500_TH NULL
+#define OPTION_VAL_3000_TH NULL
+#define VITA3K_HTTP_READ_END_ATTEMPTS_LABEL_TH NULL
+#define VITA3K_HTTP_READ_END_ATTEMPTS_INFO_0_TH NULL
+#define VITA3K_HTTP_READ_END_SLEEP_LABEL_TH NULL
+#define VITA3K_HTTP_READ_END_SLEEP_INFO_0_TH NULL
+#define VITA3K_FRONT_CAMERA_LABEL_TH NULL
+#define VITA3K_FRONT_CAMERA_INFO_0_TH NULL
+#define OPTION_VAL_HOST_TH NULL
+#define OPTION_VAL_IMAGE_TH NULL
+#define OPTION_VAL_COLOR_TH NULL
+#define VITA3K_FRONT_CAMERA_COLOR_LABEL_TH NULL
+#define VITA3K_FRONT_CAMERA_COLOR_INFO_0_TH NULL
+#define OPTION_VAL_0_VITA3K_FRONT_CAMERA_COLOR_TH "ดำ"
+#define OPTION_VAL_16777215_TH "ขาว"
+#define OPTION_VAL_8421504_TH "เทา"
+#define OPTION_VAL_255_TH NULL
+#define OPTION_VAL_65280_TH "เขียว"
+#define OPTION_VAL_16711680_TH "น้ำเงิน"
+#define VITA3K_BACK_CAMERA_LABEL_TH NULL
+#define VITA3K_BACK_CAMERA_INFO_0_TH NULL
+#define VITA3K_BACK_CAMERA_COLOR_LABEL_TH NULL
+#define VITA3K_BACK_CAMERA_COLOR_INFO_0_TH NULL
 #define VITA3K_SURFACE_SYNC_LABEL_TH NULL
 #define VITA3K_SURFACE_SYNC_INFO_0_TH NULL
 #define OPTION_VAL_ENABLED_TH NULL
@@ -15891,9 +28737,9 @@ struct retro_core_options_v2 options_sv = {
 #define VITA3K_FILE_LOADING_DELAY_LABEL_TH NULL
 #define VITA3K_FILE_LOADING_DELAY_INFO_0_TH NULL
 #define OPTION_VAL_0_VITA3K_FILE_LOADING_DELAY_TH NULL
-#define OPTION_VAL_5_TH NULL
+#define OPTION_VAL_5_VITA3K_FILE_LOADING_DELAY_TH NULL
 #define OPTION_VAL_10_VITA3K_FILE_LOADING_DELAY_TH NULL
-#define OPTION_VAL_15_TH NULL
+#define OPTION_VAL_15_VITA3K_FILE_LOADING_DELAY_TH NULL
 #define OPTION_VAL_20_VITA3K_FILE_LOADING_DELAY_TH NULL
 #define OPTION_VAL_25_TH NULL
 #define OPTION_VAL_30_VITA3K_FILE_LOADING_DELAY_TH NULL
@@ -15904,6 +28750,10 @@ struct retro_core_option_v2_category option_cats_th[] = {
     { "system", CATEGORY_SYSTEM_LABEL_TH, CATEGORY_SYSTEM_INFO_0_TH },
     { "audio", CATEGORY_AUDIO_LABEL_TH, CATEGORY_AUDIO_INFO_0_TH },
     { "network", CATEGORY_NETWORK_LABEL_TH, CATEGORY_NETWORK_INFO_0_TH },
+    { "install", CATEGORY_INSTALL_LABEL_TH, CATEGORY_INSTALL_INFO_0_TH },
+    { "camera", CATEGORY_CAMERA_LABEL_TH, CATEGORY_CAMERA_INFO_0_TH },
+    { "accounts", CATEGORY_ACCOUNTS_LABEL_TH, CATEGORY_ACCOUNTS_INFO_0_TH },
+    { "modules", CATEGORY_MODULES_LABEL_TH, CATEGORY_MODULES_INFO_0_TH },
     { NULL, NULL, NULL },
 };
 struct retro_core_option_v2_definition option_defs_th[] = {
@@ -16067,9 +28917,10 @@ struct retro_core_option_v2_definition option_defs_th[] = {
         NULL,
         VITA3K_PKG_MODE_INFO_0_TH,
         NULL,
-        "system",
+        "install",
         {
             { "run", OPTION_VAL_RUN_TH },
+            { "cache", OPTION_VAL_CACHE_TH },
             { "install", OPTION_VAL_INSTALL_TH },
             { NULL, NULL },
         },
@@ -16132,6 +28983,67 @@ struct retro_core_option_v2_definition option_defs_th[] = {
         },
         "1"
     },
+    {
+        "vita3k_sys_lang",
+        VITA3K_SYS_LANG_LABEL_TH,
+        NULL,
+        VITA3K_SYS_LANG_INFO_0_TH,
+        NULL,
+        "system",
+        {
+            { "0", OPTION_VAL_0_VITA3K_SYS_LANG_TH },
+            { "1", OPTION_VAL_1_VITA3K_SYS_LANG_TH },
+            { "2", OPTION_VAL_2_VITA3K_SYS_LANG_TH },
+            { "3", OPTION_VAL_3_VITA3K_SYS_LANG_TH },
+            { "4", OPTION_VAL_4_VITA3K_SYS_LANG_TH },
+            { "5", OPTION_VAL_5_TH },
+            { "6", OPTION_VAL_6_TH },
+            { "7", OPTION_VAL_7_TH },
+            { "8", OPTION_VAL_8_VITA3K_SYS_LANG_TH },
+            { "9", OPTION_VAL_9_TH },
+            { "10", OPTION_VAL_10_TH },
+            { "11", OPTION_VAL_11_TH },
+            { "12", OPTION_VAL_12_TH },
+            { "13", OPTION_VAL_13_TH },
+            { "14", OPTION_VAL_14_TH },
+            { "15", OPTION_VAL_15_TH },
+            { "16", OPTION_VAL_16_VITA3K_SYS_LANG_TH },
+            { "17", OPTION_VAL_17_TH },
+            { "18", OPTION_VAL_18_TH },
+            { "19", OPTION_VAL_19_TH },
+            { NULL, NULL },
+        },
+        "1"
+    },
+    {
+        "vita3k_sys_date_format",
+        VITA3K_SYS_DATE_FORMAT_LABEL_TH,
+        NULL,
+        VITA3K_SYS_DATE_FORMAT_INFO_0_TH,
+        NULL,
+        "system",
+        {
+            { "0", OPTION_VAL_0_VITA3K_SYS_DATE_FORMAT_TH },
+            { "1", OPTION_VAL_1_VITA3K_SYS_DATE_FORMAT_TH },
+            { "2", OPTION_VAL_2_VITA3K_SYS_DATE_FORMAT_TH },
+            { NULL, NULL },
+        },
+        "2"
+    },
+    {
+        "vita3k_sys_time_format",
+        VITA3K_SYS_TIME_FORMAT_LABEL_TH,
+        NULL,
+        VITA3K_SYS_TIME_FORMAT_INFO_0_TH,
+        NULL,
+        "system",
+        {
+            { "0", OPTION_VAL_0_VITA3K_SYS_TIME_FORMAT_TH },
+            { "1", OPTION_VAL_1_VITA3K_SYS_TIME_FORMAT_TH },
+            { NULL, NULL },
+        },
+        "0"
+    },
     // ── Audio ────────────────────────────────────────────────────────────
     {
         "vita3k_audio_volume",
@@ -16142,7 +29054,7 @@ struct retro_core_option_v2_definition option_defs_th[] = {
         "audio",
         {
             { "0", OPTION_VAL_0_VITA3K_AUDIO_VOLUME_TH },
-            { "10", OPTION_VAL_10_TH },
+            { "10", OPTION_VAL_10_VITA3K_AUDIO_VOLUME_TH },
             { "20", OPTION_VAL_20_TH },
             { "30", OPTION_VAL_30_TH },
             { "40", OPTION_VAL_40_TH },
@@ -16186,6 +29098,204 @@ struct retro_core_option_v2_definition option_defs_th[] = {
         "disabled"
     },
     {
+        "vita3k_http_enable",
+        VITA3K_HTTP_ENABLE_LABEL_TH,
+        NULL,
+        VITA3K_HTTP_ENABLE_INFO_0_TH,
+        NULL,
+        "network",
+        {
+            { "enabled", NULL },
+            { "disabled", NULL },
+            { NULL, NULL },
+        },
+        "enabled"
+    },
+    {
+        "vita3k_http_timeout_attempts",
+        VITA3K_HTTP_TIMEOUT_ATTEMPTS_LABEL_TH,
+        NULL,
+        VITA3K_HTTP_TIMEOUT_ATTEMPTS_INFO_0_TH,
+        NULL,
+        "network",
+        {
+            { "0", NULL },
+            { "5", NULL },
+            { "10", NULL },
+            { "15", NULL },
+            { "20", NULL },
+            { "25", NULL },
+            { "30", NULL },
+            { "35", NULL },
+            { "40", NULL },
+            { "45", NULL },
+            { "50", NULL },
+            { "55", NULL },
+            { "60", NULL },
+            { "65", NULL },
+            { "70", NULL },
+            { "75", NULL },
+            { "80", NULL },
+            { "85", NULL },
+            { "90", NULL },
+            { "95", NULL },
+            { "100", NULL },
+            { NULL, NULL },
+        },
+        "50"
+    },
+    {
+        "vita3k_http_timeout_sleep",
+        VITA3K_HTTP_TIMEOUT_SLEEP_LABEL_TH,
+        NULL,
+        VITA3K_HTTP_TIMEOUT_SLEEP_INFO_0_TH,
+        NULL,
+        "network",
+        {
+            { "50", OPTION_VAL_50_VITA3K_HTTP_TIMEOUT_SLEEP_TH },
+            { "100", OPTION_VAL_100_VITA3K_HTTP_TIMEOUT_SLEEP_TH },
+            { "150", OPTION_VAL_150_TH },
+            { "200", OPTION_VAL_200_TH },
+            { "250", OPTION_VAL_250_TH },
+            { "300", OPTION_VAL_300_TH },
+            { "400", OPTION_VAL_400_TH },
+            { "500", OPTION_VAL_500_TH },
+            { "750", OPTION_VAL_750_TH },
+            { "1000", OPTION_VAL_1000_TH },
+            { "1500", OPTION_VAL_1500_TH },
+            { "2000", OPTION_VAL_2000_TH },
+            { "2500", OPTION_VAL_2500_TH },
+            { "3000", OPTION_VAL_3000_TH },
+            { NULL, NULL },
+        },
+        "100"
+    },
+    {
+        "vita3k_http_read_end_attempts",
+        VITA3K_HTTP_READ_END_ATTEMPTS_LABEL_TH,
+        NULL,
+        VITA3K_HTTP_READ_END_ATTEMPTS_INFO_0_TH,
+        NULL,
+        "network",
+        {
+            { "0", NULL },
+            { "5", NULL },
+            { "10", NULL },
+            { "15", NULL },
+            { "20", NULL },
+            { "25", NULL },
+            { "30", NULL },
+            { "35", NULL },
+            { "40", NULL },
+            { "45", NULL },
+            { "50", NULL },
+            { "55", NULL },
+            { "60", NULL },
+            { "65", NULL },
+            { "70", NULL },
+            { "75", NULL },
+            { "80", NULL },
+            { "85", NULL },
+            { "90", NULL },
+            { "95", NULL },
+            { "100", NULL },
+            { NULL, NULL },
+        },
+        "10"
+    },
+    {
+        "vita3k_http_read_end_sleep",
+        VITA3K_HTTP_READ_END_SLEEP_LABEL_TH,
+        NULL,
+        VITA3K_HTTP_READ_END_SLEEP_INFO_0_TH,
+        NULL,
+        "network",
+        {
+            { "50", OPTION_VAL_50_VITA3K_HTTP_TIMEOUT_SLEEP_TH },
+            { "100", OPTION_VAL_100_VITA3K_HTTP_TIMEOUT_SLEEP_TH },
+            { "150", OPTION_VAL_150_TH },
+            { "200", OPTION_VAL_200_TH },
+            { "250", OPTION_VAL_250_TH },
+            { "300", OPTION_VAL_300_TH },
+            { "400", OPTION_VAL_400_TH },
+            { "500", OPTION_VAL_500_TH },
+            { "750", OPTION_VAL_750_TH },
+            { "1000", OPTION_VAL_1000_TH },
+            { "1500", OPTION_VAL_1500_TH },
+            { "2000", OPTION_VAL_2000_TH },
+            { "2500", OPTION_VAL_2500_TH },
+            { "3000", OPTION_VAL_3000_TH },
+            { NULL, NULL },
+        },
+        "250"
+    },
+    {
+        "vita3k_front_camera",
+        VITA3K_FRONT_CAMERA_LABEL_TH,
+        NULL,
+        VITA3K_FRONT_CAMERA_INFO_0_TH,
+        NULL,
+        "camera",
+        {
+            { "host", OPTION_VAL_HOST_TH },
+            { "image", OPTION_VAL_IMAGE_TH },
+            { "color", OPTION_VAL_COLOR_TH },
+            { NULL, NULL },
+        },
+        "host"
+    },
+    {
+        "vita3k_front_camera_color",
+        VITA3K_FRONT_CAMERA_COLOR_LABEL_TH,
+        NULL,
+        VITA3K_FRONT_CAMERA_COLOR_INFO_0_TH,
+        NULL,
+        "camera",
+        {
+            { "0", OPTION_VAL_0_VITA3K_FRONT_CAMERA_COLOR_TH },
+            { "16777215", OPTION_VAL_16777215_TH },
+            { "8421504", OPTION_VAL_8421504_TH },
+            { "255", OPTION_VAL_255_TH },
+            { "65280", OPTION_VAL_65280_TH },
+            { "16711680", OPTION_VAL_16711680_TH },
+            { NULL, NULL },
+        },
+        "0"
+    },
+    {
+        "vita3k_back_camera",
+        VITA3K_BACK_CAMERA_LABEL_TH,
+        NULL,
+        VITA3K_BACK_CAMERA_INFO_0_TH,
+        NULL,
+        "camera",
+        {
+            { "host", OPTION_VAL_HOST_TH },
+            { "image", OPTION_VAL_IMAGE_TH },
+            { "color", OPTION_VAL_COLOR_TH },
+            { NULL, NULL },
+        },
+        "host"
+    },
+    {
+        "vita3k_back_camera_color",
+        VITA3K_BACK_CAMERA_COLOR_LABEL_TH,
+        NULL,
+        VITA3K_BACK_CAMERA_COLOR_INFO_0_TH,
+        NULL,
+        "camera",
+        {
+            { "0", OPTION_VAL_0_VITA3K_FRONT_CAMERA_COLOR_TH },
+            { "16777215", OPTION_VAL_16777215_TH },
+            { "8421504", OPTION_VAL_8421504_TH },
+            { "255", OPTION_VAL_255_TH },
+            { "65280", OPTION_VAL_65280_TH },
+            { "16711680", OPTION_VAL_16711680_TH },
+            { NULL, NULL },
+        },
+        "0"
+    },
+    {
         "vita3k_surface_sync",
         VITA3K_SURFACE_SYNC_LABEL_TH,
         NULL,
@@ -16208,9 +29318,9 @@ struct retro_core_option_v2_definition option_defs_th[] = {
         "system",
         {
             { "0", OPTION_VAL_0_VITA3K_FILE_LOADING_DELAY_TH },
-            { "5", OPTION_VAL_5_TH },
+            { "5", OPTION_VAL_5_VITA3K_FILE_LOADING_DELAY_TH },
             { "10", OPTION_VAL_10_VITA3K_FILE_LOADING_DELAY_TH },
-            { "15", OPTION_VAL_15_TH },
+            { "15", OPTION_VAL_15_VITA3K_FILE_LOADING_DELAY_TH },
             { "20", OPTION_VAL_20_VITA3K_FILE_LOADING_DELAY_TH },
             { "25", OPTION_VAL_25_TH },
             { "30", OPTION_VAL_30_VITA3K_FILE_LOADING_DELAY_TH },
@@ -16237,6 +29347,14 @@ struct retro_core_options_v2 options_th = {
 #define CATEGORY_AUDIO_INFO_0_TR NULL
 #define CATEGORY_NETWORK_LABEL_TR "Ağ"
 #define CATEGORY_NETWORK_INFO_0_TR NULL
+#define CATEGORY_INSTALL_LABEL_TR "İçerik"
+#define CATEGORY_INSTALL_INFO_0_TR NULL
+#define CATEGORY_CAMERA_LABEL_TR "Kamera"
+#define CATEGORY_CAMERA_INFO_0_TR NULL
+#define CATEGORY_ACCOUNTS_LABEL_TR "Hesaplar"
+#define CATEGORY_ACCOUNTS_INFO_0_TR NULL
+#define CATEGORY_MODULES_LABEL_TR NULL
+#define CATEGORY_MODULES_INFO_0_TR NULL
 #define VITA3K_BACKEND_RENDERER_LABEL_TR NULL
 #define VITA3K_BACKEND_RENDERER_INFO_0_TR NULL
 #define OPTION_VAL_VULKAN_TR NULL
@@ -16279,6 +29397,7 @@ struct retro_core_options_v2 options_th = {
 #define VITA3K_PKG_MODE_LABEL_TR NULL
 #define VITA3K_PKG_MODE_INFO_0_TR NULL
 #define OPTION_VAL_RUN_TR NULL
+#define OPTION_VAL_CACHE_TR NULL
 #define OPTION_VAL_INSTALL_TR NULL
 #define VITA3K_PSTV_MODE_LABEL_TR NULL
 #define VITA3K_PSTV_MODE_INFO_0_TR NULL
@@ -16293,10 +29412,41 @@ struct retro_core_options_v2 options_th = {
 #define VITA3K_SYS_BUTTON_INFO_0_TR NULL
 #define OPTION_VAL_0_VITA3K_SYS_BUTTON_TR NULL
 #define OPTION_VAL_1_VITA3K_SYS_BUTTON_TR "Çarpı"
+#define VITA3K_SYS_LANG_LABEL_TR NULL
+#define VITA3K_SYS_LANG_INFO_0_TR NULL
+#define OPTION_VAL_0_VITA3K_SYS_LANG_TR "Japonca"
+#define OPTION_VAL_1_VITA3K_SYS_LANG_TR NULL
+#define OPTION_VAL_2_VITA3K_SYS_LANG_TR "Fransızca"
+#define OPTION_VAL_3_VITA3K_SYS_LANG_TR "İspanyolca"
+#define OPTION_VAL_4_VITA3K_SYS_LANG_TR "Almanca"
+#define OPTION_VAL_5_TR "İtalyanca"
+#define OPTION_VAL_6_TR NULL
+#define OPTION_VAL_7_TR NULL
+#define OPTION_VAL_8_VITA3K_SYS_LANG_TR NULL
+#define OPTION_VAL_9_TR NULL
+#define OPTION_VAL_10_TR NULL
+#define OPTION_VAL_11_TR NULL
+#define OPTION_VAL_12_TR NULL
+#define OPTION_VAL_13_TR NULL
+#define OPTION_VAL_14_TR NULL
+#define OPTION_VAL_15_TR NULL
+#define OPTION_VAL_16_VITA3K_SYS_LANG_TR NULL
+#define OPTION_VAL_17_TR NULL
+#define OPTION_VAL_18_TR NULL
+#define OPTION_VAL_19_TR NULL
+#define VITA3K_SYS_DATE_FORMAT_LABEL_TR NULL
+#define VITA3K_SYS_DATE_FORMAT_INFO_0_TR NULL
+#define OPTION_VAL_0_VITA3K_SYS_DATE_FORMAT_TR NULL
+#define OPTION_VAL_1_VITA3K_SYS_DATE_FORMAT_TR NULL
+#define OPTION_VAL_2_VITA3K_SYS_DATE_FORMAT_TR NULL
+#define VITA3K_SYS_TIME_FORMAT_LABEL_TR NULL
+#define VITA3K_SYS_TIME_FORMAT_INFO_0_TR NULL
+#define OPTION_VAL_0_VITA3K_SYS_TIME_FORMAT_TR NULL
+#define OPTION_VAL_1_VITA3K_SYS_TIME_FORMAT_TR NULL
 #define VITA3K_AUDIO_VOLUME_LABEL_TR NULL
 #define VITA3K_AUDIO_VOLUME_INFO_0_TR NULL
 #define OPTION_VAL_0_VITA3K_AUDIO_VOLUME_TR NULL
-#define OPTION_VAL_10_TR NULL
+#define OPTION_VAL_10_VITA3K_AUDIO_VOLUME_TR NULL
 #define OPTION_VAL_20_TR "%20"
 #define OPTION_VAL_30_TR "%30"
 #define OPTION_VAL_40_TR "%40"
@@ -16310,6 +29460,47 @@ struct retro_core_options_v2 options_th = {
 #define VITA3K_NGS_ENABLE_INFO_0_TR NULL
 #define VITA3K_PSN_SIGNED_IN_LABEL_TR NULL
 #define VITA3K_PSN_SIGNED_IN_INFO_0_TR NULL
+#define VITA3K_HTTP_ENABLE_LABEL_TR NULL
+#define VITA3K_HTTP_ENABLE_INFO_0_TR NULL
+#define VITA3K_HTTP_TIMEOUT_ATTEMPTS_LABEL_TR NULL
+#define VITA3K_HTTP_TIMEOUT_ATTEMPTS_INFO_0_TR NULL
+#define VITA3K_HTTP_TIMEOUT_SLEEP_LABEL_TR NULL
+#define VITA3K_HTTP_TIMEOUT_SLEEP_INFO_0_TR NULL
+#define OPTION_VAL_50_VITA3K_HTTP_TIMEOUT_SLEEP_TR NULL
+#define OPTION_VAL_100_VITA3K_HTTP_TIMEOUT_SLEEP_TR NULL
+#define OPTION_VAL_150_TR NULL
+#define OPTION_VAL_200_TR NULL
+#define OPTION_VAL_250_TR NULL
+#define OPTION_VAL_300_TR NULL
+#define OPTION_VAL_400_TR NULL
+#define OPTION_VAL_500_TR NULL
+#define OPTION_VAL_750_TR NULL
+#define OPTION_VAL_1000_TR NULL
+#define OPTION_VAL_1500_TR NULL
+#define OPTION_VAL_2000_TR NULL
+#define OPTION_VAL_2500_TR NULL
+#define OPTION_VAL_3000_TR NULL
+#define VITA3K_HTTP_READ_END_ATTEMPTS_LABEL_TR NULL
+#define VITA3K_HTTP_READ_END_ATTEMPTS_INFO_0_TR NULL
+#define VITA3K_HTTP_READ_END_SLEEP_LABEL_TR NULL
+#define VITA3K_HTTP_READ_END_SLEEP_INFO_0_TR NULL
+#define VITA3K_FRONT_CAMERA_LABEL_TR NULL
+#define VITA3K_FRONT_CAMERA_INFO_0_TR NULL
+#define OPTION_VAL_HOST_TR NULL
+#define OPTION_VAL_IMAGE_TR NULL
+#define OPTION_VAL_COLOR_TR NULL
+#define VITA3K_FRONT_CAMERA_COLOR_LABEL_TR NULL
+#define VITA3K_FRONT_CAMERA_COLOR_INFO_0_TR NULL
+#define OPTION_VAL_0_VITA3K_FRONT_CAMERA_COLOR_TR "Siyah"
+#define OPTION_VAL_16777215_TR "Beyaz"
+#define OPTION_VAL_8421504_TR "Boz"
+#define OPTION_VAL_255_TR "Kırmızı"
+#define OPTION_VAL_65280_TR "Yeşil"
+#define OPTION_VAL_16711680_TR "Mavi"
+#define VITA3K_BACK_CAMERA_LABEL_TR NULL
+#define VITA3K_BACK_CAMERA_INFO_0_TR NULL
+#define VITA3K_BACK_CAMERA_COLOR_LABEL_TR NULL
+#define VITA3K_BACK_CAMERA_COLOR_INFO_0_TR NULL
 #define VITA3K_SURFACE_SYNC_LABEL_TR NULL
 #define VITA3K_SURFACE_SYNC_INFO_0_TR NULL
 #define OPTION_VAL_ENABLED_TR NULL
@@ -16317,9 +29508,9 @@ struct retro_core_options_v2 options_th = {
 #define VITA3K_FILE_LOADING_DELAY_LABEL_TR NULL
 #define VITA3K_FILE_LOADING_DELAY_INFO_0_TR NULL
 #define OPTION_VAL_0_VITA3K_FILE_LOADING_DELAY_TR NULL
-#define OPTION_VAL_5_TR NULL
+#define OPTION_VAL_5_VITA3K_FILE_LOADING_DELAY_TR NULL
 #define OPTION_VAL_10_VITA3K_FILE_LOADING_DELAY_TR NULL
-#define OPTION_VAL_15_TR NULL
+#define OPTION_VAL_15_VITA3K_FILE_LOADING_DELAY_TR NULL
 #define OPTION_VAL_20_VITA3K_FILE_LOADING_DELAY_TR NULL
 #define OPTION_VAL_25_TR NULL
 #define OPTION_VAL_30_VITA3K_FILE_LOADING_DELAY_TR NULL
@@ -16330,6 +29521,10 @@ struct retro_core_option_v2_category option_cats_tr[] = {
     { "system", CATEGORY_SYSTEM_LABEL_TR, CATEGORY_SYSTEM_INFO_0_TR },
     { "audio", CATEGORY_AUDIO_LABEL_TR, CATEGORY_AUDIO_INFO_0_TR },
     { "network", CATEGORY_NETWORK_LABEL_TR, CATEGORY_NETWORK_INFO_0_TR },
+    { "install", CATEGORY_INSTALL_LABEL_TR, CATEGORY_INSTALL_INFO_0_TR },
+    { "camera", CATEGORY_CAMERA_LABEL_TR, CATEGORY_CAMERA_INFO_0_TR },
+    { "accounts", CATEGORY_ACCOUNTS_LABEL_TR, CATEGORY_ACCOUNTS_INFO_0_TR },
+    { "modules", CATEGORY_MODULES_LABEL_TR, CATEGORY_MODULES_INFO_0_TR },
     { NULL, NULL, NULL },
 };
 struct retro_core_option_v2_definition option_defs_tr[] = {
@@ -16493,9 +29688,10 @@ struct retro_core_option_v2_definition option_defs_tr[] = {
         NULL,
         VITA3K_PKG_MODE_INFO_0_TR,
         NULL,
-        "system",
+        "install",
         {
             { "run", OPTION_VAL_RUN_TR },
+            { "cache", OPTION_VAL_CACHE_TR },
             { "install", OPTION_VAL_INSTALL_TR },
             { NULL, NULL },
         },
@@ -16558,6 +29754,67 @@ struct retro_core_option_v2_definition option_defs_tr[] = {
         },
         "1"
     },
+    {
+        "vita3k_sys_lang",
+        VITA3K_SYS_LANG_LABEL_TR,
+        NULL,
+        VITA3K_SYS_LANG_INFO_0_TR,
+        NULL,
+        "system",
+        {
+            { "0", OPTION_VAL_0_VITA3K_SYS_LANG_TR },
+            { "1", OPTION_VAL_1_VITA3K_SYS_LANG_TR },
+            { "2", OPTION_VAL_2_VITA3K_SYS_LANG_TR },
+            { "3", OPTION_VAL_3_VITA3K_SYS_LANG_TR },
+            { "4", OPTION_VAL_4_VITA3K_SYS_LANG_TR },
+            { "5", OPTION_VAL_5_TR },
+            { "6", OPTION_VAL_6_TR },
+            { "7", OPTION_VAL_7_TR },
+            { "8", OPTION_VAL_8_VITA3K_SYS_LANG_TR },
+            { "9", OPTION_VAL_9_TR },
+            { "10", OPTION_VAL_10_TR },
+            { "11", OPTION_VAL_11_TR },
+            { "12", OPTION_VAL_12_TR },
+            { "13", OPTION_VAL_13_TR },
+            { "14", OPTION_VAL_14_TR },
+            { "15", OPTION_VAL_15_TR },
+            { "16", OPTION_VAL_16_VITA3K_SYS_LANG_TR },
+            { "17", OPTION_VAL_17_TR },
+            { "18", OPTION_VAL_18_TR },
+            { "19", OPTION_VAL_19_TR },
+            { NULL, NULL },
+        },
+        "1"
+    },
+    {
+        "vita3k_sys_date_format",
+        VITA3K_SYS_DATE_FORMAT_LABEL_TR,
+        NULL,
+        VITA3K_SYS_DATE_FORMAT_INFO_0_TR,
+        NULL,
+        "system",
+        {
+            { "0", OPTION_VAL_0_VITA3K_SYS_DATE_FORMAT_TR },
+            { "1", OPTION_VAL_1_VITA3K_SYS_DATE_FORMAT_TR },
+            { "2", OPTION_VAL_2_VITA3K_SYS_DATE_FORMAT_TR },
+            { NULL, NULL },
+        },
+        "2"
+    },
+    {
+        "vita3k_sys_time_format",
+        VITA3K_SYS_TIME_FORMAT_LABEL_TR,
+        NULL,
+        VITA3K_SYS_TIME_FORMAT_INFO_0_TR,
+        NULL,
+        "system",
+        {
+            { "0", OPTION_VAL_0_VITA3K_SYS_TIME_FORMAT_TR },
+            { "1", OPTION_VAL_1_VITA3K_SYS_TIME_FORMAT_TR },
+            { NULL, NULL },
+        },
+        "0"
+    },
     // ── Audio ────────────────────────────────────────────────────────────
     {
         "vita3k_audio_volume",
@@ -16568,7 +29825,7 @@ struct retro_core_option_v2_definition option_defs_tr[] = {
         "audio",
         {
             { "0", OPTION_VAL_0_VITA3K_AUDIO_VOLUME_TR },
-            { "10", OPTION_VAL_10_TR },
+            { "10", OPTION_VAL_10_VITA3K_AUDIO_VOLUME_TR },
             { "20", OPTION_VAL_20_TR },
             { "30", OPTION_VAL_30_TR },
             { "40", OPTION_VAL_40_TR },
@@ -16612,6 +29869,204 @@ struct retro_core_option_v2_definition option_defs_tr[] = {
         "disabled"
     },
     {
+        "vita3k_http_enable",
+        VITA3K_HTTP_ENABLE_LABEL_TR,
+        NULL,
+        VITA3K_HTTP_ENABLE_INFO_0_TR,
+        NULL,
+        "network",
+        {
+            { "enabled", NULL },
+            { "disabled", NULL },
+            { NULL, NULL },
+        },
+        "enabled"
+    },
+    {
+        "vita3k_http_timeout_attempts",
+        VITA3K_HTTP_TIMEOUT_ATTEMPTS_LABEL_TR,
+        NULL,
+        VITA3K_HTTP_TIMEOUT_ATTEMPTS_INFO_0_TR,
+        NULL,
+        "network",
+        {
+            { "0", NULL },
+            { "5", NULL },
+            { "10", NULL },
+            { "15", NULL },
+            { "20", NULL },
+            { "25", NULL },
+            { "30", NULL },
+            { "35", NULL },
+            { "40", NULL },
+            { "45", NULL },
+            { "50", NULL },
+            { "55", NULL },
+            { "60", NULL },
+            { "65", NULL },
+            { "70", NULL },
+            { "75", NULL },
+            { "80", NULL },
+            { "85", NULL },
+            { "90", NULL },
+            { "95", NULL },
+            { "100", NULL },
+            { NULL, NULL },
+        },
+        "50"
+    },
+    {
+        "vita3k_http_timeout_sleep",
+        VITA3K_HTTP_TIMEOUT_SLEEP_LABEL_TR,
+        NULL,
+        VITA3K_HTTP_TIMEOUT_SLEEP_INFO_0_TR,
+        NULL,
+        "network",
+        {
+            { "50", OPTION_VAL_50_VITA3K_HTTP_TIMEOUT_SLEEP_TR },
+            { "100", OPTION_VAL_100_VITA3K_HTTP_TIMEOUT_SLEEP_TR },
+            { "150", OPTION_VAL_150_TR },
+            { "200", OPTION_VAL_200_TR },
+            { "250", OPTION_VAL_250_TR },
+            { "300", OPTION_VAL_300_TR },
+            { "400", OPTION_VAL_400_TR },
+            { "500", OPTION_VAL_500_TR },
+            { "750", OPTION_VAL_750_TR },
+            { "1000", OPTION_VAL_1000_TR },
+            { "1500", OPTION_VAL_1500_TR },
+            { "2000", OPTION_VAL_2000_TR },
+            { "2500", OPTION_VAL_2500_TR },
+            { "3000", OPTION_VAL_3000_TR },
+            { NULL, NULL },
+        },
+        "100"
+    },
+    {
+        "vita3k_http_read_end_attempts",
+        VITA3K_HTTP_READ_END_ATTEMPTS_LABEL_TR,
+        NULL,
+        VITA3K_HTTP_READ_END_ATTEMPTS_INFO_0_TR,
+        NULL,
+        "network",
+        {
+            { "0", NULL },
+            { "5", NULL },
+            { "10", NULL },
+            { "15", NULL },
+            { "20", NULL },
+            { "25", NULL },
+            { "30", NULL },
+            { "35", NULL },
+            { "40", NULL },
+            { "45", NULL },
+            { "50", NULL },
+            { "55", NULL },
+            { "60", NULL },
+            { "65", NULL },
+            { "70", NULL },
+            { "75", NULL },
+            { "80", NULL },
+            { "85", NULL },
+            { "90", NULL },
+            { "95", NULL },
+            { "100", NULL },
+            { NULL, NULL },
+        },
+        "10"
+    },
+    {
+        "vita3k_http_read_end_sleep",
+        VITA3K_HTTP_READ_END_SLEEP_LABEL_TR,
+        NULL,
+        VITA3K_HTTP_READ_END_SLEEP_INFO_0_TR,
+        NULL,
+        "network",
+        {
+            { "50", OPTION_VAL_50_VITA3K_HTTP_TIMEOUT_SLEEP_TR },
+            { "100", OPTION_VAL_100_VITA3K_HTTP_TIMEOUT_SLEEP_TR },
+            { "150", OPTION_VAL_150_TR },
+            { "200", OPTION_VAL_200_TR },
+            { "250", OPTION_VAL_250_TR },
+            { "300", OPTION_VAL_300_TR },
+            { "400", OPTION_VAL_400_TR },
+            { "500", OPTION_VAL_500_TR },
+            { "750", OPTION_VAL_750_TR },
+            { "1000", OPTION_VAL_1000_TR },
+            { "1500", OPTION_VAL_1500_TR },
+            { "2000", OPTION_VAL_2000_TR },
+            { "2500", OPTION_VAL_2500_TR },
+            { "3000", OPTION_VAL_3000_TR },
+            { NULL, NULL },
+        },
+        "250"
+    },
+    {
+        "vita3k_front_camera",
+        VITA3K_FRONT_CAMERA_LABEL_TR,
+        NULL,
+        VITA3K_FRONT_CAMERA_INFO_0_TR,
+        NULL,
+        "camera",
+        {
+            { "host", OPTION_VAL_HOST_TR },
+            { "image", OPTION_VAL_IMAGE_TR },
+            { "color", OPTION_VAL_COLOR_TR },
+            { NULL, NULL },
+        },
+        "host"
+    },
+    {
+        "vita3k_front_camera_color",
+        VITA3K_FRONT_CAMERA_COLOR_LABEL_TR,
+        NULL,
+        VITA3K_FRONT_CAMERA_COLOR_INFO_0_TR,
+        NULL,
+        "camera",
+        {
+            { "0", OPTION_VAL_0_VITA3K_FRONT_CAMERA_COLOR_TR },
+            { "16777215", OPTION_VAL_16777215_TR },
+            { "8421504", OPTION_VAL_8421504_TR },
+            { "255", OPTION_VAL_255_TR },
+            { "65280", OPTION_VAL_65280_TR },
+            { "16711680", OPTION_VAL_16711680_TR },
+            { NULL, NULL },
+        },
+        "0"
+    },
+    {
+        "vita3k_back_camera",
+        VITA3K_BACK_CAMERA_LABEL_TR,
+        NULL,
+        VITA3K_BACK_CAMERA_INFO_0_TR,
+        NULL,
+        "camera",
+        {
+            { "host", OPTION_VAL_HOST_TR },
+            { "image", OPTION_VAL_IMAGE_TR },
+            { "color", OPTION_VAL_COLOR_TR },
+            { NULL, NULL },
+        },
+        "host"
+    },
+    {
+        "vita3k_back_camera_color",
+        VITA3K_BACK_CAMERA_COLOR_LABEL_TR,
+        NULL,
+        VITA3K_BACK_CAMERA_COLOR_INFO_0_TR,
+        NULL,
+        "camera",
+        {
+            { "0", OPTION_VAL_0_VITA3K_FRONT_CAMERA_COLOR_TR },
+            { "16777215", OPTION_VAL_16777215_TR },
+            { "8421504", OPTION_VAL_8421504_TR },
+            { "255", OPTION_VAL_255_TR },
+            { "65280", OPTION_VAL_65280_TR },
+            { "16711680", OPTION_VAL_16711680_TR },
+            { NULL, NULL },
+        },
+        "0"
+    },
+    {
         "vita3k_surface_sync",
         VITA3K_SURFACE_SYNC_LABEL_TR,
         NULL,
@@ -16634,9 +30089,9 @@ struct retro_core_option_v2_definition option_defs_tr[] = {
         "system",
         {
             { "0", OPTION_VAL_0_VITA3K_FILE_LOADING_DELAY_TR },
-            { "5", OPTION_VAL_5_TR },
+            { "5", OPTION_VAL_5_VITA3K_FILE_LOADING_DELAY_TR },
             { "10", OPTION_VAL_10_VITA3K_FILE_LOADING_DELAY_TR },
-            { "15", OPTION_VAL_15_TR },
+            { "15", OPTION_VAL_15_VITA3K_FILE_LOADING_DELAY_TR },
             { "20", OPTION_VAL_20_VITA3K_FILE_LOADING_DELAY_TR },
             { "25", OPTION_VAL_25_TR },
             { "30", OPTION_VAL_30_VITA3K_FILE_LOADING_DELAY_TR },
@@ -16663,6 +30118,14 @@ struct retro_core_options_v2 options_tr = {
 #define CATEGORY_AUDIO_INFO_0_TT NULL
 #define CATEGORY_NETWORK_LABEL_TT NULL
 #define CATEGORY_NETWORK_INFO_0_TT NULL
+#define CATEGORY_INSTALL_LABEL_TT NULL
+#define CATEGORY_INSTALL_INFO_0_TT NULL
+#define CATEGORY_CAMERA_LABEL_TT "Камера"
+#define CATEGORY_CAMERA_INFO_0_TT NULL
+#define CATEGORY_ACCOUNTS_LABEL_TT NULL
+#define CATEGORY_ACCOUNTS_INFO_0_TT NULL
+#define CATEGORY_MODULES_LABEL_TT NULL
+#define CATEGORY_MODULES_INFO_0_TT NULL
 #define VITA3K_BACKEND_RENDERER_LABEL_TT NULL
 #define VITA3K_BACKEND_RENDERER_INFO_0_TT NULL
 #define OPTION_VAL_VULKAN_TT NULL
@@ -16705,6 +30168,7 @@ struct retro_core_options_v2 options_tr = {
 #define VITA3K_PKG_MODE_LABEL_TT NULL
 #define VITA3K_PKG_MODE_INFO_0_TT NULL
 #define OPTION_VAL_RUN_TT NULL
+#define OPTION_VAL_CACHE_TT NULL
 #define OPTION_VAL_INSTALL_TT NULL
 #define VITA3K_PSTV_MODE_LABEL_TT NULL
 #define VITA3K_PSTV_MODE_INFO_0_TT NULL
@@ -16719,10 +30183,41 @@ struct retro_core_options_v2 options_tr = {
 #define VITA3K_SYS_BUTTON_INFO_0_TT NULL
 #define OPTION_VAL_0_VITA3K_SYS_BUTTON_TT NULL
 #define OPTION_VAL_1_VITA3K_SYS_BUTTON_TT NULL
+#define VITA3K_SYS_LANG_LABEL_TT NULL
+#define VITA3K_SYS_LANG_INFO_0_TT NULL
+#define OPTION_VAL_0_VITA3K_SYS_LANG_TT "Япоча"
+#define OPTION_VAL_1_VITA3K_SYS_LANG_TT NULL
+#define OPTION_VAL_2_VITA3K_SYS_LANG_TT "Французча"
+#define OPTION_VAL_3_VITA3K_SYS_LANG_TT "Испанча"
+#define OPTION_VAL_4_VITA3K_SYS_LANG_TT "Алманча"
+#define OPTION_VAL_5_TT "Итальянча"
+#define OPTION_VAL_6_TT NULL
+#define OPTION_VAL_7_TT NULL
+#define OPTION_VAL_8_VITA3K_SYS_LANG_TT NULL
+#define OPTION_VAL_9_TT NULL
+#define OPTION_VAL_10_TT NULL
+#define OPTION_VAL_11_TT NULL
+#define OPTION_VAL_12_TT NULL
+#define OPTION_VAL_13_TT NULL
+#define OPTION_VAL_14_TT NULL
+#define OPTION_VAL_15_TT NULL
+#define OPTION_VAL_16_VITA3K_SYS_LANG_TT NULL
+#define OPTION_VAL_17_TT NULL
+#define OPTION_VAL_18_TT NULL
+#define OPTION_VAL_19_TT NULL
+#define VITA3K_SYS_DATE_FORMAT_LABEL_TT NULL
+#define VITA3K_SYS_DATE_FORMAT_INFO_0_TT NULL
+#define OPTION_VAL_0_VITA3K_SYS_DATE_FORMAT_TT NULL
+#define OPTION_VAL_1_VITA3K_SYS_DATE_FORMAT_TT NULL
+#define OPTION_VAL_2_VITA3K_SYS_DATE_FORMAT_TT NULL
+#define VITA3K_SYS_TIME_FORMAT_LABEL_TT NULL
+#define VITA3K_SYS_TIME_FORMAT_INFO_0_TT NULL
+#define OPTION_VAL_0_VITA3K_SYS_TIME_FORMAT_TT NULL
+#define OPTION_VAL_1_VITA3K_SYS_TIME_FORMAT_TT NULL
 #define VITA3K_AUDIO_VOLUME_LABEL_TT NULL
 #define VITA3K_AUDIO_VOLUME_INFO_0_TT NULL
 #define OPTION_VAL_0_VITA3K_AUDIO_VOLUME_TT NULL
-#define OPTION_VAL_10_TT NULL
+#define OPTION_VAL_10_VITA3K_AUDIO_VOLUME_TT NULL
 #define OPTION_VAL_20_TT NULL
 #define OPTION_VAL_30_TT NULL
 #define OPTION_VAL_40_TT NULL
@@ -16736,6 +30231,47 @@ struct retro_core_options_v2 options_tr = {
 #define VITA3K_NGS_ENABLE_INFO_0_TT NULL
 #define VITA3K_PSN_SIGNED_IN_LABEL_TT NULL
 #define VITA3K_PSN_SIGNED_IN_INFO_0_TT NULL
+#define VITA3K_HTTP_ENABLE_LABEL_TT NULL
+#define VITA3K_HTTP_ENABLE_INFO_0_TT NULL
+#define VITA3K_HTTP_TIMEOUT_ATTEMPTS_LABEL_TT NULL
+#define VITA3K_HTTP_TIMEOUT_ATTEMPTS_INFO_0_TT NULL
+#define VITA3K_HTTP_TIMEOUT_SLEEP_LABEL_TT NULL
+#define VITA3K_HTTP_TIMEOUT_SLEEP_INFO_0_TT NULL
+#define OPTION_VAL_50_VITA3K_HTTP_TIMEOUT_SLEEP_TT NULL
+#define OPTION_VAL_100_VITA3K_HTTP_TIMEOUT_SLEEP_TT NULL
+#define OPTION_VAL_150_TT NULL
+#define OPTION_VAL_200_TT NULL
+#define OPTION_VAL_250_TT NULL
+#define OPTION_VAL_300_TT NULL
+#define OPTION_VAL_400_TT NULL
+#define OPTION_VAL_500_TT NULL
+#define OPTION_VAL_750_TT NULL
+#define OPTION_VAL_1000_TT NULL
+#define OPTION_VAL_1500_TT NULL
+#define OPTION_VAL_2000_TT NULL
+#define OPTION_VAL_2500_TT NULL
+#define OPTION_VAL_3000_TT NULL
+#define VITA3K_HTTP_READ_END_ATTEMPTS_LABEL_TT NULL
+#define VITA3K_HTTP_READ_END_ATTEMPTS_INFO_0_TT NULL
+#define VITA3K_HTTP_READ_END_SLEEP_LABEL_TT NULL
+#define VITA3K_HTTP_READ_END_SLEEP_INFO_0_TT NULL
+#define VITA3K_FRONT_CAMERA_LABEL_TT NULL
+#define VITA3K_FRONT_CAMERA_INFO_0_TT NULL
+#define OPTION_VAL_HOST_TT NULL
+#define OPTION_VAL_IMAGE_TT NULL
+#define OPTION_VAL_COLOR_TT NULL
+#define VITA3K_FRONT_CAMERA_COLOR_LABEL_TT NULL
+#define VITA3K_FRONT_CAMERA_COLOR_INFO_0_TT NULL
+#define OPTION_VAL_0_VITA3K_FRONT_CAMERA_COLOR_TT "Кара"
+#define OPTION_VAL_16777215_TT "Ак"
+#define OPTION_VAL_8421504_TT NULL
+#define OPTION_VAL_255_TT "Кызыл"
+#define OPTION_VAL_65280_TT NULL
+#define OPTION_VAL_16711680_TT NULL
+#define VITA3K_BACK_CAMERA_LABEL_TT NULL
+#define VITA3K_BACK_CAMERA_INFO_0_TT NULL
+#define VITA3K_BACK_CAMERA_COLOR_LABEL_TT NULL
+#define VITA3K_BACK_CAMERA_COLOR_INFO_0_TT NULL
 #define VITA3K_SURFACE_SYNC_LABEL_TT NULL
 #define VITA3K_SURFACE_SYNC_INFO_0_TT NULL
 #define OPTION_VAL_ENABLED_TT NULL
@@ -16743,9 +30279,9 @@ struct retro_core_options_v2 options_tr = {
 #define VITA3K_FILE_LOADING_DELAY_LABEL_TT NULL
 #define VITA3K_FILE_LOADING_DELAY_INFO_0_TT NULL
 #define OPTION_VAL_0_VITA3K_FILE_LOADING_DELAY_TT NULL
-#define OPTION_VAL_5_TT NULL
+#define OPTION_VAL_5_VITA3K_FILE_LOADING_DELAY_TT NULL
 #define OPTION_VAL_10_VITA3K_FILE_LOADING_DELAY_TT NULL
-#define OPTION_VAL_15_TT NULL
+#define OPTION_VAL_15_VITA3K_FILE_LOADING_DELAY_TT NULL
 #define OPTION_VAL_20_VITA3K_FILE_LOADING_DELAY_TT NULL
 #define OPTION_VAL_25_TT NULL
 #define OPTION_VAL_30_VITA3K_FILE_LOADING_DELAY_TT NULL
@@ -16756,6 +30292,10 @@ struct retro_core_option_v2_category option_cats_tt[] = {
     { "system", CATEGORY_SYSTEM_LABEL_TT, CATEGORY_SYSTEM_INFO_0_TT },
     { "audio", CATEGORY_AUDIO_LABEL_TT, CATEGORY_AUDIO_INFO_0_TT },
     { "network", CATEGORY_NETWORK_LABEL_TT, CATEGORY_NETWORK_INFO_0_TT },
+    { "install", CATEGORY_INSTALL_LABEL_TT, CATEGORY_INSTALL_INFO_0_TT },
+    { "camera", CATEGORY_CAMERA_LABEL_TT, CATEGORY_CAMERA_INFO_0_TT },
+    { "accounts", CATEGORY_ACCOUNTS_LABEL_TT, CATEGORY_ACCOUNTS_INFO_0_TT },
+    { "modules", CATEGORY_MODULES_LABEL_TT, CATEGORY_MODULES_INFO_0_TT },
     { NULL, NULL, NULL },
 };
 struct retro_core_option_v2_definition option_defs_tt[] = {
@@ -16919,9 +30459,10 @@ struct retro_core_option_v2_definition option_defs_tt[] = {
         NULL,
         VITA3K_PKG_MODE_INFO_0_TT,
         NULL,
-        "system",
+        "install",
         {
             { "run", OPTION_VAL_RUN_TT },
+            { "cache", OPTION_VAL_CACHE_TT },
             { "install", OPTION_VAL_INSTALL_TT },
             { NULL, NULL },
         },
@@ -16984,6 +30525,67 @@ struct retro_core_option_v2_definition option_defs_tt[] = {
         },
         "1"
     },
+    {
+        "vita3k_sys_lang",
+        VITA3K_SYS_LANG_LABEL_TT,
+        NULL,
+        VITA3K_SYS_LANG_INFO_0_TT,
+        NULL,
+        "system",
+        {
+            { "0", OPTION_VAL_0_VITA3K_SYS_LANG_TT },
+            { "1", OPTION_VAL_1_VITA3K_SYS_LANG_TT },
+            { "2", OPTION_VAL_2_VITA3K_SYS_LANG_TT },
+            { "3", OPTION_VAL_3_VITA3K_SYS_LANG_TT },
+            { "4", OPTION_VAL_4_VITA3K_SYS_LANG_TT },
+            { "5", OPTION_VAL_5_TT },
+            { "6", OPTION_VAL_6_TT },
+            { "7", OPTION_VAL_7_TT },
+            { "8", OPTION_VAL_8_VITA3K_SYS_LANG_TT },
+            { "9", OPTION_VAL_9_TT },
+            { "10", OPTION_VAL_10_TT },
+            { "11", OPTION_VAL_11_TT },
+            { "12", OPTION_VAL_12_TT },
+            { "13", OPTION_VAL_13_TT },
+            { "14", OPTION_VAL_14_TT },
+            { "15", OPTION_VAL_15_TT },
+            { "16", OPTION_VAL_16_VITA3K_SYS_LANG_TT },
+            { "17", OPTION_VAL_17_TT },
+            { "18", OPTION_VAL_18_TT },
+            { "19", OPTION_VAL_19_TT },
+            { NULL, NULL },
+        },
+        "1"
+    },
+    {
+        "vita3k_sys_date_format",
+        VITA3K_SYS_DATE_FORMAT_LABEL_TT,
+        NULL,
+        VITA3K_SYS_DATE_FORMAT_INFO_0_TT,
+        NULL,
+        "system",
+        {
+            { "0", OPTION_VAL_0_VITA3K_SYS_DATE_FORMAT_TT },
+            { "1", OPTION_VAL_1_VITA3K_SYS_DATE_FORMAT_TT },
+            { "2", OPTION_VAL_2_VITA3K_SYS_DATE_FORMAT_TT },
+            { NULL, NULL },
+        },
+        "2"
+    },
+    {
+        "vita3k_sys_time_format",
+        VITA3K_SYS_TIME_FORMAT_LABEL_TT,
+        NULL,
+        VITA3K_SYS_TIME_FORMAT_INFO_0_TT,
+        NULL,
+        "system",
+        {
+            { "0", OPTION_VAL_0_VITA3K_SYS_TIME_FORMAT_TT },
+            { "1", OPTION_VAL_1_VITA3K_SYS_TIME_FORMAT_TT },
+            { NULL, NULL },
+        },
+        "0"
+    },
     // ── Audio ────────────────────────────────────────────────────────────
     {
         "vita3k_audio_volume",
@@ -16994,7 +30596,7 @@ struct retro_core_option_v2_definition option_defs_tt[] = {
         "audio",
         {
             { "0", OPTION_VAL_0_VITA3K_AUDIO_VOLUME_TT },
-            { "10", OPTION_VAL_10_TT },
+            { "10", OPTION_VAL_10_VITA3K_AUDIO_VOLUME_TT },
             { "20", OPTION_VAL_20_TT },
             { "30", OPTION_VAL_30_TT },
             { "40", OPTION_VAL_40_TT },
@@ -17038,6 +30640,204 @@ struct retro_core_option_v2_definition option_defs_tt[] = {
         "disabled"
     },
     {
+        "vita3k_http_enable",
+        VITA3K_HTTP_ENABLE_LABEL_TT,
+        NULL,
+        VITA3K_HTTP_ENABLE_INFO_0_TT,
+        NULL,
+        "network",
+        {
+            { "enabled", NULL },
+            { "disabled", NULL },
+            { NULL, NULL },
+        },
+        "enabled"
+    },
+    {
+        "vita3k_http_timeout_attempts",
+        VITA3K_HTTP_TIMEOUT_ATTEMPTS_LABEL_TT,
+        NULL,
+        VITA3K_HTTP_TIMEOUT_ATTEMPTS_INFO_0_TT,
+        NULL,
+        "network",
+        {
+            { "0", NULL },
+            { "5", NULL },
+            { "10", NULL },
+            { "15", NULL },
+            { "20", NULL },
+            { "25", NULL },
+            { "30", NULL },
+            { "35", NULL },
+            { "40", NULL },
+            { "45", NULL },
+            { "50", NULL },
+            { "55", NULL },
+            { "60", NULL },
+            { "65", NULL },
+            { "70", NULL },
+            { "75", NULL },
+            { "80", NULL },
+            { "85", NULL },
+            { "90", NULL },
+            { "95", NULL },
+            { "100", NULL },
+            { NULL, NULL },
+        },
+        "50"
+    },
+    {
+        "vita3k_http_timeout_sleep",
+        VITA3K_HTTP_TIMEOUT_SLEEP_LABEL_TT,
+        NULL,
+        VITA3K_HTTP_TIMEOUT_SLEEP_INFO_0_TT,
+        NULL,
+        "network",
+        {
+            { "50", OPTION_VAL_50_VITA3K_HTTP_TIMEOUT_SLEEP_TT },
+            { "100", OPTION_VAL_100_VITA3K_HTTP_TIMEOUT_SLEEP_TT },
+            { "150", OPTION_VAL_150_TT },
+            { "200", OPTION_VAL_200_TT },
+            { "250", OPTION_VAL_250_TT },
+            { "300", OPTION_VAL_300_TT },
+            { "400", OPTION_VAL_400_TT },
+            { "500", OPTION_VAL_500_TT },
+            { "750", OPTION_VAL_750_TT },
+            { "1000", OPTION_VAL_1000_TT },
+            { "1500", OPTION_VAL_1500_TT },
+            { "2000", OPTION_VAL_2000_TT },
+            { "2500", OPTION_VAL_2500_TT },
+            { "3000", OPTION_VAL_3000_TT },
+            { NULL, NULL },
+        },
+        "100"
+    },
+    {
+        "vita3k_http_read_end_attempts",
+        VITA3K_HTTP_READ_END_ATTEMPTS_LABEL_TT,
+        NULL,
+        VITA3K_HTTP_READ_END_ATTEMPTS_INFO_0_TT,
+        NULL,
+        "network",
+        {
+            { "0", NULL },
+            { "5", NULL },
+            { "10", NULL },
+            { "15", NULL },
+            { "20", NULL },
+            { "25", NULL },
+            { "30", NULL },
+            { "35", NULL },
+            { "40", NULL },
+            { "45", NULL },
+            { "50", NULL },
+            { "55", NULL },
+            { "60", NULL },
+            { "65", NULL },
+            { "70", NULL },
+            { "75", NULL },
+            { "80", NULL },
+            { "85", NULL },
+            { "90", NULL },
+            { "95", NULL },
+            { "100", NULL },
+            { NULL, NULL },
+        },
+        "10"
+    },
+    {
+        "vita3k_http_read_end_sleep",
+        VITA3K_HTTP_READ_END_SLEEP_LABEL_TT,
+        NULL,
+        VITA3K_HTTP_READ_END_SLEEP_INFO_0_TT,
+        NULL,
+        "network",
+        {
+            { "50", OPTION_VAL_50_VITA3K_HTTP_TIMEOUT_SLEEP_TT },
+            { "100", OPTION_VAL_100_VITA3K_HTTP_TIMEOUT_SLEEP_TT },
+            { "150", OPTION_VAL_150_TT },
+            { "200", OPTION_VAL_200_TT },
+            { "250", OPTION_VAL_250_TT },
+            { "300", OPTION_VAL_300_TT },
+            { "400", OPTION_VAL_400_TT },
+            { "500", OPTION_VAL_500_TT },
+            { "750", OPTION_VAL_750_TT },
+            { "1000", OPTION_VAL_1000_TT },
+            { "1500", OPTION_VAL_1500_TT },
+            { "2000", OPTION_VAL_2000_TT },
+            { "2500", OPTION_VAL_2500_TT },
+            { "3000", OPTION_VAL_3000_TT },
+            { NULL, NULL },
+        },
+        "250"
+    },
+    {
+        "vita3k_front_camera",
+        VITA3K_FRONT_CAMERA_LABEL_TT,
+        NULL,
+        VITA3K_FRONT_CAMERA_INFO_0_TT,
+        NULL,
+        "camera",
+        {
+            { "host", OPTION_VAL_HOST_TT },
+            { "image", OPTION_VAL_IMAGE_TT },
+            { "color", OPTION_VAL_COLOR_TT },
+            { NULL, NULL },
+        },
+        "host"
+    },
+    {
+        "vita3k_front_camera_color",
+        VITA3K_FRONT_CAMERA_COLOR_LABEL_TT,
+        NULL,
+        VITA3K_FRONT_CAMERA_COLOR_INFO_0_TT,
+        NULL,
+        "camera",
+        {
+            { "0", OPTION_VAL_0_VITA3K_FRONT_CAMERA_COLOR_TT },
+            { "16777215", OPTION_VAL_16777215_TT },
+            { "8421504", OPTION_VAL_8421504_TT },
+            { "255", OPTION_VAL_255_TT },
+            { "65280", OPTION_VAL_65280_TT },
+            { "16711680", OPTION_VAL_16711680_TT },
+            { NULL, NULL },
+        },
+        "0"
+    },
+    {
+        "vita3k_back_camera",
+        VITA3K_BACK_CAMERA_LABEL_TT,
+        NULL,
+        VITA3K_BACK_CAMERA_INFO_0_TT,
+        NULL,
+        "camera",
+        {
+            { "host", OPTION_VAL_HOST_TT },
+            { "image", OPTION_VAL_IMAGE_TT },
+            { "color", OPTION_VAL_COLOR_TT },
+            { NULL, NULL },
+        },
+        "host"
+    },
+    {
+        "vita3k_back_camera_color",
+        VITA3K_BACK_CAMERA_COLOR_LABEL_TT,
+        NULL,
+        VITA3K_BACK_CAMERA_COLOR_INFO_0_TT,
+        NULL,
+        "camera",
+        {
+            { "0", OPTION_VAL_0_VITA3K_FRONT_CAMERA_COLOR_TT },
+            { "16777215", OPTION_VAL_16777215_TT },
+            { "8421504", OPTION_VAL_8421504_TT },
+            { "255", OPTION_VAL_255_TT },
+            { "65280", OPTION_VAL_65280_TT },
+            { "16711680", OPTION_VAL_16711680_TT },
+            { NULL, NULL },
+        },
+        "0"
+    },
+    {
         "vita3k_surface_sync",
         VITA3K_SURFACE_SYNC_LABEL_TT,
         NULL,
@@ -17060,9 +30860,9 @@ struct retro_core_option_v2_definition option_defs_tt[] = {
         "system",
         {
             { "0", OPTION_VAL_0_VITA3K_FILE_LOADING_DELAY_TT },
-            { "5", OPTION_VAL_5_TT },
+            { "5", OPTION_VAL_5_VITA3K_FILE_LOADING_DELAY_TT },
             { "10", OPTION_VAL_10_VITA3K_FILE_LOADING_DELAY_TT },
-            { "15", OPTION_VAL_15_TT },
+            { "15", OPTION_VAL_15_VITA3K_FILE_LOADING_DELAY_TT },
             { "20", OPTION_VAL_20_VITA3K_FILE_LOADING_DELAY_TT },
             { "25", OPTION_VAL_25_TT },
             { "30", OPTION_VAL_30_VITA3K_FILE_LOADING_DELAY_TT },
@@ -17089,6 +30889,14 @@ struct retro_core_options_v2 options_tt = {
 #define CATEGORY_AUDIO_INFO_0_UK NULL
 #define CATEGORY_NETWORK_LABEL_UK "Мережа"
 #define CATEGORY_NETWORK_INFO_0_UK NULL
+#define CATEGORY_INSTALL_LABEL_UK "Вміст"
+#define CATEGORY_INSTALL_INFO_0_UK NULL
+#define CATEGORY_CAMERA_LABEL_UK "Камера"
+#define CATEGORY_CAMERA_INFO_0_UK NULL
+#define CATEGORY_ACCOUNTS_LABEL_UK "Облікові записи"
+#define CATEGORY_ACCOUNTS_INFO_0_UK NULL
+#define CATEGORY_MODULES_LABEL_UK NULL
+#define CATEGORY_MODULES_INFO_0_UK NULL
 #define VITA3K_BACKEND_RENDERER_LABEL_UK NULL
 #define VITA3K_BACKEND_RENDERER_INFO_0_UK NULL
 #define OPTION_VAL_VULKAN_UK NULL
@@ -17131,6 +30939,7 @@ struct retro_core_options_v2 options_tt = {
 #define VITA3K_PKG_MODE_LABEL_UK NULL
 #define VITA3K_PKG_MODE_INFO_0_UK NULL
 #define OPTION_VAL_RUN_UK NULL
+#define OPTION_VAL_CACHE_UK NULL
 #define OPTION_VAL_INSTALL_UK NULL
 #define VITA3K_PSTV_MODE_LABEL_UK NULL
 #define VITA3K_PSTV_MODE_INFO_0_UK NULL
@@ -17145,10 +30954,41 @@ struct retro_core_options_v2 options_tt = {
 #define VITA3K_SYS_BUTTON_INFO_0_UK NULL
 #define OPTION_VAL_0_VITA3K_SYS_BUTTON_UK NULL
 #define OPTION_VAL_1_VITA3K_SYS_BUTTON_UK "Кросс"
+#define VITA3K_SYS_LANG_LABEL_UK NULL
+#define VITA3K_SYS_LANG_INFO_0_UK NULL
+#define OPTION_VAL_0_VITA3K_SYS_LANG_UK "Японська"
+#define OPTION_VAL_1_VITA3K_SYS_LANG_UK NULL
+#define OPTION_VAL_2_VITA3K_SYS_LANG_UK "Французька"
+#define OPTION_VAL_3_VITA3K_SYS_LANG_UK "Іспанська"
+#define OPTION_VAL_4_VITA3K_SYS_LANG_UK "Німецька"
+#define OPTION_VAL_5_UK "Італійська"
+#define OPTION_VAL_6_UK NULL
+#define OPTION_VAL_7_UK NULL
+#define OPTION_VAL_8_VITA3K_SYS_LANG_UK NULL
+#define OPTION_VAL_9_UK NULL
+#define OPTION_VAL_10_UK NULL
+#define OPTION_VAL_11_UK NULL
+#define OPTION_VAL_12_UK NULL
+#define OPTION_VAL_13_UK NULL
+#define OPTION_VAL_14_UK NULL
+#define OPTION_VAL_15_UK NULL
+#define OPTION_VAL_16_VITA3K_SYS_LANG_UK NULL
+#define OPTION_VAL_17_UK NULL
+#define OPTION_VAL_18_UK NULL
+#define OPTION_VAL_19_UK NULL
+#define VITA3K_SYS_DATE_FORMAT_LABEL_UK NULL
+#define VITA3K_SYS_DATE_FORMAT_INFO_0_UK NULL
+#define OPTION_VAL_0_VITA3K_SYS_DATE_FORMAT_UK NULL
+#define OPTION_VAL_1_VITA3K_SYS_DATE_FORMAT_UK NULL
+#define OPTION_VAL_2_VITA3K_SYS_DATE_FORMAT_UK NULL
+#define VITA3K_SYS_TIME_FORMAT_LABEL_UK NULL
+#define VITA3K_SYS_TIME_FORMAT_INFO_0_UK NULL
+#define OPTION_VAL_0_VITA3K_SYS_TIME_FORMAT_UK NULL
+#define OPTION_VAL_1_VITA3K_SYS_TIME_FORMAT_UK NULL
 #define VITA3K_AUDIO_VOLUME_LABEL_UK NULL
 #define VITA3K_AUDIO_VOLUME_INFO_0_UK NULL
 #define OPTION_VAL_0_VITA3K_AUDIO_VOLUME_UK NULL
-#define OPTION_VAL_10_UK NULL
+#define OPTION_VAL_10_VITA3K_AUDIO_VOLUME_UK NULL
 #define OPTION_VAL_20_UK NULL
 #define OPTION_VAL_30_UK NULL
 #define OPTION_VAL_40_UK NULL
@@ -17162,6 +31002,47 @@ struct retro_core_options_v2 options_tt = {
 #define VITA3K_NGS_ENABLE_INFO_0_UK NULL
 #define VITA3K_PSN_SIGNED_IN_LABEL_UK NULL
 #define VITA3K_PSN_SIGNED_IN_INFO_0_UK NULL
+#define VITA3K_HTTP_ENABLE_LABEL_UK NULL
+#define VITA3K_HTTP_ENABLE_INFO_0_UK NULL
+#define VITA3K_HTTP_TIMEOUT_ATTEMPTS_LABEL_UK NULL
+#define VITA3K_HTTP_TIMEOUT_ATTEMPTS_INFO_0_UK NULL
+#define VITA3K_HTTP_TIMEOUT_SLEEP_LABEL_UK NULL
+#define VITA3K_HTTP_TIMEOUT_SLEEP_INFO_0_UK NULL
+#define OPTION_VAL_50_VITA3K_HTTP_TIMEOUT_SLEEP_UK NULL
+#define OPTION_VAL_100_VITA3K_HTTP_TIMEOUT_SLEEP_UK NULL
+#define OPTION_VAL_150_UK NULL
+#define OPTION_VAL_200_UK NULL
+#define OPTION_VAL_250_UK NULL
+#define OPTION_VAL_300_UK NULL
+#define OPTION_VAL_400_UK NULL
+#define OPTION_VAL_500_UK NULL
+#define OPTION_VAL_750_UK NULL
+#define OPTION_VAL_1000_UK NULL
+#define OPTION_VAL_1500_UK NULL
+#define OPTION_VAL_2000_UK NULL
+#define OPTION_VAL_2500_UK NULL
+#define OPTION_VAL_3000_UK NULL
+#define VITA3K_HTTP_READ_END_ATTEMPTS_LABEL_UK NULL
+#define VITA3K_HTTP_READ_END_ATTEMPTS_INFO_0_UK NULL
+#define VITA3K_HTTP_READ_END_SLEEP_LABEL_UK NULL
+#define VITA3K_HTTP_READ_END_SLEEP_INFO_0_UK NULL
+#define VITA3K_FRONT_CAMERA_LABEL_UK NULL
+#define VITA3K_FRONT_CAMERA_INFO_0_UK NULL
+#define OPTION_VAL_HOST_UK NULL
+#define OPTION_VAL_IMAGE_UK NULL
+#define OPTION_VAL_COLOR_UK NULL
+#define VITA3K_FRONT_CAMERA_COLOR_LABEL_UK NULL
+#define VITA3K_FRONT_CAMERA_COLOR_INFO_0_UK NULL
+#define OPTION_VAL_0_VITA3K_FRONT_CAMERA_COLOR_UK "Чорний колір"
+#define OPTION_VAL_16777215_UK "Білі"
+#define OPTION_VAL_8421504_UK "Сірий"
+#define OPTION_VAL_255_UK "Червоний"
+#define OPTION_VAL_65280_UK "Зелений"
+#define OPTION_VAL_16711680_UK "Синій"
+#define VITA3K_BACK_CAMERA_LABEL_UK NULL
+#define VITA3K_BACK_CAMERA_INFO_0_UK NULL
+#define VITA3K_BACK_CAMERA_COLOR_LABEL_UK NULL
+#define VITA3K_BACK_CAMERA_COLOR_INFO_0_UK NULL
 #define VITA3K_SURFACE_SYNC_LABEL_UK NULL
 #define VITA3K_SURFACE_SYNC_INFO_0_UK NULL
 #define OPTION_VAL_ENABLED_UK NULL
@@ -17169,9 +31050,9 @@ struct retro_core_options_v2 options_tt = {
 #define VITA3K_FILE_LOADING_DELAY_LABEL_UK NULL
 #define VITA3K_FILE_LOADING_DELAY_INFO_0_UK NULL
 #define OPTION_VAL_0_VITA3K_FILE_LOADING_DELAY_UK NULL
-#define OPTION_VAL_5_UK NULL
+#define OPTION_VAL_5_VITA3K_FILE_LOADING_DELAY_UK NULL
 #define OPTION_VAL_10_VITA3K_FILE_LOADING_DELAY_UK NULL
-#define OPTION_VAL_15_UK NULL
+#define OPTION_VAL_15_VITA3K_FILE_LOADING_DELAY_UK NULL
 #define OPTION_VAL_20_VITA3K_FILE_LOADING_DELAY_UK NULL
 #define OPTION_VAL_25_UK NULL
 #define OPTION_VAL_30_VITA3K_FILE_LOADING_DELAY_UK NULL
@@ -17182,6 +31063,10 @@ struct retro_core_option_v2_category option_cats_uk[] = {
     { "system", CATEGORY_SYSTEM_LABEL_UK, CATEGORY_SYSTEM_INFO_0_UK },
     { "audio", CATEGORY_AUDIO_LABEL_UK, CATEGORY_AUDIO_INFO_0_UK },
     { "network", CATEGORY_NETWORK_LABEL_UK, CATEGORY_NETWORK_INFO_0_UK },
+    { "install", CATEGORY_INSTALL_LABEL_UK, CATEGORY_INSTALL_INFO_0_UK },
+    { "camera", CATEGORY_CAMERA_LABEL_UK, CATEGORY_CAMERA_INFO_0_UK },
+    { "accounts", CATEGORY_ACCOUNTS_LABEL_UK, CATEGORY_ACCOUNTS_INFO_0_UK },
+    { "modules", CATEGORY_MODULES_LABEL_UK, CATEGORY_MODULES_INFO_0_UK },
     { NULL, NULL, NULL },
 };
 struct retro_core_option_v2_definition option_defs_uk[] = {
@@ -17345,9 +31230,10 @@ struct retro_core_option_v2_definition option_defs_uk[] = {
         NULL,
         VITA3K_PKG_MODE_INFO_0_UK,
         NULL,
-        "system",
+        "install",
         {
             { "run", OPTION_VAL_RUN_UK },
+            { "cache", OPTION_VAL_CACHE_UK },
             { "install", OPTION_VAL_INSTALL_UK },
             { NULL, NULL },
         },
@@ -17410,6 +31296,67 @@ struct retro_core_option_v2_definition option_defs_uk[] = {
         },
         "1"
     },
+    {
+        "vita3k_sys_lang",
+        VITA3K_SYS_LANG_LABEL_UK,
+        NULL,
+        VITA3K_SYS_LANG_INFO_0_UK,
+        NULL,
+        "system",
+        {
+            { "0", OPTION_VAL_0_VITA3K_SYS_LANG_UK },
+            { "1", OPTION_VAL_1_VITA3K_SYS_LANG_UK },
+            { "2", OPTION_VAL_2_VITA3K_SYS_LANG_UK },
+            { "3", OPTION_VAL_3_VITA3K_SYS_LANG_UK },
+            { "4", OPTION_VAL_4_VITA3K_SYS_LANG_UK },
+            { "5", OPTION_VAL_5_UK },
+            { "6", OPTION_VAL_6_UK },
+            { "7", OPTION_VAL_7_UK },
+            { "8", OPTION_VAL_8_VITA3K_SYS_LANG_UK },
+            { "9", OPTION_VAL_9_UK },
+            { "10", OPTION_VAL_10_UK },
+            { "11", OPTION_VAL_11_UK },
+            { "12", OPTION_VAL_12_UK },
+            { "13", OPTION_VAL_13_UK },
+            { "14", OPTION_VAL_14_UK },
+            { "15", OPTION_VAL_15_UK },
+            { "16", OPTION_VAL_16_VITA3K_SYS_LANG_UK },
+            { "17", OPTION_VAL_17_UK },
+            { "18", OPTION_VAL_18_UK },
+            { "19", OPTION_VAL_19_UK },
+            { NULL, NULL },
+        },
+        "1"
+    },
+    {
+        "vita3k_sys_date_format",
+        VITA3K_SYS_DATE_FORMAT_LABEL_UK,
+        NULL,
+        VITA3K_SYS_DATE_FORMAT_INFO_0_UK,
+        NULL,
+        "system",
+        {
+            { "0", OPTION_VAL_0_VITA3K_SYS_DATE_FORMAT_UK },
+            { "1", OPTION_VAL_1_VITA3K_SYS_DATE_FORMAT_UK },
+            { "2", OPTION_VAL_2_VITA3K_SYS_DATE_FORMAT_UK },
+            { NULL, NULL },
+        },
+        "2"
+    },
+    {
+        "vita3k_sys_time_format",
+        VITA3K_SYS_TIME_FORMAT_LABEL_UK,
+        NULL,
+        VITA3K_SYS_TIME_FORMAT_INFO_0_UK,
+        NULL,
+        "system",
+        {
+            { "0", OPTION_VAL_0_VITA3K_SYS_TIME_FORMAT_UK },
+            { "1", OPTION_VAL_1_VITA3K_SYS_TIME_FORMAT_UK },
+            { NULL, NULL },
+        },
+        "0"
+    },
     // ── Audio ────────────────────────────────────────────────────────────
     {
         "vita3k_audio_volume",
@@ -17420,7 +31367,7 @@ struct retro_core_option_v2_definition option_defs_uk[] = {
         "audio",
         {
             { "0", OPTION_VAL_0_VITA3K_AUDIO_VOLUME_UK },
-            { "10", OPTION_VAL_10_UK },
+            { "10", OPTION_VAL_10_VITA3K_AUDIO_VOLUME_UK },
             { "20", OPTION_VAL_20_UK },
             { "30", OPTION_VAL_30_UK },
             { "40", OPTION_VAL_40_UK },
@@ -17464,6 +31411,204 @@ struct retro_core_option_v2_definition option_defs_uk[] = {
         "disabled"
     },
     {
+        "vita3k_http_enable",
+        VITA3K_HTTP_ENABLE_LABEL_UK,
+        NULL,
+        VITA3K_HTTP_ENABLE_INFO_0_UK,
+        NULL,
+        "network",
+        {
+            { "enabled", NULL },
+            { "disabled", NULL },
+            { NULL, NULL },
+        },
+        "enabled"
+    },
+    {
+        "vita3k_http_timeout_attempts",
+        VITA3K_HTTP_TIMEOUT_ATTEMPTS_LABEL_UK,
+        NULL,
+        VITA3K_HTTP_TIMEOUT_ATTEMPTS_INFO_0_UK,
+        NULL,
+        "network",
+        {
+            { "0", NULL },
+            { "5", NULL },
+            { "10", NULL },
+            { "15", NULL },
+            { "20", NULL },
+            { "25", NULL },
+            { "30", NULL },
+            { "35", NULL },
+            { "40", NULL },
+            { "45", NULL },
+            { "50", NULL },
+            { "55", NULL },
+            { "60", NULL },
+            { "65", NULL },
+            { "70", NULL },
+            { "75", NULL },
+            { "80", NULL },
+            { "85", NULL },
+            { "90", NULL },
+            { "95", NULL },
+            { "100", NULL },
+            { NULL, NULL },
+        },
+        "50"
+    },
+    {
+        "vita3k_http_timeout_sleep",
+        VITA3K_HTTP_TIMEOUT_SLEEP_LABEL_UK,
+        NULL,
+        VITA3K_HTTP_TIMEOUT_SLEEP_INFO_0_UK,
+        NULL,
+        "network",
+        {
+            { "50", OPTION_VAL_50_VITA3K_HTTP_TIMEOUT_SLEEP_UK },
+            { "100", OPTION_VAL_100_VITA3K_HTTP_TIMEOUT_SLEEP_UK },
+            { "150", OPTION_VAL_150_UK },
+            { "200", OPTION_VAL_200_UK },
+            { "250", OPTION_VAL_250_UK },
+            { "300", OPTION_VAL_300_UK },
+            { "400", OPTION_VAL_400_UK },
+            { "500", OPTION_VAL_500_UK },
+            { "750", OPTION_VAL_750_UK },
+            { "1000", OPTION_VAL_1000_UK },
+            { "1500", OPTION_VAL_1500_UK },
+            { "2000", OPTION_VAL_2000_UK },
+            { "2500", OPTION_VAL_2500_UK },
+            { "3000", OPTION_VAL_3000_UK },
+            { NULL, NULL },
+        },
+        "100"
+    },
+    {
+        "vita3k_http_read_end_attempts",
+        VITA3K_HTTP_READ_END_ATTEMPTS_LABEL_UK,
+        NULL,
+        VITA3K_HTTP_READ_END_ATTEMPTS_INFO_0_UK,
+        NULL,
+        "network",
+        {
+            { "0", NULL },
+            { "5", NULL },
+            { "10", NULL },
+            { "15", NULL },
+            { "20", NULL },
+            { "25", NULL },
+            { "30", NULL },
+            { "35", NULL },
+            { "40", NULL },
+            { "45", NULL },
+            { "50", NULL },
+            { "55", NULL },
+            { "60", NULL },
+            { "65", NULL },
+            { "70", NULL },
+            { "75", NULL },
+            { "80", NULL },
+            { "85", NULL },
+            { "90", NULL },
+            { "95", NULL },
+            { "100", NULL },
+            { NULL, NULL },
+        },
+        "10"
+    },
+    {
+        "vita3k_http_read_end_sleep",
+        VITA3K_HTTP_READ_END_SLEEP_LABEL_UK,
+        NULL,
+        VITA3K_HTTP_READ_END_SLEEP_INFO_0_UK,
+        NULL,
+        "network",
+        {
+            { "50", OPTION_VAL_50_VITA3K_HTTP_TIMEOUT_SLEEP_UK },
+            { "100", OPTION_VAL_100_VITA3K_HTTP_TIMEOUT_SLEEP_UK },
+            { "150", OPTION_VAL_150_UK },
+            { "200", OPTION_VAL_200_UK },
+            { "250", OPTION_VAL_250_UK },
+            { "300", OPTION_VAL_300_UK },
+            { "400", OPTION_VAL_400_UK },
+            { "500", OPTION_VAL_500_UK },
+            { "750", OPTION_VAL_750_UK },
+            { "1000", OPTION_VAL_1000_UK },
+            { "1500", OPTION_VAL_1500_UK },
+            { "2000", OPTION_VAL_2000_UK },
+            { "2500", OPTION_VAL_2500_UK },
+            { "3000", OPTION_VAL_3000_UK },
+            { NULL, NULL },
+        },
+        "250"
+    },
+    {
+        "vita3k_front_camera",
+        VITA3K_FRONT_CAMERA_LABEL_UK,
+        NULL,
+        VITA3K_FRONT_CAMERA_INFO_0_UK,
+        NULL,
+        "camera",
+        {
+            { "host", OPTION_VAL_HOST_UK },
+            { "image", OPTION_VAL_IMAGE_UK },
+            { "color", OPTION_VAL_COLOR_UK },
+            { NULL, NULL },
+        },
+        "host"
+    },
+    {
+        "vita3k_front_camera_color",
+        VITA3K_FRONT_CAMERA_COLOR_LABEL_UK,
+        NULL,
+        VITA3K_FRONT_CAMERA_COLOR_INFO_0_UK,
+        NULL,
+        "camera",
+        {
+            { "0", OPTION_VAL_0_VITA3K_FRONT_CAMERA_COLOR_UK },
+            { "16777215", OPTION_VAL_16777215_UK },
+            { "8421504", OPTION_VAL_8421504_UK },
+            { "255", OPTION_VAL_255_UK },
+            { "65280", OPTION_VAL_65280_UK },
+            { "16711680", OPTION_VAL_16711680_UK },
+            { NULL, NULL },
+        },
+        "0"
+    },
+    {
+        "vita3k_back_camera",
+        VITA3K_BACK_CAMERA_LABEL_UK,
+        NULL,
+        VITA3K_BACK_CAMERA_INFO_0_UK,
+        NULL,
+        "camera",
+        {
+            { "host", OPTION_VAL_HOST_UK },
+            { "image", OPTION_VAL_IMAGE_UK },
+            { "color", OPTION_VAL_COLOR_UK },
+            { NULL, NULL },
+        },
+        "host"
+    },
+    {
+        "vita3k_back_camera_color",
+        VITA3K_BACK_CAMERA_COLOR_LABEL_UK,
+        NULL,
+        VITA3K_BACK_CAMERA_COLOR_INFO_0_UK,
+        NULL,
+        "camera",
+        {
+            { "0", OPTION_VAL_0_VITA3K_FRONT_CAMERA_COLOR_UK },
+            { "16777215", OPTION_VAL_16777215_UK },
+            { "8421504", OPTION_VAL_8421504_UK },
+            { "255", OPTION_VAL_255_UK },
+            { "65280", OPTION_VAL_65280_UK },
+            { "16711680", OPTION_VAL_16711680_UK },
+            { NULL, NULL },
+        },
+        "0"
+    },
+    {
         "vita3k_surface_sync",
         VITA3K_SURFACE_SYNC_LABEL_UK,
         NULL,
@@ -17486,9 +31631,9 @@ struct retro_core_option_v2_definition option_defs_uk[] = {
         "system",
         {
             { "0", OPTION_VAL_0_VITA3K_FILE_LOADING_DELAY_UK },
-            { "5", OPTION_VAL_5_UK },
+            { "5", OPTION_VAL_5_VITA3K_FILE_LOADING_DELAY_UK },
             { "10", OPTION_VAL_10_VITA3K_FILE_LOADING_DELAY_UK },
-            { "15", OPTION_VAL_15_UK },
+            { "15", OPTION_VAL_15_VITA3K_FILE_LOADING_DELAY_UK },
             { "20", OPTION_VAL_20_VITA3K_FILE_LOADING_DELAY_UK },
             { "25", OPTION_VAL_25_UK },
             { "30", OPTION_VAL_30_VITA3K_FILE_LOADING_DELAY_UK },
@@ -17515,6 +31660,14 @@ struct retro_core_options_v2 options_uk = {
 #define CATEGORY_AUDIO_INFO_0_VAL NULL
 #define CATEGORY_NETWORK_LABEL_VAL "Xarxa"
 #define CATEGORY_NETWORK_INFO_0_VAL NULL
+#define CATEGORY_INSTALL_LABEL_VAL NULL
+#define CATEGORY_INSTALL_INFO_0_VAL NULL
+#define CATEGORY_CAMERA_LABEL_VAL "Càmera"
+#define CATEGORY_CAMERA_INFO_0_VAL NULL
+#define CATEGORY_ACCOUNTS_LABEL_VAL NULL
+#define CATEGORY_ACCOUNTS_INFO_0_VAL NULL
+#define CATEGORY_MODULES_LABEL_VAL NULL
+#define CATEGORY_MODULES_INFO_0_VAL NULL
 #define VITA3K_BACKEND_RENDERER_LABEL_VAL NULL
 #define VITA3K_BACKEND_RENDERER_INFO_0_VAL NULL
 #define OPTION_VAL_VULKAN_VAL NULL
@@ -17557,6 +31710,7 @@ struct retro_core_options_v2 options_uk = {
 #define VITA3K_PKG_MODE_LABEL_VAL NULL
 #define VITA3K_PKG_MODE_INFO_0_VAL NULL
 #define OPTION_VAL_RUN_VAL NULL
+#define OPTION_VAL_CACHE_VAL NULL
 #define OPTION_VAL_INSTALL_VAL NULL
 #define VITA3K_PSTV_MODE_LABEL_VAL NULL
 #define VITA3K_PSTV_MODE_INFO_0_VAL NULL
@@ -17571,10 +31725,41 @@ struct retro_core_options_v2 options_uk = {
 #define VITA3K_SYS_BUTTON_INFO_0_VAL NULL
 #define OPTION_VAL_0_VITA3K_SYS_BUTTON_VAL NULL
 #define OPTION_VAL_1_VITA3K_SYS_BUTTON_VAL NULL
+#define VITA3K_SYS_LANG_LABEL_VAL NULL
+#define VITA3K_SYS_LANG_INFO_0_VAL NULL
+#define OPTION_VAL_0_VITA3K_SYS_LANG_VAL NULL
+#define OPTION_VAL_1_VITA3K_SYS_LANG_VAL NULL
+#define OPTION_VAL_2_VITA3K_SYS_LANG_VAL NULL
+#define OPTION_VAL_3_VITA3K_SYS_LANG_VAL NULL
+#define OPTION_VAL_4_VITA3K_SYS_LANG_VAL NULL
+#define OPTION_VAL_5_VAL NULL
+#define OPTION_VAL_6_VAL NULL
+#define OPTION_VAL_7_VAL NULL
+#define OPTION_VAL_8_VITA3K_SYS_LANG_VAL NULL
+#define OPTION_VAL_9_VAL NULL
+#define OPTION_VAL_10_VAL NULL
+#define OPTION_VAL_11_VAL NULL
+#define OPTION_VAL_12_VAL NULL
+#define OPTION_VAL_13_VAL NULL
+#define OPTION_VAL_14_VAL NULL
+#define OPTION_VAL_15_VAL NULL
+#define OPTION_VAL_16_VITA3K_SYS_LANG_VAL NULL
+#define OPTION_VAL_17_VAL NULL
+#define OPTION_VAL_18_VAL NULL
+#define OPTION_VAL_19_VAL NULL
+#define VITA3K_SYS_DATE_FORMAT_LABEL_VAL NULL
+#define VITA3K_SYS_DATE_FORMAT_INFO_0_VAL NULL
+#define OPTION_VAL_0_VITA3K_SYS_DATE_FORMAT_VAL NULL
+#define OPTION_VAL_1_VITA3K_SYS_DATE_FORMAT_VAL NULL
+#define OPTION_VAL_2_VITA3K_SYS_DATE_FORMAT_VAL NULL
+#define VITA3K_SYS_TIME_FORMAT_LABEL_VAL NULL
+#define VITA3K_SYS_TIME_FORMAT_INFO_0_VAL NULL
+#define OPTION_VAL_0_VITA3K_SYS_TIME_FORMAT_VAL NULL
+#define OPTION_VAL_1_VITA3K_SYS_TIME_FORMAT_VAL NULL
 #define VITA3K_AUDIO_VOLUME_LABEL_VAL NULL
 #define VITA3K_AUDIO_VOLUME_INFO_0_VAL NULL
 #define OPTION_VAL_0_VITA3K_AUDIO_VOLUME_VAL NULL
-#define OPTION_VAL_10_VAL NULL
+#define OPTION_VAL_10_VITA3K_AUDIO_VOLUME_VAL NULL
 #define OPTION_VAL_20_VAL NULL
 #define OPTION_VAL_30_VAL NULL
 #define OPTION_VAL_40_VAL NULL
@@ -17588,6 +31773,47 @@ struct retro_core_options_v2 options_uk = {
 #define VITA3K_NGS_ENABLE_INFO_0_VAL NULL
 #define VITA3K_PSN_SIGNED_IN_LABEL_VAL NULL
 #define VITA3K_PSN_SIGNED_IN_INFO_0_VAL NULL
+#define VITA3K_HTTP_ENABLE_LABEL_VAL NULL
+#define VITA3K_HTTP_ENABLE_INFO_0_VAL NULL
+#define VITA3K_HTTP_TIMEOUT_ATTEMPTS_LABEL_VAL NULL
+#define VITA3K_HTTP_TIMEOUT_ATTEMPTS_INFO_0_VAL NULL
+#define VITA3K_HTTP_TIMEOUT_SLEEP_LABEL_VAL NULL
+#define VITA3K_HTTP_TIMEOUT_SLEEP_INFO_0_VAL NULL
+#define OPTION_VAL_50_VITA3K_HTTP_TIMEOUT_SLEEP_VAL NULL
+#define OPTION_VAL_100_VITA3K_HTTP_TIMEOUT_SLEEP_VAL NULL
+#define OPTION_VAL_150_VAL NULL
+#define OPTION_VAL_200_VAL NULL
+#define OPTION_VAL_250_VAL NULL
+#define OPTION_VAL_300_VAL NULL
+#define OPTION_VAL_400_VAL NULL
+#define OPTION_VAL_500_VAL NULL
+#define OPTION_VAL_750_VAL NULL
+#define OPTION_VAL_1000_VAL NULL
+#define OPTION_VAL_1500_VAL NULL
+#define OPTION_VAL_2000_VAL NULL
+#define OPTION_VAL_2500_VAL NULL
+#define OPTION_VAL_3000_VAL NULL
+#define VITA3K_HTTP_READ_END_ATTEMPTS_LABEL_VAL NULL
+#define VITA3K_HTTP_READ_END_ATTEMPTS_INFO_0_VAL NULL
+#define VITA3K_HTTP_READ_END_SLEEP_LABEL_VAL NULL
+#define VITA3K_HTTP_READ_END_SLEEP_INFO_0_VAL NULL
+#define VITA3K_FRONT_CAMERA_LABEL_VAL NULL
+#define VITA3K_FRONT_CAMERA_INFO_0_VAL NULL
+#define OPTION_VAL_HOST_VAL NULL
+#define OPTION_VAL_IMAGE_VAL NULL
+#define OPTION_VAL_COLOR_VAL NULL
+#define VITA3K_FRONT_CAMERA_COLOR_LABEL_VAL NULL
+#define VITA3K_FRONT_CAMERA_COLOR_INFO_0_VAL NULL
+#define OPTION_VAL_0_VITA3K_FRONT_CAMERA_COLOR_VAL NULL
+#define OPTION_VAL_16777215_VAL NULL
+#define OPTION_VAL_8421504_VAL NULL
+#define OPTION_VAL_255_VAL NULL
+#define OPTION_VAL_65280_VAL NULL
+#define OPTION_VAL_16711680_VAL NULL
+#define VITA3K_BACK_CAMERA_LABEL_VAL NULL
+#define VITA3K_BACK_CAMERA_INFO_0_VAL NULL
+#define VITA3K_BACK_CAMERA_COLOR_LABEL_VAL NULL
+#define VITA3K_BACK_CAMERA_COLOR_INFO_0_VAL NULL
 #define VITA3K_SURFACE_SYNC_LABEL_VAL NULL
 #define VITA3K_SURFACE_SYNC_INFO_0_VAL NULL
 #define OPTION_VAL_ENABLED_VAL NULL
@@ -17595,9 +31821,9 @@ struct retro_core_options_v2 options_uk = {
 #define VITA3K_FILE_LOADING_DELAY_LABEL_VAL NULL
 #define VITA3K_FILE_LOADING_DELAY_INFO_0_VAL NULL
 #define OPTION_VAL_0_VITA3K_FILE_LOADING_DELAY_VAL NULL
-#define OPTION_VAL_5_VAL NULL
+#define OPTION_VAL_5_VITA3K_FILE_LOADING_DELAY_VAL NULL
 #define OPTION_VAL_10_VITA3K_FILE_LOADING_DELAY_VAL NULL
-#define OPTION_VAL_15_VAL NULL
+#define OPTION_VAL_15_VITA3K_FILE_LOADING_DELAY_VAL NULL
 #define OPTION_VAL_20_VITA3K_FILE_LOADING_DELAY_VAL NULL
 #define OPTION_VAL_25_VAL NULL
 #define OPTION_VAL_30_VITA3K_FILE_LOADING_DELAY_VAL NULL
@@ -17608,6 +31834,10 @@ struct retro_core_option_v2_category option_cats_val[] = {
     { "system", CATEGORY_SYSTEM_LABEL_VAL, CATEGORY_SYSTEM_INFO_0_VAL },
     { "audio", CATEGORY_AUDIO_LABEL_VAL, CATEGORY_AUDIO_INFO_0_VAL },
     { "network", CATEGORY_NETWORK_LABEL_VAL, CATEGORY_NETWORK_INFO_0_VAL },
+    { "install", CATEGORY_INSTALL_LABEL_VAL, CATEGORY_INSTALL_INFO_0_VAL },
+    { "camera", CATEGORY_CAMERA_LABEL_VAL, CATEGORY_CAMERA_INFO_0_VAL },
+    { "accounts", CATEGORY_ACCOUNTS_LABEL_VAL, CATEGORY_ACCOUNTS_INFO_0_VAL },
+    { "modules", CATEGORY_MODULES_LABEL_VAL, CATEGORY_MODULES_INFO_0_VAL },
     { NULL, NULL, NULL },
 };
 struct retro_core_option_v2_definition option_defs_val[] = {
@@ -17771,9 +32001,10 @@ struct retro_core_option_v2_definition option_defs_val[] = {
         NULL,
         VITA3K_PKG_MODE_INFO_0_VAL,
         NULL,
-        "system",
+        "install",
         {
             { "run", OPTION_VAL_RUN_VAL },
+            { "cache", OPTION_VAL_CACHE_VAL },
             { "install", OPTION_VAL_INSTALL_VAL },
             { NULL, NULL },
         },
@@ -17836,6 +32067,67 @@ struct retro_core_option_v2_definition option_defs_val[] = {
         },
         "1"
     },
+    {
+        "vita3k_sys_lang",
+        VITA3K_SYS_LANG_LABEL_VAL,
+        NULL,
+        VITA3K_SYS_LANG_INFO_0_VAL,
+        NULL,
+        "system",
+        {
+            { "0", OPTION_VAL_0_VITA3K_SYS_LANG_VAL },
+            { "1", OPTION_VAL_1_VITA3K_SYS_LANG_VAL },
+            { "2", OPTION_VAL_2_VITA3K_SYS_LANG_VAL },
+            { "3", OPTION_VAL_3_VITA3K_SYS_LANG_VAL },
+            { "4", OPTION_VAL_4_VITA3K_SYS_LANG_VAL },
+            { "5", OPTION_VAL_5_VAL },
+            { "6", OPTION_VAL_6_VAL },
+            { "7", OPTION_VAL_7_VAL },
+            { "8", OPTION_VAL_8_VITA3K_SYS_LANG_VAL },
+            { "9", OPTION_VAL_9_VAL },
+            { "10", OPTION_VAL_10_VAL },
+            { "11", OPTION_VAL_11_VAL },
+            { "12", OPTION_VAL_12_VAL },
+            { "13", OPTION_VAL_13_VAL },
+            { "14", OPTION_VAL_14_VAL },
+            { "15", OPTION_VAL_15_VAL },
+            { "16", OPTION_VAL_16_VITA3K_SYS_LANG_VAL },
+            { "17", OPTION_VAL_17_VAL },
+            { "18", OPTION_VAL_18_VAL },
+            { "19", OPTION_VAL_19_VAL },
+            { NULL, NULL },
+        },
+        "1"
+    },
+    {
+        "vita3k_sys_date_format",
+        VITA3K_SYS_DATE_FORMAT_LABEL_VAL,
+        NULL,
+        VITA3K_SYS_DATE_FORMAT_INFO_0_VAL,
+        NULL,
+        "system",
+        {
+            { "0", OPTION_VAL_0_VITA3K_SYS_DATE_FORMAT_VAL },
+            { "1", OPTION_VAL_1_VITA3K_SYS_DATE_FORMAT_VAL },
+            { "2", OPTION_VAL_2_VITA3K_SYS_DATE_FORMAT_VAL },
+            { NULL, NULL },
+        },
+        "2"
+    },
+    {
+        "vita3k_sys_time_format",
+        VITA3K_SYS_TIME_FORMAT_LABEL_VAL,
+        NULL,
+        VITA3K_SYS_TIME_FORMAT_INFO_0_VAL,
+        NULL,
+        "system",
+        {
+            { "0", OPTION_VAL_0_VITA3K_SYS_TIME_FORMAT_VAL },
+            { "1", OPTION_VAL_1_VITA3K_SYS_TIME_FORMAT_VAL },
+            { NULL, NULL },
+        },
+        "0"
+    },
     // ── Audio ────────────────────────────────────────────────────────────
     {
         "vita3k_audio_volume",
@@ -17846,7 +32138,7 @@ struct retro_core_option_v2_definition option_defs_val[] = {
         "audio",
         {
             { "0", OPTION_VAL_0_VITA3K_AUDIO_VOLUME_VAL },
-            { "10", OPTION_VAL_10_VAL },
+            { "10", OPTION_VAL_10_VITA3K_AUDIO_VOLUME_VAL },
             { "20", OPTION_VAL_20_VAL },
             { "30", OPTION_VAL_30_VAL },
             { "40", OPTION_VAL_40_VAL },
@@ -17890,6 +32182,204 @@ struct retro_core_option_v2_definition option_defs_val[] = {
         "disabled"
     },
     {
+        "vita3k_http_enable",
+        VITA3K_HTTP_ENABLE_LABEL_VAL,
+        NULL,
+        VITA3K_HTTP_ENABLE_INFO_0_VAL,
+        NULL,
+        "network",
+        {
+            { "enabled", NULL },
+            { "disabled", NULL },
+            { NULL, NULL },
+        },
+        "enabled"
+    },
+    {
+        "vita3k_http_timeout_attempts",
+        VITA3K_HTTP_TIMEOUT_ATTEMPTS_LABEL_VAL,
+        NULL,
+        VITA3K_HTTP_TIMEOUT_ATTEMPTS_INFO_0_VAL,
+        NULL,
+        "network",
+        {
+            { "0", NULL },
+            { "5", NULL },
+            { "10", NULL },
+            { "15", NULL },
+            { "20", NULL },
+            { "25", NULL },
+            { "30", NULL },
+            { "35", NULL },
+            { "40", NULL },
+            { "45", NULL },
+            { "50", NULL },
+            { "55", NULL },
+            { "60", NULL },
+            { "65", NULL },
+            { "70", NULL },
+            { "75", NULL },
+            { "80", NULL },
+            { "85", NULL },
+            { "90", NULL },
+            { "95", NULL },
+            { "100", NULL },
+            { NULL, NULL },
+        },
+        "50"
+    },
+    {
+        "vita3k_http_timeout_sleep",
+        VITA3K_HTTP_TIMEOUT_SLEEP_LABEL_VAL,
+        NULL,
+        VITA3K_HTTP_TIMEOUT_SLEEP_INFO_0_VAL,
+        NULL,
+        "network",
+        {
+            { "50", OPTION_VAL_50_VITA3K_HTTP_TIMEOUT_SLEEP_VAL },
+            { "100", OPTION_VAL_100_VITA3K_HTTP_TIMEOUT_SLEEP_VAL },
+            { "150", OPTION_VAL_150_VAL },
+            { "200", OPTION_VAL_200_VAL },
+            { "250", OPTION_VAL_250_VAL },
+            { "300", OPTION_VAL_300_VAL },
+            { "400", OPTION_VAL_400_VAL },
+            { "500", OPTION_VAL_500_VAL },
+            { "750", OPTION_VAL_750_VAL },
+            { "1000", OPTION_VAL_1000_VAL },
+            { "1500", OPTION_VAL_1500_VAL },
+            { "2000", OPTION_VAL_2000_VAL },
+            { "2500", OPTION_VAL_2500_VAL },
+            { "3000", OPTION_VAL_3000_VAL },
+            { NULL, NULL },
+        },
+        "100"
+    },
+    {
+        "vita3k_http_read_end_attempts",
+        VITA3K_HTTP_READ_END_ATTEMPTS_LABEL_VAL,
+        NULL,
+        VITA3K_HTTP_READ_END_ATTEMPTS_INFO_0_VAL,
+        NULL,
+        "network",
+        {
+            { "0", NULL },
+            { "5", NULL },
+            { "10", NULL },
+            { "15", NULL },
+            { "20", NULL },
+            { "25", NULL },
+            { "30", NULL },
+            { "35", NULL },
+            { "40", NULL },
+            { "45", NULL },
+            { "50", NULL },
+            { "55", NULL },
+            { "60", NULL },
+            { "65", NULL },
+            { "70", NULL },
+            { "75", NULL },
+            { "80", NULL },
+            { "85", NULL },
+            { "90", NULL },
+            { "95", NULL },
+            { "100", NULL },
+            { NULL, NULL },
+        },
+        "10"
+    },
+    {
+        "vita3k_http_read_end_sleep",
+        VITA3K_HTTP_READ_END_SLEEP_LABEL_VAL,
+        NULL,
+        VITA3K_HTTP_READ_END_SLEEP_INFO_0_VAL,
+        NULL,
+        "network",
+        {
+            { "50", OPTION_VAL_50_VITA3K_HTTP_TIMEOUT_SLEEP_VAL },
+            { "100", OPTION_VAL_100_VITA3K_HTTP_TIMEOUT_SLEEP_VAL },
+            { "150", OPTION_VAL_150_VAL },
+            { "200", OPTION_VAL_200_VAL },
+            { "250", OPTION_VAL_250_VAL },
+            { "300", OPTION_VAL_300_VAL },
+            { "400", OPTION_VAL_400_VAL },
+            { "500", OPTION_VAL_500_VAL },
+            { "750", OPTION_VAL_750_VAL },
+            { "1000", OPTION_VAL_1000_VAL },
+            { "1500", OPTION_VAL_1500_VAL },
+            { "2000", OPTION_VAL_2000_VAL },
+            { "2500", OPTION_VAL_2500_VAL },
+            { "3000", OPTION_VAL_3000_VAL },
+            { NULL, NULL },
+        },
+        "250"
+    },
+    {
+        "vita3k_front_camera",
+        VITA3K_FRONT_CAMERA_LABEL_VAL,
+        NULL,
+        VITA3K_FRONT_CAMERA_INFO_0_VAL,
+        NULL,
+        "camera",
+        {
+            { "host", OPTION_VAL_HOST_VAL },
+            { "image", OPTION_VAL_IMAGE_VAL },
+            { "color", OPTION_VAL_COLOR_VAL },
+            { NULL, NULL },
+        },
+        "host"
+    },
+    {
+        "vita3k_front_camera_color",
+        VITA3K_FRONT_CAMERA_COLOR_LABEL_VAL,
+        NULL,
+        VITA3K_FRONT_CAMERA_COLOR_INFO_0_VAL,
+        NULL,
+        "camera",
+        {
+            { "0", OPTION_VAL_0_VITA3K_FRONT_CAMERA_COLOR_VAL },
+            { "16777215", OPTION_VAL_16777215_VAL },
+            { "8421504", OPTION_VAL_8421504_VAL },
+            { "255", OPTION_VAL_255_VAL },
+            { "65280", OPTION_VAL_65280_VAL },
+            { "16711680", OPTION_VAL_16711680_VAL },
+            { NULL, NULL },
+        },
+        "0"
+    },
+    {
+        "vita3k_back_camera",
+        VITA3K_BACK_CAMERA_LABEL_VAL,
+        NULL,
+        VITA3K_BACK_CAMERA_INFO_0_VAL,
+        NULL,
+        "camera",
+        {
+            { "host", OPTION_VAL_HOST_VAL },
+            { "image", OPTION_VAL_IMAGE_VAL },
+            { "color", OPTION_VAL_COLOR_VAL },
+            { NULL, NULL },
+        },
+        "host"
+    },
+    {
+        "vita3k_back_camera_color",
+        VITA3K_BACK_CAMERA_COLOR_LABEL_VAL,
+        NULL,
+        VITA3K_BACK_CAMERA_COLOR_INFO_0_VAL,
+        NULL,
+        "camera",
+        {
+            { "0", OPTION_VAL_0_VITA3K_FRONT_CAMERA_COLOR_VAL },
+            { "16777215", OPTION_VAL_16777215_VAL },
+            { "8421504", OPTION_VAL_8421504_VAL },
+            { "255", OPTION_VAL_255_VAL },
+            { "65280", OPTION_VAL_65280_VAL },
+            { "16711680", OPTION_VAL_16711680_VAL },
+            { NULL, NULL },
+        },
+        "0"
+    },
+    {
         "vita3k_surface_sync",
         VITA3K_SURFACE_SYNC_LABEL_VAL,
         NULL,
@@ -17912,9 +32402,9 @@ struct retro_core_option_v2_definition option_defs_val[] = {
         "system",
         {
             { "0", OPTION_VAL_0_VITA3K_FILE_LOADING_DELAY_VAL },
-            { "5", OPTION_VAL_5_VAL },
+            { "5", OPTION_VAL_5_VITA3K_FILE_LOADING_DELAY_VAL },
             { "10", OPTION_VAL_10_VITA3K_FILE_LOADING_DELAY_VAL },
-            { "15", OPTION_VAL_15_VAL },
+            { "15", OPTION_VAL_15_VITA3K_FILE_LOADING_DELAY_VAL },
             { "20", OPTION_VAL_20_VITA3K_FILE_LOADING_DELAY_VAL },
             { "25", OPTION_VAL_25_VAL },
             { "30", OPTION_VAL_30_VITA3K_FILE_LOADING_DELAY_VAL },
@@ -17941,6 +32431,14 @@ struct retro_core_options_v2 options_val = {
 #define CATEGORY_AUDIO_INFO_0_VN "Tùy chọn xuất âm thanh."
 #define CATEGORY_NETWORK_LABEL_VN "Mạng"
 #define CATEGORY_NETWORK_INFO_0_VN "Tùy chọn mạng."
+#define CATEGORY_INSTALL_LABEL_VN "Nội dung"
+#define CATEGORY_INSTALL_INFO_0_VN "Cách trò chơi, bản cập nhật và nội dung tải thêm được nạp."
+#define CATEGORY_CAMERA_LABEL_VN NULL
+#define CATEGORY_CAMERA_INFO_0_VN "Hình ảnh mà camera trước và sau của Vita ghi nhận."
+#define CATEGORY_ACCOUNTS_LABEL_VN "Tài khoản"
+#define CATEGORY_ACCOUNTS_INFO_0_VN "Tài khoản (người dùng) của Vita trong ux0/user, mỗi tài khoản có dữ liệu lưu và thành tích riêng."
+#define CATEGORY_MODULES_LABEL_VN "Mô-đun"
+#define CATEGORY_MODULES_INFO_0_VN "Mô-đun của phần mềm hệ thống (vs0/sys/external) sẽ được nạp khi Chế độ mô-đun được đặt thành Tự động và thủ công hoặc Thủ công."
 #define VITA3K_BACKEND_RENDERER_LABEL_VN "Bộ kết xuất đồ họa"
 #define VITA3K_BACKEND_RENDERER_INFO_0_VN "Chọn hệ thống kết xuất đồ họa. Vulkan được khuyến nghị."
 #define OPTION_VAL_VULKAN_VN NULL
@@ -17980,14 +32478,15 @@ struct retro_core_options_v2 options_val = {
 #define VITA3K_HIGH_ACCURACY_INFO_0_VN "Bật các kỹ thuật kết xuất chính xác hơn nhưng chậm hơn."
 #define VITA3K_CPU_OPT_LABEL_VN "Tối ưu hóa CPU (biên dịch tức thời Dynarmic)"
 #define VITA3K_CPU_OPT_INFO_0_VN "Bật biên dịch tức thời Dynarmic để mô phỏng CPU nhanh hơn."
-#define VITA3K_PKG_MODE_LABEL_VN "Gói trò chơi"
-#define VITA3K_PKG_MODE_INFO_0_VN "Cách chạy gói trò chơi PKG. Chạy không cần cài đặt: trò chơi khởi động chỉ sau vài giây và tệp được giải mã từ gói PKG vào thư mục hệ thống trong lần đầu trò chơi đọc tệp đó; toàn bộ dữ liệu này sẽ bị xóa khi đóng trò chơi. Cài đặt: toàn bộ trò chơi được giải mã và cài vào ux0/app ngay lần đầu, giống như cách Vita3K thực hiện; quá trình này mất nhiều thời gian tùy theo dung lượng trò chơi và chiếm dung lượng lưu trữ tương ứng. Trò chơi đã được cài đặt sẽ chạy từ thư mục cài đặt trong cả hai trường hợp. Các bản cập nhật và nội dung tải thêm luôn được cài đặt."
+#define VITA3K_PKG_MODE_LABEL_VN "Nạp trước trò chơi"
+#define VITA3K_PKG_MODE_INFO_0_VN "Tất cả nội dung đều tuân theo thiết lập này, ngoại trừ các bản cập nhật và nội dung tải thêm được buộc cài đặt (nạp thủ công). Chạy mà không cài đặt: đọc dữ liệu trực tiếp từ tệp, không giữ lại dữ liệu nào. Bộ nhớ đệm lâu dài: tương tự, nhưng giữ lại dữ liệu đã đọc. Cài đặt: sao chép toàn bộ tệp để khởi động nhanh hơn."
 #define OPTION_VAL_RUN_VN "Chạy không cần cài đặt"
+#define OPTION_VAL_CACHE_VN "Bộ nhớ đệm lâu dài"
 #define OPTION_VAL_INSTALL_VN "Cài đặt"
 #define VITA3K_PSTV_MODE_LABEL_VN "Chế độ máy chơi game PlayStation TV"
 #define VITA3K_PSTV_MODE_INFO_0_VN "Mô phỏng máy PlayStation TV thay vì máy PS Vita."
 #define VITA3K_MODULES_MODE_LABEL_VN "Chế độ mô-đun"
-#define VITA3K_MODULES_MODE_INFO_0_VN "Cách tải các mô-đun hệ thống. Nên chọn Tự động."
+#define VITA3K_MODULES_MODE_INFO_0_VN "Cách nạp mô-đun hệ thống. Tự động: sử dụng phần triển khai riêng của lõi và các mô-đun phần mềm hệ thống mà lõi xác định là cần thiết. Tự động và thủ công: nạp các mô-đun trên cùng những mô-đun được bật trong mục Mô-đun. Thủ công: chỉ nạp các mô-đun được bật trong mục Mô-đun. Khuyến nghị sử dụng chế độ Tự động."
 #define OPTION_VAL_0_VN "Tự động"
 #define OPTION_VAL_1_VITA3K_MODULES_MODE_VN "Tự động và Thủ công"
 #define OPTION_VAL_2_VITA3K_MODULES_MODE_VN "Thủ công"
@@ -17997,10 +32496,41 @@ struct retro_core_options_v2 options_val = {
 #define VITA3K_SYS_BUTTON_INFO_0_VN "Nút được dùng để xác nhận thao tác."
 #define OPTION_VAL_0_VITA3K_SYS_BUTTON_VN "Nút tròn"
 #define OPTION_VAL_1_VITA3K_SYS_BUTTON_VN "Dấu cộng"
+#define VITA3K_SYS_LANG_LABEL_VN "Ngôn ngữ hệ thống"
+#define VITA3K_SYS_LANG_INFO_0_VN "Ngôn ngữ của máy chơi game, được các trò chơi sử dụng để hiển thị văn bản và các hộp thoại hệ thống sử dụng. Có hiệu lực vào lần khởi chạy trò chơi tiếp theo."
+#define OPTION_VAL_0_VITA3K_SYS_LANG_VN "Tiếng Nhật"
+#define OPTION_VAL_1_VITA3K_SYS_LANG_VN "Tiếng Anh (Hoa Kỳ)"
+#define OPTION_VAL_2_VITA3K_SYS_LANG_VN "Tiếng Pháp"
+#define OPTION_VAL_3_VITA3K_SYS_LANG_VN "Tiếng Tây Ban Nha"
+#define OPTION_VAL_4_VITA3K_SYS_LANG_VN "Tiếng Đức"
+#define OPTION_VAL_5_VN "Tiếng Ý"
+#define OPTION_VAL_6_VN "Tiếng Hà Lan"
+#define OPTION_VAL_7_VN "Tiếng Bồ Đào Nha (Bồ Đào Nha)"
+#define OPTION_VAL_8_VITA3K_SYS_LANG_VN "Tiếng Nga"
+#define OPTION_VAL_9_VN "Tiếng Hàn"
+#define OPTION_VAL_10_VN "Tiếng Trung (Phồn thể)"
+#define OPTION_VAL_11_VN "Tiếng Trung (Giản thể)"
+#define OPTION_VAL_12_VN "Tiếng Phần Lan"
+#define OPTION_VAL_13_VN "Tiếng Thụy Điển"
+#define OPTION_VAL_14_VN "Tiếng Đan Mạch"
+#define OPTION_VAL_15_VN "Tiếng Na Uy"
+#define OPTION_VAL_16_VITA3K_SYS_LANG_VN "Tiếng Ba Lan"
+#define OPTION_VAL_17_VN "Tiếng Bồ Đào Nha (Brasil)"
+#define OPTION_VAL_18_VN "Tiếng Anh (Vương quốc Anh)"
+#define OPTION_VAL_19_VN "Tiếng Thổ Nhĩ Kỳ"
+#define VITA3K_SYS_DATE_FORMAT_LABEL_VN "Định dạng ngày tháng"
+#define VITA3K_SYS_DATE_FORMAT_INFO_0_VN "Cách máy chơi game hiển thị ngày tháng trong trò chơi và các hộp thoại hệ thống (chẳng hạn như danh sách dữ liệu lưu). Ngày tháng và giờ thực tế được lấy từ máy chủ. Có hiệu lực vào lần khởi chạy trò chơi tiếp theo."
+#define OPTION_VAL_0_VITA3K_SYS_DATE_FORMAT_VN "NĂM/THÁNG/NGÀY"
+#define OPTION_VAL_1_VITA3K_SYS_DATE_FORMAT_VN "NGÀY/THÁNG/NĂM"
+#define OPTION_VAL_2_VITA3K_SYS_DATE_FORMAT_VN "THÁNG/NGÀY/NĂM"
+#define VITA3K_SYS_TIME_FORMAT_LABEL_VN "Định dạng giờ"
+#define VITA3K_SYS_TIME_FORMAT_INFO_0_VN "Cách máy chơi game hiển thị giờ theo định dạng 12 hoặc 24 giờ trong trò chơi và các hộp thoại hệ thống. Có hiệu lực vào lần khởi chạy trò chơi tiếp theo."
+#define OPTION_VAL_0_VITA3K_SYS_TIME_FORMAT_VN "12 giờ"
+#define OPTION_VAL_1_VITA3K_SYS_TIME_FORMAT_VN "24 giờ"
 #define VITA3K_AUDIO_VOLUME_LABEL_VN "Âm lượng"
 #define VITA3K_AUDIO_VOLUME_INFO_0_VN "Mức âm lượng tổng thể."
 #define OPTION_VAL_0_VITA3K_AUDIO_VOLUME_VN NULL
-#define OPTION_VAL_10_VN NULL
+#define OPTION_VAL_10_VITA3K_AUDIO_VOLUME_VN NULL
 #define OPTION_VAL_20_VN NULL
 #define OPTION_VAL_30_VN NULL
 #define OPTION_VAL_40_VN NULL
@@ -18014,6 +32544,47 @@ struct retro_core_options_v2 options_val = {
 #define VITA3K_NGS_ENABLE_INFO_0_VN "Bật bộ xử lý âm thanh NGS để cải thiện chất lượng âm thanh."
 #define VITA3K_PSN_SIGNED_IN_LABEL_VN "Đăng nhập mạng PlayStation"
 #define VITA3K_PSN_SIGNED_IN_INFO_0_VN "Giả lập trạng thái đã đăng nhập vào mạng PlayStation. Một số trò chơi yêu cầu tính năng này."
+#define VITA3K_HTTP_ENABLE_LABEL_VN NULL
+#define VITA3K_HTTP_ENABLE_INFO_0_VN "Bật hỗ trợ kết nối mạng HTTP cho các ứng dụng sử dụng giao thức này. Có hiệu lực vào lần khởi chạy trò chơi tiếp theo."
+#define VITA3K_HTTP_TIMEOUT_ATTEMPTS_LABEL_VN "Số lần thử lại khi HTTP hết thời gian chờ"
+#define VITA3K_HTTP_TIMEOUT_ATTEMPTS_INFO_0_VN "Số lần thử kết nối lại khi máy chủ không phản hồi. Có thể hữu ích khi kết nối mạng rất không ổn định hoặc rất chậm. Có hiệu lực vào lần khởi chạy trò chơi tiếp theo."
+#define VITA3K_HTTP_TIMEOUT_SLEEP_LABEL_VN "Thời gian chờ giữa các lần thử lại HTTP"
+#define VITA3K_HTTP_TIMEOUT_SLEEP_INFO_0_VN "Thời gian chờ giữa các lần thử kết nối lại. Có thể hữu ích khi kết nối mạng rất không ổn định hoặc rất chậm. Có hiệu lực vào lần khởi chạy trò chơi tiếp theo."
+#define OPTION_VAL_50_VITA3K_HTTP_TIMEOUT_SLEEP_VN "50 mili giây"
+#define OPTION_VAL_100_VITA3K_HTTP_TIMEOUT_SLEEP_VN "100 mili giây"
+#define OPTION_VAL_150_VN "150 mili giây"
+#define OPTION_VAL_200_VN "200 mili giây"
+#define OPTION_VAL_250_VN "250 mili giây"
+#define OPTION_VAL_300_VN "300 mili giây"
+#define OPTION_VAL_400_VN "400 mili giây"
+#define OPTION_VAL_500_VN "500 mili giây"
+#define OPTION_VAL_750_VN "750 mili giây"
+#define OPTION_VAL_1000_VN "1000 mili giây"
+#define OPTION_VAL_1500_VN "1500 mili giây"
+#define OPTION_VAL_2000_VN "2000 mili giây"
+#define OPTION_VAL_2500_VN "2500 mili giây"
+#define OPTION_VAL_3000_VN "3000 mili giây"
+#define VITA3K_HTTP_READ_END_ATTEMPTS_LABEL_VN "Số lần thử lại khi kết thúc đọc HTTP"
+#define VITA3K_HTTP_READ_END_ATTEMPTS_INFO_0_VN "Số lần thử lại khi không còn dữ liệu để đọc. Giá trị thấp hơn có thể cải thiện hiệu suất, nhưng có thể khiến trò chơi hoạt động không ổn định nếu kết nối đủ kém. Có hiệu lực vào lần khởi chạy trò chơi tiếp theo."
+#define VITA3K_HTTP_READ_END_SLEEP_LABEL_VN "Thời gian chờ khi kết thúc đọc HTTP"
+#define VITA3K_HTTP_READ_END_SLEEP_INFO_0_VN "Thời gian chờ giữa các lần thử đọc lại. Giá trị thấp hơn có thể cải thiện hiệu năng, nhưng có thể khiến trò chơi hoạt động không ổn định nếu kết nối quá kém. Có hiệu lực vào lần khởi chạy trò chơi tiếp theo."
+#define VITA3K_FRONT_CAMERA_LABEL_VN "Camera trước"
+#define VITA3K_FRONT_CAMERA_INFO_0_VN "Hình ảnh camera trước của máy Vita. Camera của thiết bị: camera của RetroArch (phải bật Cài đặt > Quyền riêng tư > Quyền truy cập camera và có trình điều khiển camera dành cho nền tảng này). Hình ảnh: system/vita3k/camera/front.png hoặc front.jpg. Màu đơn sắc: Màu camera trước. Khi một nguồn không khả dụng, nguồn tiếp theo sẽ được sử dụng. Có hiệu lực vào lần tiếp theo trò chơi mở camera."
+#define OPTION_VAL_HOST_VN "Camera của thiết bị"
+#define OPTION_VAL_IMAGE_VN "Hình ảnh"
+#define OPTION_VAL_COLOR_VN "Màu đơn sắc"
+#define VITA3K_FRONT_CAMERA_COLOR_LABEL_VN "Màu camera trước"
+#define VITA3K_FRONT_CAMERA_COLOR_INFO_0_VN "Màu mà camera trước hiển thị khi sử dụng chế độ Màu đơn sắc."
+#define OPTION_VAL_0_VITA3K_FRONT_CAMERA_COLOR_VN "Đen"
+#define OPTION_VAL_16777215_VN "Trắng"
+#define OPTION_VAL_8421504_VN "Xám"
+#define OPTION_VAL_255_VN "Đỏ"
+#define OPTION_VAL_65280_VN "Xanh Lá"
+#define OPTION_VAL_16711680_VN "Xanh dương"
+#define VITA3K_BACK_CAMERA_LABEL_VN "Camera sau"
+#define VITA3K_BACK_CAMERA_INFO_0_VN "Hình ảnh camera sau của máy Vita. Camera của thiết bị: camera của RetroArch (phải bật Cài đặt > Quyền riêng tư > Quyền truy cập camera và có trình điều khiển camera dành cho nền tảng này). Hình ảnh: system/vita3k/camera/back.png hoặc back.jpg. Màu đơn sắc: Màu camera sau. Khi một nguồn không khả dụng, nguồn tiếp theo sẽ được sử dụng. Có hiệu lực vào lần tiếp theo trò chơi mở camera."
+#define VITA3K_BACK_CAMERA_COLOR_LABEL_VN "Màu camera sau"
+#define VITA3K_BACK_CAMERA_COLOR_INFO_0_VN "Màu mà camera sau hiển thị khi sử dụng chế độ Màu đơn sắc."
 #define VITA3K_SURFACE_SYNC_LABEL_VN "Đồng bộ bề mặt"
 #define VITA3K_SURFACE_SYNC_INFO_0_VN "Tối ưu hóa bộ nhớ đồ họa. Có thể cải thiện hiệu suất từ 20-40%."
 #define OPTION_VAL_ENABLED_VN "Đã bật (chính xác hơn)"
@@ -18021,9 +32592,9 @@ struct retro_core_options_v2 options_val = {
 #define VITA3K_FILE_LOADING_DELAY_LABEL_VN "Độ trễ tải tệp"
 #define VITA3K_FILE_LOADING_DELAY_INFO_0_VN "Độ trễ tính bằng mili giây khi tải tệp. Giúp các trò chơi nhạy cảm với thời điểm hoạt động ổn định hơn."
 #define OPTION_VAL_0_VITA3K_FILE_LOADING_DELAY_VN "0 mili giây"
-#define OPTION_VAL_5_VN "5 mili giây"
+#define OPTION_VAL_5_VITA3K_FILE_LOADING_DELAY_VN "5 mili giây"
 #define OPTION_VAL_10_VITA3K_FILE_LOADING_DELAY_VN "10 mili giây"
-#define OPTION_VAL_15_VN "15 mili giây"
+#define OPTION_VAL_15_VITA3K_FILE_LOADING_DELAY_VN "15 mili giây"
 #define OPTION_VAL_20_VITA3K_FILE_LOADING_DELAY_VN "20 mili giây"
 #define OPTION_VAL_25_VN "25 mili giây"
 #define OPTION_VAL_30_VITA3K_FILE_LOADING_DELAY_VN "30 mili giây"
@@ -18034,6 +32605,10 @@ struct retro_core_option_v2_category option_cats_vn[] = {
     { "system", CATEGORY_SYSTEM_LABEL_VN, CATEGORY_SYSTEM_INFO_0_VN },
     { "audio", CATEGORY_AUDIO_LABEL_VN, CATEGORY_AUDIO_INFO_0_VN },
     { "network", CATEGORY_NETWORK_LABEL_VN, CATEGORY_NETWORK_INFO_0_VN },
+    { "install", CATEGORY_INSTALL_LABEL_VN, CATEGORY_INSTALL_INFO_0_VN },
+    { "camera", CATEGORY_CAMERA_LABEL_VN, CATEGORY_CAMERA_INFO_0_VN },
+    { "accounts", CATEGORY_ACCOUNTS_LABEL_VN, CATEGORY_ACCOUNTS_INFO_0_VN },
+    { "modules", CATEGORY_MODULES_LABEL_VN, CATEGORY_MODULES_INFO_0_VN },
     { NULL, NULL, NULL },
 };
 struct retro_core_option_v2_definition option_defs_vn[] = {
@@ -18197,9 +32772,10 @@ struct retro_core_option_v2_definition option_defs_vn[] = {
         NULL,
         VITA3K_PKG_MODE_INFO_0_VN,
         NULL,
-        "system",
+        "install",
         {
             { "run", OPTION_VAL_RUN_VN },
+            { "cache", OPTION_VAL_CACHE_VN },
             { "install", OPTION_VAL_INSTALL_VN },
             { NULL, NULL },
         },
@@ -18262,6 +32838,67 @@ struct retro_core_option_v2_definition option_defs_vn[] = {
         },
         "1"
     },
+    {
+        "vita3k_sys_lang",
+        VITA3K_SYS_LANG_LABEL_VN,
+        NULL,
+        VITA3K_SYS_LANG_INFO_0_VN,
+        NULL,
+        "system",
+        {
+            { "0", OPTION_VAL_0_VITA3K_SYS_LANG_VN },
+            { "1", OPTION_VAL_1_VITA3K_SYS_LANG_VN },
+            { "2", OPTION_VAL_2_VITA3K_SYS_LANG_VN },
+            { "3", OPTION_VAL_3_VITA3K_SYS_LANG_VN },
+            { "4", OPTION_VAL_4_VITA3K_SYS_LANG_VN },
+            { "5", OPTION_VAL_5_VN },
+            { "6", OPTION_VAL_6_VN },
+            { "7", OPTION_VAL_7_VN },
+            { "8", OPTION_VAL_8_VITA3K_SYS_LANG_VN },
+            { "9", OPTION_VAL_9_VN },
+            { "10", OPTION_VAL_10_VN },
+            { "11", OPTION_VAL_11_VN },
+            { "12", OPTION_VAL_12_VN },
+            { "13", OPTION_VAL_13_VN },
+            { "14", OPTION_VAL_14_VN },
+            { "15", OPTION_VAL_15_VN },
+            { "16", OPTION_VAL_16_VITA3K_SYS_LANG_VN },
+            { "17", OPTION_VAL_17_VN },
+            { "18", OPTION_VAL_18_VN },
+            { "19", OPTION_VAL_19_VN },
+            { NULL, NULL },
+        },
+        "1"
+    },
+    {
+        "vita3k_sys_date_format",
+        VITA3K_SYS_DATE_FORMAT_LABEL_VN,
+        NULL,
+        VITA3K_SYS_DATE_FORMAT_INFO_0_VN,
+        NULL,
+        "system",
+        {
+            { "0", OPTION_VAL_0_VITA3K_SYS_DATE_FORMAT_VN },
+            { "1", OPTION_VAL_1_VITA3K_SYS_DATE_FORMAT_VN },
+            { "2", OPTION_VAL_2_VITA3K_SYS_DATE_FORMAT_VN },
+            { NULL, NULL },
+        },
+        "2"
+    },
+    {
+        "vita3k_sys_time_format",
+        VITA3K_SYS_TIME_FORMAT_LABEL_VN,
+        NULL,
+        VITA3K_SYS_TIME_FORMAT_INFO_0_VN,
+        NULL,
+        "system",
+        {
+            { "0", OPTION_VAL_0_VITA3K_SYS_TIME_FORMAT_VN },
+            { "1", OPTION_VAL_1_VITA3K_SYS_TIME_FORMAT_VN },
+            { NULL, NULL },
+        },
+        "0"
+    },
     // ── Audio ────────────────────────────────────────────────────────────
     {
         "vita3k_audio_volume",
@@ -18272,7 +32909,7 @@ struct retro_core_option_v2_definition option_defs_vn[] = {
         "audio",
         {
             { "0", OPTION_VAL_0_VITA3K_AUDIO_VOLUME_VN },
-            { "10", OPTION_VAL_10_VN },
+            { "10", OPTION_VAL_10_VITA3K_AUDIO_VOLUME_VN },
             { "20", OPTION_VAL_20_VN },
             { "30", OPTION_VAL_30_VN },
             { "40", OPTION_VAL_40_VN },
@@ -18316,6 +32953,204 @@ struct retro_core_option_v2_definition option_defs_vn[] = {
         "disabled"
     },
     {
+        "vita3k_http_enable",
+        VITA3K_HTTP_ENABLE_LABEL_VN,
+        NULL,
+        VITA3K_HTTP_ENABLE_INFO_0_VN,
+        NULL,
+        "network",
+        {
+            { "enabled", NULL },
+            { "disabled", NULL },
+            { NULL, NULL },
+        },
+        "enabled"
+    },
+    {
+        "vita3k_http_timeout_attempts",
+        VITA3K_HTTP_TIMEOUT_ATTEMPTS_LABEL_VN,
+        NULL,
+        VITA3K_HTTP_TIMEOUT_ATTEMPTS_INFO_0_VN,
+        NULL,
+        "network",
+        {
+            { "0", NULL },
+            { "5", NULL },
+            { "10", NULL },
+            { "15", NULL },
+            { "20", NULL },
+            { "25", NULL },
+            { "30", NULL },
+            { "35", NULL },
+            { "40", NULL },
+            { "45", NULL },
+            { "50", NULL },
+            { "55", NULL },
+            { "60", NULL },
+            { "65", NULL },
+            { "70", NULL },
+            { "75", NULL },
+            { "80", NULL },
+            { "85", NULL },
+            { "90", NULL },
+            { "95", NULL },
+            { "100", NULL },
+            { NULL, NULL },
+        },
+        "50"
+    },
+    {
+        "vita3k_http_timeout_sleep",
+        VITA3K_HTTP_TIMEOUT_SLEEP_LABEL_VN,
+        NULL,
+        VITA3K_HTTP_TIMEOUT_SLEEP_INFO_0_VN,
+        NULL,
+        "network",
+        {
+            { "50", OPTION_VAL_50_VITA3K_HTTP_TIMEOUT_SLEEP_VN },
+            { "100", OPTION_VAL_100_VITA3K_HTTP_TIMEOUT_SLEEP_VN },
+            { "150", OPTION_VAL_150_VN },
+            { "200", OPTION_VAL_200_VN },
+            { "250", OPTION_VAL_250_VN },
+            { "300", OPTION_VAL_300_VN },
+            { "400", OPTION_VAL_400_VN },
+            { "500", OPTION_VAL_500_VN },
+            { "750", OPTION_VAL_750_VN },
+            { "1000", OPTION_VAL_1000_VN },
+            { "1500", OPTION_VAL_1500_VN },
+            { "2000", OPTION_VAL_2000_VN },
+            { "2500", OPTION_VAL_2500_VN },
+            { "3000", OPTION_VAL_3000_VN },
+            { NULL, NULL },
+        },
+        "100"
+    },
+    {
+        "vita3k_http_read_end_attempts",
+        VITA3K_HTTP_READ_END_ATTEMPTS_LABEL_VN,
+        NULL,
+        VITA3K_HTTP_READ_END_ATTEMPTS_INFO_0_VN,
+        NULL,
+        "network",
+        {
+            { "0", NULL },
+            { "5", NULL },
+            { "10", NULL },
+            { "15", NULL },
+            { "20", NULL },
+            { "25", NULL },
+            { "30", NULL },
+            { "35", NULL },
+            { "40", NULL },
+            { "45", NULL },
+            { "50", NULL },
+            { "55", NULL },
+            { "60", NULL },
+            { "65", NULL },
+            { "70", NULL },
+            { "75", NULL },
+            { "80", NULL },
+            { "85", NULL },
+            { "90", NULL },
+            { "95", NULL },
+            { "100", NULL },
+            { NULL, NULL },
+        },
+        "10"
+    },
+    {
+        "vita3k_http_read_end_sleep",
+        VITA3K_HTTP_READ_END_SLEEP_LABEL_VN,
+        NULL,
+        VITA3K_HTTP_READ_END_SLEEP_INFO_0_VN,
+        NULL,
+        "network",
+        {
+            { "50", OPTION_VAL_50_VITA3K_HTTP_TIMEOUT_SLEEP_VN },
+            { "100", OPTION_VAL_100_VITA3K_HTTP_TIMEOUT_SLEEP_VN },
+            { "150", OPTION_VAL_150_VN },
+            { "200", OPTION_VAL_200_VN },
+            { "250", OPTION_VAL_250_VN },
+            { "300", OPTION_VAL_300_VN },
+            { "400", OPTION_VAL_400_VN },
+            { "500", OPTION_VAL_500_VN },
+            { "750", OPTION_VAL_750_VN },
+            { "1000", OPTION_VAL_1000_VN },
+            { "1500", OPTION_VAL_1500_VN },
+            { "2000", OPTION_VAL_2000_VN },
+            { "2500", OPTION_VAL_2500_VN },
+            { "3000", OPTION_VAL_3000_VN },
+            { NULL, NULL },
+        },
+        "250"
+    },
+    {
+        "vita3k_front_camera",
+        VITA3K_FRONT_CAMERA_LABEL_VN,
+        NULL,
+        VITA3K_FRONT_CAMERA_INFO_0_VN,
+        NULL,
+        "camera",
+        {
+            { "host", OPTION_VAL_HOST_VN },
+            { "image", OPTION_VAL_IMAGE_VN },
+            { "color", OPTION_VAL_COLOR_VN },
+            { NULL, NULL },
+        },
+        "host"
+    },
+    {
+        "vita3k_front_camera_color",
+        VITA3K_FRONT_CAMERA_COLOR_LABEL_VN,
+        NULL,
+        VITA3K_FRONT_CAMERA_COLOR_INFO_0_VN,
+        NULL,
+        "camera",
+        {
+            { "0", OPTION_VAL_0_VITA3K_FRONT_CAMERA_COLOR_VN },
+            { "16777215", OPTION_VAL_16777215_VN },
+            { "8421504", OPTION_VAL_8421504_VN },
+            { "255", OPTION_VAL_255_VN },
+            { "65280", OPTION_VAL_65280_VN },
+            { "16711680", OPTION_VAL_16711680_VN },
+            { NULL, NULL },
+        },
+        "0"
+    },
+    {
+        "vita3k_back_camera",
+        VITA3K_BACK_CAMERA_LABEL_VN,
+        NULL,
+        VITA3K_BACK_CAMERA_INFO_0_VN,
+        NULL,
+        "camera",
+        {
+            { "host", OPTION_VAL_HOST_VN },
+            { "image", OPTION_VAL_IMAGE_VN },
+            { "color", OPTION_VAL_COLOR_VN },
+            { NULL, NULL },
+        },
+        "host"
+    },
+    {
+        "vita3k_back_camera_color",
+        VITA3K_BACK_CAMERA_COLOR_LABEL_VN,
+        NULL,
+        VITA3K_BACK_CAMERA_COLOR_INFO_0_VN,
+        NULL,
+        "camera",
+        {
+            { "0", OPTION_VAL_0_VITA3K_FRONT_CAMERA_COLOR_VN },
+            { "16777215", OPTION_VAL_16777215_VN },
+            { "8421504", OPTION_VAL_8421504_VN },
+            { "255", OPTION_VAL_255_VN },
+            { "65280", OPTION_VAL_65280_VN },
+            { "16711680", OPTION_VAL_16711680_VN },
+            { NULL, NULL },
+        },
+        "0"
+    },
+    {
         "vita3k_surface_sync",
         VITA3K_SURFACE_SYNC_LABEL_VN,
         NULL,
@@ -18338,9 +33173,9 @@ struct retro_core_option_v2_definition option_defs_vn[] = {
         "system",
         {
             { "0", OPTION_VAL_0_VITA3K_FILE_LOADING_DELAY_VN },
-            { "5", OPTION_VAL_5_VN },
+            { "5", OPTION_VAL_5_VITA3K_FILE_LOADING_DELAY_VN },
             { "10", OPTION_VAL_10_VITA3K_FILE_LOADING_DELAY_VN },
-            { "15", OPTION_VAL_15_VN },
+            { "15", OPTION_VAL_15_VITA3K_FILE_LOADING_DELAY_VN },
             { "20", OPTION_VAL_20_VITA3K_FILE_LOADING_DELAY_VN },
             { "25", OPTION_VAL_25_VN },
             { "30", OPTION_VAL_30_VITA3K_FILE_LOADING_DELAY_VN },
