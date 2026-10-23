@@ -244,7 +244,7 @@ struct retro_core_option_v2_definition option_defs_us[] = {
         "vita3k_pkg_mode",
         "Run Method",
         NULL,
-        "Defines how a title, its updates and downloadable content are run when the title is loaded via Main Menu > Load Content. Content can be disabled in separate options that appear once it is applied or installed, or can be individually loaded outside this process instead.\n\n"
+        "Defines how a title, its updates and downloadable content are run when the title is loaded. Content can be disabled in separate options that appear once it is applied or installed. An update or downloadable content loaded by itself is always installed, whatever the Run Method.\n\n"
         "Direct: the title and content are run directly from the original media.\n\n"
         "Direct with Cache: the same as Direct, but the core persistently caches data that is read from the title's media during use. This can increase performance in certain cases, such as when the media is accessed from a network share with limited bandwidth.\n\n"
         "Installed: the title and content are installed to the emulated Vita's memory card when it is first loaded, and run from the installed location thereafter.",

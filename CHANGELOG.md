@@ -4,6 +4,7 @@ What changed in the libretro core of this fork, newest first. Changes that come 
 
 ## Unreleased
 
+- Content: Run Method's description no longer ties it to Main Menu > Load Content, since it applies however the title is started (playlist, command line), and says plainly that an update or DLC loaded by itself is always installed, whatever the Run Method (i30817).
 - OpenGL: Vita3K's overlay is drawn over the picture as with Vulkan: the system dialogs, the notice of an earned trophy (its icon, grade and name, as in the standalone) and the shader compilation notice. A trophy earned after RetroArch reset the video context is announced once, not once for each reset (Shoegzer, issue #1).
 - Content: Game Preload is now Run Method, with Direct, Direct with Cache and Installed, and the loaded game's entry is Current Title. The descriptions are rewritten as proposed: paragraphs, "directory" for "folder", no install paths in the menu (they are in the README), and Run Method's short enough for RetroArch's 1023 characters (Shoegzer).
 - Content: Remove Data, an option of its own (off by default) above Current Title, offered whatever the Run Method. Turned on, it removes the running title's data when the title is closed or reset, and turns itself off again: the shader cache, the persistent cache, and everything installed for the title - the game, its update and its DLC; saves stay. Left on when the frontend did not close the title, it is turned off at the next start without removing anything (Shoegzer).
