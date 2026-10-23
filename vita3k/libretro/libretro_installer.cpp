@@ -588,6 +588,7 @@ static std::uint64_t folder_size(const fs::path &dir) {
 static fs::path manual_install_mark(const fs::path &pref_path, const std::string &title_id, const std::string &dlc_id = {});
 static void mark_forced_install(const fs::path &pref_path, const std::string &title_id, const std::string &category,
     const std::string &content_id, const fs::path &source);
+static void drop_shelved_copy(const fs::path &pref_path, const std::string &title_id, const std::string &dlc_id);
 
 // Handle an extracted game folder (NoNpDrm dump, extracted VPK, etc.)
 static GameInstallResult handle_folder_game(const fs::path &game_path, const fs::path &pref_path, int sys_lang) {
@@ -1017,6 +1018,7 @@ static void mark_forced_install(const fs::path &pref_path, const std::string &ti
     boost::system::error_code ec;
     fs::create_directories(pref_path / "ux0" / "libretro_pkg", ec);
     fs::ofstream(manual_install_mark(pref_path, title_id, dlc_id)) << source.string() << '\n';
+    drop_shelved_copy(pref_path, title_id, dlc_id);
 }
 
 static fs::path patch_marker_note(const fs::path &pref_path, const std::string &title_id) {
@@ -1077,6 +1079,21 @@ static fs::path dlc_shelf(const fs::path &pref_path, const std::string &title_id
 }
 static fs::path patch_shelf(const fs::path &pref_path, const std::string &title_id, const std::string &version) {
     return shelf_dir(pref_path) / "patch" / title_id / version;
+}
+
+// An update or DLC just installed by loading it on its own: a copy of the same one set aside
+// before is no longer needed, and it would only sit there, listed once,
+// taking space until Remove Data (i30817). An update by the version it
+// installed with, a DLC by its ID.
+static void drop_shelved_copy(const fs::path &pref_path, const std::string &title_id, const std::string &dlc_id) {
+    boost::system::error_code ec;
+    if (!dlc_id.empty()) {
+        fs::remove_all(dlc_shelf(pref_path, title_id, dlc_id), ec);
+        return;
+    }
+    sfo::SfoAppInfo info;
+    if (read_installed_sfo(pref_path / "ux0" / "patch" / title_id, info) && !info.app_version.empty())
+        fs::remove_all(patch_shelf(pref_path, title_id, info.app_version), ec);
 }
 
 // One directory moved to another place on the same memory card
@@ -1262,8 +1279,14 @@ static ContentPlan plan_content(const fs::path &pkg_path, const std::string &tit
             // A folder with its marker is what a run the frontend did not
             // end left behind, not an installation
             dlc.installed = fs::exists(addcont / dlc.dlc_id, ec) && !fs::exists(dlc_marker(dlc.dlc_id), ec);
-            if (!dlc.installed && fs::exists(dlc_shelf(pref_path, title_id, dlc.dlc_id), ec))
-                dlc.installed = dlc.shelved = true;
+            // One set aside while turned off, whose PKG is here beside the game:
+            // the PKG has it all, so the copy goes now (i30817), and turning it
+            // on again reads it out of the PKG or installs it again
+            if (!dlc.installed && fs::exists(dlc_shelf(pref_path, title_id, dlc.dlc_id), ec)) {
+                fs::remove_all(dlc_shelf(pref_path, title_id, dlc.dlc_id), ec);
+                forget_install_markers(pref_path, [&](const std::string &name) { return name.rfind(dlc.content_id + "_", 0) == 0; });
+                lr_log(RETRO_LOG_INFO, "DLC %s of %s: the copy set aside is deleted, its PKG is beside the game\n", dlc.dlc_id.c_str(), title_id.c_str());
+            }
             const bool listed = std::any_of(dlcs.begin(), dlcs.end(), [&](const Dlc &other) { return other.dlc_id == dlc.dlc_id; });
             if (!listed)
                 dlcs.push_back(std::move(dlc));
@@ -1351,18 +1374,28 @@ static ContentPlan plan_content(const fs::path &pkg_path, const std::string &tit
     // Versions installed before and set aside since, as another one or None
     // was chosen
     std::set<std::string> shelved_versions;
+    std::vector<fs::path> shelved_with_file;
     for (fs::directory_iterator it(shelf_dir(pref_path) / "patch" / title_id, ec), end; !ec && it != end; it.increment(ec)) {
         const std::string version = it->path().filename().string();
+        // Set aside, but its PKG is here beside the game: the PKG has it all,
+        // so the copy goes (i30817), and choosing it again reads it out of
+        // the PKG or installs it again
+        if (std::any_of(updates.begin(), updates.end(), [&](const Update &other) { return other.version == version && !other.path.empty(); })) {
+            shelved_with_file.push_back(it->path());
+            continue;
+        }
         shelved_versions.insert(version);
         if (std::none_of(updates.begin(), updates.end(), [&](const Update &other) { return other.version == version; }))
             updates.push_back({ std::string(), version });
     }
     ec.clear();
+    for (const fs::path &dir : shelved_with_file) {
+        fs::remove_all(dir, ec);
+        lr_log(RETRO_LOG_INFO, "Update %s of %s: the copy set aside is deleted, its PKG is beside the game\n",
+            dir.filename().string().c_str(), title_id.c_str());
+    }
+    ec.clear();
     std::sort(updates.begin(), updates.end(), [](const Update &a, const Update &b) { return version_less(b.version, a.version); });
-    // While an update installed by loading it on its own is there, Update offers only it and
-    // None: the game's folder's come back once it is uninstalled (sco8487)
-    if (!installed_version.empty() && fs::exists(manual_install_mark(pref_path, title_id), ec))
-        std::erase_if(updates, [&](const Update &u) { return u.version != installed_version; });
 
     const std::string prefix = "vita3k_zinstall_" + title_id + "_";
     const std::string game_key = prefix + "game";
