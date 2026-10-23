@@ -38,6 +38,7 @@ target_link_libraries(vita3k_libretro PRIVATE
 	miniz
 	modules
 	motion
+	np
 	packages
 	patch
 	psvpfsparser

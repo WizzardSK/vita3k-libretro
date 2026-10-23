@@ -191,14 +191,6 @@ void libretro_poll_input() {
         touch_count++;
     }
 
-    if ((port_data[0].buttons & SCE_CTRL_CROSS) && touch_count == 0 && !rear_modifier) {
-        touch_points[0].x = 960;
-        touch_points[0].y = 544;
-        touch_points[0].id = 99;
-        touch_points[0].active = true;
-        touch_count = 1;
-    }
-
     float ax = 0.0f, ay = 0.0f, az = -1.0f;
     float gx = 0.0f, gy = 0.0f, gz = 0.0f;
     if (inp.has_motion && inp.motion_enabled && sensor_iface.get_sensor_input) {

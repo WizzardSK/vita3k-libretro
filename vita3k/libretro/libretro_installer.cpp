@@ -18,6 +18,7 @@
 #include "libretro_installer.h"
 
 #include <cstdarg>
+#include <set>
 #include "libretro_state.h"
 
 #include <config/state.h>
@@ -174,107 +175,19 @@ static bool install_pup_file(const fs::path &pref_path, const fs::path &pup_path
     return true;
 }
 
-bool ensure_firmware_installed(const fs::path &pref_path, const fs::path &system_dir) {
-    lr_log(RETRO_LOG_INFO, "=== Checking firmware installation ===\n");
-    lr_log(RETRO_LOG_INFO, "pref_path: %s\n", pref_path.generic_string().c_str());
-    lr_log(RETRO_LOG_INFO, "system_dir: %s\n", system_dir.generic_string().c_str());
-
-    // Create pref_path directories if needed
-    fs::create_directories(pref_path);
-
-    // Check current firmware status
-    FirmwareStatus status = check_firmware_status(pref_path);
-    if (status.all_installed()) {
-        lr_log(RETRO_LOG_INFO, "All firmware components are already installed.\n");
-        return true;
-    }
-
-    // ── Install preinst firmware (pd0/) ──
-    if (!status.preinst_installed) {
-        fs::path preinst_pup = find_pup_file(system_dir, PupKind::Preinst);
-        if (preinst_pup.empty() && system_dir != pref_path)
-            preinst_pup = find_pup_file(pref_path, PupKind::Preinst);
-        if (!preinst_pup.empty()) {
-            install_pup_file(pref_path, preinst_pup, "Preinst firmware");
-        } else {
-            lr_log(RETRO_LOG_WARN, "No preinst PUP found. Download from: https://bit.ly/4hlePsX\n");
-            lr_log(RETRO_LOG_WARN, "Save it with \"preinst\" in its name (preinst.pup) in: %s\n", system_dir.generic_string().c_str());
-        }
-    }
-
-    // ── Install main firmware (vs0/) ──
-    if (!status.firmware_installed) {
-        fs::path fw_pup = find_pup_file(system_dir, PupKind::Firmware);
-        if (fw_pup.empty() && system_dir != pref_path)
-            fw_pup = find_pup_file(pref_path, PupKind::Firmware);
-        if (fw_pup.empty() && system_dir.has_parent_path())
-            fw_pup = find_pup_file(system_dir.parent_path(), PupKind::Firmware, true);
-        if (!fw_pup.empty()) {
-            install_pup_file(pref_path, fw_pup, "Main firmware");
-        } else {
-            lr_log(RETRO_LOG_WARN, "No main firmware PUP found.\n");
-            lr_log(RETRO_LOG_WARN, "Download from: https://www.playstation.com/en-us/support/hardware/psvita/system-software\n");
-            lr_log(RETRO_LOG_WARN, "Save it as a .pup (PSP2UPDAT.PUP, PSVUPDAT.PUP) in: %s\n", system_dir.generic_string().c_str());
-        }
-    }
-
-    // ── Install font package (sa0/) ──
-    if (!status.font_installed) {
-        fs::path font_pup = find_pup_file(system_dir, PupKind::Font);
-        if (font_pup.empty() && system_dir != pref_path)
-            font_pup = find_pup_file(pref_path, PupKind::Font);
-        if (!font_pup.empty()) {
-            install_pup_file(pref_path, font_pup, "Font package");
-        } else {
-            lr_log(RETRO_LOG_WARN, "No font PUP found. Download from: https://bit.ly/48ouDaa\n");
-            lr_log(RETRO_LOG_WARN, "Save it with \"font\" in its name (font.pup) in: %s\n", system_dir.generic_string().c_str());
-        }
-    }
-
-    // ── Final status check ──
-    status = check_firmware_status(pref_path);
-    if (!status.all_installed()) {
-        // The system firmware missing is the case games do not start in. With it
-        // there and another part missing (the fonts, say, in folders copied from
-        // the standalone) most games run: said as what it is, not as no firmware.
-        const enum retro_log_level level = status.firmware_installed ? RETRO_LOG_WARN : RETRO_LOG_ERROR;
-        if (status.firmware_installed) {
-            lr_log(level, "=== FIRMWARE INCOMPLETE ===\n");
-            lr_log(level, "The system firmware is installed; a part some games need is not.\n");
-        } else {
-            lr_log(level, "=== FIRMWARE MISSING ===\n");
-            lr_log(level, "Vita3K requires PS Vita firmware to run games.\n");
-        }
-        lr_log(level, "Place the following PUP files in: %s\n", system_dir.generic_string().c_str());
-        if (!status.preinst_installed)
-            lr_log(level, "  - preinst.pup, or any .pup name with preinst in it (pd0/) → https://bit.ly/4hlePsX\n");
-        if (!status.firmware_installed)
-            lr_log(level, "  - the system firmware, any .pup name without preinst or font in it (vs0/) → https://www.playstation.com/en-us/support/hardware/psvita/system-software\n");
-        if (!status.font_installed)
-            lr_log(level, "  - font.pup, or any .pup name with font in it (sa0/) → https://bit.ly/48ouDaa\n");
-
-        if (status.firmware_installed)
-            return true;
-        lr_msg("Firmware missing! See log for download instructions.", 600);
-        return false;
-    }
-
-    lr_log(RETRO_LOG_INFO, "All firmware components installed successfully!\n");
-    lr_msg("All firmware installed successfully!");
-    return true;
+// The .pup of one firmware part: in the firmware directory, else in the
+// emulated storage's root, and for the system firmware also under its own
+// Vita names one folder up
+static fs::path firmware_pup(const fs::path &pref_path, const fs::path &system_dir, PupKind kind) {
+    fs::path pup = find_pup_file(system_dir, kind);
+    if (pup.empty() && system_dir != pref_path)
+        pup = find_pup_file(pref_path, kind);
+    if (pup.empty() && kind == PupKind::Firmware && system_dir.has_parent_path())
+        pup = find_pup_file(system_dir.parent_path(), kind, true);
+    return pup;
 }
 
-bool install_firmware_content(const fs::path &pref_path, const fs::path &pup_path) {
-    boost::system::error_code ec;
-    if (!fs::is_regular_file(pup_path, ec)) {
-        lr_log(RETRO_LOG_ERROR, "%s is not a file the core can open directly; copy it into a folder and load it from there\n", pup_path.generic_string().c_str());
-        lr_msg("Firmware: load the .pup from a regular folder", 600);
-        return false;
-    }
-    fs::create_directories(pref_path, ec);
-    if (!install_pup_file(pref_path, pup_path, "Firmware package"))
-        return false;
-    const FirmwareStatus status = check_firmware_status(pref_path);
+static std::string missing_parts(const FirmwareStatus &status) {
     std::string missing;
     if (!status.firmware_installed)
         missing += missing.empty() ? "system firmware" : ", system firmware";
@@ -282,6 +195,77 @@ bool install_firmware_content(const fs::path &pref_path, const fs::path &pup_pat
         missing += missing.empty() ? "preinstalled package" : ", preinstalled package";
     if (!status.font_installed)
         missing += missing.empty() ? "fonts" : ", fonts";
+    return missing;
+}
+
+std::string install_firmware_from_folder(const fs::path &pref_path, const fs::path &system_dir) {
+    fs::create_directories(pref_path);
+    int installed = 0, failed = 0;
+    const std::pair<PupKind, const char *> parts[] = {
+        { PupKind::Preinst, "Preinstalled package" },
+        { PupKind::Firmware, "System firmware" },
+        { PupKind::Font, "Font package" },
+    };
+    for (const auto &[kind, label] : parts) {
+        const fs::path pup = firmware_pup(pref_path, system_dir, kind);
+        if (pup.empty())
+            continue;
+        (install_pup_file(pref_path, pup, label) ? installed : failed)++;
+    }
+    const FirmwareStatus status = check_firmware_status(pref_path);
+    const std::string missing = missing_parts(status);
+    std::string text;
+    if (installed == 0 && failed == 0)
+        text = fmt::format("Install Firmware: no .pup files in {}", system_dir.generic_string());
+    else if (failed > 0)
+        text = fmt::format("Install Firmware: {} part(s) installed, {} failed (see the log)", installed, failed);
+    else
+        text = fmt::format("Install Firmware: {} part(s) installed", installed);
+    if (!missing.empty())
+        text += ". Still missing: " + missing;
+    lr_log(RETRO_LOG_INFO, "%s\n", text.c_str());
+    return text;
+}
+
+bool check_firmware_installed(const fs::path &pref_path, const fs::path &system_dir) {
+    const FirmwareStatus status = check_firmware_status(pref_path);
+    if (status.all_installed()) {
+        lr_log(RETRO_LOG_INFO, "All firmware components are installed.\n");
+        return true;
+    }
+    // The system firmware missing is the case games do not start in. With it
+    // there and another part missing (the fonts, say, in folders copied from
+    // the standalone) most games run: said as what it is, not as no firmware.
+    const enum retro_log_level level = status.firmware_installed ? RETRO_LOG_WARN : RETRO_LOG_ERROR;
+    if (status.firmware_installed) {
+        lr_log(level, "=== FIRMWARE INCOMPLETE ===\n");
+        lr_log(level, "The system firmware is installed; a part some games need is not.\n");
+    } else {
+        lr_log(level, "=== FIRMWARE MISSING ===\n");
+        lr_log(level, "Vita3K requires PS Vita firmware to run games.\n");
+    }
+    lr_log(level, "Place the following PUP files in %s and turn on System > Install Firmware, or load each .pup as content:\n", system_dir.generic_string().c_str());
+    if (!status.preinst_installed)
+        lr_log(level, "  - preinst.pup, or any .pup name with preinst in it (pd0/) → https://bit.ly/4hlePsX\n");
+    if (!status.firmware_installed)
+        lr_log(level, "  - the system firmware, any .pup name without preinst or font in it (vs0/) → https://www.playstation.com/en-us/support/hardware/psvita/system-software\n");
+    if (!status.font_installed)
+        lr_log(level, "  - font.pup, or any .pup name with font in it (sa0/) → https://bit.ly/48ouDaa\n");
+    lr_msg(fmt::format("Firmware missing: {}. Put the .pup files in system/vita3k and turn on System > Install Firmware.", missing_parts(status)).c_str(), 600);
+    return status.firmware_installed;
+}
+
+bool install_firmware_content(const fs::path &pref_path, const fs::path &pup_path) {
+    boost::system::error_code ec;
+    if (!fs::is_regular_file(pup_path, ec)) {
+        lr_log(RETRO_LOG_ERROR, "%s is not a file the core can open directly; copy it into a folder and load it from there\n", pup_path.generic_string().c_str());
+        lr_msg("Firmware: load the .pup from a regular directory", 600);
+        return false;
+    }
+    fs::create_directories(pref_path, ec);
+    if (!install_pup_file(pref_path, pup_path, "Firmware package"))
+        return false;
+    const std::string missing = missing_parts(check_firmware_status(pref_path));
     const std::string text = missing.empty()
         ? std::string("Firmware installed: all three parts are there. Load a game.")
         : "Firmware package installed. Still missing: " + missing + " - load that .pup too.";
@@ -458,7 +442,7 @@ static fs::path resolve_game_folder(const fs::path &game_path) {
 // license in ux0/license/<title id>/. Hands back work.bin and the zRIF, which
 // a patch that shares the app's license is decrypted with.
 //
-// Only for a NoNpDrm game that is installed - Game Preload: Install, or a
+// Only for a NoNpDrm game that is installed - Run Method: Install, or a
 // folder or VPK/ZIP that cannot be run from where it lies. Vita3K has no PFS
 // driver, so an installed game has to be decrypted on disk, and psvpfstools'
 // execute() writes a whole decrypted tree into a folder in ux0/libretro_pkg
@@ -616,7 +600,7 @@ static GameInstallResult handle_folder_game(const fs::path &game_path, const fs:
     if (content_dir.empty()) {
         lr_log(RETRO_LOG_ERROR, "No sce_sys/param.sfo found in folder or subfolders: %s\n", game_path.generic_string().c_str());
         lr_log(RETRO_LOG_ERROR, "Expected: <folder>/sce_sys/param.sfo or <folder>/app/<ID>/sce_sys/param.sfo\n");
-        lr_msg("No param.sfo found in game folder!", 300);
+        lr_msg("No param.sfo found in the game's directory!", 300);
         return result;
     }
 
@@ -728,7 +712,7 @@ static GameInstallResult handle_folder_game(const fs::path &game_path, const fs:
         lr_log(RETRO_LOG_INFO, "App folder copy completed.\n");
     } catch (const fs::filesystem_error &e) {
         lr_log(RETRO_LOG_ERROR, "Failed to copy game folder: %s\n", e.what());
-        lr_msg("Failed to copy game folder!", 300);
+        lr_msg("Failed to copy the game's directory!", 300);
         return result;
     }
 
@@ -749,7 +733,7 @@ static GameInstallResult handle_folder_game(const fs::path &game_path, const fs:
         }
     }
     // Loaded on its own (not through the game's Content options), an update or DLC stays
-    // installed whatever Game Preload says
+    // installed whatever Run Method says
     mark_forced_install(pref_path, result.title_id, app_info.app_category, app_info.app_content_id, game_path);
 
     // Verify installation
@@ -968,13 +952,12 @@ static std::string file_name_of(const std::string &path) {
     return slash == std::string::npos ? path : path.substr(slash + 1);
 }
 
-// What stands in brackets after an entry's value: how it is used - Install,
-// Forced Install, Run Without Installing or Persistent Cache - and the file it
-// comes from
+// An Update or DLC value as "Installed (Enabled)", "Direct (Disabled)" or,
+// with several updates, "Installed (1.05)": how it is used, with the state or
+// version in brackets (Shoegzer). The file it comes from is not shown.
 static std::string value_with_source(const std::string &value, const std::string &mode, const std::string &path) {
-    if (!path.empty())
-        return fmt::format("{} ({}, {})", value, mode, file_name_of(path));
-    return fmt::format("{} ({})", value, mode);
+    (void)path;
+    return fmt::format("{} ({})", mode, value);
 }
 
 static bool read_installed_sfo(const fs::path &dir, sfo::SfoAppInfo &info) {
@@ -1014,7 +997,7 @@ static fs::path manual_dlc_note(const fs::path &pref_path, const std::string &ti
 
 // Kept as long as an update or DLC stays installed the way it last was:
 // manualinstall_<title>_update and manualinstall_<title>_dlc_<id> say it was
-// installed by loading its own file ("Forced Install" in Content). Made by such
+// installed by loading its own file. Made by such
 // an install, removed by an install from the game's folder.
 static fs::path manual_install_mark(const fs::path &pref_path, const std::string &title_id, const std::string &dlc_id) {
     return pref_path / "ux0" / "libretro_pkg"
@@ -1022,8 +1005,8 @@ static fs::path manual_install_mark(const fs::path &pref_path, const std::string
 }
 
 // An update or DLC (by its category) installed by loading its own file, marked as
-// such. The mark holds the path of the file (or folder) it was installed from, so
-// that Content can tell when it is gone.
+// such, so that it stays installed whatever the Run Method. The mark holds the path of the
+// file (or folder) it was installed from.
 static void mark_forced_install(const fs::path &pref_path, const std::string &title_id, const std::string &category,
     const std::string &content_id, const fs::path &source) {
     std::string dlc_id;
@@ -1034,15 +1017,6 @@ static void mark_forced_install(const fs::path &pref_path, const std::string &ti
     boost::system::error_code ec;
     fs::create_directories(pref_path / "ux0" / "libretro_pkg", ec);
     fs::ofstream(manual_install_mark(pref_path, title_id, dlc_id)) << source.string() << '\n';
-}
-
-// Whether the file a forced install was made from is still there
-static bool forced_source_exists(const fs::path &pref_path, const std::string &title_id, const std::string &dlc_id = {}) {
-    fs::ifstream in(manual_install_mark(pref_path, title_id, dlc_id));
-    std::string source;
-    std::getline(in, source);
-    boost::system::error_code ec;
-    return !source.empty() && fs::exists(fs::path(source), ec);
 }
 
 static fs::path patch_marker_note(const fs::path &pref_path, const std::string &title_id) {
@@ -1076,11 +1050,64 @@ static struct {
 } s_loaded_content;
 
 // An installed game deleted: its folder in ux0/app, and every install marker
-// of the title's, so that its PKG - and a DLC's, loaded again - installs again
-static void uninstall_game(const fs::path &pref_path, const std::string &title_id) {
+// of the title's, so that its PKG - and a DLC's, loaded again - installs again.
+// The shader cache goes too when the user removes the title's data (Remove Data), and
+// stays when only the way it is run changes (Run Method).
+static void uninstall_game(const fs::path &pref_path, const std::string &title_id, bool shader_cache) {
     boost::system::error_code ec;
     fs::remove_all(pref_path / "ux0" / "app" / title_id, ec);
+    if (shader_cache)
+        fs::remove_all(pref_path / "cache" / "shaders" / title_id, ec);
     forget_install_markers(pref_path, [&](const std::string &name) { return name.size() > 16 && name[6] == '-' && name.compare(7, 9, title_id) == 0; });
+}
+
+// Remove Data - what the core wrote for a title besides its saves: the
+// installed game, update and DLC with their install markers (Run Method:
+// Installed), the Persistent Cache of the game, its update and its DLC
+// (Direct with Cache), and its shader cache (every method). Saves in ux0/user
+// stay.
+// A DLC turned off, or an installed update another version or None is chosen
+// over, is set aside here rather than deleted, and comes back when it is
+// chosen again: only Remove Data deletes what was installed (Shoegzer)
+static fs::path shelf_dir(const fs::path &pref_path) {
+    return pref_path / "ux0" / "libretro_pkg" / "off";
+}
+static fs::path dlc_shelf(const fs::path &pref_path, const std::string &title_id, const std::string &dlc_id) {
+    return shelf_dir(pref_path) / "addcont" / title_id / dlc_id;
+}
+static fs::path patch_shelf(const fs::path &pref_path, const std::string &title_id, const std::string &version) {
+    return shelf_dir(pref_path) / "patch" / title_id / version;
+}
+
+// One directory moved to another place on the same memory card
+static bool move_dir(const fs::path &from, const fs::path &to) {
+    boost::system::error_code ec;
+    fs::remove_all(to, ec);
+    fs::create_directories(to.parent_path(), ec);
+    fs::rename(from, to, ec);
+    return !ec;
+}
+
+static void remove_title_data(const fs::path &pref_path, const std::string &title_id) {
+    boost::system::error_code ec;
+    // the game, its install markers and its shader cache, and whatever was
+    // installed for it besides: its update and DLC, also those set aside
+    uninstall_game(pref_path, title_id, true);
+    fs::remove_all(pref_path / "ux0" / "patch" / title_id, ec);
+    fs::remove_all(pref_path / "ux0" / "addcont" / title_id, ec);
+    fs::remove_all(shelf_dir(pref_path) / "patch" / title_id, ec);
+    fs::remove_all(shelf_dir(pref_path) / "addcont" / title_id, ec);
+    fs::remove(patch_marker_note(pref_path, title_id), ec);
+    // lazy_pkg names a title's cache folders <title>, <title>_update and <title>_<DLC>
+    const fs::path cache = pref_path / "cache" / "pkg";
+    std::vector<fs::path> gone;
+    for (fs::directory_iterator it(cache, ec), end; !ec && it != end; it.increment(ec)) {
+        const std::string name = it->path().filename().string();
+        if (name == title_id || name.rfind(title_id + "_", 0) == 0)
+            gone.push_back(it->path());
+    }
+    for (const auto &dir : gone)
+        fs::remove_all(dir, ec);
 }
 
 // Update versions as numbers: "01.09" against "01.10" part by part
@@ -1112,13 +1139,13 @@ static fs::path update_choice_note(const fs::path &pref_path, const std::string 
 // VPKs and ZIPs lying next to the game's (and inside a game's folder),
 // and what is installed - an update merged into ux0/app/<title> or kept in
 // ux0/patch/<title>, DLC in ux0/addcont/<title>. They are declared as options
-// of the game's own (Content), in every Game Preload mode: the game, one update
+// of the game's own (Content), in every Run Method mode: the game, one update
 // of those there are, or none, and each DLC on or off. A new game starts
 // with the newest update and every DLC.
 //
-// An installed update or DLC that is turned off is deleted when the content
-// is closed (content_closed), and so are the installed update when another
-// one is chosen and the game set to Uninstall; here, before the game is
+// An installed DLC that is turned off, and the installed update when another
+// one or None is chosen, are set aside when the content is closed
+// (content_closed) and come back when chosen again; here, before the game is
 // started, the same is done for what a close that never ran left over. What
 // is chosen and not installed is returned as the plan, carried out by
 // apply_content once the game is installed or laid out.
@@ -1164,6 +1191,24 @@ static ContentPlan plan_content(const fs::path &pkg_path, const std::string &tit
                     candidates.push_back(it->path().generic_string());
             }
         }
+        // Include Subdirectories (i30817, Shoegzer): every directory below the
+        // title's, at any depth - a directory per DLC with its license. An
+        // extracted title (sce_sys/param.sfo) is a candidate itself, not looked into.
+        if (s_content_value && s_content_value("vita3k_content_subdirs") == "enabled") {
+            const size_t beside = candidates.size();
+            for (size_t i = 0; i < beside; i++) {
+                const fs::path dir(candidates[i]);
+                if (dir == pkg_path || !fs::is_directory(dir, ec) || fs::exists(dir / "sce_sys" / "param.sfo", ec))
+                    continue;
+                for (fs::recursive_directory_iterator it(dir, ec), end; !ec && it != end; it.increment(ec)) {
+                    candidates.push_back(it->path().generic_string());
+                    boost::system::error_code sub_ec;
+                    if (fs::is_directory(it->path(), sub_ec) && fs::exists(it->path() / "sce_sys" / "param.sfo", sub_ec))
+                        it.disable_recursion_pending();
+                }
+                ec.clear();
+            }
+        }
     }
 
     struct Update {
@@ -1172,6 +1217,8 @@ static ContentPlan plan_content(const fs::path &pkg_path, const std::string &tit
     struct Dlc {
         std::string path, content_id, dlc_id, title;
         bool installed = false;
+        // installed, and set aside while turned off
+        bool shelved = false;
     };
     std::vector<Update> updates;
     std::vector<Dlc> dlcs;
@@ -1183,7 +1230,7 @@ static ContentPlan plan_content(const fs::path &pkg_path, const std::string &tit
         return pref_path / "ux0" / "libretro_pkg" / ("dlc_" + title_id + "_" + dlc_id);
     };
 
-    // The game follows Game Preload too (sco8487): installed while Game Preload
+    // The game follows Run Method too (sco8487): installed while Run Method
     // now runs it from its PKG, it is uninstalled before this start and run
     // from the PKG, with its update and DLC as chosen. Saves are not touched.
     // Only when the PKG can be run without installing - with no license for it
@@ -1191,8 +1238,8 @@ static ContentPlan plan_content(const fs::path &pkg_path, const std::string &tit
     if (run_pkg && fs::exists(app / "eboot.bin", ec)
         && (lazy_pkg::is_archive(pkg_path) || fs::is_directory(pkg_path, ec)
             || !find_pkg_license(pkg_path, pref_path).empty())) {
-        uninstall_game(pref_path, title_id);
-        lr_log(RETRO_LOG_INFO, "%s was installed and Game Preload runs it from its PKG: ux0/app/%s is deleted, the game is read out of its PKG\n",
+        uninstall_game(pref_path, title_id, false);
+        lr_log(RETRO_LOG_INFO, "%s was installed and Run Method runs it from its PKG: ux0/app/%s is deleted, the game is read out of its PKG\n",
             title_id.c_str(), title_id.c_str());
     }
 
@@ -1215,6 +1262,8 @@ static ContentPlan plan_content(const fs::path &pkg_path, const std::string &tit
             // A folder with its marker is what a run the frontend did not
             // end left behind, not an installation
             dlc.installed = fs::exists(addcont / dlc.dlc_id, ec) && !fs::exists(dlc_marker(dlc.dlc_id), ec);
+            if (!dlc.installed && fs::exists(dlc_shelf(pref_path, title_id, dlc.dlc_id), ec))
+                dlc.installed = dlc.shelved = true;
             const bool listed = std::any_of(dlcs.begin(), dlcs.end(), [&](const Dlc &other) { return other.dlc_id == dlc.dlc_id; });
             if (!listed)
                 dlcs.push_back(std::move(dlc));
@@ -1244,11 +1293,27 @@ static ContentPlan plan_content(const fs::path &pkg_path, const std::string &tit
         }
         dlcs.push_back(std::move(dlc));
     }
+    // ... and those set aside while turned off
+    for (fs::directory_iterator it(shelf_dir(pref_path) / "addcont" / title_id, ec), end; !ec && it != end; it.increment(ec)) {
+        const std::string dlc_id = it->path().filename().string();
+        if (std::any_of(dlcs.begin(), dlcs.end(), [&](const Dlc &other) { return other.dlc_id == dlc_id; }))
+            continue;
+        Dlc dlc;
+        dlc.dlc_id = dlc_id;
+        dlc.installed = dlc.shelved = true;
+        sfo::SfoAppInfo info;
+        if (read_installed_sfo(it->path(), info)) {
+            dlc.title = info.app_title;
+            dlc.content_id = info.app_content_id;
+        }
+        dlcs.push_back(std::move(dlc));
+    }
+    ec.clear();
 
-    // A DLC follows Game Preload (sco8487): one that was installed from the
+    // A DLC follows Run Method (sco8487): one that was installed from the
     // game's folder, while the game now runs from its PKG, is read out of its
     // PKG like the game instead - its installed copy goes, the PKG beside the
-    // game has it all. One installed by loading its own PKG (Forced Install)
+    // game has it all. One installed by loading its own PKG
     // stays installed, as its PKG may be anywhere, and so does one with no PKG
     // in the game's folder.
     if (run_pkg && !fs::exists(app / "eboot.bin", ec)) {
@@ -1256,10 +1321,11 @@ static ContentPlan plan_content(const fs::path &pkg_path, const std::string &tit
             if (!dlc.installed || dlc.path.empty() || fs::exists(manual_install_mark(pref_path, title_id, dlc.dlc_id), ec))
                 continue;
             fs::remove_all(addcont / dlc.dlc_id, ec);
+            fs::remove_all(dlc_shelf(pref_path, title_id, dlc.dlc_id), ec);
             if (!dlc.content_id.empty())
                 forget_install_markers(pref_path, [&](const std::string &name) { return name.rfind(dlc.content_id + "_", 0) == 0; });
-            dlc.installed = false;
-            lr_log(RETRO_LOG_INFO, "DLC %s of %s: installed from the game's folder, now read out of its PKG as Game Preload says; the installed copy is deleted\n",
+            dlc.installed = dlc.shelved = false;
+            lr_log(RETRO_LOG_INFO, "DLC %s of %s: installed from the game's folder, now read out of its PKG as Run Method says; the installed copy is deleted\n",
                 dlc.dlc_id.c_str(), title_id.c_str());
         }
     }
@@ -1282,6 +1348,16 @@ static ContentPlan plan_content(const fs::path &pkg_path, const std::string &tit
     if (!installed_version.empty()
         && std::none_of(updates.begin(), updates.end(), [&](const Update &other) { return other.version == installed_version; }))
         updates.push_back({ std::string(), installed_version });
+    // Versions installed before and set aside since, as another one or None
+    // was chosen
+    std::set<std::string> shelved_versions;
+    for (fs::directory_iterator it(shelf_dir(pref_path) / "patch" / title_id, ec), end; !ec && it != end; it.increment(ec)) {
+        const std::string version = it->path().filename().string();
+        shelved_versions.insert(version);
+        if (std::none_of(updates.begin(), updates.end(), [&](const Update &other) { return other.version == version; }))
+            updates.push_back({ std::string(), version });
+    }
+    ec.clear();
     std::sort(updates.begin(), updates.end(), [](const Update &a, const Update &b) { return version_less(b.version, a.version); });
     // While an update installed by loading it on its own is there, Update offers only it and
     // None: the game's folder's come back once it is uninstalled (sco8487)
@@ -1294,29 +1370,21 @@ static ContentPlan plan_content(const fs::path &pkg_path, const std::string &tit
     const auto dlc_key = [&](const Dlc &dlc) { return prefix + "dlc_" + option_key_part(dlc.dlc_id); };
     std::vector<ContentOption> options;
 
-    // The game itself: installed, or to be by this start (Game Preload:
-    // Install), it can be uninstalled; else the entry only says how it runs
+    // The title itself and how it runs (Remove Data is an option of its own)
     const bool game_installed = fs::exists(app / "eboot.bin", ec);
     // How an update or DLC that is not installed is used at this start: read out
     // of its PKG like the game, or installed along with an installed game
     const std::string pkg_mode = (run_pkg && !game_installed)
-        ? (lazy_pkg::has_cache_root() ? "Persistent Cache" : "Run Without Installing")
-        : "Install";
-    const auto installed_mode = [&](const std::string &dlc_id) {
-        return fs::exists(manual_install_mark(pref_path, title_id, dlc_id), ec) ? "Forced Install" : "Install";
-    };
+        ? (lazy_pkg::has_cache_root() ? "Direct with Cache" : "Direct")
+        : "Installed";
     {
         ContentOption option;
         option.key = game_key;
-        option.label = game_info.title.empty() ? fmt::format("Game: {}", title_id) : fmt::format("Game: {} ({})", game_info.title, title_id);
-        if (game_installed || !run_pkg) {
-            option.info = "Installed. Uninstall deletes it at close or reset; saves, update and DLC remain.";
+        option.label = game_info.title.empty() ? fmt::format("Current Title: {}", title_id) : fmt::format("Current Title: {} ({})", game_info.title, title_id);
+        if (game_installed || !run_pkg)
             option.values.emplace_back("keep", "Installed");
-            option.values.emplace_back("uninstall", "Uninstall");
-        } else {
-            option.info = "Not installed: reads from file.";
-            option.values.emplace_back("keep", lazy_pkg::has_cache_root() ? "Not installed (Persistent Cache)" : "Not installed (Run Without Installing)");
-        }
+        else
+            option.values.emplace_back("keep", lazy_pkg::has_cache_root() ? "Direct with Cache" : "Direct");
         option.default_value = "keep";
         options.push_back(std::move(option));
     }
@@ -1324,21 +1392,24 @@ static ContentPlan plan_content(const fs::path &pkg_path, const std::string &tit
     if (!updates.empty()) {
         ContentOption option;
         option.key = update_key;
-        option.label = "Update";
-        // (sco8487's wording) one installed by loading its own file, one installed whose
-        // file is gone since, or the game folder's
-        const bool forced = !installed_version.empty() && fs::exists(manual_install_mark(pref_path, title_id), ec);
-        const bool file_gone = !installed_version.empty()
-            && (forced ? !forced_source_exists(pref_path, title_id)
-                       : std::any_of(updates.begin(), updates.end(), [&](const Update &u) { return u.version == installed_version && u.path.empty(); }));
-        option.info = file_gone ? "Installed. None deletes installed files at close or reset."
-            : forced            ? "Forced install from file. None deletes installed files at close or reset."
-                                : "From the game folder.";
-        for (const Update &update : updates) {
-            option.values.emplace_back(update.version, value_with_source(update.version,
-                update.version == installed_version ? installed_mode({}) : pkg_mode, update.path));
+        const auto update_mode = [&](const Update &update) {
+            return update.version == installed_version || shelved_versions.count(update.version) ? std::string("Installed") : pkg_mode;
+        };
+        // One update (the usual case, a Vita update holds the ones before it):
+        // its version in the name, "Installed (Enabled)" / "Installed
+        // (Disabled)" as with a DLC (Shoegzer). With several the value has to
+        // say which one.
+        if (updates.size() == 1) {
+            const Update &update = updates.front();
+            option.label = fmt::format("Update: {}", update.version);
+            option.values.emplace_back(update.version, value_with_source("Enabled", update_mode(update), update.path));
+            option.values.emplace_back("none", value_with_source("Disabled", update_mode(update), update.path));
+        } else {
+            option.label = "Update";
+            for (const Update &update : updates)
+                option.values.emplace_back(update.version, value_with_source(update.version, update_mode(update), update.path));
+            option.values.emplace_back("none", "None");
         }
-        option.values.emplace_back("none", "None");
         option.default_value = installed_version.empty() ? updates.front().version : installed_version;
         if (!installed_version.empty() && fs::exists(manual_update_note(pref_path, title_id), ec))
             option.set_value = installed_version;
@@ -1353,19 +1424,15 @@ static ContentPlan plan_content(const fs::path &pkg_path, const std::string &tit
         // A PKG without a license beside it cannot be decrypted: the entry only
         // says so
         if (!dlc.installed && !dlc.path.empty() && needs_license(fs::path(dlc.path)) && find_pkg_license(fs::path(dlc.path), pref_path).empty()) {
-            option.info = "From the game folder. No license next to it (.zrif, .bin or .rif).";
+            option.info = "No license next to it (.zrif, .bin or .rif), so it cannot be used.";
             option.values.emplace_back("inactive", "Inactive (no license)");
             option.default_value = "inactive";
             options.push_back(std::move(option));
             continue;
         }
-        const bool forced = dlc.installed && fs::exists(manual_install_mark(pref_path, title_id, dlc.dlc_id), ec);
-        const bool file_gone = dlc.installed && (forced ? !forced_source_exists(pref_path, title_id, dlc.dlc_id) : dlc.path.empty());
-        option.info = file_gone ? "Installed. Disabled deletes installed files at close or reset."
-            : forced            ? "Forced install from file. Disabled deletes installed files at close or reset."
-                                : "From the game folder.";
-        option.values.emplace_back("enabled", value_with_source("Enabled", dlc.installed ? installed_mode(dlc.dlc_id) : pkg_mode, dlc.path));
-        option.values.emplace_back("disabled", "Disabled");
+        const std::string dlc_mode = dlc.installed ? "Installed" : pkg_mode;
+        option.values.emplace_back("enabled", value_with_source("Enabled", dlc_mode, dlc.path));
+        option.values.emplace_back("disabled", value_with_source("Disabled", dlc_mode, dlc.path));
         option.default_value = "enabled";
         if (dlc.installed && fs::exists(manual_dlc_note(pref_path, title_id, dlc.dlc_id), ec))
             option.set_value = "enabled";
@@ -1419,19 +1486,13 @@ static ContentPlan plan_content(const fs::path &pkg_path, const std::string &tit
         s_loaded_content.dlcs.push_back({ dlc_key(dlc), dlc.dlc_id, dlc.content_id });
     content_options_changed();
 
-    // Uninstall asked for and not carried out when the content was closed
-    // (the frontend did not get to close it): now. The choice is spent
-    // either way, or a game installed again would be uninstalled again.
-    if (const auto it = chosen.find(game_key); it != chosen.end() && it->second == "uninstall") {
-        // whatever is left of it: an uninstall cut short has no eboot.bin
-        if (fs::exists(app, ec)) {
-            uninstall_game(pref_path, title_id);
-            lr_log(RETRO_LOG_INFO, "%s is uninstalled (Game: Uninstall): ux0/app/%s is deleted\n", title_id.c_str(), title_id.c_str());
-            // and with it an update that was merged into it
-            merged_version.clear();
-        }
+    // Remove Data left on when the content was not closed (the frontend did
+    // not get to it): turned off without removing anything, as it may have
+    // been meant for another title
+    if (s_content_value && s_content_value("vita3k_remove_data") == "enabled") {
+        lr_log(RETRO_LOG_INFO, "Remove Data was left on when the last title was not closed: turned off, nothing removed\n");
         if (s_set_content_value)
-            s_set_content_value(game_key, "keep");
+            s_set_content_value("vita3k_remove_data", "disabled");
     }
     const auto value_of = [&](const std::string &key) {
         const auto option = std::find_if(options.begin(), options.end(), [&](const ContentOption &o) { return o.key == key; });
@@ -1464,13 +1525,16 @@ static ContentPlan plan_content(const fs::path &pkg_path, const std::string &tit
         if (value_of(dlc_key(dlc)) == "inactive")
             continue;
         if (value_of(dlc_key(dlc)) == "disabled") {
-            if (dlc.installed) {
-                fs::remove_all(addcont / dlc.dlc_id, ec);
-                if (!dlc.content_id.empty())
-                    forget_install_markers(pref_path, [&](const std::string &name) { return name.rfind(dlc.content_id + "_", 0) == 0; });
-                lr_log(RETRO_LOG_INFO, "DLC %s of %s is turned off: its installed files are deleted\n", dlc.dlc_id.c_str(), title_id.c_str());
-            } else
+            if (dlc.installed && !dlc.shelved) {
+                if (move_dir(addcont / dlc.dlc_id, dlc_shelf(pref_path, title_id, dlc.dlc_id)))
+                    lr_log(RETRO_LOG_INFO, "DLC %s of %s is turned off: set aside until it is turned on again\n", dlc.dlc_id.c_str(), title_id.c_str());
+            } else if (!dlc.installed)
                 lr_log(RETRO_LOG_INFO, "PKG: DLC %s is turned off\n", dlc.path.c_str());
+            continue;
+        }
+        if (dlc.shelved) {
+            if (move_dir(dlc_shelf(pref_path, title_id, dlc.dlc_id), addcont / dlc.dlc_id))
+                lr_log(RETRO_LOG_INFO, "DLC %s of %s is turned on again: back from where it was set aside\n", dlc.dlc_id.c_str(), title_id.c_str());
             continue;
         }
         if (!dlc.installed && !dlc.path.empty())
@@ -1490,7 +1554,7 @@ static ContentPlan plan_content(const fs::path &pkg_path, const std::string &tit
         std::ofstream(update_choice_note(pref_path, title_id).string()) << version << "\n";
     }
     if (!patch_version.empty() && version != patch_version) {
-        fs::remove_all(patch, ec);
+        move_dir(patch, patch_shelf(pref_path, title_id, patch_version));
         // The marker of the PKG it was installed from, by the name noted then
         std::string marker_name;
         {
@@ -1500,9 +1564,15 @@ static ContentPlan plan_content(const fs::path &pkg_path, const std::string &tit
         fs::remove(patch_marker_note(pref_path, title_id), ec);
         if (!marker_name.empty())
             forget_install_markers(pref_path, [&](const std::string &name) { return name == marker_name; });
-        lr_log(RETRO_LOG_INFO, "Update %s of %s is no longer chosen (Update: %s): deleted from ux0/patch\n",
+        lr_log(RETRO_LOG_INFO, "Update %s of %s is no longer chosen (Update: %s): set aside\n",
             patch_version.c_str(), title_id.c_str(), version.c_str());
         patch_version.clear();
+    }
+    // The version chosen was installed before and set aside: it comes back
+    if (version != "none" && version != patch_version && shelved_versions.count(version)
+        && move_dir(patch_shelf(pref_path, title_id, version), patch)) {
+        lr_log(RETRO_LOG_INFO, "Update %s of %s is chosen again: back from where it was set aside\n", version.c_str(), title_id.c_str());
+        patch_version = version;
     }
     if (!merged_version.empty() && version != merged_version) {
         // FALLBACK, for games installed by released builds (and by upstream's
@@ -1555,13 +1625,13 @@ bool content_options_changed() {
     return changed;
 }
 
-// The content is closed: what was turned off while it ran is deleted now
+// The content is closed: what was turned off while it ran is set aside now
 // rather than at the game's next start (sco8487) - an installed DLC set to
-// Disabled, the update kept in ux0/patch when another one or None is chosen,
-// the game itself when it is set to Uninstall. Nothing is half done if this
-// never runs (the frontend killed, a crash): the same choices are carried out
-// at the next start, by plan_content. An update merged into the installed
-// game waits for that start too, which installs the game again.
+// Disabled, the update kept in ux0/patch when another one or None is chosen -
+// and with Remove Data on, the title's data is removed. Nothing is half done if
+// this never runs (the frontend killed, a crash): plan_content sets aside the
+// same at the next start. An update merged into the installed game waits for
+// that start too, which installs the game again.
 void content_closed() {
     const auto content = std::move(s_loaded_content);
     s_loaded_content = {};
@@ -1572,16 +1642,22 @@ void content_closed() {
     const fs::path &pref_path = content.pref_path;
     const std::string &title_id = content.title_id;
 
+    if (s_content_value("vita3k_remove_data") == "enabled") {
+        remove_title_data(pref_path, title_id);
+        lr_log(RETRO_LOG_INFO, "%s: its data is removed (Remove Data)\n", title_id.c_str());
+        if (s_set_content_value)
+            s_set_content_value("vita3k_remove_data", "disabled");
+        return;
+    }
+
     for (const auto &dlc : content.dlcs) {
         const fs::path dir = pref_path / "ux0" / "addcont" / title_id / dlc.dlc_id;
         // one with its marker was read out of its PKG, not installed
         if (s_content_value(dlc.key) != "disabled" || !fs::exists(dir, ec)
             || fs::exists(pref_path / "ux0" / "libretro_pkg" / ("dlc_" + title_id + "_" + dlc.dlc_id), ec))
             continue;
-        fs::remove_all(dir, ec);
-        if (!dlc.content_id.empty())
-            forget_install_markers(pref_path, [&](const std::string &name) { return name.rfind(dlc.content_id + "_", 0) == 0; });
-        lr_log(RETRO_LOG_INFO, "DLC %s of %s is turned off: its installed files are deleted\n", dlc.dlc_id.c_str(), title_id.c_str());
+        if (move_dir(dir, dlc_shelf(pref_path, title_id, dlc.dlc_id)))
+            lr_log(RETRO_LOG_INFO, "DLC %s of %s is turned off: set aside until it is turned on again\n", dlc.dlc_id.c_str(), title_id.c_str());
     }
 
     if (!content.update_key.empty()) {
@@ -1589,7 +1665,7 @@ void content_closed() {
         const std::string version = s_content_value(content.update_key);
         sfo::SfoAppInfo info;
         if (!version.empty() && read_installed_sfo(patch, info) && !info.app_version.empty() && info.app_version != version) {
-            fs::remove_all(patch, ec);
+            move_dir(patch, patch_shelf(pref_path, title_id, info.app_version));
             std::string marker_name;
             {
                 fs::ifstream note(patch_marker_note(pref_path, title_id));
@@ -1598,18 +1674,9 @@ void content_closed() {
             fs::remove(patch_marker_note(pref_path, title_id), ec);
             if (!marker_name.empty())
                 forget_install_markers(pref_path, [&](const std::string &name) { return name == marker_name; });
-            lr_log(RETRO_LOG_INFO, "Update %s of %s is no longer chosen (Update: %s): deleted from ux0/patch\n",
+            lr_log(RETRO_LOG_INFO, "Update %s of %s is no longer chosen (Update: %s): set aside\n",
                 info.app_version.c_str(), title_id.c_str(), version.c_str());
         }
-    }
-
-    if (s_content_value(content.game_key) == "uninstall") {
-        if (fs::exists(pref_path / "ux0" / "app" / title_id, ec)) {
-            uninstall_game(pref_path, title_id);
-            lr_log(RETRO_LOG_INFO, "%s is uninstalled (Game: Uninstall): ux0/app/%s is deleted\n", title_id.c_str(), title_id.c_str());
-        }
-        if (s_set_content_value)
-            s_set_content_value(content.game_key, "keep");
     }
 }
 
@@ -1834,7 +1901,7 @@ static std::string find_pkg_license(const fs::path &pkg_path, const fs::path &pr
 }
 
 // A PKG - a game, its update or DLC - run without installing it, or installed
-// into ux0/app, ux0/patch or ux0/addcont (install_pkg_file), as Game Preload
+// into ux0/app, ux0/patch or ux0/addcont (install_pkg_file), as Run Method
 // and the game's Content options say
 static GameInstallResult handle_pkg_game(const fs::path &pkg_path, const fs::path &pref_path, int sys_lang, bool run_pkg) {
     GameInstallResult result;
@@ -2052,7 +2119,7 @@ static GameInstallResult handle_folder_content(const fs::path &game_path, const 
     return result;
 }
 
-GameInstallResult ensure_game_installed(const fs::path &game_path, const fs::path &pref_path, int sys_lang, bool run_pkg) {
+static GameInstallResult install_or_open(const fs::path &game_path, const fs::path &pref_path, int sys_lang, bool run_pkg) {
     GameInstallResult result;
 
     lr_log(RETRO_LOG_INFO, "=== Checking game installation ===\n");
@@ -2073,7 +2140,7 @@ GameInstallResult ensure_game_installed(const fs::path &game_path, const fs::pat
     if (game_is_directory) {
         if (lr_vfs_is_uri(game_path.string())) {
             lr_log(RETRO_LOG_ERROR, "A game folder through the frontend's VFS is not supported: %s\n", game_path.generic_string().c_str());
-            lr_msg("A game folder picked through Android's file picker is not supported; load the .vpk, .zip or .pkg", 400);
+            lr_msg("A game directory picked through Android's file picker is not supported; load the .vpk, .zip or .pkg", 400);
             return result;
         }
         return handle_folder_content(game_path, pref_path, sys_lang, run_pkg);
@@ -2091,7 +2158,7 @@ GameInstallResult ensure_game_installed(const fs::path &game_path, const fs::pat
             return handle_folder_content(game_path.parent_path(), pref_path, sys_lang, run_pkg);
         }
         lr_log(RETRO_LOG_ERROR, "Unsupported game format: %s (expected .vpk, .zip, .pkg, or folder)\n", extension.c_str());
-        lr_msg("Unsupported format! Use .vpk, .zip, .pkg, or game folder", 300);
+        lr_msg("Unsupported format! Use .vpk, .zip, .pkg, or a game directory", 300);
         return result;
     }
 
@@ -2168,7 +2235,7 @@ GameInstallResult ensure_game_installed(const fs::path &game_path, const fs::pat
 
     const auto app_path = pref_path / "ux0" / "app" / result.title_id;
 
-    // Run without installing (Game Preload), as a PKG is: the game's files read
+    // Run without installing (Run Method), as a PKG is: the game's files read
     // out of the archive as it goes, decrypted on the way for a NoNpDrm one,
     // and nothing of it kept in ux0/app once it is closed. An update or DLC in
     // the archive, and a game installed already, go the installed way below.
@@ -2352,7 +2419,7 @@ GameInstallResult ensure_game_installed(const fs::path &game_path, const fs::pat
 
     // An update stays in ux0/patch and is laid over the game when it starts, as one
     // installed from a PKG does; a DLC stays in ux0/addcont. Loaded on its own (not through
-    // the game's Content options), it is kept whatever Game Preload says
+    // the game's Content options), it is kept whatever Run Method says
     mark_forced_install(pref_path, result.title_id, app_info.app_category, app_info.app_content_id, game_path);
 
     // Verify installation
@@ -2371,5 +2438,20 @@ GameInstallResult ensure_game_installed(const fs::path &game_path, const fs::pat
         lr_msg("Installation failed!", 300);
     }
 
+    return result;
+}
+
+GameInstallResult ensure_game_installed(const fs::path &game_path, const fs::path &pref_path, int sys_lang, bool run_pkg) {
+    GameInstallResult result = install_or_open(game_path, pref_path, sys_lang, run_pkg);
+    // An update or DLC loaded on its own starts its installed game, which then
+    // gets its Content options like a game loaded itself (Shoegzer): its
+    // update and DLC as they are installed, and Current Title
+    boost::system::error_code ec;
+    const fs::path app = pref_path / "ux0" / "app" / result.title_id;
+    if (result.success && !result.title_id.empty() && s_loaded_content.title_id.empty()
+        && fs::exists(app / "eboot.bin", ec)) {
+        lr_log(RETRO_LOG_INFO, "%s: Content options from the installed game\n", result.title_id.c_str());
+        plan_content(app, result.title_id, pref_path, false);
+    }
     return result;
 }

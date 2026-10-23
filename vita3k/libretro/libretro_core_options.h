@@ -77,10 +77,11 @@ struct retro_core_option_v2_category option_cats_us[] = {
     { "system", "System", "System emulation options." },
     { "audio", "Audio", "Audio output options." },
     { "network", "Network", "Network options." },
-    { "install", "Content", "How a game, update and DLCs are loaded." },
+    { "install", "Content", "Manage data for a given title, as well as any updates and downloadable content." },
     { "camera", "Camera", "What the Vita's front and back cameras see." },
     { "accounts", "Accounts", "The Vita's accounts (users) in ux0/user, each with its own saves and trophies." },
-    { "modules", "Modules", "The firmware's modules (vs0/sys/external) to load when Modules Mode is Auto & Manual or Manual." },
+    { "trophies", "Trophies", "The current title's trophies." },
+    { "modules", "Modules", "The firmware's modules (vs0/sys/external) to load when Modules Mode (in System) is Auto & Manual or Manual." },
     { NULL, NULL, NULL },
 };
 
@@ -241,18 +242,115 @@ struct retro_core_option_v2_definition option_defs_us[] = {
     // ── System ───────────────────────────────────────────────────────────
     {
         "vita3k_pkg_mode",
-        "Game Preload",
+        "Run Method",
         NULL,
-        "All content follows this setting except updates and DLC force installed (loaded manually). Run Without Installing: reads from file, nothing is kept. Persistent Cache: the same, keeps what was read. Install: copy all files to start faster.",
+        "Defines how a title, its updates and downloadable content are run when the title is loaded via Main Menu > Load Content. Content can be disabled in separate options that appear once it is applied or installed, or can be individually loaded outside this process instead.\n\n"
+        "Direct: the title and content are run directly from the original media.\n\n"
+        "Direct with Cache: the same as Direct, but the core persistently caches data that is read from the title's media during use. This can increase performance in certain cases, such as when the media is accessed from a network share with limited bandwidth.\n\n"
+        "Installed: the title and content are installed to the emulated Vita's memory card when it is first loaded, and run from the installed location thereafter.",
         NULL,
         "install",
         {
-            { "run", "Run Without Installing" },
-            { "cache", "Persistent Cache" },
-            { "install", "Install" },
+            { "run", "Direct" },
+            { "cache", "Direct with Cache" },
+            { "install", "Installed" },
             { NULL, NULL },
         },
         "run"
+    },
+    {
+        "vita3k_trophy_show",
+        "Display: Earn Status",
+        NULL,
+        "Controls which trophies are displayed by whether or not they have been earned.",
+        NULL,
+        "trophies",
+        {
+            { "all", "All" },
+            { "earned", "Earned" },
+            { "unearned", "Not Earned" },
+            { NULL, NULL },
+        },
+        "all"
+    },
+    {
+        "vita3k_trophy_grade",
+        "Display: Grade",
+        NULL,
+        "Controls which trophies are displayed by their grade (Platinum, Gold, Silver or Bronze).",
+        NULL,
+        "trophies",
+        {
+            { "all", "All" },
+            { "platinum", "Platinum" },
+            { "gold", "Gold" },
+            { "silver", "Silver" },
+            { "bronze", "Bronze" },
+            { NULL, NULL },
+        },
+        "all"
+    },
+    {
+        "vita3k_trophy_hidden",
+        "Display: Hidden",
+        NULL,
+        "Controls the display of hidden trophies.",
+        NULL,
+        "trophies",
+        {
+            { "disabled", NULL },
+            { "enabled", NULL },
+            { NULL, NULL },
+        },
+        "disabled"
+    },
+    {
+        "vita3k_trophy_sort",
+        "Sort Method",
+        NULL,
+        "Controls how trophies are sorted.",
+        NULL,
+        "trophies",
+        {
+            { "type", "By Grade" },
+            { "name", "By Name" },
+            { "date", "By Earn Date" },
+            { NULL, NULL },
+        },
+        "type"
+    },
+    {
+        "vita3k_content_subdirs",
+        "Include Subdirectories",
+        NULL,
+        "ON: Downloadable content and updates found in all subdirectories of the title's directory are used.\n\n"
+        "OFF: Only downloadable content and updates found within the title's directory are used.",
+        NULL,
+        "install",
+        {
+            { "disabled", NULL },
+            { "enabled", NULL },
+            { NULL, NULL },
+        },
+        "disabled"
+    },
+    {
+        "vita3k_remove_data",
+        "Remove Data",
+        NULL,
+        "Data for the running title is permanently removed when turned ON and the title is closed or reset. The data removed depends on its Run Method:\n\n"
+        "Direct: removes the shader cache.\n"
+        "Direct with Cache: removes the shader cache and persistent cache.\n"
+        "Installed: removes the shader cache and all data installed on the memory card.\n\n"
+        "This is recommended once the title is no longer in active use, as it can recover a lot of drive space used by the title. Saves and other user-generated data are left intact.",
+        NULL,
+        "install",
+        {
+            { "disabled", NULL },
+            { "enabled", NULL },
+            { NULL, NULL },
+        },
+        "disabled"
     },
     {
         "vita3k_pstv_mode",
@@ -264,6 +362,22 @@ struct retro_core_option_v2_definition option_defs_us[] = {
         {
             { "disabled", NULL },
             { "enabled", NULL },
+            { NULL, NULL },
+        },
+        "disabled"
+    },
+    {
+        "vita3k_install_firmware",
+        "Install Firmware",
+        NULL,
+        "When turned ON, and when the running title becomes active, any firmware found in system/vita3k will be installed.  This option will turn OFF once this is complete.\n\n"
+        "Three categories of firmware may be installed: system firmware, pre-installed packages, and fonts. Any previously-installed firmware will be overwritten.\n\n"
+        "Firmware may also be installed manually via Main Menu > Load Content.",
+        NULL,
+        "system",
+        {
+            { "disabled", "OFF" },
+            { "enabled", "ON" },
             { NULL, NULL },
         },
         "disabled"

@@ -40,16 +40,14 @@ FirmwareStatus check_firmware_status(const fs::path &pref_path);
 
 // ─── Firmware installation ──────────────────────────────────────────────────
 
-/// Attempt to ensure all firmware is installed. Returns true if all firmware
-/// is present after this call (either already installed or newly installed).
-///
-/// Strategy:
-///   1. If firmware is already installed, return true immediately.
-///   2. Look for the PUP files in system_dir (e.g. PSP2UPDAT.PUP).
-///   3. If found, install them via install_pup().
-///   4. If not, return false and log where to download them from (the core
-///      downloads nothing itself).
-bool ensure_firmware_installed(const fs::path &pref_path, const fs::path &system_dir);
+/// At a game's load: whether the system firmware is installed. Nothing is
+/// installed here (System > Install Firmware does that, on request); a
+/// missing part is logged with where to get it, and said on screen.
+bool check_firmware_installed(const fs::path &pref_path, const fs::path &system_dir);
+
+/// System > Install Firmware: every firmware part whose .pup is in system_dir
+/// installed from it, over what is there. The result, as a line for the screen.
+std::string install_firmware_from_folder(const fs::path &pref_path, const fs::path &system_dir);
 
 /// A .pup loaded as content: installed, whichever of the three packages it is
 /// (upstream's install_pup tells them apart by their content, as they all
@@ -104,7 +102,7 @@ struct GameInstallResult {
 
 /// The loaded content made ready to start: a PKG, VPK/ZIP, folder or eboot.bin
 /// (its folder). A game installed already runs installed. Otherwise, with
-/// run_pkg (Game Preload: Run Without Installing or Persistent Cache), it is
+/// run_pkg (Run Method: Run Without Installing or Persistent Cache), it is
 /// laid out to be read where it lies (lazy_pkg); else it is installed into
 /// ux0. Its updates and DLC are declared in Content and used as chosen there.
 /// An update or DLC loaded on its own is installed.

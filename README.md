@@ -25,15 +25,15 @@ The PS Vita firmware is required. Download it from PlayStation's website and put
 
 All three download under the same name, so rename the preinstalled package and the fonts as you save them.
 
-The core installs them the first time it starts.
+Then turn on Core Options > System > Install Firmware: when the menu is closed, the core installs every part it finds there, over what is installed, so a newer system firmware `.pup` updates it. Core options are there only while content runs: with no firmware yet, a game still loads (it waits on a black screen, and the core says which part is missing), so turn the option on then and close and load the game again once it is done. Nothing is installed at a start by itself.
 
 A `.pup` can also be loaded from RetroArch like a game, under any name: the core installs it, says which parts of the firmware are still missing, and starts nothing. Load each of the three that way and then a game.
 
 ## Content
 
-A game is loaded as a `.pkg`, `.vpk` or `.zip`, as a game folder, or through the folder's `eboot.bin`. With Game Preload set to Run Without Installing or Persistent Cache (the default is the first), the game is read where it lies as it goes, whichever of these it is; with Install it is installed into `system/vita3k/` the first time it is started, and started from there afterwards. Where the system folder is on a file system without sparse files (FAT32, exFAT), Game Preload offers Install only. A game's updates and DLC (PKG, VPK or ZIP) beside it, or inside its folder, are listed in the core options under Content.
+A game is loaded as a `.pkg`, `.vpk` or `.zip`, as a game folder, or through the folder's `eboot.bin`. With Run Method set to Direct or Direct with Cache (the default is the first), the game is read where it lies as it goes, whichever of these it is; with Installed it is installed into `system/vita3k/` the first time it is started, and started from there afterwards. Where the system folder is on a file system without sparse files (FAT32, exFAT), Run Method offers Installed only. A game's updates and DLC (PKG, VPK or ZIP) beside it, or inside its folder, are listed in the core options under Content (with Include Subdirectories, also in every directory below), and Remove Data, when turned on, deletes what the core wrote for the running title as it is closed or reset (its install, update and DLC, persistent cache and shader cache; saves stay). A DLC turned off, or an installed update another version or None is chosen over, is set aside in `ux0/libretro_pkg/off` and comes back when chosen again. Where things go: an installed game in `ux0/app/<title ID>`, its update in `ux0/patch/<title ID>`, its DLC in `ux0/addcont/<title ID>`, and Direct with Cache's persistent cache in `system/vita3k/cache/pkg`. The core options' Trophies category lists the running game's trophies, which are kept in `ux0/user/<account>/trophy`.
 
-A game, update or DLC can also be loaded as a `.pkg`, with its license next to it: `work.bin`, `<pkg name>.rif`, or the zRIF in `<pkg name>.zrif`. Game Preload says whether it is run without installing (it starts in seconds and its files are decrypted from the PKG as the game reads them) or installed into `ux0/app`; an update or DLC loaded on its own is installed (Forced Install in Content).
+A game, update or DLC can also be loaded as a `.pkg`, with its license next to it: `work.bin`, `<pkg name>.rif`, or the zRIF in `<pkg name>.zrif`. Run Method says whether it is run directly (it starts in seconds and its files are decrypted from the PKG as the game reads them) or installed into `ux0/app`; an update or DLC loaded on its own is installed (Installed in Content, whatever the Run Method).
 
 ## Requirements
 
@@ -48,11 +48,11 @@ The pad is the Vita's buttons and sticks. Games that use the gyroscope and accel
 - **GPU**: renderer, internal resolution, screen filter (bilinear, nearest, bicubic, FXAA, FSR), anisotropic filtering, asynchronous pipeline compilation, the shader compile overlay, memory mapping, high-accuracy rendering, surface sync, V-Sync, FPS hack.
 - **CPU**: CPU optimizations.
 - **System**: PS TV mode, modules mode, confirm button, system language, date format, time format, file loading delay. The date and time are the host's, as in standalone Vita3K.
-- **Modules**: the firmware's modules (`vs0/sys/external`), each on or off, loaded when Modules Mode is Auto & Manual or Manual; listed only then. Saved per game with RetroArch's game options, as upstream keeps them per game.
+- **Modules**: the firmware's modules (`vs0/sys/external`), each on or off, loaded when Modules Mode (in System) is Auto & Manual or Manual; listed only then. Saved per game with RetroArch's game options, as upstream keeps them per game.
 - **Audio**: volume, NGS audio engine.
 - **Camera**: what the front and back cameras see: RetroArch's camera (Host Camera; it needs Settings > Privacy > Camera Access on, and a camera driver for the platform), an image (`system/vita3k/camera/front.png` or `back.png`, also `.jpg`), or a solid colour.
 - **Network**: PSN signed in, HTTP (on or off, timeout and read-end attempts and sleeps), the adhoc address among the host's network interfaces.
-- **Accounts**: the account a game starts as (Active Account), Create Account and Remove Account. Each account (`ux0/user/<id>`) has its own saves and trophies. Their names are in `system/vita3k/account_name.txt`, one `<id> = <name>` line each, which the core writes at each start; change a name there and the account has it the next time a game starts.
+- **Accounts**: the account a game starts as (Active Account), Create Account, Rename Active Account (a name entry by pad or keyboard, shown as RetroArch's notification) and Remove Account. Each account (`ux0/user/<id>`) has its own saves and trophies. Their names are in `system/vita3k/account_name.txt`, one `<id> = <name>` line each, which the core writes at each start; change a name there and the account has it the next time a game starts.
 
 ## Building
 

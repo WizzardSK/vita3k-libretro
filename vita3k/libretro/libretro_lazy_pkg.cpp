@@ -461,7 +461,7 @@ public:
             m_paths.push_back(it->path());
         }
         if (ec || m_entries.empty()) {
-            error = "cannot read the game's folder";
+            error = "cannot read the game's directory";
             return false;
         }
         return true;

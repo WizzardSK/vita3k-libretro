@@ -24,6 +24,7 @@
 #include "libretro_log.h"
 #include "libretro_game_loader.h"
 #include "libretro_accounts.h"
+#include "libretro_input_state.h"
 
 #include <app/functions.h>
 #include <camera/camera.h>
@@ -54,6 +55,7 @@
 #include <util/fs.h>
 #include <util/log.h>
 #include <util/string_utils.h>
+#include <np/trophy/collection.h>
 
 #include <glad/glad.h>
 
@@ -66,6 +68,7 @@
 #include <limits>
 #include <array>
 #include <atomic>
+#include <thread>
 #include <cstdarg>
 #include <cmath>
 #include <cstdlib>
@@ -91,6 +94,7 @@ static void read_core_options();
 static void stop_render_thread();
 static void request_guest_shutdown(EmuEnvState &emuenv, const char *reason);
 static bool perform_core_reset();
+static void join_firmware_thread();
 
 static void lr_message(const std::string &msg, unsigned frames = 240) {
     if (!libretro.environ_cb)
@@ -173,7 +177,7 @@ static void install_bundled_files(const fs::path &pref_path) {
 }
 
 // Whether the system folder's file system can hold files with holes
-// (lazy_pkg::holes_supported). Without, Game Preload offers Install only:
+// (lazy_pkg::holes_supported). Without, Run Method offers Install only:
 // Run Without Installing and Persistent Cache would take as much space as an
 // install and save nothing (sco8487).
 static bool s_holes_supported = true;
@@ -184,8 +188,8 @@ static const retro_core_option_v2_definition install_only_preload = [] {
         if (std::string_view(d->key) == "vita3k_pkg_mode")
             def = *d;
     }
-    def.info = "Install: copy all files to start faster. Run Without Installing and Persistent Cache are not offered: the system folder is on a file system without sparse files (such as FAT32 or exFAT), where they would take as much space as an install.";
-    def.values[0] = { "install", "Install" };
+    def.info = "Installed: the title, its update and downloadable content are installed to the emulated Vita's memory card. Direct and Direct with Cache are not offered: the system directory is on a file system without sparse files (such as FAT32 or exFAT), where they would take as much space as an install.";
+    def.values[0] = { "install", "Installed" };
     def.values[1] = { nullptr, nullptr };
     def.default_value = "install";
     return def;
@@ -199,6 +203,9 @@ static std::vector<ContentOption> s_kept_content_options;
 static std::vector<ContentOption> s_kept_account_options;
 static std::vector<ContentOption> s_kept_module_options;
 static std::vector<ContentOption> s_kept_network_options;
+static std::vector<ContentOption> s_kept_trophy_options;
+
+static bool show_trophy_entries();
 
 static std::map<std::string, std::string> declare_extra_options(const std::vector<ContentOption> &options, std::vector<ContentOption> &kept_for) {
     static std::vector<retro_core_option_v2_definition> definitions;
@@ -216,6 +223,8 @@ static std::map<std::string, std::string> declare_extra_options(const std::vecto
     for (const ContentOption &option : s_kept_module_options)
         kept.push_back(&option);
     for (const ContentOption &option : s_kept_network_options)
+        kept.push_back(&option);
+    for (const ContentOption &option : s_kept_trophy_options)
         kept.push_back(&option);
     definitions.clear();
     for (const retro_core_option_v2_definition *def = option_defs_us; def->key; def++)
@@ -245,6 +254,8 @@ static std::map<std::string, std::string> declare_extra_options(const std::vecto
     options_us.definitions = definitions.data();
     bool categories_supported = false;
     libretro_set_core_options(libretro.environ_cb, &categories_supported);
+    // Declaring shows every option again
+    show_trophy_entries();
 
     for (const ContentOption &option : kept_for) {
         if (!option.set_value.empty()) {
@@ -326,6 +337,181 @@ static void request_host_camera() {
         });
 }
 
+// Trophies (Shoegzer): the running title's trophy list under Trophies, one
+// entry per trophy - grade and name, earned or not and when, its description
+// and ID - after a Progress entry. RetroArch's options are text, so there are
+// no icons. The list is declared once in each Sort Method order; the Display
+// options and Sort Method only change which entries are visible, so they apply
+// in the menu right away. Empty rows above and below Progress set it apart.
+// Declared again when the title's trophy data changes.
+static const char *const TROPHY_GRADES[] = { "", "Platinum", "Gold", "Silver", "Bronze" };
+static const char *const TROPHY_SORTS[] = { "type", "name", "date" };
+
+struct TrophyEntry {
+    std::string key, sort;
+    bool earned = false;
+    int grade = 0;
+    // 0: always, 2: only with Display: Hidden on (a hidden trophy not earned)
+    int hidden_variant = 0;
+};
+static std::vector<TrophyEntry> s_trophy_entries;
+
+static std::vector<std::string> title_trophy_ids(const EmuEnvState &emuenv) {
+    std::vector<std::string> ids;
+    boost::system::error_code ec;
+    const fs::path dir = emuenv.vita_fs_path / "ux0" / "app" / emuenv.io.title_id / "sce_sys" / "trophy";
+    for (fs::directory_iterator it(dir, ec), end; !ec && it != end; it.increment(ec))
+        ids.push_back(it->path().filename().string());
+    return ids;
+}
+
+static bool show_trophy_entries() {
+    if (!libretro.environ_cb || s_trophy_entries.empty())
+        return false;
+    const std::string_view show = get_core_option_value("vita3k_trophy_show", "all");
+    const std::string_view grade = get_core_option_value("vita3k_trophy_grade", "all");
+    const std::string_view sort = get_core_option_value("vita3k_trophy_sort", "type");
+    const bool show_hidden = std::string_view(get_core_option_value("vita3k_trophy_hidden", "disabled")) == "enabled";
+    for (const TrophyEntry &entry : s_trophy_entries) {
+        bool visible = entry.sort == sort
+            && !(show == "earned" && !entry.earned) && !(show == "unearned" && entry.earned)
+            && (grade == "all" || string_utils::tolower(TROPHY_GRADES[entry.grade]) == grade)
+            && !(entry.hidden_variant == 2 && !show_hidden);
+        if (entry.sort.empty())
+            visible = true;
+        retro_core_option_display display{ entry.key.c_str(), visible };
+        libretro.environ_cb(RETRO_ENVIRONMENT_SET_CORE_OPTIONS_DISPLAY, &display);
+    }
+    return true;
+}
+
+static bool RETRO_CALLCONV update_trophy_display() {
+    return show_trophy_entries();
+}
+
+static void declare_trophy_options(EmuEnvState &emuenv) {
+    np::trophy::CollectionSource source;
+    source.io = &emuenv.io;
+    source.vita_fs_path = emuenv.vita_fs_path;
+    source.user_id = emuenv.io.user_id;
+    source.lang = static_cast<uint32_t>(emuenv.cfg.sys_lang);
+    const std::vector<std::string> collections = np::trophy::list_collection_ids(source);
+
+    std::vector<ContentOption> options;
+    std::vector<TrophyEntry> entries;
+    for (const std::string &id : title_trophy_ids(emuenv)) {
+        if (std::find(collections.begin(), collections.end(), id) == collections.end())
+            continue;
+        np::trophy::CollectionSnapshot snapshot;
+        if (!np::trophy::load_collection(source, id, snapshot) || snapshot.trophies.empty())
+            continue;
+
+        const int total = static_cast<int>(snapshot.trophies.size());
+        // Empty rows above and below Progress set it apart from the Display
+        // options and from the list (Shoegzer): a space for the label and the
+        // value, as RetroArch shows the key or the value's name for an empty
+        // one
+        const auto add_spacer = [&](const char *where) {
+            ContentOption spacer;
+            spacer.key = fmt::format("vita3k_trophy_spacer_{}_{}", where, id);
+            spacer.category = "trophies";
+            spacer.label = " ";
+            spacer.values.emplace_back("_", " ");
+            spacer.default_value = "_";
+            options.push_back(std::move(spacer));
+            entries.push_back({ options.back().key, "" });
+        };
+        add_spacer("above");
+        ContentOption progress;
+        progress.key = "vita3k_trophy_progress_" + id;
+        progress.category = "trophies";
+        progress.label = "Progress";
+        // The title as Content's Current Title names it (Shoegzer), not by the
+        // trophy set's own name and ID
+        progress.info = emuenv.current_app_title.empty() ? emuenv.io.title_id
+                                                         : fmt::format("{} ({})", emuenv.current_app_title, emuenv.io.title_id);
+        const std::string count = fmt::format("{}/{} ({}%)", snapshot.unlocked, total, snapshot.unlocked * 100 / total);
+        progress.values.emplace_back(count, count);
+        progress.default_value = count;
+        progress.set_value = count;
+        options.push_back(std::move(progress));
+        entries.push_back({ options.back().key, "" });
+        add_spacer("below");
+
+        for (const char *sort : TROPHY_SORTS) {
+            std::vector<const np::trophy::TrophyRecord *> sorted;
+            for (const np::trophy::TrophyRecord &trophy : snapshot.trophies)
+                sorted.push_back(&trophy);
+            // Type: Platinum to Bronze; Name: alphabetical; Completion Date:
+            // earned first, oldest first, the ones not earned last. Ties by ID.
+            std::stable_sort(sorted.begin(), sorted.end(), [&](const np::trophy::TrophyRecord *a, const np::trophy::TrophyRecord *b) {
+                if (std::string_view(sort) == "type")
+                    return a->grade < b->grade;
+                if (std::string_view(sort) == "name")
+                    return string_utils::tolower(a->name) < string_utils::tolower(b->name);
+                if (a->earned != b->earned)
+                    return a->earned;
+                return a->earned && a->timestamp < b->timestamp;
+            });
+            for (const np::trophy::TrophyRecord *record : sorted) {
+                const np::trophy::TrophyRecord &trophy = *record;
+                const int grade = trophy.grade >= 1 && trophy.grade <= 4 ? trophy.grade : 0;
+                const char *grade_name = TROPHY_GRADES[grade];
+                std::string state = "Not Earned";
+                if (trophy.earned) {
+                    state = "Earned";
+                    const std::time_t when = static_cast<std::time_t>(trophy.timestamp);
+                    std::tm tm{};
+#ifdef _WIN32
+                    const bool have = when > 0 && localtime_s(&tm, &when) == 0;
+#else
+                    const bool have = when > 0 && localtime_r(&when, &tm);
+#endif
+                    if (have)
+                        state += fmt::format(" {:04}-{:02}-{:02} {:02}:{:02}", tm.tm_year + 1900, tm.tm_mon + 1, tm.tm_mday, tm.tm_hour, tm.tm_min);
+                }
+                // A hidden trophy not earned yet is listed only with Display:
+                // Hidden on (Shoegzer); once earned it is not hidden any more
+                const int variant = trophy.hidden && !trophy.earned ? 2 : 0;
+                ContentOption option;
+                option.key = fmt::format("vita3k_trophy_{}_{}_{}", sort, id, trophy.id);
+                option.category = "trophies";
+                option.label = fmt::format("{}: {}", grade_name, trophy.name);
+                option.info = fmt::format("{}{} ID {}.", trophy.detail, trophy.hidden ? " (Hidden.)" : "", trophy.id);
+                option.values.emplace_back(state, state);
+                option.default_value = state;
+                option.set_value = state;
+                options.push_back(std::move(option));
+                entries.push_back({ options.back().key, sort, trophy.earned, grade, variant });
+            }
+        }
+    }
+    s_trophy_entries = std::move(entries);
+    declare_extra_options(options, s_kept_trophy_options);
+}
+
+// What the list was made from - the title's trophy configuration, written when
+// the game opens its trophies, and its progress, written when one is earned;
+// checked every few seconds of play
+static void refresh_trophy_options(EmuEnvState &emuenv) {
+    static std::string made_from;
+    if (emuenv.io.title_id.empty())
+        return;
+    std::string now = emuenv.io.title_id;
+    boost::system::error_code ec;
+    const fs::path trophy = emuenv.vita_fs_path / "ux0" / "user" / emuenv.io.user_id / "trophy";
+    for (const std::string &id : title_trophy_ids(emuenv)) {
+        now += " " + id + (fs::exists(trophy / "conf" / id / "TROP.SFM", ec) ? "+" : "-");
+        const auto stamp = fs::last_write_time(trophy / "data" / id / "TROPUSR.DAT", ec);
+        now += ec ? std::string("-") : std::to_string(static_cast<long long>(stamp));
+        ec.clear();
+    }
+    if (now == made_from)
+        return;
+    made_from = now;
+    declare_trophy_options(emuenv);
+}
+
 static void declare_module_options(const fs::path &pref_path) {
     s_module_names.clear();
     boost::system::error_code ec;
@@ -344,7 +530,7 @@ static void declare_module_options(const fs::path &pref_path) {
         option.key = MODULE_KEY_PREFIX + name;
         option.category = "modules";
         option.label = name;
-        option.info = "Load vs0:sys/external/" + name + ".suprx from the firmware in place of the core's own implementation, when Modules Mode is Auto & Manual or Manual. Applies the next time the game is started.";
+        option.info = "Load vs0:sys/external/" + name + ".suprx from the firmware in place of the core's own implementation, when Modules Mode (in System) is Auto & Manual or Manual. Applies the next time the game is started.";
         option.values = { { "disabled", "OFF" }, { "enabled", "ON" } };
         option.default_value = "disabled";
         options.push_back(std::move(option));
@@ -1510,7 +1696,7 @@ static void request_guest_shutdown(EmuEnvState &emuenv, const char *reason) {
 }
 
 // The content prepared for a run: the game's entries in Content declared, and
-// its PKG installed or mounted as Game Preload and those entries say
+// its PKG installed or mounted as Run Method and those entries say
 static GameInstallResult open_content() {
     const fs::path pref_path = fs::path(libretro.system_dir);
     remove_dead_runs(pref_path);
@@ -1520,10 +1706,12 @@ static GameInstallResult open_content() {
     s_kept_account_options.clear();
     s_kept_module_options.clear();
     s_kept_network_options.clear();
+    s_kept_trophy_options.clear();
+    s_trophy_entries.clear();
     set_content_options_handler(declare_content_options);
     s_holes_supported = lazy_pkg::holes_supported(pref_path / "ux0");
     if (!s_holes_supported) {
-        lr_log(RETRO_LOG_INFO, "Game Preload: %s has no sparse files, games are installed\n", (pref_path / "ux0").string().c_str());
+        lr_log(RETRO_LOG_INFO, "Run Method: %s has no sparse files, games are installed\n", (pref_path / "ux0").string().c_str());
         declare_content_options({});
         // A Persistent Cache from when the folder was on a file system with them
         // (copied over since) has no use any more (sco8487); what a run without
@@ -1531,7 +1719,7 @@ static GameInstallResult open_content() {
         boost::system::error_code ec;
         if (fs::exists(pref_path / "cache" / "pkg", ec)) {
             fs::remove_all(pref_path / "cache" / "pkg", ec);
-            lr_log(RETRO_LOG_INFO, "Game Preload: Persistent Cache removed\n");
+            lr_log(RETRO_LOG_INFO, "Run Method: Persistent Cache removed\n");
         }
     }
     const std::string pkg_mode_name = s_holes_supported ? get_core_option_value("vita3k_pkg_mode", "run") : "install";
@@ -1827,6 +2015,8 @@ RETRO_API void retro_set_environment(retro_environment_t cb) {
 
     bool categories_supported = false;
     libretro_set_core_options(libretro.environ_cb, &categories_supported);
+    retro_core_options_update_display_callback update_display{ update_trophy_display };
+    cb(RETRO_ENVIRONMENT_SET_CORE_OPTIONS_UPDATE_DISPLAY_CALLBACK, &update_display);
     libretro_log_init();
 }
 
@@ -1928,6 +2118,7 @@ RETRO_API void retro_init(void) {
 }
 
 RETRO_API void retro_deinit(void) {
+    join_firmware_thread();
     lr_log(RETRO_LOG_INFO, "retro_deinit()\n");
     lr_trace("retro_deinit.enter",
         "initialized=%d game_loaded=%d emuenv=%d app_started=%d",
@@ -1955,6 +2146,8 @@ RETRO_API void retro_deinit(void) {
 #endif
 }
 
+static void RETRO_CALLCONV libretro_keyboard_event(bool down, unsigned keycode, uint32_t character, uint16_t modifiers);
+
 RETRO_API bool retro_load_game(const struct retro_game_info *game) {
     if (!game || !game->path) {
         lr_log(RETRO_LOG_ERROR, "No game path provided\n");
@@ -1962,6 +2155,12 @@ RETRO_API bool retro_load_game(const struct retro_game_info *game) {
     }
 
     lr_log(RETRO_LOG_INFO, "retro_load_game: %s\n", game->path);
+
+    // Keys for the name entry of Rename Active Account
+    {
+        retro_keyboard_callback keyboard{ libretro_keyboard_event };
+        libretro.environ_cb(RETRO_ENVIRONMENT_SET_KEYBOARD_CALLBACK, &keyboard);
+    }
     lr_trace("retro_load_game.begin", "path=%s", game->path);
     libretro.game_path = game->path;
 
@@ -1993,7 +2192,7 @@ RETRO_API bool retro_load_game(const struct retro_game_info *game) {
         return false;
     }
 
-    if (!ensure_firmware_installed(pref_path, system_dir)) {
+    if (!check_firmware_installed(pref_path, system_dir)) {
         lr_log(RETRO_LOG_WARN, "Firmware not found — expect errors\n");
         lr_trace("retro_load_game.firmware", "firmware not found at %s", system_dir.generic_string().c_str());
     }
@@ -2099,6 +2298,7 @@ RETRO_API bool retro_load_game_special(unsigned game_type, const struct retro_ga
 
 RETRO_API void retro_unload_game(void) {
     lr_log(RETRO_LOG_INFO, "retro_unload_game()\n");
+    join_firmware_thread();
     lr_trace("retro_unload_game.enter", "game_loaded=%d emuenv=%d", libretro.game_loaded ? 1 : 0, libretro.emuenv ? 1 : 0);
 
     if (libretro.emuenv) {
@@ -2115,6 +2315,230 @@ RETRO_API void retro_unload_game(void) {
     libretro.reset_requested = false;
     libretro.installed_title_id.clear();
     libretro.installed_title.clear();
+}
+
+// System > Install Firmware: the .pup files in system/vita3k installed on
+// request, on a thread of its own so the frontend keeps running meanwhile,
+// and its result shown from retro_run once it is done
+static std::thread s_firmware_thread;
+static std::atomic_bool s_firmware_done{ false };
+static std::string s_firmware_result;
+
+static void join_firmware_thread() {
+    if (s_firmware_thread.joinable())
+        s_firmware_thread.join();
+}
+
+static void handle_install_firmware_request() {
+    if (std::string(get_core_option_value("vita3k_install_firmware", "disabled")) != "enabled")
+        return;
+    retro_variable off{ "vita3k_install_firmware", "disabled" };
+    libretro.environ_cb(RETRO_ENVIRONMENT_SET_VARIABLE, &off);
+    if (s_firmware_thread.joinable()) {
+        lr_message("Install Firmware: still installing");
+        return;
+    }
+    const fs::path system_dir = fs::path(libretro.system_dir);
+    s_firmware_done = false;
+    s_firmware_thread = std::thread([system_dir] {
+        s_firmware_result = install_firmware_from_folder(system_dir, system_dir);
+        s_firmware_done = true;
+    });
+}
+
+static void show_firmware_result() {
+    if (!s_firmware_done.exchange(false))
+        return;
+    join_firmware_thread();
+    lr_message(s_firmware_result, 600);
+}
+
+// Rename Active Account: a name typed inside the core, since a core option
+// cannot hold free text, as in the Cemu core (Shoegzer, #1). The name so far is
+// shown as the frontend's status line. A pad picks it a character at a time;
+// a keyboard types it, through the frontend's keyboard callback. The game gets
+// no input while the entry is open.
+static struct {
+    bool active = false;
+    std::string id;
+    std::u32string text;
+    std::recursive_mutex mutex; // the keyboard callback may come from another thread
+    bool accept = false, cancel = false, changed = false;
+    bool held[16]{};
+    int repeat = 0, shown = 0;
+} s_name_entry;
+
+static constexpr size_t NAME_ENTRY_MAX = 16;
+static const std::u32string NAME_ENTRY_CHARACTERS = U"ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789 -_.!?&+";
+
+static std::string utf32_to_utf8(const std::u32string &text) {
+    std::string out;
+    for (const char32_t c : text) {
+        if (c < 0x80)
+            out += static_cast<char>(c);
+        else if (c < 0x800) {
+            out += static_cast<char>(0xC0 | (c >> 6));
+            out += static_cast<char>(0x80 | (c & 0x3F));
+        } else if (c < 0x10000) {
+            out += static_cast<char>(0xE0 | (c >> 12));
+            out += static_cast<char>(0x80 | ((c >> 6) & 0x3F));
+            out += static_cast<char>(0x80 | (c & 0x3F));
+        } else {
+            out += static_cast<char>(0xF0 | (c >> 18));
+            out += static_cast<char>(0x80 | ((c >> 12) & 0x3F));
+            out += static_cast<char>(0x80 | ((c >> 6) & 0x3F));
+            out += static_cast<char>(0x80 | (c & 0x3F));
+        }
+    }
+    return out;
+}
+
+static std::u32string utf8_to_utf32(const std::string &text) {
+    std::u32string out;
+    for (size_t i = 0; i < text.size();) {
+        const unsigned char c = static_cast<unsigned char>(text[i]);
+        const int extra = c < 0x80 ? 0 : c < 0xE0 ? 1 : c < 0xF0 ? 2 : 3;
+        char32_t code = extra == 0 ? c : extra == 1 ? (c & 0x1F) : extra == 2 ? (c & 0x0F) : (c & 0x07);
+        for (int k = 1; k <= extra && i + k < text.size(); k++)
+            code = (code << 6) | (static_cast<unsigned char>(text[i + k]) & 0x3F);
+        out += code;
+        i += extra + 1;
+    }
+    return out;
+}
+
+// A line that replaces the one before it: the frontend's status message, which
+// has one place on screen, where notifications would pile up
+static void lr_status(const std::string &text, unsigned duration_ms) {
+    unsigned version = 0;
+    if (!libretro.environ_cb || !libretro.environ_cb(RETRO_ENVIRONMENT_GET_MESSAGE_INTERFACE_VERSION, &version) || version < 1) {
+        lr_message(text, duration_ms * 60 / 1000);
+        return;
+    }
+    retro_message_ext msg{};
+    msg.msg = text.c_str();
+    msg.duration = duration_ms;
+    msg.priority = 3;
+    msg.level = RETRO_LOG_INFO;
+    msg.target = RETRO_MESSAGE_TARGET_OSD;
+    msg.type = RETRO_MESSAGE_TYPE_STATUS;
+    msg.progress = -1;
+    libretro.environ_cb(RETRO_ENVIRONMENT_SET_MESSAGE_EXT, &msg);
+}
+
+static void RETRO_CALLCONV libretro_keyboard_event(bool down, unsigned keycode, uint32_t character, uint16_t /*modifiers*/) {
+    if (!down)
+        return;
+    std::lock_guard lock(s_name_entry.mutex);
+    if (!s_name_entry.active)
+        return;
+    if (keycode == RETROK_BACKSPACE) {
+        if (!s_name_entry.text.empty())
+            s_name_entry.text.pop_back();
+    } else if (keycode == RETROK_RETURN || keycode == RETROK_KP_ENTER)
+        s_name_entry.accept = true;
+    else if (keycode == RETROK_ESCAPE)
+        s_name_entry.cancel = true;
+    else if (character >= 32 && character != 127 && s_name_entry.text.size() < NAME_ENTRY_MAX)
+        s_name_entry.text.push_back(static_cast<char32_t>(character));
+    else
+        return;
+    s_name_entry.changed = true;
+}
+
+// Called after the input is polled: true while the entry is open, and then
+// nothing of the input reaches the game
+static bool libretro_update_name_entry(EmuEnvState &emuenv) {
+    std::lock_guard lock(s_name_entry.mutex);
+    const auto raw = [](unsigned id) {
+        return libretro.input_state_cb && libretro.input_state_cb(0, RETRO_DEVICE_JOYPAD, 0, id) != 0;
+    };
+    std::string id, name;
+    if (!s_name_entry.active && libretro_accounts_take_rename_request(emuenv, id, name)) {
+        s_name_entry.active = true;
+        s_name_entry.id = id;
+        s_name_entry.text = utf8_to_utf32(name);
+        s_name_entry.accept = s_name_entry.cancel = false;
+        s_name_entry.changed = true;
+        s_name_entry.repeat = 0;
+        // what is held as the menu closes is not a press
+        for (unsigned i = 0; i < 16; i++)
+            s_name_entry.held[i] = raw(i);
+    }
+    if (!s_name_entry.active)
+        return false;
+
+    bool pressed[16];
+    for (unsigned i = 0; i < 16; i++) {
+        const bool down = raw(i);
+        pressed[i] = down && !s_name_entry.held[i];
+        s_name_entry.held[i] = down;
+    }
+    // Up and Down repeat while held, after a third of a second
+    const bool up = s_name_entry.held[RETRO_DEVICE_ID_JOYPAD_UP];
+    const bool down = s_name_entry.held[RETRO_DEVICE_ID_JOYPAD_DOWN];
+    bool step = pressed[RETRO_DEVICE_ID_JOYPAD_UP] || pressed[RETRO_DEVICE_ID_JOYPAD_DOWN];
+    if (up != down) {
+        if (++s_name_entry.repeat > 20 && s_name_entry.repeat % 4 == 0)
+            step = true;
+    } else
+        s_name_entry.repeat = 0;
+    if (step && up != down) {
+        if (s_name_entry.text.empty())
+            s_name_entry.text.push_back(NAME_ENTRY_CHARACTERS[0]);
+        else {
+            const size_t count = NAME_ENTRY_CHARACTERS.size();
+            size_t at = NAME_ENTRY_CHARACTERS.find(s_name_entry.text.back());
+            if (at == std::u32string::npos)
+                at = 0;
+            else
+                at = (at + (down ? 1 : count - 1)) % count;
+            s_name_entry.text.back() = NAME_ENTRY_CHARACTERS[at];
+        }
+        s_name_entry.changed = true;
+    }
+    if (pressed[RETRO_DEVICE_ID_JOYPAD_RIGHT] && s_name_entry.text.size() < NAME_ENTRY_MAX) {
+        s_name_entry.text.push_back(s_name_entry.text.empty() ? NAME_ENTRY_CHARACTERS[0] : s_name_entry.text.back());
+        s_name_entry.changed = true;
+    }
+    if (pressed[RETRO_DEVICE_ID_JOYPAD_LEFT] && !s_name_entry.text.empty()) {
+        s_name_entry.text.pop_back();
+        s_name_entry.changed = true;
+    }
+    if (pressed[RETRO_DEVICE_ID_JOYPAD_START])
+        s_name_entry.accept = true;
+    if (pressed[RETRO_DEVICE_ID_JOYPAD_SELECT])
+        s_name_entry.cancel = true;
+
+    if (s_name_entry.cancel) {
+        s_name_entry.active = false;
+        lr_status("Account not renamed", 3000);
+        return true;
+    }
+    if (s_name_entry.accept) {
+        s_name_entry.accept = false;
+        std::u32string text = s_name_entry.text;
+        while (!text.empty() && text.back() == U' ')
+            text.pop_back();
+        if (text.empty()) {
+            lr_status("A name needs at least one character", 3000);
+            return true;
+        }
+        s_name_entry.active = false;
+        const std::string new_name = utf32_to_utf8(text);
+        if (libretro_accounts_rename(emuenv, s_name_entry.id, new_name))
+            lr_status(fmt::format("Account {} is now named {}", s_name_entry.id, new_name), 5000);
+        else
+            lr_status("Cannot rename: the account was not found", 4000);
+        return true;
+    }
+    // Shown again before it runs out, so it stays up while the entry is open
+    if (s_name_entry.changed || ++s_name_entry.shown >= 120) {
+        s_name_entry.changed = false;
+        s_name_entry.shown = 0;
+        lr_status(fmt::format("Account name: {}_  (Start/Enter accepts, Select/Esc cancels)", utf32_to_utf8(s_name_entry.text)), 3000);
+    }
+    return true;
 }
 
 RETRO_API void retro_run(void) {
@@ -2134,6 +2558,10 @@ RETRO_API void retro_run(void) {
             libretro.render_thread ? 1 : 0);
     }
 
+    // the trophy list, every few seconds of play
+    if (libretro.app_started && run_index % 180 == 0)
+        refresh_trophy_options(*libretro.emuenv);
+
     if (libretro.reset_requested.exchange(false)) {
         lr_log(RETRO_LOG_INFO, "retro_run: processing deferred reset request\n");
         if (!perform_core_reset()) {
@@ -2150,13 +2578,27 @@ RETRO_API void retro_run(void) {
         read_core_options();
         apply_config_changes();
         libretro_accounts_options_changed(*libretro.emuenv);
+        handle_install_firmware_request();
     }
+    show_firmware_result();
 
     EmuEnvState &emuenv = *libretro.emuenv;
 
     if (libretro.input_poll_cb)
         libretro.input_poll_cb();
     libretro_poll_input();
+    if (libretro_update_name_entry(emuenv)) {
+        auto &input = libretro_input_state();
+        std::lock_guard lock(input.mutex);
+        for (auto &port : input.ports)
+            port = {};
+        input.front_touch_count = 0;
+        input.back_touch_count = 0;
+        for (auto &point : input.front_touch)
+            point.active = false;
+        for (auto &point : input.back_touch)
+            point.active = false;
+    }
 
     if (libretro.app_started)
         libretro_vblank_tick(emuenv);
@@ -2362,6 +2804,35 @@ RETRO_API void retro_run(void) {
                 glTexParameteriv(GL_TEXTURE_2D, GL_TEXTURE_SWIZZLE_RGBA, standard_swizzle);
                 glBindTexture(GL_TEXTURE_2D, 0);
             }
+        }
+
+        // A frame no surface was rendered into (the game wrote it with the
+        // CPU, as some do for their first screen): uploaded from memory into a
+        // texture of the core's and shown like a surface, as upstream's
+        // render_frame does; it used to be shown as black
+        if (!surface_tex && frame.base && frame.image_size.x > 0 && frame.image_size.y > 0
+            && frame.pitch >= static_cast<uint32_t>(frame.image_size.x)) {
+            static GLuint memory_tex = 0;
+            if (!memory_tex)
+                glGenTextures(1, &memory_tex);
+            width = static_cast<uint32_t>(frame.image_size.x);
+            height = static_cast<uint32_t>(frame.image_size.y);
+            glBindTexture(GL_TEXTURE_2D, memory_tex);
+            glPixelStorei(GL_UNPACK_ROW_LENGTH, static_cast<GLint>(frame.pitch));
+            glPixelStorei(GL_UNPACK_ALIGNMENT, 4);
+            // ABGR8888 in memory: the bytes in R, G, B, A order
+            glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, frame.base.get(emuenv.mem));
+            glPixelStorei(GL_UNPACK_ROW_LENGTH, 0);
+            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+            glBindTexture(GL_TEXTURE_2D, 0);
+            surface_tex = memory_tex;
+            // memory is top-down, as the blit below takes it from the
+            // surface's (0, 0); the whole texture is the frame
+            uvs[0] = 0.0f;
+            uvs[1] = 0.0f;
+            uvs[2] = 1.0f;
+            uvs[3] = 1.0f;
         }
 
         glBindFramebuffer(GL_FRAMEBUFFER, fbo);
