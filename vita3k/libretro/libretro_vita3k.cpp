@@ -55,6 +55,7 @@
 #include <util/fs.h>
 #include <util/log.h>
 #include <util/string_utils.h>
+#include <np/state.h>
 #include <np/trophy/collection.h>
 
 #include <glad/glad.h>
@@ -987,6 +988,15 @@ static renderer::FrameHost &libretro_frame_host() {
     return host;
 }
 
+// Upstream's apply_renderer_config, which also adds the trophy notification's
+// unlock callback each time. Upstream calls it once per title, the core at
+// every context reset, so the one added before is dropped first: otherwise a
+// trophy earned after RetroArch reset the context was shown once per reset.
+static void apply_renderer_config(EmuEnvState &emuenv) {
+    emuenv.np.trophy_state.clear_trophy_unlock_callbacks();
+    app::apply_renderer_config(emuenv);
+}
+
 static void context_reset_vulkan() {
     lr_trace("context_reset_vulkan.enter", "renderer_ready=%d emuenv=%d", libretro.renderer_ready ? 1 : 0, libretro.emuenv ? 1 : 0);
 
@@ -1042,7 +1052,7 @@ static void context_reset_vulkan() {
             // Resolution multiplier, filters and the rest, as upstream's
             // app start applies them: without it res_multiplier stayed
             // unset and the first render target was zero-sized
-            app::apply_renderer_config(emuenv);
+            apply_renderer_config(emuenv);
             if (!emuenv.io.title_id.empty()) {
                 emuenv.renderer->set_app(emuenv.io.title_id.c_str(), emuenv.self_name.c_str());
                 // The shader cache is the title's; its hash list says which renderer
@@ -1110,7 +1120,7 @@ static void context_reset_opengl() {
             
             lr_trace("context_reset_opengl.late_init", "calling renderer late_init");
             emuenv.renderer->late_init(emuenv.cfg, emuenv.io.app_path, emuenv.mem);
-            app::apply_renderer_config(emuenv);
+            apply_renderer_config(emuenv);
             lr_trace("context_reset_opengl.late_init_complete", "success");
             
             if (!emuenv.io.title_id.empty()) {
@@ -2866,6 +2876,16 @@ RETRO_API void retro_run(void) {
             glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
             glClear(GL_COLOR_BUFFER_BIT);
             glBindFramebuffer(GL_FRAMEBUFFER, 0);
+        }
+
+        // Vita3K's overlays (the system dialogs, the trophy and shader
+        // notices) over the frame, as upstream's render_frame draws them
+        if (gl_state) {
+            gl_state->update_overlays();
+            if (gl_state->overlay_manager && gl_state->overlay_manager->has_visible())
+                gl_state->overlay_renderer.render(*gl_state->overlay_manager, 0.0f, 0.0f,
+                    static_cast<float>(width), static_cast<float>(height),
+                    static_cast<float>(width), static_cast<float>(height), fbo);
         }
 
         report_frame_size(width, height);
