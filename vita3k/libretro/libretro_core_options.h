@@ -78,7 +78,6 @@ struct retro_core_option_v2_category option_cats_us[] = {
     { "audio", "Audio", "Audio output options." },
     { "network", "Network", "Network options." },
     { "install", "Content", "Manage data for a given title, as well as any updates and downloadable content." },
-    { "remove_data", "Remove Data", "Selects titles with installed data and caches to delete when the core closes or resets. It does not remove original media, saves, or trophies." },
     { "camera", "Camera", "What the Vita's front and back cameras see." },
     { "accounts", "Accounts", "The Vita's accounts (users) in ux0/user, each with its own saves and trophies." },
     { "trophies", "Trophies", "The current title's trophies." },

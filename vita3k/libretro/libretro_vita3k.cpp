@@ -1756,7 +1756,12 @@ static GameInstallResult open_content() {
         });
     // the game's title and details in the System Language
     const int sys_lang = std::clamp(parse_int_option(get_core_option_value("vita3k_sys_lang", "1"), SCE_SYSTEM_PARAM_LANG_ENGLISH_US), 0, static_cast<int>(SCE_SYSTEM_PARAM_LANG_TURKISH));
+    finish_pending_removals(pref_path);
     const GameInstallResult result = ensure_game_installed(fs_utils::utf8_to_path(libretro.game_path), pref_path, sys_lang, pkg_mode_name == "run" || pkg_mode_name == "cache");
+    if (result.success)
+        // an update or DLC loaded on its own has its kind added to the name
+        record_started_title(pref_path, result.title_id, result.category.find("gd") != std::string::npos ? result.title : std::string(),
+            lazy_pkg::mounted() ? (lazy_pkg::has_cache_root() ? "cache" : "run") : "install");
 
     // An installed game's update stays in ux0/patch/<title>, never merged into
     // the game's folder: its files are read in place of the game's here, where

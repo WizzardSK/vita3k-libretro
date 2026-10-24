@@ -41,8 +41,16 @@
 
 #include <miniz.h>
 
+#ifndef _WIN32
+#include <sys/stat.h>
+#endif
+
 #include <algorithm>
 #include <cctype>
+#include <cmath>
+#include <cstdint>
+#include <ctime>
+#include <map>
 #include <cstring>
 #include <fstream>
 #include <iterator>
@@ -1098,13 +1106,76 @@ static void drop_shelved_copy(const fs::path &pref_path, const std::string &titl
         fs::remove_all(patch_shelf(pref_path, title_id, info.app_version), ec);
 }
 
+// Something was installed, set aside or brought back for the title being
+// started: its size is measured again once it has started
+static bool s_title_data_changed = false;
+
 // One directory moved to another place on the same memory card
 static bool move_dir(const fs::path &from, const fs::path &to) {
     boost::system::error_code ec;
     fs::remove_all(to, ec);
     fs::create_directories(to.parent_path(), ec);
     fs::rename(from, to, ec);
+    s_title_data_changed = true;
     return !ec;
+}
+
+// The titles the core holds data of, for Remove Data's list (i30817), in one
+// file, ux0/libretro_pkg/titles.tsv: each title's ID, when it was first seen,
+// how it last ran, the size of its data measured when it was installed or
+// first run that way (real and apparent: a Persistent Cache is sparse), and
+// its name. The list is read from it at the start, with no walk through the
+// titles' directories; only the title being started is measured, and only
+// when something was installed for it or it runs another way.
+struct TitleRecord {
+    std::time_t first_seen = 0;
+    std::string mode; // install, cache or run
+    std::uint64_t real = 0, apparent = 0;
+    std::string name;
+};
+static fs::path titles_file(const fs::path &pref_path) {
+    return pref_path / "ux0" / "libretro_pkg" / "titles.tsv";
+}
+static std::map<std::string, TitleRecord> load_titles(const fs::path &pref_path) {
+    std::map<std::string, TitleRecord> titles;
+    std::ifstream in(titles_file(pref_path).string());
+    std::string line;
+    while (std::getline(in, line)) {
+        std::vector<std::string> f;
+        size_t start = 0;
+        for (size_t tab; (tab = line.find('\t', start)) != std::string::npos && f.size() < 5; start = tab + 1)
+            f.push_back(line.substr(start, tab - start));
+        f.push_back(line.substr(start));
+        if (f.size() != 6 || f[0].empty())
+            continue;
+        TitleRecord r;
+        r.first_seen = static_cast<std::time_t>(std::strtoll(f[1].c_str(), nullptr, 10));
+        r.mode = f[2];
+        r.real = std::strtoull(f[3].c_str(), nullptr, 10);
+        r.apparent = std::strtoull(f[4].c_str(), nullptr, 10);
+        r.name = f[5];
+        titles[f[0]] = r;
+    }
+    return titles;
+}
+static void save_titles(const fs::path &pref_path, const std::map<std::string, TitleRecord> &titles) {
+    boost::system::error_code ec;
+    fs::create_directories(titles_file(pref_path).parent_path(), ec);
+    const fs::path tmp = titles_file(pref_path).string() + ".tmp";
+    {
+        std::ofstream out(tmp.string(), std::ios::trunc);
+        for (const auto &[id, r] : titles)
+            out << id << '\t' << static_cast<long long>(r.first_seen) << '\t' << r.mode << '\t' << r.real << '\t' << r.apparent << '\t' << r.name << '\n';
+    }
+    fs::rename(tmp, titles_file(pref_path), ec);
+}
+
+// A title turned ON in Remove Data has a note here while it is ON: what a
+// crash or a killed frontend left undone - its data not removed, or removed
+// only in part - is finished at the next start, before anything runs
+// (i30817)
+static fs::path removal_note(const fs::path &pref_path, const std::string &title_id) {
+    return pref_path / "ux0" / "libretro_pkg" / ("remove_" + title_id);
 }
 
 static void remove_title_data(const fs::path &pref_path, const std::string &title_id) {
@@ -1127,13 +1198,89 @@ static void remove_title_data(const fs::path &pref_path, const std::string &titl
     }
     for (const auto &dir : gone)
         fs::remove_all(dir, ec);
+    auto titles = load_titles(pref_path);
+    if (titles.erase(title_id))
+        save_titles(pref_path, titles);
+    fs::remove(removal_note(pref_path, title_id), ec);
 }
 
-// Remove Data (i30817): every title the core holds data of that Remove Data
-// deletes - an install, an update or DLC installed or set aside, a persistent
-// cache, a shader cache - each with the time its newest directory was last
-// written, so the latest installs come first. Sizes are not counted: that
-// would read through every installed title at each start.
+void finish_pending_removals(const fs::path &pref_path) {
+    boost::system::error_code ec;
+    std::vector<std::string> pending;
+    for (fs::directory_iterator it(pref_path / "ux0" / "libretro_pkg", ec), end; !ec && it != end; it.increment(ec)) {
+        const std::string name = it->path().filename().string();
+        if (name.rfind("remove_", 0) == 0 && name.size() > 7)
+            pending.push_back(name.substr(7));
+    }
+    for (const std::string &id : pending) {
+        remove_title_data(pref_path, id);
+        lr_log(RETRO_LOG_INFO, "%s: its data is removed (Remove Data, not finished when the core last closed)\n", id.c_str());
+    }
+}
+
+// Real (allocated) and apparent size of everything under a directory
+static void measure(const fs::path &dir, std::uint64_t &real, std::uint64_t &apparent) {
+    boost::system::error_code ec;
+    for (fs::recursive_directory_iterator it(dir, ec), end; !ec && it != end; it.increment(ec)) {
+        if (!fs::is_regular_file(it->path(), ec))
+            continue;
+        const std::uint64_t size = fs::file_size(it->path(), ec);
+        apparent += size;
+#ifdef _WIN32
+        real += size;
+#else
+        struct stat st {};
+        real += ::stat(it->path().string().c_str(), &st) == 0 ? static_cast<std::uint64_t>(st.st_blocks) * 512 : size;
+#endif
+    }
+}
+
+// The size of what Remove Data deletes for a title that runs this way: an
+// install and its update and DLC, also those set aside (Installed), or its
+// Persistent Cache (Direct with Cache). Direct keeps only a shader cache,
+// and has no size shown.
+static void measure_title(const fs::path &pref_path, const std::string &title_id, const std::string &mode, TitleRecord &r) {
+    r.real = r.apparent = 0;
+    boost::system::error_code ec;
+    if (mode == "install") {
+        for (const fs::path &dir : { pref_path / "ux0" / "app" / title_id, pref_path / "ux0" / "patch" / title_id,
+                 pref_path / "ux0" / "addcont" / title_id, shelf_dir(pref_path) / "patch" / title_id, shelf_dir(pref_path) / "addcont" / title_id })
+            measure(dir, r.real, r.apparent);
+    } else if (mode == "cache") {
+        for (fs::directory_iterator it(pref_path / "cache" / "pkg", ec), end; !ec && it != end; it.increment(ec)) {
+            const std::string name = it->path().filename().string();
+            if (name == title_id || name.rfind(title_id + "_", 0) == 0)
+                measure(it->path(), r.real, r.apparent);
+        }
+    }
+}
+
+void record_started_title(const fs::path &pref_path, const std::string &title_id, const std::string &name, const std::string &mode) {
+    if (title_id.empty())
+        return;
+    auto titles = load_titles(pref_path);
+    auto found = titles.find(title_id);
+    const bool fresh = found == titles.end();
+    TitleRecord &r = titles[title_id];
+    if (fresh)
+        r.first_seen = std::time(nullptr);
+    const bool remeasure = fresh || r.mode != mode || s_title_data_changed;
+    s_title_data_changed = false;
+    if (!remeasure && (name.empty() || r.name == name))
+        return;
+    if (!name.empty())
+        r.name = name;
+    if (remeasure) {
+        r.mode = mode;
+        measure_title(pref_path, title_id, mode, r);
+    }
+    save_titles(pref_path, titles);
+}
+
+// Every title the core holds data of that Remove Data deletes - an install,
+// an update or DLC installed or set aside, a persistent cache, a shader cache
+// - each with the time its newest directory was last written. Read once, to
+// fill titles.tsv when there is none yet (data of a core from before it).
 static std::vector<std::pair<std::string, std::time_t>> titles_with_data(const fs::path &pref_path) {
     std::map<std::string, std::time_t> titles;
     boost::system::error_code ec;
@@ -1166,15 +1313,58 @@ static std::vector<std::pair<std::string, std::time_t>> titles_with_data(const f
     return list;
 }
 
-// A title by its name and ID, as Current Title shows it; the ID alone when no
-// param.sfo of it is left (only a cache)
-static std::string title_label(const fs::path &pref_path, const std::string &title_id) {
+// A title's name from its installed param.sfo; empty when none is left
+static std::string installed_title_name(const fs::path &pref_path, const std::string &title_id) {
     sfo::SfoAppInfo info;
     for (const char *dir : { "app", "patch" }) {
         if (read_installed_sfo(pref_path / "ux0" / dir / title_id, info) && !info.app_title.empty())
-            return fmt::format("{} ({})", info.app_title, title_id);
+            return info.app_title;
     }
-    return title_id;
+    return std::string();
+}
+
+// titles.tsv filled from what is on the memory card, once
+static std::map<std::string, TitleRecord> titles_from_disk(const fs::path &pref_path) {
+    std::map<std::string, TitleRecord> titles;
+    boost::system::error_code ec;
+    for (const auto &[id, when] : titles_with_data(pref_path)) {
+        TitleRecord &r = titles[id];
+        r.first_seen = when;
+        r.name = installed_title_name(pref_path, id);
+        bool cache = false;
+        for (fs::directory_iterator it(pref_path / "cache" / "pkg", ec), end; !ec && it != end; it.increment(ec)) {
+            const std::string name = it->path().filename().string();
+            cache |= name == id || name.rfind(id + "_", 0) == 0;
+        }
+        ec.clear();
+        // a game run without installing leaves no eboot.bin of its own behind
+        r.mode = cache ? "cache" : fs::exists(pref_path / "ux0" / "app" / id / "eboot.bin", ec) ? "install" : "run";
+        measure_title(pref_path, id, r.mode, r);
+    }
+    save_titles(pref_path, titles);
+    return titles;
+}
+
+// A size as du -h has it, but in MB or GB only
+static std::string human_size(std::uint64_t bytes) {
+    const double mb = bytes / 1048576.0;
+    if (mb < 1024)
+        return mb < 10 ? fmt::format("{:.1f} MB", std::max(mb, 0.1)) : fmt::format("{:.0f} MB", std::ceil(mb));
+    const double gb = mb / 1024;
+    return gb < 10 ? fmt::format("{:.1f} GB", std::ceil(gb * 10) / 10) : fmt::format("{:.0f} GB", std::ceil(gb));
+}
+
+// "Name (ID)", then the size of what would be deleted: one size for an
+// install, the range a Persistent Cache can take (what it held when it was
+// measured, up to all of the title's data) for Direct with Cache, none for
+// Direct (i30817)
+static std::string removal_label(const std::string &title_id, const TitleRecord &r) {
+    std::string label = r.name.empty() ? title_id : fmt::format("{} ({})", r.name, title_id);
+    if (r.mode == "install" && r.real)
+        label += " - " + human_size(r.real);
+    else if (r.mode == "cache" && r.apparent)
+        label += fmt::format(" - min {}, max {}", human_size(r.real), human_size(r.apparent));
+    return label;
 }
 
 static std::string removal_key(const std::string &title_id) {
@@ -1526,23 +1716,37 @@ static ContentPlan plan_content(const fs::path &pkg_path, const std::string &tit
         options.push_back(std::move(option));
     }
 
-    // Remove Data (i30817): each title with data to delete, ON to delete it
-    // when the content is closed or reset - the current title first, whatever
-    // it has yet, then the latest installs
+    // Remove Data (i30817), last in Content under a heading of its own: each
+    // title with data to delete, ON to delete it when the content is closed or
+    // reset - the current title first, then the others, the latest seen first,
+    // as titles.tsv has them
     std::vector<std::pair<std::string, std::string>> removals;
     {
-        auto titles = titles_with_data(pref_path);
-        titles.erase(std::remove_if(titles.begin(), titles.end(), [&](const auto &t) { return t.first == title_id; }), titles.end());
-        titles.insert(titles.begin(), { title_id, 0 });
-        for (const auto &title : titles) {
+        auto titles = fs::exists(titles_file(pref_path), ec) ? load_titles(pref_path) : titles_from_disk(pref_path);
+        TitleRecord &current = titles[title_id];
+        if (!game_info.title.empty())
+            current.name = game_info.title;
+        std::vector<std::string> order;
+        for (const auto &t : titles)
+            if (t.first != title_id)
+                order.push_back(t.first);
+        std::stable_sort(order.begin(), order.end(), [&](const std::string &a, const std::string &b) { return titles[a].first_seen > titles[b].first_seen; });
+        order.insert(order.begin(), title_id);
+
+        ContentOption heading;
+        heading.key = "vita3k_zremove__heading";
+        heading.label = "Remove Data";
+        heading.info = "Selects titles with installed data and caches to delete when the core closes or resets. It does not remove original media, saves, or trophies.";
+        heading.values.emplace_back("_", " ");
+        heading.default_value = "_";
+        options.push_back(std::move(heading));
+        for (const std::string &id : order) {
             ContentOption option;
-            option.key = removal_key(title.first);
-            option.category = "remove_data";
-            option.label = title.first == title_id && !game_info.title.empty() ? fmt::format("{} ({})", game_info.title, title_id)
-                                                                                : title_label(pref_path, title.first);
+            option.key = removal_key(id);
+            option.label = removal_label(id, titles[id]);
             option.values = { { "disabled", "OFF" }, { "enabled", "ON" } };
             option.default_value = "disabled";
-            removals.emplace_back(option.key, title.first);
+            removals.emplace_back(option.key, id);
             options.push_back(std::move(option));
         }
     }
@@ -1594,22 +1798,22 @@ static ContentPlan plan_content(const fs::path &pkg_path, const std::string &tit
         s_loaded_content.dlcs.push_back({ dlc_key(dlc), dlc.dlc_id, dlc.content_id });
     content_options_changed();
 
-    // Remove Data left on when the content was not closed (the frontend
-    // killed, a crash, or deleting stopped half way): the other titles' data is
-    // deleted now. The current title's is not, as it is about to run from
-    // it: its entry is only turned off.
+    // Remove Data left on: what it was on for was deleted before the content
+    // started (finish_pending_removals), so the entry is only turned off. An
+    // entry ON with no note (its note lost) has its title's data deleted now,
+    // unless it is the title about to run.
     {
         std::vector<std::string> deleted;
         for (const auto &[key, id] : removals) {
             const auto it = chosen.find(key);
             if (it == chosen.end() || it->second != "enabled")
                 continue;
-            if (id != title_id) {
+            if (id != title_id && fs::exists(titles_file(pref_path), ec) && load_titles(pref_path).count(id)) {
                 remove_title_data(pref_path, id);
                 deleted.push_back(key);
                 lr_log(RETRO_LOG_INFO, "%s: its data is removed (Remove Data, left on when the last title was not closed)\n", id.c_str());
-            } else
-                lr_log(RETRO_LOG_INFO, "Remove Data for %s was left on when it was not closed: turned off, nothing removed\n", id.c_str());
+            }
+            fs::remove(removal_note(pref_path, id), ec);
             if (s_set_content_value)
                 s_set_content_value(key, "disabled");
         }
@@ -1739,6 +1943,19 @@ static ContentPlan plan_content(const fs::path &pkg_path, const std::string &tit
 bool content_options_changed() {
     if (s_loaded_content.title_id.empty() || !s_content_value)
         return false;
+    // Remove Data: a note for each title while it is ON, so that a crash
+    // before the close still has it deleted at the next start
+    for (const auto &[key, id] : s_loaded_content.removals) {
+        boost::system::error_code ec;
+        const fs::path note = removal_note(s_loaded_content.pref_path, id);
+        if (s_content_value(key) == "enabled") {
+            if (!fs::exists(note, ec)) {
+                fs::create_directories(note.parent_path(), ec);
+                fs::ofstream(note).put('\n');
+            }
+        } else if (fs::exists(note, ec))
+            fs::remove(note, ec);
+    }
     std::vector<std::string> keys = { s_loaded_content.game_key };
     if (!s_loaded_content.update_key.empty())
         keys.push_back(s_loaded_content.update_key);
@@ -1847,6 +2064,7 @@ static bool install_pkg_file(const fs::path &pkg_path, EmuEnvState &emuenv, std:
         return install_pkg(pkg_path, emuenv, zrif);
 
     std::string error;
+    s_title_data_changed = true;
     if (!lazy_pkg::install(pkg_path, dir, zrif, error)) {
         lr_log(RETRO_LOG_ERROR, "PKG: %s could not be installed: %s\n", pkg_path.generic_string().c_str(), error.c_str());
         lr_msg(fmt::format("PKG install failed: {}", error).c_str(), 600);

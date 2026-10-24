@@ -85,6 +85,14 @@ bool content_options_changed();
 // Called when the content is closed, the game stopped and what was laid out
 // for a run without installing removed: deletes what was turned off meanwhile
 void content_closed();
+// Remove Data (i30817): the titles turned ON whose data a crash or a killed
+// frontend left in place, or deleted only in part, are deleted now; called
+// before the content is started
+void finish_pending_removals(const fs::path &pref_path);
+// The title just started, in Remove Data's list (titles.tsv): its name, how
+// it runs (install, cache or run) and, when that is new or something was
+// installed for it, the size of its data
+void record_started_title(const fs::path &pref_path, const std::string &title_id, const std::string &name, const std::string &mode);
 
 // What runs without installing left laid out in ux0 when they were not closed (the
 // frontend killed): every game, DLC and update layout whose marker under
