@@ -1047,6 +1047,8 @@ static struct {
         std::string key, dlc_id, content_id;
     };
     std::vector<Dlc> dlcs;
+    // Remove Data's entries: each one's key and title ID
+    std::vector<std::pair<std::string, std::string>> removals;
     // Each Content option's value as last seen, to tell a change of one
     std::map<std::string, std::string> seen;
 } s_loaded_content;
@@ -1066,8 +1068,8 @@ static void uninstall_game(const fs::path &pref_path, const std::string &title_i
 // Remove Data - what the core wrote for a title besides its saves: the
 // installed game, update and DLC with their install markers (Run Method:
 // Installed), the Persistent Cache of the game, its update and its DLC
-// (Direct with Cache), and its shader cache (every method). Saves in ux0/user
-// stay.
+// (Direct with Cache), and its shader cache (every method). Saves and
+// trophies in ux0/user stay.
 // A DLC turned off, or an installed update another version or None is chosen
 // over, is set aside here rather than deleted, and comes back when it is
 // chosen again: only Remove Data deletes what was installed (Shoegzer)
@@ -1125,6 +1127,58 @@ static void remove_title_data(const fs::path &pref_path, const std::string &titl
     }
     for (const auto &dir : gone)
         fs::remove_all(dir, ec);
+}
+
+// Remove Data (i30817): every title the core holds data of that Remove Data
+// deletes - an install, an update or DLC installed or set aside, a persistent
+// cache, a shader cache - each with the time its newest directory was last
+// written, so the latest installs come first. Sizes are not counted: that
+// would read through every installed title at each start.
+static std::vector<std::pair<std::string, std::time_t>> titles_with_data(const fs::path &pref_path) {
+    std::map<std::string, std::time_t> titles;
+    boost::system::error_code ec;
+    const auto add = [&](const fs::path &parent, bool cache_names) {
+        for (fs::directory_iterator it(parent, ec), end; !ec && it != end; it.increment(ec)) {
+            std::string id = it->path().filename().string();
+            // lazy_pkg's cache folders are <title>, <title>_update and <title>_<DLC>
+            if (cache_names)
+                id = id.substr(0, id.find('_'));
+            if (id.empty() || !fs::is_directory(it->path(), ec))
+                continue;
+            const std::time_t when = fs::last_write_time(it->path(), ec);
+            auto found = titles.find(id);
+            if (found == titles.end())
+                titles.emplace(id, when);
+            else if (when > found->second)
+                found->second = when;
+        }
+        ec.clear();
+    };
+    add(pref_path / "ux0" / "app", false);
+    add(pref_path / "ux0" / "patch", false);
+    add(pref_path / "ux0" / "addcont", false);
+    add(shelf_dir(pref_path) / "patch", false);
+    add(shelf_dir(pref_path) / "addcont", false);
+    add(pref_path / "cache" / "pkg", true);
+    add(pref_path / "cache" / "shaders", false);
+    std::vector<std::pair<std::string, std::time_t>> list(titles.begin(), titles.end());
+    std::stable_sort(list.begin(), list.end(), [](const auto &a, const auto &b) { return a.second > b.second; });
+    return list;
+}
+
+// A title by its name and ID, as Current Title shows it; the ID alone when no
+// param.sfo of it is left (only a cache)
+static std::string title_label(const fs::path &pref_path, const std::string &title_id) {
+    sfo::SfoAppInfo info;
+    for (const char *dir : { "app", "patch" }) {
+        if (read_installed_sfo(pref_path / "ux0" / dir / title_id, info) && !info.app_title.empty())
+            return fmt::format("{} ({})", info.app_title, title_id);
+    }
+    return title_id;
+}
+
+static std::string removal_key(const std::string &title_id) {
+    return "vita3k_zremove_" + option_key_part(title_id);
 }
 
 // Update versions as numbers: "01.09" against "01.10" part by part
@@ -1403,7 +1457,7 @@ static ContentPlan plan_content(const fs::path &pkg_path, const std::string &tit
     const auto dlc_key = [&](const Dlc &dlc) { return prefix + "dlc_" + option_key_part(dlc.dlc_id); };
     std::vector<ContentOption> options;
 
-    // The title itself and how it runs (Remove Data is an option of its own)
+    // The title itself and how it runs (Remove Data is a list of its own, below)
     const bool game_installed = fs::exists(app / "eboot.bin", ec);
     // How an update or DLC that is not installed is used at this start: read out
     // of its PKG like the game, or installed along with an installed game
@@ -1472,6 +1526,27 @@ static ContentPlan plan_content(const fs::path &pkg_path, const std::string &tit
         options.push_back(std::move(option));
     }
 
+    // Remove Data (i30817): each title with data to delete, ON to delete it
+    // when the content is closed or reset - the current title first, whatever
+    // it has yet, then the latest installs
+    std::vector<std::pair<std::string, std::string>> removals;
+    {
+        auto titles = titles_with_data(pref_path);
+        titles.erase(std::remove_if(titles.begin(), titles.end(), [&](const auto &t) { return t.first == title_id; }), titles.end());
+        titles.insert(titles.begin(), { title_id, 0 });
+        for (const auto &title : titles) {
+            ContentOption option;
+            option.key = removal_key(title.first);
+            option.category = "remove_data";
+            option.label = title.first == title_id && !game_info.title.empty() ? fmt::format("{} ({})", game_info.title, title_id)
+                                                                                : title_label(pref_path, title.first);
+            option.values = { { "disabled", "OFF" }, { "enabled", "ON" } };
+            option.default_value = "disabled";
+            removals.emplace_back(option.key, title.first);
+            options.push_back(std::move(option));
+        }
+    }
+
     // The notes have done their part once the frontend holds the value; one
     // for something that is no longer installed has none to do
     fs::remove(manual_update_note(pref_path, title_id), ec);
@@ -1519,14 +1594,37 @@ static ContentPlan plan_content(const fs::path &pkg_path, const std::string &tit
         s_loaded_content.dlcs.push_back({ dlc_key(dlc), dlc.dlc_id, dlc.content_id });
     content_options_changed();
 
-    // Remove Data left on when the content was not closed (the frontend did
-    // not get to it): turned off without removing anything, as it may have
-    // been meant for another title
-    if (s_content_value && s_content_value("vita3k_remove_data") == "enabled") {
-        lr_log(RETRO_LOG_INFO, "Remove Data was left on when the last title was not closed: turned off, nothing removed\n");
-        if (s_set_content_value)
-            s_set_content_value("vita3k_remove_data", "disabled");
+    // Remove Data left on when the content was not closed (the frontend
+    // killed, a crash, or deleting stopped half way): the other titles' data is
+    // deleted now. The current title's is not, as it is about to run from
+    // it: its entry is only turned off.
+    {
+        std::vector<std::string> deleted;
+        for (const auto &[key, id] : removals) {
+            const auto it = chosen.find(key);
+            if (it == chosen.end() || it->second != "enabled")
+                continue;
+            if (id != title_id) {
+                remove_title_data(pref_path, id);
+                deleted.push_back(key);
+                lr_log(RETRO_LOG_INFO, "%s: its data is removed (Remove Data, left on when the last title was not closed)\n", id.c_str());
+            } else
+                lr_log(RETRO_LOG_INFO, "Remove Data for %s was left on when it was not closed: turned off, nothing removed\n", id.c_str());
+            if (s_set_content_value)
+                s_set_content_value(key, "disabled");
+        }
+        // Their entries go from the list
+        if (!deleted.empty() && s_content_options) {
+            options.erase(std::remove_if(options.begin(), options.end(),
+                              [&](const ContentOption &o) { return std::find(deleted.begin(), deleted.end(), o.key) != deleted.end(); }),
+                options.end());
+            removals.erase(std::remove_if(removals.begin(), removals.end(),
+                               [&](const auto &r) { return std::find(deleted.begin(), deleted.end(), r.first) != deleted.end(); }),
+                removals.end());
+            chosen = s_content_options(options);
+        }
     }
+    s_loaded_content.removals = removals;
     const auto value_of = [&](const std::string &key) {
         const auto option = std::find_if(options.begin(), options.end(), [&](const ContentOption &o) { return o.key == key; });
         if (option == options.end())
@@ -1661,10 +1759,11 @@ bool content_options_changed() {
 // The content is closed: what was turned off while it ran is set aside now
 // rather than at the game's next start (sco8487) - an installed DLC set to
 // Disabled, the update kept in ux0/patch when another one or None is chosen -
-// and with Remove Data on, the title's data is removed. Nothing is half done if
-// this never runs (the frontend killed, a crash): plan_content sets aside the
-// same at the next start. An update merged into the installed game waits for
-// that start too, which installs the game again.
+// and the data of each title turned ON in Remove Data is removed. Nothing is
+// half done if this never runs (the frontend killed, a crash): plan_content
+// sets aside the same at the next start, and removes the other titles' data.
+// An update merged into the installed game waits for that start too, which
+// installs the game again.
 void content_closed() {
     const auto content = std::move(s_loaded_content);
     s_loaded_content = {};
@@ -1675,13 +1774,20 @@ void content_closed() {
     const fs::path &pref_path = content.pref_path;
     const std::string &title_id = content.title_id;
 
-    if (s_content_value("vita3k_remove_data") == "enabled") {
-        remove_title_data(pref_path, title_id);
-        lr_log(RETRO_LOG_INFO, "%s: its data is removed (Remove Data)\n", title_id.c_str());
+    // Each title turned ON in Remove Data; its entry is turned off only once
+    // its data is gone, so that one cut short is finished at the next start
+    bool current_removed = false;
+    for (const auto &[key, id] : content.removals) {
+        if (s_content_value(key) != "enabled")
+            continue;
+        remove_title_data(pref_path, id);
+        lr_log(RETRO_LOG_INFO, "%s: its data is removed (Remove Data)\n", id.c_str());
         if (s_set_content_value)
-            s_set_content_value("vita3k_remove_data", "disabled");
-        return;
+            s_set_content_value(key, "disabled");
+        current_removed |= id == title_id;
     }
+    if (current_removed)
+        return;
 
     for (const auto &dlc : content.dlcs) {
         const fs::path dir = pref_path / "ux0" / "addcont" / title_id / dlc.dlc_id;

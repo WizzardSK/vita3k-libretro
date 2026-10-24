@@ -78,6 +78,7 @@ struct retro_core_option_v2_category option_cats_us[] = {
     { "audio", "Audio", "Audio output options." },
     { "network", "Network", "Network options." },
     { "install", "Content", "Manage data for a given title, as well as any updates and downloadable content." },
+    { "remove_data", "Remove Data", "Selects titles with installed data and caches to delete when the core closes or resets. It does not remove original media, saves, or trophies." },
     { "camera", "Camera", "What the Vita's front and back cameras see." },
     { "accounts", "Accounts", "The Vita's accounts (users) in ux0/user, each with its own saves and trophies." },
     { "trophies", "Trophies", "The current title's trophies." },
@@ -325,21 +326,6 @@ struct retro_core_option_v2_definition option_defs_us[] = {
         NULL,
         "ON: Loads updates and DLC in the title's directory and subdirectories.\n"
         "OFF: Loads updates and DLC only in the title's directory.",
-        NULL,
-        "install",
-        {
-            { "disabled", NULL },
-            { "enabled", NULL },
-            { NULL, NULL },
-        },
-        "disabled"
-    },
-    {
-        "vita3k_remove_data",
-        "Remove Data",
-        NULL,
-        "ON: Deletes the title's installed data and caches when the title closes or resets. It does not remove original media, saves, or trophies.\n"
-        "OFF: Retains all installed data and caches when the title closes or resets.",
         NULL,
         "install",
         {
