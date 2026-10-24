@@ -244,10 +244,10 @@ struct retro_core_option_v2_definition option_defs_us[] = {
         "vita3k_pkg_mode",
         "Run Method",
         NULL,
-        "Defines how a title, its updates and downloadable content are run when the title is loaded. Updates and downloadable content in the title's directory are applied by default; each can be disabled in its own option, which appears once it is applied or installed. They can also be loaded from elsewhere, which installs them whatever the Run Method.\n\n"
-        "Direct: the title and content are run directly from the original media.\n\n"
-        "Direct with Cache: the same as Direct, but the core persistently caches data that is read from the title's media during use. This can increase performance in certain cases, such as when the media is accessed from a network share with limited bandwidth.\n\n"
-        "Installed: the title and content are installed to the emulated Vita's memory card when it is first loaded, and run from the installed location thereafter.",
+        "How a title, its updates and downloadable content (DLC) run. Enables updates and DLC in a title's directory by default. They can also load from elsewhere, which installs them whatever the Run Method.\n\n"
+        "Direct: Runs directly from the original media.\n"
+        "Direct with Cache: Same as Direct, but the core caches reads to local storage. This helps performance in certain cases, like when accessing media on a high-latency network share.\n"
+        "Installed: Installs the original media when first loaded, and runs it from local storage.",
         NULL,
         "install",
         {
@@ -323,8 +323,8 @@ struct retro_core_option_v2_definition option_defs_us[] = {
         "vita3k_content_subdirs",
         "Include Subdirectories",
         NULL,
-        "ON: Downloadable content and updates found in all subdirectories of the title's directory are used.\n\n"
-        "OFF: Only downloadable content and updates found within the title's directory are used.",
+        "ON: Loads updates and DLC in the title's directory and subdirectories.\n"
+        "OFF: Loads updates and DLC only in the title's directory.",
         NULL,
         "install",
         {
@@ -338,11 +338,8 @@ struct retro_core_option_v2_definition option_defs_us[] = {
         "vita3k_remove_data",
         "Remove Data",
         NULL,
-        "Data for the running title is permanently removed when turned ON and the title is closed or reset. The data removed depends on its Run Method:\n\n"
-        "Direct: removes the shader cache.\n"
-        "Direct with Cache: removes the shader cache and persistent cache.\n"
-        "Installed: removes the shader cache and all data installed on the memory card.\n\n"
-        "This is recommended once the title is no longer in active use, as it can recover a lot of drive space used by the title. Saves and other user-generated data are left intact.",
+        "ON: Deletes the title's installed data and caches when the title closes or resets. It does not remove original media, saves, or trophies.\n"
+        "OFF: Retains all installed data and caches when the title closes or resets.",
         NULL,
         "install",
         {
