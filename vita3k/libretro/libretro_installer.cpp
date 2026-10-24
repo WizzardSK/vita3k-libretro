@@ -442,7 +442,7 @@ static fs::path resolve_game_folder(const fs::path &game_path) {
 // license in ux0/license/<title id>/. Hands back work.bin and the zRIF, which
 // a patch that shares the app's license is decrypted with.
 //
-// Only for a NoNpDrm game that is installed - Run Method: Install, or a
+// Only for a NoNpDrm game that is installed - Run Mode: Install, or a
 // folder or VPK/ZIP that cannot be run from where it lies. Vita3K has no PFS
 // driver, so an installed game has to be decrypted on disk, and psvpfstools'
 // execute() writes a whole decrypted tree into a folder in ux0/libretro_pkg
@@ -734,7 +734,7 @@ static GameInstallResult handle_folder_game(const fs::path &game_path, const fs:
         }
     }
     // Loaded on its own (not through the game's Content options), an update or DLC stays
-    // installed whatever Run Method says
+    // installed whatever Run Mode says
     mark_forced_install(pref_path, result.title_id, app_info.app_category, app_info.app_content_id, game_path);
 
     // Verify installation
@@ -1006,7 +1006,7 @@ static fs::path manual_install_mark(const fs::path &pref_path, const std::string
 }
 
 // An update or DLC (by its category) installed by loading its own file, marked as
-// such, so that it stays installed whatever the Run Method. The mark holds the path of the
+// such, so that it stays installed whatever the Run Mode. The mark holds the path of the
 // file (or folder) it was installed from.
 static void mark_forced_install(const fs::path &pref_path, const std::string &title_id, const std::string &category,
     const std::string &content_id, const fs::path &source) {
@@ -1054,7 +1054,7 @@ static struct {
 // An installed game deleted: its folder in ux0/app, and every install marker
 // of the title's, so that its PKG - and a DLC's, loaded again - installs again.
 // The shader cache goes too when the user removes the title's data (Remove Data), and
-// stays when only the way it is run changes (Run Method).
+// stays when only the way it is run changes (Run Mode).
 static void uninstall_game(const fs::path &pref_path, const std::string &title_id, bool shader_cache) {
     boost::system::error_code ec;
     fs::remove_all(pref_path / "ux0" / "app" / title_id, ec);
@@ -1064,7 +1064,7 @@ static void uninstall_game(const fs::path &pref_path, const std::string &title_i
 }
 
 // Remove Data - what the core wrote for a title besides its saves: the
-// installed game, update and DLC with their install markers (Run Method:
+// installed game, update and DLC with their install markers (Run Mode:
 // Installed), the Persistent Cache of the game, its update and its DLC
 // (Direct with Cache), and its shader cache (every method). Saves in ux0/user
 // stay.
@@ -1156,7 +1156,7 @@ static fs::path update_choice_note(const fs::path &pref_path, const std::string 
 // VPKs and ZIPs lying next to the game's (and inside a game's folder),
 // and what is installed - an update merged into ux0/app/<title> or kept in
 // ux0/patch/<title>, DLC in ux0/addcont/<title>. They are declared as options
-// of the game's own (Content), in every Run Method mode: the game, one update
+// of the game's own (Content), in every Run Mode: the game, one update
 // of those there are, or none, and each DLC on or off. A new game starts
 // with the newest update and every DLC.
 //
@@ -1247,7 +1247,7 @@ static ContentPlan plan_content(const fs::path &pkg_path, const std::string &tit
         return pref_path / "ux0" / "libretro_pkg" / ("dlc_" + title_id + "_" + dlc_id);
     };
 
-    // The game follows Run Method too (sco8487): installed while Run Method
+    // The game follows Run Mode too (sco8487): installed while Run Mode
     // now runs it from its PKG, it is uninstalled before this start and run
     // from the PKG, with its update and DLC as chosen. Saves are not touched.
     // Only when the PKG can be run without installing - with no license for it
@@ -1256,7 +1256,7 @@ static ContentPlan plan_content(const fs::path &pkg_path, const std::string &tit
         && (lazy_pkg::is_archive(pkg_path) || fs::is_directory(pkg_path, ec)
             || !find_pkg_license(pkg_path, pref_path).empty())) {
         uninstall_game(pref_path, title_id, false);
-        lr_log(RETRO_LOG_INFO, "%s was installed and Run Method runs it from its PKG: ux0/app/%s is deleted, the game is read out of its PKG\n",
+        lr_log(RETRO_LOG_INFO, "%s was installed and Run Mode runs it from its PKG: ux0/app/%s is deleted, the game is read out of its PKG\n",
             title_id.c_str(), title_id.c_str());
     }
 
@@ -1333,7 +1333,7 @@ static ContentPlan plan_content(const fs::path &pkg_path, const std::string &tit
     }
     ec.clear();
 
-    // A DLC follows Run Method (sco8487): one that was installed from the
+    // A DLC follows Run Mode (sco8487): one that was installed from the
     // game's folder, while the game now runs from its PKG, is read out of its
     // PKG like the game instead - its installed copy goes, the PKG beside the
     // game has it all. One installed by loading its own PKG
@@ -1348,7 +1348,7 @@ static ContentPlan plan_content(const fs::path &pkg_path, const std::string &tit
             if (!dlc.content_id.empty())
                 forget_install_markers(pref_path, [&](const std::string &name) { return name.rfind(dlc.content_id + "_", 0) == 0; });
             dlc.installed = dlc.shelved = false;
-            lr_log(RETRO_LOG_INFO, "DLC %s of %s: installed from the game's folder, now read out of its PKG as Run Method says; the installed copy is deleted\n",
+            lr_log(RETRO_LOG_INFO, "DLC %s of %s: installed from the game's folder, now read out of its PKG as Run Mode says; the installed copy is deleted\n",
                 dlc.dlc_id.c_str(), title_id.c_str());
         }
     }
@@ -1934,7 +1934,7 @@ static std::string find_pkg_license(const fs::path &pkg_path, const fs::path &pr
 }
 
 // A PKG - a game, its update or DLC - run without installing it, or installed
-// into ux0/app, ux0/patch or ux0/addcont (install_pkg_file), as Run Method
+// into ux0/app, ux0/patch or ux0/addcont (install_pkg_file), as Run Mode
 // and the game's Content options say
 static GameInstallResult handle_pkg_game(const fs::path &pkg_path, const fs::path &pref_path, int sys_lang, bool run_pkg) {
     GameInstallResult result;
@@ -2268,7 +2268,7 @@ static GameInstallResult install_or_open(const fs::path &game_path, const fs::pa
 
     const auto app_path = pref_path / "ux0" / "app" / result.title_id;
 
-    // Run without installing (Run Method), as a PKG is: the game's files read
+    // Run without installing (Run Mode), as a PKG is: the game's files read
     // out of the archive as it goes, decrypted on the way for a NoNpDrm one,
     // and nothing of it kept in ux0/app once it is closed. An update or DLC in
     // the archive, and a game installed already, go the installed way below.
@@ -2452,7 +2452,7 @@ static GameInstallResult install_or_open(const fs::path &game_path, const fs::pa
 
     // An update stays in ux0/patch and is laid over the game when it starts, as one
     // installed from a PKG does; a DLC stays in ux0/addcont. Loaded on its own (not through
-    // the game's Content options), it is kept whatever Run Method says
+    // the game's Content options), it is kept whatever Run Mode says
     mark_forced_install(pref_path, result.title_id, app_info.app_category, app_info.app_content_id, game_path);
 
     // Verify installation

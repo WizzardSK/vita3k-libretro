@@ -4,6 +4,7 @@ What changed in the libretro core of this fork, newest first. Changes that come 
 
 ## Unreleased
 
+- Content: Run Method is now Run Mode, the more common name (i30817, Shoegzer).
 - Content: shorter descriptions of Run Method, Include Subdirectories and Remove Data, in active voice and without blank lines between the values, so they fit a phone's screen; Remove Data now says ON and OFF like Include Subdirectories, and that original media, saves and trophies stay (i30817, Shoegzer).
 - Content: Update lists the versions in the game's directory as usual also while one installed by loading it on its own is there; it offered only that one and None. Each version is listed once, and choosing another sets the installed one aside, so it stays in the list. A set-aside update or DLC whose file is beside the game is deleted at the game's start, as the file has it all (it is read in place, or installed again), and loading an update or DLC on its own deletes a set-aside copy of the same one (i30817).
 - Content: Run Method's description no longer ties it to Main Menu > Load Content, since it applies however the title is started (playlist, command line), says that updates and DLC in the title's directory are applied by default, and that they can also be loaded from elsewhere, which installs them whatever the Run Method (i30817).

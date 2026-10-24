@@ -242,9 +242,9 @@ struct retro_core_option_v2_definition option_defs_us[] = {
     // ── System ───────────────────────────────────────────────────────────
     {
         "vita3k_pkg_mode",
-        "Run Method",
+        "Run Mode",
         NULL,
-        "How a title, its updates and downloadable content (DLC) run. Enables updates and DLC in a title's directory by default. They can also load from elsewhere, which installs them whatever the Run Method.\n\n"
+        "How a title, its updates and downloadable content (DLC) run. Enables updates and DLC in a title's directory by default. They can also load from elsewhere, which installs them whatever the Run Mode.\n\n"
         "Direct: Runs directly from the original media.\n"
         "Direct with Cache: Same as Direct, but the core caches reads to local storage. This helps performance in certain cases, like when accessing media on a high-latency network share.\n"
         "Installed: Installs the original media when first loaded, and runs it from local storage.",

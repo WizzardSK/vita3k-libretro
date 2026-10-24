@@ -178,7 +178,7 @@ static void install_bundled_files(const fs::path &pref_path) {
 }
 
 // Whether the system folder's file system can hold files with holes
-// (lazy_pkg::holes_supported). Without, Run Method offers Install only:
+// (lazy_pkg::holes_supported). Without, Run Mode offers Install only:
 // Run Without Installing and Persistent Cache would take as much space as an
 // install and save nothing (sco8487).
 static bool s_holes_supported = true;
@@ -1706,7 +1706,7 @@ static void request_guest_shutdown(EmuEnvState &emuenv, const char *reason) {
 }
 
 // The content prepared for a run: the game's entries in Content declared, and
-// its PKG installed or mounted as Run Method and those entries say
+// its PKG installed or mounted as Run Mode and those entries say
 static GameInstallResult open_content() {
     const fs::path pref_path = fs::path(libretro.system_dir);
     remove_dead_runs(pref_path);
@@ -1721,7 +1721,7 @@ static GameInstallResult open_content() {
     set_content_options_handler(declare_content_options);
     s_holes_supported = lazy_pkg::holes_supported(pref_path / "ux0");
     if (!s_holes_supported) {
-        lr_log(RETRO_LOG_INFO, "Run Method: %s has no sparse files, games are installed\n", (pref_path / "ux0").string().c_str());
+        lr_log(RETRO_LOG_INFO, "Run Mode: %s has no sparse files, games are installed\n", (pref_path / "ux0").string().c_str());
         declare_content_options({});
         // A Persistent Cache from when the folder was on a file system with them
         // (copied over since) has no use any more (sco8487); what a run without
@@ -1729,7 +1729,7 @@ static GameInstallResult open_content() {
         boost::system::error_code ec;
         if (fs::exists(pref_path / "cache" / "pkg", ec)) {
             fs::remove_all(pref_path / "cache" / "pkg", ec);
-            lr_log(RETRO_LOG_INFO, "Run Method: Persistent Cache removed\n");
+            lr_log(RETRO_LOG_INFO, "Run Mode: Persistent Cache removed\n");
         }
     }
     const std::string pkg_mode_name = s_holes_supported ? get_core_option_value("vita3k_pkg_mode", "run") : "install";
