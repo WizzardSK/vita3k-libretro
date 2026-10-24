@@ -110,7 +110,7 @@ struct GameInstallResult {
 
 /// The loaded content made ready to start: a PKG, VPK/ZIP, folder or eboot.bin
 /// (its folder). A game installed already runs installed. Otherwise, with
-/// run_pkg (Run Method: Run Without Installing or Persistent Cache), it is
+/// run_pkg (Run Mode: Run Without Installing or Persistent Cache), it is
 /// laid out to be read where it lies (lazy_pkg); else it is installed into
 /// ux0. Its updates and DLC are declared in Content and used as chosen there.
 /// An update or DLC loaded on its own is installed.
