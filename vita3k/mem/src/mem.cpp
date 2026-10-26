@@ -626,6 +626,8 @@ static bool handler_installed = false;
 
 static void pass_to_previous(int sig) {
     sigaction(sig, sig == SIGBUS ? &previous_bus : &previous_segv, nullptr);
+    // ours is no longer installed: a later register installs it again
+    handler_installed = false;
 }
 
 static void signal_handler(int sig, siginfo_t *info, void *uct) noexcept {

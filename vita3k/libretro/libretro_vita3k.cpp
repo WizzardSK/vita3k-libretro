@@ -56,12 +56,12 @@
 #include <util/fs.h>
 #include <util/log.h>
 #include <util/string_utils.h>
+#include <np/state.h>
+#include <np/trophy/collection.h>
 
 #ifndef _WIN32
 #include <signal.h>
 #endif
-#include <np/state.h>
-#include <np/trophy/collection.h>
 
 #include <glad/glad.h>
 

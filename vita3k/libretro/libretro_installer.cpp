@@ -43,14 +43,13 @@
 
 #include <algorithm>
 #include <cctype>
-#include <cmath>
 #include <cstdint>
-#include <ctime>
-#include <map>
-#include <tuple>
 #include <cstring>
+#include <ctime>
 #include <fstream>
 #include <iterator>
+#include <map>
+#include <tuple>
 #include <vector>
 
 // ─── Firmware files ──────────────────────────────────────────────────────────
@@ -1172,6 +1171,19 @@ static fs::path removal_note(const fs::path &pref_path, const std::string &title
     return pref_path / "ux0" / "libretro_pkg" / ("remove_" + title_id);
 }
 
+// A title's Persistent Cache folders in cache/pkg: lazy_pkg names them
+// <title>, <title>_update and <title>_<DLC>
+static std::vector<fs::path> persistent_cache_dirs(const fs::path &pref_path, const std::string &title_id) {
+    std::vector<fs::path> dirs;
+    boost::system::error_code ec;
+    for (fs::directory_iterator it(pref_path / "cache" / "pkg", ec), end; !ec && it != end; it.increment(ec)) {
+        const std::string name = it->path().filename().string();
+        if (name == title_id || name.rfind(title_id + "_", 0) == 0)
+            dirs.push_back(it->path());
+    }
+    return dirs;
+}
+
 static void remove_title_data(const fs::path &pref_path, const std::string &title_id) {
     boost::system::error_code ec;
     // the game, its install markers and its shader cache, and whatever was
@@ -1182,15 +1194,7 @@ static void remove_title_data(const fs::path &pref_path, const std::string &titl
     fs::remove_all(shelf_dir(pref_path) / "patch" / title_id, ec);
     fs::remove_all(shelf_dir(pref_path) / "addcont" / title_id, ec);
     fs::remove(patch_marker_note(pref_path, title_id), ec);
-    // lazy_pkg names a title's cache folders <title>, <title>_update and <title>_<DLC>
-    const fs::path cache = pref_path / "cache" / "pkg";
-    std::vector<fs::path> gone;
-    for (fs::directory_iterator it(cache, ec), end; !ec && it != end; it.increment(ec)) {
-        const std::string name = it->path().filename().string();
-        if (name == title_id || name.rfind(title_id + "_", 0) == 0)
-            gone.push_back(it->path());
-    }
-    for (const auto &dir : gone)
+    for (const auto &dir : persistent_cache_dirs(pref_path, title_id))
         fs::remove_all(dir, ec);
     auto titles = load_titles(pref_path);
     if (titles.erase(title_id))
@@ -1242,17 +1246,42 @@ static std::uint64_t title_size(const fs::path &pref_path, const std::string &ti
     for (const fs::path &dir : { pref_path / "ux0" / "patch" / title_id, shelf_dir(pref_path) / "patch" / title_id,
              shelf_dir(pref_path) / "addcont" / title_id, pref_path / "cache" / "shaders" / title_id })
         size += disk_usage(dir);
-    ec.clear();
-    for (fs::directory_iterator it(pref_path / "cache" / "pkg", ec), end; !ec && it != end; it.increment(ec)) {
-        const std::string name = it->path().filename().string();
-        if (name == title_id || name.rfind(title_id + "_", 0) == 0)
-            size += disk_usage(it->path());
-    }
+    for (const fs::path &dir : persistent_cache_dirs(pref_path, title_id))
+        size += disk_usage(dir);
     return size;
 }
 
-static std::string removal_label(const std::string &title_id, const TitleRecord &r);
-static std::string removal_key(const std::string &title_id);
+// A size for the screen, as the system's own file manager has it: MB and GB
+// of 1024 on Windows (the Xbox too), as Windows names them, and of 1000
+// elsewhere (sco8487). Three digits at most, rounded to the nearest, with no
+// trailing zeros (printf's %g): GB from what would be 1000 MB (0.977 GB,
+// 1.5 GB, 2 GB, 12.3 GB, 123 GB). Only the display: titles.tsv holds bytes
+// (i30817).
+static std::string human_size(std::uint64_t bytes) {
+#ifdef _WIN32
+    constexpr double unit = 1024;
+#else
+    constexpr double unit = 1000;
+#endif
+    const double mb = bytes / (unit * unit);
+    if (mb < 999.5)
+        return fmt::format("{:.3g} MB", std::max(mb, 0.01));
+    const double gb = mb / unit;
+    // %g would write 1000 GB and over as 1e+03
+    return gb < 999.5 ? fmt::format("{:.3g} GB", gb) : fmt::format("{:.0f} GB", gb);
+}
+
+// "Name (ID) - size", the size of what would be deleted (i30817)
+static std::string removal_label(const std::string &title_id, const TitleRecord &r) {
+    std::string label = r.name.empty() ? title_id : fmt::format("{} ({})", r.name, title_id);
+    if (r.size)
+        label += " - " + human_size(r.size);
+    return label;
+}
+
+static std::string removal_key(const std::string &title_id) {
+    return "vita3k_zremove_" + option_key_part(title_id);
+}
 
 void record_started_title(const fs::path &pref_path, const std::string &title_id, const std::string &name, const std::string &mode) {
     s_running_title = {};
@@ -1265,12 +1294,7 @@ void record_started_title(const fs::path &pref_path, const std::string &title_id
     // its shader cache stays, every Run Mode uses it
     if (mode != "cache") {
         boost::system::error_code ec;
-        std::vector<fs::path> gone;
-        for (fs::directory_iterator it(pref_path / "cache" / "pkg", ec), end; !ec && it != end; it.increment(ec)) {
-            const std::string name = it->path().filename().string();
-            if (name == title_id || name.rfind(title_id + "_", 0) == 0)
-                gone.push_back(it->path());
-        }
+        const std::vector<fs::path> gone = persistent_cache_dirs(pref_path, title_id);
         for (const auto &dir : gone)
             fs::remove_all(dir, ec);
         if (!gone.empty())
@@ -1393,40 +1417,12 @@ static std::map<std::string, TitleRecord> titles_from_disk(const fs::path &pref_
         TitleRecord &r = titles[id];
         r.first_seen = when;
         r.name = installed_title_name(pref_path, id);
-        bool cache = false;
-        for (fs::directory_iterator it(pref_path / "cache" / "pkg", ec), end; !ec && it != end; it.increment(ec)) {
-            const std::string name = it->path().filename().string();
-            cache |= name == id || name.rfind(id + "_", 0) == 0;
-        }
-        ec.clear();
         // a game run without installing leaves no eboot.bin of its own behind
-        r.mode = cache ? "cache" : fs::exists(pref_path / "ux0" / "app" / id / "eboot.bin", ec) ? "install" : "run";
+        r.mode = !persistent_cache_dirs(pref_path, id).empty() ? "cache" : fs::exists(pref_path / "ux0" / "app" / id / "eboot.bin", ec) ? "install" : "run";
         r.size = title_size(pref_path, id, false);
     }
     save_titles(pref_path, titles);
     return titles;
-}
-
-// A size as du -h has it, in MiB or GiB, rounded up; GiB from what would be
-// 1000 MiB, so it never takes four digits (i30817)
-static std::string human_size(std::uint64_t bytes) {
-    const double mib = bytes / 1048576.0;
-    if (std::ceil(mib) < 1000)
-        return mib < 10 ? fmt::format("{:.1f} MiB", std::max(std::ceil(mib * 10) / 10, 0.1)) : fmt::format("{:.0f} MiB", std::ceil(mib));
-    const double gib = mib / 1024;
-    return gib < 10 ? fmt::format("{:.1f} GiB", std::ceil(gib * 10) / 10) : fmt::format("{:.0f} GiB", std::ceil(gib));
-}
-
-// "Name (ID) - size", the size of what would be deleted (i30817)
-static std::string removal_label(const std::string &title_id, const TitleRecord &r) {
-    std::string label = r.name.empty() ? title_id : fmt::format("{} ({})", r.name, title_id);
-    if (r.size)
-        label += " - " + human_size(r.size);
-    return label;
-}
-
-static std::string removal_key(const std::string &title_id) {
-    return "vita3k_zremove_" + option_key_part(title_id);
 }
 
 // Update versions as numbers: "01.09" against "01.10" part by part
@@ -2059,11 +2055,10 @@ bool content_options_changed() {
 // Disabled, the update kept in ux0/patch when another one or None is chosen -
 // and the data of each title turned ON in Remove Content is removed; the title
 // that ran is measured again for Remove Content's list, unless its data was
-// removed. Nothing is
-// half done if this never runs (the frontend killed, a crash): plan_content
-// sets aside the same at the next start, and removes the other titles' data.
-// An update merged into the installed game waits for that start too, which
-// installs the game again.
+// removed. Nothing is half done if this never runs (the frontend killed, a
+// crash): plan_content sets aside the same at the next start, and removes the
+// other titles' data. An update merged into the installed game waits for that
+// start too, which installs the game again.
 void content_closed() {
     const auto content = std::move(s_loaded_content);
     s_loaded_content = {};
