@@ -49,6 +49,8 @@ constexpr MemPerm most_restrictive_perm(MemPerm a, MemPerm b) {
 
 bool init(MemState &state, const bool use_page_table);
 void deinit_mem(MemState &state);
+// Puts back the fault handlers there were before init (deinit_mem does it too)
+void unregister_access_violation_handler();
 Address alloc(MemState &state, uint32_t size, const char *name, Address start_addr = user_main_memory_start);
 Address alloc_aligned(MemState &state, uint32_t size, const char *name, unsigned int alignment, Address start_addr = user_main_memory_start);
 void protect_inner(MemState &state, Address addr, uint32_t size, const MemPerm perm);

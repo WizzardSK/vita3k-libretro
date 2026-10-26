@@ -43,6 +43,11 @@
 
 #include <algorithm>
 #include <cctype>
+#include <cmath>
+#include <cstdint>
+#include <ctime>
+#include <map>
+#include <tuple>
 #include <cstring>
 #include <fstream>
 #include <iterator>
@@ -198,36 +203,29 @@ static std::string missing_parts(const FirmwareStatus &status) {
     return missing;
 }
 
-std::string install_firmware_from_folder(const fs::path &pref_path, const fs::path &system_dir) {
-    fs::create_directories(pref_path);
-    int installed = 0, failed = 0;
-    const std::pair<PupKind, const char *> parts[] = {
-        { PupKind::Preinst, "Preinstalled package" },
-        { PupKind::Firmware, "System firmware" },
-        { PupKind::Font, "Font package" },
-    };
-    for (const auto &[kind, label] : parts) {
-        const fs::path pup = firmware_pup(pref_path, system_dir, kind);
-        if (pup.empty())
-            continue;
-        (install_pup_file(pref_path, pup, label) ? installed : failed)++;
-    }
+// Each firmware part that is not installed, from its .pup in system_dir if
+// there is one: a prepared system directory gives a working core at the first
+// start, as with other cores' BIOS files (i30817, sco8487). An installed part
+// is left as it is; loading a .pup as content installs over it.
+static void install_missing_firmware(const fs::path &pref_path, const fs::path &system_dir) {
     const FirmwareStatus status = check_firmware_status(pref_path);
-    const std::string missing = missing_parts(status);
-    std::string text;
-    if (installed == 0 && failed == 0)
-        text = fmt::format("Install Firmware: no .pup files in {}", system_dir.generic_string());
-    else if (failed > 0)
-        text = fmt::format("Install Firmware: {} part(s) installed, {} failed (see the log)", installed, failed);
-    else
-        text = fmt::format("Install Firmware: {} part(s) installed", installed);
-    if (!missing.empty())
-        text += ". Still missing: " + missing;
-    lr_log(RETRO_LOG_INFO, "%s\n", text.c_str());
-    return text;
+    const std::tuple<PupKind, const char *, bool> parts[] = {
+        { PupKind::Preinst, "Preinstalled package", status.preinst_installed },
+        { PupKind::Firmware, "System firmware", status.firmware_installed },
+        { PupKind::Font, "Font package", status.font_installed },
+    };
+    for (const auto &[kind, label, installed] : parts) {
+        if (installed)
+            continue;
+        const fs::path pup = firmware_pup(pref_path, system_dir, kind);
+        if (!pup.empty())
+            install_pup_file(pref_path, pup, label);
+    }
 }
 
 bool check_firmware_installed(const fs::path &pref_path, const fs::path &system_dir) {
+    fs::create_directories(pref_path);
+    install_missing_firmware(pref_path, system_dir);
     const FirmwareStatus status = check_firmware_status(pref_path);
     if (status.all_installed()) {
         lr_log(RETRO_LOG_INFO, "All firmware components are installed.\n");
@@ -244,14 +242,14 @@ bool check_firmware_installed(const fs::path &pref_path, const fs::path &system_
         lr_log(level, "=== FIRMWARE MISSING ===\n");
         lr_log(level, "Vita3K requires PS Vita firmware to run games.\n");
     }
-    lr_log(level, "Place the following PUP files in %s and turn on System > Install Firmware, or load each .pup as content:\n", system_dir.generic_string().c_str());
+    lr_log(level, "Place the following PUP files in %s, to be installed at the next start, or load each .pup as content:\n", system_dir.generic_string().c_str());
     if (!status.preinst_installed)
         lr_log(level, "  - preinst.pup, or any .pup name with preinst in it (pd0/) → https://bit.ly/4hlePsX\n");
     if (!status.firmware_installed)
         lr_log(level, "  - the system firmware, any .pup name without preinst or font in it (vs0/) → https://www.playstation.com/en-us/support/hardware/psvita/system-software\n");
     if (!status.font_installed)
         lr_log(level, "  - font.pup, or any .pup name with font in it (sa0/) → https://bit.ly/48ouDaa\n");
-    lr_msg(fmt::format("Firmware missing: {}. Put the .pup files in system/vita3k and turn on System > Install Firmware.", missing_parts(status)).c_str(), 600);
+    lr_msg(fmt::format("Firmware missing: {}. Put the .pup files in system/vita3k; they are installed at the next start.", missing_parts(status)).c_str(), 600);
     return status.firmware_installed;
 }
 
@@ -1047,13 +1045,20 @@ static struct {
         std::string key, dlc_id, content_id;
     };
     std::vector<Dlc> dlcs;
+    // Remove Content's entries: each one's key and title ID
+    std::vector<std::pair<std::string, std::string>> removals;
+    // The Content options as declared, without the values set first, to
+    // declare again when the title being run is measured
+    std::vector<ContentOption> options;
+    // The name Remove Content shows for the title being run
+    std::string shown_name;
     // Each Content option's value as last seen, to tell a change of one
     std::map<std::string, std::string> seen;
 } s_loaded_content;
 
 // An installed game deleted: its folder in ux0/app, and every install marker
 // of the title's, so that its PKG - and a DLC's, loaded again - installs again.
-// The shader cache goes too when the user removes the title's data (Remove Data), and
+// The shader cache goes too when the user removes the title's data (Remove Content), and
 // stays when only the way it is run changes (Run Mode).
 static void uninstall_game(const fs::path &pref_path, const std::string &title_id, bool shader_cache) {
     boost::system::error_code ec;
@@ -1063,14 +1068,14 @@ static void uninstall_game(const fs::path &pref_path, const std::string &title_i
     forget_install_markers(pref_path, [&](const std::string &name) { return name.size() > 16 && name[6] == '-' && name.compare(7, 9, title_id) == 0; });
 }
 
-// Remove Data - what the core wrote for a title besides its saves: the
+// Remove Content - what the core wrote for a title besides its saves: the
 // installed game, update and DLC with their install markers (Run Mode:
 // Installed), the Persistent Cache of the game, its update and its DLC
-// (Direct with Cache), and its shader cache (every method). Saves in ux0/user
-// stay.
+// (Direct with Cache), and its shader cache (every method). Saves and
+// trophies in ux0/user stay.
 // A DLC turned off, or an installed update another version or None is chosen
 // over, is set aside here rather than deleted, and comes back when it is
-// chosen again: only Remove Data deletes what was installed (Shoegzer)
+// chosen again: only Remove Content deletes what was installed (Shoegzer)
 static fs::path shelf_dir(const fs::path &pref_path) {
     return pref_path / "ux0" / "libretro_pkg" / "off";
 }
@@ -1083,7 +1088,7 @@ static fs::path patch_shelf(const fs::path &pref_path, const std::string &title_
 
 // An update or DLC just installed by loading it on its own: a copy of the same one set aside
 // before is no longer needed, and it would only sit there, listed once,
-// taking space until Remove Data (i30817). An update by the version it
+// taking space until Remove Content (i30817). An update by the version it
 // installed with, a DLC by its ID.
 static void drop_shelved_copy(const fs::path &pref_path, const std::string &title_id, const std::string &dlc_id) {
     boost::system::error_code ec;
@@ -1103,6 +1108,68 @@ static bool move_dir(const fs::path &from, const fs::path &to) {
     fs::create_directories(to.parent_path(), ec);
     fs::rename(from, to, ec);
     return !ec;
+}
+
+// The titles the core holds data of, for Remove Content's list (i30817), in one
+// file, ux0/libretro_pkg/titles.tsv: each title's ID, when it was first seen,
+// how it last ran, the size of its data and its name. The list is read from
+// it at the start, with no walk through the titles' directories; only the
+// title being run is measured: when it is new to the list or runs another
+// way, and again when it is closed or reset.
+struct TitleRecord {
+    std::time_t first_seen = 0;
+    std::string mode; // install, cache or run
+    std::uint64_t size = 0;
+    std::string name;
+};
+static fs::path titles_file(const fs::path &pref_path) {
+    return pref_path / "ux0" / "libretro_pkg" / "titles.tsv";
+}
+static std::map<std::string, TitleRecord> load_titles(const fs::path &pref_path) {
+    std::map<std::string, TitleRecord> titles;
+    std::ifstream in(titles_file(pref_path).string());
+    std::string line;
+    while (std::getline(in, line)) {
+        std::vector<std::string> f;
+        size_t start = 0;
+        for (size_t tab; (tab = line.find('\t', start)) != std::string::npos && f.size() < 4; start = tab + 1)
+            f.push_back(line.substr(start, tab - start));
+        f.push_back(line.substr(start));
+        if (f.size() != 5 || f[0].empty())
+            continue;
+        TitleRecord r;
+        r.first_seen = static_cast<std::time_t>(std::strtoll(f[1].c_str(), nullptr, 10));
+        r.mode = f[2];
+        r.size = std::strtoull(f[3].c_str(), nullptr, 10);
+        r.name = f[4];
+        titles[f[0]] = r;
+    }
+    return titles;
+}
+static void save_titles(const fs::path &pref_path, const std::map<std::string, TitleRecord> &titles) {
+    boost::system::error_code ec;
+    fs::create_directories(titles_file(pref_path).parent_path(), ec);
+    const fs::path tmp = titles_file(pref_path).string() + ".tmp";
+    {
+        std::ofstream out(tmp.string(), std::ios::trunc);
+        for (const auto &[id, r] : titles)
+            out << id << '\t' << static_cast<long long>(r.first_seen) << '\t' << r.mode << '\t' << r.size << '\t' << r.name << '\n';
+    }
+    fs::rename(tmp, titles_file(pref_path), ec);
+}
+
+// The title being run, measured again when it is closed or reset
+static struct {
+    fs::path pref_path;
+    std::string title_id;
+} s_running_title;
+
+// A title turned ON in Remove Content has a note here while it is ON: what a
+// crash or a killed frontend left undone - its data not removed, or removed
+// only in part - is finished at the next start, before anything runs
+// (i30817)
+static fs::path removal_note(const fs::path &pref_path, const std::string &title_id) {
+    return pref_path / "ux0" / "libretro_pkg" / ("remove_" + title_id);
 }
 
 static void remove_title_data(const fs::path &pref_path, const std::string &title_id) {
@@ -1125,6 +1192,241 @@ static void remove_title_data(const fs::path &pref_path, const std::string &titl
     }
     for (const auto &dir : gone)
         fs::remove_all(dir, ec);
+    auto titles = load_titles(pref_path);
+    if (titles.erase(title_id))
+        save_titles(pref_path, titles);
+    fs::remove(removal_note(pref_path, title_id), ec);
+}
+
+void finish_pending_removals(const fs::path &pref_path) {
+    boost::system::error_code ec;
+    std::vector<std::string> pending;
+    for (fs::directory_iterator it(pref_path / "ux0" / "libretro_pkg", ec), end; !ec && it != end; it.increment(ec)) {
+        const std::string name = it->path().filename().string();
+        if (name.rfind("remove_", 0) == 0 && name.size() > 7)
+            pending.push_back(name.substr(7));
+    }
+    for (const std::string &id : pending) {
+        remove_title_data(pref_path, id);
+        lr_log(RETRO_LOG_INFO, "%s: its data is removed (Remove Content, not finished when the core last closed)\n", id.c_str());
+    }
+}
+
+// The space everything under a directory takes on the disk: a Persistent
+// Cache's files are sparse, holding only what was read so far
+static std::uint64_t disk_usage(const fs::path &dir) {
+    std::uint64_t total = 0;
+    boost::system::error_code ec;
+    for (fs::recursive_directory_iterator it(dir, ec), end; !ec && it != end; it.increment(ec)) {
+        if (fs::is_regular_file(it->path(), ec))
+            total += lazy_pkg::disk_size(it->path());
+    }
+    return total;
+}
+
+// The size of what Remove Content deletes for a title (remove_title_data): its
+// install, update and DLC, also those set aside, its Persistent Cache and its
+// shader cache. While a title runs without installing (laid_out), what is
+// laid out for the run in ux0/app and ux0/addcont is not counted: it goes
+// when the title is closed.
+static std::uint64_t title_size(const fs::path &pref_path, const std::string &title_id, bool laid_out) {
+    std::uint64_t size = 0;
+    boost::system::error_code ec;
+    if (!laid_out)
+        size += disk_usage(pref_path / "ux0" / "app" / title_id);
+    for (fs::directory_iterator it(pref_path / "ux0" / "addcont" / title_id, ec), end; !ec && it != end; it.increment(ec)) {
+        boost::system::error_code marker_ec;
+        if (!laid_out || !fs::exists(pref_path / "ux0" / "libretro_pkg" / ("dlc_" + title_id + "_" + it->path().filename().string()), marker_ec))
+            size += disk_usage(it->path());
+    }
+    for (const fs::path &dir : { pref_path / "ux0" / "patch" / title_id, shelf_dir(pref_path) / "patch" / title_id,
+             shelf_dir(pref_path) / "addcont" / title_id, pref_path / "cache" / "shaders" / title_id })
+        size += disk_usage(dir);
+    ec.clear();
+    for (fs::directory_iterator it(pref_path / "cache" / "pkg", ec), end; !ec && it != end; it.increment(ec)) {
+        const std::string name = it->path().filename().string();
+        if (name == title_id || name.rfind(title_id + "_", 0) == 0)
+            size += disk_usage(it->path());
+    }
+    return size;
+}
+
+static std::string removal_label(const std::string &title_id, const TitleRecord &r);
+static std::string removal_key(const std::string &title_id);
+
+void record_started_title(const fs::path &pref_path, const std::string &title_id, const std::string &name, const std::string &mode) {
+    s_running_title = {};
+    if (title_id.empty())
+        return;
+    s_running_title = { pref_path, title_id };
+
+    // Run another way than Direct with Cache, the title's Persistent Cache
+    // goes, as an install goes when Run Mode no longer installs (sco8487);
+    // its shader cache stays, every Run Mode uses it
+    if (mode != "cache") {
+        boost::system::error_code ec;
+        std::vector<fs::path> gone;
+        for (fs::directory_iterator it(pref_path / "cache" / "pkg", ec), end; !ec && it != end; it.increment(ec)) {
+            const std::string name = it->path().filename().string();
+            if (name == title_id || name.rfind(title_id + "_", 0) == 0)
+                gone.push_back(it->path());
+        }
+        for (const auto &dir : gone)
+            fs::remove_all(dir, ec);
+        if (!gone.empty())
+            lr_log(RETRO_LOG_INFO, "%s runs %s: its Persistent Cache in cache/pkg is deleted\n",
+                title_id.c_str(), mode == "install" ? "installed" : "without a cache");
+    }
+
+    auto titles = load_titles(pref_path);
+    const bool fresh = !titles.contains(title_id);
+    TitleRecord &r = titles[title_id];
+    // new to the list, or run another way: a new line, measured now
+    if (fresh || r.mode != mode) {
+        r.first_seen = std::time(nullptr);
+        r.mode = mode;
+        r.size = title_size(pref_path, title_id, mode != "install");
+    } else if (name.empty() || r.name == name)
+        return;
+    if (!name.empty())
+        r.name = name;
+    save_titles(pref_path, titles);
+
+    // Its entry in Remove Content was made before the title was installed or
+    // measured: declared again with what it holds now (i30817)
+    if (s_loaded_content.title_id != title_id || !s_content_options)
+        return;
+    const auto entry = std::find_if(s_loaded_content.options.begin(), s_loaded_content.options.end(),
+        [&](const ContentOption &o) { return o.key == removal_key(title_id); });
+    if (entry == s_loaded_content.options.end())
+        return;
+    TitleRecord shown = r;
+    if (shown.name.empty())
+        shown.name = s_loaded_content.shown_name;
+    const std::string label = removal_label(title_id, shown);
+    if (label != entry->label) {
+        entry->label = label;
+        s_content_options(s_loaded_content.options);
+    }
+}
+
+// The title that was run, measured again now that it is closed; not when its
+// data was just removed
+static void measure_closed_title() {
+    const auto title = std::move(s_running_title);
+    s_running_title = {};
+    if (title.title_id.empty())
+        return;
+    auto titles = load_titles(title.pref_path);
+    const auto found = titles.find(title.title_id);
+    if (found == titles.end())
+        return;
+    const std::uint64_t size = title_size(title.pref_path, title.title_id, false);
+    if (size != found->second.size) {
+        found->second.size = size;
+        save_titles(title.pref_path, titles);
+    }
+}
+
+// Every title the core holds data of that Remove Content deletes - an install,
+// an update or DLC installed or set aside, a persistent cache, a shader cache
+// - each with the time its newest directory was last written. Read once, to
+// fill titles.tsv when there is none yet (data of a core from before it).
+static std::map<std::string, std::time_t> titles_with_data(const fs::path &pref_path) {
+    std::map<std::string, std::time_t> titles;
+    boost::system::error_code ec;
+    const auto add = [&](const fs::path &parent, bool cache_names) {
+        for (fs::directory_iterator it(parent, ec), end; !ec && it != end; it.increment(ec)) {
+            std::string id = it->path().filename().string();
+            // lazy_pkg's cache folders are <title>, <title>_update and <title>_<DLC>
+            if (cache_names)
+                id = id.substr(0, id.find('_'));
+            if (id.empty() || !fs::is_directory(it->path(), ec))
+                continue;
+            const std::time_t when = fs::last_write_time(it->path(), ec);
+            auto found = titles.find(id);
+            if (found == titles.end())
+                titles.emplace(id, when);
+            else if (when > found->second)
+                found->second = when;
+        }
+        ec.clear();
+    };
+    add(pref_path / "ux0" / "app", false);
+    add(pref_path / "ux0" / "patch", false);
+    add(pref_path / "ux0" / "addcont", false);
+    add(shelf_dir(pref_path) / "patch", false);
+    add(shelf_dir(pref_path) / "addcont", false);
+    add(pref_path / "cache" / "pkg", true);
+    add(pref_path / "cache" / "shaders", false);
+    return titles;
+}
+
+// A title's name from its installed param.sfo, or from the param.sfo in its
+// Persistent Cache (a file named by a hash of its path, so found by what it
+// starts with); empty when there is neither - Direct leaves none behind
+static std::string installed_title_name(const fs::path &pref_path, const std::string &title_id) {
+    sfo::SfoAppInfo info;
+    for (const char *dir : { "app", "patch" }) {
+        if (read_installed_sfo(pref_path / "ux0" / dir / title_id, info) && !info.app_title.empty())
+            return info.app_title;
+    }
+    boost::system::error_code ec;
+    for (fs::directory_iterator it(pref_path / "cache" / "pkg" / title_id, ec), end; !ec && it != end; it.increment(ec)) {
+        if (it->path().extension() != ".bin" || fs::file_size(it->path(), ec) > 1024 * 1024)
+            continue;
+        vfs::FileBuffer sfo;
+        if (fs_utils::read_data(it->path(), sfo) && sfo.size() > 4 && memcmp(sfo.data(), "\0PSF", 4) == 0) {
+            sfo::get_param_info(info, sfo, 1);
+            if (!info.app_title.empty())
+                return info.app_title;
+        }
+    }
+    return std::string();
+}
+
+// titles.tsv filled from what is on the memory card, once
+static std::map<std::string, TitleRecord> titles_from_disk(const fs::path &pref_path) {
+    std::map<std::string, TitleRecord> titles;
+    boost::system::error_code ec;
+    for (const auto &[id, when] : titles_with_data(pref_path)) {
+        TitleRecord &r = titles[id];
+        r.first_seen = when;
+        r.name = installed_title_name(pref_path, id);
+        bool cache = false;
+        for (fs::directory_iterator it(pref_path / "cache" / "pkg", ec), end; !ec && it != end; it.increment(ec)) {
+            const std::string name = it->path().filename().string();
+            cache |= name == id || name.rfind(id + "_", 0) == 0;
+        }
+        ec.clear();
+        // a game run without installing leaves no eboot.bin of its own behind
+        r.mode = cache ? "cache" : fs::exists(pref_path / "ux0" / "app" / id / "eboot.bin", ec) ? "install" : "run";
+        r.size = title_size(pref_path, id, false);
+    }
+    save_titles(pref_path, titles);
+    return titles;
+}
+
+// A size as du -h has it, in MiB or GiB, rounded up; GiB from what would be
+// 1000 MiB, so it never takes four digits (i30817)
+static std::string human_size(std::uint64_t bytes) {
+    const double mib = bytes / 1048576.0;
+    if (std::ceil(mib) < 1000)
+        return mib < 10 ? fmt::format("{:.1f} MiB", std::max(std::ceil(mib * 10) / 10, 0.1)) : fmt::format("{:.0f} MiB", std::ceil(mib));
+    const double gib = mib / 1024;
+    return gib < 10 ? fmt::format("{:.1f} GiB", std::ceil(gib * 10) / 10) : fmt::format("{:.0f} GiB", std::ceil(gib));
+}
+
+// "Name (ID) - size", the size of what would be deleted (i30817)
+static std::string removal_label(const std::string &title_id, const TitleRecord &r) {
+    std::string label = r.name.empty() ? title_id : fmt::format("{} ({})", r.name, title_id);
+    if (r.size)
+        label += " - " + human_size(r.size);
+    return label;
+}
+
+static std::string removal_key(const std::string &title_id) {
+    return "vita3k_zremove_" + option_key_part(title_id);
 }
 
 // Update versions as numbers: "01.09" against "01.10" part by part
@@ -1353,6 +1655,31 @@ static ContentPlan plan_content(const fs::path &pkg_path, const std::string &tit
         }
     }
 
+    // The update follows Run Mode the same way (sco8487): one installed from
+    // the game's folder, while the game now runs from its PKG, is read out of
+    // its PKG beside the game instead and its installed copy goes. One
+    // installed by loading its own PKG stays, and so does one whose PKG is
+    // not in the game's folder.
+    if (run_pkg && !fs::exists(app / "eboot.bin", ec)
+        && !fs::exists(manual_install_mark(pref_path, title_id), ec)) {
+        sfo::SfoAppInfo info;
+        if (read_installed_sfo(patch, info) && !info.app_version.empty()
+            && std::any_of(updates.begin(), updates.end(), [&](const Update &u) {
+                   return !u.path.empty() && u.version == info.app_version; })) {
+            fs::remove_all(patch, ec);
+            std::string marker_name;
+            {
+                fs::ifstream note(patch_marker_note(pref_path, title_id));
+                std::getline(note, marker_name);
+            }
+            fs::remove(patch_marker_note(pref_path, title_id), ec);
+            if (!marker_name.empty())
+                forget_install_markers(pref_path, [&](const std::string &name) { return name == marker_name; });
+            lr_log(RETRO_LOG_INFO, "Update %s of %s: installed from the game's folder, now read out of its PKG as Run Mode says; the installed copy is deleted\n",
+                info.app_version.c_str(), title_id.c_str());
+        }
+    }
+
     // The installed update: kept in ux0/patch, as every update is installed now,
     // or merged into the installed game by a released build's install, which then
     // carries a version other than its PKG's
@@ -1403,7 +1730,7 @@ static ContentPlan plan_content(const fs::path &pkg_path, const std::string &tit
     const auto dlc_key = [&](const Dlc &dlc) { return prefix + "dlc_" + option_key_part(dlc.dlc_id); };
     std::vector<ContentOption> options;
 
-    // The title itself and how it runs (Remove Data is an option of its own)
+    // The title itself and how it runs (Remove Content is a list of its own, below)
     const bool game_installed = fs::exists(app / "eboot.bin", ec);
     // How an update or DLC that is not installed is used at this start: read out
     // of its PKG like the game, or installed along with an installed game
@@ -1472,6 +1799,36 @@ static ContentPlan plan_content(const fs::path &pkg_path, const std::string &tit
         options.push_back(std::move(option));
     }
 
+    // Remove Content (i30817), a category of its own after Content: each title
+    // with data to delete, ON to delete it when the content is closed or reset
+    // - the current title first, then the others, the latest seen first, as
+    // titles.tsv has them. RetroArch leaves out a category with no options.
+    std::vector<std::pair<std::string, std::string>> removals;
+    {
+        auto titles = fs::exists(titles_file(pref_path), ec) ? load_titles(pref_path) : titles_from_disk(pref_path);
+        TitleRecord &current = titles[title_id];
+        if (!game_info.title.empty())
+            current.name = game_info.title;
+        s_loaded_content.shown_name = current.name;
+        std::vector<std::string> order;
+        for (const auto &t : titles)
+            if (t.first != title_id)
+                order.push_back(t.first);
+        std::stable_sort(order.begin(), order.end(), [&](const std::string &a, const std::string &b) { return titles[a].first_seen > titles[b].first_seen; });
+        order.insert(order.begin(), title_id);
+
+        for (const std::string &id : order) {
+            ContentOption option;
+            option.category = "remove";
+            option.key = removal_key(id);
+            option.label = removal_label(id, titles[id]);
+            option.values = { { "disabled", "OFF" }, { "enabled", "ON" } };
+            option.default_value = "disabled";
+            removals.emplace_back(option.key, id);
+            options.push_back(std::move(option));
+        }
+    }
+
     // The notes have done their part once the frontend holds the value; one
     // for something that is no longer installed has none to do
     fs::remove(manual_update_note(pref_path, title_id), ec);
@@ -1519,14 +1876,40 @@ static ContentPlan plan_content(const fs::path &pkg_path, const std::string &tit
         s_loaded_content.dlcs.push_back({ dlc_key(dlc), dlc.dlc_id, dlc.content_id });
     content_options_changed();
 
-    // Remove Data left on when the content was not closed (the frontend did
-    // not get to it): turned off without removing anything, as it may have
-    // been meant for another title
-    if (s_content_value && s_content_value("vita3k_remove_data") == "enabled") {
-        lr_log(RETRO_LOG_INFO, "Remove Data was left on when the last title was not closed: turned off, nothing removed\n");
-        if (s_set_content_value)
-            s_set_content_value("vita3k_remove_data", "disabled");
+    // Remove Content left on: what it was on for was deleted before the content
+    // started (finish_pending_removals), so the entry is only turned off. An
+    // entry ON with no note (its note lost) has its title's data deleted now,
+    // unless it is the title about to run.
+    {
+        std::vector<std::string> deleted;
+        for (const auto &[key, id] : removals) {
+            const auto it = chosen.find(key);
+            if (it == chosen.end() || it->second != "enabled")
+                continue;
+            if (id != title_id) {
+                remove_title_data(pref_path, id);
+                deleted.push_back(key);
+                lr_log(RETRO_LOG_INFO, "%s: its data is removed (Remove Content, left on when the last title was not closed)\n", id.c_str());
+            }
+            fs::remove(removal_note(pref_path, id), ec);
+            if (s_set_content_value)
+                s_set_content_value(key, "disabled");
+        }
+        // Their entries go from the list
+        if (!deleted.empty() && s_content_options) {
+            options.erase(std::remove_if(options.begin(), options.end(),
+                              [&](const ContentOption &o) { return std::find(deleted.begin(), deleted.end(), o.key) != deleted.end(); }),
+                options.end());
+            removals.erase(std::remove_if(removals.begin(), removals.end(),
+                               [&](const auto &r) { return std::find(deleted.begin(), deleted.end(), r.first) != deleted.end(); }),
+                removals.end());
+            chosen = s_content_options(options);
+        }
     }
+    s_loaded_content.removals = removals;
+    s_loaded_content.options = options;
+    for (ContentOption &option : s_loaded_content.options)
+        option.set_value.clear();
     const auto value_of = [&](const std::string &key) {
         const auto option = std::find_if(options.begin(), options.end(), [&](const ContentOption &o) { return o.key == key; });
         if (option == options.end())
@@ -1641,6 +2024,19 @@ static ContentPlan plan_content(const fs::path &pkg_path, const std::string &tit
 bool content_options_changed() {
     if (s_loaded_content.title_id.empty() || !s_content_value)
         return false;
+    // Remove Content: a note for each title while it is ON, so that a crash
+    // before the close still has it deleted at the next start
+    for (const auto &[key, id] : s_loaded_content.removals) {
+        boost::system::error_code ec;
+        const fs::path note = removal_note(s_loaded_content.pref_path, id);
+        if (s_content_value(key) == "enabled") {
+            if (!fs::exists(note, ec)) {
+                fs::create_directories(note.parent_path(), ec);
+                fs::ofstream(note).put('\n');
+            }
+        } else if (fs::exists(note, ec))
+            fs::remove(note, ec);
+    }
     std::vector<std::string> keys = { s_loaded_content.game_key };
     if (!s_loaded_content.update_key.empty())
         keys.push_back(s_loaded_content.update_key);
@@ -1661,25 +2057,39 @@ bool content_options_changed() {
 // The content is closed: what was turned off while it ran is set aside now
 // rather than at the game's next start (sco8487) - an installed DLC set to
 // Disabled, the update kept in ux0/patch when another one or None is chosen -
-// and with Remove Data on, the title's data is removed. Nothing is half done if
-// this never runs (the frontend killed, a crash): plan_content sets aside the
-// same at the next start. An update merged into the installed game waits for
-// that start too, which installs the game again.
+// and the data of each title turned ON in Remove Content is removed; the title
+// that ran is measured again for Remove Content's list, unless its data was
+// removed. Nothing is
+// half done if this never runs (the frontend killed, a crash): plan_content
+// sets aside the same at the next start, and removes the other titles' data.
+// An update merged into the installed game waits for that start too, which
+// installs the game again.
 void content_closed() {
     const auto content = std::move(s_loaded_content);
     s_loaded_content = {};
-    if (content.title_id.empty() || !s_content_value)
+    if (content.title_id.empty() || !s_content_value) {
+        measure_closed_title();
         return;
+    }
 
     boost::system::error_code ec;
     const fs::path &pref_path = content.pref_path;
     const std::string &title_id = content.title_id;
 
-    if (s_content_value("vita3k_remove_data") == "enabled") {
-        remove_title_data(pref_path, title_id);
-        lr_log(RETRO_LOG_INFO, "%s: its data is removed (Remove Data)\n", title_id.c_str());
+    // Each title turned ON in Remove Content; its entry is turned off only once
+    // its data is gone, so that one cut short is finished at the next start
+    bool current_removed = false;
+    for (const auto &[key, id] : content.removals) {
+        if (s_content_value(key) != "enabled")
+            continue;
+        remove_title_data(pref_path, id);
+        lr_log(RETRO_LOG_INFO, "%s: its data is removed (Remove Content)\n", id.c_str());
         if (s_set_content_value)
-            s_set_content_value("vita3k_remove_data", "disabled");
+            s_set_content_value(key, "disabled");
+        current_removed |= id == title_id;
+    }
+    if (current_removed) {
+        s_running_title = {};
         return;
     }
 
@@ -1711,6 +2121,7 @@ void content_closed() {
                 info.app_version.c_str(), title_id.c_str(), version.c_str());
         }
     }
+    measure_closed_title();
 }
 
 // A PKG installed much as upstream's install_pkg does it - into ux0/app,

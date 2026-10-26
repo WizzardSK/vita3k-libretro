@@ -44,6 +44,7 @@
 #include <overlay/shader_compile_notice.h>
 #include <overlay/shader_precompile_progress.h>
 #include <kernel/state.h>
+#include <mem/functions.h>
 #include <renderer/frame_host.h>
 #include <renderer/functions.h>
 #include <renderer/gl/state.h>
@@ -55,6 +56,10 @@
 #include <util/fs.h>
 #include <util/log.h>
 #include <util/string_utils.h>
+
+#ifndef _WIN32
+#include <signal.h>
+#endif
 #include <np/state.h>
 #include <np/trophy/collection.h>
 
@@ -95,7 +100,6 @@ static void read_core_options();
 static void stop_render_thread();
 static void request_guest_shutdown(EmuEnvState &emuenv, const char *reason);
 static bool perform_core_reset();
-static void join_firmware_thread();
 
 static void lr_message(const std::string &msg, unsigned frames = 240) {
     if (!libretro.environ_cb)
@@ -247,6 +251,27 @@ static std::map<std::string, std::string> declare_extra_options(const std::vecto
         }
         def.default_value = option.default_value.c_str();
         definitions.push_back(def);
+    }
+    // RetroArch lists the categories in the order their first options come:
+    // Remove Content's go right after the first run of Content's, so that
+    // it follows Content rather than every category of the core's own
+    // (sco8487)
+    {
+        const auto in = [](const retro_core_option_v2_definition &d, std::string_view category) {
+            return d.category_key && category == d.category_key;
+        };
+        std::vector<retro_core_option_v2_definition> removals;
+        for (const auto &d : definitions)
+            if (in(d, "remove"))
+                removals.push_back(d);
+        definitions.erase(std::remove_if(definitions.begin(), definitions.end(),
+                              [&](const auto &d) { return in(d, "remove"); }),
+            definitions.end());
+        auto at = std::find_if(definitions.begin(), definitions.end(),
+            [&](const auto &d) { return in(d, "install"); });
+        while (at != definitions.end() && in(*at, "install"))
+            ++at;
+        definitions.insert(at, removals.begin(), removals.end());
     }
     definitions.push_back(retro_core_option_v2_definition{});
 
@@ -1756,7 +1781,12 @@ static GameInstallResult open_content() {
         });
     // the game's title and details in the System Language
     const int sys_lang = std::clamp(parse_int_option(get_core_option_value("vita3k_sys_lang", "1"), SCE_SYSTEM_PARAM_LANG_ENGLISH_US), 0, static_cast<int>(SCE_SYSTEM_PARAM_LANG_TURKISH));
+    finish_pending_removals(pref_path);
     const GameInstallResult result = ensure_game_installed(fs_utils::utf8_to_path(libretro.game_path), pref_path, sys_lang, pkg_mode_name == "run" || pkg_mode_name == "cache");
+    if (result.success)
+        // an update or DLC loaded on its own has its kind added to the name
+        record_started_title(pref_path, result.title_id, result.category.find("gd") != std::string::npos ? result.title : std::string(),
+            lazy_pkg::mounted() ? (lazy_pkg::has_cache_root() ? "cache" : "run") : "install");
 
     // An installed game's update stays in ux0/patch/<title>, never merged into
     // the game's folder: its files are read in place of the game's here, where
@@ -1817,6 +1847,14 @@ static void close_content() {
     content_closed();
 }
 
+// The emulator goes, its memory with it; that memory's fault handler (mem.cpp)
+// goes first, as RetroArch's process (and any later crash in it) outlives the game
+static void drop_emuenv() {
+    if (libretro.emuenv)
+        unregister_access_violation_handler();
+    libretro.emuenv.reset();
+}
+
 static bool perform_core_reset() {
     lr_log(RETRO_LOG_INFO,
         "perform_core_reset: begin (game_loaded=%d, emuenv=%d, cfg=%d, root=%d, context=%d)\n",
@@ -1837,7 +1875,7 @@ static bool perform_core_reset() {
     release_renderer(*libretro.emuenv);
     context_destroy();
 
-    libretro.emuenv.reset();
+    drop_emuenv();
     libretro.renderer_ready = false;
     libretro.app_started = false;
     libretro.pending_main_module_id = -1;
@@ -1861,7 +1899,7 @@ static bool perform_core_reset() {
     if (!libretro_init_emuenv(emuenv, *libretro.root_paths)) {
         lr_log(RETRO_LOG_ERROR, "perform_core_reset: failed to reinitialize EmuEnvState\n");
         libretro.game_loaded = false;
-        libretro.emuenv.reset();
+        drop_emuenv();
         return false;
     }
 
@@ -1872,7 +1910,7 @@ static bool perform_core_reset() {
     if (load_err != Success) {
         lr_log(RETRO_LOG_ERROR, "perform_core_reset: failed to reload app (error %d)\n", static_cast<int>(load_err));
         libretro.game_loaded = false;
-        libretro.emuenv.reset();
+        drop_emuenv();
         return false;
     }
 
@@ -2102,7 +2140,21 @@ RETRO_API void retro_get_system_av_info(struct retro_system_av_info *info) {
     info->timing.sample_rate = 48000.0;
 }
 
+#ifndef _WIN32
+// The JIT (dynarmic's fault handler) gives the thread that first makes one -
+// RetroArch's own - an alternate signal stack, and frees it when the core is
+// unloaded without taking it off the thread. The next signal there was then
+// delivered onto unmapped memory, and the kernel ended RetroArch with no
+// crash report: the second game in the same process (sco8487). The thread's
+// own stack is put back when the core closes.
+static stack_t frontend_signal_stack;
+static bool frontend_signal_stack_saved = false;
+#endif
+
 RETRO_API void retro_init(void) {
+#ifndef _WIN32
+    frontend_signal_stack_saved = sigaltstack(nullptr, &frontend_signal_stack) == 0;
+#endif
     libretro_log_init();
     libretro_logging_init();
     lr_log(RETRO_LOG_INFO, "Vita3K libretro core %s %d (upstream %s), built from commit %s\n",
@@ -2128,7 +2180,6 @@ RETRO_API void retro_init(void) {
 }
 
 RETRO_API void retro_deinit(void) {
-    join_firmware_thread();
     lr_log(RETRO_LOG_INFO, "retro_deinit()\n");
     lr_trace("retro_deinit.enter",
         "initialized=%d game_loaded=%d emuenv=%d app_started=%d",
@@ -2142,7 +2193,7 @@ RETRO_API void retro_deinit(void) {
         request_guest_shutdown(*libretro.emuenv, "retro_deinit");
     }
 
-    libretro.emuenv.reset();
+    drop_emuenv();
     libretro.cfg.reset();
     libretro.root_paths.reset();
     libretro.initialized = false;
@@ -2153,6 +2204,21 @@ RETRO_API void retro_deinit(void) {
 
 #ifdef _WIN32
     lr_remove_vectored_exception_handler();
+#else
+    if (frontend_signal_stack_saved) {
+        stack_t current;
+        if (sigaltstack(nullptr, &current) == 0 && current.ss_sp != frontend_signal_stack.ss_sp) {
+            // sigaltstack refuses a stack marked as in use or disabled with
+            // a size; only these fields are given back
+            stack_t restore = {};
+            restore.ss_sp = frontend_signal_stack.ss_sp;
+            restore.ss_size = frontend_signal_stack.ss_size;
+            restore.ss_flags = frontend_signal_stack.ss_flags & SS_DISABLE;
+            if (sigaltstack(&restore, nullptr) != 0)
+                lr_log(RETRO_LOG_WARN, "retro_deinit: the thread's signal stack could not be put back\n");
+        }
+        frontend_signal_stack_saved = false;
+    }
 #endif
 }
 
@@ -2268,7 +2334,7 @@ RETRO_API bool retro_load_game(const struct retro_game_info *game) {
     if (!libretro_init_emuenv(emuenv, root)) {
         lr_log(RETRO_LOG_ERROR, "Failed to initialize emulator environment!\n");
         lr_trace("retro_load_game.error", "libretro_init_emuenv failed");
-        libretro.emuenv.reset();
+        drop_emuenv();
         return false;
     }
 
@@ -2280,7 +2346,7 @@ RETRO_API bool retro_load_game(const struct retro_game_info *game) {
     if (load_err != Success) {
         lr_log(RETRO_LOG_ERROR, "Failed to load game (error %d)!\n", (int)load_err);
         lr_trace("retro_load_game.error", "libretro_load_app failed code=%d", static_cast<int>(load_err));
-        libretro.emuenv.reset();
+        drop_emuenv();
         return false;
     }
 
@@ -2308,7 +2374,6 @@ RETRO_API bool retro_load_game_special(unsigned game_type, const struct retro_ga
 
 RETRO_API void retro_unload_game(void) {
     lr_log(RETRO_LOG_INFO, "retro_unload_game()\n");
-    join_firmware_thread();
     lr_trace("retro_unload_game.enter", "game_loaded=%d emuenv=%d", libretro.game_loaded ? 1 : 0, libretro.emuenv ? 1 : 0);
 
     if (libretro.emuenv) {
@@ -2317,7 +2382,7 @@ RETRO_API void retro_unload_game(void) {
         release_renderer(*libretro.emuenv);
     }
 
-    libretro.emuenv.reset();
+    drop_emuenv();
     close_content();
     libretro.game_loaded = false;
     libretro.app_started = false;
@@ -2325,42 +2390,6 @@ RETRO_API void retro_unload_game(void) {
     libretro.reset_requested = false;
     libretro.installed_title_id.clear();
     libretro.installed_title.clear();
-}
-
-// System > Install Firmware: the .pup files in system/vita3k installed on
-// request, on a thread of its own so the frontend keeps running meanwhile,
-// and its result shown from retro_run once it is done
-static std::thread s_firmware_thread;
-static std::atomic_bool s_firmware_done{ false };
-static std::string s_firmware_result;
-
-static void join_firmware_thread() {
-    if (s_firmware_thread.joinable())
-        s_firmware_thread.join();
-}
-
-static void handle_install_firmware_request() {
-    if (std::string(get_core_option_value("vita3k_install_firmware", "disabled")) != "enabled")
-        return;
-    retro_variable off{ "vita3k_install_firmware", "disabled" };
-    libretro.environ_cb(RETRO_ENVIRONMENT_SET_VARIABLE, &off);
-    if (s_firmware_thread.joinable()) {
-        lr_message("Install Firmware: still installing");
-        return;
-    }
-    const fs::path system_dir = fs::path(libretro.system_dir);
-    s_firmware_done = false;
-    s_firmware_thread = std::thread([system_dir] {
-        s_firmware_result = install_firmware_from_folder(system_dir, system_dir);
-        s_firmware_done = true;
-    });
-}
-
-static void show_firmware_result() {
-    if (!s_firmware_done.exchange(false))
-        return;
-    join_firmware_thread();
-    lr_message(s_firmware_result, 600);
 }
 
 // Rename Active Account: a name typed inside the core, since a core option
@@ -2588,9 +2617,7 @@ RETRO_API void retro_run(void) {
         read_core_options();
         apply_config_changes();
         libretro_accounts_options_changed(*libretro.emuenv);
-        handle_install_firmware_request();
     }
-    show_firmware_result();
 
     EmuEnvState &emuenv = *libretro.emuenv;
 

@@ -558,6 +558,7 @@ const char *mem_name(Address address, MemState &state) {
 
 void deinit_mem(MemState &state) {
     const std::lock_guard<std::mutex> gen_lock(state.generation_mutex);
+    unregister_access_violation_handler();
 
     {
         const std::lock_guard<std::mutex> prot_lock(state.protect_mutex);
@@ -593,14 +594,39 @@ static LONG WINAPI exception_handler(PEXCEPTION_POINTERS pExp) noexcept {
     return EXCEPTION_CONTINUE_SEARCH;
 }
 
+static PVOID exception_handler_handle = nullptr;
+
 static void register_access_violation_handler(const AccessViolationHandler &handler) {
     access_violation_handler = handler;
-    if (!AddVectoredExceptionHandler(1, exception_handler)) {
+    if (exception_handler_handle)
+        return;
+    exception_handler_handle = AddVectoredExceptionHandler(1, exception_handler);
+    if (!exception_handler_handle) {
         LOG_CRITICAL("Failed to register an exception handler");
     }
 }
 
+// The core's process outlives the game (libretro): the handler goes with
+// the memory it handles
+void unregister_access_violation_handler() {
+    if (exception_handler_handle)
+        RemoveVectoredExceptionHandler(exception_handler_handle);
+    exception_handler_handle = nullptr;
+    access_violation_handler = nullptr;
+}
+
 #else
+
+// The handlers there were before ours: put back when the memory goes (the
+// libretro frontend's process outlives the game), and handed any fault ours
+// doesn't handle, so that the frontend's or the system's crash report
+// (Android's tombstone) is still written
+static struct sigaction previous_segv, previous_bus;
+static bool handler_installed = false;
+
+static void pass_to_previous(int sig) {
+    sigaction(sig, sig == SIGBUS ? &previous_bus : &previous_segv, nullptr);
+}
 
 static void signal_handler(int sig, siginfo_t *info, void *uct) noexcept {
     auto context = static_cast<ucontext_t *>(uct);
@@ -644,26 +670,40 @@ static void signal_handler(int sig, siginfo_t *info, void *uct) noexcept {
     }
 
     LOG_CRITICAL("Unhandled access to 0x{:X}", reinterpret_cast<uintptr_t>(info->si_addr));
-    raise(SIGTRAP);
-    return;
+    // the faulting instruction runs again, now under the previous handler
+    pass_to_previous(sig);
 }
 
 static void register_access_violation_handler(const AccessViolationHandler &handler) {
     access_violation_handler = handler;
+    if (handler_installed)
+        return;
     struct sigaction sa;
     sa.sa_flags = SA_SIGINFO;
     sigemptyset(&sa.sa_mask);
     sa.sa_sigaction = signal_handler;
-    if (sigaction(SIGSEGV, &sa, NULL) == -1) {
+    if (sigaction(SIGSEGV, &sa, &previous_segv) == -1) {
         LOG_CRITICAL("Failed to register an exception handler");
     }
 #ifdef __APPLE__
     // When accessing memory region which is PROT_NONE on macOS, it is raising SIGBUS not SIGSEGV.
     // So apply same signal handler to SIGBUS
-    if (sigaction(SIGBUS, &sa, NULL) == -1) {
+    if (sigaction(SIGBUS, &sa, &previous_bus) == -1) {
         LOG_CRITICAL("Failed to register an exception handler to SIGBUS");
     }
 #endif
+    handler_installed = true;
+}
+
+void unregister_access_violation_handler() {
+    if (handler_installed) {
+        sigaction(SIGSEGV, &previous_segv, nullptr);
+#ifdef __APPLE__
+        sigaction(SIGBUS, &previous_bus, nullptr);
+#endif
+    }
+    handler_installed = false;
+    access_violation_handler = nullptr;
 }
 
 #endif

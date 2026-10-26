@@ -1828,6 +1828,22 @@ bool has_cache_root() {
     return !s_cache_root.empty();
 }
 
+std::uint64_t disk_size(const fs::path &file) {
+    boost::system::error_code ec;
+#ifdef _WIN32
+    DWORD high = 0;
+    const DWORD low = GetCompressedFileSizeW(file.wstring().c_str(), &high);
+    if (low != INVALID_FILE_SIZE || GetLastError() == NO_ERROR)
+        return (static_cast<std::uint64_t>(high) << 32) | low;
+#else
+    struct stat st {};
+    if (stat(file.string().c_str(), &st) == 0)
+        return static_cast<std::uint64_t>(st.st_blocks) * 512;
+#endif
+    const std::uint64_t size = fs::file_size(file, ec);
+    return ec ? 0 : size;
+}
+
 bool mounted() {
     return s_mount != nullptr;
 }

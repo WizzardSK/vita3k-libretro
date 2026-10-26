@@ -40,6 +40,8 @@ bool mount_archive(const fs::path &archive_path, const std::string &prefix, cons
 void set_cache_root(const fs::path &cache_root);
 // Whether one is set: Persistent Cache rather than keeping nothing
 bool has_cache_root();
+// The space a file takes on the disk: of a sparse file, only its parts written
+std::uint64_t disk_size(const fs::path &file);
 
 // Whether files in dir can have holes: parts of the right size that take no
 // disk space until written. Run Without Installing and Persistent Cache lay a

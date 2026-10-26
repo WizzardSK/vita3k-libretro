@@ -40,14 +40,11 @@ FirmwareStatus check_firmware_status(const fs::path &pref_path);
 
 // ─── Firmware installation ──────────────────────────────────────────────────
 
-/// At a game's load: whether the system firmware is installed. Nothing is
-/// installed here (System > Install Firmware does that, on request); a
-/// missing part is logged with where to get it, and said on screen.
+/// At a game's load: each firmware part that is not installed is installed
+/// from its .pup in system_dir, if there is one; whether the system firmware
+/// is then installed. A part still missing is logged with where to get it,
+/// and said on screen.
 bool check_firmware_installed(const fs::path &pref_path, const fs::path &system_dir);
-
-/// System > Install Firmware: every firmware part whose .pup is in system_dir
-/// installed from it, over what is there. The result, as a line for the screen.
-std::string install_firmware_from_folder(const fs::path &pref_path, const fs::path &system_dir);
 
 /// A .pup loaded as content: installed, whichever of the three packages it is
 /// (upstream's install_pup tells them apart by their content, as they all
@@ -83,8 +80,17 @@ void set_content_option_accessors(std::function<std::string(const std::string &)
 // effect when the content is started again
 bool content_options_changed();
 // Called when the content is closed, the game stopped and what was laid out
-// for a run without installing removed: deletes what was turned off meanwhile
+// for a run without installing removed: deletes what was turned off meanwhile,
+// and measures the title that ran again for Remove Content's list
 void content_closed();
+// Remove Content (i30817): the titles turned ON whose data a crash or a killed
+// frontend left in place, or deleted only in part, are deleted now; called
+// before the content is started
+void finish_pending_removals(const fs::path &pref_path);
+// The title just started, in Remove Content's list (titles.tsv): its name, how
+// it runs (install, cache or run) and, when it is new to the list or runs
+// another way, the size of its data
+void record_started_title(const fs::path &pref_path, const std::string &title_id, const std::string &name, const std::string &mode);
 
 // What runs without installing left laid out in ux0 when they were not closed (the
 // frontend killed): every game, DLC and update layout whose marker under
