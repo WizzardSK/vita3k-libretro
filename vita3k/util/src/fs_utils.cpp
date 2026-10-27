@@ -18,6 +18,8 @@
 #include <cstdio>
 #include <cstring>
 #include <util/fs.h>
+
+#include <cctype>
 #include <util/string_utils.h>
 
 #include <SDL3/SDL_iostream.h>
@@ -145,8 +147,20 @@ bool copy_directory_contents(const fs::path &src_path, const fs::path &dst_path,
 #if defined(BUILD_LIBRETRO) && !defined(_WIN32)
 FILE *(*libretro_fopen_hook)(const char *filename, const char *mode) = nullptr;
 
+// A URI: scheme:// - or scheme:/, as boost's path leaves one with its two
+// slashes merged (libretro_vfs.cpp puts them back)
+static bool libretro_is_uri(const char *filename) {
+    const char *colon = std::strstr(filename, ":/");
+    if (!colon || colon - filename < 2 || !std::isalpha(static_cast<unsigned char>(filename[0])))
+        return false;
+    for (const char *c = filename + 1; c < colon; c++)
+        if (!std::isalnum(static_cast<unsigned char>(*c)) && *c != '+' && *c != '-' && *c != '.')
+            return false;
+    return true;
+}
+
 FILE *libretro_fopen(const char *filename, const char *mode) {
-    if (libretro_fopen_hook && std::strstr(filename, "://"))
+    if (libretro_fopen_hook && libretro_is_uri(filename))
         return libretro_fopen_hook(filename, mode);
     return fopen(filename, mode);
 }

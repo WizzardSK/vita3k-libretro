@@ -4,6 +4,7 @@ What changed in the libretro core of this fork, newest first. Changes that come 
 
 ## Unreleased
 
+- Content through RetroArch's file access (Android's file picker, Samba): the updates and DLC beside the game, and with Include Subdirectories below it, are listed as for a local game. The game's path came back from the core's path handling as `smb:/...` with its two slashes merged, so the core took the game's directory for a local one and found nothing in it; DLC in subdirectories were never looked for there either. The log says how many entries were found and which could not be read (sco8487).
 - Remove Content: sizes in MB and GB as the system's file manager shows them, of 1024 on Windows and of 1000 elsewhere, with at most three digits, rounded to the nearest and without trailing zeros, GB from what would be 1000 MB (0.977 GB, 1.5 GB, 2 GB); `titles.tsv` still holds bytes, so it works on any system (sco8487).
 - The core's memory fault handler is installed again at the next load after a fault it did not handle had handed the signal back to the previous handler; before, it stayed off (sco8487).
 - Android and Linux: loading a second game in the same RetroArch process no longer crashes RetroArch with no crash report. The JIT gave RetroArch's own thread an alternate signal stack and freed it when the core was unloaded, leaving the thread pointed at freed memory; the next signal on that thread could not be delivered and the kernel ended the process. The thread's own signal stack is now put back when the core closes (sco8487).

@@ -1481,9 +1481,23 @@ static ContentPlan plan_content(const fs::path &pkg_path, const std::string &tit
     const std::string game = pkg_path.generic_string();
     std::vector<std::string> candidates;
     if (lr_vfs_is_uri(game)) {
+        // Through the frontend's VFS (SAF, Samba): what lies beside the game,
+        // and with Include Subdirectories every directory below it, as for a
+        // local game (sco8487: DLC in subdirectories over Samba were not found)
         const size_t slash = game.find_last_of('/');
         if (slash != std::string::npos)
             candidates = lr_vfs_list(game.substr(0, slash));
+        if (s_content_value && s_content_value("vita3k_content_subdirs") == "enabled") {
+            for (size_t i = 0; i < candidates.size() && candidates.size() < 4096; i++) {
+                bool is_directory = false;
+                if (candidates[i] == game || !lr_vfs_stat(candidates[i], &is_directory, nullptr) || !is_directory)
+                    continue;
+                for (std::string &entry : lr_vfs_list(candidates[i]))
+                    candidates.push_back(std::move(entry));
+            }
+        }
+        lr_log(RETRO_LOG_INFO, "Content of %s through the frontend's VFS: %zu entries beside and below it\n",
+            title_id.c_str(), candidates.size());
     } else {
         boost::system::error_code ec;
         for (fs::directory_iterator it(pkg_path.parent_path(), ec), end; it != end; it.increment(ec)) {
@@ -1566,7 +1580,12 @@ static ContentPlan plan_content(const fs::path &pkg_path, const std::string &tit
                 && !lazy_pkg::is_archive(fs::path(candidate)) && !folder))
             continue;
         lazy_pkg::PkgInfo info;
-        if (!lazy_pkg::pkg_info(fs::path(candidate), info) || info.title_id != title_id)
+        if (!lazy_pkg::pkg_info(fs::path(candidate), info)) {
+            if (lr_vfs_is_uri(candidate))
+                lr_log(RETRO_LOG_WARN, "Content: %s could not be read through the frontend's VFS\n", candidate.c_str());
+            continue;
+        }
+        if (info.title_id != title_id)
             continue;
         if (info.category.find("ac") != std::string::npos) {
             Dlc dlc;

@@ -19,18 +19,35 @@
 static const retro_vfs_interface *s_vfs = nullptr;
 static unsigned s_vfs_version = 0;
 
-bool lr_vfs_is_uri(const std::string &path) {
-    // RFC 3986 scheme: a letter, then letters, digits, + - or .; then ://
+// Where a URI's scheme ends (its ':'), or npos: an RFC 3986 scheme, a letter
+// and then letters, digits, + - or ., of two characters or more (so a drive
+// letter is not one), followed by :// - or by :/ alone, which is what a URI
+// comes back as from boost's path, which merges the two slashes (sco8487:
+// "smb:/192.168..." for "smb://192.168...", so the core took the game's
+// directory for a local one and listed nothing beside it)
+static size_t uri_scheme_end(const std::string &path) {
     if (path.empty() || !std::isalpha(static_cast<unsigned char>(path[0])))
-        return false;
+        return std::string::npos;
     for (size_t i = 1; i < path.size(); i++) {
         const char c = path[i];
         if (c == ':')
-            return path.compare(i, 3, "://") == 0;
+            return i >= 2 && path.compare(i, 2, ":/") == 0 ? i : std::string::npos;
         if (!std::isalnum(static_cast<unsigned char>(c)) && c != '+' && c != '-' && c != '.')
-            return false;
+            return std::string::npos;
     }
-    return false;
+    return std::string::npos;
+}
+
+bool lr_vfs_is_uri(const std::string &path) {
+    return uri_scheme_end(path) != std::string::npos;
+}
+
+// The URI as the frontend takes it, scheme:// again
+static std::string uri_for_frontend(const std::string &path) {
+    const size_t colon = uri_scheme_end(path);
+    if (colon == std::string::npos || path.compare(colon, 3, "://") == 0)
+        return path;
+    return path.substr(0, colon) + "://" + path.substr(colon + 2);
 }
 
 #if !defined(_WIN32)
@@ -99,7 +116,7 @@ static FILE *lr_vfs_fopen(const char *path, const char *mode) {
         access = RETRO_VFS_FILE_ACCESS_WRITE | RETRO_VFS_FILE_ACCESS_UPDATE_EXISTING;
     if (std::strchr(mode, '+'))
         access = RETRO_VFS_FILE_ACCESS_READ_WRITE | (std::strchr(mode, 'r') ? RETRO_VFS_FILE_ACCESS_UPDATE_EXISTING : 0);
-    retro_vfs_file_handle *handle = s_vfs->open(path, access, RETRO_VFS_FILE_ACCESS_HINT_NONE);
+    retro_vfs_file_handle *handle = s_vfs->open(uri_for_frontend(path).c_str(), access, RETRO_VFS_FILE_ACCESS_HINT_NONE);
     if (!handle)
         return nullptr;
     VfsCookie *cookie = new VfsCookie{ handle };
@@ -135,7 +152,8 @@ bool lr_vfs_stat(const std::string &path, bool *is_directory, std::uint64_t *siz
     if (!s_vfs || s_vfs_version < 3)
         return false;
     int32_t file_size = 0;
-    const int flags = s_vfs->stat(path.c_str(), &file_size);
+    const std::string uri = uri_for_frontend(path);
+    const int flags = s_vfs->stat(uri.c_str(), &file_size);
     if (!(flags & RETRO_VFS_STAT_IS_VALID))
         return false;
     if (is_directory)
@@ -144,7 +162,7 @@ bool lr_vfs_stat(const std::string &path, bool *is_directory, std::uint64_t *siz
         // stat reports 32 bits; for anything larger the size comes from the file
         *size = static_cast<std::uint32_t>(file_size);
         if (!(flags & RETRO_VFS_STAT_IS_DIRECTORY)) {
-            if (retro_vfs_file_handle *handle = s_vfs->open(path.c_str(), RETRO_VFS_FILE_ACCESS_READ, RETRO_VFS_FILE_ACCESS_HINT_NONE)) {
+            if (retro_vfs_file_handle *handle = s_vfs->open(uri.c_str(), RETRO_VFS_FILE_ACCESS_READ, RETRO_VFS_FILE_ACCESS_HINT_NONE)) {
                 const std::int64_t real = s_vfs->size(handle);
                 if (real >= 0)
                     *size = static_cast<std::uint64_t>(real);
@@ -159,10 +177,11 @@ std::vector<std::string> lr_vfs_list(const std::string &dir) {
     std::vector<std::string> entries;
     if (!s_vfs || s_vfs_version < 3)
         return entries;
-    retro_vfs_dir_handle *handle = s_vfs->opendir(dir.c_str(), true);
+    const std::string uri = uri_for_frontend(dir);
+    retro_vfs_dir_handle *handle = s_vfs->opendir(uri.c_str(), true);
     if (!handle)
         return entries;
-    const std::string base = !dir.empty() && dir.back() == '/' ? dir : dir + "/";
+    const std::string base = !uri.empty() && uri.back() == '/' ? uri : uri + "/";
     while (s_vfs->readdir(handle)) {
         const char *name = s_vfs->dirent_get_name(handle);
         if (!name || !std::strcmp(name, ".") || !std::strcmp(name, ".."))
@@ -176,7 +195,7 @@ std::vector<std::string> lr_vfs_list(const std::string &dir) {
 bool lr_vfs_read_file(const std::string &path, std::string &out) {
     if (!s_vfs)
         return false;
-    retro_vfs_file_handle *handle = s_vfs->open(path.c_str(), RETRO_VFS_FILE_ACCESS_READ, RETRO_VFS_FILE_ACCESS_HINT_NONE);
+    retro_vfs_file_handle *handle = s_vfs->open(uri_for_frontend(path).c_str(), RETRO_VFS_FILE_ACCESS_READ, RETRO_VFS_FILE_ACCESS_HINT_NONE);
     if (!handle)
         return false;
     const std::int64_t size = s_vfs->size(handle);
