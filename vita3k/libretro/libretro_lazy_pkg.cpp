@@ -33,7 +33,9 @@
 #include <windows.h>
 #include <winioctl.h>
 #else
+#include <fcntl.h>
 #include <sys/stat.h>
+#include <unistd.h>
 #ifdef __APPLE__
 #include <sys/mount.h>
 #else
@@ -601,16 +603,23 @@ struct Mount {
     void crypt_keys(const Pending &p, CryptEngineData &data, derive_keys_ctx &drv);
 
     // Persistent Cache (set_cache_root): one sparse file per entry of the source
-    // with the blocks decrypted so far at their place, and a list of which
+    // with the blocks decrypted so far at their place, and a list of which,
+    // kept in memory and written when the mount goes (disk_flush): after a
+    // crash the blocks of that run are only decrypted again (sco8487)
     fs::path cache_dir;
     // A DLC's: says its folder in ux0/addcont is this run's, not an install
     fs::path marker;
     struct DiskFile {
         bool loaded = false;
+        bool dirty = false;
         std::set<std::uint32_t> blocks;
     };
     std::map<std::string, DiskFile> disk;
     fs::path disk_path(const Pending &p, const char *ext) const;
+    fs::path disk_path(const std::string &name, const char *ext) const;
+    // Every list a block was added to, written out whole
+    void disk_flush();
+    ~Mount() { disk_flush(); }
     DiskFile &disk_file(const Pending &p);
     bool disk_read(const Pending &p, std::uint32_t index, std::uint64_t at, std::vector<std::uint8_t> &out);
     void disk_write(const Pending &p, std::uint32_t index, std::uint64_t at, const std::vector<std::uint8_t> &data);
@@ -656,19 +665,100 @@ std::uint32_t fnv1a(const std::string &text) {
 }
 
 fs::path Mount::disk_path(const Pending &p, const char *ext) const {
+    return disk_path(p.entry->name, ext);
+}
+
+fs::path Mount::disk_path(const std::string &entry, const char *ext) const {
     char name[32];
-    snprintf(name, sizeof(name), "%08x%s", fnv1a(p.entry->name), ext);
+    snprintf(name, sizeof(name), "%08x%s", fnv1a(entry), ext);
     return cache_dir / name;
+}
+
+// A file's data on the disk, not only in the system's cache, before the list
+// that names its blocks goes in: a power cut right after the game closed left
+// a new list over blocks not yet written (sco8487)
+static void sync_to_disk(const fs::path &path) {
+#ifdef _WIN32
+    HANDLE h = CreateFileW(path.wstring().c_str(), GENERIC_WRITE, FILE_SHARE_READ | FILE_SHARE_WRITE, nullptr, OPEN_EXISTING,
+        FILE_ATTRIBUTE_NORMAL, nullptr);
+    if (h != INVALID_HANDLE_VALUE) {
+        FlushFileBuffers(h);
+        CloseHandle(h);
+    }
+#else
+    const int fd = ::open(path.string().c_str(), O_RDONLY);
+    if (fd >= 0) {
+        ::fsync(fd);
+        ::close(fd);
+    }
+#endif
+}
+
+void Mount::disk_flush() {
+    if (cache_dir.empty())
+        return;
+    for (auto &[name, f] : disk) {
+        if (!f.dirty)
+            continue;
+        // Runs of blocks, a line each, written beside the list and renamed
+        // over it: a crash leaves the old list or the new one, never half of
+        // one; the blocks' data and the new list are on the disk before the
+        // rename (sco8487)
+        sync_to_disk(disk_path(name, ".bin"));
+        const fs::path idx = disk_path(name, ".idx");
+        const fs::path tmp = disk_path(name, ".idx.tmp");
+        {
+            std::ofstream out(tmp.string(), std::ios::trunc);
+            for (auto it = f.blocks.begin(); it != f.blocks.end();) {
+                const std::uint32_t first = *it;
+                std::uint32_t last = first;
+                for (++it; it != f.blocks.end() && *it == last + 1; ++it)
+                    last = *it;
+                if (first == last)
+                    out << first << "\n";
+                else
+                    out << first << "-" << last << "\n";
+            }
+            if (!out.flush())
+                continue;
+        }
+        sync_to_disk(tmp);
+        boost::system::error_code ec;
+        fs::rename(tmp, idx, ec);
+        if (ec)
+            fs::remove(tmp, ec);
+        else
+            f.dirty = false;
+    }
+#ifndef _WIN32
+    // and the renames themselves, which live in the directory
+    const int dir = ::open(cache_dir.string().c_str(), O_RDONLY);
+    if (dir >= 0) {
+        ::fsync(dir);
+        ::close(dir);
+    }
+#endif
 }
 
 Mount::DiskFile &Mount::disk_file(const Pending &p) {
     DiskFile &f = disk[p.entry->name];
     if (!f.loaded) {
         f.loaded = true;
+        // A line a run of blocks, "first-last", or one block alone (as
+        // the lists of the builds that wrote a line per block have them)
         std::ifstream in(disk_path(p, ".idx").string());
-        std::uint32_t index;
-        while (in >> index)
-            f.blocks.insert(index);
+        std::string line;
+        while (std::getline(in, line)) {
+            char *end = nullptr;
+            const unsigned long first = std::strtoul(line.c_str(), &end, 10);
+            if (end == line.c_str())
+                continue;
+            unsigned long last = first;
+            if (*end == '-')
+                last = std::strtoul(end + 1, nullptr, 10);
+            for (unsigned long i = first; i <= last && i - first < (1u << 24); i++)
+                f.blocks.insert(static_cast<std::uint32_t>(i));
+        }
     }
     return f;
 }
@@ -703,9 +793,8 @@ void Mount::disk_write(const Pending &p, std::uint32_t index, std::uint64_t at, 
         if (!out)
             return;
     }
-    std::ofstream idx(disk_path(p, ".idx").string(), std::ios::app);
-    idx << index << "\n";
     f.blocks.insert(index);
+    f.dirty = true;
 }
 
 void Mount::crypt_keys(const Pending &p, CryptEngineData &data, derive_keys_ctx &drv) {
