@@ -2593,16 +2593,19 @@ static GameInstallResult install_or_open(const fs::path &game_path, const fs::pa
     }
 
     // If it's a directory, handle as extracted/NoNpDrm game folder. A folder
-    // behind a URI cannot be walked by the installer, which copies with the
-    // OS; an archive or PKG there is read through the VFS.
-    if (game_is_directory) {
-        if (lr_vfs_is_uri(game_path.string())) {
-            lr_log(RETRO_LOG_ERROR, "A game folder through the frontend's VFS is not supported: %s\n", game_path.generic_string().c_str());
-            lr_msg("A game directory picked through Android's file picker is not supported; load the .vpk, .zip or .pkg", 400);
-            return result;
-        }
-        return handle_folder_content(game_path, pref_path, sys_lang, run_pkg);
+    // behind a URI (SAF, Samba) cannot be walked by the installer, which
+    // copies with the OS; an archive or PKG there is read through the VFS.
+    // An eboot.bin there stands for its folder, so it is turned away too: it
+    // went on to the folder and only found the game's files missing
+    // (sco8487, Samba on Android).
+    const bool eboot = !game_is_directory && game_path.filename() == "eboot.bin";
+    if ((game_is_directory || eboot) && lr_vfs_is_uri(game_path.string())) {
+        lr_log(RETRO_LOG_ERROR, "A game folder through the frontend's VFS is not supported: %s\n", game_path.generic_string().c_str());
+        lr_msg("A game folder opened through RetroArch's file access (Android's file picker, Samba) is not supported; load the .vpk, .zip or .pkg", 400);
+        return result;
     }
+    if (game_is_directory)
+        return handle_folder_content(game_path, pref_path, sys_lang, run_pkg);
 
     // Validate extension for archive files
     const auto extension = string_utils::tolower(game_path.extension().string());
