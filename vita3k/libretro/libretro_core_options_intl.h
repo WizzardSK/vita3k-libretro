@@ -51,10 +51,14 @@ extern "C" {
 #define CATEGORY_NETWORK_INFO_0_AR NULL
 #define CATEGORY_INSTALL_LABEL_AR "محتوى"
 #define CATEGORY_INSTALL_INFO_0_AR NULL
+#define CATEGORY_REMOVE_LABEL_AR NULL
+#define CATEGORY_REMOVE_INFO_0_AR NULL
 #define CATEGORY_CAMERA_LABEL_AR "نظام تشغيل الكاميرا"
 #define CATEGORY_CAMERA_INFO_0_AR NULL
 #define CATEGORY_ACCOUNTS_LABEL_AR "الحسابات"
 #define CATEGORY_ACCOUNTS_INFO_0_AR NULL
+#define CATEGORY_TROPHIES_LABEL_AR NULL
+#define CATEGORY_TROPHIES_INFO_0_AR NULL
 #define CATEGORY_MODULES_LABEL_AR NULL
 #define CATEGORY_MODULES_INFO_0_AR NULL
 #define VITA3K_BACKEND_RENDERER_LABEL_AR NULL
@@ -101,6 +105,26 @@ extern "C" {
 #define OPTION_VAL_RUN_AR NULL
 #define OPTION_VAL_CACHE_AR NULL
 #define OPTION_VAL_INSTALL_AR NULL
+#define VITA3K_TROPHY_SHOW_LABEL_AR NULL
+#define VITA3K_TROPHY_SHOW_INFO_0_AR NULL
+#define OPTION_VAL_ALL_AR "الكل"
+#define OPTION_VAL_EARNED_AR NULL
+#define OPTION_VAL_UNEARNED_AR NULL
+#define VITA3K_TROPHY_GRADE_LABEL_AR NULL
+#define VITA3K_TROPHY_GRADE_INFO_0_AR NULL
+#define OPTION_VAL_PLATINUM_AR NULL
+#define OPTION_VAL_GOLD_AR NULL
+#define OPTION_VAL_SILVER_AR NULL
+#define OPTION_VAL_BRONZE_AR NULL
+#define VITA3K_TROPHY_HIDDEN_LABEL_AR NULL
+#define VITA3K_TROPHY_HIDDEN_INFO_0_AR NULL
+#define VITA3K_TROPHY_SORT_LABEL_AR NULL
+#define VITA3K_TROPHY_SORT_INFO_0_AR NULL
+#define OPTION_VAL_TYPE_AR NULL
+#define OPTION_VAL_NAME_AR NULL
+#define OPTION_VAL_DATE_AR NULL
+#define VITA3K_CONTENT_SUBDIRS_LABEL_AR NULL
+#define VITA3K_CONTENT_SUBDIRS_INFO_0_AR NULL
 #define VITA3K_PSTV_MODE_LABEL_AR NULL
 #define VITA3K_PSTV_MODE_INFO_0_AR NULL
 #define VITA3K_MODULES_MODE_LABEL_AR NULL
@@ -224,8 +248,10 @@ struct retro_core_option_v2_category option_cats_ar[] = {
     { "audio", CATEGORY_AUDIO_LABEL_AR, CATEGORY_AUDIO_INFO_0_AR },
     { "network", CATEGORY_NETWORK_LABEL_AR, CATEGORY_NETWORK_INFO_0_AR },
     { "install", CATEGORY_INSTALL_LABEL_AR, CATEGORY_INSTALL_INFO_0_AR },
+    { "remove", CATEGORY_REMOVE_LABEL_AR, CATEGORY_REMOVE_INFO_0_AR },
     { "camera", CATEGORY_CAMERA_LABEL_AR, CATEGORY_CAMERA_INFO_0_AR },
     { "accounts", CATEGORY_ACCOUNTS_LABEL_AR, CATEGORY_ACCOUNTS_INFO_0_AR },
+    { "trophies", CATEGORY_TROPHIES_LABEL_AR, CATEGORY_TROPHIES_INFO_0_AR },
     { "modules", CATEGORY_MODULES_LABEL_AR, CATEGORY_MODULES_INFO_0_AR },
     { NULL, NULL, NULL },
 };
@@ -398,6 +424,81 @@ struct retro_core_option_v2_definition option_defs_ar[] = {
             { NULL, NULL },
         },
         "run"
+    },
+    {
+        "vita3k_trophy_show",
+        VITA3K_TROPHY_SHOW_LABEL_AR,
+        NULL,
+        VITA3K_TROPHY_SHOW_INFO_0_AR,
+        NULL,
+        "trophies",
+        {
+            { "all", OPTION_VAL_ALL_AR },
+            { "earned", OPTION_VAL_EARNED_AR },
+            { "unearned", OPTION_VAL_UNEARNED_AR },
+            { NULL, NULL },
+        },
+        "all"
+    },
+    {
+        "vita3k_trophy_grade",
+        VITA3K_TROPHY_GRADE_LABEL_AR,
+        NULL,
+        VITA3K_TROPHY_GRADE_INFO_0_AR,
+        NULL,
+        "trophies",
+        {
+            { "all", OPTION_VAL_ALL_AR },
+            { "platinum", OPTION_VAL_PLATINUM_AR },
+            { "gold", OPTION_VAL_GOLD_AR },
+            { "silver", OPTION_VAL_SILVER_AR },
+            { "bronze", OPTION_VAL_BRONZE_AR },
+            { NULL, NULL },
+        },
+        "all"
+    },
+    {
+        "vita3k_trophy_hidden",
+        VITA3K_TROPHY_HIDDEN_LABEL_AR,
+        NULL,
+        VITA3K_TROPHY_HIDDEN_INFO_0_AR,
+        NULL,
+        "trophies",
+        {
+            { "disabled", NULL },
+            { "enabled", NULL },
+            { NULL, NULL },
+        },
+        "disabled"
+    },
+    {
+        "vita3k_trophy_sort",
+        VITA3K_TROPHY_SORT_LABEL_AR,
+        NULL,
+        VITA3K_TROPHY_SORT_INFO_0_AR,
+        NULL,
+        "trophies",
+        {
+            { "type", OPTION_VAL_TYPE_AR },
+            { "name", OPTION_VAL_NAME_AR },
+            { "date", OPTION_VAL_DATE_AR },
+            { NULL, NULL },
+        },
+        "type"
+    },
+    {
+        "vita3k_content_subdirs",
+        VITA3K_CONTENT_SUBDIRS_LABEL_AR,
+        NULL,
+        VITA3K_CONTENT_SUBDIRS_INFO_0_AR,
+        NULL,
+        "install",
+        {
+            { "disabled", NULL },
+            { "enabled", NULL },
+            { NULL, NULL },
+        },
+        "disabled"
     },
     {
         "vita3k_pstv_mode",
@@ -822,10 +923,14 @@ struct retro_core_options_v2 options_ar = {
 #define CATEGORY_NETWORK_INFO_0_AST NULL
 #define CATEGORY_INSTALL_LABEL_AST "Conteníu"
 #define CATEGORY_INSTALL_INFO_0_AST NULL
+#define CATEGORY_REMOVE_LABEL_AST NULL
+#define CATEGORY_REMOVE_INFO_0_AST NULL
 #define CATEGORY_CAMERA_LABEL_AST "Cámara"
 #define CATEGORY_CAMERA_INFO_0_AST NULL
 #define CATEGORY_ACCOUNTS_LABEL_AST "Cuentes"
 #define CATEGORY_ACCOUNTS_INFO_0_AST NULL
+#define CATEGORY_TROPHIES_LABEL_AST NULL
+#define CATEGORY_TROPHIES_INFO_0_AST NULL
 #define CATEGORY_MODULES_LABEL_AST NULL
 #define CATEGORY_MODULES_INFO_0_AST NULL
 #define VITA3K_BACKEND_RENDERER_LABEL_AST NULL
@@ -872,6 +977,26 @@ struct retro_core_options_v2 options_ar = {
 #define OPTION_VAL_RUN_AST NULL
 #define OPTION_VAL_CACHE_AST NULL
 #define OPTION_VAL_INSTALL_AST NULL
+#define VITA3K_TROPHY_SHOW_LABEL_AST NULL
+#define VITA3K_TROPHY_SHOW_INFO_0_AST NULL
+#define OPTION_VAL_ALL_AST NULL
+#define OPTION_VAL_EARNED_AST NULL
+#define OPTION_VAL_UNEARNED_AST NULL
+#define VITA3K_TROPHY_GRADE_LABEL_AST NULL
+#define VITA3K_TROPHY_GRADE_INFO_0_AST NULL
+#define OPTION_VAL_PLATINUM_AST NULL
+#define OPTION_VAL_GOLD_AST NULL
+#define OPTION_VAL_SILVER_AST NULL
+#define OPTION_VAL_BRONZE_AST NULL
+#define VITA3K_TROPHY_HIDDEN_LABEL_AST NULL
+#define VITA3K_TROPHY_HIDDEN_INFO_0_AST NULL
+#define VITA3K_TROPHY_SORT_LABEL_AST NULL
+#define VITA3K_TROPHY_SORT_INFO_0_AST NULL
+#define OPTION_VAL_TYPE_AST NULL
+#define OPTION_VAL_NAME_AST NULL
+#define OPTION_VAL_DATE_AST NULL
+#define VITA3K_CONTENT_SUBDIRS_LABEL_AST NULL
+#define VITA3K_CONTENT_SUBDIRS_INFO_0_AST NULL
 #define VITA3K_PSTV_MODE_LABEL_AST NULL
 #define VITA3K_PSTV_MODE_INFO_0_AST NULL
 #define VITA3K_MODULES_MODE_LABEL_AST NULL
@@ -995,8 +1120,10 @@ struct retro_core_option_v2_category option_cats_ast[] = {
     { "audio", CATEGORY_AUDIO_LABEL_AST, CATEGORY_AUDIO_INFO_0_AST },
     { "network", CATEGORY_NETWORK_LABEL_AST, CATEGORY_NETWORK_INFO_0_AST },
     { "install", CATEGORY_INSTALL_LABEL_AST, CATEGORY_INSTALL_INFO_0_AST },
+    { "remove", CATEGORY_REMOVE_LABEL_AST, CATEGORY_REMOVE_INFO_0_AST },
     { "camera", CATEGORY_CAMERA_LABEL_AST, CATEGORY_CAMERA_INFO_0_AST },
     { "accounts", CATEGORY_ACCOUNTS_LABEL_AST, CATEGORY_ACCOUNTS_INFO_0_AST },
+    { "trophies", CATEGORY_TROPHIES_LABEL_AST, CATEGORY_TROPHIES_INFO_0_AST },
     { "modules", CATEGORY_MODULES_LABEL_AST, CATEGORY_MODULES_INFO_0_AST },
     { NULL, NULL, NULL },
 };
@@ -1169,6 +1296,81 @@ struct retro_core_option_v2_definition option_defs_ast[] = {
             { NULL, NULL },
         },
         "run"
+    },
+    {
+        "vita3k_trophy_show",
+        VITA3K_TROPHY_SHOW_LABEL_AST,
+        NULL,
+        VITA3K_TROPHY_SHOW_INFO_0_AST,
+        NULL,
+        "trophies",
+        {
+            { "all", OPTION_VAL_ALL_AST },
+            { "earned", OPTION_VAL_EARNED_AST },
+            { "unearned", OPTION_VAL_UNEARNED_AST },
+            { NULL, NULL },
+        },
+        "all"
+    },
+    {
+        "vita3k_trophy_grade",
+        VITA3K_TROPHY_GRADE_LABEL_AST,
+        NULL,
+        VITA3K_TROPHY_GRADE_INFO_0_AST,
+        NULL,
+        "trophies",
+        {
+            { "all", OPTION_VAL_ALL_AST },
+            { "platinum", OPTION_VAL_PLATINUM_AST },
+            { "gold", OPTION_VAL_GOLD_AST },
+            { "silver", OPTION_VAL_SILVER_AST },
+            { "bronze", OPTION_VAL_BRONZE_AST },
+            { NULL, NULL },
+        },
+        "all"
+    },
+    {
+        "vita3k_trophy_hidden",
+        VITA3K_TROPHY_HIDDEN_LABEL_AST,
+        NULL,
+        VITA3K_TROPHY_HIDDEN_INFO_0_AST,
+        NULL,
+        "trophies",
+        {
+            { "disabled", NULL },
+            { "enabled", NULL },
+            { NULL, NULL },
+        },
+        "disabled"
+    },
+    {
+        "vita3k_trophy_sort",
+        VITA3K_TROPHY_SORT_LABEL_AST,
+        NULL,
+        VITA3K_TROPHY_SORT_INFO_0_AST,
+        NULL,
+        "trophies",
+        {
+            { "type", OPTION_VAL_TYPE_AST },
+            { "name", OPTION_VAL_NAME_AST },
+            { "date", OPTION_VAL_DATE_AST },
+            { NULL, NULL },
+        },
+        "type"
+    },
+    {
+        "vita3k_content_subdirs",
+        VITA3K_CONTENT_SUBDIRS_LABEL_AST,
+        NULL,
+        VITA3K_CONTENT_SUBDIRS_INFO_0_AST,
+        NULL,
+        "install",
+        {
+            { "disabled", NULL },
+            { "enabled", NULL },
+            { NULL, NULL },
+        },
+        "disabled"
     },
     {
         "vita3k_pstv_mode",
@@ -1593,10 +1795,14 @@ struct retro_core_options_v2 options_ast = {
 #define CATEGORY_NETWORK_INFO_0_BE NULL
 #define CATEGORY_INSTALL_LABEL_BE "Змесціва"
 #define CATEGORY_INSTALL_INFO_0_BE NULL
+#define CATEGORY_REMOVE_LABEL_BE NULL
+#define CATEGORY_REMOVE_INFO_0_BE NULL
 #define CATEGORY_CAMERA_LABEL_BE "Камера"
 #define CATEGORY_CAMERA_INFO_0_BE NULL
 #define CATEGORY_ACCOUNTS_LABEL_BE "Уліковыя запісы"
 #define CATEGORY_ACCOUNTS_INFO_0_BE NULL
+#define CATEGORY_TROPHIES_LABEL_BE NULL
+#define CATEGORY_TROPHIES_INFO_0_BE NULL
 #define CATEGORY_MODULES_LABEL_BE NULL
 #define CATEGORY_MODULES_INFO_0_BE NULL
 #define VITA3K_BACKEND_RENDERER_LABEL_BE NULL
@@ -1643,6 +1849,26 @@ struct retro_core_options_v2 options_ast = {
 #define OPTION_VAL_RUN_BE NULL
 #define OPTION_VAL_CACHE_BE NULL
 #define OPTION_VAL_INSTALL_BE NULL
+#define VITA3K_TROPHY_SHOW_LABEL_BE NULL
+#define VITA3K_TROPHY_SHOW_INFO_0_BE NULL
+#define OPTION_VAL_ALL_BE "Усе"
+#define OPTION_VAL_EARNED_BE NULL
+#define OPTION_VAL_UNEARNED_BE NULL
+#define VITA3K_TROPHY_GRADE_LABEL_BE NULL
+#define VITA3K_TROPHY_GRADE_INFO_0_BE NULL
+#define OPTION_VAL_PLATINUM_BE NULL
+#define OPTION_VAL_GOLD_BE NULL
+#define OPTION_VAL_SILVER_BE NULL
+#define OPTION_VAL_BRONZE_BE NULL
+#define VITA3K_TROPHY_HIDDEN_LABEL_BE NULL
+#define VITA3K_TROPHY_HIDDEN_INFO_0_BE NULL
+#define VITA3K_TROPHY_SORT_LABEL_BE NULL
+#define VITA3K_TROPHY_SORT_INFO_0_BE NULL
+#define OPTION_VAL_TYPE_BE NULL
+#define OPTION_VAL_NAME_BE NULL
+#define OPTION_VAL_DATE_BE NULL
+#define VITA3K_CONTENT_SUBDIRS_LABEL_BE NULL
+#define VITA3K_CONTENT_SUBDIRS_INFO_0_BE NULL
 #define VITA3K_PSTV_MODE_LABEL_BE NULL
 #define VITA3K_PSTV_MODE_INFO_0_BE NULL
 #define VITA3K_MODULES_MODE_LABEL_BE NULL
@@ -1766,8 +1992,10 @@ struct retro_core_option_v2_category option_cats_be[] = {
     { "audio", CATEGORY_AUDIO_LABEL_BE, CATEGORY_AUDIO_INFO_0_BE },
     { "network", CATEGORY_NETWORK_LABEL_BE, CATEGORY_NETWORK_INFO_0_BE },
     { "install", CATEGORY_INSTALL_LABEL_BE, CATEGORY_INSTALL_INFO_0_BE },
+    { "remove", CATEGORY_REMOVE_LABEL_BE, CATEGORY_REMOVE_INFO_0_BE },
     { "camera", CATEGORY_CAMERA_LABEL_BE, CATEGORY_CAMERA_INFO_0_BE },
     { "accounts", CATEGORY_ACCOUNTS_LABEL_BE, CATEGORY_ACCOUNTS_INFO_0_BE },
+    { "trophies", CATEGORY_TROPHIES_LABEL_BE, CATEGORY_TROPHIES_INFO_0_BE },
     { "modules", CATEGORY_MODULES_LABEL_BE, CATEGORY_MODULES_INFO_0_BE },
     { NULL, NULL, NULL },
 };
@@ -1940,6 +2168,81 @@ struct retro_core_option_v2_definition option_defs_be[] = {
             { NULL, NULL },
         },
         "run"
+    },
+    {
+        "vita3k_trophy_show",
+        VITA3K_TROPHY_SHOW_LABEL_BE,
+        NULL,
+        VITA3K_TROPHY_SHOW_INFO_0_BE,
+        NULL,
+        "trophies",
+        {
+            { "all", OPTION_VAL_ALL_BE },
+            { "earned", OPTION_VAL_EARNED_BE },
+            { "unearned", OPTION_VAL_UNEARNED_BE },
+            { NULL, NULL },
+        },
+        "all"
+    },
+    {
+        "vita3k_trophy_grade",
+        VITA3K_TROPHY_GRADE_LABEL_BE,
+        NULL,
+        VITA3K_TROPHY_GRADE_INFO_0_BE,
+        NULL,
+        "trophies",
+        {
+            { "all", OPTION_VAL_ALL_BE },
+            { "platinum", OPTION_VAL_PLATINUM_BE },
+            { "gold", OPTION_VAL_GOLD_BE },
+            { "silver", OPTION_VAL_SILVER_BE },
+            { "bronze", OPTION_VAL_BRONZE_BE },
+            { NULL, NULL },
+        },
+        "all"
+    },
+    {
+        "vita3k_trophy_hidden",
+        VITA3K_TROPHY_HIDDEN_LABEL_BE,
+        NULL,
+        VITA3K_TROPHY_HIDDEN_INFO_0_BE,
+        NULL,
+        "trophies",
+        {
+            { "disabled", NULL },
+            { "enabled", NULL },
+            { NULL, NULL },
+        },
+        "disabled"
+    },
+    {
+        "vita3k_trophy_sort",
+        VITA3K_TROPHY_SORT_LABEL_BE,
+        NULL,
+        VITA3K_TROPHY_SORT_INFO_0_BE,
+        NULL,
+        "trophies",
+        {
+            { "type", OPTION_VAL_TYPE_BE },
+            { "name", OPTION_VAL_NAME_BE },
+            { "date", OPTION_VAL_DATE_BE },
+            { NULL, NULL },
+        },
+        "type"
+    },
+    {
+        "vita3k_content_subdirs",
+        VITA3K_CONTENT_SUBDIRS_LABEL_BE,
+        NULL,
+        VITA3K_CONTENT_SUBDIRS_INFO_0_BE,
+        NULL,
+        "install",
+        {
+            { "disabled", NULL },
+            { "enabled", NULL },
+            { NULL, NULL },
+        },
+        "disabled"
     },
     {
         "vita3k_pstv_mode",
@@ -2364,10 +2667,14 @@ struct retro_core_options_v2 options_be = {
 #define CATEGORY_NETWORK_INFO_0_BG NULL
 #define CATEGORY_INSTALL_LABEL_BG NULL
 #define CATEGORY_INSTALL_INFO_0_BG NULL
+#define CATEGORY_REMOVE_LABEL_BG NULL
+#define CATEGORY_REMOVE_INFO_0_BG NULL
 #define CATEGORY_CAMERA_LABEL_BG "Камера"
 #define CATEGORY_CAMERA_INFO_0_BG NULL
 #define CATEGORY_ACCOUNTS_LABEL_BG NULL
 #define CATEGORY_ACCOUNTS_INFO_0_BG NULL
+#define CATEGORY_TROPHIES_LABEL_BG NULL
+#define CATEGORY_TROPHIES_INFO_0_BG NULL
 #define CATEGORY_MODULES_LABEL_BG NULL
 #define CATEGORY_MODULES_INFO_0_BG NULL
 #define VITA3K_BACKEND_RENDERER_LABEL_BG NULL
@@ -2414,6 +2721,26 @@ struct retro_core_options_v2 options_be = {
 #define OPTION_VAL_RUN_BG NULL
 #define OPTION_VAL_CACHE_BG NULL
 #define OPTION_VAL_INSTALL_BG NULL
+#define VITA3K_TROPHY_SHOW_LABEL_BG NULL
+#define VITA3K_TROPHY_SHOW_INFO_0_BG NULL
+#define OPTION_VAL_ALL_BG NULL
+#define OPTION_VAL_EARNED_BG NULL
+#define OPTION_VAL_UNEARNED_BG NULL
+#define VITA3K_TROPHY_GRADE_LABEL_BG NULL
+#define VITA3K_TROPHY_GRADE_INFO_0_BG NULL
+#define OPTION_VAL_PLATINUM_BG NULL
+#define OPTION_VAL_GOLD_BG NULL
+#define OPTION_VAL_SILVER_BG NULL
+#define OPTION_VAL_BRONZE_BG NULL
+#define VITA3K_TROPHY_HIDDEN_LABEL_BG NULL
+#define VITA3K_TROPHY_HIDDEN_INFO_0_BG NULL
+#define VITA3K_TROPHY_SORT_LABEL_BG NULL
+#define VITA3K_TROPHY_SORT_INFO_0_BG NULL
+#define OPTION_VAL_TYPE_BG NULL
+#define OPTION_VAL_NAME_BG NULL
+#define OPTION_VAL_DATE_BG NULL
+#define VITA3K_CONTENT_SUBDIRS_LABEL_BG NULL
+#define VITA3K_CONTENT_SUBDIRS_INFO_0_BG NULL
 #define VITA3K_PSTV_MODE_LABEL_BG NULL
 #define VITA3K_PSTV_MODE_INFO_0_BG NULL
 #define VITA3K_MODULES_MODE_LABEL_BG NULL
@@ -2537,8 +2864,10 @@ struct retro_core_option_v2_category option_cats_bg[] = {
     { "audio", CATEGORY_AUDIO_LABEL_BG, CATEGORY_AUDIO_INFO_0_BG },
     { "network", CATEGORY_NETWORK_LABEL_BG, CATEGORY_NETWORK_INFO_0_BG },
     { "install", CATEGORY_INSTALL_LABEL_BG, CATEGORY_INSTALL_INFO_0_BG },
+    { "remove", CATEGORY_REMOVE_LABEL_BG, CATEGORY_REMOVE_INFO_0_BG },
     { "camera", CATEGORY_CAMERA_LABEL_BG, CATEGORY_CAMERA_INFO_0_BG },
     { "accounts", CATEGORY_ACCOUNTS_LABEL_BG, CATEGORY_ACCOUNTS_INFO_0_BG },
+    { "trophies", CATEGORY_TROPHIES_LABEL_BG, CATEGORY_TROPHIES_INFO_0_BG },
     { "modules", CATEGORY_MODULES_LABEL_BG, CATEGORY_MODULES_INFO_0_BG },
     { NULL, NULL, NULL },
 };
@@ -2711,6 +3040,81 @@ struct retro_core_option_v2_definition option_defs_bg[] = {
             { NULL, NULL },
         },
         "run"
+    },
+    {
+        "vita3k_trophy_show",
+        VITA3K_TROPHY_SHOW_LABEL_BG,
+        NULL,
+        VITA3K_TROPHY_SHOW_INFO_0_BG,
+        NULL,
+        "trophies",
+        {
+            { "all", OPTION_VAL_ALL_BG },
+            { "earned", OPTION_VAL_EARNED_BG },
+            { "unearned", OPTION_VAL_UNEARNED_BG },
+            { NULL, NULL },
+        },
+        "all"
+    },
+    {
+        "vita3k_trophy_grade",
+        VITA3K_TROPHY_GRADE_LABEL_BG,
+        NULL,
+        VITA3K_TROPHY_GRADE_INFO_0_BG,
+        NULL,
+        "trophies",
+        {
+            { "all", OPTION_VAL_ALL_BG },
+            { "platinum", OPTION_VAL_PLATINUM_BG },
+            { "gold", OPTION_VAL_GOLD_BG },
+            { "silver", OPTION_VAL_SILVER_BG },
+            { "bronze", OPTION_VAL_BRONZE_BG },
+            { NULL, NULL },
+        },
+        "all"
+    },
+    {
+        "vita3k_trophy_hidden",
+        VITA3K_TROPHY_HIDDEN_LABEL_BG,
+        NULL,
+        VITA3K_TROPHY_HIDDEN_INFO_0_BG,
+        NULL,
+        "trophies",
+        {
+            { "disabled", NULL },
+            { "enabled", NULL },
+            { NULL, NULL },
+        },
+        "disabled"
+    },
+    {
+        "vita3k_trophy_sort",
+        VITA3K_TROPHY_SORT_LABEL_BG,
+        NULL,
+        VITA3K_TROPHY_SORT_INFO_0_BG,
+        NULL,
+        "trophies",
+        {
+            { "type", OPTION_VAL_TYPE_BG },
+            { "name", OPTION_VAL_NAME_BG },
+            { "date", OPTION_VAL_DATE_BG },
+            { NULL, NULL },
+        },
+        "type"
+    },
+    {
+        "vita3k_content_subdirs",
+        VITA3K_CONTENT_SUBDIRS_LABEL_BG,
+        NULL,
+        VITA3K_CONTENT_SUBDIRS_INFO_0_BG,
+        NULL,
+        "install",
+        {
+            { "disabled", NULL },
+            { "enabled", NULL },
+            { NULL, NULL },
+        },
+        "disabled"
     },
     {
         "vita3k_pstv_mode",
@@ -3134,13 +3538,17 @@ struct retro_core_options_v2 options_bg = {
 #define CATEGORY_NETWORK_LABEL_CA "Xarxa"
 #define CATEGORY_NETWORK_INFO_0_CA "Opcions de xarxa."
 #define CATEGORY_INSTALL_LABEL_CA "Contingut"
-#define CATEGORY_INSTALL_INFO_0_CA "Com es carrega un joc, una actualització o un DLC."
+#define CATEGORY_INSTALL_INFO_0_CA "Administra les dades per un títol concret, així com les actualitzacions i el contingut descarregable."
+#define CATEGORY_REMOVE_LABEL_CA "Elimina contingut"
+#define CATEGORY_REMOVE_INFO_0_CA "Seleccions títols amb dades instal·lades i memòria cau a esborrar quan el nucli es tanca o reinicia. No elimina el contingut original, ni les partides desades ni els trofeus."
 #define CATEGORY_CAMERA_LABEL_CA "Càmera"
 #define CATEGORY_CAMERA_INFO_0_CA "Que veuen les càmeres frontals i posterior de Vita."
 #define CATEGORY_ACCOUNTS_LABEL_CA "Compte"
 #define CATEGORY_ACCOUNTS_INFO_0_CA "El compte de Vita (usuari) a ux0/user, cadascú amb els seus estats desats i trofeus."
+#define CATEGORY_TROPHIES_LABEL_CA "Trofeus"
+#define CATEGORY_TROPHIES_INFO_0_CA "El títol actual del trofeu."
 #define CATEGORY_MODULES_LABEL_CA "Mòduls"
-#define CATEGORY_MODULES_INFO_0_CA "Els mòduls dels firmware (vs0/sys/external) a carregar quan el mode Mòduls és Automàtic i Manual o Manual."
+#define CATEGORY_MODULES_INFO_0_CA "Els mòduls del firmware (vs0/sys/external) a carregar quan el mode (en el sistema) és automàtic i manual o només manual."
 #define VITA3K_BACKEND_RENDERER_LABEL_CA "Renderitzador"
 #define VITA3K_BACKEND_RENDERER_INFO_0_CA "Selecciona el motor gràfic. Es recomana Vulkan."
 #define OPTION_VAL_VULKAN_CA NULL
@@ -3180,11 +3588,31 @@ struct retro_core_options_v2 options_bg = {
 #define VITA3K_HIGH_ACCURACY_INFO_0_CA "Activa les tècniques de renderitzat més precises però més lentes."
 #define VITA3K_CPU_OPT_LABEL_CA "Optimitzacions de xip (Dynarmic JIT)"
 #define VITA3K_CPU_OPT_INFO_0_CA "Activa el Dynarmic JIT per accelerar l'emulació de xip."
-#define VITA3K_PKG_MODE_LABEL_CA "Precarregar el joc"
-#define VITA3K_PKG_MODE_INFO_0_CA "Tot el contingut segueix aquesta configuració excepte les actualitzacions i DLC (carregats manualment). Executa sense instal·lar: carrega des del fitxer, res és permanent. Memòria cau persistent: el mateix, manté el que ha carregat. Instal·lar: Copia tots els fitxers per començar més ràpid."
-#define OPTION_VAL_RUN_CA "Executa sense instal·lar"
-#define OPTION_VAL_CACHE_CA "Memòria cau persistent"
-#define OPTION_VAL_INSTALL_CA "Instal·la"
+#define VITA3K_PKG_MODE_LABEL_CA "Mode d'execució"
+#define VITA3K_PKG_MODE_INFO_0_CA "Com s'executen un títol, les seves actualitzacions i el contingut descarregable (DLC). Activa les actualitzacions i el DLC al directori d'un títol per defecte. També es poden carregar des d'un altre lloc, cosa que els instal·la independentment del mode d'execució.\n\nDirecte: S'executa directament des del suport original.\nDirecte amb memòria cau: Igual que Direct, però el nucli emmagatzema a la memòria cau les lectures a l'emmagatzematge local. Això ajuda al rendiment en certs casos, com ara quan s'accedeix a suports en una xarxa compartida d'alta latència.\nInstal·lat: Instal·la el suport original quan es carrega per primera vegada i l'executa des de l'emmagatzematge local."
+#define OPTION_VAL_RUN_CA "Directe"
+#define OPTION_VAL_CACHE_CA "Directe amb la memòria cau"
+#define OPTION_VAL_INSTALL_CA "Instal·lat"
+#define VITA3K_TROPHY_SHOW_LABEL_CA "Pantalla: Estat guanyat."
+#define VITA3K_TROPHY_SHOW_INFO_0_CA "Controla quins trofeus es mostren en funció de si s'han aconseguit o no."
+#define OPTION_VAL_ALL_CA "Tots"
+#define OPTION_VAL_EARNED_CA "Guanyat"
+#define OPTION_VAL_UNEARNED_CA "No guanyat"
+#define VITA3K_TROPHY_GRADE_LABEL_CA "Mostra: Obtingut"
+#define VITA3K_TROPHY_GRADE_INFO_0_CA "Controla quins trofeus es mostren en funció del seu grau (Platí, Or, Plata o Bronze)."
+#define OPTION_VAL_PLATINUM_CA "Platí"
+#define OPTION_VAL_GOLD_CA "Or"
+#define OPTION_VAL_SILVER_CA "Plata"
+#define OPTION_VAL_BRONZE_CA NULL
+#define VITA3K_TROPHY_HIDDEN_LABEL_CA "Mostra: Ocult"
+#define VITA3K_TROPHY_HIDDEN_INFO_0_CA "Controla la visibilitat dels trofeus amagats."
+#define VITA3K_TROPHY_SORT_LABEL_CA "Mètode d'ordenació"
+#define VITA3K_TROPHY_SORT_INFO_0_CA "Selecciona com s'ordenen els trofeus."
+#define OPTION_VAL_TYPE_CA "Per grau"
+#define OPTION_VAL_NAME_CA "Per nom"
+#define OPTION_VAL_DATE_CA "Per data d'obtenció"
+#define VITA3K_CONTENT_SUBDIRS_LABEL_CA "Inclou les subcarpetes"
+#define VITA3K_CONTENT_SUBDIRS_INFO_0_CA "Activat: Carrega actualitzacions i contingut descarregable de la carpeta del títol i de les subcarpetes.\nDesactivat: Només carrega actualitzacions i contingut descarregable de la carpeta del títol."
 #define VITA3K_PSTV_MODE_LABEL_CA "Mode PS TV"
 #define VITA3K_PSTV_MODE_INFO_0_CA "Emula una PlayStation TV en comptes d'una PS Vita."
 #define VITA3K_MODULES_MODE_LABEL_CA "Mode de mòduls"
@@ -3308,8 +3736,10 @@ struct retro_core_option_v2_category option_cats_ca[] = {
     { "audio", CATEGORY_AUDIO_LABEL_CA, CATEGORY_AUDIO_INFO_0_CA },
     { "network", CATEGORY_NETWORK_LABEL_CA, CATEGORY_NETWORK_INFO_0_CA },
     { "install", CATEGORY_INSTALL_LABEL_CA, CATEGORY_INSTALL_INFO_0_CA },
+    { "remove", CATEGORY_REMOVE_LABEL_CA, CATEGORY_REMOVE_INFO_0_CA },
     { "camera", CATEGORY_CAMERA_LABEL_CA, CATEGORY_CAMERA_INFO_0_CA },
     { "accounts", CATEGORY_ACCOUNTS_LABEL_CA, CATEGORY_ACCOUNTS_INFO_0_CA },
+    { "trophies", CATEGORY_TROPHIES_LABEL_CA, CATEGORY_TROPHIES_INFO_0_CA },
     { "modules", CATEGORY_MODULES_LABEL_CA, CATEGORY_MODULES_INFO_0_CA },
     { NULL, NULL, NULL },
 };
@@ -3482,6 +3912,81 @@ struct retro_core_option_v2_definition option_defs_ca[] = {
             { NULL, NULL },
         },
         "run"
+    },
+    {
+        "vita3k_trophy_show",
+        VITA3K_TROPHY_SHOW_LABEL_CA,
+        NULL,
+        VITA3K_TROPHY_SHOW_INFO_0_CA,
+        NULL,
+        "trophies",
+        {
+            { "all", OPTION_VAL_ALL_CA },
+            { "earned", OPTION_VAL_EARNED_CA },
+            { "unearned", OPTION_VAL_UNEARNED_CA },
+            { NULL, NULL },
+        },
+        "all"
+    },
+    {
+        "vita3k_trophy_grade",
+        VITA3K_TROPHY_GRADE_LABEL_CA,
+        NULL,
+        VITA3K_TROPHY_GRADE_INFO_0_CA,
+        NULL,
+        "trophies",
+        {
+            { "all", OPTION_VAL_ALL_CA },
+            { "platinum", OPTION_VAL_PLATINUM_CA },
+            { "gold", OPTION_VAL_GOLD_CA },
+            { "silver", OPTION_VAL_SILVER_CA },
+            { "bronze", OPTION_VAL_BRONZE_CA },
+            { NULL, NULL },
+        },
+        "all"
+    },
+    {
+        "vita3k_trophy_hidden",
+        VITA3K_TROPHY_HIDDEN_LABEL_CA,
+        NULL,
+        VITA3K_TROPHY_HIDDEN_INFO_0_CA,
+        NULL,
+        "trophies",
+        {
+            { "disabled", NULL },
+            { "enabled", NULL },
+            { NULL, NULL },
+        },
+        "disabled"
+    },
+    {
+        "vita3k_trophy_sort",
+        VITA3K_TROPHY_SORT_LABEL_CA,
+        NULL,
+        VITA3K_TROPHY_SORT_INFO_0_CA,
+        NULL,
+        "trophies",
+        {
+            { "type", OPTION_VAL_TYPE_CA },
+            { "name", OPTION_VAL_NAME_CA },
+            { "date", OPTION_VAL_DATE_CA },
+            { NULL, NULL },
+        },
+        "type"
+    },
+    {
+        "vita3k_content_subdirs",
+        VITA3K_CONTENT_SUBDIRS_LABEL_CA,
+        NULL,
+        VITA3K_CONTENT_SUBDIRS_INFO_0_CA,
+        NULL,
+        "install",
+        {
+            { "disabled", NULL },
+            { "enabled", NULL },
+            { NULL, NULL },
+        },
+        "disabled"
     },
     {
         "vita3k_pstv_mode",
@@ -3905,13 +4410,17 @@ struct retro_core_options_v2 options_ca = {
 #define CATEGORY_NETWORK_LABEL_CHS "网络"
 #define CATEGORY_NETWORK_INFO_0_CHS "网络选项"
 #define CATEGORY_INSTALL_LABEL_CHS "游戏"
-#define CATEGORY_INSTALL_INFO_0_CHS "如何加载游戏、更新和DLC。"
+#define CATEGORY_INSTALL_INFO_0_CHS "管理指定游戏标题的数据，以及所有更新和可下载内容 (DLC)。"
+#define CATEGORY_REMOVE_LABEL_CHS NULL
+#define CATEGORY_REMOVE_INFO_0_CHS NULL
 #define CATEGORY_CAMERA_LABEL_CHS "摄像头"
-#define CATEGORY_CAMERA_INFO_0_CHS NULL
+#define CATEGORY_CAMERA_INFO_0_CHS "PS Vita 前置和后置摄像头所拍摄到的画面。"
 #define CATEGORY_ACCOUNTS_LABEL_CHS "账户"
-#define CATEGORY_ACCOUNTS_INFO_0_CHS NULL
-#define CATEGORY_MODULES_LABEL_CHS NULL
-#define CATEGORY_MODULES_INFO_0_CHS NULL
+#define CATEGORY_ACCOUNTS_INFO_0_CHS "位于 ux0/user 中的 PS Vita 账户（用户），每个账户拥有各自的存档和奖杯。"
+#define CATEGORY_TROPHIES_LABEL_CHS "奖杯"
+#define CATEGORY_TROPHIES_INFO_0_CHS "当前游戏标题的奖杯信息。"
+#define CATEGORY_MODULES_LABEL_CHS "模块"
+#define CATEGORY_MODULES_INFO_0_CHS "当“系统”中的“模块模式”设为“自动与手动”或“手动”时所要加载的固件模块 (vs0/sys/external)。"
 #define VITA3K_BACKEND_RENDERER_LABEL_CHS "后端渲染器"
 #define VITA3K_BACKEND_RENDERER_INFO_0_CHS "选择图形后端。推荐Vulkan。"
 #define OPTION_VAL_VULKAN_CHS NULL
@@ -3951,15 +4460,35 @@ struct retro_core_options_v2 options_ca = {
 #define VITA3K_HIGH_ACCURACY_INFO_0_CHS "启用更精确但速度较慢的渲染技术。"
 #define VITA3K_CPU_OPT_LABEL_CHS "CPU 优化 (Dynarmic JIT)"
 #define VITA3K_CPU_OPT_INFO_0_CHS "启用 Dynarmic JIT 动态编译，以实现更快的 CPU 模拟速度。"
-#define VITA3K_PKG_MODE_LABEL_CHS "游戏预加载方式"
-#define VITA3K_PKG_MODE_INFO_0_CHS "除手动加载并强制安装的更新和 DLC 外，所有游戏内容均遵循此设置。“直接运行免安装”：直接读取文件，不保存任何缓存；“持久化缓存”：直接读取文件，但保留已读取的缓存；“全面安装”：复制所有文件至本地，使启动速度更快。"
-#define OPTION_VAL_RUN_CHS "直接运行 (免安装)   "
-#define OPTION_VAL_CACHE_CHS "持久化缓存"
-#define OPTION_VAL_INSTALL_CHS "安装"
+#define VITA3K_PKG_MODE_LABEL_CHS "运行模式"
+#define VITA3K_PKG_MODE_INFO_0_CHS "控制游戏标题及其更新和可下载内容 (DLC) 的运行方式。默认启用游戏目录中的更新与 DLC。它们也可以从其他位置加载，此时无论运行模式如何都会对其进行安装。\n\n直接运行：直接从原始媒介运行。\n带缓存直接运行：与直接运行相同，但核心会将读取内容缓存到本地存储中。这在某些情况下（例如访问高延迟网络共享上的媒介时）有助于提升性能。\n已安装：首次加载时安装原始媒介，之后直接从本地存储运行。"
+#define OPTION_VAL_RUN_CHS "直接运行"
+#define OPTION_VAL_CACHE_CHS "带缓存直接运行"
+#define OPTION_VAL_INSTALL_CHS "已安装"
+#define VITA3K_TROPHY_SHOW_LABEL_CHS "显示：获取状态"
+#define VITA3K_TROPHY_SHOW_INFO_0_CHS "根据是否已获得来控制显示哪些奖杯。"
+#define OPTION_VAL_ALL_CHS "全部"
+#define OPTION_VAL_EARNED_CHS "已获得"
+#define OPTION_VAL_UNEARNED_CHS "未获得"
+#define VITA3K_TROPHY_GRADE_LABEL_CHS "显示：等级"
+#define VITA3K_TROPHY_GRADE_INFO_0_CHS "根据奖杯等级（白金、金、银或铜）来控制显示哪些奖杯。"
+#define OPTION_VAL_PLATINUM_CHS "白金"
+#define OPTION_VAL_GOLD_CHS "金"
+#define OPTION_VAL_SILVER_CHS "银"
+#define OPTION_VAL_BRONZE_CHS "铜"
+#define VITA3K_TROPHY_HIDDEN_LABEL_CHS "显示：隐藏"
+#define VITA3K_TROPHY_HIDDEN_INFO_0_CHS "控制隐藏奖杯的显示。"
+#define VITA3K_TROPHY_SORT_LABEL_CHS "排序方式"
+#define VITA3K_TROPHY_SORT_INFO_0_CHS "控制奖杯的排序方式。"
+#define OPTION_VAL_TYPE_CHS "按等级"
+#define OPTION_VAL_NAME_CHS "按名称"
+#define OPTION_VAL_DATE_CHS "按收入日期"
+#define VITA3K_CONTENT_SUBDIRS_LABEL_CHS "控制奖杯的排序方式。"
+#define VITA3K_CONTENT_SUBDIRS_INFO_0_CHS "开启：加载游戏目录及其子目录中的更新和 DLC。\n关闭：仅加载游戏目录中的更新和 DLC。"
 #define VITA3K_PSTV_MODE_LABEL_CHS "PS TV 模式"
 #define VITA3K_PSTV_MODE_INFO_0_CHS "模拟 PlayStation TV 主机而非 PS Vita 手持设备。"
 #define VITA3K_MODULES_MODE_LABEL_CHS "系统模块加载模式"
-#define VITA3K_MODULES_MODE_INFO_0_CHS NULL
+#define VITA3K_MODULES_MODE_INFO_0_CHS "设置系统模块的加载方式。“自动”：使用核心自己的实现，以及核心已知的固件所需模块。“自动与手动”：包含上述模块，以及在“模块”下手动开启的模块。“手动”：仅加载在“模块”下手动开启的模块。推荐使用“自动”。"
 #define OPTION_VAL_0_CHS "自动"
 #define OPTION_VAL_1_VITA3K_MODULES_MODE_CHS "自动与手动混合"
 #define OPTION_VAL_2_VITA3K_MODULES_MODE_CHS "手动"
@@ -3970,36 +4499,36 @@ struct retro_core_options_v2 options_ca = {
 #define OPTION_VAL_0_VITA3K_SYS_BUTTON_CHS "圆圈键 (Circle/○)"
 #define OPTION_VAL_1_VITA3K_SYS_BUTTON_CHS "十字准星"
 #define VITA3K_SYS_LANG_LABEL_CHS "系统语言"
-#define VITA3K_SYS_LANG_INFO_0_CHS NULL
+#define VITA3K_SYS_LANG_INFO_0_CHS "主机系统的语言，游戏中的文本以及系统对话框将使用该语言显示。将在下次启动游戏时生效。"
 #define OPTION_VAL_0_VITA3K_SYS_LANG_CHS "日语"
-#define OPTION_VAL_1_VITA3K_SYS_LANG_CHS NULL
+#define OPTION_VAL_1_VITA3K_SYS_LANG_CHS "英语 (美国)"
 #define OPTION_VAL_2_VITA3K_SYS_LANG_CHS "法语"
 #define OPTION_VAL_3_VITA3K_SYS_LANG_CHS "西班牙语"
 #define OPTION_VAL_4_VITA3K_SYS_LANG_CHS "德语"
 #define OPTION_VAL_5_CHS "意大利语"
 #define OPTION_VAL_6_CHS "荷兰语"
-#define OPTION_VAL_7_CHS NULL
+#define OPTION_VAL_7_CHS "葡萄牙语 (葡萄牙)"
 #define OPTION_VAL_8_VITA3K_SYS_LANG_CHS "俄语"
 #define OPTION_VAL_9_CHS "韩语"
 #define OPTION_VAL_10_CHS "繁体中文"
 #define OPTION_VAL_11_CHS "简体中文"
-#define OPTION_VAL_12_CHS NULL
-#define OPTION_VAL_13_CHS NULL
-#define OPTION_VAL_14_CHS NULL
-#define OPTION_VAL_15_CHS NULL
+#define OPTION_VAL_12_CHS "芬兰语"
+#define OPTION_VAL_13_CHS "瑞典语"
+#define OPTION_VAL_14_CHS "丹麦文"
+#define OPTION_VAL_15_CHS "挪威语"
 #define OPTION_VAL_16_VITA3K_SYS_LANG_CHS "波兰语"
-#define OPTION_VAL_17_CHS NULL
-#define OPTION_VAL_18_CHS NULL
-#define OPTION_VAL_19_CHS NULL
-#define VITA3K_SYS_DATE_FORMAT_LABEL_CHS NULL
-#define VITA3K_SYS_DATE_FORMAT_INFO_0_CHS NULL
+#define OPTION_VAL_17_CHS "葡萄牙语 (巴西)"
+#define OPTION_VAL_18_CHS "英语 (英国)"
+#define OPTION_VAL_19_CHS "土耳其语"
+#define VITA3K_SYS_DATE_FORMAT_LABEL_CHS "日期格式"
+#define VITA3K_SYS_DATE_FORMAT_INFO_0_CHS "主机在游戏和系统对话框（例如存档数据列表）中写入日期的方式。日期和时间本身采用宿主机的设定。将在下次启动游戏时生效。"
 #define OPTION_VAL_0_VITA3K_SYS_DATE_FORMAT_CHS NULL
 #define OPTION_VAL_1_VITA3K_SYS_DATE_FORMAT_CHS NULL
 #define OPTION_VAL_2_VITA3K_SYS_DATE_FORMAT_CHS NULL
-#define VITA3K_SYS_TIME_FORMAT_LABEL_CHS NULL
-#define VITA3K_SYS_TIME_FORMAT_INFO_0_CHS NULL
-#define OPTION_VAL_0_VITA3K_SYS_TIME_FORMAT_CHS NULL
-#define OPTION_VAL_1_VITA3K_SYS_TIME_FORMAT_CHS NULL
+#define VITA3K_SYS_TIME_FORMAT_LABEL_CHS "时间格式"
+#define VITA3K_SYS_TIME_FORMAT_INFO_0_CHS "在游戏和系统对话框中，主机以 12 小时制还是 24 小时制显示时间。将在下次启动游戏时生效。"
+#define OPTION_VAL_0_VITA3K_SYS_TIME_FORMAT_CHS "12 小时制"
+#define OPTION_VAL_1_VITA3K_SYS_TIME_FORMAT_CHS "24 小时制"
 #define VITA3K_AUDIO_VOLUME_LABEL_CHS "音频音量"
 #define VITA3K_AUDIO_VOLUME_INFO_0_CHS "主音频音量等级。"
 #define OPTION_VAL_0_VITA3K_AUDIO_VOLUME_CHS NULL
@@ -4018,46 +4547,46 @@ struct retro_core_options_v2 options_ca = {
 #define VITA3K_PSN_SIGNED_IN_LABEL_CHS "PSN 已登录"
 #define VITA3K_PSN_SIGNED_IN_INFO_0_CHS "模拟已登录 PSN 状态。部分游戏运行必需。"
 #define VITA3K_HTTP_ENABLE_LABEL_CHS NULL
-#define VITA3K_HTTP_ENABLE_INFO_0_CHS NULL
-#define VITA3K_HTTP_TIMEOUT_ATTEMPTS_LABEL_CHS NULL
-#define VITA3K_HTTP_TIMEOUT_ATTEMPTS_INFO_0_CHS NULL
-#define VITA3K_HTTP_TIMEOUT_SLEEP_LABEL_CHS NULL
-#define VITA3K_HTTP_TIMEOUT_SLEEP_INFO_0_CHS NULL
+#define VITA3K_HTTP_ENABLE_INFO_0_CHS "为需要它的应用程序启用 HTTP 网络支持。将在下次启动游戏时生效。"
+#define VITA3K_HTTP_TIMEOUT_ATTEMPTS_LABEL_CHS "HTTP 超时重试次数"
+#define VITA3K_HTTP_TIMEOUT_ATTEMPTS_INFO_0_CHS "当服务器无响应时重试连接的次数。在网络连接非常不稳定或非常慢的情况下可能会有用。将在下次启动游戏时生效。"
+#define VITA3K_HTTP_TIMEOUT_SLEEP_LABEL_CHS "HTTP 超时休眠间隔"
+#define VITA3K_HTTP_TIMEOUT_SLEEP_INFO_0_CHS "两次连接重试之间等待的时间。在网络连接非常不稳定或非常慢的情况下可能会有用。将在下次启动游戏时生效。"
 #define OPTION_VAL_50_VITA3K_HTTP_TIMEOUT_SLEEP_CHS "50 毫秒"
 #define OPTION_VAL_100_VITA3K_HTTP_TIMEOUT_SLEEP_CHS "100 毫秒"
 #define OPTION_VAL_150_CHS "150 毫秒"
 #define OPTION_VAL_200_CHS "200 毫秒"
-#define OPTION_VAL_250_CHS NULL
-#define OPTION_VAL_300_CHS NULL
-#define OPTION_VAL_400_CHS NULL
-#define OPTION_VAL_500_CHS NULL
-#define OPTION_VAL_750_CHS NULL
-#define OPTION_VAL_1000_CHS NULL
-#define OPTION_VAL_1500_CHS NULL
-#define OPTION_VAL_2000_CHS NULL
-#define OPTION_VAL_2500_CHS NULL
-#define OPTION_VAL_3000_CHS NULL
-#define VITA3K_HTTP_READ_END_ATTEMPTS_LABEL_CHS NULL
-#define VITA3K_HTTP_READ_END_ATTEMPTS_INFO_0_CHS NULL
-#define VITA3K_HTTP_READ_END_SLEEP_LABEL_CHS NULL
-#define VITA3K_HTTP_READ_END_SLEEP_INFO_0_CHS NULL
-#define VITA3K_FRONT_CAMERA_LABEL_CHS NULL
-#define VITA3K_FRONT_CAMERA_INFO_0_CHS NULL
-#define OPTION_VAL_HOST_CHS NULL
-#define OPTION_VAL_IMAGE_CHS NULL
-#define OPTION_VAL_COLOR_CHS NULL
-#define VITA3K_FRONT_CAMERA_COLOR_LABEL_CHS NULL
-#define VITA3K_FRONT_CAMERA_COLOR_INFO_0_CHS NULL
+#define OPTION_VAL_250_CHS "250 毫秒"
+#define OPTION_VAL_300_CHS "300 毫秒"
+#define OPTION_VAL_400_CHS "400 毫秒"
+#define OPTION_VAL_500_CHS "500 毫秒"
+#define OPTION_VAL_750_CHS "750 毫秒"
+#define OPTION_VAL_1000_CHS "1000 毫秒"
+#define OPTION_VAL_1500_CHS "1500 毫秒"
+#define OPTION_VAL_2000_CHS "2000 毫秒"
+#define OPTION_VAL_2500_CHS "2500 毫秒"
+#define OPTION_VAL_3000_CHS "3000 毫秒"
+#define VITA3K_HTTP_READ_END_ATTEMPTS_LABEL_CHS "HTTP 读取结束重试次数"
+#define VITA3K_HTTP_READ_END_ATTEMPTS_INFO_0_CHS "当没有更多数据可读时尝试重试的次数。调低此值可以提高性能，但在网络连接极差的情况下可能会导致游戏运行不稳定。将在下次启动游戏时生效。"
+#define VITA3K_HTTP_READ_END_SLEEP_LABEL_CHS "HTTP 读取结束休眠间隔"
+#define VITA3K_HTTP_READ_END_SLEEP_INFO_0_CHS "两次读取重试之间等待的时间。调低此值可以提高性能，但在网络连接极差的情况下可能会导致游戏运行不稳定。将在下次启动游戏时生效。"
+#define VITA3K_FRONT_CAMERA_LABEL_CHS "前置摄像头"
+#define VITA3K_FRONT_CAMERA_INFO_0_CHS "PS Vita 前置摄像头捕捉到的画面。“宿主机摄像头”：使用 RetroArch 的摄像头（需开启“设置 > 隐私 > 摄像头访问”，且该平台需配置摄像头驱动）。“图像”：使用 system/vita3k/camera/front.png 或 front.jpg。“纯色”：使用前置摄像头纯色。当某个源不可用时，将自动切换至下一个源。将在游戏下次打开摄像头时生效。"
+#define OPTION_VAL_HOST_CHS "主摄像头"
+#define OPTION_VAL_IMAGE_CHS "图像"
+#define OPTION_VAL_COLOR_CHS "纯色"
+#define VITA3K_FRONT_CAMERA_COLOR_LABEL_CHS "前置摄像头颜色"
+#define VITA3K_FRONT_CAMERA_COLOR_INFO_0_CHS "当选择“纯色”模式时，前置摄像头所显示的颜色。"
 #define OPTION_VAL_0_VITA3K_FRONT_CAMERA_COLOR_CHS "黑色"
 #define OPTION_VAL_16777215_CHS "白色"
 #define OPTION_VAL_8421504_CHS "灰"
 #define OPTION_VAL_255_CHS "红色"
 #define OPTION_VAL_65280_CHS "绿色"
 #define OPTION_VAL_16711680_CHS "蓝色"
-#define VITA3K_BACK_CAMERA_LABEL_CHS NULL
-#define VITA3K_BACK_CAMERA_INFO_0_CHS NULL
-#define VITA3K_BACK_CAMERA_COLOR_LABEL_CHS NULL
-#define VITA3K_BACK_CAMERA_COLOR_INFO_0_CHS NULL
+#define VITA3K_BACK_CAMERA_LABEL_CHS "后置摄像头"
+#define VITA3K_BACK_CAMERA_INFO_0_CHS "PS Vita 后置摄像头捕捉到的画面。“宿主机摄像头”：使用 RetroArch 的摄像头（需开启“设置 > 隐私 > 摄像头访问”，且该平台需配置摄像头驱动）。“图像”：使用 system/vita3k/camera/back.png 或 back.jpg。“纯色”：使用后置摄像头纯色。当某个源不可用时，将自动切换至下一个源。将在游戏下次打开摄像头时生效。"
+#define VITA3K_BACK_CAMERA_COLOR_LABEL_CHS "后置摄像头颜色"
+#define VITA3K_BACK_CAMERA_COLOR_INFO_0_CHS "当选择“纯色”模式时，后置摄像头所显示的颜色。"
 #define VITA3K_SURFACE_SYNC_LABEL_CHS "表面同步 (Surface Sync)"
 #define VITA3K_SURFACE_SYNC_INFO_0_CHS "GPU 显存优化技术。可能提升 20-40% 的运行性能"
 #define OPTION_VAL_ENABLED_CHS "开启 (更精确)"
@@ -4065,9 +4594,9 @@ struct retro_core_options_v2 options_ca = {
 #define VITA3K_FILE_LOADING_DELAY_LABEL_CHS "文件加载延迟"
 #define VITA3K_FILE_LOADING_DELAY_INFO_0_CHS "文件加载的延迟时间（单位：毫秒）。有助于改善对时序敏感的游戏的兼容性。"
 #define OPTION_VAL_0_VITA3K_FILE_LOADING_DELAY_CHS "0 毫秒"
-#define OPTION_VAL_5_VITA3K_FILE_LOADING_DELAY_CHS NULL
+#define OPTION_VAL_5_VITA3K_FILE_LOADING_DELAY_CHS "5 毫秒"
 #define OPTION_VAL_10_VITA3K_FILE_LOADING_DELAY_CHS "10 毫秒"
-#define OPTION_VAL_15_VITA3K_FILE_LOADING_DELAY_CHS NULL
+#define OPTION_VAL_15_VITA3K_FILE_LOADING_DELAY_CHS "15 毫秒"
 #define OPTION_VAL_20_VITA3K_FILE_LOADING_DELAY_CHS "20 毫秒"
 #define OPTION_VAL_25_CHS "25 毫秒"
 #define OPTION_VAL_30_VITA3K_FILE_LOADING_DELAY_CHS "30 毫秒"
@@ -4079,8 +4608,10 @@ struct retro_core_option_v2_category option_cats_chs[] = {
     { "audio", CATEGORY_AUDIO_LABEL_CHS, CATEGORY_AUDIO_INFO_0_CHS },
     { "network", CATEGORY_NETWORK_LABEL_CHS, CATEGORY_NETWORK_INFO_0_CHS },
     { "install", CATEGORY_INSTALL_LABEL_CHS, CATEGORY_INSTALL_INFO_0_CHS },
+    { "remove", CATEGORY_REMOVE_LABEL_CHS, CATEGORY_REMOVE_INFO_0_CHS },
     { "camera", CATEGORY_CAMERA_LABEL_CHS, CATEGORY_CAMERA_INFO_0_CHS },
     { "accounts", CATEGORY_ACCOUNTS_LABEL_CHS, CATEGORY_ACCOUNTS_INFO_0_CHS },
+    { "trophies", CATEGORY_TROPHIES_LABEL_CHS, CATEGORY_TROPHIES_INFO_0_CHS },
     { "modules", CATEGORY_MODULES_LABEL_CHS, CATEGORY_MODULES_INFO_0_CHS },
     { NULL, NULL, NULL },
 };
@@ -4253,6 +4784,81 @@ struct retro_core_option_v2_definition option_defs_chs[] = {
             { NULL, NULL },
         },
         "run"
+    },
+    {
+        "vita3k_trophy_show",
+        VITA3K_TROPHY_SHOW_LABEL_CHS,
+        NULL,
+        VITA3K_TROPHY_SHOW_INFO_0_CHS,
+        NULL,
+        "trophies",
+        {
+            { "all", OPTION_VAL_ALL_CHS },
+            { "earned", OPTION_VAL_EARNED_CHS },
+            { "unearned", OPTION_VAL_UNEARNED_CHS },
+            { NULL, NULL },
+        },
+        "all"
+    },
+    {
+        "vita3k_trophy_grade",
+        VITA3K_TROPHY_GRADE_LABEL_CHS,
+        NULL,
+        VITA3K_TROPHY_GRADE_INFO_0_CHS,
+        NULL,
+        "trophies",
+        {
+            { "all", OPTION_VAL_ALL_CHS },
+            { "platinum", OPTION_VAL_PLATINUM_CHS },
+            { "gold", OPTION_VAL_GOLD_CHS },
+            { "silver", OPTION_VAL_SILVER_CHS },
+            { "bronze", OPTION_VAL_BRONZE_CHS },
+            { NULL, NULL },
+        },
+        "all"
+    },
+    {
+        "vita3k_trophy_hidden",
+        VITA3K_TROPHY_HIDDEN_LABEL_CHS,
+        NULL,
+        VITA3K_TROPHY_HIDDEN_INFO_0_CHS,
+        NULL,
+        "trophies",
+        {
+            { "disabled", NULL },
+            { "enabled", NULL },
+            { NULL, NULL },
+        },
+        "disabled"
+    },
+    {
+        "vita3k_trophy_sort",
+        VITA3K_TROPHY_SORT_LABEL_CHS,
+        NULL,
+        VITA3K_TROPHY_SORT_INFO_0_CHS,
+        NULL,
+        "trophies",
+        {
+            { "type", OPTION_VAL_TYPE_CHS },
+            { "name", OPTION_VAL_NAME_CHS },
+            { "date", OPTION_VAL_DATE_CHS },
+            { NULL, NULL },
+        },
+        "type"
+    },
+    {
+        "vita3k_content_subdirs",
+        VITA3K_CONTENT_SUBDIRS_LABEL_CHS,
+        NULL,
+        VITA3K_CONTENT_SUBDIRS_INFO_0_CHS,
+        NULL,
+        "install",
+        {
+            { "disabled", NULL },
+            { "enabled", NULL },
+            { NULL, NULL },
+        },
+        "disabled"
     },
     {
         "vita3k_pstv_mode",
@@ -4677,10 +5283,14 @@ struct retro_core_options_v2 options_chs = {
 #define CATEGORY_NETWORK_INFO_0_CHT NULL
 #define CATEGORY_INSTALL_LABEL_CHT "媒體"
 #define CATEGORY_INSTALL_INFO_0_CHT NULL
+#define CATEGORY_REMOVE_LABEL_CHT NULL
+#define CATEGORY_REMOVE_INFO_0_CHT NULL
 #define CATEGORY_CAMERA_LABEL_CHT "鏡頭"
 #define CATEGORY_CAMERA_INFO_0_CHT NULL
 #define CATEGORY_ACCOUNTS_LABEL_CHT "帳號"
 #define CATEGORY_ACCOUNTS_INFO_0_CHT NULL
+#define CATEGORY_TROPHIES_LABEL_CHT NULL
+#define CATEGORY_TROPHIES_INFO_0_CHT NULL
 #define CATEGORY_MODULES_LABEL_CHT NULL
 #define CATEGORY_MODULES_INFO_0_CHT NULL
 #define VITA3K_BACKEND_RENDERER_LABEL_CHT NULL
@@ -4727,6 +5337,26 @@ struct retro_core_options_v2 options_chs = {
 #define OPTION_VAL_RUN_CHT NULL
 #define OPTION_VAL_CACHE_CHT NULL
 #define OPTION_VAL_INSTALL_CHT NULL
+#define VITA3K_TROPHY_SHOW_LABEL_CHT NULL
+#define VITA3K_TROPHY_SHOW_INFO_0_CHT NULL
+#define OPTION_VAL_ALL_CHT "全部"
+#define OPTION_VAL_EARNED_CHT NULL
+#define OPTION_VAL_UNEARNED_CHT NULL
+#define VITA3K_TROPHY_GRADE_LABEL_CHT NULL
+#define VITA3K_TROPHY_GRADE_INFO_0_CHT NULL
+#define OPTION_VAL_PLATINUM_CHT NULL
+#define OPTION_VAL_GOLD_CHT NULL
+#define OPTION_VAL_SILVER_CHT NULL
+#define OPTION_VAL_BRONZE_CHT NULL
+#define VITA3K_TROPHY_HIDDEN_LABEL_CHT NULL
+#define VITA3K_TROPHY_HIDDEN_INFO_0_CHT NULL
+#define VITA3K_TROPHY_SORT_LABEL_CHT NULL
+#define VITA3K_TROPHY_SORT_INFO_0_CHT NULL
+#define OPTION_VAL_TYPE_CHT NULL
+#define OPTION_VAL_NAME_CHT NULL
+#define OPTION_VAL_DATE_CHT NULL
+#define VITA3K_CONTENT_SUBDIRS_LABEL_CHT NULL
+#define VITA3K_CONTENT_SUBDIRS_INFO_0_CHT NULL
 #define VITA3K_PSTV_MODE_LABEL_CHT NULL
 #define VITA3K_PSTV_MODE_INFO_0_CHT NULL
 #define VITA3K_MODULES_MODE_LABEL_CHT NULL
@@ -4850,8 +5480,10 @@ struct retro_core_option_v2_category option_cats_cht[] = {
     { "audio", CATEGORY_AUDIO_LABEL_CHT, CATEGORY_AUDIO_INFO_0_CHT },
     { "network", CATEGORY_NETWORK_LABEL_CHT, CATEGORY_NETWORK_INFO_0_CHT },
     { "install", CATEGORY_INSTALL_LABEL_CHT, CATEGORY_INSTALL_INFO_0_CHT },
+    { "remove", CATEGORY_REMOVE_LABEL_CHT, CATEGORY_REMOVE_INFO_0_CHT },
     { "camera", CATEGORY_CAMERA_LABEL_CHT, CATEGORY_CAMERA_INFO_0_CHT },
     { "accounts", CATEGORY_ACCOUNTS_LABEL_CHT, CATEGORY_ACCOUNTS_INFO_0_CHT },
+    { "trophies", CATEGORY_TROPHIES_LABEL_CHT, CATEGORY_TROPHIES_INFO_0_CHT },
     { "modules", CATEGORY_MODULES_LABEL_CHT, CATEGORY_MODULES_INFO_0_CHT },
     { NULL, NULL, NULL },
 };
@@ -5024,6 +5656,81 @@ struct retro_core_option_v2_definition option_defs_cht[] = {
             { NULL, NULL },
         },
         "run"
+    },
+    {
+        "vita3k_trophy_show",
+        VITA3K_TROPHY_SHOW_LABEL_CHT,
+        NULL,
+        VITA3K_TROPHY_SHOW_INFO_0_CHT,
+        NULL,
+        "trophies",
+        {
+            { "all", OPTION_VAL_ALL_CHT },
+            { "earned", OPTION_VAL_EARNED_CHT },
+            { "unearned", OPTION_VAL_UNEARNED_CHT },
+            { NULL, NULL },
+        },
+        "all"
+    },
+    {
+        "vita3k_trophy_grade",
+        VITA3K_TROPHY_GRADE_LABEL_CHT,
+        NULL,
+        VITA3K_TROPHY_GRADE_INFO_0_CHT,
+        NULL,
+        "trophies",
+        {
+            { "all", OPTION_VAL_ALL_CHT },
+            { "platinum", OPTION_VAL_PLATINUM_CHT },
+            { "gold", OPTION_VAL_GOLD_CHT },
+            { "silver", OPTION_VAL_SILVER_CHT },
+            { "bronze", OPTION_VAL_BRONZE_CHT },
+            { NULL, NULL },
+        },
+        "all"
+    },
+    {
+        "vita3k_trophy_hidden",
+        VITA3K_TROPHY_HIDDEN_LABEL_CHT,
+        NULL,
+        VITA3K_TROPHY_HIDDEN_INFO_0_CHT,
+        NULL,
+        "trophies",
+        {
+            { "disabled", NULL },
+            { "enabled", NULL },
+            { NULL, NULL },
+        },
+        "disabled"
+    },
+    {
+        "vita3k_trophy_sort",
+        VITA3K_TROPHY_SORT_LABEL_CHT,
+        NULL,
+        VITA3K_TROPHY_SORT_INFO_0_CHT,
+        NULL,
+        "trophies",
+        {
+            { "type", OPTION_VAL_TYPE_CHT },
+            { "name", OPTION_VAL_NAME_CHT },
+            { "date", OPTION_VAL_DATE_CHT },
+            { NULL, NULL },
+        },
+        "type"
+    },
+    {
+        "vita3k_content_subdirs",
+        VITA3K_CONTENT_SUBDIRS_LABEL_CHT,
+        NULL,
+        VITA3K_CONTENT_SUBDIRS_INFO_0_CHT,
+        NULL,
+        "install",
+        {
+            { "disabled", NULL },
+            { "enabled", NULL },
+            { NULL, NULL },
+        },
+        "disabled"
     },
     {
         "vita3k_pstv_mode",
@@ -5448,10 +6155,14 @@ struct retro_core_options_v2 options_cht = {
 #define CATEGORY_NETWORK_INFO_0_CS NULL
 #define CATEGORY_INSTALL_LABEL_CS "Obsah"
 #define CATEGORY_INSTALL_INFO_0_CS NULL
+#define CATEGORY_REMOVE_LABEL_CS NULL
+#define CATEGORY_REMOVE_INFO_0_CS NULL
 #define CATEGORY_CAMERA_LABEL_CS "Kamera"
 #define CATEGORY_CAMERA_INFO_0_CS NULL
 #define CATEGORY_ACCOUNTS_LABEL_CS "Účty"
 #define CATEGORY_ACCOUNTS_INFO_0_CS NULL
+#define CATEGORY_TROPHIES_LABEL_CS NULL
+#define CATEGORY_TROPHIES_INFO_0_CS NULL
 #define CATEGORY_MODULES_LABEL_CS NULL
 #define CATEGORY_MODULES_INFO_0_CS NULL
 #define VITA3K_BACKEND_RENDERER_LABEL_CS NULL
@@ -5498,6 +6209,26 @@ struct retro_core_options_v2 options_cht = {
 #define OPTION_VAL_RUN_CS NULL
 #define OPTION_VAL_CACHE_CS NULL
 #define OPTION_VAL_INSTALL_CS NULL
+#define VITA3K_TROPHY_SHOW_LABEL_CS NULL
+#define VITA3K_TROPHY_SHOW_INFO_0_CS NULL
+#define OPTION_VAL_ALL_CS "Vše"
+#define OPTION_VAL_EARNED_CS NULL
+#define OPTION_VAL_UNEARNED_CS NULL
+#define VITA3K_TROPHY_GRADE_LABEL_CS NULL
+#define VITA3K_TROPHY_GRADE_INFO_0_CS NULL
+#define OPTION_VAL_PLATINUM_CS NULL
+#define OPTION_VAL_GOLD_CS NULL
+#define OPTION_VAL_SILVER_CS NULL
+#define OPTION_VAL_BRONZE_CS NULL
+#define VITA3K_TROPHY_HIDDEN_LABEL_CS NULL
+#define VITA3K_TROPHY_HIDDEN_INFO_0_CS NULL
+#define VITA3K_TROPHY_SORT_LABEL_CS NULL
+#define VITA3K_TROPHY_SORT_INFO_0_CS NULL
+#define OPTION_VAL_TYPE_CS NULL
+#define OPTION_VAL_NAME_CS NULL
+#define OPTION_VAL_DATE_CS NULL
+#define VITA3K_CONTENT_SUBDIRS_LABEL_CS NULL
+#define VITA3K_CONTENT_SUBDIRS_INFO_0_CS NULL
 #define VITA3K_PSTV_MODE_LABEL_CS NULL
 #define VITA3K_PSTV_MODE_INFO_0_CS NULL
 #define VITA3K_MODULES_MODE_LABEL_CS NULL
@@ -5621,8 +6352,10 @@ struct retro_core_option_v2_category option_cats_cs[] = {
     { "audio", CATEGORY_AUDIO_LABEL_CS, CATEGORY_AUDIO_INFO_0_CS },
     { "network", CATEGORY_NETWORK_LABEL_CS, CATEGORY_NETWORK_INFO_0_CS },
     { "install", CATEGORY_INSTALL_LABEL_CS, CATEGORY_INSTALL_INFO_0_CS },
+    { "remove", CATEGORY_REMOVE_LABEL_CS, CATEGORY_REMOVE_INFO_0_CS },
     { "camera", CATEGORY_CAMERA_LABEL_CS, CATEGORY_CAMERA_INFO_0_CS },
     { "accounts", CATEGORY_ACCOUNTS_LABEL_CS, CATEGORY_ACCOUNTS_INFO_0_CS },
+    { "trophies", CATEGORY_TROPHIES_LABEL_CS, CATEGORY_TROPHIES_INFO_0_CS },
     { "modules", CATEGORY_MODULES_LABEL_CS, CATEGORY_MODULES_INFO_0_CS },
     { NULL, NULL, NULL },
 };
@@ -5795,6 +6528,81 @@ struct retro_core_option_v2_definition option_defs_cs[] = {
             { NULL, NULL },
         },
         "run"
+    },
+    {
+        "vita3k_trophy_show",
+        VITA3K_TROPHY_SHOW_LABEL_CS,
+        NULL,
+        VITA3K_TROPHY_SHOW_INFO_0_CS,
+        NULL,
+        "trophies",
+        {
+            { "all", OPTION_VAL_ALL_CS },
+            { "earned", OPTION_VAL_EARNED_CS },
+            { "unearned", OPTION_VAL_UNEARNED_CS },
+            { NULL, NULL },
+        },
+        "all"
+    },
+    {
+        "vita3k_trophy_grade",
+        VITA3K_TROPHY_GRADE_LABEL_CS,
+        NULL,
+        VITA3K_TROPHY_GRADE_INFO_0_CS,
+        NULL,
+        "trophies",
+        {
+            { "all", OPTION_VAL_ALL_CS },
+            { "platinum", OPTION_VAL_PLATINUM_CS },
+            { "gold", OPTION_VAL_GOLD_CS },
+            { "silver", OPTION_VAL_SILVER_CS },
+            { "bronze", OPTION_VAL_BRONZE_CS },
+            { NULL, NULL },
+        },
+        "all"
+    },
+    {
+        "vita3k_trophy_hidden",
+        VITA3K_TROPHY_HIDDEN_LABEL_CS,
+        NULL,
+        VITA3K_TROPHY_HIDDEN_INFO_0_CS,
+        NULL,
+        "trophies",
+        {
+            { "disabled", NULL },
+            { "enabled", NULL },
+            { NULL, NULL },
+        },
+        "disabled"
+    },
+    {
+        "vita3k_trophy_sort",
+        VITA3K_TROPHY_SORT_LABEL_CS,
+        NULL,
+        VITA3K_TROPHY_SORT_INFO_0_CS,
+        NULL,
+        "trophies",
+        {
+            { "type", OPTION_VAL_TYPE_CS },
+            { "name", OPTION_VAL_NAME_CS },
+            { "date", OPTION_VAL_DATE_CS },
+            { NULL, NULL },
+        },
+        "type"
+    },
+    {
+        "vita3k_content_subdirs",
+        VITA3K_CONTENT_SUBDIRS_LABEL_CS,
+        NULL,
+        VITA3K_CONTENT_SUBDIRS_INFO_0_CS,
+        NULL,
+        "install",
+        {
+            { "disabled", NULL },
+            { "enabled", NULL },
+            { NULL, NULL },
+        },
+        "disabled"
     },
     {
         "vita3k_pstv_mode",
@@ -6219,10 +7027,14 @@ struct retro_core_options_v2 options_cs = {
 #define CATEGORY_NETWORK_INFO_0_CY NULL
 #define CATEGORY_INSTALL_LABEL_CY NULL
 #define CATEGORY_INSTALL_INFO_0_CY NULL
+#define CATEGORY_REMOVE_LABEL_CY NULL
+#define CATEGORY_REMOVE_INFO_0_CY NULL
 #define CATEGORY_CAMERA_LABEL_CY NULL
 #define CATEGORY_CAMERA_INFO_0_CY NULL
 #define CATEGORY_ACCOUNTS_LABEL_CY NULL
 #define CATEGORY_ACCOUNTS_INFO_0_CY NULL
+#define CATEGORY_TROPHIES_LABEL_CY NULL
+#define CATEGORY_TROPHIES_INFO_0_CY NULL
 #define CATEGORY_MODULES_LABEL_CY NULL
 #define CATEGORY_MODULES_INFO_0_CY NULL
 #define VITA3K_BACKEND_RENDERER_LABEL_CY NULL
@@ -6269,6 +7081,26 @@ struct retro_core_options_v2 options_cs = {
 #define OPTION_VAL_RUN_CY NULL
 #define OPTION_VAL_CACHE_CY NULL
 #define OPTION_VAL_INSTALL_CY NULL
+#define VITA3K_TROPHY_SHOW_LABEL_CY NULL
+#define VITA3K_TROPHY_SHOW_INFO_0_CY NULL
+#define OPTION_VAL_ALL_CY "Popeth"
+#define OPTION_VAL_EARNED_CY NULL
+#define OPTION_VAL_UNEARNED_CY NULL
+#define VITA3K_TROPHY_GRADE_LABEL_CY NULL
+#define VITA3K_TROPHY_GRADE_INFO_0_CY NULL
+#define OPTION_VAL_PLATINUM_CY NULL
+#define OPTION_VAL_GOLD_CY NULL
+#define OPTION_VAL_SILVER_CY NULL
+#define OPTION_VAL_BRONZE_CY NULL
+#define VITA3K_TROPHY_HIDDEN_LABEL_CY NULL
+#define VITA3K_TROPHY_HIDDEN_INFO_0_CY NULL
+#define VITA3K_TROPHY_SORT_LABEL_CY NULL
+#define VITA3K_TROPHY_SORT_INFO_0_CY NULL
+#define OPTION_VAL_TYPE_CY NULL
+#define OPTION_VAL_NAME_CY NULL
+#define OPTION_VAL_DATE_CY NULL
+#define VITA3K_CONTENT_SUBDIRS_LABEL_CY NULL
+#define VITA3K_CONTENT_SUBDIRS_INFO_0_CY NULL
 #define VITA3K_PSTV_MODE_LABEL_CY NULL
 #define VITA3K_PSTV_MODE_INFO_0_CY NULL
 #define VITA3K_MODULES_MODE_LABEL_CY NULL
@@ -6392,8 +7224,10 @@ struct retro_core_option_v2_category option_cats_cy[] = {
     { "audio", CATEGORY_AUDIO_LABEL_CY, CATEGORY_AUDIO_INFO_0_CY },
     { "network", CATEGORY_NETWORK_LABEL_CY, CATEGORY_NETWORK_INFO_0_CY },
     { "install", CATEGORY_INSTALL_LABEL_CY, CATEGORY_INSTALL_INFO_0_CY },
+    { "remove", CATEGORY_REMOVE_LABEL_CY, CATEGORY_REMOVE_INFO_0_CY },
     { "camera", CATEGORY_CAMERA_LABEL_CY, CATEGORY_CAMERA_INFO_0_CY },
     { "accounts", CATEGORY_ACCOUNTS_LABEL_CY, CATEGORY_ACCOUNTS_INFO_0_CY },
+    { "trophies", CATEGORY_TROPHIES_LABEL_CY, CATEGORY_TROPHIES_INFO_0_CY },
     { "modules", CATEGORY_MODULES_LABEL_CY, CATEGORY_MODULES_INFO_0_CY },
     { NULL, NULL, NULL },
 };
@@ -6566,6 +7400,81 @@ struct retro_core_option_v2_definition option_defs_cy[] = {
             { NULL, NULL },
         },
         "run"
+    },
+    {
+        "vita3k_trophy_show",
+        VITA3K_TROPHY_SHOW_LABEL_CY,
+        NULL,
+        VITA3K_TROPHY_SHOW_INFO_0_CY,
+        NULL,
+        "trophies",
+        {
+            { "all", OPTION_VAL_ALL_CY },
+            { "earned", OPTION_VAL_EARNED_CY },
+            { "unearned", OPTION_VAL_UNEARNED_CY },
+            { NULL, NULL },
+        },
+        "all"
+    },
+    {
+        "vita3k_trophy_grade",
+        VITA3K_TROPHY_GRADE_LABEL_CY,
+        NULL,
+        VITA3K_TROPHY_GRADE_INFO_0_CY,
+        NULL,
+        "trophies",
+        {
+            { "all", OPTION_VAL_ALL_CY },
+            { "platinum", OPTION_VAL_PLATINUM_CY },
+            { "gold", OPTION_VAL_GOLD_CY },
+            { "silver", OPTION_VAL_SILVER_CY },
+            { "bronze", OPTION_VAL_BRONZE_CY },
+            { NULL, NULL },
+        },
+        "all"
+    },
+    {
+        "vita3k_trophy_hidden",
+        VITA3K_TROPHY_HIDDEN_LABEL_CY,
+        NULL,
+        VITA3K_TROPHY_HIDDEN_INFO_0_CY,
+        NULL,
+        "trophies",
+        {
+            { "disabled", NULL },
+            { "enabled", NULL },
+            { NULL, NULL },
+        },
+        "disabled"
+    },
+    {
+        "vita3k_trophy_sort",
+        VITA3K_TROPHY_SORT_LABEL_CY,
+        NULL,
+        VITA3K_TROPHY_SORT_INFO_0_CY,
+        NULL,
+        "trophies",
+        {
+            { "type", OPTION_VAL_TYPE_CY },
+            { "name", OPTION_VAL_NAME_CY },
+            { "date", OPTION_VAL_DATE_CY },
+            { NULL, NULL },
+        },
+        "type"
+    },
+    {
+        "vita3k_content_subdirs",
+        VITA3K_CONTENT_SUBDIRS_LABEL_CY,
+        NULL,
+        VITA3K_CONTENT_SUBDIRS_INFO_0_CY,
+        NULL,
+        "install",
+        {
+            { "disabled", NULL },
+            { "enabled", NULL },
+            { NULL, NULL },
+        },
+        "disabled"
     },
     {
         "vita3k_pstv_mode",
@@ -6990,10 +7899,14 @@ struct retro_core_options_v2 options_cy = {
 #define CATEGORY_NETWORK_INFO_0_DA NULL
 #define CATEGORY_INSTALL_LABEL_DA NULL
 #define CATEGORY_INSTALL_INFO_0_DA NULL
+#define CATEGORY_REMOVE_LABEL_DA NULL
+#define CATEGORY_REMOVE_INFO_0_DA NULL
 #define CATEGORY_CAMERA_LABEL_DA "Kamera"
 #define CATEGORY_CAMERA_INFO_0_DA NULL
 #define CATEGORY_ACCOUNTS_LABEL_DA NULL
 #define CATEGORY_ACCOUNTS_INFO_0_DA NULL
+#define CATEGORY_TROPHIES_LABEL_DA NULL
+#define CATEGORY_TROPHIES_INFO_0_DA NULL
 #define CATEGORY_MODULES_LABEL_DA NULL
 #define CATEGORY_MODULES_INFO_0_DA NULL
 #define VITA3K_BACKEND_RENDERER_LABEL_DA NULL
@@ -7040,6 +7953,26 @@ struct retro_core_options_v2 options_cy = {
 #define OPTION_VAL_RUN_DA NULL
 #define OPTION_VAL_CACHE_DA NULL
 #define OPTION_VAL_INSTALL_DA NULL
+#define VITA3K_TROPHY_SHOW_LABEL_DA NULL
+#define VITA3K_TROPHY_SHOW_INFO_0_DA NULL
+#define OPTION_VAL_ALL_DA NULL
+#define OPTION_VAL_EARNED_DA NULL
+#define OPTION_VAL_UNEARNED_DA NULL
+#define VITA3K_TROPHY_GRADE_LABEL_DA NULL
+#define VITA3K_TROPHY_GRADE_INFO_0_DA NULL
+#define OPTION_VAL_PLATINUM_DA NULL
+#define OPTION_VAL_GOLD_DA NULL
+#define OPTION_VAL_SILVER_DA NULL
+#define OPTION_VAL_BRONZE_DA NULL
+#define VITA3K_TROPHY_HIDDEN_LABEL_DA NULL
+#define VITA3K_TROPHY_HIDDEN_INFO_0_DA NULL
+#define VITA3K_TROPHY_SORT_LABEL_DA NULL
+#define VITA3K_TROPHY_SORT_INFO_0_DA NULL
+#define OPTION_VAL_TYPE_DA NULL
+#define OPTION_VAL_NAME_DA NULL
+#define OPTION_VAL_DATE_DA NULL
+#define VITA3K_CONTENT_SUBDIRS_LABEL_DA NULL
+#define VITA3K_CONTENT_SUBDIRS_INFO_0_DA NULL
 #define VITA3K_PSTV_MODE_LABEL_DA NULL
 #define VITA3K_PSTV_MODE_INFO_0_DA NULL
 #define VITA3K_MODULES_MODE_LABEL_DA NULL
@@ -7163,8 +8096,10 @@ struct retro_core_option_v2_category option_cats_da[] = {
     { "audio", CATEGORY_AUDIO_LABEL_DA, CATEGORY_AUDIO_INFO_0_DA },
     { "network", CATEGORY_NETWORK_LABEL_DA, CATEGORY_NETWORK_INFO_0_DA },
     { "install", CATEGORY_INSTALL_LABEL_DA, CATEGORY_INSTALL_INFO_0_DA },
+    { "remove", CATEGORY_REMOVE_LABEL_DA, CATEGORY_REMOVE_INFO_0_DA },
     { "camera", CATEGORY_CAMERA_LABEL_DA, CATEGORY_CAMERA_INFO_0_DA },
     { "accounts", CATEGORY_ACCOUNTS_LABEL_DA, CATEGORY_ACCOUNTS_INFO_0_DA },
+    { "trophies", CATEGORY_TROPHIES_LABEL_DA, CATEGORY_TROPHIES_INFO_0_DA },
     { "modules", CATEGORY_MODULES_LABEL_DA, CATEGORY_MODULES_INFO_0_DA },
     { NULL, NULL, NULL },
 };
@@ -7337,6 +8272,81 @@ struct retro_core_option_v2_definition option_defs_da[] = {
             { NULL, NULL },
         },
         "run"
+    },
+    {
+        "vita3k_trophy_show",
+        VITA3K_TROPHY_SHOW_LABEL_DA,
+        NULL,
+        VITA3K_TROPHY_SHOW_INFO_0_DA,
+        NULL,
+        "trophies",
+        {
+            { "all", OPTION_VAL_ALL_DA },
+            { "earned", OPTION_VAL_EARNED_DA },
+            { "unearned", OPTION_VAL_UNEARNED_DA },
+            { NULL, NULL },
+        },
+        "all"
+    },
+    {
+        "vita3k_trophy_grade",
+        VITA3K_TROPHY_GRADE_LABEL_DA,
+        NULL,
+        VITA3K_TROPHY_GRADE_INFO_0_DA,
+        NULL,
+        "trophies",
+        {
+            { "all", OPTION_VAL_ALL_DA },
+            { "platinum", OPTION_VAL_PLATINUM_DA },
+            { "gold", OPTION_VAL_GOLD_DA },
+            { "silver", OPTION_VAL_SILVER_DA },
+            { "bronze", OPTION_VAL_BRONZE_DA },
+            { NULL, NULL },
+        },
+        "all"
+    },
+    {
+        "vita3k_trophy_hidden",
+        VITA3K_TROPHY_HIDDEN_LABEL_DA,
+        NULL,
+        VITA3K_TROPHY_HIDDEN_INFO_0_DA,
+        NULL,
+        "trophies",
+        {
+            { "disabled", NULL },
+            { "enabled", NULL },
+            { NULL, NULL },
+        },
+        "disabled"
+    },
+    {
+        "vita3k_trophy_sort",
+        VITA3K_TROPHY_SORT_LABEL_DA,
+        NULL,
+        VITA3K_TROPHY_SORT_INFO_0_DA,
+        NULL,
+        "trophies",
+        {
+            { "type", OPTION_VAL_TYPE_DA },
+            { "name", OPTION_VAL_NAME_DA },
+            { "date", OPTION_VAL_DATE_DA },
+            { NULL, NULL },
+        },
+        "type"
+    },
+    {
+        "vita3k_content_subdirs",
+        VITA3K_CONTENT_SUBDIRS_LABEL_DA,
+        NULL,
+        VITA3K_CONTENT_SUBDIRS_INFO_0_DA,
+        NULL,
+        "install",
+        {
+            { "disabled", NULL },
+            { "enabled", NULL },
+            { NULL, NULL },
+        },
+        "disabled"
     },
     {
         "vita3k_pstv_mode",
@@ -7760,13 +8770,17 @@ struct retro_core_options_v2 options_da = {
 #define CATEGORY_NETWORK_LABEL_DE "Netzwerk"
 #define CATEGORY_NETWORK_INFO_0_DE "Optionen für das Netzwerk."
 #define CATEGORY_INSTALL_LABEL_DE "Inhalt"
-#define CATEGORY_INSTALL_INFO_0_DE "Ladeverfahren für Spiele, Updates und DLCs."
+#define CATEGORY_INSTALL_INFO_0_DE "Daten für einen bestimmten Titel sowie zugehörige Updates und herunterladbare Inhalte verwalten."
+#define CATEGORY_REMOVE_LABEL_DE NULL
+#define CATEGORY_REMOVE_INFO_0_DE NULL
 #define CATEGORY_CAMERA_LABEL_DE "Kameratreiber"
 #define CATEGORY_CAMERA_INFO_0_DE "Ansicht der Front- und Rückkamera der Vita."
 #define CATEGORY_ACCOUNTS_LABEL_DE "Benutzerkonten"
 #define CATEGORY_ACCOUNTS_INFO_0_DE "Konten (Benutzer) der Vita in ux0/user, jeweils mit eigenen Speicherständen und Trophäen."
+#define CATEGORY_TROPHIES_LABEL_DE "Trophäen"
+#define CATEGORY_TROPHIES_INFO_0_DE "Die Trophäen des aktuellen Titels."
 #define CATEGORY_MODULES_LABEL_DE "Module"
-#define CATEGORY_MODULES_INFO_0_DE "Firmwaremodule (vs0/sys/external), die bei den Modulmodi „Automatisch und manuell“ oder „Manuell“ geladen werden."
+#define CATEGORY_MODULES_INFO_0_DE "Firmwaremodule (vs0/sys/external), die geladen werden, wenn der Modulmodus (unter „System“) auf „Automatisch und manuell“ oder „Manuell“ eingestellt ist."
 #define VITA3K_BACKEND_RENDERER_LABEL_DE "Renderer-Backend"
 #define VITA3K_BACKEND_RENDERER_INFO_0_DE "Grafik-Backend auswählen. Vulkan wird empfohlen."
 #define OPTION_VAL_VULKAN_DE NULL
@@ -7806,11 +8820,31 @@ struct retro_core_options_v2 options_da = {
 #define VITA3K_HIGH_ACCURACY_INFO_0_DE "Genauere, aber langsamere Rendering-Techniken aktivieren."
 #define VITA3K_CPU_OPT_LABEL_DE "CPU-Optimierungen (Dynarmic-JIT)"
 #define VITA3K_CPU_OPT_INFO_0_DE "Dynarmic-JIT für eine schnellere CPU-Emulation aktivieren."
-#define VITA3K_PKG_MODE_LABEL_DE "Spiel vorladen"
-#define VITA3K_PKG_MODE_INFO_0_DE "Alle Inhalte folgen dieser Einstellung, außer Updates und DLCs, die beim manuellen Laden zwingend installiert werden. „Ohne Installation ausführen“ liest die Dateien direkt ein und speichert nichts. „Dauerhafter Cache“ funktioniert genauso, behält aber die gelesenen Daten. „Installieren“ kopiert alle Dateien, damit der Start schneller erfolgt."
-#define OPTION_VAL_RUN_DE "Ohne Installation ausführen"
-#define OPTION_VAL_CACHE_DE "Dauerhafter Cache"
-#define OPTION_VAL_INSTALL_DE "Installieren"
+#define VITA3K_PKG_MODE_LABEL_DE NULL
+#define VITA3K_PKG_MODE_INFO_0_DE NULL
+#define OPTION_VAL_RUN_DE "Direkt"
+#define OPTION_VAL_CACHE_DE "Direkt mit Cache"
+#define OPTION_VAL_INSTALL_DE "Installiert"
+#define VITA3K_TROPHY_SHOW_LABEL_DE "Anzeige: Errungen-Status"
+#define VITA3K_TROPHY_SHOW_INFO_0_DE "Legt fest, welche Trophäen abhängig davon angezeigt werden, ob sie bereits errungen wurden."
+#define OPTION_VAL_ALL_DE "Alle"
+#define OPTION_VAL_EARNED_DE "Errungen"
+#define OPTION_VAL_UNEARNED_DE "Nicht errungen"
+#define VITA3K_TROPHY_GRADE_LABEL_DE "Anzeige: Rang"
+#define VITA3K_TROPHY_GRADE_INFO_0_DE "Legt fest, welche Trophäen anhand ihres Rangs (Platin, Gold, Silber oder Bronze) angezeigt werden."
+#define OPTION_VAL_PLATINUM_DE "Platin"
+#define OPTION_VAL_GOLD_DE NULL
+#define OPTION_VAL_SILVER_DE "Silber"
+#define OPTION_VAL_BRONZE_DE NULL
+#define VITA3K_TROPHY_HIDDEN_LABEL_DE "Anzeige: Versteckt"
+#define VITA3K_TROPHY_HIDDEN_INFO_0_DE "Legt fest, ob versteckte Trophäen angezeigt werden."
+#define VITA3K_TROPHY_SORT_LABEL_DE "Sortiermethode"
+#define VITA3K_TROPHY_SORT_INFO_0_DE "Legt fest, wieTrophäen sortiert werden."
+#define OPTION_VAL_TYPE_DE "Nach Rang"
+#define OPTION_VAL_NAME_DE "Nach Name"
+#define OPTION_VAL_DATE_DE "Nach Datum der Errungenschaft"
+#define VITA3K_CONTENT_SUBDIRS_LABEL_DE "Unterverzeichnisse einschließen"
+#define VITA3K_CONTENT_SUBDIRS_INFO_0_DE NULL
 #define VITA3K_PSTV_MODE_LABEL_DE "PS-TV-Modus"
 #define VITA3K_PSTV_MODE_INFO_0_DE "Eine PlayStation TV statt einer PS Vita emulieren."
 #define VITA3K_MODULES_MODE_LABEL_DE "Modulmodus"
@@ -7934,8 +8968,10 @@ struct retro_core_option_v2_category option_cats_de[] = {
     { "audio", CATEGORY_AUDIO_LABEL_DE, CATEGORY_AUDIO_INFO_0_DE },
     { "network", CATEGORY_NETWORK_LABEL_DE, CATEGORY_NETWORK_INFO_0_DE },
     { "install", CATEGORY_INSTALL_LABEL_DE, CATEGORY_INSTALL_INFO_0_DE },
+    { "remove", CATEGORY_REMOVE_LABEL_DE, CATEGORY_REMOVE_INFO_0_DE },
     { "camera", CATEGORY_CAMERA_LABEL_DE, CATEGORY_CAMERA_INFO_0_DE },
     { "accounts", CATEGORY_ACCOUNTS_LABEL_DE, CATEGORY_ACCOUNTS_INFO_0_DE },
+    { "trophies", CATEGORY_TROPHIES_LABEL_DE, CATEGORY_TROPHIES_INFO_0_DE },
     { "modules", CATEGORY_MODULES_LABEL_DE, CATEGORY_MODULES_INFO_0_DE },
     { NULL, NULL, NULL },
 };
@@ -8108,6 +9144,81 @@ struct retro_core_option_v2_definition option_defs_de[] = {
             { NULL, NULL },
         },
         "run"
+    },
+    {
+        "vita3k_trophy_show",
+        VITA3K_TROPHY_SHOW_LABEL_DE,
+        NULL,
+        VITA3K_TROPHY_SHOW_INFO_0_DE,
+        NULL,
+        "trophies",
+        {
+            { "all", OPTION_VAL_ALL_DE },
+            { "earned", OPTION_VAL_EARNED_DE },
+            { "unearned", OPTION_VAL_UNEARNED_DE },
+            { NULL, NULL },
+        },
+        "all"
+    },
+    {
+        "vita3k_trophy_grade",
+        VITA3K_TROPHY_GRADE_LABEL_DE,
+        NULL,
+        VITA3K_TROPHY_GRADE_INFO_0_DE,
+        NULL,
+        "trophies",
+        {
+            { "all", OPTION_VAL_ALL_DE },
+            { "platinum", OPTION_VAL_PLATINUM_DE },
+            { "gold", OPTION_VAL_GOLD_DE },
+            { "silver", OPTION_VAL_SILVER_DE },
+            { "bronze", OPTION_VAL_BRONZE_DE },
+            { NULL, NULL },
+        },
+        "all"
+    },
+    {
+        "vita3k_trophy_hidden",
+        VITA3K_TROPHY_HIDDEN_LABEL_DE,
+        NULL,
+        VITA3K_TROPHY_HIDDEN_INFO_0_DE,
+        NULL,
+        "trophies",
+        {
+            { "disabled", NULL },
+            { "enabled", NULL },
+            { NULL, NULL },
+        },
+        "disabled"
+    },
+    {
+        "vita3k_trophy_sort",
+        VITA3K_TROPHY_SORT_LABEL_DE,
+        NULL,
+        VITA3K_TROPHY_SORT_INFO_0_DE,
+        NULL,
+        "trophies",
+        {
+            { "type", OPTION_VAL_TYPE_DE },
+            { "name", OPTION_VAL_NAME_DE },
+            { "date", OPTION_VAL_DATE_DE },
+            { NULL, NULL },
+        },
+        "type"
+    },
+    {
+        "vita3k_content_subdirs",
+        VITA3K_CONTENT_SUBDIRS_LABEL_DE,
+        NULL,
+        VITA3K_CONTENT_SUBDIRS_INFO_0_DE,
+        NULL,
+        "install",
+        {
+            { "disabled", NULL },
+            { "enabled", NULL },
+            { NULL, NULL },
+        },
+        "disabled"
     },
     {
         "vita3k_pstv_mode",
@@ -8532,10 +9643,14 @@ struct retro_core_options_v2 options_de = {
 #define CATEGORY_NETWORK_INFO_0_EL NULL
 #define CATEGORY_INSTALL_LABEL_EL "Περιεχόμενο"
 #define CATEGORY_INSTALL_INFO_0_EL NULL
+#define CATEGORY_REMOVE_LABEL_EL NULL
+#define CATEGORY_REMOVE_INFO_0_EL NULL
 #define CATEGORY_CAMERA_LABEL_EL "Οδηγός Κάμερας"
 #define CATEGORY_CAMERA_INFO_0_EL NULL
 #define CATEGORY_ACCOUNTS_LABEL_EL "Λογαριασμοί"
 #define CATEGORY_ACCOUNTS_INFO_0_EL NULL
+#define CATEGORY_TROPHIES_LABEL_EL NULL
+#define CATEGORY_TROPHIES_INFO_0_EL NULL
 #define CATEGORY_MODULES_LABEL_EL NULL
 #define CATEGORY_MODULES_INFO_0_EL NULL
 #define VITA3K_BACKEND_RENDERER_LABEL_EL NULL
@@ -8582,6 +9697,26 @@ struct retro_core_options_v2 options_de = {
 #define OPTION_VAL_RUN_EL NULL
 #define OPTION_VAL_CACHE_EL NULL
 #define OPTION_VAL_INSTALL_EL NULL
+#define VITA3K_TROPHY_SHOW_LABEL_EL NULL
+#define VITA3K_TROPHY_SHOW_INFO_0_EL NULL
+#define OPTION_VAL_ALL_EL "Όλα"
+#define OPTION_VAL_EARNED_EL NULL
+#define OPTION_VAL_UNEARNED_EL NULL
+#define VITA3K_TROPHY_GRADE_LABEL_EL NULL
+#define VITA3K_TROPHY_GRADE_INFO_0_EL NULL
+#define OPTION_VAL_PLATINUM_EL NULL
+#define OPTION_VAL_GOLD_EL NULL
+#define OPTION_VAL_SILVER_EL NULL
+#define OPTION_VAL_BRONZE_EL NULL
+#define VITA3K_TROPHY_HIDDEN_LABEL_EL NULL
+#define VITA3K_TROPHY_HIDDEN_INFO_0_EL NULL
+#define VITA3K_TROPHY_SORT_LABEL_EL NULL
+#define VITA3K_TROPHY_SORT_INFO_0_EL NULL
+#define OPTION_VAL_TYPE_EL NULL
+#define OPTION_VAL_NAME_EL NULL
+#define OPTION_VAL_DATE_EL NULL
+#define VITA3K_CONTENT_SUBDIRS_LABEL_EL NULL
+#define VITA3K_CONTENT_SUBDIRS_INFO_0_EL NULL
 #define VITA3K_PSTV_MODE_LABEL_EL NULL
 #define VITA3K_PSTV_MODE_INFO_0_EL NULL
 #define VITA3K_MODULES_MODE_LABEL_EL NULL
@@ -8705,8 +9840,10 @@ struct retro_core_option_v2_category option_cats_el[] = {
     { "audio", CATEGORY_AUDIO_LABEL_EL, CATEGORY_AUDIO_INFO_0_EL },
     { "network", CATEGORY_NETWORK_LABEL_EL, CATEGORY_NETWORK_INFO_0_EL },
     { "install", CATEGORY_INSTALL_LABEL_EL, CATEGORY_INSTALL_INFO_0_EL },
+    { "remove", CATEGORY_REMOVE_LABEL_EL, CATEGORY_REMOVE_INFO_0_EL },
     { "camera", CATEGORY_CAMERA_LABEL_EL, CATEGORY_CAMERA_INFO_0_EL },
     { "accounts", CATEGORY_ACCOUNTS_LABEL_EL, CATEGORY_ACCOUNTS_INFO_0_EL },
+    { "trophies", CATEGORY_TROPHIES_LABEL_EL, CATEGORY_TROPHIES_INFO_0_EL },
     { "modules", CATEGORY_MODULES_LABEL_EL, CATEGORY_MODULES_INFO_0_EL },
     { NULL, NULL, NULL },
 };
@@ -8879,6 +10016,81 @@ struct retro_core_option_v2_definition option_defs_el[] = {
             { NULL, NULL },
         },
         "run"
+    },
+    {
+        "vita3k_trophy_show",
+        VITA3K_TROPHY_SHOW_LABEL_EL,
+        NULL,
+        VITA3K_TROPHY_SHOW_INFO_0_EL,
+        NULL,
+        "trophies",
+        {
+            { "all", OPTION_VAL_ALL_EL },
+            { "earned", OPTION_VAL_EARNED_EL },
+            { "unearned", OPTION_VAL_UNEARNED_EL },
+            { NULL, NULL },
+        },
+        "all"
+    },
+    {
+        "vita3k_trophy_grade",
+        VITA3K_TROPHY_GRADE_LABEL_EL,
+        NULL,
+        VITA3K_TROPHY_GRADE_INFO_0_EL,
+        NULL,
+        "trophies",
+        {
+            { "all", OPTION_VAL_ALL_EL },
+            { "platinum", OPTION_VAL_PLATINUM_EL },
+            { "gold", OPTION_VAL_GOLD_EL },
+            { "silver", OPTION_VAL_SILVER_EL },
+            { "bronze", OPTION_VAL_BRONZE_EL },
+            { NULL, NULL },
+        },
+        "all"
+    },
+    {
+        "vita3k_trophy_hidden",
+        VITA3K_TROPHY_HIDDEN_LABEL_EL,
+        NULL,
+        VITA3K_TROPHY_HIDDEN_INFO_0_EL,
+        NULL,
+        "trophies",
+        {
+            { "disabled", NULL },
+            { "enabled", NULL },
+            { NULL, NULL },
+        },
+        "disabled"
+    },
+    {
+        "vita3k_trophy_sort",
+        VITA3K_TROPHY_SORT_LABEL_EL,
+        NULL,
+        VITA3K_TROPHY_SORT_INFO_0_EL,
+        NULL,
+        "trophies",
+        {
+            { "type", OPTION_VAL_TYPE_EL },
+            { "name", OPTION_VAL_NAME_EL },
+            { "date", OPTION_VAL_DATE_EL },
+            { NULL, NULL },
+        },
+        "type"
+    },
+    {
+        "vita3k_content_subdirs",
+        VITA3K_CONTENT_SUBDIRS_LABEL_EL,
+        NULL,
+        VITA3K_CONTENT_SUBDIRS_INFO_0_EL,
+        NULL,
+        "install",
+        {
+            { "disabled", NULL },
+            { "enabled", NULL },
+            { NULL, NULL },
+        },
+        "disabled"
     },
     {
         "vita3k_pstv_mode",
@@ -9303,10 +10515,14 @@ struct retro_core_options_v2 options_el = {
 #define CATEGORY_NETWORK_INFO_0_EN NULL
 #define CATEGORY_INSTALL_LABEL_EN NULL
 #define CATEGORY_INSTALL_INFO_0_EN NULL
+#define CATEGORY_REMOVE_LABEL_EN NULL
+#define CATEGORY_REMOVE_INFO_0_EN NULL
 #define CATEGORY_CAMERA_LABEL_EN NULL
 #define CATEGORY_CAMERA_INFO_0_EN NULL
 #define CATEGORY_ACCOUNTS_LABEL_EN NULL
 #define CATEGORY_ACCOUNTS_INFO_0_EN NULL
+#define CATEGORY_TROPHIES_LABEL_EN NULL
+#define CATEGORY_TROPHIES_INFO_0_EN NULL
 #define CATEGORY_MODULES_LABEL_EN NULL
 #define CATEGORY_MODULES_INFO_0_EN NULL
 #define VITA3K_BACKEND_RENDERER_LABEL_EN NULL
@@ -9353,6 +10569,26 @@ struct retro_core_options_v2 options_el = {
 #define OPTION_VAL_RUN_EN NULL
 #define OPTION_VAL_CACHE_EN NULL
 #define OPTION_VAL_INSTALL_EN NULL
+#define VITA3K_TROPHY_SHOW_LABEL_EN NULL
+#define VITA3K_TROPHY_SHOW_INFO_0_EN NULL
+#define OPTION_VAL_ALL_EN NULL
+#define OPTION_VAL_EARNED_EN NULL
+#define OPTION_VAL_UNEARNED_EN NULL
+#define VITA3K_TROPHY_GRADE_LABEL_EN NULL
+#define VITA3K_TROPHY_GRADE_INFO_0_EN NULL
+#define OPTION_VAL_PLATINUM_EN NULL
+#define OPTION_VAL_GOLD_EN NULL
+#define OPTION_VAL_SILVER_EN NULL
+#define OPTION_VAL_BRONZE_EN NULL
+#define VITA3K_TROPHY_HIDDEN_LABEL_EN NULL
+#define VITA3K_TROPHY_HIDDEN_INFO_0_EN NULL
+#define VITA3K_TROPHY_SORT_LABEL_EN NULL
+#define VITA3K_TROPHY_SORT_INFO_0_EN NULL
+#define OPTION_VAL_TYPE_EN NULL
+#define OPTION_VAL_NAME_EN NULL
+#define OPTION_VAL_DATE_EN NULL
+#define VITA3K_CONTENT_SUBDIRS_LABEL_EN NULL
+#define VITA3K_CONTENT_SUBDIRS_INFO_0_EN NULL
 #define VITA3K_PSTV_MODE_LABEL_EN NULL
 #define VITA3K_PSTV_MODE_INFO_0_EN NULL
 #define VITA3K_MODULES_MODE_LABEL_EN NULL
@@ -9476,8 +10712,10 @@ struct retro_core_option_v2_category option_cats_en[] = {
     { "audio", CATEGORY_AUDIO_LABEL_EN, CATEGORY_AUDIO_INFO_0_EN },
     { "network", CATEGORY_NETWORK_LABEL_EN, CATEGORY_NETWORK_INFO_0_EN },
     { "install", CATEGORY_INSTALL_LABEL_EN, CATEGORY_INSTALL_INFO_0_EN },
+    { "remove", CATEGORY_REMOVE_LABEL_EN, CATEGORY_REMOVE_INFO_0_EN },
     { "camera", CATEGORY_CAMERA_LABEL_EN, CATEGORY_CAMERA_INFO_0_EN },
     { "accounts", CATEGORY_ACCOUNTS_LABEL_EN, CATEGORY_ACCOUNTS_INFO_0_EN },
+    { "trophies", CATEGORY_TROPHIES_LABEL_EN, CATEGORY_TROPHIES_INFO_0_EN },
     { "modules", CATEGORY_MODULES_LABEL_EN, CATEGORY_MODULES_INFO_0_EN },
     { NULL, NULL, NULL },
 };
@@ -9650,6 +10888,81 @@ struct retro_core_option_v2_definition option_defs_en[] = {
             { NULL, NULL },
         },
         "run"
+    },
+    {
+        "vita3k_trophy_show",
+        VITA3K_TROPHY_SHOW_LABEL_EN,
+        NULL,
+        VITA3K_TROPHY_SHOW_INFO_0_EN,
+        NULL,
+        "trophies",
+        {
+            { "all", OPTION_VAL_ALL_EN },
+            { "earned", OPTION_VAL_EARNED_EN },
+            { "unearned", OPTION_VAL_UNEARNED_EN },
+            { NULL, NULL },
+        },
+        "all"
+    },
+    {
+        "vita3k_trophy_grade",
+        VITA3K_TROPHY_GRADE_LABEL_EN,
+        NULL,
+        VITA3K_TROPHY_GRADE_INFO_0_EN,
+        NULL,
+        "trophies",
+        {
+            { "all", OPTION_VAL_ALL_EN },
+            { "platinum", OPTION_VAL_PLATINUM_EN },
+            { "gold", OPTION_VAL_GOLD_EN },
+            { "silver", OPTION_VAL_SILVER_EN },
+            { "bronze", OPTION_VAL_BRONZE_EN },
+            { NULL, NULL },
+        },
+        "all"
+    },
+    {
+        "vita3k_trophy_hidden",
+        VITA3K_TROPHY_HIDDEN_LABEL_EN,
+        NULL,
+        VITA3K_TROPHY_HIDDEN_INFO_0_EN,
+        NULL,
+        "trophies",
+        {
+            { "disabled", NULL },
+            { "enabled", NULL },
+            { NULL, NULL },
+        },
+        "disabled"
+    },
+    {
+        "vita3k_trophy_sort",
+        VITA3K_TROPHY_SORT_LABEL_EN,
+        NULL,
+        VITA3K_TROPHY_SORT_INFO_0_EN,
+        NULL,
+        "trophies",
+        {
+            { "type", OPTION_VAL_TYPE_EN },
+            { "name", OPTION_VAL_NAME_EN },
+            { "date", OPTION_VAL_DATE_EN },
+            { NULL, NULL },
+        },
+        "type"
+    },
+    {
+        "vita3k_content_subdirs",
+        VITA3K_CONTENT_SUBDIRS_LABEL_EN,
+        NULL,
+        VITA3K_CONTENT_SUBDIRS_INFO_0_EN,
+        NULL,
+        "install",
+        {
+            { "disabled", NULL },
+            { "enabled", NULL },
+            { NULL, NULL },
+        },
+        "disabled"
     },
     {
         "vita3k_pstv_mode",
@@ -10074,10 +11387,14 @@ struct retro_core_options_v2 options_en = {
 #define CATEGORY_NETWORK_INFO_0_EO NULL
 #define CATEGORY_INSTALL_LABEL_EO "Enhavo"
 #define CATEGORY_INSTALL_INFO_0_EO NULL
+#define CATEGORY_REMOVE_LABEL_EO NULL
+#define CATEGORY_REMOVE_INFO_0_EO NULL
 #define CATEGORY_CAMERA_LABEL_EO "Kamerao"
 #define CATEGORY_CAMERA_INFO_0_EO NULL
 #define CATEGORY_ACCOUNTS_LABEL_EO "Kontoj"
 #define CATEGORY_ACCOUNTS_INFO_0_EO NULL
+#define CATEGORY_TROPHIES_LABEL_EO NULL
+#define CATEGORY_TROPHIES_INFO_0_EO NULL
 #define CATEGORY_MODULES_LABEL_EO NULL
 #define CATEGORY_MODULES_INFO_0_EO NULL
 #define VITA3K_BACKEND_RENDERER_LABEL_EO NULL
@@ -10124,6 +11441,26 @@ struct retro_core_options_v2 options_en = {
 #define OPTION_VAL_RUN_EO NULL
 #define OPTION_VAL_CACHE_EO NULL
 #define OPTION_VAL_INSTALL_EO NULL
+#define VITA3K_TROPHY_SHOW_LABEL_EO NULL
+#define VITA3K_TROPHY_SHOW_INFO_0_EO NULL
+#define OPTION_VAL_ALL_EO "Ĉiuj"
+#define OPTION_VAL_EARNED_EO NULL
+#define OPTION_VAL_UNEARNED_EO NULL
+#define VITA3K_TROPHY_GRADE_LABEL_EO NULL
+#define VITA3K_TROPHY_GRADE_INFO_0_EO NULL
+#define OPTION_VAL_PLATINUM_EO NULL
+#define OPTION_VAL_GOLD_EO NULL
+#define OPTION_VAL_SILVER_EO NULL
+#define OPTION_VAL_BRONZE_EO NULL
+#define VITA3K_TROPHY_HIDDEN_LABEL_EO NULL
+#define VITA3K_TROPHY_HIDDEN_INFO_0_EO NULL
+#define VITA3K_TROPHY_SORT_LABEL_EO NULL
+#define VITA3K_TROPHY_SORT_INFO_0_EO NULL
+#define OPTION_VAL_TYPE_EO NULL
+#define OPTION_VAL_NAME_EO NULL
+#define OPTION_VAL_DATE_EO NULL
+#define VITA3K_CONTENT_SUBDIRS_LABEL_EO NULL
+#define VITA3K_CONTENT_SUBDIRS_INFO_0_EO NULL
 #define VITA3K_PSTV_MODE_LABEL_EO NULL
 #define VITA3K_PSTV_MODE_INFO_0_EO NULL
 #define VITA3K_MODULES_MODE_LABEL_EO NULL
@@ -10247,8 +11584,10 @@ struct retro_core_option_v2_category option_cats_eo[] = {
     { "audio", CATEGORY_AUDIO_LABEL_EO, CATEGORY_AUDIO_INFO_0_EO },
     { "network", CATEGORY_NETWORK_LABEL_EO, CATEGORY_NETWORK_INFO_0_EO },
     { "install", CATEGORY_INSTALL_LABEL_EO, CATEGORY_INSTALL_INFO_0_EO },
+    { "remove", CATEGORY_REMOVE_LABEL_EO, CATEGORY_REMOVE_INFO_0_EO },
     { "camera", CATEGORY_CAMERA_LABEL_EO, CATEGORY_CAMERA_INFO_0_EO },
     { "accounts", CATEGORY_ACCOUNTS_LABEL_EO, CATEGORY_ACCOUNTS_INFO_0_EO },
+    { "trophies", CATEGORY_TROPHIES_LABEL_EO, CATEGORY_TROPHIES_INFO_0_EO },
     { "modules", CATEGORY_MODULES_LABEL_EO, CATEGORY_MODULES_INFO_0_EO },
     { NULL, NULL, NULL },
 };
@@ -10421,6 +11760,81 @@ struct retro_core_option_v2_definition option_defs_eo[] = {
             { NULL, NULL },
         },
         "run"
+    },
+    {
+        "vita3k_trophy_show",
+        VITA3K_TROPHY_SHOW_LABEL_EO,
+        NULL,
+        VITA3K_TROPHY_SHOW_INFO_0_EO,
+        NULL,
+        "trophies",
+        {
+            { "all", OPTION_VAL_ALL_EO },
+            { "earned", OPTION_VAL_EARNED_EO },
+            { "unearned", OPTION_VAL_UNEARNED_EO },
+            { NULL, NULL },
+        },
+        "all"
+    },
+    {
+        "vita3k_trophy_grade",
+        VITA3K_TROPHY_GRADE_LABEL_EO,
+        NULL,
+        VITA3K_TROPHY_GRADE_INFO_0_EO,
+        NULL,
+        "trophies",
+        {
+            { "all", OPTION_VAL_ALL_EO },
+            { "platinum", OPTION_VAL_PLATINUM_EO },
+            { "gold", OPTION_VAL_GOLD_EO },
+            { "silver", OPTION_VAL_SILVER_EO },
+            { "bronze", OPTION_VAL_BRONZE_EO },
+            { NULL, NULL },
+        },
+        "all"
+    },
+    {
+        "vita3k_trophy_hidden",
+        VITA3K_TROPHY_HIDDEN_LABEL_EO,
+        NULL,
+        VITA3K_TROPHY_HIDDEN_INFO_0_EO,
+        NULL,
+        "trophies",
+        {
+            { "disabled", NULL },
+            { "enabled", NULL },
+            { NULL, NULL },
+        },
+        "disabled"
+    },
+    {
+        "vita3k_trophy_sort",
+        VITA3K_TROPHY_SORT_LABEL_EO,
+        NULL,
+        VITA3K_TROPHY_SORT_INFO_0_EO,
+        NULL,
+        "trophies",
+        {
+            { "type", OPTION_VAL_TYPE_EO },
+            { "name", OPTION_VAL_NAME_EO },
+            { "date", OPTION_VAL_DATE_EO },
+            { NULL, NULL },
+        },
+        "type"
+    },
+    {
+        "vita3k_content_subdirs",
+        VITA3K_CONTENT_SUBDIRS_LABEL_EO,
+        NULL,
+        VITA3K_CONTENT_SUBDIRS_INFO_0_EO,
+        NULL,
+        "install",
+        {
+            { "disabled", NULL },
+            { "enabled", NULL },
+            { NULL, NULL },
+        },
+        "disabled"
     },
     {
         "vita3k_pstv_mode",
@@ -10844,13 +12258,17 @@ struct retro_core_options_v2 options_eo = {
 #define CATEGORY_NETWORK_LABEL_ES "Red"
 #define CATEGORY_NETWORK_INFO_0_ES "Opciones de red."
 #define CATEGORY_INSTALL_LABEL_ES "Contenido"
-#define CATEGORY_INSTALL_INFO_0_ES "Establece la forma de cargar juegos, actualizaciones y contenidos descargables (DLC)."
+#define CATEGORY_INSTALL_INFO_0_ES "Administra los datos de un título concreto, así como sus actualizaciones y contenidos descargables."
+#define CATEGORY_REMOVE_LABEL_ES "Eliminar contenido"
+#define CATEGORY_REMOVE_INFO_0_ES NULL
 #define CATEGORY_CAMERA_LABEL_ES "Cámara"
 #define CATEGORY_CAMERA_INFO_0_ES "Lo que verán las cámaras frontal y trasera de la Vita."
 #define CATEGORY_ACCOUNTS_LABEL_ES "Cuentas"
 #define CATEGORY_ACCOUNTS_INFO_0_ES "Las cuentas (usuarios) de la Vita almacenadas en ux0/user, con sus correspondientes datos guardados y trofeos."
+#define CATEGORY_TROPHIES_LABEL_ES "Trofeos"
+#define CATEGORY_TROPHIES_INFO_0_ES "Los trofeos del título actual."
 #define CATEGORY_MODULES_LABEL_ES "Módulos"
-#define CATEGORY_MODULES_INFO_0_ES "Los módulos del firmware (vs0/sys/external) que se cargarán cuando el Modo de módulos esté configurado como Automático y manual o como Manual."
+#define CATEGORY_MODULES_INFO_0_ES "Los módulos del firmware (vs0/sys/external) que se cargarán cuando el Modo de módulos (en Sistema) esté configurado como Automático y manual o como Manual."
 #define VITA3K_BACKEND_RENDERER_LABEL_ES "Back-end de renderizado"
 #define VITA3K_BACKEND_RENDERER_INFO_0_ES "Selecciona el back-end de gráficos. Se recomienda Vulkan."
 #define OPTION_VAL_VULKAN_ES NULL
@@ -10890,11 +12308,31 @@ struct retro_core_options_v2 options_eo = {
 #define VITA3K_HIGH_ACCURACY_INFO_0_ES "Permite el uso de técnicas de renderizado más fieles, pero más lentas."
 #define VITA3K_CPU_OPT_LABEL_ES "Optimizaciones de CPU (JIT dinámico)"
 #define VITA3K_CPU_OPT_INFO_0_ES "Activa el JIT dinámico para que la emulación de la GPU sea más rápida."
-#define VITA3K_PKG_MODE_LABEL_ES "Precargar juego"
-#define VITA3K_PKG_MODE_INFO_0_ES "Todos los contenidos seguirán este ajuste, a excepción de las actualizaciones y contenidos descargables que se hayan instalado forzosamente (es decir, que se hayan cargado a mano). Ejecutar sin instalar: lee los datos del archivo sin conservar nada. Caché persistente: lo mismo, pero conserva lo que se haya leído. Instalar: copia todos los archivos para arrancar más rápidamente."
-#define OPTION_VAL_RUN_ES "Ejecutar sin instalar"
-#define OPTION_VAL_CACHE_ES "Caché persistente"
+#define VITA3K_PKG_MODE_LABEL_ES "Modo de ejecución"
+#define VITA3K_PKG_MODE_INFO_0_ES "Define la forma de ejecutar un título, sus actualizaciones y contenidos descargables (DLC). Las actualizaciones y los contenidos descargables que se encuentren en el directorio del título se aplicarán por defecto. También pueden cargarse desde otro lugar para instalarlos sin importar el método de ejecución.\n\nDirecto: ejecutará directamente los medios originales.\n\nDirecto con caché: igual que Directo, pero el núcleo guardará en el almacenamiento local una caché de los archivos leídos. Podría mejorar el rendimiento en algunos casos, como cuando los medios son leídos de una red compartida con ancho de banda limitado.\n\nInstalar: instalará los medios originales la primera vez que se carguen y los ejecutará desde el almacenamiento local."
+#define OPTION_VAL_RUN_ES "Directo"
+#define OPTION_VAL_CACHE_ES "Directo con caché"
 #define OPTION_VAL_INSTALL_ES "Instalar"
+#define VITA3K_TROPHY_SHOW_LABEL_ES "Mostrar: ganados/no ganados"
+#define VITA3K_TROPHY_SHOW_INFO_0_ES "Controla qué trofeos se mostrarán según si se han ganado o no."
+#define OPTION_VAL_ALL_ES "Todos"
+#define OPTION_VAL_EARNED_ES "Ganados"
+#define OPTION_VAL_UNEARNED_ES "No ganados"
+#define VITA3K_TROPHY_GRADE_LABEL_ES "Mostrar: grados"
+#define VITA3K_TROPHY_GRADE_INFO_0_ES "Controla qué trofeos se mostrarán según su grado (platino, oro, plata o bronce)."
+#define OPTION_VAL_PLATINUM_ES "Platino"
+#define OPTION_VAL_GOLD_ES "Oro"
+#define OPTION_VAL_SILVER_ES "Plata"
+#define OPTION_VAL_BRONZE_ES "Bronce"
+#define VITA3K_TROPHY_HIDDEN_LABEL_ES "Mostrar: ocultos"
+#define VITA3K_TROPHY_HIDDEN_INFO_0_ES "Controla si se mostrarán los trofeos ocultos."
+#define VITA3K_TROPHY_SORT_LABEL_ES "Orden"
+#define VITA3K_TROPHY_SORT_INFO_0_ES "Controla la forma de ordenar los trofeos."
+#define OPTION_VAL_TYPE_ES "Por grado"
+#define OPTION_VAL_NAME_ES "Por nombre"
+#define OPTION_VAL_DATE_ES "Por fecha de obtención"
+#define VITA3K_CONTENT_SUBDIRS_LABEL_ES "Incluir subdirectorios"
+#define VITA3K_CONTENT_SUBDIRS_INFO_0_ES "Activado: carga las actualizaciones y los DLC que se encuentren en el directorio del título y en sus subdirectorios.\nDesactivado: carga las actualizaciones y los DLC que solo estén en el directorio del título."
 #define VITA3K_PSTV_MODE_LABEL_ES "Modo PS TV"
 #define VITA3K_PSTV_MODE_INFO_0_ES "Emula una PlayStation TV en lugar de una PS Vita."
 #define VITA3K_MODULES_MODE_LABEL_ES "Modo de módulos"
@@ -11018,8 +12456,10 @@ struct retro_core_option_v2_category option_cats_es[] = {
     { "audio", CATEGORY_AUDIO_LABEL_ES, CATEGORY_AUDIO_INFO_0_ES },
     { "network", CATEGORY_NETWORK_LABEL_ES, CATEGORY_NETWORK_INFO_0_ES },
     { "install", CATEGORY_INSTALL_LABEL_ES, CATEGORY_INSTALL_INFO_0_ES },
+    { "remove", CATEGORY_REMOVE_LABEL_ES, CATEGORY_REMOVE_INFO_0_ES },
     { "camera", CATEGORY_CAMERA_LABEL_ES, CATEGORY_CAMERA_INFO_0_ES },
     { "accounts", CATEGORY_ACCOUNTS_LABEL_ES, CATEGORY_ACCOUNTS_INFO_0_ES },
+    { "trophies", CATEGORY_TROPHIES_LABEL_ES, CATEGORY_TROPHIES_INFO_0_ES },
     { "modules", CATEGORY_MODULES_LABEL_ES, CATEGORY_MODULES_INFO_0_ES },
     { NULL, NULL, NULL },
 };
@@ -11192,6 +12632,81 @@ struct retro_core_option_v2_definition option_defs_es[] = {
             { NULL, NULL },
         },
         "run"
+    },
+    {
+        "vita3k_trophy_show",
+        VITA3K_TROPHY_SHOW_LABEL_ES,
+        NULL,
+        VITA3K_TROPHY_SHOW_INFO_0_ES,
+        NULL,
+        "trophies",
+        {
+            { "all", OPTION_VAL_ALL_ES },
+            { "earned", OPTION_VAL_EARNED_ES },
+            { "unearned", OPTION_VAL_UNEARNED_ES },
+            { NULL, NULL },
+        },
+        "all"
+    },
+    {
+        "vita3k_trophy_grade",
+        VITA3K_TROPHY_GRADE_LABEL_ES,
+        NULL,
+        VITA3K_TROPHY_GRADE_INFO_0_ES,
+        NULL,
+        "trophies",
+        {
+            { "all", OPTION_VAL_ALL_ES },
+            { "platinum", OPTION_VAL_PLATINUM_ES },
+            { "gold", OPTION_VAL_GOLD_ES },
+            { "silver", OPTION_VAL_SILVER_ES },
+            { "bronze", OPTION_VAL_BRONZE_ES },
+            { NULL, NULL },
+        },
+        "all"
+    },
+    {
+        "vita3k_trophy_hidden",
+        VITA3K_TROPHY_HIDDEN_LABEL_ES,
+        NULL,
+        VITA3K_TROPHY_HIDDEN_INFO_0_ES,
+        NULL,
+        "trophies",
+        {
+            { "disabled", NULL },
+            { "enabled", NULL },
+            { NULL, NULL },
+        },
+        "disabled"
+    },
+    {
+        "vita3k_trophy_sort",
+        VITA3K_TROPHY_SORT_LABEL_ES,
+        NULL,
+        VITA3K_TROPHY_SORT_INFO_0_ES,
+        NULL,
+        "trophies",
+        {
+            { "type", OPTION_VAL_TYPE_ES },
+            { "name", OPTION_VAL_NAME_ES },
+            { "date", OPTION_VAL_DATE_ES },
+            { NULL, NULL },
+        },
+        "type"
+    },
+    {
+        "vita3k_content_subdirs",
+        VITA3K_CONTENT_SUBDIRS_LABEL_ES,
+        NULL,
+        VITA3K_CONTENT_SUBDIRS_INFO_0_ES,
+        NULL,
+        "install",
+        {
+            { "disabled", NULL },
+            { "enabled", NULL },
+            { NULL, NULL },
+        },
+        "disabled"
     },
     {
         "vita3k_pstv_mode",
@@ -11616,10 +13131,14 @@ struct retro_core_options_v2 options_es = {
 #define CATEGORY_NETWORK_INFO_0_FA NULL
 #define CATEGORY_INSTALL_LABEL_FA NULL
 #define CATEGORY_INSTALL_INFO_0_FA NULL
+#define CATEGORY_REMOVE_LABEL_FA NULL
+#define CATEGORY_REMOVE_INFO_0_FA NULL
 #define CATEGORY_CAMERA_LABEL_FA "دوربین"
 #define CATEGORY_CAMERA_INFO_0_FA NULL
 #define CATEGORY_ACCOUNTS_LABEL_FA "حساب‌ها"
 #define CATEGORY_ACCOUNTS_INFO_0_FA NULL
+#define CATEGORY_TROPHIES_LABEL_FA NULL
+#define CATEGORY_TROPHIES_INFO_0_FA NULL
 #define CATEGORY_MODULES_LABEL_FA NULL
 #define CATEGORY_MODULES_INFO_0_FA NULL
 #define VITA3K_BACKEND_RENDERER_LABEL_FA NULL
@@ -11666,6 +13185,26 @@ struct retro_core_options_v2 options_es = {
 #define OPTION_VAL_RUN_FA NULL
 #define OPTION_VAL_CACHE_FA NULL
 #define OPTION_VAL_INSTALL_FA NULL
+#define VITA3K_TROPHY_SHOW_LABEL_FA NULL
+#define VITA3K_TROPHY_SHOW_INFO_0_FA NULL
+#define OPTION_VAL_ALL_FA NULL
+#define OPTION_VAL_EARNED_FA NULL
+#define OPTION_VAL_UNEARNED_FA NULL
+#define VITA3K_TROPHY_GRADE_LABEL_FA NULL
+#define VITA3K_TROPHY_GRADE_INFO_0_FA NULL
+#define OPTION_VAL_PLATINUM_FA NULL
+#define OPTION_VAL_GOLD_FA NULL
+#define OPTION_VAL_SILVER_FA NULL
+#define OPTION_VAL_BRONZE_FA NULL
+#define VITA3K_TROPHY_HIDDEN_LABEL_FA NULL
+#define VITA3K_TROPHY_HIDDEN_INFO_0_FA NULL
+#define VITA3K_TROPHY_SORT_LABEL_FA NULL
+#define VITA3K_TROPHY_SORT_INFO_0_FA NULL
+#define OPTION_VAL_TYPE_FA NULL
+#define OPTION_VAL_NAME_FA NULL
+#define OPTION_VAL_DATE_FA NULL
+#define VITA3K_CONTENT_SUBDIRS_LABEL_FA NULL
+#define VITA3K_CONTENT_SUBDIRS_INFO_0_FA NULL
 #define VITA3K_PSTV_MODE_LABEL_FA NULL
 #define VITA3K_PSTV_MODE_INFO_0_FA NULL
 #define VITA3K_MODULES_MODE_LABEL_FA NULL
@@ -11789,8 +13328,10 @@ struct retro_core_option_v2_category option_cats_fa[] = {
     { "audio", CATEGORY_AUDIO_LABEL_FA, CATEGORY_AUDIO_INFO_0_FA },
     { "network", CATEGORY_NETWORK_LABEL_FA, CATEGORY_NETWORK_INFO_0_FA },
     { "install", CATEGORY_INSTALL_LABEL_FA, CATEGORY_INSTALL_INFO_0_FA },
+    { "remove", CATEGORY_REMOVE_LABEL_FA, CATEGORY_REMOVE_INFO_0_FA },
     { "camera", CATEGORY_CAMERA_LABEL_FA, CATEGORY_CAMERA_INFO_0_FA },
     { "accounts", CATEGORY_ACCOUNTS_LABEL_FA, CATEGORY_ACCOUNTS_INFO_0_FA },
+    { "trophies", CATEGORY_TROPHIES_LABEL_FA, CATEGORY_TROPHIES_INFO_0_FA },
     { "modules", CATEGORY_MODULES_LABEL_FA, CATEGORY_MODULES_INFO_0_FA },
     { NULL, NULL, NULL },
 };
@@ -11963,6 +13504,81 @@ struct retro_core_option_v2_definition option_defs_fa[] = {
             { NULL, NULL },
         },
         "run"
+    },
+    {
+        "vita3k_trophy_show",
+        VITA3K_TROPHY_SHOW_LABEL_FA,
+        NULL,
+        VITA3K_TROPHY_SHOW_INFO_0_FA,
+        NULL,
+        "trophies",
+        {
+            { "all", OPTION_VAL_ALL_FA },
+            { "earned", OPTION_VAL_EARNED_FA },
+            { "unearned", OPTION_VAL_UNEARNED_FA },
+            { NULL, NULL },
+        },
+        "all"
+    },
+    {
+        "vita3k_trophy_grade",
+        VITA3K_TROPHY_GRADE_LABEL_FA,
+        NULL,
+        VITA3K_TROPHY_GRADE_INFO_0_FA,
+        NULL,
+        "trophies",
+        {
+            { "all", OPTION_VAL_ALL_FA },
+            { "platinum", OPTION_VAL_PLATINUM_FA },
+            { "gold", OPTION_VAL_GOLD_FA },
+            { "silver", OPTION_VAL_SILVER_FA },
+            { "bronze", OPTION_VAL_BRONZE_FA },
+            { NULL, NULL },
+        },
+        "all"
+    },
+    {
+        "vita3k_trophy_hidden",
+        VITA3K_TROPHY_HIDDEN_LABEL_FA,
+        NULL,
+        VITA3K_TROPHY_HIDDEN_INFO_0_FA,
+        NULL,
+        "trophies",
+        {
+            { "disabled", NULL },
+            { "enabled", NULL },
+            { NULL, NULL },
+        },
+        "disabled"
+    },
+    {
+        "vita3k_trophy_sort",
+        VITA3K_TROPHY_SORT_LABEL_FA,
+        NULL,
+        VITA3K_TROPHY_SORT_INFO_0_FA,
+        NULL,
+        "trophies",
+        {
+            { "type", OPTION_VAL_TYPE_FA },
+            { "name", OPTION_VAL_NAME_FA },
+            { "date", OPTION_VAL_DATE_FA },
+            { NULL, NULL },
+        },
+        "type"
+    },
+    {
+        "vita3k_content_subdirs",
+        VITA3K_CONTENT_SUBDIRS_LABEL_FA,
+        NULL,
+        VITA3K_CONTENT_SUBDIRS_INFO_0_FA,
+        NULL,
+        "install",
+        {
+            { "disabled", NULL },
+            { "enabled", NULL },
+            { NULL, NULL },
+        },
+        "disabled"
     },
     {
         "vita3k_pstv_mode",
@@ -12387,10 +14003,14 @@ struct retro_core_options_v2 options_fa = {
 #define CATEGORY_NETWORK_INFO_0_FI NULL
 #define CATEGORY_INSTALL_LABEL_FI "Sisältö"
 #define CATEGORY_INSTALL_INFO_0_FI NULL
+#define CATEGORY_REMOVE_LABEL_FI NULL
+#define CATEGORY_REMOVE_INFO_0_FI NULL
 #define CATEGORY_CAMERA_LABEL_FI "Kamera"
 #define CATEGORY_CAMERA_INFO_0_FI NULL
 #define CATEGORY_ACCOUNTS_LABEL_FI "Tilit"
 #define CATEGORY_ACCOUNTS_INFO_0_FI NULL
+#define CATEGORY_TROPHIES_LABEL_FI NULL
+#define CATEGORY_TROPHIES_INFO_0_FI NULL
 #define CATEGORY_MODULES_LABEL_FI NULL
 #define CATEGORY_MODULES_INFO_0_FI NULL
 #define VITA3K_BACKEND_RENDERER_LABEL_FI NULL
@@ -12437,6 +14057,26 @@ struct retro_core_options_v2 options_fa = {
 #define OPTION_VAL_RUN_FI NULL
 #define OPTION_VAL_CACHE_FI NULL
 #define OPTION_VAL_INSTALL_FI NULL
+#define VITA3K_TROPHY_SHOW_LABEL_FI NULL
+#define VITA3K_TROPHY_SHOW_INFO_0_FI NULL
+#define OPTION_VAL_ALL_FI "Kaikki"
+#define OPTION_VAL_EARNED_FI NULL
+#define OPTION_VAL_UNEARNED_FI NULL
+#define VITA3K_TROPHY_GRADE_LABEL_FI NULL
+#define VITA3K_TROPHY_GRADE_INFO_0_FI NULL
+#define OPTION_VAL_PLATINUM_FI NULL
+#define OPTION_VAL_GOLD_FI NULL
+#define OPTION_VAL_SILVER_FI NULL
+#define OPTION_VAL_BRONZE_FI NULL
+#define VITA3K_TROPHY_HIDDEN_LABEL_FI NULL
+#define VITA3K_TROPHY_HIDDEN_INFO_0_FI NULL
+#define VITA3K_TROPHY_SORT_LABEL_FI NULL
+#define VITA3K_TROPHY_SORT_INFO_0_FI NULL
+#define OPTION_VAL_TYPE_FI NULL
+#define OPTION_VAL_NAME_FI NULL
+#define OPTION_VAL_DATE_FI NULL
+#define VITA3K_CONTENT_SUBDIRS_LABEL_FI NULL
+#define VITA3K_CONTENT_SUBDIRS_INFO_0_FI NULL
 #define VITA3K_PSTV_MODE_LABEL_FI NULL
 #define VITA3K_PSTV_MODE_INFO_0_FI NULL
 #define VITA3K_MODULES_MODE_LABEL_FI NULL
@@ -12560,8 +14200,10 @@ struct retro_core_option_v2_category option_cats_fi[] = {
     { "audio", CATEGORY_AUDIO_LABEL_FI, CATEGORY_AUDIO_INFO_0_FI },
     { "network", CATEGORY_NETWORK_LABEL_FI, CATEGORY_NETWORK_INFO_0_FI },
     { "install", CATEGORY_INSTALL_LABEL_FI, CATEGORY_INSTALL_INFO_0_FI },
+    { "remove", CATEGORY_REMOVE_LABEL_FI, CATEGORY_REMOVE_INFO_0_FI },
     { "camera", CATEGORY_CAMERA_LABEL_FI, CATEGORY_CAMERA_INFO_0_FI },
     { "accounts", CATEGORY_ACCOUNTS_LABEL_FI, CATEGORY_ACCOUNTS_INFO_0_FI },
+    { "trophies", CATEGORY_TROPHIES_LABEL_FI, CATEGORY_TROPHIES_INFO_0_FI },
     { "modules", CATEGORY_MODULES_LABEL_FI, CATEGORY_MODULES_INFO_0_FI },
     { NULL, NULL, NULL },
 };
@@ -12734,6 +14376,81 @@ struct retro_core_option_v2_definition option_defs_fi[] = {
             { NULL, NULL },
         },
         "run"
+    },
+    {
+        "vita3k_trophy_show",
+        VITA3K_TROPHY_SHOW_LABEL_FI,
+        NULL,
+        VITA3K_TROPHY_SHOW_INFO_0_FI,
+        NULL,
+        "trophies",
+        {
+            { "all", OPTION_VAL_ALL_FI },
+            { "earned", OPTION_VAL_EARNED_FI },
+            { "unearned", OPTION_VAL_UNEARNED_FI },
+            { NULL, NULL },
+        },
+        "all"
+    },
+    {
+        "vita3k_trophy_grade",
+        VITA3K_TROPHY_GRADE_LABEL_FI,
+        NULL,
+        VITA3K_TROPHY_GRADE_INFO_0_FI,
+        NULL,
+        "trophies",
+        {
+            { "all", OPTION_VAL_ALL_FI },
+            { "platinum", OPTION_VAL_PLATINUM_FI },
+            { "gold", OPTION_VAL_GOLD_FI },
+            { "silver", OPTION_VAL_SILVER_FI },
+            { "bronze", OPTION_VAL_BRONZE_FI },
+            { NULL, NULL },
+        },
+        "all"
+    },
+    {
+        "vita3k_trophy_hidden",
+        VITA3K_TROPHY_HIDDEN_LABEL_FI,
+        NULL,
+        VITA3K_TROPHY_HIDDEN_INFO_0_FI,
+        NULL,
+        "trophies",
+        {
+            { "disabled", NULL },
+            { "enabled", NULL },
+            { NULL, NULL },
+        },
+        "disabled"
+    },
+    {
+        "vita3k_trophy_sort",
+        VITA3K_TROPHY_SORT_LABEL_FI,
+        NULL,
+        VITA3K_TROPHY_SORT_INFO_0_FI,
+        NULL,
+        "trophies",
+        {
+            { "type", OPTION_VAL_TYPE_FI },
+            { "name", OPTION_VAL_NAME_FI },
+            { "date", OPTION_VAL_DATE_FI },
+            { NULL, NULL },
+        },
+        "type"
+    },
+    {
+        "vita3k_content_subdirs",
+        VITA3K_CONTENT_SUBDIRS_LABEL_FI,
+        NULL,
+        VITA3K_CONTENT_SUBDIRS_INFO_0_FI,
+        NULL,
+        "install",
+        {
+            { "disabled", NULL },
+            { "enabled", NULL },
+            { NULL, NULL },
+        },
+        "disabled"
     },
     {
         "vita3k_pstv_mode",
@@ -13158,10 +14875,14 @@ struct retro_core_options_v2 options_fi = {
 #define CATEGORY_NETWORK_INFO_0_FR NULL
 #define CATEGORY_INSTALL_LABEL_FR "Contenu"
 #define CATEGORY_INSTALL_INFO_0_FR NULL
+#define CATEGORY_REMOVE_LABEL_FR NULL
+#define CATEGORY_REMOVE_INFO_0_FR NULL
 #define CATEGORY_CAMERA_LABEL_FR "Appareil photo "
 #define CATEGORY_CAMERA_INFO_0_FR NULL
 #define CATEGORY_ACCOUNTS_LABEL_FR "Comptes"
 #define CATEGORY_ACCOUNTS_INFO_0_FR NULL
+#define CATEGORY_TROPHIES_LABEL_FR NULL
+#define CATEGORY_TROPHIES_INFO_0_FR NULL
 #define CATEGORY_MODULES_LABEL_FR NULL
 #define CATEGORY_MODULES_INFO_0_FR NULL
 #define VITA3K_BACKEND_RENDERER_LABEL_FR NULL
@@ -13208,6 +14929,26 @@ struct retro_core_options_v2 options_fi = {
 #define OPTION_VAL_RUN_FR NULL
 #define OPTION_VAL_CACHE_FR NULL
 #define OPTION_VAL_INSTALL_FR NULL
+#define VITA3K_TROPHY_SHOW_LABEL_FR NULL
+#define VITA3K_TROPHY_SHOW_INFO_0_FR NULL
+#define OPTION_VAL_ALL_FR "Tous"
+#define OPTION_VAL_EARNED_FR NULL
+#define OPTION_VAL_UNEARNED_FR NULL
+#define VITA3K_TROPHY_GRADE_LABEL_FR NULL
+#define VITA3K_TROPHY_GRADE_INFO_0_FR NULL
+#define OPTION_VAL_PLATINUM_FR NULL
+#define OPTION_VAL_GOLD_FR NULL
+#define OPTION_VAL_SILVER_FR NULL
+#define OPTION_VAL_BRONZE_FR NULL
+#define VITA3K_TROPHY_HIDDEN_LABEL_FR NULL
+#define VITA3K_TROPHY_HIDDEN_INFO_0_FR NULL
+#define VITA3K_TROPHY_SORT_LABEL_FR NULL
+#define VITA3K_TROPHY_SORT_INFO_0_FR NULL
+#define OPTION_VAL_TYPE_FR NULL
+#define OPTION_VAL_NAME_FR NULL
+#define OPTION_VAL_DATE_FR NULL
+#define VITA3K_CONTENT_SUBDIRS_LABEL_FR NULL
+#define VITA3K_CONTENT_SUBDIRS_INFO_0_FR NULL
 #define VITA3K_PSTV_MODE_LABEL_FR NULL
 #define VITA3K_PSTV_MODE_INFO_0_FR NULL
 #define VITA3K_MODULES_MODE_LABEL_FR NULL
@@ -13331,8 +15072,10 @@ struct retro_core_option_v2_category option_cats_fr[] = {
     { "audio", CATEGORY_AUDIO_LABEL_FR, CATEGORY_AUDIO_INFO_0_FR },
     { "network", CATEGORY_NETWORK_LABEL_FR, CATEGORY_NETWORK_INFO_0_FR },
     { "install", CATEGORY_INSTALL_LABEL_FR, CATEGORY_INSTALL_INFO_0_FR },
+    { "remove", CATEGORY_REMOVE_LABEL_FR, CATEGORY_REMOVE_INFO_0_FR },
     { "camera", CATEGORY_CAMERA_LABEL_FR, CATEGORY_CAMERA_INFO_0_FR },
     { "accounts", CATEGORY_ACCOUNTS_LABEL_FR, CATEGORY_ACCOUNTS_INFO_0_FR },
+    { "trophies", CATEGORY_TROPHIES_LABEL_FR, CATEGORY_TROPHIES_INFO_0_FR },
     { "modules", CATEGORY_MODULES_LABEL_FR, CATEGORY_MODULES_INFO_0_FR },
     { NULL, NULL, NULL },
 };
@@ -13505,6 +15248,81 @@ struct retro_core_option_v2_definition option_defs_fr[] = {
             { NULL, NULL },
         },
         "run"
+    },
+    {
+        "vita3k_trophy_show",
+        VITA3K_TROPHY_SHOW_LABEL_FR,
+        NULL,
+        VITA3K_TROPHY_SHOW_INFO_0_FR,
+        NULL,
+        "trophies",
+        {
+            { "all", OPTION_VAL_ALL_FR },
+            { "earned", OPTION_VAL_EARNED_FR },
+            { "unearned", OPTION_VAL_UNEARNED_FR },
+            { NULL, NULL },
+        },
+        "all"
+    },
+    {
+        "vita3k_trophy_grade",
+        VITA3K_TROPHY_GRADE_LABEL_FR,
+        NULL,
+        VITA3K_TROPHY_GRADE_INFO_0_FR,
+        NULL,
+        "trophies",
+        {
+            { "all", OPTION_VAL_ALL_FR },
+            { "platinum", OPTION_VAL_PLATINUM_FR },
+            { "gold", OPTION_VAL_GOLD_FR },
+            { "silver", OPTION_VAL_SILVER_FR },
+            { "bronze", OPTION_VAL_BRONZE_FR },
+            { NULL, NULL },
+        },
+        "all"
+    },
+    {
+        "vita3k_trophy_hidden",
+        VITA3K_TROPHY_HIDDEN_LABEL_FR,
+        NULL,
+        VITA3K_TROPHY_HIDDEN_INFO_0_FR,
+        NULL,
+        "trophies",
+        {
+            { "disabled", NULL },
+            { "enabled", NULL },
+            { NULL, NULL },
+        },
+        "disabled"
+    },
+    {
+        "vita3k_trophy_sort",
+        VITA3K_TROPHY_SORT_LABEL_FR,
+        NULL,
+        VITA3K_TROPHY_SORT_INFO_0_FR,
+        NULL,
+        "trophies",
+        {
+            { "type", OPTION_VAL_TYPE_FR },
+            { "name", OPTION_VAL_NAME_FR },
+            { "date", OPTION_VAL_DATE_FR },
+            { NULL, NULL },
+        },
+        "type"
+    },
+    {
+        "vita3k_content_subdirs",
+        VITA3K_CONTENT_SUBDIRS_LABEL_FR,
+        NULL,
+        VITA3K_CONTENT_SUBDIRS_INFO_0_FR,
+        NULL,
+        "install",
+        {
+            { "disabled", NULL },
+            { "enabled", NULL },
+            { NULL, NULL },
+        },
+        "disabled"
     },
     {
         "vita3k_pstv_mode",
@@ -13928,13 +15746,17 @@ struct retro_core_options_v2 options_fr = {
 #define CATEGORY_NETWORK_LABEL_GA "Líonra"
 #define CATEGORY_NETWORK_INFO_0_GA "Roghanna líonra."
 #define CATEGORY_INSTALL_LABEL_GA "Ábhar"
-#define CATEGORY_INSTALL_INFO_0_GA "An chaoi a luchtútar cluiche, nuashonrú agus DLCanna."
+#define CATEGORY_INSTALL_INFO_0_GA "Bainistigh sonraí do theideal ar leith, chomh maith le haon nuashonruithe agus ábhar in-íoslódáilte."
+#define CATEGORY_REMOVE_LABEL_GA "Bain Ábhar"
+#define CATEGORY_REMOVE_INFO_0_GA "Roghnaíonn sé teidil a bhfuil sonraí suiteáilte agus taisce acu le scriosadh nuair a dhúntar nó nuair a athshocraítear an croí. Ní bhaineann sé na meáin bhunaidh, na comhaid shábhála, ná na trófaithe amach."
 #define CATEGORY_CAMERA_LABEL_GA "Ceamara"
 #define CATEGORY_CAMERA_INFO_0_GA "An rud a fheiceann ceamaraí tosaigh agus cúil an Vita."
 #define CATEGORY_ACCOUNTS_LABEL_GA "Cuntais"
 #define CATEGORY_ACCOUNTS_INFO_0_GA "Cuntais (úsáideoirí) an Vita in ux0/user, gach ceann acu lena shábháilchomhaid agus a thrófaithe féin."
+#define CATEGORY_TROPHIES_LABEL_GA "Trófaithe"
+#define CATEGORY_TROPHIES_INFO_0_GA "Trófaithe an teidil reatha."
 #define CATEGORY_MODULES_LABEL_GA "Modúil"
-#define CATEGORY_MODULES_INFO_0_GA "Na modúil firmware (vs0/sys/external) atá le luchtú nuair atá an Mód Modúl socraithe ar 'Uathoibríoch & Lámhleabhar' nó ar 'Lámhleabhar'."
+#define CATEGORY_MODULES_INFO_0_GA "Na modúil sa bhogearraíra (vs0/sys/external) atá le luchtú nuair atá an Mód Modúl (sa Chóras) socraithe ar 'Uathoibríoch & Lámhleabhar' nó ar 'Lámhleabhar'."
 #define VITA3K_BACKEND_RENDERER_LABEL_GA "Rindreálaí Cúil"
 #define VITA3K_BACKEND_RENDERER_INFO_0_GA "Roghnaigh an t-inneall grafaicí. Moltar Vulkan."
 #define OPTION_VAL_VULKAN_GA NULL
@@ -13974,11 +15796,31 @@ struct retro_core_options_v2 options_fr = {
 #define VITA3K_HIGH_ACCURACY_INFO_0_GA "Cumasaigh teicnící rindreála atá níos cruinne ach níos moille."
 #define VITA3K_CPU_OPT_LABEL_GA "Optamuithe LAP (Dynarmic JIT)"
 #define VITA3K_CPU_OPT_INFO_0_GA "Cumasaigh Dynarmic JIT le haghaidh aithris LAP níos tapúla."
-#define VITA3K_PKG_MODE_LABEL_GA "Réamh-lódáil Cluiche"
-#define VITA3K_PKG_MODE_INFO_0_GA "Leanann an t-ábhar ar fad an socrú seo, seachas nuashonruithe agus DLC a shuiteáiltear go héigeantach (a luchtú de láimh). Rith gan Suiteáil: léitear sonraí ó chomhad, ní choinnítear aon rud. Taisce Bhuan: mar an gcéanna, ach coinnítear an t-ábhar a léadh. Suiteáil: cóipeáiltear na comhaid ar fad chun go dtosóidh an clár níos tapúla."
-#define OPTION_VAL_RUN_GA "Rith gan a shuiteáil"
-#define OPTION_VAL_CACHE_GA "Taisce Bhuan"
-#define OPTION_VAL_INSTALL_GA "Suiteáil"
+#define VITA3K_PKG_MODE_LABEL_GA "Mód Rith"
+#define VITA3K_PKG_MODE_INFO_0_GA "Conas a ritheann teideal, a nuashonruithe agus a ábhar in-íoslódála (DLC). Cumasaíonn sé nuashonruithe agus DLC in eolaire teidil de réir réamhshocraithe. Is féidir iad a luchtú ó áit eile freisin, rud a shuiteálann iad is cuma cén Mód Rith atá i gceist.\n\nDíreach: Rith sé go díreach ón meán bunaidh.\nDíreach le Taisce: Mar an gcéanna le Díreach, ach déanann an croí-taisce léachtaí a stóráil chuig stóráil áitiúil. Cuidíonn sé seo le feidhmíocht i gcásanna áirithe, mar shampla agus rochtain á fháil ar mheáin ar chomhroinnt líonra ard-latency.\nSuiteáilte: Suiteálann sé na meáin bhunaidh nuair a luchtaítear iad den chéad uair, agus ritheann sé iad ó stóráil áitiúil."
+#define OPTION_VAL_RUN_GA "Díreach"
+#define OPTION_VAL_CACHE_GA "Go díreach le taisce"
+#define OPTION_VAL_INSTALL_GA "Suiteáilte"
+#define VITA3K_TROPHY_SHOW_LABEL_GA "Taispeáin: Stádas a Thuilleamh"
+#define VITA3K_TROPHY_SHOW_INFO_0_GA "Rialaíonn sé cé na trófaithe a thaispeántar, bunaithe ar an gceist an bhfuil siad tuillte nó nach bhfuil."
+#define OPTION_VAL_ALL_GA "Gach"
+#define OPTION_VAL_EARNED_GA "Tuillte"
+#define OPTION_VAL_UNEARNED_GA "Gan a bheith tuillte"
+#define VITA3K_TROPHY_GRADE_LABEL_GA "Taispeáin: Grád"
+#define VITA3K_TROPHY_GRADE_INFO_0_GA "Rialaíonn sé cé na trófaithe a thaispeántar, bunaithe ar a ngrád (Platanam, Ór, Airgead nó Cré-umha)."
+#define OPTION_VAL_PLATINUM_GA "Platanam"
+#define OPTION_VAL_GOLD_GA "Ór"
+#define OPTION_VAL_SILVER_GA "Airgead"
+#define OPTION_VAL_BRONZE_GA "Cré-umha"
+#define VITA3K_TROPHY_HIDDEN_LABEL_GA "Taispeáint: I bhfolach"
+#define VITA3K_TROPHY_HIDDEN_INFO_0_GA "Rialaíonn sé taispeáint trófaithe folaithe."
+#define VITA3K_TROPHY_SORT_LABEL_GA "Modh Sórtála"
+#define VITA3K_TROPHY_SORT_INFO_0_GA "Rialaíonn sé an chaoi a ndéantar trófaithe a shórtáil."
+#define OPTION_VAL_TYPE_GA "De réir Gráid"
+#define OPTION_VAL_NAME_GA "De réir Ainm"
+#define OPTION_VAL_DATE_GA "De réir Dáta Tuillimh"
+#define VITA3K_CONTENT_SUBDIRS_LABEL_GA "Cuir Fo-eolairí san Áireamh"
+#define VITA3K_CONTENT_SUBDIRS_INFO_0_GA "AR: Lódálann sé nuashonruithe agus DLC i bhfillteán an teidil agus ina fho-fhillteáin.\nAS: Lódálann sé nuashonruithe agus DLC i bhfillteán an teidil amháin."
 #define VITA3K_PSTV_MODE_LABEL_GA "Mód PS TV"
 #define VITA3K_PSTV_MODE_INFO_0_GA "Déan aithris ar PlayStation TV in áit PS Vita."
 #define VITA3K_MODULES_MODE_LABEL_GA "Mód na Modúl"
@@ -14102,8 +15944,10 @@ struct retro_core_option_v2_category option_cats_ga[] = {
     { "audio", CATEGORY_AUDIO_LABEL_GA, CATEGORY_AUDIO_INFO_0_GA },
     { "network", CATEGORY_NETWORK_LABEL_GA, CATEGORY_NETWORK_INFO_0_GA },
     { "install", CATEGORY_INSTALL_LABEL_GA, CATEGORY_INSTALL_INFO_0_GA },
+    { "remove", CATEGORY_REMOVE_LABEL_GA, CATEGORY_REMOVE_INFO_0_GA },
     { "camera", CATEGORY_CAMERA_LABEL_GA, CATEGORY_CAMERA_INFO_0_GA },
     { "accounts", CATEGORY_ACCOUNTS_LABEL_GA, CATEGORY_ACCOUNTS_INFO_0_GA },
+    { "trophies", CATEGORY_TROPHIES_LABEL_GA, CATEGORY_TROPHIES_INFO_0_GA },
     { "modules", CATEGORY_MODULES_LABEL_GA, CATEGORY_MODULES_INFO_0_GA },
     { NULL, NULL, NULL },
 };
@@ -14276,6 +16120,81 @@ struct retro_core_option_v2_definition option_defs_ga[] = {
             { NULL, NULL },
         },
         "run"
+    },
+    {
+        "vita3k_trophy_show",
+        VITA3K_TROPHY_SHOW_LABEL_GA,
+        NULL,
+        VITA3K_TROPHY_SHOW_INFO_0_GA,
+        NULL,
+        "trophies",
+        {
+            { "all", OPTION_VAL_ALL_GA },
+            { "earned", OPTION_VAL_EARNED_GA },
+            { "unearned", OPTION_VAL_UNEARNED_GA },
+            { NULL, NULL },
+        },
+        "all"
+    },
+    {
+        "vita3k_trophy_grade",
+        VITA3K_TROPHY_GRADE_LABEL_GA,
+        NULL,
+        VITA3K_TROPHY_GRADE_INFO_0_GA,
+        NULL,
+        "trophies",
+        {
+            { "all", OPTION_VAL_ALL_GA },
+            { "platinum", OPTION_VAL_PLATINUM_GA },
+            { "gold", OPTION_VAL_GOLD_GA },
+            { "silver", OPTION_VAL_SILVER_GA },
+            { "bronze", OPTION_VAL_BRONZE_GA },
+            { NULL, NULL },
+        },
+        "all"
+    },
+    {
+        "vita3k_trophy_hidden",
+        VITA3K_TROPHY_HIDDEN_LABEL_GA,
+        NULL,
+        VITA3K_TROPHY_HIDDEN_INFO_0_GA,
+        NULL,
+        "trophies",
+        {
+            { "disabled", NULL },
+            { "enabled", NULL },
+            { NULL, NULL },
+        },
+        "disabled"
+    },
+    {
+        "vita3k_trophy_sort",
+        VITA3K_TROPHY_SORT_LABEL_GA,
+        NULL,
+        VITA3K_TROPHY_SORT_INFO_0_GA,
+        NULL,
+        "trophies",
+        {
+            { "type", OPTION_VAL_TYPE_GA },
+            { "name", OPTION_VAL_NAME_GA },
+            { "date", OPTION_VAL_DATE_GA },
+            { NULL, NULL },
+        },
+        "type"
+    },
+    {
+        "vita3k_content_subdirs",
+        VITA3K_CONTENT_SUBDIRS_LABEL_GA,
+        NULL,
+        VITA3K_CONTENT_SUBDIRS_INFO_0_GA,
+        NULL,
+        "install",
+        {
+            { "disabled", NULL },
+            { "enabled", NULL },
+            { NULL, NULL },
+        },
+        "disabled"
     },
     {
         "vita3k_pstv_mode",
@@ -14700,10 +16619,14 @@ struct retro_core_options_v2 options_ga = {
 #define CATEGORY_NETWORK_INFO_0_GL NULL
 #define CATEGORY_INSTALL_LABEL_GL "Contido"
 #define CATEGORY_INSTALL_INFO_0_GL NULL
+#define CATEGORY_REMOVE_LABEL_GL NULL
+#define CATEGORY_REMOVE_INFO_0_GL NULL
 #define CATEGORY_CAMERA_LABEL_GL "Cámara"
 #define CATEGORY_CAMERA_INFO_0_GL NULL
 #define CATEGORY_ACCOUNTS_LABEL_GL "Contas"
 #define CATEGORY_ACCOUNTS_INFO_0_GL NULL
+#define CATEGORY_TROPHIES_LABEL_GL NULL
+#define CATEGORY_TROPHIES_INFO_0_GL NULL
 #define CATEGORY_MODULES_LABEL_GL NULL
 #define CATEGORY_MODULES_INFO_0_GL NULL
 #define VITA3K_BACKEND_RENDERER_LABEL_GL NULL
@@ -14750,6 +16673,26 @@ struct retro_core_options_v2 options_ga = {
 #define OPTION_VAL_RUN_GL NULL
 #define OPTION_VAL_CACHE_GL NULL
 #define OPTION_VAL_INSTALL_GL NULL
+#define VITA3K_TROPHY_SHOW_LABEL_GL NULL
+#define VITA3K_TROPHY_SHOW_INFO_0_GL NULL
+#define OPTION_VAL_ALL_GL "Todo"
+#define OPTION_VAL_EARNED_GL NULL
+#define OPTION_VAL_UNEARNED_GL NULL
+#define VITA3K_TROPHY_GRADE_LABEL_GL NULL
+#define VITA3K_TROPHY_GRADE_INFO_0_GL NULL
+#define OPTION_VAL_PLATINUM_GL NULL
+#define OPTION_VAL_GOLD_GL NULL
+#define OPTION_VAL_SILVER_GL NULL
+#define OPTION_VAL_BRONZE_GL NULL
+#define VITA3K_TROPHY_HIDDEN_LABEL_GL NULL
+#define VITA3K_TROPHY_HIDDEN_INFO_0_GL NULL
+#define VITA3K_TROPHY_SORT_LABEL_GL NULL
+#define VITA3K_TROPHY_SORT_INFO_0_GL NULL
+#define OPTION_VAL_TYPE_GL NULL
+#define OPTION_VAL_NAME_GL NULL
+#define OPTION_VAL_DATE_GL NULL
+#define VITA3K_CONTENT_SUBDIRS_LABEL_GL NULL
+#define VITA3K_CONTENT_SUBDIRS_INFO_0_GL NULL
 #define VITA3K_PSTV_MODE_LABEL_GL NULL
 #define VITA3K_PSTV_MODE_INFO_0_GL NULL
 #define VITA3K_MODULES_MODE_LABEL_GL NULL
@@ -14873,8 +16816,10 @@ struct retro_core_option_v2_category option_cats_gl[] = {
     { "audio", CATEGORY_AUDIO_LABEL_GL, CATEGORY_AUDIO_INFO_0_GL },
     { "network", CATEGORY_NETWORK_LABEL_GL, CATEGORY_NETWORK_INFO_0_GL },
     { "install", CATEGORY_INSTALL_LABEL_GL, CATEGORY_INSTALL_INFO_0_GL },
+    { "remove", CATEGORY_REMOVE_LABEL_GL, CATEGORY_REMOVE_INFO_0_GL },
     { "camera", CATEGORY_CAMERA_LABEL_GL, CATEGORY_CAMERA_INFO_0_GL },
     { "accounts", CATEGORY_ACCOUNTS_LABEL_GL, CATEGORY_ACCOUNTS_INFO_0_GL },
+    { "trophies", CATEGORY_TROPHIES_LABEL_GL, CATEGORY_TROPHIES_INFO_0_GL },
     { "modules", CATEGORY_MODULES_LABEL_GL, CATEGORY_MODULES_INFO_0_GL },
     { NULL, NULL, NULL },
 };
@@ -15047,6 +16992,81 @@ struct retro_core_option_v2_definition option_defs_gl[] = {
             { NULL, NULL },
         },
         "run"
+    },
+    {
+        "vita3k_trophy_show",
+        VITA3K_TROPHY_SHOW_LABEL_GL,
+        NULL,
+        VITA3K_TROPHY_SHOW_INFO_0_GL,
+        NULL,
+        "trophies",
+        {
+            { "all", OPTION_VAL_ALL_GL },
+            { "earned", OPTION_VAL_EARNED_GL },
+            { "unearned", OPTION_VAL_UNEARNED_GL },
+            { NULL, NULL },
+        },
+        "all"
+    },
+    {
+        "vita3k_trophy_grade",
+        VITA3K_TROPHY_GRADE_LABEL_GL,
+        NULL,
+        VITA3K_TROPHY_GRADE_INFO_0_GL,
+        NULL,
+        "trophies",
+        {
+            { "all", OPTION_VAL_ALL_GL },
+            { "platinum", OPTION_VAL_PLATINUM_GL },
+            { "gold", OPTION_VAL_GOLD_GL },
+            { "silver", OPTION_VAL_SILVER_GL },
+            { "bronze", OPTION_VAL_BRONZE_GL },
+            { NULL, NULL },
+        },
+        "all"
+    },
+    {
+        "vita3k_trophy_hidden",
+        VITA3K_TROPHY_HIDDEN_LABEL_GL,
+        NULL,
+        VITA3K_TROPHY_HIDDEN_INFO_0_GL,
+        NULL,
+        "trophies",
+        {
+            { "disabled", NULL },
+            { "enabled", NULL },
+            { NULL, NULL },
+        },
+        "disabled"
+    },
+    {
+        "vita3k_trophy_sort",
+        VITA3K_TROPHY_SORT_LABEL_GL,
+        NULL,
+        VITA3K_TROPHY_SORT_INFO_0_GL,
+        NULL,
+        "trophies",
+        {
+            { "type", OPTION_VAL_TYPE_GL },
+            { "name", OPTION_VAL_NAME_GL },
+            { "date", OPTION_VAL_DATE_GL },
+            { NULL, NULL },
+        },
+        "type"
+    },
+    {
+        "vita3k_content_subdirs",
+        VITA3K_CONTENT_SUBDIRS_LABEL_GL,
+        NULL,
+        VITA3K_CONTENT_SUBDIRS_INFO_0_GL,
+        NULL,
+        "install",
+        {
+            { "disabled", NULL },
+            { "enabled", NULL },
+            { NULL, NULL },
+        },
+        "disabled"
     },
     {
         "vita3k_pstv_mode",
@@ -15471,10 +17491,14 @@ struct retro_core_options_v2 options_gl = {
 #define CATEGORY_NETWORK_INFO_0_HE NULL
 #define CATEGORY_INSTALL_LABEL_HE NULL
 #define CATEGORY_INSTALL_INFO_0_HE NULL
+#define CATEGORY_REMOVE_LABEL_HE NULL
+#define CATEGORY_REMOVE_INFO_0_HE NULL
 #define CATEGORY_CAMERA_LABEL_HE "מצלמה"
 #define CATEGORY_CAMERA_INFO_0_HE NULL
 #define CATEGORY_ACCOUNTS_LABEL_HE NULL
 #define CATEGORY_ACCOUNTS_INFO_0_HE NULL
+#define CATEGORY_TROPHIES_LABEL_HE NULL
+#define CATEGORY_TROPHIES_INFO_0_HE NULL
 #define CATEGORY_MODULES_LABEL_HE NULL
 #define CATEGORY_MODULES_INFO_0_HE NULL
 #define VITA3K_BACKEND_RENDERER_LABEL_HE NULL
@@ -15521,6 +17545,26 @@ struct retro_core_options_v2 options_gl = {
 #define OPTION_VAL_RUN_HE NULL
 #define OPTION_VAL_CACHE_HE NULL
 #define OPTION_VAL_INSTALL_HE NULL
+#define VITA3K_TROPHY_SHOW_LABEL_HE NULL
+#define VITA3K_TROPHY_SHOW_INFO_0_HE NULL
+#define OPTION_VAL_ALL_HE NULL
+#define OPTION_VAL_EARNED_HE NULL
+#define OPTION_VAL_UNEARNED_HE NULL
+#define VITA3K_TROPHY_GRADE_LABEL_HE NULL
+#define VITA3K_TROPHY_GRADE_INFO_0_HE NULL
+#define OPTION_VAL_PLATINUM_HE NULL
+#define OPTION_VAL_GOLD_HE NULL
+#define OPTION_VAL_SILVER_HE NULL
+#define OPTION_VAL_BRONZE_HE NULL
+#define VITA3K_TROPHY_HIDDEN_LABEL_HE NULL
+#define VITA3K_TROPHY_HIDDEN_INFO_0_HE NULL
+#define VITA3K_TROPHY_SORT_LABEL_HE NULL
+#define VITA3K_TROPHY_SORT_INFO_0_HE NULL
+#define OPTION_VAL_TYPE_HE NULL
+#define OPTION_VAL_NAME_HE NULL
+#define OPTION_VAL_DATE_HE NULL
+#define VITA3K_CONTENT_SUBDIRS_LABEL_HE NULL
+#define VITA3K_CONTENT_SUBDIRS_INFO_0_HE NULL
 #define VITA3K_PSTV_MODE_LABEL_HE NULL
 #define VITA3K_PSTV_MODE_INFO_0_HE NULL
 #define VITA3K_MODULES_MODE_LABEL_HE NULL
@@ -15644,8 +17688,10 @@ struct retro_core_option_v2_category option_cats_he[] = {
     { "audio", CATEGORY_AUDIO_LABEL_HE, CATEGORY_AUDIO_INFO_0_HE },
     { "network", CATEGORY_NETWORK_LABEL_HE, CATEGORY_NETWORK_INFO_0_HE },
     { "install", CATEGORY_INSTALL_LABEL_HE, CATEGORY_INSTALL_INFO_0_HE },
+    { "remove", CATEGORY_REMOVE_LABEL_HE, CATEGORY_REMOVE_INFO_0_HE },
     { "camera", CATEGORY_CAMERA_LABEL_HE, CATEGORY_CAMERA_INFO_0_HE },
     { "accounts", CATEGORY_ACCOUNTS_LABEL_HE, CATEGORY_ACCOUNTS_INFO_0_HE },
+    { "trophies", CATEGORY_TROPHIES_LABEL_HE, CATEGORY_TROPHIES_INFO_0_HE },
     { "modules", CATEGORY_MODULES_LABEL_HE, CATEGORY_MODULES_INFO_0_HE },
     { NULL, NULL, NULL },
 };
@@ -15818,6 +17864,81 @@ struct retro_core_option_v2_definition option_defs_he[] = {
             { NULL, NULL },
         },
         "run"
+    },
+    {
+        "vita3k_trophy_show",
+        VITA3K_TROPHY_SHOW_LABEL_HE,
+        NULL,
+        VITA3K_TROPHY_SHOW_INFO_0_HE,
+        NULL,
+        "trophies",
+        {
+            { "all", OPTION_VAL_ALL_HE },
+            { "earned", OPTION_VAL_EARNED_HE },
+            { "unearned", OPTION_VAL_UNEARNED_HE },
+            { NULL, NULL },
+        },
+        "all"
+    },
+    {
+        "vita3k_trophy_grade",
+        VITA3K_TROPHY_GRADE_LABEL_HE,
+        NULL,
+        VITA3K_TROPHY_GRADE_INFO_0_HE,
+        NULL,
+        "trophies",
+        {
+            { "all", OPTION_VAL_ALL_HE },
+            { "platinum", OPTION_VAL_PLATINUM_HE },
+            { "gold", OPTION_VAL_GOLD_HE },
+            { "silver", OPTION_VAL_SILVER_HE },
+            { "bronze", OPTION_VAL_BRONZE_HE },
+            { NULL, NULL },
+        },
+        "all"
+    },
+    {
+        "vita3k_trophy_hidden",
+        VITA3K_TROPHY_HIDDEN_LABEL_HE,
+        NULL,
+        VITA3K_TROPHY_HIDDEN_INFO_0_HE,
+        NULL,
+        "trophies",
+        {
+            { "disabled", NULL },
+            { "enabled", NULL },
+            { NULL, NULL },
+        },
+        "disabled"
+    },
+    {
+        "vita3k_trophy_sort",
+        VITA3K_TROPHY_SORT_LABEL_HE,
+        NULL,
+        VITA3K_TROPHY_SORT_INFO_0_HE,
+        NULL,
+        "trophies",
+        {
+            { "type", OPTION_VAL_TYPE_HE },
+            { "name", OPTION_VAL_NAME_HE },
+            { "date", OPTION_VAL_DATE_HE },
+            { NULL, NULL },
+        },
+        "type"
+    },
+    {
+        "vita3k_content_subdirs",
+        VITA3K_CONTENT_SUBDIRS_LABEL_HE,
+        NULL,
+        VITA3K_CONTENT_SUBDIRS_INFO_0_HE,
+        NULL,
+        "install",
+        {
+            { "disabled", NULL },
+            { "enabled", NULL },
+            { NULL, NULL },
+        },
+        "disabled"
     },
     {
         "vita3k_pstv_mode",
@@ -16242,10 +18363,14 @@ struct retro_core_options_v2 options_he = {
 #define CATEGORY_NETWORK_INFO_0_HR NULL
 #define CATEGORY_INSTALL_LABEL_HR "Sadržaj"
 #define CATEGORY_INSTALL_INFO_0_HR NULL
+#define CATEGORY_REMOVE_LABEL_HR NULL
+#define CATEGORY_REMOVE_INFO_0_HR NULL
 #define CATEGORY_CAMERA_LABEL_HR NULL
 #define CATEGORY_CAMERA_INFO_0_HR NULL
 #define CATEGORY_ACCOUNTS_LABEL_HR NULL
 #define CATEGORY_ACCOUNTS_INFO_0_HR NULL
+#define CATEGORY_TROPHIES_LABEL_HR NULL
+#define CATEGORY_TROPHIES_INFO_0_HR NULL
 #define CATEGORY_MODULES_LABEL_HR NULL
 #define CATEGORY_MODULES_INFO_0_HR NULL
 #define VITA3K_BACKEND_RENDERER_LABEL_HR NULL
@@ -16292,6 +18417,26 @@ struct retro_core_options_v2 options_he = {
 #define OPTION_VAL_RUN_HR NULL
 #define OPTION_VAL_CACHE_HR NULL
 #define OPTION_VAL_INSTALL_HR NULL
+#define VITA3K_TROPHY_SHOW_LABEL_HR NULL
+#define VITA3K_TROPHY_SHOW_INFO_0_HR NULL
+#define OPTION_VAL_ALL_HR NULL
+#define OPTION_VAL_EARNED_HR NULL
+#define OPTION_VAL_UNEARNED_HR NULL
+#define VITA3K_TROPHY_GRADE_LABEL_HR NULL
+#define VITA3K_TROPHY_GRADE_INFO_0_HR NULL
+#define OPTION_VAL_PLATINUM_HR NULL
+#define OPTION_VAL_GOLD_HR NULL
+#define OPTION_VAL_SILVER_HR NULL
+#define OPTION_VAL_BRONZE_HR NULL
+#define VITA3K_TROPHY_HIDDEN_LABEL_HR NULL
+#define VITA3K_TROPHY_HIDDEN_INFO_0_HR NULL
+#define VITA3K_TROPHY_SORT_LABEL_HR NULL
+#define VITA3K_TROPHY_SORT_INFO_0_HR NULL
+#define OPTION_VAL_TYPE_HR NULL
+#define OPTION_VAL_NAME_HR NULL
+#define OPTION_VAL_DATE_HR NULL
+#define VITA3K_CONTENT_SUBDIRS_LABEL_HR NULL
+#define VITA3K_CONTENT_SUBDIRS_INFO_0_HR NULL
 #define VITA3K_PSTV_MODE_LABEL_HR NULL
 #define VITA3K_PSTV_MODE_INFO_0_HR NULL
 #define VITA3K_MODULES_MODE_LABEL_HR NULL
@@ -16415,8 +18560,10 @@ struct retro_core_option_v2_category option_cats_hr[] = {
     { "audio", CATEGORY_AUDIO_LABEL_HR, CATEGORY_AUDIO_INFO_0_HR },
     { "network", CATEGORY_NETWORK_LABEL_HR, CATEGORY_NETWORK_INFO_0_HR },
     { "install", CATEGORY_INSTALL_LABEL_HR, CATEGORY_INSTALL_INFO_0_HR },
+    { "remove", CATEGORY_REMOVE_LABEL_HR, CATEGORY_REMOVE_INFO_0_HR },
     { "camera", CATEGORY_CAMERA_LABEL_HR, CATEGORY_CAMERA_INFO_0_HR },
     { "accounts", CATEGORY_ACCOUNTS_LABEL_HR, CATEGORY_ACCOUNTS_INFO_0_HR },
+    { "trophies", CATEGORY_TROPHIES_LABEL_HR, CATEGORY_TROPHIES_INFO_0_HR },
     { "modules", CATEGORY_MODULES_LABEL_HR, CATEGORY_MODULES_INFO_0_HR },
     { NULL, NULL, NULL },
 };
@@ -16589,6 +18736,81 @@ struct retro_core_option_v2_definition option_defs_hr[] = {
             { NULL, NULL },
         },
         "run"
+    },
+    {
+        "vita3k_trophy_show",
+        VITA3K_TROPHY_SHOW_LABEL_HR,
+        NULL,
+        VITA3K_TROPHY_SHOW_INFO_0_HR,
+        NULL,
+        "trophies",
+        {
+            { "all", OPTION_VAL_ALL_HR },
+            { "earned", OPTION_VAL_EARNED_HR },
+            { "unearned", OPTION_VAL_UNEARNED_HR },
+            { NULL, NULL },
+        },
+        "all"
+    },
+    {
+        "vita3k_trophy_grade",
+        VITA3K_TROPHY_GRADE_LABEL_HR,
+        NULL,
+        VITA3K_TROPHY_GRADE_INFO_0_HR,
+        NULL,
+        "trophies",
+        {
+            { "all", OPTION_VAL_ALL_HR },
+            { "platinum", OPTION_VAL_PLATINUM_HR },
+            { "gold", OPTION_VAL_GOLD_HR },
+            { "silver", OPTION_VAL_SILVER_HR },
+            { "bronze", OPTION_VAL_BRONZE_HR },
+            { NULL, NULL },
+        },
+        "all"
+    },
+    {
+        "vita3k_trophy_hidden",
+        VITA3K_TROPHY_HIDDEN_LABEL_HR,
+        NULL,
+        VITA3K_TROPHY_HIDDEN_INFO_0_HR,
+        NULL,
+        "trophies",
+        {
+            { "disabled", NULL },
+            { "enabled", NULL },
+            { NULL, NULL },
+        },
+        "disabled"
+    },
+    {
+        "vita3k_trophy_sort",
+        VITA3K_TROPHY_SORT_LABEL_HR,
+        NULL,
+        VITA3K_TROPHY_SORT_INFO_0_HR,
+        NULL,
+        "trophies",
+        {
+            { "type", OPTION_VAL_TYPE_HR },
+            { "name", OPTION_VAL_NAME_HR },
+            { "date", OPTION_VAL_DATE_HR },
+            { NULL, NULL },
+        },
+        "type"
+    },
+    {
+        "vita3k_content_subdirs",
+        VITA3K_CONTENT_SUBDIRS_LABEL_HR,
+        NULL,
+        VITA3K_CONTENT_SUBDIRS_INFO_0_HR,
+        NULL,
+        "install",
+        {
+            { "disabled", NULL },
+            { "enabled", NULL },
+            { NULL, NULL },
+        },
+        "disabled"
     },
     {
         "vita3k_pstv_mode",
@@ -17013,10 +19235,14 @@ struct retro_core_options_v2 options_hr = {
 #define CATEGORY_NETWORK_INFO_0_HU NULL
 #define CATEGORY_INSTALL_LABEL_HU "Tartalom"
 #define CATEGORY_INSTALL_INFO_0_HU NULL
+#define CATEGORY_REMOVE_LABEL_HU NULL
+#define CATEGORY_REMOVE_INFO_0_HU NULL
 #define CATEGORY_CAMERA_LABEL_HU "Kamera"
 #define CATEGORY_CAMERA_INFO_0_HU NULL
 #define CATEGORY_ACCOUNTS_LABEL_HU "Fiókok"
 #define CATEGORY_ACCOUNTS_INFO_0_HU NULL
+#define CATEGORY_TROPHIES_LABEL_HU NULL
+#define CATEGORY_TROPHIES_INFO_0_HU NULL
 #define CATEGORY_MODULES_LABEL_HU NULL
 #define CATEGORY_MODULES_INFO_0_HU NULL
 #define VITA3K_BACKEND_RENDERER_LABEL_HU NULL
@@ -17063,6 +19289,26 @@ struct retro_core_options_v2 options_hr = {
 #define OPTION_VAL_RUN_HU NULL
 #define OPTION_VAL_CACHE_HU NULL
 #define OPTION_VAL_INSTALL_HU NULL
+#define VITA3K_TROPHY_SHOW_LABEL_HU NULL
+#define VITA3K_TROPHY_SHOW_INFO_0_HU NULL
+#define OPTION_VAL_ALL_HU "Összes"
+#define OPTION_VAL_EARNED_HU NULL
+#define OPTION_VAL_UNEARNED_HU NULL
+#define VITA3K_TROPHY_GRADE_LABEL_HU NULL
+#define VITA3K_TROPHY_GRADE_INFO_0_HU NULL
+#define OPTION_VAL_PLATINUM_HU NULL
+#define OPTION_VAL_GOLD_HU NULL
+#define OPTION_VAL_SILVER_HU NULL
+#define OPTION_VAL_BRONZE_HU NULL
+#define VITA3K_TROPHY_HIDDEN_LABEL_HU NULL
+#define VITA3K_TROPHY_HIDDEN_INFO_0_HU NULL
+#define VITA3K_TROPHY_SORT_LABEL_HU NULL
+#define VITA3K_TROPHY_SORT_INFO_0_HU NULL
+#define OPTION_VAL_TYPE_HU NULL
+#define OPTION_VAL_NAME_HU NULL
+#define OPTION_VAL_DATE_HU NULL
+#define VITA3K_CONTENT_SUBDIRS_LABEL_HU NULL
+#define VITA3K_CONTENT_SUBDIRS_INFO_0_HU NULL
 #define VITA3K_PSTV_MODE_LABEL_HU NULL
 #define VITA3K_PSTV_MODE_INFO_0_HU NULL
 #define VITA3K_MODULES_MODE_LABEL_HU NULL
@@ -17186,8 +19432,10 @@ struct retro_core_option_v2_category option_cats_hu[] = {
     { "audio", CATEGORY_AUDIO_LABEL_HU, CATEGORY_AUDIO_INFO_0_HU },
     { "network", CATEGORY_NETWORK_LABEL_HU, CATEGORY_NETWORK_INFO_0_HU },
     { "install", CATEGORY_INSTALL_LABEL_HU, CATEGORY_INSTALL_INFO_0_HU },
+    { "remove", CATEGORY_REMOVE_LABEL_HU, CATEGORY_REMOVE_INFO_0_HU },
     { "camera", CATEGORY_CAMERA_LABEL_HU, CATEGORY_CAMERA_INFO_0_HU },
     { "accounts", CATEGORY_ACCOUNTS_LABEL_HU, CATEGORY_ACCOUNTS_INFO_0_HU },
+    { "trophies", CATEGORY_TROPHIES_LABEL_HU, CATEGORY_TROPHIES_INFO_0_HU },
     { "modules", CATEGORY_MODULES_LABEL_HU, CATEGORY_MODULES_INFO_0_HU },
     { NULL, NULL, NULL },
 };
@@ -17360,6 +19608,81 @@ struct retro_core_option_v2_definition option_defs_hu[] = {
             { NULL, NULL },
         },
         "run"
+    },
+    {
+        "vita3k_trophy_show",
+        VITA3K_TROPHY_SHOW_LABEL_HU,
+        NULL,
+        VITA3K_TROPHY_SHOW_INFO_0_HU,
+        NULL,
+        "trophies",
+        {
+            { "all", OPTION_VAL_ALL_HU },
+            { "earned", OPTION_VAL_EARNED_HU },
+            { "unearned", OPTION_VAL_UNEARNED_HU },
+            { NULL, NULL },
+        },
+        "all"
+    },
+    {
+        "vita3k_trophy_grade",
+        VITA3K_TROPHY_GRADE_LABEL_HU,
+        NULL,
+        VITA3K_TROPHY_GRADE_INFO_0_HU,
+        NULL,
+        "trophies",
+        {
+            { "all", OPTION_VAL_ALL_HU },
+            { "platinum", OPTION_VAL_PLATINUM_HU },
+            { "gold", OPTION_VAL_GOLD_HU },
+            { "silver", OPTION_VAL_SILVER_HU },
+            { "bronze", OPTION_VAL_BRONZE_HU },
+            { NULL, NULL },
+        },
+        "all"
+    },
+    {
+        "vita3k_trophy_hidden",
+        VITA3K_TROPHY_HIDDEN_LABEL_HU,
+        NULL,
+        VITA3K_TROPHY_HIDDEN_INFO_0_HU,
+        NULL,
+        "trophies",
+        {
+            { "disabled", NULL },
+            { "enabled", NULL },
+            { NULL, NULL },
+        },
+        "disabled"
+    },
+    {
+        "vita3k_trophy_sort",
+        VITA3K_TROPHY_SORT_LABEL_HU,
+        NULL,
+        VITA3K_TROPHY_SORT_INFO_0_HU,
+        NULL,
+        "trophies",
+        {
+            { "type", OPTION_VAL_TYPE_HU },
+            { "name", OPTION_VAL_NAME_HU },
+            { "date", OPTION_VAL_DATE_HU },
+            { NULL, NULL },
+        },
+        "type"
+    },
+    {
+        "vita3k_content_subdirs",
+        VITA3K_CONTENT_SUBDIRS_LABEL_HU,
+        NULL,
+        VITA3K_CONTENT_SUBDIRS_INFO_0_HU,
+        NULL,
+        "install",
+        {
+            { "disabled", NULL },
+            { "enabled", NULL },
+            { NULL, NULL },
+        },
+        "disabled"
     },
     {
         "vita3k_pstv_mode",
@@ -17784,10 +20107,14 @@ struct retro_core_options_v2 options_hu = {
 #define CATEGORY_NETWORK_INFO_0_ID NULL
 #define CATEGORY_INSTALL_LABEL_ID NULL
 #define CATEGORY_INSTALL_INFO_0_ID NULL
+#define CATEGORY_REMOVE_LABEL_ID NULL
+#define CATEGORY_REMOVE_INFO_0_ID NULL
 #define CATEGORY_CAMERA_LABEL_ID "Kamera"
 #define CATEGORY_CAMERA_INFO_0_ID NULL
 #define CATEGORY_ACCOUNTS_LABEL_ID NULL
 #define CATEGORY_ACCOUNTS_INFO_0_ID NULL
+#define CATEGORY_TROPHIES_LABEL_ID NULL
+#define CATEGORY_TROPHIES_INFO_0_ID NULL
 #define CATEGORY_MODULES_LABEL_ID NULL
 #define CATEGORY_MODULES_INFO_0_ID NULL
 #define VITA3K_BACKEND_RENDERER_LABEL_ID NULL
@@ -17834,6 +20161,26 @@ struct retro_core_options_v2 options_hu = {
 #define OPTION_VAL_RUN_ID NULL
 #define OPTION_VAL_CACHE_ID NULL
 #define OPTION_VAL_INSTALL_ID NULL
+#define VITA3K_TROPHY_SHOW_LABEL_ID NULL
+#define VITA3K_TROPHY_SHOW_INFO_0_ID NULL
+#define OPTION_VAL_ALL_ID NULL
+#define OPTION_VAL_EARNED_ID NULL
+#define OPTION_VAL_UNEARNED_ID NULL
+#define VITA3K_TROPHY_GRADE_LABEL_ID NULL
+#define VITA3K_TROPHY_GRADE_INFO_0_ID NULL
+#define OPTION_VAL_PLATINUM_ID NULL
+#define OPTION_VAL_GOLD_ID NULL
+#define OPTION_VAL_SILVER_ID NULL
+#define OPTION_VAL_BRONZE_ID NULL
+#define VITA3K_TROPHY_HIDDEN_LABEL_ID NULL
+#define VITA3K_TROPHY_HIDDEN_INFO_0_ID NULL
+#define VITA3K_TROPHY_SORT_LABEL_ID NULL
+#define VITA3K_TROPHY_SORT_INFO_0_ID NULL
+#define OPTION_VAL_TYPE_ID NULL
+#define OPTION_VAL_NAME_ID NULL
+#define OPTION_VAL_DATE_ID NULL
+#define VITA3K_CONTENT_SUBDIRS_LABEL_ID NULL
+#define VITA3K_CONTENT_SUBDIRS_INFO_0_ID NULL
 #define VITA3K_PSTV_MODE_LABEL_ID NULL
 #define VITA3K_PSTV_MODE_INFO_0_ID NULL
 #define VITA3K_MODULES_MODE_LABEL_ID NULL
@@ -17957,8 +20304,10 @@ struct retro_core_option_v2_category option_cats_id[] = {
     { "audio", CATEGORY_AUDIO_LABEL_ID, CATEGORY_AUDIO_INFO_0_ID },
     { "network", CATEGORY_NETWORK_LABEL_ID, CATEGORY_NETWORK_INFO_0_ID },
     { "install", CATEGORY_INSTALL_LABEL_ID, CATEGORY_INSTALL_INFO_0_ID },
+    { "remove", CATEGORY_REMOVE_LABEL_ID, CATEGORY_REMOVE_INFO_0_ID },
     { "camera", CATEGORY_CAMERA_LABEL_ID, CATEGORY_CAMERA_INFO_0_ID },
     { "accounts", CATEGORY_ACCOUNTS_LABEL_ID, CATEGORY_ACCOUNTS_INFO_0_ID },
+    { "trophies", CATEGORY_TROPHIES_LABEL_ID, CATEGORY_TROPHIES_INFO_0_ID },
     { "modules", CATEGORY_MODULES_LABEL_ID, CATEGORY_MODULES_INFO_0_ID },
     { NULL, NULL, NULL },
 };
@@ -18131,6 +20480,81 @@ struct retro_core_option_v2_definition option_defs_id[] = {
             { NULL, NULL },
         },
         "run"
+    },
+    {
+        "vita3k_trophy_show",
+        VITA3K_TROPHY_SHOW_LABEL_ID,
+        NULL,
+        VITA3K_TROPHY_SHOW_INFO_0_ID,
+        NULL,
+        "trophies",
+        {
+            { "all", OPTION_VAL_ALL_ID },
+            { "earned", OPTION_VAL_EARNED_ID },
+            { "unearned", OPTION_VAL_UNEARNED_ID },
+            { NULL, NULL },
+        },
+        "all"
+    },
+    {
+        "vita3k_trophy_grade",
+        VITA3K_TROPHY_GRADE_LABEL_ID,
+        NULL,
+        VITA3K_TROPHY_GRADE_INFO_0_ID,
+        NULL,
+        "trophies",
+        {
+            { "all", OPTION_VAL_ALL_ID },
+            { "platinum", OPTION_VAL_PLATINUM_ID },
+            { "gold", OPTION_VAL_GOLD_ID },
+            { "silver", OPTION_VAL_SILVER_ID },
+            { "bronze", OPTION_VAL_BRONZE_ID },
+            { NULL, NULL },
+        },
+        "all"
+    },
+    {
+        "vita3k_trophy_hidden",
+        VITA3K_TROPHY_HIDDEN_LABEL_ID,
+        NULL,
+        VITA3K_TROPHY_HIDDEN_INFO_0_ID,
+        NULL,
+        "trophies",
+        {
+            { "disabled", NULL },
+            { "enabled", NULL },
+            { NULL, NULL },
+        },
+        "disabled"
+    },
+    {
+        "vita3k_trophy_sort",
+        VITA3K_TROPHY_SORT_LABEL_ID,
+        NULL,
+        VITA3K_TROPHY_SORT_INFO_0_ID,
+        NULL,
+        "trophies",
+        {
+            { "type", OPTION_VAL_TYPE_ID },
+            { "name", OPTION_VAL_NAME_ID },
+            { "date", OPTION_VAL_DATE_ID },
+            { NULL, NULL },
+        },
+        "type"
+    },
+    {
+        "vita3k_content_subdirs",
+        VITA3K_CONTENT_SUBDIRS_LABEL_ID,
+        NULL,
+        VITA3K_CONTENT_SUBDIRS_INFO_0_ID,
+        NULL,
+        "install",
+        {
+            { "disabled", NULL },
+            { "enabled", NULL },
+            { NULL, NULL },
+        },
+        "disabled"
     },
     {
         "vita3k_pstv_mode",
@@ -18555,10 +20979,14 @@ struct retro_core_options_v2 options_id = {
 #define CATEGORY_NETWORK_INFO_0_IT NULL
 #define CATEGORY_INSTALL_LABEL_IT "Contenuto"
 #define CATEGORY_INSTALL_INFO_0_IT NULL
+#define CATEGORY_REMOVE_LABEL_IT NULL
+#define CATEGORY_REMOVE_INFO_0_IT NULL
 #define CATEGORY_CAMERA_LABEL_IT "Fotocamera"
 #define CATEGORY_CAMERA_INFO_0_IT NULL
 #define CATEGORY_ACCOUNTS_LABEL_IT "Account"
 #define CATEGORY_ACCOUNTS_INFO_0_IT NULL
+#define CATEGORY_TROPHIES_LABEL_IT NULL
+#define CATEGORY_TROPHIES_INFO_0_IT NULL
 #define CATEGORY_MODULES_LABEL_IT NULL
 #define CATEGORY_MODULES_INFO_0_IT NULL
 #define VITA3K_BACKEND_RENDERER_LABEL_IT NULL
@@ -18605,6 +21033,26 @@ struct retro_core_options_v2 options_id = {
 #define OPTION_VAL_RUN_IT NULL
 #define OPTION_VAL_CACHE_IT NULL
 #define OPTION_VAL_INSTALL_IT NULL
+#define VITA3K_TROPHY_SHOW_LABEL_IT NULL
+#define VITA3K_TROPHY_SHOW_INFO_0_IT NULL
+#define OPTION_VAL_ALL_IT "Tutti"
+#define OPTION_VAL_EARNED_IT NULL
+#define OPTION_VAL_UNEARNED_IT NULL
+#define VITA3K_TROPHY_GRADE_LABEL_IT NULL
+#define VITA3K_TROPHY_GRADE_INFO_0_IT NULL
+#define OPTION_VAL_PLATINUM_IT NULL
+#define OPTION_VAL_GOLD_IT NULL
+#define OPTION_VAL_SILVER_IT NULL
+#define OPTION_VAL_BRONZE_IT NULL
+#define VITA3K_TROPHY_HIDDEN_LABEL_IT NULL
+#define VITA3K_TROPHY_HIDDEN_INFO_0_IT NULL
+#define VITA3K_TROPHY_SORT_LABEL_IT NULL
+#define VITA3K_TROPHY_SORT_INFO_0_IT NULL
+#define OPTION_VAL_TYPE_IT NULL
+#define OPTION_VAL_NAME_IT NULL
+#define OPTION_VAL_DATE_IT NULL
+#define VITA3K_CONTENT_SUBDIRS_LABEL_IT NULL
+#define VITA3K_CONTENT_SUBDIRS_INFO_0_IT NULL
 #define VITA3K_PSTV_MODE_LABEL_IT NULL
 #define VITA3K_PSTV_MODE_INFO_0_IT NULL
 #define VITA3K_MODULES_MODE_LABEL_IT NULL
@@ -18728,8 +21176,10 @@ struct retro_core_option_v2_category option_cats_it[] = {
     { "audio", CATEGORY_AUDIO_LABEL_IT, CATEGORY_AUDIO_INFO_0_IT },
     { "network", CATEGORY_NETWORK_LABEL_IT, CATEGORY_NETWORK_INFO_0_IT },
     { "install", CATEGORY_INSTALL_LABEL_IT, CATEGORY_INSTALL_INFO_0_IT },
+    { "remove", CATEGORY_REMOVE_LABEL_IT, CATEGORY_REMOVE_INFO_0_IT },
     { "camera", CATEGORY_CAMERA_LABEL_IT, CATEGORY_CAMERA_INFO_0_IT },
     { "accounts", CATEGORY_ACCOUNTS_LABEL_IT, CATEGORY_ACCOUNTS_INFO_0_IT },
+    { "trophies", CATEGORY_TROPHIES_LABEL_IT, CATEGORY_TROPHIES_INFO_0_IT },
     { "modules", CATEGORY_MODULES_LABEL_IT, CATEGORY_MODULES_INFO_0_IT },
     { NULL, NULL, NULL },
 };
@@ -18902,6 +21352,81 @@ struct retro_core_option_v2_definition option_defs_it[] = {
             { NULL, NULL },
         },
         "run"
+    },
+    {
+        "vita3k_trophy_show",
+        VITA3K_TROPHY_SHOW_LABEL_IT,
+        NULL,
+        VITA3K_TROPHY_SHOW_INFO_0_IT,
+        NULL,
+        "trophies",
+        {
+            { "all", OPTION_VAL_ALL_IT },
+            { "earned", OPTION_VAL_EARNED_IT },
+            { "unearned", OPTION_VAL_UNEARNED_IT },
+            { NULL, NULL },
+        },
+        "all"
+    },
+    {
+        "vita3k_trophy_grade",
+        VITA3K_TROPHY_GRADE_LABEL_IT,
+        NULL,
+        VITA3K_TROPHY_GRADE_INFO_0_IT,
+        NULL,
+        "trophies",
+        {
+            { "all", OPTION_VAL_ALL_IT },
+            { "platinum", OPTION_VAL_PLATINUM_IT },
+            { "gold", OPTION_VAL_GOLD_IT },
+            { "silver", OPTION_VAL_SILVER_IT },
+            { "bronze", OPTION_VAL_BRONZE_IT },
+            { NULL, NULL },
+        },
+        "all"
+    },
+    {
+        "vita3k_trophy_hidden",
+        VITA3K_TROPHY_HIDDEN_LABEL_IT,
+        NULL,
+        VITA3K_TROPHY_HIDDEN_INFO_0_IT,
+        NULL,
+        "trophies",
+        {
+            { "disabled", NULL },
+            { "enabled", NULL },
+            { NULL, NULL },
+        },
+        "disabled"
+    },
+    {
+        "vita3k_trophy_sort",
+        VITA3K_TROPHY_SORT_LABEL_IT,
+        NULL,
+        VITA3K_TROPHY_SORT_INFO_0_IT,
+        NULL,
+        "trophies",
+        {
+            { "type", OPTION_VAL_TYPE_IT },
+            { "name", OPTION_VAL_NAME_IT },
+            { "date", OPTION_VAL_DATE_IT },
+            { NULL, NULL },
+        },
+        "type"
+    },
+    {
+        "vita3k_content_subdirs",
+        VITA3K_CONTENT_SUBDIRS_LABEL_IT,
+        NULL,
+        VITA3K_CONTENT_SUBDIRS_INFO_0_IT,
+        NULL,
+        "install",
+        {
+            { "disabled", NULL },
+            { "enabled", NULL },
+            { NULL, NULL },
+        },
+        "disabled"
     },
     {
         "vita3k_pstv_mode",
@@ -19326,10 +21851,14 @@ struct retro_core_options_v2 options_it = {
 #define CATEGORY_NETWORK_INFO_0_JA NULL
 #define CATEGORY_INSTALL_LABEL_JA "コンテンツ"
 #define CATEGORY_INSTALL_INFO_0_JA NULL
+#define CATEGORY_REMOVE_LABEL_JA NULL
+#define CATEGORY_REMOVE_INFO_0_JA NULL
 #define CATEGORY_CAMERA_LABEL_JA "カメラ"
 #define CATEGORY_CAMERA_INFO_0_JA NULL
 #define CATEGORY_ACCOUNTS_LABEL_JA "アカウント"
 #define CATEGORY_ACCOUNTS_INFO_0_JA NULL
+#define CATEGORY_TROPHIES_LABEL_JA NULL
+#define CATEGORY_TROPHIES_INFO_0_JA NULL
 #define CATEGORY_MODULES_LABEL_JA NULL
 #define CATEGORY_MODULES_INFO_0_JA NULL
 #define VITA3K_BACKEND_RENDERER_LABEL_JA NULL
@@ -19376,6 +21905,26 @@ struct retro_core_options_v2 options_it = {
 #define OPTION_VAL_RUN_JA NULL
 #define OPTION_VAL_CACHE_JA NULL
 #define OPTION_VAL_INSTALL_JA NULL
+#define VITA3K_TROPHY_SHOW_LABEL_JA NULL
+#define VITA3K_TROPHY_SHOW_INFO_0_JA NULL
+#define OPTION_VAL_ALL_JA "すべて"
+#define OPTION_VAL_EARNED_JA NULL
+#define OPTION_VAL_UNEARNED_JA NULL
+#define VITA3K_TROPHY_GRADE_LABEL_JA NULL
+#define VITA3K_TROPHY_GRADE_INFO_0_JA NULL
+#define OPTION_VAL_PLATINUM_JA NULL
+#define OPTION_VAL_GOLD_JA NULL
+#define OPTION_VAL_SILVER_JA NULL
+#define OPTION_VAL_BRONZE_JA NULL
+#define VITA3K_TROPHY_HIDDEN_LABEL_JA NULL
+#define VITA3K_TROPHY_HIDDEN_INFO_0_JA NULL
+#define VITA3K_TROPHY_SORT_LABEL_JA NULL
+#define VITA3K_TROPHY_SORT_INFO_0_JA NULL
+#define OPTION_VAL_TYPE_JA NULL
+#define OPTION_VAL_NAME_JA NULL
+#define OPTION_VAL_DATE_JA NULL
+#define VITA3K_CONTENT_SUBDIRS_LABEL_JA NULL
+#define VITA3K_CONTENT_SUBDIRS_INFO_0_JA NULL
 #define VITA3K_PSTV_MODE_LABEL_JA NULL
 #define VITA3K_PSTV_MODE_INFO_0_JA NULL
 #define VITA3K_MODULES_MODE_LABEL_JA NULL
@@ -19499,8 +22048,10 @@ struct retro_core_option_v2_category option_cats_ja[] = {
     { "audio", CATEGORY_AUDIO_LABEL_JA, CATEGORY_AUDIO_INFO_0_JA },
     { "network", CATEGORY_NETWORK_LABEL_JA, CATEGORY_NETWORK_INFO_0_JA },
     { "install", CATEGORY_INSTALL_LABEL_JA, CATEGORY_INSTALL_INFO_0_JA },
+    { "remove", CATEGORY_REMOVE_LABEL_JA, CATEGORY_REMOVE_INFO_0_JA },
     { "camera", CATEGORY_CAMERA_LABEL_JA, CATEGORY_CAMERA_INFO_0_JA },
     { "accounts", CATEGORY_ACCOUNTS_LABEL_JA, CATEGORY_ACCOUNTS_INFO_0_JA },
+    { "trophies", CATEGORY_TROPHIES_LABEL_JA, CATEGORY_TROPHIES_INFO_0_JA },
     { "modules", CATEGORY_MODULES_LABEL_JA, CATEGORY_MODULES_INFO_0_JA },
     { NULL, NULL, NULL },
 };
@@ -19673,6 +22224,81 @@ struct retro_core_option_v2_definition option_defs_ja[] = {
             { NULL, NULL },
         },
         "run"
+    },
+    {
+        "vita3k_trophy_show",
+        VITA3K_TROPHY_SHOW_LABEL_JA,
+        NULL,
+        VITA3K_TROPHY_SHOW_INFO_0_JA,
+        NULL,
+        "trophies",
+        {
+            { "all", OPTION_VAL_ALL_JA },
+            { "earned", OPTION_VAL_EARNED_JA },
+            { "unearned", OPTION_VAL_UNEARNED_JA },
+            { NULL, NULL },
+        },
+        "all"
+    },
+    {
+        "vita3k_trophy_grade",
+        VITA3K_TROPHY_GRADE_LABEL_JA,
+        NULL,
+        VITA3K_TROPHY_GRADE_INFO_0_JA,
+        NULL,
+        "trophies",
+        {
+            { "all", OPTION_VAL_ALL_JA },
+            { "platinum", OPTION_VAL_PLATINUM_JA },
+            { "gold", OPTION_VAL_GOLD_JA },
+            { "silver", OPTION_VAL_SILVER_JA },
+            { "bronze", OPTION_VAL_BRONZE_JA },
+            { NULL, NULL },
+        },
+        "all"
+    },
+    {
+        "vita3k_trophy_hidden",
+        VITA3K_TROPHY_HIDDEN_LABEL_JA,
+        NULL,
+        VITA3K_TROPHY_HIDDEN_INFO_0_JA,
+        NULL,
+        "trophies",
+        {
+            { "disabled", NULL },
+            { "enabled", NULL },
+            { NULL, NULL },
+        },
+        "disabled"
+    },
+    {
+        "vita3k_trophy_sort",
+        VITA3K_TROPHY_SORT_LABEL_JA,
+        NULL,
+        VITA3K_TROPHY_SORT_INFO_0_JA,
+        NULL,
+        "trophies",
+        {
+            { "type", OPTION_VAL_TYPE_JA },
+            { "name", OPTION_VAL_NAME_JA },
+            { "date", OPTION_VAL_DATE_JA },
+            { NULL, NULL },
+        },
+        "type"
+    },
+    {
+        "vita3k_content_subdirs",
+        VITA3K_CONTENT_SUBDIRS_LABEL_JA,
+        NULL,
+        VITA3K_CONTENT_SUBDIRS_INFO_0_JA,
+        NULL,
+        "install",
+        {
+            { "disabled", NULL },
+            { "enabled", NULL },
+            { NULL, NULL },
+        },
+        "disabled"
     },
     {
         "vita3k_pstv_mode",
@@ -20097,10 +22723,14 @@ struct retro_core_options_v2 options_ja = {
 #define CATEGORY_NETWORK_INFO_0_KO NULL
 #define CATEGORY_INSTALL_LABEL_KO "콘텐츠"
 #define CATEGORY_INSTALL_INFO_0_KO NULL
+#define CATEGORY_REMOVE_LABEL_KO NULL
+#define CATEGORY_REMOVE_INFO_0_KO NULL
 #define CATEGORY_CAMERA_LABEL_KO "카메라 드라이버"
 #define CATEGORY_CAMERA_INFO_0_KO NULL
 #define CATEGORY_ACCOUNTS_LABEL_KO "계정"
 #define CATEGORY_ACCOUNTS_INFO_0_KO NULL
+#define CATEGORY_TROPHIES_LABEL_KO NULL
+#define CATEGORY_TROPHIES_INFO_0_KO NULL
 #define CATEGORY_MODULES_LABEL_KO NULL
 #define CATEGORY_MODULES_INFO_0_KO NULL
 #define VITA3K_BACKEND_RENDERER_LABEL_KO NULL
@@ -20147,6 +22777,26 @@ struct retro_core_options_v2 options_ja = {
 #define OPTION_VAL_RUN_KO NULL
 #define OPTION_VAL_CACHE_KO NULL
 #define OPTION_VAL_INSTALL_KO NULL
+#define VITA3K_TROPHY_SHOW_LABEL_KO NULL
+#define VITA3K_TROPHY_SHOW_INFO_0_KO NULL
+#define OPTION_VAL_ALL_KO "전체"
+#define OPTION_VAL_EARNED_KO NULL
+#define OPTION_VAL_UNEARNED_KO NULL
+#define VITA3K_TROPHY_GRADE_LABEL_KO NULL
+#define VITA3K_TROPHY_GRADE_INFO_0_KO NULL
+#define OPTION_VAL_PLATINUM_KO NULL
+#define OPTION_VAL_GOLD_KO NULL
+#define OPTION_VAL_SILVER_KO NULL
+#define OPTION_VAL_BRONZE_KO NULL
+#define VITA3K_TROPHY_HIDDEN_LABEL_KO NULL
+#define VITA3K_TROPHY_HIDDEN_INFO_0_KO NULL
+#define VITA3K_TROPHY_SORT_LABEL_KO NULL
+#define VITA3K_TROPHY_SORT_INFO_0_KO NULL
+#define OPTION_VAL_TYPE_KO NULL
+#define OPTION_VAL_NAME_KO NULL
+#define OPTION_VAL_DATE_KO NULL
+#define VITA3K_CONTENT_SUBDIRS_LABEL_KO NULL
+#define VITA3K_CONTENT_SUBDIRS_INFO_0_KO NULL
 #define VITA3K_PSTV_MODE_LABEL_KO NULL
 #define VITA3K_PSTV_MODE_INFO_0_KO NULL
 #define VITA3K_MODULES_MODE_LABEL_KO NULL
@@ -20270,8 +22920,10 @@ struct retro_core_option_v2_category option_cats_ko[] = {
     { "audio", CATEGORY_AUDIO_LABEL_KO, CATEGORY_AUDIO_INFO_0_KO },
     { "network", CATEGORY_NETWORK_LABEL_KO, CATEGORY_NETWORK_INFO_0_KO },
     { "install", CATEGORY_INSTALL_LABEL_KO, CATEGORY_INSTALL_INFO_0_KO },
+    { "remove", CATEGORY_REMOVE_LABEL_KO, CATEGORY_REMOVE_INFO_0_KO },
     { "camera", CATEGORY_CAMERA_LABEL_KO, CATEGORY_CAMERA_INFO_0_KO },
     { "accounts", CATEGORY_ACCOUNTS_LABEL_KO, CATEGORY_ACCOUNTS_INFO_0_KO },
+    { "trophies", CATEGORY_TROPHIES_LABEL_KO, CATEGORY_TROPHIES_INFO_0_KO },
     { "modules", CATEGORY_MODULES_LABEL_KO, CATEGORY_MODULES_INFO_0_KO },
     { NULL, NULL, NULL },
 };
@@ -20444,6 +23096,81 @@ struct retro_core_option_v2_definition option_defs_ko[] = {
             { NULL, NULL },
         },
         "run"
+    },
+    {
+        "vita3k_trophy_show",
+        VITA3K_TROPHY_SHOW_LABEL_KO,
+        NULL,
+        VITA3K_TROPHY_SHOW_INFO_0_KO,
+        NULL,
+        "trophies",
+        {
+            { "all", OPTION_VAL_ALL_KO },
+            { "earned", OPTION_VAL_EARNED_KO },
+            { "unearned", OPTION_VAL_UNEARNED_KO },
+            { NULL, NULL },
+        },
+        "all"
+    },
+    {
+        "vita3k_trophy_grade",
+        VITA3K_TROPHY_GRADE_LABEL_KO,
+        NULL,
+        VITA3K_TROPHY_GRADE_INFO_0_KO,
+        NULL,
+        "trophies",
+        {
+            { "all", OPTION_VAL_ALL_KO },
+            { "platinum", OPTION_VAL_PLATINUM_KO },
+            { "gold", OPTION_VAL_GOLD_KO },
+            { "silver", OPTION_VAL_SILVER_KO },
+            { "bronze", OPTION_VAL_BRONZE_KO },
+            { NULL, NULL },
+        },
+        "all"
+    },
+    {
+        "vita3k_trophy_hidden",
+        VITA3K_TROPHY_HIDDEN_LABEL_KO,
+        NULL,
+        VITA3K_TROPHY_HIDDEN_INFO_0_KO,
+        NULL,
+        "trophies",
+        {
+            { "disabled", NULL },
+            { "enabled", NULL },
+            { NULL, NULL },
+        },
+        "disabled"
+    },
+    {
+        "vita3k_trophy_sort",
+        VITA3K_TROPHY_SORT_LABEL_KO,
+        NULL,
+        VITA3K_TROPHY_SORT_INFO_0_KO,
+        NULL,
+        "trophies",
+        {
+            { "type", OPTION_VAL_TYPE_KO },
+            { "name", OPTION_VAL_NAME_KO },
+            { "date", OPTION_VAL_DATE_KO },
+            { NULL, NULL },
+        },
+        "type"
+    },
+    {
+        "vita3k_content_subdirs",
+        VITA3K_CONTENT_SUBDIRS_LABEL_KO,
+        NULL,
+        VITA3K_CONTENT_SUBDIRS_INFO_0_KO,
+        NULL,
+        "install",
+        {
+            { "disabled", NULL },
+            { "enabled", NULL },
+            { NULL, NULL },
+        },
+        "disabled"
     },
     {
         "vita3k_pstv_mode",
@@ -20868,10 +23595,14 @@ struct retro_core_options_v2 options_ko = {
 #define CATEGORY_NETWORK_INFO_0_NL NULL
 #define CATEGORY_INSTALL_LABEL_NL "Inhoud"
 #define CATEGORY_INSTALL_INFO_0_NL NULL
+#define CATEGORY_REMOVE_LABEL_NL NULL
+#define CATEGORY_REMOVE_INFO_0_NL NULL
 #define CATEGORY_CAMERA_LABEL_NL NULL
 #define CATEGORY_CAMERA_INFO_0_NL NULL
 #define CATEGORY_ACCOUNTS_LABEL_NL NULL
 #define CATEGORY_ACCOUNTS_INFO_0_NL NULL
+#define CATEGORY_TROPHIES_LABEL_NL NULL
+#define CATEGORY_TROPHIES_INFO_0_NL NULL
 #define CATEGORY_MODULES_LABEL_NL NULL
 #define CATEGORY_MODULES_INFO_0_NL NULL
 #define VITA3K_BACKEND_RENDERER_LABEL_NL NULL
@@ -20918,6 +23649,26 @@ struct retro_core_options_v2 options_ko = {
 #define OPTION_VAL_RUN_NL NULL
 #define OPTION_VAL_CACHE_NL NULL
 #define OPTION_VAL_INSTALL_NL NULL
+#define VITA3K_TROPHY_SHOW_LABEL_NL NULL
+#define VITA3K_TROPHY_SHOW_INFO_0_NL NULL
+#define OPTION_VAL_ALL_NL "Alle"
+#define OPTION_VAL_EARNED_NL NULL
+#define OPTION_VAL_UNEARNED_NL NULL
+#define VITA3K_TROPHY_GRADE_LABEL_NL NULL
+#define VITA3K_TROPHY_GRADE_INFO_0_NL NULL
+#define OPTION_VAL_PLATINUM_NL NULL
+#define OPTION_VAL_GOLD_NL NULL
+#define OPTION_VAL_SILVER_NL NULL
+#define OPTION_VAL_BRONZE_NL NULL
+#define VITA3K_TROPHY_HIDDEN_LABEL_NL NULL
+#define VITA3K_TROPHY_HIDDEN_INFO_0_NL NULL
+#define VITA3K_TROPHY_SORT_LABEL_NL NULL
+#define VITA3K_TROPHY_SORT_INFO_0_NL NULL
+#define OPTION_VAL_TYPE_NL NULL
+#define OPTION_VAL_NAME_NL NULL
+#define OPTION_VAL_DATE_NL NULL
+#define VITA3K_CONTENT_SUBDIRS_LABEL_NL NULL
+#define VITA3K_CONTENT_SUBDIRS_INFO_0_NL NULL
 #define VITA3K_PSTV_MODE_LABEL_NL NULL
 #define VITA3K_PSTV_MODE_INFO_0_NL NULL
 #define VITA3K_MODULES_MODE_LABEL_NL NULL
@@ -21041,8 +23792,10 @@ struct retro_core_option_v2_category option_cats_nl[] = {
     { "audio", CATEGORY_AUDIO_LABEL_NL, CATEGORY_AUDIO_INFO_0_NL },
     { "network", CATEGORY_NETWORK_LABEL_NL, CATEGORY_NETWORK_INFO_0_NL },
     { "install", CATEGORY_INSTALL_LABEL_NL, CATEGORY_INSTALL_INFO_0_NL },
+    { "remove", CATEGORY_REMOVE_LABEL_NL, CATEGORY_REMOVE_INFO_0_NL },
     { "camera", CATEGORY_CAMERA_LABEL_NL, CATEGORY_CAMERA_INFO_0_NL },
     { "accounts", CATEGORY_ACCOUNTS_LABEL_NL, CATEGORY_ACCOUNTS_INFO_0_NL },
+    { "trophies", CATEGORY_TROPHIES_LABEL_NL, CATEGORY_TROPHIES_INFO_0_NL },
     { "modules", CATEGORY_MODULES_LABEL_NL, CATEGORY_MODULES_INFO_0_NL },
     { NULL, NULL, NULL },
 };
@@ -21215,6 +23968,81 @@ struct retro_core_option_v2_definition option_defs_nl[] = {
             { NULL, NULL },
         },
         "run"
+    },
+    {
+        "vita3k_trophy_show",
+        VITA3K_TROPHY_SHOW_LABEL_NL,
+        NULL,
+        VITA3K_TROPHY_SHOW_INFO_0_NL,
+        NULL,
+        "trophies",
+        {
+            { "all", OPTION_VAL_ALL_NL },
+            { "earned", OPTION_VAL_EARNED_NL },
+            { "unearned", OPTION_VAL_UNEARNED_NL },
+            { NULL, NULL },
+        },
+        "all"
+    },
+    {
+        "vita3k_trophy_grade",
+        VITA3K_TROPHY_GRADE_LABEL_NL,
+        NULL,
+        VITA3K_TROPHY_GRADE_INFO_0_NL,
+        NULL,
+        "trophies",
+        {
+            { "all", OPTION_VAL_ALL_NL },
+            { "platinum", OPTION_VAL_PLATINUM_NL },
+            { "gold", OPTION_VAL_GOLD_NL },
+            { "silver", OPTION_VAL_SILVER_NL },
+            { "bronze", OPTION_VAL_BRONZE_NL },
+            { NULL, NULL },
+        },
+        "all"
+    },
+    {
+        "vita3k_trophy_hidden",
+        VITA3K_TROPHY_HIDDEN_LABEL_NL,
+        NULL,
+        VITA3K_TROPHY_HIDDEN_INFO_0_NL,
+        NULL,
+        "trophies",
+        {
+            { "disabled", NULL },
+            { "enabled", NULL },
+            { NULL, NULL },
+        },
+        "disabled"
+    },
+    {
+        "vita3k_trophy_sort",
+        VITA3K_TROPHY_SORT_LABEL_NL,
+        NULL,
+        VITA3K_TROPHY_SORT_INFO_0_NL,
+        NULL,
+        "trophies",
+        {
+            { "type", OPTION_VAL_TYPE_NL },
+            { "name", OPTION_VAL_NAME_NL },
+            { "date", OPTION_VAL_DATE_NL },
+            { NULL, NULL },
+        },
+        "type"
+    },
+    {
+        "vita3k_content_subdirs",
+        VITA3K_CONTENT_SUBDIRS_LABEL_NL,
+        NULL,
+        VITA3K_CONTENT_SUBDIRS_INFO_0_NL,
+        NULL,
+        "install",
+        {
+            { "disabled", NULL },
+            { "enabled", NULL },
+            { NULL, NULL },
+        },
+        "disabled"
     },
     {
         "vita3k_pstv_mode",
@@ -21639,10 +24467,14 @@ struct retro_core_options_v2 options_nl = {
 #define CATEGORY_NETWORK_INFO_0_NO NULL
 #define CATEGORY_INSTALL_LABEL_NO "Innhold"
 #define CATEGORY_INSTALL_INFO_0_NO NULL
+#define CATEGORY_REMOVE_LABEL_NO NULL
+#define CATEGORY_REMOVE_INFO_0_NO NULL
 #define CATEGORY_CAMERA_LABEL_NO "Kamera"
 #define CATEGORY_CAMERA_INFO_0_NO NULL
 #define CATEGORY_ACCOUNTS_LABEL_NO "Kontoer"
 #define CATEGORY_ACCOUNTS_INFO_0_NO NULL
+#define CATEGORY_TROPHIES_LABEL_NO NULL
+#define CATEGORY_TROPHIES_INFO_0_NO NULL
 #define CATEGORY_MODULES_LABEL_NO NULL
 #define CATEGORY_MODULES_INFO_0_NO NULL
 #define VITA3K_BACKEND_RENDERER_LABEL_NO NULL
@@ -21689,6 +24521,26 @@ struct retro_core_options_v2 options_nl = {
 #define OPTION_VAL_RUN_NO NULL
 #define OPTION_VAL_CACHE_NO NULL
 #define OPTION_VAL_INSTALL_NO NULL
+#define VITA3K_TROPHY_SHOW_LABEL_NO NULL
+#define VITA3K_TROPHY_SHOW_INFO_0_NO NULL
+#define OPTION_VAL_ALL_NO "Alle"
+#define OPTION_VAL_EARNED_NO NULL
+#define OPTION_VAL_UNEARNED_NO NULL
+#define VITA3K_TROPHY_GRADE_LABEL_NO NULL
+#define VITA3K_TROPHY_GRADE_INFO_0_NO NULL
+#define OPTION_VAL_PLATINUM_NO NULL
+#define OPTION_VAL_GOLD_NO NULL
+#define OPTION_VAL_SILVER_NO NULL
+#define OPTION_VAL_BRONZE_NO NULL
+#define VITA3K_TROPHY_HIDDEN_LABEL_NO NULL
+#define VITA3K_TROPHY_HIDDEN_INFO_0_NO NULL
+#define VITA3K_TROPHY_SORT_LABEL_NO NULL
+#define VITA3K_TROPHY_SORT_INFO_0_NO NULL
+#define OPTION_VAL_TYPE_NO NULL
+#define OPTION_VAL_NAME_NO NULL
+#define OPTION_VAL_DATE_NO NULL
+#define VITA3K_CONTENT_SUBDIRS_LABEL_NO NULL
+#define VITA3K_CONTENT_SUBDIRS_INFO_0_NO NULL
 #define VITA3K_PSTV_MODE_LABEL_NO NULL
 #define VITA3K_PSTV_MODE_INFO_0_NO NULL
 #define VITA3K_MODULES_MODE_LABEL_NO NULL
@@ -21812,8 +24664,10 @@ struct retro_core_option_v2_category option_cats_no[] = {
     { "audio", CATEGORY_AUDIO_LABEL_NO, CATEGORY_AUDIO_INFO_0_NO },
     { "network", CATEGORY_NETWORK_LABEL_NO, CATEGORY_NETWORK_INFO_0_NO },
     { "install", CATEGORY_INSTALL_LABEL_NO, CATEGORY_INSTALL_INFO_0_NO },
+    { "remove", CATEGORY_REMOVE_LABEL_NO, CATEGORY_REMOVE_INFO_0_NO },
     { "camera", CATEGORY_CAMERA_LABEL_NO, CATEGORY_CAMERA_INFO_0_NO },
     { "accounts", CATEGORY_ACCOUNTS_LABEL_NO, CATEGORY_ACCOUNTS_INFO_0_NO },
+    { "trophies", CATEGORY_TROPHIES_LABEL_NO, CATEGORY_TROPHIES_INFO_0_NO },
     { "modules", CATEGORY_MODULES_LABEL_NO, CATEGORY_MODULES_INFO_0_NO },
     { NULL, NULL, NULL },
 };
@@ -21986,6 +24840,81 @@ struct retro_core_option_v2_definition option_defs_no[] = {
             { NULL, NULL },
         },
         "run"
+    },
+    {
+        "vita3k_trophy_show",
+        VITA3K_TROPHY_SHOW_LABEL_NO,
+        NULL,
+        VITA3K_TROPHY_SHOW_INFO_0_NO,
+        NULL,
+        "trophies",
+        {
+            { "all", OPTION_VAL_ALL_NO },
+            { "earned", OPTION_VAL_EARNED_NO },
+            { "unearned", OPTION_VAL_UNEARNED_NO },
+            { NULL, NULL },
+        },
+        "all"
+    },
+    {
+        "vita3k_trophy_grade",
+        VITA3K_TROPHY_GRADE_LABEL_NO,
+        NULL,
+        VITA3K_TROPHY_GRADE_INFO_0_NO,
+        NULL,
+        "trophies",
+        {
+            { "all", OPTION_VAL_ALL_NO },
+            { "platinum", OPTION_VAL_PLATINUM_NO },
+            { "gold", OPTION_VAL_GOLD_NO },
+            { "silver", OPTION_VAL_SILVER_NO },
+            { "bronze", OPTION_VAL_BRONZE_NO },
+            { NULL, NULL },
+        },
+        "all"
+    },
+    {
+        "vita3k_trophy_hidden",
+        VITA3K_TROPHY_HIDDEN_LABEL_NO,
+        NULL,
+        VITA3K_TROPHY_HIDDEN_INFO_0_NO,
+        NULL,
+        "trophies",
+        {
+            { "disabled", NULL },
+            { "enabled", NULL },
+            { NULL, NULL },
+        },
+        "disabled"
+    },
+    {
+        "vita3k_trophy_sort",
+        VITA3K_TROPHY_SORT_LABEL_NO,
+        NULL,
+        VITA3K_TROPHY_SORT_INFO_0_NO,
+        NULL,
+        "trophies",
+        {
+            { "type", OPTION_VAL_TYPE_NO },
+            { "name", OPTION_VAL_NAME_NO },
+            { "date", OPTION_VAL_DATE_NO },
+            { NULL, NULL },
+        },
+        "type"
+    },
+    {
+        "vita3k_content_subdirs",
+        VITA3K_CONTENT_SUBDIRS_LABEL_NO,
+        NULL,
+        VITA3K_CONTENT_SUBDIRS_INFO_0_NO,
+        NULL,
+        "install",
+        {
+            { "disabled", NULL },
+            { "enabled", NULL },
+            { NULL, NULL },
+        },
+        "disabled"
     },
     {
         "vita3k_pstv_mode",
@@ -22410,10 +25339,14 @@ struct retro_core_options_v2 options_no = {
 #define CATEGORY_NETWORK_INFO_0_OR NULL
 #define CATEGORY_INSTALL_LABEL_OR NULL
 #define CATEGORY_INSTALL_INFO_0_OR NULL
+#define CATEGORY_REMOVE_LABEL_OR NULL
+#define CATEGORY_REMOVE_INFO_0_OR NULL
 #define CATEGORY_CAMERA_LABEL_OR NULL
 #define CATEGORY_CAMERA_INFO_0_OR NULL
 #define CATEGORY_ACCOUNTS_LABEL_OR NULL
 #define CATEGORY_ACCOUNTS_INFO_0_OR NULL
+#define CATEGORY_TROPHIES_LABEL_OR NULL
+#define CATEGORY_TROPHIES_INFO_0_OR NULL
 #define CATEGORY_MODULES_LABEL_OR NULL
 #define CATEGORY_MODULES_INFO_0_OR NULL
 #define VITA3K_BACKEND_RENDERER_LABEL_OR NULL
@@ -22460,6 +25393,26 @@ struct retro_core_options_v2 options_no = {
 #define OPTION_VAL_RUN_OR NULL
 #define OPTION_VAL_CACHE_OR NULL
 #define OPTION_VAL_INSTALL_OR NULL
+#define VITA3K_TROPHY_SHOW_LABEL_OR NULL
+#define VITA3K_TROPHY_SHOW_INFO_0_OR NULL
+#define OPTION_VAL_ALL_OR NULL
+#define OPTION_VAL_EARNED_OR NULL
+#define OPTION_VAL_UNEARNED_OR NULL
+#define VITA3K_TROPHY_GRADE_LABEL_OR NULL
+#define VITA3K_TROPHY_GRADE_INFO_0_OR NULL
+#define OPTION_VAL_PLATINUM_OR NULL
+#define OPTION_VAL_GOLD_OR NULL
+#define OPTION_VAL_SILVER_OR NULL
+#define OPTION_VAL_BRONZE_OR NULL
+#define VITA3K_TROPHY_HIDDEN_LABEL_OR NULL
+#define VITA3K_TROPHY_HIDDEN_INFO_0_OR NULL
+#define VITA3K_TROPHY_SORT_LABEL_OR NULL
+#define VITA3K_TROPHY_SORT_INFO_0_OR NULL
+#define OPTION_VAL_TYPE_OR NULL
+#define OPTION_VAL_NAME_OR NULL
+#define OPTION_VAL_DATE_OR NULL
+#define VITA3K_CONTENT_SUBDIRS_LABEL_OR NULL
+#define VITA3K_CONTENT_SUBDIRS_INFO_0_OR NULL
 #define VITA3K_PSTV_MODE_LABEL_OR NULL
 #define VITA3K_PSTV_MODE_INFO_0_OR NULL
 #define VITA3K_MODULES_MODE_LABEL_OR NULL
@@ -22583,8 +25536,10 @@ struct retro_core_option_v2_category option_cats_or[] = {
     { "audio", CATEGORY_AUDIO_LABEL_OR, CATEGORY_AUDIO_INFO_0_OR },
     { "network", CATEGORY_NETWORK_LABEL_OR, CATEGORY_NETWORK_INFO_0_OR },
     { "install", CATEGORY_INSTALL_LABEL_OR, CATEGORY_INSTALL_INFO_0_OR },
+    { "remove", CATEGORY_REMOVE_LABEL_OR, CATEGORY_REMOVE_INFO_0_OR },
     { "camera", CATEGORY_CAMERA_LABEL_OR, CATEGORY_CAMERA_INFO_0_OR },
     { "accounts", CATEGORY_ACCOUNTS_LABEL_OR, CATEGORY_ACCOUNTS_INFO_0_OR },
+    { "trophies", CATEGORY_TROPHIES_LABEL_OR, CATEGORY_TROPHIES_INFO_0_OR },
     { "modules", CATEGORY_MODULES_LABEL_OR, CATEGORY_MODULES_INFO_0_OR },
     { NULL, NULL, NULL },
 };
@@ -22757,6 +25712,81 @@ struct retro_core_option_v2_definition option_defs_or[] = {
             { NULL, NULL },
         },
         "run"
+    },
+    {
+        "vita3k_trophy_show",
+        VITA3K_TROPHY_SHOW_LABEL_OR,
+        NULL,
+        VITA3K_TROPHY_SHOW_INFO_0_OR,
+        NULL,
+        "trophies",
+        {
+            { "all", OPTION_VAL_ALL_OR },
+            { "earned", OPTION_VAL_EARNED_OR },
+            { "unearned", OPTION_VAL_UNEARNED_OR },
+            { NULL, NULL },
+        },
+        "all"
+    },
+    {
+        "vita3k_trophy_grade",
+        VITA3K_TROPHY_GRADE_LABEL_OR,
+        NULL,
+        VITA3K_TROPHY_GRADE_INFO_0_OR,
+        NULL,
+        "trophies",
+        {
+            { "all", OPTION_VAL_ALL_OR },
+            { "platinum", OPTION_VAL_PLATINUM_OR },
+            { "gold", OPTION_VAL_GOLD_OR },
+            { "silver", OPTION_VAL_SILVER_OR },
+            { "bronze", OPTION_VAL_BRONZE_OR },
+            { NULL, NULL },
+        },
+        "all"
+    },
+    {
+        "vita3k_trophy_hidden",
+        VITA3K_TROPHY_HIDDEN_LABEL_OR,
+        NULL,
+        VITA3K_TROPHY_HIDDEN_INFO_0_OR,
+        NULL,
+        "trophies",
+        {
+            { "disabled", NULL },
+            { "enabled", NULL },
+            { NULL, NULL },
+        },
+        "disabled"
+    },
+    {
+        "vita3k_trophy_sort",
+        VITA3K_TROPHY_SORT_LABEL_OR,
+        NULL,
+        VITA3K_TROPHY_SORT_INFO_0_OR,
+        NULL,
+        "trophies",
+        {
+            { "type", OPTION_VAL_TYPE_OR },
+            { "name", OPTION_VAL_NAME_OR },
+            { "date", OPTION_VAL_DATE_OR },
+            { NULL, NULL },
+        },
+        "type"
+    },
+    {
+        "vita3k_content_subdirs",
+        VITA3K_CONTENT_SUBDIRS_LABEL_OR,
+        NULL,
+        VITA3K_CONTENT_SUBDIRS_INFO_0_OR,
+        NULL,
+        "install",
+        {
+            { "disabled", NULL },
+            { "enabled", NULL },
+            { NULL, NULL },
+        },
+        "disabled"
     },
     {
         "vita3k_pstv_mode",
@@ -23181,10 +26211,14 @@ struct retro_core_options_v2 options_or = {
 #define CATEGORY_NETWORK_INFO_0_PL NULL
 #define CATEGORY_INSTALL_LABEL_PL "Treść"
 #define CATEGORY_INSTALL_INFO_0_PL NULL
+#define CATEGORY_REMOVE_LABEL_PL NULL
+#define CATEGORY_REMOVE_INFO_0_PL NULL
 #define CATEGORY_CAMERA_LABEL_PL "Kamera"
 #define CATEGORY_CAMERA_INFO_0_PL NULL
 #define CATEGORY_ACCOUNTS_LABEL_PL "Konta"
 #define CATEGORY_ACCOUNTS_INFO_0_PL NULL
+#define CATEGORY_TROPHIES_LABEL_PL NULL
+#define CATEGORY_TROPHIES_INFO_0_PL NULL
 #define CATEGORY_MODULES_LABEL_PL NULL
 #define CATEGORY_MODULES_INFO_0_PL NULL
 #define VITA3K_BACKEND_RENDERER_LABEL_PL NULL
@@ -23231,6 +26265,26 @@ struct retro_core_options_v2 options_or = {
 #define OPTION_VAL_RUN_PL NULL
 #define OPTION_VAL_CACHE_PL NULL
 #define OPTION_VAL_INSTALL_PL NULL
+#define VITA3K_TROPHY_SHOW_LABEL_PL NULL
+#define VITA3K_TROPHY_SHOW_INFO_0_PL NULL
+#define OPTION_VAL_ALL_PL "Wszystkie"
+#define OPTION_VAL_EARNED_PL NULL
+#define OPTION_VAL_UNEARNED_PL NULL
+#define VITA3K_TROPHY_GRADE_LABEL_PL NULL
+#define VITA3K_TROPHY_GRADE_INFO_0_PL NULL
+#define OPTION_VAL_PLATINUM_PL NULL
+#define OPTION_VAL_GOLD_PL NULL
+#define OPTION_VAL_SILVER_PL NULL
+#define OPTION_VAL_BRONZE_PL NULL
+#define VITA3K_TROPHY_HIDDEN_LABEL_PL NULL
+#define VITA3K_TROPHY_HIDDEN_INFO_0_PL NULL
+#define VITA3K_TROPHY_SORT_LABEL_PL NULL
+#define VITA3K_TROPHY_SORT_INFO_0_PL NULL
+#define OPTION_VAL_TYPE_PL NULL
+#define OPTION_VAL_NAME_PL NULL
+#define OPTION_VAL_DATE_PL NULL
+#define VITA3K_CONTENT_SUBDIRS_LABEL_PL NULL
+#define VITA3K_CONTENT_SUBDIRS_INFO_0_PL NULL
 #define VITA3K_PSTV_MODE_LABEL_PL NULL
 #define VITA3K_PSTV_MODE_INFO_0_PL NULL
 #define VITA3K_MODULES_MODE_LABEL_PL NULL
@@ -23354,8 +26408,10 @@ struct retro_core_option_v2_category option_cats_pl[] = {
     { "audio", CATEGORY_AUDIO_LABEL_PL, CATEGORY_AUDIO_INFO_0_PL },
     { "network", CATEGORY_NETWORK_LABEL_PL, CATEGORY_NETWORK_INFO_0_PL },
     { "install", CATEGORY_INSTALL_LABEL_PL, CATEGORY_INSTALL_INFO_0_PL },
+    { "remove", CATEGORY_REMOVE_LABEL_PL, CATEGORY_REMOVE_INFO_0_PL },
     { "camera", CATEGORY_CAMERA_LABEL_PL, CATEGORY_CAMERA_INFO_0_PL },
     { "accounts", CATEGORY_ACCOUNTS_LABEL_PL, CATEGORY_ACCOUNTS_INFO_0_PL },
+    { "trophies", CATEGORY_TROPHIES_LABEL_PL, CATEGORY_TROPHIES_INFO_0_PL },
     { "modules", CATEGORY_MODULES_LABEL_PL, CATEGORY_MODULES_INFO_0_PL },
     { NULL, NULL, NULL },
 };
@@ -23528,6 +26584,81 @@ struct retro_core_option_v2_definition option_defs_pl[] = {
             { NULL, NULL },
         },
         "run"
+    },
+    {
+        "vita3k_trophy_show",
+        VITA3K_TROPHY_SHOW_LABEL_PL,
+        NULL,
+        VITA3K_TROPHY_SHOW_INFO_0_PL,
+        NULL,
+        "trophies",
+        {
+            { "all", OPTION_VAL_ALL_PL },
+            { "earned", OPTION_VAL_EARNED_PL },
+            { "unearned", OPTION_VAL_UNEARNED_PL },
+            { NULL, NULL },
+        },
+        "all"
+    },
+    {
+        "vita3k_trophy_grade",
+        VITA3K_TROPHY_GRADE_LABEL_PL,
+        NULL,
+        VITA3K_TROPHY_GRADE_INFO_0_PL,
+        NULL,
+        "trophies",
+        {
+            { "all", OPTION_VAL_ALL_PL },
+            { "platinum", OPTION_VAL_PLATINUM_PL },
+            { "gold", OPTION_VAL_GOLD_PL },
+            { "silver", OPTION_VAL_SILVER_PL },
+            { "bronze", OPTION_VAL_BRONZE_PL },
+            { NULL, NULL },
+        },
+        "all"
+    },
+    {
+        "vita3k_trophy_hidden",
+        VITA3K_TROPHY_HIDDEN_LABEL_PL,
+        NULL,
+        VITA3K_TROPHY_HIDDEN_INFO_0_PL,
+        NULL,
+        "trophies",
+        {
+            { "disabled", NULL },
+            { "enabled", NULL },
+            { NULL, NULL },
+        },
+        "disabled"
+    },
+    {
+        "vita3k_trophy_sort",
+        VITA3K_TROPHY_SORT_LABEL_PL,
+        NULL,
+        VITA3K_TROPHY_SORT_INFO_0_PL,
+        NULL,
+        "trophies",
+        {
+            { "type", OPTION_VAL_TYPE_PL },
+            { "name", OPTION_VAL_NAME_PL },
+            { "date", OPTION_VAL_DATE_PL },
+            { NULL, NULL },
+        },
+        "type"
+    },
+    {
+        "vita3k_content_subdirs",
+        VITA3K_CONTENT_SUBDIRS_LABEL_PL,
+        NULL,
+        VITA3K_CONTENT_SUBDIRS_INFO_0_PL,
+        NULL,
+        "install",
+        {
+            { "disabled", NULL },
+            { "enabled", NULL },
+            { NULL, NULL },
+        },
+        "disabled"
     },
     {
         "vita3k_pstv_mode",
@@ -23952,10 +27083,14 @@ struct retro_core_options_v2 options_pl = {
 #define CATEGORY_NETWORK_INFO_0_PT_BR NULL
 #define CATEGORY_INSTALL_LABEL_PT_BR "Conteúdo"
 #define CATEGORY_INSTALL_INFO_0_PT_BR NULL
+#define CATEGORY_REMOVE_LABEL_PT_BR NULL
+#define CATEGORY_REMOVE_INFO_0_PT_BR NULL
 #define CATEGORY_CAMERA_LABEL_PT_BR "Câmera"
 #define CATEGORY_CAMERA_INFO_0_PT_BR NULL
 #define CATEGORY_ACCOUNTS_LABEL_PT_BR "Contas"
 #define CATEGORY_ACCOUNTS_INFO_0_PT_BR NULL
+#define CATEGORY_TROPHIES_LABEL_PT_BR NULL
+#define CATEGORY_TROPHIES_INFO_0_PT_BR NULL
 #define CATEGORY_MODULES_LABEL_PT_BR NULL
 #define CATEGORY_MODULES_INFO_0_PT_BR NULL
 #define VITA3K_BACKEND_RENDERER_LABEL_PT_BR NULL
@@ -24002,6 +27137,26 @@ struct retro_core_options_v2 options_pl = {
 #define OPTION_VAL_RUN_PT_BR NULL
 #define OPTION_VAL_CACHE_PT_BR NULL
 #define OPTION_VAL_INSTALL_PT_BR NULL
+#define VITA3K_TROPHY_SHOW_LABEL_PT_BR NULL
+#define VITA3K_TROPHY_SHOW_INFO_0_PT_BR NULL
+#define OPTION_VAL_ALL_PT_BR "Todas"
+#define OPTION_VAL_EARNED_PT_BR NULL
+#define OPTION_VAL_UNEARNED_PT_BR NULL
+#define VITA3K_TROPHY_GRADE_LABEL_PT_BR NULL
+#define VITA3K_TROPHY_GRADE_INFO_0_PT_BR NULL
+#define OPTION_VAL_PLATINUM_PT_BR NULL
+#define OPTION_VAL_GOLD_PT_BR NULL
+#define OPTION_VAL_SILVER_PT_BR NULL
+#define OPTION_VAL_BRONZE_PT_BR NULL
+#define VITA3K_TROPHY_HIDDEN_LABEL_PT_BR NULL
+#define VITA3K_TROPHY_HIDDEN_INFO_0_PT_BR NULL
+#define VITA3K_TROPHY_SORT_LABEL_PT_BR NULL
+#define VITA3K_TROPHY_SORT_INFO_0_PT_BR NULL
+#define OPTION_VAL_TYPE_PT_BR NULL
+#define OPTION_VAL_NAME_PT_BR NULL
+#define OPTION_VAL_DATE_PT_BR NULL
+#define VITA3K_CONTENT_SUBDIRS_LABEL_PT_BR NULL
+#define VITA3K_CONTENT_SUBDIRS_INFO_0_PT_BR NULL
 #define VITA3K_PSTV_MODE_LABEL_PT_BR NULL
 #define VITA3K_PSTV_MODE_INFO_0_PT_BR NULL
 #define VITA3K_MODULES_MODE_LABEL_PT_BR NULL
@@ -24125,8 +27280,10 @@ struct retro_core_option_v2_category option_cats_pt_br[] = {
     { "audio", CATEGORY_AUDIO_LABEL_PT_BR, CATEGORY_AUDIO_INFO_0_PT_BR },
     { "network", CATEGORY_NETWORK_LABEL_PT_BR, CATEGORY_NETWORK_INFO_0_PT_BR },
     { "install", CATEGORY_INSTALL_LABEL_PT_BR, CATEGORY_INSTALL_INFO_0_PT_BR },
+    { "remove", CATEGORY_REMOVE_LABEL_PT_BR, CATEGORY_REMOVE_INFO_0_PT_BR },
     { "camera", CATEGORY_CAMERA_LABEL_PT_BR, CATEGORY_CAMERA_INFO_0_PT_BR },
     { "accounts", CATEGORY_ACCOUNTS_LABEL_PT_BR, CATEGORY_ACCOUNTS_INFO_0_PT_BR },
+    { "trophies", CATEGORY_TROPHIES_LABEL_PT_BR, CATEGORY_TROPHIES_INFO_0_PT_BR },
     { "modules", CATEGORY_MODULES_LABEL_PT_BR, CATEGORY_MODULES_INFO_0_PT_BR },
     { NULL, NULL, NULL },
 };
@@ -24299,6 +27456,81 @@ struct retro_core_option_v2_definition option_defs_pt_br[] = {
             { NULL, NULL },
         },
         "run"
+    },
+    {
+        "vita3k_trophy_show",
+        VITA3K_TROPHY_SHOW_LABEL_PT_BR,
+        NULL,
+        VITA3K_TROPHY_SHOW_INFO_0_PT_BR,
+        NULL,
+        "trophies",
+        {
+            { "all", OPTION_VAL_ALL_PT_BR },
+            { "earned", OPTION_VAL_EARNED_PT_BR },
+            { "unearned", OPTION_VAL_UNEARNED_PT_BR },
+            { NULL, NULL },
+        },
+        "all"
+    },
+    {
+        "vita3k_trophy_grade",
+        VITA3K_TROPHY_GRADE_LABEL_PT_BR,
+        NULL,
+        VITA3K_TROPHY_GRADE_INFO_0_PT_BR,
+        NULL,
+        "trophies",
+        {
+            { "all", OPTION_VAL_ALL_PT_BR },
+            { "platinum", OPTION_VAL_PLATINUM_PT_BR },
+            { "gold", OPTION_VAL_GOLD_PT_BR },
+            { "silver", OPTION_VAL_SILVER_PT_BR },
+            { "bronze", OPTION_VAL_BRONZE_PT_BR },
+            { NULL, NULL },
+        },
+        "all"
+    },
+    {
+        "vita3k_trophy_hidden",
+        VITA3K_TROPHY_HIDDEN_LABEL_PT_BR,
+        NULL,
+        VITA3K_TROPHY_HIDDEN_INFO_0_PT_BR,
+        NULL,
+        "trophies",
+        {
+            { "disabled", NULL },
+            { "enabled", NULL },
+            { NULL, NULL },
+        },
+        "disabled"
+    },
+    {
+        "vita3k_trophy_sort",
+        VITA3K_TROPHY_SORT_LABEL_PT_BR,
+        NULL,
+        VITA3K_TROPHY_SORT_INFO_0_PT_BR,
+        NULL,
+        "trophies",
+        {
+            { "type", OPTION_VAL_TYPE_PT_BR },
+            { "name", OPTION_VAL_NAME_PT_BR },
+            { "date", OPTION_VAL_DATE_PT_BR },
+            { NULL, NULL },
+        },
+        "type"
+    },
+    {
+        "vita3k_content_subdirs",
+        VITA3K_CONTENT_SUBDIRS_LABEL_PT_BR,
+        NULL,
+        VITA3K_CONTENT_SUBDIRS_INFO_0_PT_BR,
+        NULL,
+        "install",
+        {
+            { "disabled", NULL },
+            { "enabled", NULL },
+            { NULL, NULL },
+        },
+        "disabled"
     },
     {
         "vita3k_pstv_mode",
@@ -24723,10 +27955,14 @@ struct retro_core_options_v2 options_pt_br = {
 #define CATEGORY_NETWORK_INFO_0_PT_PT NULL
 #define CATEGORY_INSTALL_LABEL_PT_PT "Conteúdo"
 #define CATEGORY_INSTALL_INFO_0_PT_PT NULL
+#define CATEGORY_REMOVE_LABEL_PT_PT NULL
+#define CATEGORY_REMOVE_INFO_0_PT_PT NULL
 #define CATEGORY_CAMERA_LABEL_PT_PT "Câmara"
 #define CATEGORY_CAMERA_INFO_0_PT_PT NULL
 #define CATEGORY_ACCOUNTS_LABEL_PT_PT "Conta"
 #define CATEGORY_ACCOUNTS_INFO_0_PT_PT NULL
+#define CATEGORY_TROPHIES_LABEL_PT_PT NULL
+#define CATEGORY_TROPHIES_INFO_0_PT_PT NULL
 #define CATEGORY_MODULES_LABEL_PT_PT NULL
 #define CATEGORY_MODULES_INFO_0_PT_PT NULL
 #define VITA3K_BACKEND_RENDERER_LABEL_PT_PT NULL
@@ -24773,6 +28009,26 @@ struct retro_core_options_v2 options_pt_br = {
 #define OPTION_VAL_RUN_PT_PT NULL
 #define OPTION_VAL_CACHE_PT_PT NULL
 #define OPTION_VAL_INSTALL_PT_PT NULL
+#define VITA3K_TROPHY_SHOW_LABEL_PT_PT NULL
+#define VITA3K_TROPHY_SHOW_INFO_0_PT_PT NULL
+#define OPTION_VAL_ALL_PT_PT NULL
+#define OPTION_VAL_EARNED_PT_PT NULL
+#define OPTION_VAL_UNEARNED_PT_PT NULL
+#define VITA3K_TROPHY_GRADE_LABEL_PT_PT NULL
+#define VITA3K_TROPHY_GRADE_INFO_0_PT_PT NULL
+#define OPTION_VAL_PLATINUM_PT_PT NULL
+#define OPTION_VAL_GOLD_PT_PT NULL
+#define OPTION_VAL_SILVER_PT_PT NULL
+#define OPTION_VAL_BRONZE_PT_PT NULL
+#define VITA3K_TROPHY_HIDDEN_LABEL_PT_PT NULL
+#define VITA3K_TROPHY_HIDDEN_INFO_0_PT_PT NULL
+#define VITA3K_TROPHY_SORT_LABEL_PT_PT NULL
+#define VITA3K_TROPHY_SORT_INFO_0_PT_PT NULL
+#define OPTION_VAL_TYPE_PT_PT NULL
+#define OPTION_VAL_NAME_PT_PT NULL
+#define OPTION_VAL_DATE_PT_PT NULL
+#define VITA3K_CONTENT_SUBDIRS_LABEL_PT_PT NULL
+#define VITA3K_CONTENT_SUBDIRS_INFO_0_PT_PT NULL
 #define VITA3K_PSTV_MODE_LABEL_PT_PT NULL
 #define VITA3K_PSTV_MODE_INFO_0_PT_PT NULL
 #define VITA3K_MODULES_MODE_LABEL_PT_PT NULL
@@ -24896,8 +28152,10 @@ struct retro_core_option_v2_category option_cats_pt_pt[] = {
     { "audio", CATEGORY_AUDIO_LABEL_PT_PT, CATEGORY_AUDIO_INFO_0_PT_PT },
     { "network", CATEGORY_NETWORK_LABEL_PT_PT, CATEGORY_NETWORK_INFO_0_PT_PT },
     { "install", CATEGORY_INSTALL_LABEL_PT_PT, CATEGORY_INSTALL_INFO_0_PT_PT },
+    { "remove", CATEGORY_REMOVE_LABEL_PT_PT, CATEGORY_REMOVE_INFO_0_PT_PT },
     { "camera", CATEGORY_CAMERA_LABEL_PT_PT, CATEGORY_CAMERA_INFO_0_PT_PT },
     { "accounts", CATEGORY_ACCOUNTS_LABEL_PT_PT, CATEGORY_ACCOUNTS_INFO_0_PT_PT },
+    { "trophies", CATEGORY_TROPHIES_LABEL_PT_PT, CATEGORY_TROPHIES_INFO_0_PT_PT },
     { "modules", CATEGORY_MODULES_LABEL_PT_PT, CATEGORY_MODULES_INFO_0_PT_PT },
     { NULL, NULL, NULL },
 };
@@ -25070,6 +28328,81 @@ struct retro_core_option_v2_definition option_defs_pt_pt[] = {
             { NULL, NULL },
         },
         "run"
+    },
+    {
+        "vita3k_trophy_show",
+        VITA3K_TROPHY_SHOW_LABEL_PT_PT,
+        NULL,
+        VITA3K_TROPHY_SHOW_INFO_0_PT_PT,
+        NULL,
+        "trophies",
+        {
+            { "all", OPTION_VAL_ALL_PT_PT },
+            { "earned", OPTION_VAL_EARNED_PT_PT },
+            { "unearned", OPTION_VAL_UNEARNED_PT_PT },
+            { NULL, NULL },
+        },
+        "all"
+    },
+    {
+        "vita3k_trophy_grade",
+        VITA3K_TROPHY_GRADE_LABEL_PT_PT,
+        NULL,
+        VITA3K_TROPHY_GRADE_INFO_0_PT_PT,
+        NULL,
+        "trophies",
+        {
+            { "all", OPTION_VAL_ALL_PT_PT },
+            { "platinum", OPTION_VAL_PLATINUM_PT_PT },
+            { "gold", OPTION_VAL_GOLD_PT_PT },
+            { "silver", OPTION_VAL_SILVER_PT_PT },
+            { "bronze", OPTION_VAL_BRONZE_PT_PT },
+            { NULL, NULL },
+        },
+        "all"
+    },
+    {
+        "vita3k_trophy_hidden",
+        VITA3K_TROPHY_HIDDEN_LABEL_PT_PT,
+        NULL,
+        VITA3K_TROPHY_HIDDEN_INFO_0_PT_PT,
+        NULL,
+        "trophies",
+        {
+            { "disabled", NULL },
+            { "enabled", NULL },
+            { NULL, NULL },
+        },
+        "disabled"
+    },
+    {
+        "vita3k_trophy_sort",
+        VITA3K_TROPHY_SORT_LABEL_PT_PT,
+        NULL,
+        VITA3K_TROPHY_SORT_INFO_0_PT_PT,
+        NULL,
+        "trophies",
+        {
+            { "type", OPTION_VAL_TYPE_PT_PT },
+            { "name", OPTION_VAL_NAME_PT_PT },
+            { "date", OPTION_VAL_DATE_PT_PT },
+            { NULL, NULL },
+        },
+        "type"
+    },
+    {
+        "vita3k_content_subdirs",
+        VITA3K_CONTENT_SUBDIRS_LABEL_PT_PT,
+        NULL,
+        VITA3K_CONTENT_SUBDIRS_INFO_0_PT_PT,
+        NULL,
+        "install",
+        {
+            { "disabled", NULL },
+            { "enabled", NULL },
+            { NULL, NULL },
+        },
+        "disabled"
     },
     {
         "vita3k_pstv_mode",
@@ -25494,10 +28827,14 @@ struct retro_core_options_v2 options_pt_pt = {
 #define CATEGORY_NETWORK_INFO_0_RU NULL
 #define CATEGORY_INSTALL_LABEL_RU "Контент"
 #define CATEGORY_INSTALL_INFO_0_RU NULL
+#define CATEGORY_REMOVE_LABEL_RU NULL
+#define CATEGORY_REMOVE_INFO_0_RU NULL
 #define CATEGORY_CAMERA_LABEL_RU "Камера"
 #define CATEGORY_CAMERA_INFO_0_RU NULL
 #define CATEGORY_ACCOUNTS_LABEL_RU "Аккаунты"
 #define CATEGORY_ACCOUNTS_INFO_0_RU NULL
+#define CATEGORY_TROPHIES_LABEL_RU NULL
+#define CATEGORY_TROPHIES_INFO_0_RU NULL
 #define CATEGORY_MODULES_LABEL_RU NULL
 #define CATEGORY_MODULES_INFO_0_RU NULL
 #define VITA3K_BACKEND_RENDERER_LABEL_RU NULL
@@ -25544,6 +28881,26 @@ struct retro_core_options_v2 options_pt_pt = {
 #define OPTION_VAL_RUN_RU NULL
 #define OPTION_VAL_CACHE_RU NULL
 #define OPTION_VAL_INSTALL_RU NULL
+#define VITA3K_TROPHY_SHOW_LABEL_RU NULL
+#define VITA3K_TROPHY_SHOW_INFO_0_RU NULL
+#define OPTION_VAL_ALL_RU "Все"
+#define OPTION_VAL_EARNED_RU NULL
+#define OPTION_VAL_UNEARNED_RU NULL
+#define VITA3K_TROPHY_GRADE_LABEL_RU NULL
+#define VITA3K_TROPHY_GRADE_INFO_0_RU NULL
+#define OPTION_VAL_PLATINUM_RU NULL
+#define OPTION_VAL_GOLD_RU NULL
+#define OPTION_VAL_SILVER_RU NULL
+#define OPTION_VAL_BRONZE_RU NULL
+#define VITA3K_TROPHY_HIDDEN_LABEL_RU NULL
+#define VITA3K_TROPHY_HIDDEN_INFO_0_RU NULL
+#define VITA3K_TROPHY_SORT_LABEL_RU NULL
+#define VITA3K_TROPHY_SORT_INFO_0_RU NULL
+#define OPTION_VAL_TYPE_RU NULL
+#define OPTION_VAL_NAME_RU NULL
+#define OPTION_VAL_DATE_RU NULL
+#define VITA3K_CONTENT_SUBDIRS_LABEL_RU NULL
+#define VITA3K_CONTENT_SUBDIRS_INFO_0_RU NULL
 #define VITA3K_PSTV_MODE_LABEL_RU NULL
 #define VITA3K_PSTV_MODE_INFO_0_RU NULL
 #define VITA3K_MODULES_MODE_LABEL_RU NULL
@@ -25667,8 +29024,10 @@ struct retro_core_option_v2_category option_cats_ru[] = {
     { "audio", CATEGORY_AUDIO_LABEL_RU, CATEGORY_AUDIO_INFO_0_RU },
     { "network", CATEGORY_NETWORK_LABEL_RU, CATEGORY_NETWORK_INFO_0_RU },
     { "install", CATEGORY_INSTALL_LABEL_RU, CATEGORY_INSTALL_INFO_0_RU },
+    { "remove", CATEGORY_REMOVE_LABEL_RU, CATEGORY_REMOVE_INFO_0_RU },
     { "camera", CATEGORY_CAMERA_LABEL_RU, CATEGORY_CAMERA_INFO_0_RU },
     { "accounts", CATEGORY_ACCOUNTS_LABEL_RU, CATEGORY_ACCOUNTS_INFO_0_RU },
+    { "trophies", CATEGORY_TROPHIES_LABEL_RU, CATEGORY_TROPHIES_INFO_0_RU },
     { "modules", CATEGORY_MODULES_LABEL_RU, CATEGORY_MODULES_INFO_0_RU },
     { NULL, NULL, NULL },
 };
@@ -25841,6 +29200,81 @@ struct retro_core_option_v2_definition option_defs_ru[] = {
             { NULL, NULL },
         },
         "run"
+    },
+    {
+        "vita3k_trophy_show",
+        VITA3K_TROPHY_SHOW_LABEL_RU,
+        NULL,
+        VITA3K_TROPHY_SHOW_INFO_0_RU,
+        NULL,
+        "trophies",
+        {
+            { "all", OPTION_VAL_ALL_RU },
+            { "earned", OPTION_VAL_EARNED_RU },
+            { "unearned", OPTION_VAL_UNEARNED_RU },
+            { NULL, NULL },
+        },
+        "all"
+    },
+    {
+        "vita3k_trophy_grade",
+        VITA3K_TROPHY_GRADE_LABEL_RU,
+        NULL,
+        VITA3K_TROPHY_GRADE_INFO_0_RU,
+        NULL,
+        "trophies",
+        {
+            { "all", OPTION_VAL_ALL_RU },
+            { "platinum", OPTION_VAL_PLATINUM_RU },
+            { "gold", OPTION_VAL_GOLD_RU },
+            { "silver", OPTION_VAL_SILVER_RU },
+            { "bronze", OPTION_VAL_BRONZE_RU },
+            { NULL, NULL },
+        },
+        "all"
+    },
+    {
+        "vita3k_trophy_hidden",
+        VITA3K_TROPHY_HIDDEN_LABEL_RU,
+        NULL,
+        VITA3K_TROPHY_HIDDEN_INFO_0_RU,
+        NULL,
+        "trophies",
+        {
+            { "disabled", NULL },
+            { "enabled", NULL },
+            { NULL, NULL },
+        },
+        "disabled"
+    },
+    {
+        "vita3k_trophy_sort",
+        VITA3K_TROPHY_SORT_LABEL_RU,
+        NULL,
+        VITA3K_TROPHY_SORT_INFO_0_RU,
+        NULL,
+        "trophies",
+        {
+            { "type", OPTION_VAL_TYPE_RU },
+            { "name", OPTION_VAL_NAME_RU },
+            { "date", OPTION_VAL_DATE_RU },
+            { NULL, NULL },
+        },
+        "type"
+    },
+    {
+        "vita3k_content_subdirs",
+        VITA3K_CONTENT_SUBDIRS_LABEL_RU,
+        NULL,
+        VITA3K_CONTENT_SUBDIRS_INFO_0_RU,
+        NULL,
+        "install",
+        {
+            { "disabled", NULL },
+            { "enabled", NULL },
+            { NULL, NULL },
+        },
+        "disabled"
     },
     {
         "vita3k_pstv_mode",
@@ -26264,13 +29698,17 @@ struct retro_core_options_v2 options_ru = {
 #define CATEGORY_NETWORK_LABEL_SK "Sieť"
 #define CATEGORY_NETWORK_INFO_0_SK "Voľby siete."
 #define CATEGORY_INSTALL_LABEL_SK "Obsah"
-#define CATEGORY_INSTALL_INFO_0_SK "Ako sa načítava hra, aktualizácia a DLC."
+#define CATEGORY_INSTALL_INFO_0_SK "Správa dát daného titulu, ako aj jeho aktualizácií a stiahnuteľného obsahu."
+#define CATEGORY_REMOVE_LABEL_SK "Odstrániť obsah"
+#define CATEGORY_REMOVE_INFO_0_SK "Vyberie tituly s nainštalovanými dátami a vyrovnávacími pamäťami na zmazanie pri zatvorení alebo resetovaní jadra. Neodstraňuje pôvodné médiá, uložené hry ani trofeje."
 #define CATEGORY_CAMERA_LABEL_SK "Kamera"
 #define CATEGORY_CAMERA_INFO_0_SK "Čo vidia predná a zadná kamera konzoly Vita."
 #define CATEGORY_ACCOUNTS_LABEL_SK "Účty"
 #define CATEGORY_ACCOUNTS_INFO_0_SK "Účty (používatelia) konzoly Vita v ux0/user, každý s vlastnými uloženými hrami a trofejami."
+#define CATEGORY_TROPHIES_LABEL_SK "Trofeje"
+#define CATEGORY_TROPHIES_INFO_0_SK "Trofeje aktuálneho titulu."
 #define CATEGORY_MODULES_LABEL_SK "Moduly"
-#define CATEGORY_MODULES_INFO_0_SK "Moduly firmvéru (vs0/sys/external), ktoré sa načítajú, keď je Režim modulov nastavený na Automaticky a ručne alebo Ručne."
+#define CATEGORY_MODULES_INFO_0_SK "Moduly firmvéru (vs0/sys/external), ktoré sa načítajú, keď je Režim modulov (v Systéme) Automaticky a ručne alebo Ručne."
 #define VITA3K_BACKEND_RENDERER_LABEL_SK "Renderer"
 #define VITA3K_BACKEND_RENDERER_INFO_0_SK "Vyberte grafický backend. Odporúča sa Vulkan."
 #define OPTION_VAL_VULKAN_SK NULL
@@ -26310,11 +29748,31 @@ struct retro_core_options_v2 options_ru = {
 #define VITA3K_HIGH_ACCURACY_INFO_0_SK "Zapne presnejšie, ale pomalšie techniky vykresľovania."
 #define VITA3K_CPU_OPT_LABEL_SK "Optimalizácie CPU (Dynarmic JIT)"
 #define VITA3K_CPU_OPT_INFO_0_SK "Zapne Dynarmic JIT pre rýchlejšiu emuláciu procesora."
-#define VITA3K_PKG_MODE_LABEL_SK "Prednačítanie hry"
-#define VITA3K_PKG_MODE_INFO_0_SK "Všetok obsah sa riadi týmto nastavením okrem aktualizácií a DLC nainštalovaných vynútene (načítaných ručne). Spustiť bez inštalácie: číta zo súboru, nič sa neuchováva. Trvalá vyrovnávacia pamäť: to isté, ale uchová, čo sa prečítalo. Inštalovať: skopíruje všetky súbory, aby sa spúšťalo rýchlejšie."
-#define OPTION_VAL_RUN_SK "Spustiť bez inštalácie"
-#define OPTION_VAL_CACHE_SK "Trvalá vyrovnávacia pamäť"
-#define OPTION_VAL_INSTALL_SK "Inštalovať"
+#define VITA3K_PKG_MODE_LABEL_SK "Spôsob spustenia"
+#define VITA3K_PKG_MODE_INFO_0_SK "Ako sa spúšťa titul, jeho aktualizácie a stiahnuteľný obsah (DLC). Predvolene zapína aktualizácie a DLC v adresári titulu. Dajú sa načítať aj odinakiaľ, a vtedy sa nainštalujú bez ohľadu na Spôsob spustenia.\n\nPriamo: Spúšťa priamo z pôvodného média.\nPriamo s vyrovnávacou pamäťou: Rovnako ako Priamo, ale jadro ukladá čítané dáta do lokálneho úložiska. V niektorých prípadoch to pomáha výkonu, napríklad pri médiách na sieťovom úložisku s vysokou latenciou.\nNainštalované: Pri prvom načítaní nainštaluje pôvodné médium a spúšťa ho z lokálneho úložiska."
+#define OPTION_VAL_RUN_SK "Priamo"
+#define OPTION_VAL_CACHE_SK "Priamo s vyrovnávacou pamäťou"
+#define OPTION_VAL_INSTALL_SK "Nainštalované"
+#define VITA3K_TROPHY_SHOW_LABEL_SK "Zobraziť: stav získania"
+#define VITA3K_TROPHY_SHOW_INFO_0_SK "Určuje, ktoré trofeje sa zobrazia podľa toho, či boli získané."
+#define OPTION_VAL_ALL_SK "Všetko"
+#define OPTION_VAL_EARNED_SK "Získané"
+#define OPTION_VAL_UNEARNED_SK "Nezískané"
+#define VITA3K_TROPHY_GRADE_LABEL_SK "Zobraziť: stupeň"
+#define VITA3K_TROPHY_GRADE_INFO_0_SK "Určuje, ktoré trofeje sa zobrazia podľa ich stupňa (platinová, zlatá, strieborná alebo bronzová)."
+#define OPTION_VAL_PLATINUM_SK "Platinová"
+#define OPTION_VAL_GOLD_SK "Zlatá"
+#define OPTION_VAL_SILVER_SK "Strieborná"
+#define OPTION_VAL_BRONZE_SK "Bronzová"
+#define VITA3K_TROPHY_HIDDEN_LABEL_SK "Zobraziť: skryté"
+#define VITA3K_TROPHY_HIDDEN_INFO_0_SK "Určuje zobrazenie skrytých trofejí."
+#define VITA3K_TROPHY_SORT_LABEL_SK "Spôsob zoradenia"
+#define VITA3K_TROPHY_SORT_INFO_0_SK "Určuje, ako sa trofeje zoradia."
+#define OPTION_VAL_TYPE_SK "Podľa stupňa"
+#define OPTION_VAL_NAME_SK "Podľa názvu"
+#define OPTION_VAL_DATE_SK "Podľa dátumu získania"
+#define VITA3K_CONTENT_SUBDIRS_LABEL_SK "Zahrnúť podadresáre"
+#define VITA3K_CONTENT_SUBDIRS_INFO_0_SK "ZAPNUTÉ: Načíta aktualizácie a DLC v adresári titulu a v jeho podadresároch.\nVYPNUTÉ: Načíta aktualizácie a DLC iba v adresári titulu."
 #define VITA3K_PSTV_MODE_LABEL_SK "Režim PS TV"
 #define VITA3K_PSTV_MODE_INFO_0_SK "Emuluje PlayStation TV namiesto PS Vita."
 #define VITA3K_MODULES_MODE_LABEL_SK "Režim modulov"
@@ -26438,8 +29896,10 @@ struct retro_core_option_v2_category option_cats_sk[] = {
     { "audio", CATEGORY_AUDIO_LABEL_SK, CATEGORY_AUDIO_INFO_0_SK },
     { "network", CATEGORY_NETWORK_LABEL_SK, CATEGORY_NETWORK_INFO_0_SK },
     { "install", CATEGORY_INSTALL_LABEL_SK, CATEGORY_INSTALL_INFO_0_SK },
+    { "remove", CATEGORY_REMOVE_LABEL_SK, CATEGORY_REMOVE_INFO_0_SK },
     { "camera", CATEGORY_CAMERA_LABEL_SK, CATEGORY_CAMERA_INFO_0_SK },
     { "accounts", CATEGORY_ACCOUNTS_LABEL_SK, CATEGORY_ACCOUNTS_INFO_0_SK },
+    { "trophies", CATEGORY_TROPHIES_LABEL_SK, CATEGORY_TROPHIES_INFO_0_SK },
     { "modules", CATEGORY_MODULES_LABEL_SK, CATEGORY_MODULES_INFO_0_SK },
     { NULL, NULL, NULL },
 };
@@ -26612,6 +30072,81 @@ struct retro_core_option_v2_definition option_defs_sk[] = {
             { NULL, NULL },
         },
         "run"
+    },
+    {
+        "vita3k_trophy_show",
+        VITA3K_TROPHY_SHOW_LABEL_SK,
+        NULL,
+        VITA3K_TROPHY_SHOW_INFO_0_SK,
+        NULL,
+        "trophies",
+        {
+            { "all", OPTION_VAL_ALL_SK },
+            { "earned", OPTION_VAL_EARNED_SK },
+            { "unearned", OPTION_VAL_UNEARNED_SK },
+            { NULL, NULL },
+        },
+        "all"
+    },
+    {
+        "vita3k_trophy_grade",
+        VITA3K_TROPHY_GRADE_LABEL_SK,
+        NULL,
+        VITA3K_TROPHY_GRADE_INFO_0_SK,
+        NULL,
+        "trophies",
+        {
+            { "all", OPTION_VAL_ALL_SK },
+            { "platinum", OPTION_VAL_PLATINUM_SK },
+            { "gold", OPTION_VAL_GOLD_SK },
+            { "silver", OPTION_VAL_SILVER_SK },
+            { "bronze", OPTION_VAL_BRONZE_SK },
+            { NULL, NULL },
+        },
+        "all"
+    },
+    {
+        "vita3k_trophy_hidden",
+        VITA3K_TROPHY_HIDDEN_LABEL_SK,
+        NULL,
+        VITA3K_TROPHY_HIDDEN_INFO_0_SK,
+        NULL,
+        "trophies",
+        {
+            { "disabled", NULL },
+            { "enabled", NULL },
+            { NULL, NULL },
+        },
+        "disabled"
+    },
+    {
+        "vita3k_trophy_sort",
+        VITA3K_TROPHY_SORT_LABEL_SK,
+        NULL,
+        VITA3K_TROPHY_SORT_INFO_0_SK,
+        NULL,
+        "trophies",
+        {
+            { "type", OPTION_VAL_TYPE_SK },
+            { "name", OPTION_VAL_NAME_SK },
+            { "date", OPTION_VAL_DATE_SK },
+            { NULL, NULL },
+        },
+        "type"
+    },
+    {
+        "vita3k_content_subdirs",
+        VITA3K_CONTENT_SUBDIRS_LABEL_SK,
+        NULL,
+        VITA3K_CONTENT_SUBDIRS_INFO_0_SK,
+        NULL,
+        "install",
+        {
+            { "disabled", NULL },
+            { "enabled", NULL },
+            { NULL, NULL },
+        },
+        "disabled"
     },
     {
         "vita3k_pstv_mode",
@@ -27036,10 +30571,14 @@ struct retro_core_options_v2 options_sk = {
 #define CATEGORY_NETWORK_INFO_0_SR NULL
 #define CATEGORY_INSTALL_LABEL_SR NULL
 #define CATEGORY_INSTALL_INFO_0_SR NULL
+#define CATEGORY_REMOVE_LABEL_SR NULL
+#define CATEGORY_REMOVE_INFO_0_SR NULL
 #define CATEGORY_CAMERA_LABEL_SR "Kamera"
 #define CATEGORY_CAMERA_INFO_0_SR NULL
 #define CATEGORY_ACCOUNTS_LABEL_SR NULL
 #define CATEGORY_ACCOUNTS_INFO_0_SR NULL
+#define CATEGORY_TROPHIES_LABEL_SR NULL
+#define CATEGORY_TROPHIES_INFO_0_SR NULL
 #define CATEGORY_MODULES_LABEL_SR NULL
 #define CATEGORY_MODULES_INFO_0_SR NULL
 #define VITA3K_BACKEND_RENDERER_LABEL_SR NULL
@@ -27086,6 +30625,26 @@ struct retro_core_options_v2 options_sk = {
 #define OPTION_VAL_RUN_SR NULL
 #define OPTION_VAL_CACHE_SR NULL
 #define OPTION_VAL_INSTALL_SR NULL
+#define VITA3K_TROPHY_SHOW_LABEL_SR NULL
+#define VITA3K_TROPHY_SHOW_INFO_0_SR NULL
+#define OPTION_VAL_ALL_SR NULL
+#define OPTION_VAL_EARNED_SR NULL
+#define OPTION_VAL_UNEARNED_SR NULL
+#define VITA3K_TROPHY_GRADE_LABEL_SR NULL
+#define VITA3K_TROPHY_GRADE_INFO_0_SR NULL
+#define OPTION_VAL_PLATINUM_SR NULL
+#define OPTION_VAL_GOLD_SR NULL
+#define OPTION_VAL_SILVER_SR NULL
+#define OPTION_VAL_BRONZE_SR NULL
+#define VITA3K_TROPHY_HIDDEN_LABEL_SR NULL
+#define VITA3K_TROPHY_HIDDEN_INFO_0_SR NULL
+#define VITA3K_TROPHY_SORT_LABEL_SR NULL
+#define VITA3K_TROPHY_SORT_INFO_0_SR NULL
+#define OPTION_VAL_TYPE_SR NULL
+#define OPTION_VAL_NAME_SR NULL
+#define OPTION_VAL_DATE_SR NULL
+#define VITA3K_CONTENT_SUBDIRS_LABEL_SR NULL
+#define VITA3K_CONTENT_SUBDIRS_INFO_0_SR NULL
 #define VITA3K_PSTV_MODE_LABEL_SR NULL
 #define VITA3K_PSTV_MODE_INFO_0_SR NULL
 #define VITA3K_MODULES_MODE_LABEL_SR NULL
@@ -27209,8 +30768,10 @@ struct retro_core_option_v2_category option_cats_sr[] = {
     { "audio", CATEGORY_AUDIO_LABEL_SR, CATEGORY_AUDIO_INFO_0_SR },
     { "network", CATEGORY_NETWORK_LABEL_SR, CATEGORY_NETWORK_INFO_0_SR },
     { "install", CATEGORY_INSTALL_LABEL_SR, CATEGORY_INSTALL_INFO_0_SR },
+    { "remove", CATEGORY_REMOVE_LABEL_SR, CATEGORY_REMOVE_INFO_0_SR },
     { "camera", CATEGORY_CAMERA_LABEL_SR, CATEGORY_CAMERA_INFO_0_SR },
     { "accounts", CATEGORY_ACCOUNTS_LABEL_SR, CATEGORY_ACCOUNTS_INFO_0_SR },
+    { "trophies", CATEGORY_TROPHIES_LABEL_SR, CATEGORY_TROPHIES_INFO_0_SR },
     { "modules", CATEGORY_MODULES_LABEL_SR, CATEGORY_MODULES_INFO_0_SR },
     { NULL, NULL, NULL },
 };
@@ -27383,6 +30944,81 @@ struct retro_core_option_v2_definition option_defs_sr[] = {
             { NULL, NULL },
         },
         "run"
+    },
+    {
+        "vita3k_trophy_show",
+        VITA3K_TROPHY_SHOW_LABEL_SR,
+        NULL,
+        VITA3K_TROPHY_SHOW_INFO_0_SR,
+        NULL,
+        "trophies",
+        {
+            { "all", OPTION_VAL_ALL_SR },
+            { "earned", OPTION_VAL_EARNED_SR },
+            { "unearned", OPTION_VAL_UNEARNED_SR },
+            { NULL, NULL },
+        },
+        "all"
+    },
+    {
+        "vita3k_trophy_grade",
+        VITA3K_TROPHY_GRADE_LABEL_SR,
+        NULL,
+        VITA3K_TROPHY_GRADE_INFO_0_SR,
+        NULL,
+        "trophies",
+        {
+            { "all", OPTION_VAL_ALL_SR },
+            { "platinum", OPTION_VAL_PLATINUM_SR },
+            { "gold", OPTION_VAL_GOLD_SR },
+            { "silver", OPTION_VAL_SILVER_SR },
+            { "bronze", OPTION_VAL_BRONZE_SR },
+            { NULL, NULL },
+        },
+        "all"
+    },
+    {
+        "vita3k_trophy_hidden",
+        VITA3K_TROPHY_HIDDEN_LABEL_SR,
+        NULL,
+        VITA3K_TROPHY_HIDDEN_INFO_0_SR,
+        NULL,
+        "trophies",
+        {
+            { "disabled", NULL },
+            { "enabled", NULL },
+            { NULL, NULL },
+        },
+        "disabled"
+    },
+    {
+        "vita3k_trophy_sort",
+        VITA3K_TROPHY_SORT_LABEL_SR,
+        NULL,
+        VITA3K_TROPHY_SORT_INFO_0_SR,
+        NULL,
+        "trophies",
+        {
+            { "type", OPTION_VAL_TYPE_SR },
+            { "name", OPTION_VAL_NAME_SR },
+            { "date", OPTION_VAL_DATE_SR },
+            { NULL, NULL },
+        },
+        "type"
+    },
+    {
+        "vita3k_content_subdirs",
+        VITA3K_CONTENT_SUBDIRS_LABEL_SR,
+        NULL,
+        VITA3K_CONTENT_SUBDIRS_INFO_0_SR,
+        NULL,
+        "install",
+        {
+            { "disabled", NULL },
+            { "enabled", NULL },
+            { NULL, NULL },
+        },
+        "disabled"
     },
     {
         "vita3k_pstv_mode",
@@ -27796,7 +31432,7 @@ struct retro_core_options_v2 options_sr = {
 /* RETRO_LANGUAGE_SV */
 
 #define CATEGORY_GPU_LABEL_SV NULL
-#define CATEGORY_GPU_INFO_0_SV "Alternativ för grafikrendering."
+#define CATEGORY_GPU_INFO_0_SV "Alternativ för grafikåtergivning."
 #define CATEGORY_CPU_LABEL_SV NULL
 #define CATEGORY_CPU_INFO_0_SV "Alternativ för CPU-emulering."
 #define CATEGORY_SYSTEM_LABEL_SV NULL
@@ -27806,19 +31442,23 @@ struct retro_core_options_v2 options_sr = {
 #define CATEGORY_NETWORK_LABEL_SV "Nätverk"
 #define CATEGORY_NETWORK_INFO_0_SV "Nätverksalternativ."
 #define CATEGORY_INSTALL_LABEL_SV "Innehåll"
-#define CATEGORY_INSTALL_INFO_0_SV "Hur ett spel, en uppdatering och DLC läses in."
+#define CATEGORY_INSTALL_INFO_0_SV "Hantera data för en viss titel samt uppdateringar och nedladdningsbart innehåll."
+#define CATEGORY_REMOVE_LABEL_SV "Ta bort innehåll"
+#define CATEGORY_REMOVE_INFO_0_SV "Väljer titlar med installerade data och cache som ska tas bort när kärnan stängs eller återställs. Originalmedia, sparade spel och troféer tas inte bort."
 #define CATEGORY_CAMERA_LABEL_SV "Kamera"
 #define CATEGORY_CAMERA_INFO_0_SV "Vad Vitas främre och bakre kameror ser."
 #define CATEGORY_ACCOUNTS_LABEL_SV "Konton"
-#define CATEGORY_ACCOUNTS_INFO_0_SV "Vitas konton i ux0/user, vart och ett med egna sparfiler och troféer."
+#define CATEGORY_ACCOUNTS_INFO_0_SV "Vitas konton (användare) i ux0/user, vart och ett med egna sparfiler och troféer."
+#define CATEGORY_TROPHIES_LABEL_SV "Troféer"
+#define CATEGORY_TROPHIES_INFO_0_SV "Den aktuella titelns troféer."
 #define CATEGORY_MODULES_LABEL_SV "Moduler"
-#define CATEGORY_MODULES_INFO_0_SV "De fasta programvarumodulerna i vs0/sys/external som ska läsas in när modulläget är Auto och manuellt eller Manuellt."
-#define VITA3K_BACKEND_RENDERER_LABEL_SV "Bakändesrenderare"
+#define CATEGORY_MODULES_INFO_0_SV "Moduler från den inbyggda programvaran (vs0/sys/external) som ska läsas in när modulläget (under System) är Automatiskt och manuellt eller Manuellt."
+#define VITA3K_BACKEND_RENDERER_LABEL_SV "Renderingsbakände"
 #define VITA3K_BACKEND_RENDERER_INFO_0_SV "Välj grafikbakände. Vulkan rekommenderas."
 #define OPTION_VAL_VULKAN_SV NULL
 #define OPTION_VAL_OPENGL_SV NULL
 #define VITA3K_RESOLUTION_MULTIPLIER_LABEL_SV "Intern upplösningsmultiplikator"
-#define VITA3K_RESOLUTION_MULTIPLIER_INFO_0_SV "Multiplikator för den interna renderingsupplösningen, med 960x544 som bas."
+#define VITA3K_RESOLUTION_MULTIPLIER_INFO_0_SV "Multiplikator för den interna renderingsupplösningen (960x544 som bas)."
 #define OPTION_VAL_1_SV NULL
 #define OPTION_VAL_2_SV NULL
 #define OPTION_VAL_3_SV NULL
@@ -27848,29 +31488,49 @@ struct retro_core_options_v2 options_sr = {
 #define OPTION_VAL_EXTERNAL_HOST_SV "Extern värd"
 #define OPTION_VAL_PAGE_TABLE_SV "Sidtabell"
 #define OPTION_VAL_NATIVE_BUFFER_SV "Inbyggd buffert"
-#define VITA3K_HIGH_ACCURACY_LABEL_SV "Rendering med hög noggrannhet"
+#define VITA3K_HIGH_ACCURACY_LABEL_SV "Återgivning med hög noggrannhet"
 #define VITA3K_HIGH_ACCURACY_INFO_0_SV "Aktivera mer noggranna men långsammare renderingstekniker."
 #define VITA3K_CPU_OPT_LABEL_SV "CPU-optimeringar (Dynarmic JIT)"
 #define VITA3K_CPU_OPT_INFO_0_SV "Aktivera Dynarmic JIT för snabbare CPU-emulering."
-#define VITA3K_PKG_MODE_LABEL_SV "Förinläsning av spel"
-#define VITA3K_PKG_MODE_INFO_0_SV "Allt innehåll följer denna inställning utom uppdateringar och DLC som tvångsinstalleras och läses in manuellt. Kör utan installation: läser från filen och sparar inget. Beständig cache: samma sak men behåller det som lästs. Installera: kopierar alla filer för snabbare start."
-#define OPTION_VAL_RUN_SV "Kör utan installation"
-#define OPTION_VAL_CACHE_SV "Beständig cache"
-#define OPTION_VAL_INSTALL_SV "Installera"
+#define VITA3K_PKG_MODE_LABEL_SV "Körläge"
+#define VITA3K_PKG_MODE_INFO_0_SV "Hur en titel, dess uppdateringar och nedladdningsbara innehåll (DLC) körs. Uppdateringar och DLC i titelns katalog aktiveras som standard. De kan också läsas in från andra platser och installeras då oavsett körläge.\n\nDirekt: Kör direkt från originalmediet.\nDirekt med cache: Samma som Direkt, men kärnan mellanlagrar lästa data lokalt. Det kan förbättra prestandan i vissa fall, till exempel när mediet finns på en nätverksresurs med hög fördröjning.\nInstallerat: Installerar originalmediet första gången det läses in och kör det från lokal lagring."
+#define OPTION_VAL_RUN_SV "Direkt"
+#define OPTION_VAL_CACHE_SV "Direkt med cache"
+#define OPTION_VAL_INSTALL_SV "Installerat"
+#define VITA3K_TROPHY_SHOW_LABEL_SV "Visa: intjänandestatus"
+#define VITA3K_TROPHY_SHOW_INFO_0_SV "Styr vilka troféer som visas beroende på om de har tjänats in eller inte."
+#define OPTION_VAL_ALL_SV "Alla"
+#define OPTION_VAL_EARNED_SV "Intjänad"
+#define OPTION_VAL_UNEARNED_SV "Inte intjänad"
+#define VITA3K_TROPHY_GRADE_LABEL_SV "Visa: grad"
+#define VITA3K_TROPHY_GRADE_INFO_0_SV "Styr vilka troféer som visas utifrån deras grad (platina, guld, silver eller brons)."
+#define OPTION_VAL_PLATINUM_SV "Platina"
+#define OPTION_VAL_GOLD_SV "Guld"
+#define OPTION_VAL_SILVER_SV NULL
+#define OPTION_VAL_BRONZE_SV "Brons"
+#define VITA3K_TROPHY_HIDDEN_LABEL_SV "Visa: dolda"
+#define VITA3K_TROPHY_HIDDEN_INFO_0_SV "Styr visningen av dolda troféer."
+#define VITA3K_TROPHY_SORT_LABEL_SV "Sorteringsmetod"
+#define VITA3K_TROPHY_SORT_INFO_0_SV "Styr hur troféerna sorteras."
+#define OPTION_VAL_TYPE_SV "Efter grad"
+#define OPTION_VAL_NAME_SV "Efter namn"
+#define OPTION_VAL_DATE_SV "Efter intjänandedatum"
+#define VITA3K_CONTENT_SUBDIRS_LABEL_SV "Inkludera underkataloger"
+#define VITA3K_CONTENT_SUBDIRS_INFO_0_SV "PÅ: Läser in uppdateringar och DLC i titelns katalog och underkataloger.\nAV: Läser bara in uppdateringar och DLC i titelns katalog."
 #define VITA3K_PSTV_MODE_LABEL_SV "PS TV-läge"
 #define VITA3K_PSTV_MODE_INFO_0_SV "Emulera en PlayStation TV i stället för en PS Vita."
 #define VITA3K_MODULES_MODE_LABEL_SV "Modulläge"
-#define VITA3K_MODULES_MODE_INFO_0_SV "Hur systemmoduler läses in. Automatiskt: kärnans egen implementering och de inbyggda moduler som kärnan vet att den behöver. Auto och manuellt: dessa samt modulerna som aktiveras under Moduler. Manuellt: endast modulerna som aktiveras under Moduler. Automatiskt rekommenderas."
+#define VITA3K_MODULES_MODE_INFO_0_SV "Hur systemmoduler läses in. Automatiskt: kärnans egen implementering och programvarans moduler som kärnan vet att den behöver. Automatiskt och manuellt: dessa samt modulerna som aktiveras under Moduler. Manuellt: endast modulerna som aktiveras under Moduler. Automatiskt rekommenderas."
 #define OPTION_VAL_0_SV "Automatisk"
 #define OPTION_VAL_1_VITA3K_MODULES_MODE_SV "Automatiskt och manuellt"
 #define OPTION_VAL_2_VITA3K_MODULES_MODE_SV "Manuell"
-#define VITA3K_FPS_HACK_LABEL_SV "FPS-rättning (30 till 60)"
+#define VITA3K_FPS_HACK_LABEL_SV "FPS-korrigering (30 till 60)"
 #define VITA3K_FPS_HACK_INFO_0_SV "Försök köra spel som är låsta till 30 fps i 60 fps. Kan orsaka problem."
 #define VITA3K_SYS_BUTTON_LABEL_SV "Bekräftelseknapp"
 #define VITA3K_SYS_BUTTON_INFO_0_SV "Vilken knapp som används för bekräftelseåtgärder."
 #define OPTION_VAL_0_VITA3K_SYS_BUTTON_SV "Cirkel"
 #define OPTION_VAL_1_VITA3K_SYS_BUTTON_SV "Kors"
-#define VITA3K_SYS_LANG_LABEL_SV "SPU: noggrann kontroll av denormala tal"
+#define VITA3K_SYS_LANG_LABEL_SV "Systemspråk"
 #define VITA3K_SYS_LANG_INFO_0_SV "Konsolens språk, som spel använder för sin text och som visas i systemdialogerna. Tillämpas nästa gång spelet startas."
 #define OPTION_VAL_0_VITA3K_SYS_LANG_SV "Japanska"
 #define OPTION_VAL_1_VITA3K_SYS_LANG_SV "Engelska (USA)"
@@ -27893,7 +31553,7 @@ struct retro_core_options_v2 options_sr = {
 #define OPTION_VAL_18_SV "Engelska (Storbritannien)"
 #define OPTION_VAL_19_SV "Turkiska"
 #define VITA3K_SYS_DATE_FORMAT_LABEL_SV "Datumformat"
-#define VITA3K_SYS_DATE_FORMAT_INFO_0_SV "Hur konsolen skriver datum i spel och systemdialoger, till exempel listor över sparade data. Datum och tid hämtas från värddatorn. Tillämpas nästa gång spelet startas."
+#define VITA3K_SYS_DATE_FORMAT_INFO_0_SV "Hur konsolen skriver datum i spel och systemdialoger (till exempel listor över sparade data). Datum och tid hämtas från värddatorn. Tillämpas nästa gång spelet startas."
 #define OPTION_VAL_0_VITA3K_SYS_DATE_FORMAT_SV "ÅÅÅÅ/MM/DD"
 #define OPTION_VAL_1_VITA3K_SYS_DATE_FORMAT_SV "DD/MM/ÅÅÅÅ"
 #define OPTION_VAL_2_VITA3K_SYS_DATE_FORMAT_SV "MM/DD/ÅÅÅÅ"
@@ -27903,17 +31563,17 @@ struct retro_core_options_v2 options_sr = {
 #define OPTION_VAL_1_VITA3K_SYS_TIME_FORMAT_SV "24-timmarsformat"
 #define VITA3K_AUDIO_VOLUME_LABEL_SV "Ljudvolym"
 #define VITA3K_AUDIO_VOLUME_INFO_0_SV "Huvudvolym för ljud."
-#define OPTION_VAL_0_VITA3K_AUDIO_VOLUME_SV "0 (standard)"
+#define OPTION_VAL_0_VITA3K_AUDIO_VOLUME_SV "0 %"
 #define OPTION_VAL_10_VITA3K_AUDIO_VOLUME_SV "10 %"
-#define OPTION_VAL_20_SV NULL
-#define OPTION_VAL_30_SV NULL
-#define OPTION_VAL_40_SV NULL
-#define OPTION_VAL_50_SV NULL
-#define OPTION_VAL_60_SV NULL
-#define OPTION_VAL_70_SV NULL
-#define OPTION_VAL_80_SV NULL
-#define OPTION_VAL_90_SV NULL
-#define OPTION_VAL_100_SV NULL
+#define OPTION_VAL_20_SV "20 %"
+#define OPTION_VAL_30_SV "30 %"
+#define OPTION_VAL_40_SV "40 %"
+#define OPTION_VAL_50_SV "50 %"
+#define OPTION_VAL_60_SV "60 %"
+#define OPTION_VAL_70_SV "70 %"
+#define OPTION_VAL_80_SV "80 %"
+#define OPTION_VAL_90_SV "90 %"
+#define OPTION_VAL_100_SV "100 %"
 #define VITA3K_NGS_ENABLE_LABEL_SV "NGS-ljudmotor"
 #define VITA3K_NGS_ENABLE_INFO_0_SV "Aktivera NGS-ljudmotorn för förbättrat ljud."
 #define VITA3K_PSN_SIGNED_IN_LABEL_SV "Inloggad på PSN"
@@ -27943,7 +31603,7 @@ struct retro_core_options_v2 options_sr = {
 #define VITA3K_HTTP_READ_END_SLEEP_LABEL_SV "Väntetid efter slut på HTTP-läsning"
 #define VITA3K_HTTP_READ_END_SLEEP_INFO_0_SV "Hur länge systemet väntar mellan nya läsförsök. Färre kan förbättra prestandan men göra spel instabila med en tillräckligt dålig anslutning. Tillämpas nästa gång spelet startas."
 #define VITA3K_FRONT_CAMERA_LABEL_SV "Främre kamera"
-#define VITA3K_FRONT_CAMERA_INFO_0_SV "Vad Vitas främre kamera ser. Värdkamera: RetroArchs kamera; Inställningar > Sekretess > Kameraåtkomst måste vara aktiverat och en kameradrivrutin måste finnas för plattformen. Bild: system/vita3k/camera/front.png eller front.jpg. Helfärg: färgen för främre kamera. När en källa saknas används nästa. Tillämpas nästa gång spelet öppnar kameran."
+#define VITA3K_FRONT_CAMERA_INFO_0_SV "Vad Vitas främre kamera ser. Värdkamera: RetroArchs kamera (Inställningar > Sekretess > Kameraåtkomst måste vara aktiverat och en kameradrivrutin måste finnas för plattformen). Bild: system/vita3k/camera/front.png eller front.jpg. Helfärg: färgen för främre kamera. När en källa saknas används nästa. Tillämpas nästa gång spelet öppnar kameran."
 #define OPTION_VAL_HOST_SV "Värdkamera"
 #define OPTION_VAL_IMAGE_SV "Bild"
 #define OPTION_VAL_COLOR_SV "Helfärg"
@@ -27956,7 +31616,7 @@ struct retro_core_options_v2 options_sr = {
 #define OPTION_VAL_65280_SV "Grön"
 #define OPTION_VAL_16711680_SV "Blå"
 #define VITA3K_BACK_CAMERA_LABEL_SV "Bakre kamera"
-#define VITA3K_BACK_CAMERA_INFO_0_SV "Vad Vitas bakre kamera ser. Värdkamera: RetroArchs kamera; Inställningar > Sekretess > Kameraåtkomst måste vara aktiverat och en kameradrivrutin måste finnas för plattformen. Bild: system/vita3k/camera/back.png eller back.jpg. Helfärg: färgen för bakre kamera. När en källa saknas används nästa. Tillämpas nästa gång spelet öppnar kameran."
+#define VITA3K_BACK_CAMERA_INFO_0_SV "Vad Vitas bakre kamera ser. Värdkamera: RetroArchs kamera (Inställningar > Sekretess > Kameraåtkomst måste vara aktiverat och en kameradrivrutin måste finnas för plattformen). Bild: system/vita3k/camera/back.png eller back.jpg. Helfärg: färgen för bakre kamera. När en källa saknas används nästa. Tillämpas nästa gång spelet öppnar kameran."
 #define VITA3K_BACK_CAMERA_COLOR_LABEL_SV "Färg för bakre kamera"
 #define VITA3K_BACK_CAMERA_COLOR_INFO_0_SV "Den färg som den bakre kameran visar med Helfärg."
 #define VITA3K_SURFACE_SYNC_LABEL_SV "Ytsynkronisering"
@@ -27980,8 +31640,10 @@ struct retro_core_option_v2_category option_cats_sv[] = {
     { "audio", CATEGORY_AUDIO_LABEL_SV, CATEGORY_AUDIO_INFO_0_SV },
     { "network", CATEGORY_NETWORK_LABEL_SV, CATEGORY_NETWORK_INFO_0_SV },
     { "install", CATEGORY_INSTALL_LABEL_SV, CATEGORY_INSTALL_INFO_0_SV },
+    { "remove", CATEGORY_REMOVE_LABEL_SV, CATEGORY_REMOVE_INFO_0_SV },
     { "camera", CATEGORY_CAMERA_LABEL_SV, CATEGORY_CAMERA_INFO_0_SV },
     { "accounts", CATEGORY_ACCOUNTS_LABEL_SV, CATEGORY_ACCOUNTS_INFO_0_SV },
+    { "trophies", CATEGORY_TROPHIES_LABEL_SV, CATEGORY_TROPHIES_INFO_0_SV },
     { "modules", CATEGORY_MODULES_LABEL_SV, CATEGORY_MODULES_INFO_0_SV },
     { NULL, NULL, NULL },
 };
@@ -28154,6 +31816,81 @@ struct retro_core_option_v2_definition option_defs_sv[] = {
             { NULL, NULL },
         },
         "run"
+    },
+    {
+        "vita3k_trophy_show",
+        VITA3K_TROPHY_SHOW_LABEL_SV,
+        NULL,
+        VITA3K_TROPHY_SHOW_INFO_0_SV,
+        NULL,
+        "trophies",
+        {
+            { "all", OPTION_VAL_ALL_SV },
+            { "earned", OPTION_VAL_EARNED_SV },
+            { "unearned", OPTION_VAL_UNEARNED_SV },
+            { NULL, NULL },
+        },
+        "all"
+    },
+    {
+        "vita3k_trophy_grade",
+        VITA3K_TROPHY_GRADE_LABEL_SV,
+        NULL,
+        VITA3K_TROPHY_GRADE_INFO_0_SV,
+        NULL,
+        "trophies",
+        {
+            { "all", OPTION_VAL_ALL_SV },
+            { "platinum", OPTION_VAL_PLATINUM_SV },
+            { "gold", OPTION_VAL_GOLD_SV },
+            { "silver", OPTION_VAL_SILVER_SV },
+            { "bronze", OPTION_VAL_BRONZE_SV },
+            { NULL, NULL },
+        },
+        "all"
+    },
+    {
+        "vita3k_trophy_hidden",
+        VITA3K_TROPHY_HIDDEN_LABEL_SV,
+        NULL,
+        VITA3K_TROPHY_HIDDEN_INFO_0_SV,
+        NULL,
+        "trophies",
+        {
+            { "disabled", NULL },
+            { "enabled", NULL },
+            { NULL, NULL },
+        },
+        "disabled"
+    },
+    {
+        "vita3k_trophy_sort",
+        VITA3K_TROPHY_SORT_LABEL_SV,
+        NULL,
+        VITA3K_TROPHY_SORT_INFO_0_SV,
+        NULL,
+        "trophies",
+        {
+            { "type", OPTION_VAL_TYPE_SV },
+            { "name", OPTION_VAL_NAME_SV },
+            { "date", OPTION_VAL_DATE_SV },
+            { NULL, NULL },
+        },
+        "type"
+    },
+    {
+        "vita3k_content_subdirs",
+        VITA3K_CONTENT_SUBDIRS_LABEL_SV,
+        NULL,
+        VITA3K_CONTENT_SUBDIRS_INFO_0_SV,
+        NULL,
+        "install",
+        {
+            { "disabled", NULL },
+            { "enabled", NULL },
+            { NULL, NULL },
+        },
+        "disabled"
     },
     {
         "vita3k_pstv_mode",
@@ -28578,10 +32315,14 @@ struct retro_core_options_v2 options_sv = {
 #define CATEGORY_NETWORK_INFO_0_TH NULL
 #define CATEGORY_INSTALL_LABEL_TH "เนื้อหา"
 #define CATEGORY_INSTALL_INFO_0_TH NULL
+#define CATEGORY_REMOVE_LABEL_TH NULL
+#define CATEGORY_REMOVE_INFO_0_TH NULL
 #define CATEGORY_CAMERA_LABEL_TH "กล้อง"
 #define CATEGORY_CAMERA_INFO_0_TH NULL
 #define CATEGORY_ACCOUNTS_LABEL_TH "บัญชีผู้ใช้"
 #define CATEGORY_ACCOUNTS_INFO_0_TH NULL
+#define CATEGORY_TROPHIES_LABEL_TH NULL
+#define CATEGORY_TROPHIES_INFO_0_TH NULL
 #define CATEGORY_MODULES_LABEL_TH NULL
 #define CATEGORY_MODULES_INFO_0_TH NULL
 #define VITA3K_BACKEND_RENDERER_LABEL_TH NULL
@@ -28628,6 +32369,26 @@ struct retro_core_options_v2 options_sv = {
 #define OPTION_VAL_RUN_TH NULL
 #define OPTION_VAL_CACHE_TH NULL
 #define OPTION_VAL_INSTALL_TH NULL
+#define VITA3K_TROPHY_SHOW_LABEL_TH NULL
+#define VITA3K_TROPHY_SHOW_INFO_0_TH NULL
+#define OPTION_VAL_ALL_TH "ทั้งหมด"
+#define OPTION_VAL_EARNED_TH NULL
+#define OPTION_VAL_UNEARNED_TH NULL
+#define VITA3K_TROPHY_GRADE_LABEL_TH NULL
+#define VITA3K_TROPHY_GRADE_INFO_0_TH NULL
+#define OPTION_VAL_PLATINUM_TH NULL
+#define OPTION_VAL_GOLD_TH NULL
+#define OPTION_VAL_SILVER_TH NULL
+#define OPTION_VAL_BRONZE_TH NULL
+#define VITA3K_TROPHY_HIDDEN_LABEL_TH NULL
+#define VITA3K_TROPHY_HIDDEN_INFO_0_TH NULL
+#define VITA3K_TROPHY_SORT_LABEL_TH NULL
+#define VITA3K_TROPHY_SORT_INFO_0_TH NULL
+#define OPTION_VAL_TYPE_TH NULL
+#define OPTION_VAL_NAME_TH NULL
+#define OPTION_VAL_DATE_TH NULL
+#define VITA3K_CONTENT_SUBDIRS_LABEL_TH NULL
+#define VITA3K_CONTENT_SUBDIRS_INFO_0_TH NULL
 #define VITA3K_PSTV_MODE_LABEL_TH NULL
 #define VITA3K_PSTV_MODE_INFO_0_TH NULL
 #define VITA3K_MODULES_MODE_LABEL_TH NULL
@@ -28751,8 +32512,10 @@ struct retro_core_option_v2_category option_cats_th[] = {
     { "audio", CATEGORY_AUDIO_LABEL_TH, CATEGORY_AUDIO_INFO_0_TH },
     { "network", CATEGORY_NETWORK_LABEL_TH, CATEGORY_NETWORK_INFO_0_TH },
     { "install", CATEGORY_INSTALL_LABEL_TH, CATEGORY_INSTALL_INFO_0_TH },
+    { "remove", CATEGORY_REMOVE_LABEL_TH, CATEGORY_REMOVE_INFO_0_TH },
     { "camera", CATEGORY_CAMERA_LABEL_TH, CATEGORY_CAMERA_INFO_0_TH },
     { "accounts", CATEGORY_ACCOUNTS_LABEL_TH, CATEGORY_ACCOUNTS_INFO_0_TH },
+    { "trophies", CATEGORY_TROPHIES_LABEL_TH, CATEGORY_TROPHIES_INFO_0_TH },
     { "modules", CATEGORY_MODULES_LABEL_TH, CATEGORY_MODULES_INFO_0_TH },
     { NULL, NULL, NULL },
 };
@@ -28925,6 +32688,81 @@ struct retro_core_option_v2_definition option_defs_th[] = {
             { NULL, NULL },
         },
         "run"
+    },
+    {
+        "vita3k_trophy_show",
+        VITA3K_TROPHY_SHOW_LABEL_TH,
+        NULL,
+        VITA3K_TROPHY_SHOW_INFO_0_TH,
+        NULL,
+        "trophies",
+        {
+            { "all", OPTION_VAL_ALL_TH },
+            { "earned", OPTION_VAL_EARNED_TH },
+            { "unearned", OPTION_VAL_UNEARNED_TH },
+            { NULL, NULL },
+        },
+        "all"
+    },
+    {
+        "vita3k_trophy_grade",
+        VITA3K_TROPHY_GRADE_LABEL_TH,
+        NULL,
+        VITA3K_TROPHY_GRADE_INFO_0_TH,
+        NULL,
+        "trophies",
+        {
+            { "all", OPTION_VAL_ALL_TH },
+            { "platinum", OPTION_VAL_PLATINUM_TH },
+            { "gold", OPTION_VAL_GOLD_TH },
+            { "silver", OPTION_VAL_SILVER_TH },
+            { "bronze", OPTION_VAL_BRONZE_TH },
+            { NULL, NULL },
+        },
+        "all"
+    },
+    {
+        "vita3k_trophy_hidden",
+        VITA3K_TROPHY_HIDDEN_LABEL_TH,
+        NULL,
+        VITA3K_TROPHY_HIDDEN_INFO_0_TH,
+        NULL,
+        "trophies",
+        {
+            { "disabled", NULL },
+            { "enabled", NULL },
+            { NULL, NULL },
+        },
+        "disabled"
+    },
+    {
+        "vita3k_trophy_sort",
+        VITA3K_TROPHY_SORT_LABEL_TH,
+        NULL,
+        VITA3K_TROPHY_SORT_INFO_0_TH,
+        NULL,
+        "trophies",
+        {
+            { "type", OPTION_VAL_TYPE_TH },
+            { "name", OPTION_VAL_NAME_TH },
+            { "date", OPTION_VAL_DATE_TH },
+            { NULL, NULL },
+        },
+        "type"
+    },
+    {
+        "vita3k_content_subdirs",
+        VITA3K_CONTENT_SUBDIRS_LABEL_TH,
+        NULL,
+        VITA3K_CONTENT_SUBDIRS_INFO_0_TH,
+        NULL,
+        "install",
+        {
+            { "disabled", NULL },
+            { "enabled", NULL },
+            { NULL, NULL },
+        },
+        "disabled"
     },
     {
         "vita3k_pstv_mode",
@@ -29349,10 +33187,14 @@ struct retro_core_options_v2 options_th = {
 #define CATEGORY_NETWORK_INFO_0_TR NULL
 #define CATEGORY_INSTALL_LABEL_TR "İçerik"
 #define CATEGORY_INSTALL_INFO_0_TR NULL
+#define CATEGORY_REMOVE_LABEL_TR NULL
+#define CATEGORY_REMOVE_INFO_0_TR NULL
 #define CATEGORY_CAMERA_LABEL_TR "Kamera"
 #define CATEGORY_CAMERA_INFO_0_TR NULL
 #define CATEGORY_ACCOUNTS_LABEL_TR "Hesaplar"
 #define CATEGORY_ACCOUNTS_INFO_0_TR NULL
+#define CATEGORY_TROPHIES_LABEL_TR NULL
+#define CATEGORY_TROPHIES_INFO_0_TR NULL
 #define CATEGORY_MODULES_LABEL_TR NULL
 #define CATEGORY_MODULES_INFO_0_TR NULL
 #define VITA3K_BACKEND_RENDERER_LABEL_TR NULL
@@ -29399,6 +33241,26 @@ struct retro_core_options_v2 options_th = {
 #define OPTION_VAL_RUN_TR NULL
 #define OPTION_VAL_CACHE_TR NULL
 #define OPTION_VAL_INSTALL_TR NULL
+#define VITA3K_TROPHY_SHOW_LABEL_TR NULL
+#define VITA3K_TROPHY_SHOW_INFO_0_TR NULL
+#define OPTION_VAL_ALL_TR "Tümü"
+#define OPTION_VAL_EARNED_TR NULL
+#define OPTION_VAL_UNEARNED_TR NULL
+#define VITA3K_TROPHY_GRADE_LABEL_TR NULL
+#define VITA3K_TROPHY_GRADE_INFO_0_TR NULL
+#define OPTION_VAL_PLATINUM_TR NULL
+#define OPTION_VAL_GOLD_TR NULL
+#define OPTION_VAL_SILVER_TR NULL
+#define OPTION_VAL_BRONZE_TR NULL
+#define VITA3K_TROPHY_HIDDEN_LABEL_TR NULL
+#define VITA3K_TROPHY_HIDDEN_INFO_0_TR NULL
+#define VITA3K_TROPHY_SORT_LABEL_TR NULL
+#define VITA3K_TROPHY_SORT_INFO_0_TR NULL
+#define OPTION_VAL_TYPE_TR NULL
+#define OPTION_VAL_NAME_TR NULL
+#define OPTION_VAL_DATE_TR NULL
+#define VITA3K_CONTENT_SUBDIRS_LABEL_TR NULL
+#define VITA3K_CONTENT_SUBDIRS_INFO_0_TR NULL
 #define VITA3K_PSTV_MODE_LABEL_TR NULL
 #define VITA3K_PSTV_MODE_INFO_0_TR NULL
 #define VITA3K_MODULES_MODE_LABEL_TR NULL
@@ -29522,8 +33384,10 @@ struct retro_core_option_v2_category option_cats_tr[] = {
     { "audio", CATEGORY_AUDIO_LABEL_TR, CATEGORY_AUDIO_INFO_0_TR },
     { "network", CATEGORY_NETWORK_LABEL_TR, CATEGORY_NETWORK_INFO_0_TR },
     { "install", CATEGORY_INSTALL_LABEL_TR, CATEGORY_INSTALL_INFO_0_TR },
+    { "remove", CATEGORY_REMOVE_LABEL_TR, CATEGORY_REMOVE_INFO_0_TR },
     { "camera", CATEGORY_CAMERA_LABEL_TR, CATEGORY_CAMERA_INFO_0_TR },
     { "accounts", CATEGORY_ACCOUNTS_LABEL_TR, CATEGORY_ACCOUNTS_INFO_0_TR },
+    { "trophies", CATEGORY_TROPHIES_LABEL_TR, CATEGORY_TROPHIES_INFO_0_TR },
     { "modules", CATEGORY_MODULES_LABEL_TR, CATEGORY_MODULES_INFO_0_TR },
     { NULL, NULL, NULL },
 };
@@ -29696,6 +33560,81 @@ struct retro_core_option_v2_definition option_defs_tr[] = {
             { NULL, NULL },
         },
         "run"
+    },
+    {
+        "vita3k_trophy_show",
+        VITA3K_TROPHY_SHOW_LABEL_TR,
+        NULL,
+        VITA3K_TROPHY_SHOW_INFO_0_TR,
+        NULL,
+        "trophies",
+        {
+            { "all", OPTION_VAL_ALL_TR },
+            { "earned", OPTION_VAL_EARNED_TR },
+            { "unearned", OPTION_VAL_UNEARNED_TR },
+            { NULL, NULL },
+        },
+        "all"
+    },
+    {
+        "vita3k_trophy_grade",
+        VITA3K_TROPHY_GRADE_LABEL_TR,
+        NULL,
+        VITA3K_TROPHY_GRADE_INFO_0_TR,
+        NULL,
+        "trophies",
+        {
+            { "all", OPTION_VAL_ALL_TR },
+            { "platinum", OPTION_VAL_PLATINUM_TR },
+            { "gold", OPTION_VAL_GOLD_TR },
+            { "silver", OPTION_VAL_SILVER_TR },
+            { "bronze", OPTION_VAL_BRONZE_TR },
+            { NULL, NULL },
+        },
+        "all"
+    },
+    {
+        "vita3k_trophy_hidden",
+        VITA3K_TROPHY_HIDDEN_LABEL_TR,
+        NULL,
+        VITA3K_TROPHY_HIDDEN_INFO_0_TR,
+        NULL,
+        "trophies",
+        {
+            { "disabled", NULL },
+            { "enabled", NULL },
+            { NULL, NULL },
+        },
+        "disabled"
+    },
+    {
+        "vita3k_trophy_sort",
+        VITA3K_TROPHY_SORT_LABEL_TR,
+        NULL,
+        VITA3K_TROPHY_SORT_INFO_0_TR,
+        NULL,
+        "trophies",
+        {
+            { "type", OPTION_VAL_TYPE_TR },
+            { "name", OPTION_VAL_NAME_TR },
+            { "date", OPTION_VAL_DATE_TR },
+            { NULL, NULL },
+        },
+        "type"
+    },
+    {
+        "vita3k_content_subdirs",
+        VITA3K_CONTENT_SUBDIRS_LABEL_TR,
+        NULL,
+        VITA3K_CONTENT_SUBDIRS_INFO_0_TR,
+        NULL,
+        "install",
+        {
+            { "disabled", NULL },
+            { "enabled", NULL },
+            { NULL, NULL },
+        },
+        "disabled"
     },
     {
         "vita3k_pstv_mode",
@@ -30120,10 +34059,14 @@ struct retro_core_options_v2 options_tr = {
 #define CATEGORY_NETWORK_INFO_0_TT NULL
 #define CATEGORY_INSTALL_LABEL_TT NULL
 #define CATEGORY_INSTALL_INFO_0_TT NULL
+#define CATEGORY_REMOVE_LABEL_TT NULL
+#define CATEGORY_REMOVE_INFO_0_TT NULL
 #define CATEGORY_CAMERA_LABEL_TT "Камера"
 #define CATEGORY_CAMERA_INFO_0_TT NULL
 #define CATEGORY_ACCOUNTS_LABEL_TT NULL
 #define CATEGORY_ACCOUNTS_INFO_0_TT NULL
+#define CATEGORY_TROPHIES_LABEL_TT NULL
+#define CATEGORY_TROPHIES_INFO_0_TT NULL
 #define CATEGORY_MODULES_LABEL_TT NULL
 #define CATEGORY_MODULES_INFO_0_TT NULL
 #define VITA3K_BACKEND_RENDERER_LABEL_TT NULL
@@ -30170,6 +34113,26 @@ struct retro_core_options_v2 options_tr = {
 #define OPTION_VAL_RUN_TT NULL
 #define OPTION_VAL_CACHE_TT NULL
 #define OPTION_VAL_INSTALL_TT NULL
+#define VITA3K_TROPHY_SHOW_LABEL_TT NULL
+#define VITA3K_TROPHY_SHOW_INFO_0_TT NULL
+#define OPTION_VAL_ALL_TT "Барлык"
+#define OPTION_VAL_EARNED_TT NULL
+#define OPTION_VAL_UNEARNED_TT NULL
+#define VITA3K_TROPHY_GRADE_LABEL_TT NULL
+#define VITA3K_TROPHY_GRADE_INFO_0_TT NULL
+#define OPTION_VAL_PLATINUM_TT NULL
+#define OPTION_VAL_GOLD_TT NULL
+#define OPTION_VAL_SILVER_TT NULL
+#define OPTION_VAL_BRONZE_TT NULL
+#define VITA3K_TROPHY_HIDDEN_LABEL_TT NULL
+#define VITA3K_TROPHY_HIDDEN_INFO_0_TT NULL
+#define VITA3K_TROPHY_SORT_LABEL_TT NULL
+#define VITA3K_TROPHY_SORT_INFO_0_TT NULL
+#define OPTION_VAL_TYPE_TT NULL
+#define OPTION_VAL_NAME_TT NULL
+#define OPTION_VAL_DATE_TT NULL
+#define VITA3K_CONTENT_SUBDIRS_LABEL_TT NULL
+#define VITA3K_CONTENT_SUBDIRS_INFO_0_TT NULL
 #define VITA3K_PSTV_MODE_LABEL_TT NULL
 #define VITA3K_PSTV_MODE_INFO_0_TT NULL
 #define VITA3K_MODULES_MODE_LABEL_TT NULL
@@ -30293,8 +34256,10 @@ struct retro_core_option_v2_category option_cats_tt[] = {
     { "audio", CATEGORY_AUDIO_LABEL_TT, CATEGORY_AUDIO_INFO_0_TT },
     { "network", CATEGORY_NETWORK_LABEL_TT, CATEGORY_NETWORK_INFO_0_TT },
     { "install", CATEGORY_INSTALL_LABEL_TT, CATEGORY_INSTALL_INFO_0_TT },
+    { "remove", CATEGORY_REMOVE_LABEL_TT, CATEGORY_REMOVE_INFO_0_TT },
     { "camera", CATEGORY_CAMERA_LABEL_TT, CATEGORY_CAMERA_INFO_0_TT },
     { "accounts", CATEGORY_ACCOUNTS_LABEL_TT, CATEGORY_ACCOUNTS_INFO_0_TT },
+    { "trophies", CATEGORY_TROPHIES_LABEL_TT, CATEGORY_TROPHIES_INFO_0_TT },
     { "modules", CATEGORY_MODULES_LABEL_TT, CATEGORY_MODULES_INFO_0_TT },
     { NULL, NULL, NULL },
 };
@@ -30467,6 +34432,81 @@ struct retro_core_option_v2_definition option_defs_tt[] = {
             { NULL, NULL },
         },
         "run"
+    },
+    {
+        "vita3k_trophy_show",
+        VITA3K_TROPHY_SHOW_LABEL_TT,
+        NULL,
+        VITA3K_TROPHY_SHOW_INFO_0_TT,
+        NULL,
+        "trophies",
+        {
+            { "all", OPTION_VAL_ALL_TT },
+            { "earned", OPTION_VAL_EARNED_TT },
+            { "unearned", OPTION_VAL_UNEARNED_TT },
+            { NULL, NULL },
+        },
+        "all"
+    },
+    {
+        "vita3k_trophy_grade",
+        VITA3K_TROPHY_GRADE_LABEL_TT,
+        NULL,
+        VITA3K_TROPHY_GRADE_INFO_0_TT,
+        NULL,
+        "trophies",
+        {
+            { "all", OPTION_VAL_ALL_TT },
+            { "platinum", OPTION_VAL_PLATINUM_TT },
+            { "gold", OPTION_VAL_GOLD_TT },
+            { "silver", OPTION_VAL_SILVER_TT },
+            { "bronze", OPTION_VAL_BRONZE_TT },
+            { NULL, NULL },
+        },
+        "all"
+    },
+    {
+        "vita3k_trophy_hidden",
+        VITA3K_TROPHY_HIDDEN_LABEL_TT,
+        NULL,
+        VITA3K_TROPHY_HIDDEN_INFO_0_TT,
+        NULL,
+        "trophies",
+        {
+            { "disabled", NULL },
+            { "enabled", NULL },
+            { NULL, NULL },
+        },
+        "disabled"
+    },
+    {
+        "vita3k_trophy_sort",
+        VITA3K_TROPHY_SORT_LABEL_TT,
+        NULL,
+        VITA3K_TROPHY_SORT_INFO_0_TT,
+        NULL,
+        "trophies",
+        {
+            { "type", OPTION_VAL_TYPE_TT },
+            { "name", OPTION_VAL_NAME_TT },
+            { "date", OPTION_VAL_DATE_TT },
+            { NULL, NULL },
+        },
+        "type"
+    },
+    {
+        "vita3k_content_subdirs",
+        VITA3K_CONTENT_SUBDIRS_LABEL_TT,
+        NULL,
+        VITA3K_CONTENT_SUBDIRS_INFO_0_TT,
+        NULL,
+        "install",
+        {
+            { "disabled", NULL },
+            { "enabled", NULL },
+            { NULL, NULL },
+        },
+        "disabled"
     },
     {
         "vita3k_pstv_mode",
@@ -30891,10 +34931,14 @@ struct retro_core_options_v2 options_tt = {
 #define CATEGORY_NETWORK_INFO_0_UK NULL
 #define CATEGORY_INSTALL_LABEL_UK "Вміст"
 #define CATEGORY_INSTALL_INFO_0_UK NULL
+#define CATEGORY_REMOVE_LABEL_UK NULL
+#define CATEGORY_REMOVE_INFO_0_UK NULL
 #define CATEGORY_CAMERA_LABEL_UK "Камера"
 #define CATEGORY_CAMERA_INFO_0_UK NULL
 #define CATEGORY_ACCOUNTS_LABEL_UK "Облікові записи"
 #define CATEGORY_ACCOUNTS_INFO_0_UK NULL
+#define CATEGORY_TROPHIES_LABEL_UK NULL
+#define CATEGORY_TROPHIES_INFO_0_UK NULL
 #define CATEGORY_MODULES_LABEL_UK NULL
 #define CATEGORY_MODULES_INFO_0_UK NULL
 #define VITA3K_BACKEND_RENDERER_LABEL_UK NULL
@@ -30941,6 +34985,26 @@ struct retro_core_options_v2 options_tt = {
 #define OPTION_VAL_RUN_UK NULL
 #define OPTION_VAL_CACHE_UK NULL
 #define OPTION_VAL_INSTALL_UK NULL
+#define VITA3K_TROPHY_SHOW_LABEL_UK NULL
+#define VITA3K_TROPHY_SHOW_INFO_0_UK NULL
+#define OPTION_VAL_ALL_UK "Усі"
+#define OPTION_VAL_EARNED_UK NULL
+#define OPTION_VAL_UNEARNED_UK NULL
+#define VITA3K_TROPHY_GRADE_LABEL_UK NULL
+#define VITA3K_TROPHY_GRADE_INFO_0_UK NULL
+#define OPTION_VAL_PLATINUM_UK NULL
+#define OPTION_VAL_GOLD_UK NULL
+#define OPTION_VAL_SILVER_UK NULL
+#define OPTION_VAL_BRONZE_UK NULL
+#define VITA3K_TROPHY_HIDDEN_LABEL_UK NULL
+#define VITA3K_TROPHY_HIDDEN_INFO_0_UK NULL
+#define VITA3K_TROPHY_SORT_LABEL_UK NULL
+#define VITA3K_TROPHY_SORT_INFO_0_UK NULL
+#define OPTION_VAL_TYPE_UK NULL
+#define OPTION_VAL_NAME_UK NULL
+#define OPTION_VAL_DATE_UK NULL
+#define VITA3K_CONTENT_SUBDIRS_LABEL_UK NULL
+#define VITA3K_CONTENT_SUBDIRS_INFO_0_UK NULL
 #define VITA3K_PSTV_MODE_LABEL_UK NULL
 #define VITA3K_PSTV_MODE_INFO_0_UK NULL
 #define VITA3K_MODULES_MODE_LABEL_UK NULL
@@ -31064,8 +35128,10 @@ struct retro_core_option_v2_category option_cats_uk[] = {
     { "audio", CATEGORY_AUDIO_LABEL_UK, CATEGORY_AUDIO_INFO_0_UK },
     { "network", CATEGORY_NETWORK_LABEL_UK, CATEGORY_NETWORK_INFO_0_UK },
     { "install", CATEGORY_INSTALL_LABEL_UK, CATEGORY_INSTALL_INFO_0_UK },
+    { "remove", CATEGORY_REMOVE_LABEL_UK, CATEGORY_REMOVE_INFO_0_UK },
     { "camera", CATEGORY_CAMERA_LABEL_UK, CATEGORY_CAMERA_INFO_0_UK },
     { "accounts", CATEGORY_ACCOUNTS_LABEL_UK, CATEGORY_ACCOUNTS_INFO_0_UK },
+    { "trophies", CATEGORY_TROPHIES_LABEL_UK, CATEGORY_TROPHIES_INFO_0_UK },
     { "modules", CATEGORY_MODULES_LABEL_UK, CATEGORY_MODULES_INFO_0_UK },
     { NULL, NULL, NULL },
 };
@@ -31238,6 +35304,81 @@ struct retro_core_option_v2_definition option_defs_uk[] = {
             { NULL, NULL },
         },
         "run"
+    },
+    {
+        "vita3k_trophy_show",
+        VITA3K_TROPHY_SHOW_LABEL_UK,
+        NULL,
+        VITA3K_TROPHY_SHOW_INFO_0_UK,
+        NULL,
+        "trophies",
+        {
+            { "all", OPTION_VAL_ALL_UK },
+            { "earned", OPTION_VAL_EARNED_UK },
+            { "unearned", OPTION_VAL_UNEARNED_UK },
+            { NULL, NULL },
+        },
+        "all"
+    },
+    {
+        "vita3k_trophy_grade",
+        VITA3K_TROPHY_GRADE_LABEL_UK,
+        NULL,
+        VITA3K_TROPHY_GRADE_INFO_0_UK,
+        NULL,
+        "trophies",
+        {
+            { "all", OPTION_VAL_ALL_UK },
+            { "platinum", OPTION_VAL_PLATINUM_UK },
+            { "gold", OPTION_VAL_GOLD_UK },
+            { "silver", OPTION_VAL_SILVER_UK },
+            { "bronze", OPTION_VAL_BRONZE_UK },
+            { NULL, NULL },
+        },
+        "all"
+    },
+    {
+        "vita3k_trophy_hidden",
+        VITA3K_TROPHY_HIDDEN_LABEL_UK,
+        NULL,
+        VITA3K_TROPHY_HIDDEN_INFO_0_UK,
+        NULL,
+        "trophies",
+        {
+            { "disabled", NULL },
+            { "enabled", NULL },
+            { NULL, NULL },
+        },
+        "disabled"
+    },
+    {
+        "vita3k_trophy_sort",
+        VITA3K_TROPHY_SORT_LABEL_UK,
+        NULL,
+        VITA3K_TROPHY_SORT_INFO_0_UK,
+        NULL,
+        "trophies",
+        {
+            { "type", OPTION_VAL_TYPE_UK },
+            { "name", OPTION_VAL_NAME_UK },
+            { "date", OPTION_VAL_DATE_UK },
+            { NULL, NULL },
+        },
+        "type"
+    },
+    {
+        "vita3k_content_subdirs",
+        VITA3K_CONTENT_SUBDIRS_LABEL_UK,
+        NULL,
+        VITA3K_CONTENT_SUBDIRS_INFO_0_UK,
+        NULL,
+        "install",
+        {
+            { "disabled", NULL },
+            { "enabled", NULL },
+            { NULL, NULL },
+        },
+        "disabled"
     },
     {
         "vita3k_pstv_mode",
@@ -31662,10 +35803,14 @@ struct retro_core_options_v2 options_uk = {
 #define CATEGORY_NETWORK_INFO_0_VAL NULL
 #define CATEGORY_INSTALL_LABEL_VAL NULL
 #define CATEGORY_INSTALL_INFO_0_VAL NULL
+#define CATEGORY_REMOVE_LABEL_VAL NULL
+#define CATEGORY_REMOVE_INFO_0_VAL NULL
 #define CATEGORY_CAMERA_LABEL_VAL "Càmera"
 #define CATEGORY_CAMERA_INFO_0_VAL NULL
 #define CATEGORY_ACCOUNTS_LABEL_VAL NULL
 #define CATEGORY_ACCOUNTS_INFO_0_VAL NULL
+#define CATEGORY_TROPHIES_LABEL_VAL NULL
+#define CATEGORY_TROPHIES_INFO_0_VAL NULL
 #define CATEGORY_MODULES_LABEL_VAL NULL
 #define CATEGORY_MODULES_INFO_0_VAL NULL
 #define VITA3K_BACKEND_RENDERER_LABEL_VAL NULL
@@ -31712,6 +35857,26 @@ struct retro_core_options_v2 options_uk = {
 #define OPTION_VAL_RUN_VAL NULL
 #define OPTION_VAL_CACHE_VAL NULL
 #define OPTION_VAL_INSTALL_VAL NULL
+#define VITA3K_TROPHY_SHOW_LABEL_VAL NULL
+#define VITA3K_TROPHY_SHOW_INFO_0_VAL NULL
+#define OPTION_VAL_ALL_VAL NULL
+#define OPTION_VAL_EARNED_VAL NULL
+#define OPTION_VAL_UNEARNED_VAL NULL
+#define VITA3K_TROPHY_GRADE_LABEL_VAL NULL
+#define VITA3K_TROPHY_GRADE_INFO_0_VAL NULL
+#define OPTION_VAL_PLATINUM_VAL NULL
+#define OPTION_VAL_GOLD_VAL NULL
+#define OPTION_VAL_SILVER_VAL NULL
+#define OPTION_VAL_BRONZE_VAL NULL
+#define VITA3K_TROPHY_HIDDEN_LABEL_VAL NULL
+#define VITA3K_TROPHY_HIDDEN_INFO_0_VAL NULL
+#define VITA3K_TROPHY_SORT_LABEL_VAL NULL
+#define VITA3K_TROPHY_SORT_INFO_0_VAL NULL
+#define OPTION_VAL_TYPE_VAL NULL
+#define OPTION_VAL_NAME_VAL NULL
+#define OPTION_VAL_DATE_VAL NULL
+#define VITA3K_CONTENT_SUBDIRS_LABEL_VAL NULL
+#define VITA3K_CONTENT_SUBDIRS_INFO_0_VAL NULL
 #define VITA3K_PSTV_MODE_LABEL_VAL NULL
 #define VITA3K_PSTV_MODE_INFO_0_VAL NULL
 #define VITA3K_MODULES_MODE_LABEL_VAL NULL
@@ -31835,8 +36000,10 @@ struct retro_core_option_v2_category option_cats_val[] = {
     { "audio", CATEGORY_AUDIO_LABEL_VAL, CATEGORY_AUDIO_INFO_0_VAL },
     { "network", CATEGORY_NETWORK_LABEL_VAL, CATEGORY_NETWORK_INFO_0_VAL },
     { "install", CATEGORY_INSTALL_LABEL_VAL, CATEGORY_INSTALL_INFO_0_VAL },
+    { "remove", CATEGORY_REMOVE_LABEL_VAL, CATEGORY_REMOVE_INFO_0_VAL },
     { "camera", CATEGORY_CAMERA_LABEL_VAL, CATEGORY_CAMERA_INFO_0_VAL },
     { "accounts", CATEGORY_ACCOUNTS_LABEL_VAL, CATEGORY_ACCOUNTS_INFO_0_VAL },
+    { "trophies", CATEGORY_TROPHIES_LABEL_VAL, CATEGORY_TROPHIES_INFO_0_VAL },
     { "modules", CATEGORY_MODULES_LABEL_VAL, CATEGORY_MODULES_INFO_0_VAL },
     { NULL, NULL, NULL },
 };
@@ -32009,6 +36176,81 @@ struct retro_core_option_v2_definition option_defs_val[] = {
             { NULL, NULL },
         },
         "run"
+    },
+    {
+        "vita3k_trophy_show",
+        VITA3K_TROPHY_SHOW_LABEL_VAL,
+        NULL,
+        VITA3K_TROPHY_SHOW_INFO_0_VAL,
+        NULL,
+        "trophies",
+        {
+            { "all", OPTION_VAL_ALL_VAL },
+            { "earned", OPTION_VAL_EARNED_VAL },
+            { "unearned", OPTION_VAL_UNEARNED_VAL },
+            { NULL, NULL },
+        },
+        "all"
+    },
+    {
+        "vita3k_trophy_grade",
+        VITA3K_TROPHY_GRADE_LABEL_VAL,
+        NULL,
+        VITA3K_TROPHY_GRADE_INFO_0_VAL,
+        NULL,
+        "trophies",
+        {
+            { "all", OPTION_VAL_ALL_VAL },
+            { "platinum", OPTION_VAL_PLATINUM_VAL },
+            { "gold", OPTION_VAL_GOLD_VAL },
+            { "silver", OPTION_VAL_SILVER_VAL },
+            { "bronze", OPTION_VAL_BRONZE_VAL },
+            { NULL, NULL },
+        },
+        "all"
+    },
+    {
+        "vita3k_trophy_hidden",
+        VITA3K_TROPHY_HIDDEN_LABEL_VAL,
+        NULL,
+        VITA3K_TROPHY_HIDDEN_INFO_0_VAL,
+        NULL,
+        "trophies",
+        {
+            { "disabled", NULL },
+            { "enabled", NULL },
+            { NULL, NULL },
+        },
+        "disabled"
+    },
+    {
+        "vita3k_trophy_sort",
+        VITA3K_TROPHY_SORT_LABEL_VAL,
+        NULL,
+        VITA3K_TROPHY_SORT_INFO_0_VAL,
+        NULL,
+        "trophies",
+        {
+            { "type", OPTION_VAL_TYPE_VAL },
+            { "name", OPTION_VAL_NAME_VAL },
+            { "date", OPTION_VAL_DATE_VAL },
+            { NULL, NULL },
+        },
+        "type"
+    },
+    {
+        "vita3k_content_subdirs",
+        VITA3K_CONTENT_SUBDIRS_LABEL_VAL,
+        NULL,
+        VITA3K_CONTENT_SUBDIRS_INFO_0_VAL,
+        NULL,
+        "install",
+        {
+            { "disabled", NULL },
+            { "enabled", NULL },
+            { NULL, NULL },
+        },
+        "disabled"
     },
     {
         "vita3k_pstv_mode",
@@ -32422,7 +36664,7 @@ struct retro_core_options_v2 options_val = {
 /* RETRO_LANGUAGE_VN */
 
 #define CATEGORY_GPU_LABEL_VN NULL
-#define CATEGORY_GPU_INFO_0_VN "Tùy chọn kết xuất đồ họa."
+#define CATEGORY_GPU_INFO_0_VN "Tùy chọn Dựng hình đồ họa."
 #define CATEGORY_CPU_LABEL_VN NULL
 #define CATEGORY_CPU_INFO_0_VN "Tùy chọn mô phỏng CPU."
 #define CATEGORY_SYSTEM_LABEL_VN "Hệ thống"
@@ -32432,25 +36674,29 @@ struct retro_core_options_v2 options_val = {
 #define CATEGORY_NETWORK_LABEL_VN "Mạng"
 #define CATEGORY_NETWORK_INFO_0_VN "Tùy chọn mạng."
 #define CATEGORY_INSTALL_LABEL_VN "Nội dung"
-#define CATEGORY_INSTALL_INFO_0_VN "Cách trò chơi, bản cập nhật và nội dung tải thêm được nạp."
+#define CATEGORY_INSTALL_INFO_0_VN "Quản lý dữ liệu của một trò chơi cụ thể, cùng với các bản cập nhật và nội dung tải xuống."
+#define CATEGORY_REMOVE_LABEL_VN "Xóa nội dung"
+#define CATEGORY_REMOVE_INFO_0_VN "Chọn các trò chơi có dữ liệu đã cài đặt và dữ liệu đệm cần xóa khi lõi giả lập đóng hoặc khởi động lại. Không xóa dữ liệu trò chơi gốc, dữ liệu lưu hoặc thành tích."
 #define CATEGORY_CAMERA_LABEL_VN NULL
 #define CATEGORY_CAMERA_INFO_0_VN "Hình ảnh mà camera trước và sau của Vita ghi nhận."
 #define CATEGORY_ACCOUNTS_LABEL_VN "Tài khoản"
 #define CATEGORY_ACCOUNTS_INFO_0_VN "Tài khoản (người dùng) của Vita trong ux0/user, mỗi tài khoản có dữ liệu lưu và thành tích riêng."
+#define CATEGORY_TROPHIES_LABEL_VN "Danh hiệu"
+#define CATEGORY_TROPHIES_INFO_0_VN "Các danh hiệu của trò chơi hiện tại."
 #define CATEGORY_MODULES_LABEL_VN "Mô-đun"
-#define CATEGORY_MODULES_INFO_0_VN "Mô-đun của phần mềm hệ thống (vs0/sys/external) sẽ được nạp khi Chế độ mô-đun được đặt thành Tự động và thủ công hoặc Thủ công."
-#define VITA3K_BACKEND_RENDERER_LABEL_VN "Bộ kết xuất đồ họa"
-#define VITA3K_BACKEND_RENDERER_INFO_0_VN "Chọn hệ thống kết xuất đồ họa. Vulkan được khuyến nghị."
+#define CATEGORY_MODULES_INFO_0_VN "Các mô-đun của phần mềm hệ thống (vs0/sys/external) sẽ được nạp khi Chế độ mô-đun (trong Hệ thống) được đặt thành Tự động và thủ công hoặc Thủ công."
+#define VITA3K_BACKEND_RENDERER_LABEL_VN "Bộ Dựng hình đồ họa"
+#define VITA3K_BACKEND_RENDERER_INFO_0_VN "Chọn hệ thống Dựng hình đồ họa. Vulkan được khuyến nghị."
 #define OPTION_VAL_VULKAN_VN NULL
 #define OPTION_VAL_OPENGL_VN NULL
 #define VITA3K_RESOLUTION_MULTIPLIER_LABEL_VN "Hệ số tăng độ phân giải nội bộ"
-#define VITA3K_RESOLUTION_MULTIPLIER_INFO_0_VN "Hệ số nhân độ phân giải kết xuất nội bộ (độ phân giải gốc 960x544)."
+#define VITA3K_RESOLUTION_MULTIPLIER_INFO_0_VN "Hệ số nhân độ phân giải Dựng hình nội bộ (độ phân giải gốc 960x544)."
 #define OPTION_VAL_1_VN NULL
 #define OPTION_VAL_2_VN NULL
 #define OPTION_VAL_3_VN NULL
 #define OPTION_VAL_4_VN NULL
 #define VITA3K_SCREEN_FILTER_LABEL_VN "Bộ lọc màn hình"
-#define VITA3K_SCREEN_FILTER_INFO_0_VN "Bộ lọc hậu xử lý được áp dụng cho khung hình đã kết xuất."
+#define VITA3K_SCREEN_FILTER_INFO_0_VN "Bộ lọc hậu xử lý được áp dụng cho khung hình đã Dựng hình."
 #define OPTION_VAL_BILINEAR_VN "Song tuyến tính"
 #define OPTION_VAL_NEAREST_VN "Gần nhất"
 #define OPTION_VAL_BICUBIC_VN "Bo tròn cạnh"
@@ -32474,15 +36720,35 @@ struct retro_core_options_v2 options_val = {
 #define OPTION_VAL_EXTERNAL_HOST_VN "Bên ngoài máy chủ"
 #define OPTION_VAL_PAGE_TABLE_VN "Bảng trang"
 #define OPTION_VAL_NATIVE_BUFFER_VN "Bộ đệm gốc"
-#define VITA3K_HIGH_ACCURACY_LABEL_VN "Kết xuất có độ chính xác cao"
-#define VITA3K_HIGH_ACCURACY_INFO_0_VN "Bật các kỹ thuật kết xuất chính xác hơn nhưng chậm hơn."
+#define VITA3K_HIGH_ACCURACY_LABEL_VN "Dựng hình có độ chính xác cao"
+#define VITA3K_HIGH_ACCURACY_INFO_0_VN "Bật các kỹ thuật Dựng hình chính xác hơn nhưng chậm hơn."
 #define VITA3K_CPU_OPT_LABEL_VN "Tối ưu hóa CPU (biên dịch tức thời Dynarmic)"
 #define VITA3K_CPU_OPT_INFO_0_VN "Bật biên dịch tức thời Dynarmic để mô phỏng CPU nhanh hơn."
-#define VITA3K_PKG_MODE_LABEL_VN "Nạp trước trò chơi"
-#define VITA3K_PKG_MODE_INFO_0_VN "Tất cả nội dung đều tuân theo thiết lập này, ngoại trừ các bản cập nhật và nội dung tải thêm được buộc cài đặt (nạp thủ công). Chạy mà không cài đặt: đọc dữ liệu trực tiếp từ tệp, không giữ lại dữ liệu nào. Bộ nhớ đệm lâu dài: tương tự, nhưng giữ lại dữ liệu đã đọc. Cài đặt: sao chép toàn bộ tệp để khởi động nhanh hơn."
-#define OPTION_VAL_RUN_VN "Chạy không cần cài đặt"
-#define OPTION_VAL_CACHE_VN "Bộ nhớ đệm lâu dài"
-#define OPTION_VAL_INSTALL_VN "Cài đặt"
+#define VITA3K_PKG_MODE_LABEL_VN "Chế độ chạy"
+#define VITA3K_PKG_MODE_INFO_0_VN "Cách một trò chơi, các bản cập nhật và nội dung tải xuống của trò chơi (DLC) được chạy. Mặc định cho phép sử dụng các bản cập nhật và nội dung tải xuống trong thư mục của trò chơi. Chúng cũng có thể được nạp từ nơi khác, thao tác này sẽ cài đặt chúng bất kể chế độ chạy nào.\n\nTrực tiếp: Chạy trực tiếp từ phương tiện lưu trữ gốc.\nTrực tiếp kèm bộ nhớ đệm: Giống như chế độ Trực tiếp, nhưng lõi giả lập lưu tạm dữ liệu đọc vào bộ nhớ lưu trữ cục bộ. Điều này giúp cải thiện hiệu suất trong một số trường hợp, chẳng hạn khi truy cập phương tiện lưu trữ qua mạng có độ trễ cao.\nĐã cài đặt: Cài đặt phương tiện lưu trữ gốc khi được nạp lần đầu, sau đó chạy trò chơi từ bộ nhớ lưu trữ cục bộ."
+#define OPTION_VAL_RUN_VN "Trực tiếp"
+#define OPTION_VAL_CACHE_VN "Trực tiếp kèm bộ nhớ đệm"
+#define OPTION_VAL_INSTALL_VN "Đã cài đặt"
+#define VITA3K_TROPHY_SHOW_LABEL_VN "Hiển thị: Trạng thái đạt được"
+#define VITA3K_TROPHY_SHOW_INFO_0_VN "Kiểm soát danh hiệu nào được hiển thị dựa trên việc chúng đã đạt được hay chưa."
+#define OPTION_VAL_ALL_VN "Tất cả"
+#define OPTION_VAL_EARNED_VN "Đã đạt được"
+#define OPTION_VAL_UNEARNED_VN "Chưa đạt được"
+#define VITA3K_TROPHY_GRADE_LABEL_VN "Hiển thị: Cấp bậc"
+#define VITA3K_TROPHY_GRADE_INFO_0_VN "Kiểm soát danh hiệu nào được hiển thị dựa trên cấp bậc của chúng (Bạch kim, Vàng, Bạc hoặc Đồng)."
+#define OPTION_VAL_PLATINUM_VN "Bạch kim"
+#define OPTION_VAL_GOLD_VN "Vàng"
+#define OPTION_VAL_SILVER_VN "Bạc"
+#define OPTION_VAL_BRONZE_VN "Đồng"
+#define VITA3K_TROPHY_HIDDEN_LABEL_VN "Hiển thị: Bị ẩn"
+#define VITA3K_TROPHY_HIDDEN_INFO_0_VN "Kiểm soát việc hiển thị các danh hiệu bị ẩn."
+#define VITA3K_TROPHY_SORT_LABEL_VN "Phương thức sắp xếp"
+#define VITA3K_TROPHY_SORT_INFO_0_VN "Kiểm soát cách sắp xếp các danh hiệu."
+#define OPTION_VAL_TYPE_VN "Theo cấp bậc"
+#define OPTION_VAL_NAME_VN "Theo tên"
+#define OPTION_VAL_DATE_VN "Theo ngày đạt được"
+#define VITA3K_CONTENT_SUBDIRS_LABEL_VN "Bao gồm thư mục con"
+#define VITA3K_CONTENT_SUBDIRS_INFO_0_VN "BẬT: Nạp các bản cập nhật và nội dung tải xuống bổ sung trong thư mục trò chơi và các thư mục con.\nTẮT: Chỉ nạp các bản cập nhật và nội dung tải xuống bổ sung trong thư mục trò chơi."
 #define VITA3K_PSTV_MODE_LABEL_VN "Chế độ máy chơi game PlayStation TV"
 #define VITA3K_PSTV_MODE_INFO_0_VN "Mô phỏng máy PlayStation TV thay vì máy PS Vita."
 #define VITA3K_MODULES_MODE_LABEL_VN "Chế độ mô-đun"
@@ -32606,8 +36872,10 @@ struct retro_core_option_v2_category option_cats_vn[] = {
     { "audio", CATEGORY_AUDIO_LABEL_VN, CATEGORY_AUDIO_INFO_0_VN },
     { "network", CATEGORY_NETWORK_LABEL_VN, CATEGORY_NETWORK_INFO_0_VN },
     { "install", CATEGORY_INSTALL_LABEL_VN, CATEGORY_INSTALL_INFO_0_VN },
+    { "remove", CATEGORY_REMOVE_LABEL_VN, CATEGORY_REMOVE_INFO_0_VN },
     { "camera", CATEGORY_CAMERA_LABEL_VN, CATEGORY_CAMERA_INFO_0_VN },
     { "accounts", CATEGORY_ACCOUNTS_LABEL_VN, CATEGORY_ACCOUNTS_INFO_0_VN },
+    { "trophies", CATEGORY_TROPHIES_LABEL_VN, CATEGORY_TROPHIES_INFO_0_VN },
     { "modules", CATEGORY_MODULES_LABEL_VN, CATEGORY_MODULES_INFO_0_VN },
     { NULL, NULL, NULL },
 };
@@ -32780,6 +37048,81 @@ struct retro_core_option_v2_definition option_defs_vn[] = {
             { NULL, NULL },
         },
         "run"
+    },
+    {
+        "vita3k_trophy_show",
+        VITA3K_TROPHY_SHOW_LABEL_VN,
+        NULL,
+        VITA3K_TROPHY_SHOW_INFO_0_VN,
+        NULL,
+        "trophies",
+        {
+            { "all", OPTION_VAL_ALL_VN },
+            { "earned", OPTION_VAL_EARNED_VN },
+            { "unearned", OPTION_VAL_UNEARNED_VN },
+            { NULL, NULL },
+        },
+        "all"
+    },
+    {
+        "vita3k_trophy_grade",
+        VITA3K_TROPHY_GRADE_LABEL_VN,
+        NULL,
+        VITA3K_TROPHY_GRADE_INFO_0_VN,
+        NULL,
+        "trophies",
+        {
+            { "all", OPTION_VAL_ALL_VN },
+            { "platinum", OPTION_VAL_PLATINUM_VN },
+            { "gold", OPTION_VAL_GOLD_VN },
+            { "silver", OPTION_VAL_SILVER_VN },
+            { "bronze", OPTION_VAL_BRONZE_VN },
+            { NULL, NULL },
+        },
+        "all"
+    },
+    {
+        "vita3k_trophy_hidden",
+        VITA3K_TROPHY_HIDDEN_LABEL_VN,
+        NULL,
+        VITA3K_TROPHY_HIDDEN_INFO_0_VN,
+        NULL,
+        "trophies",
+        {
+            { "disabled", NULL },
+            { "enabled", NULL },
+            { NULL, NULL },
+        },
+        "disabled"
+    },
+    {
+        "vita3k_trophy_sort",
+        VITA3K_TROPHY_SORT_LABEL_VN,
+        NULL,
+        VITA3K_TROPHY_SORT_INFO_0_VN,
+        NULL,
+        "trophies",
+        {
+            { "type", OPTION_VAL_TYPE_VN },
+            { "name", OPTION_VAL_NAME_VN },
+            { "date", OPTION_VAL_DATE_VN },
+            { NULL, NULL },
+        },
+        "type"
+    },
+    {
+        "vita3k_content_subdirs",
+        VITA3K_CONTENT_SUBDIRS_LABEL_VN,
+        NULL,
+        VITA3K_CONTENT_SUBDIRS_INFO_0_VN,
+        NULL,
+        "install",
+        {
+            { "disabled", NULL },
+            { "enabled", NULL },
+            { NULL, NULL },
+        },
+        "disabled"
     },
     {
         "vita3k_pstv_mode",
