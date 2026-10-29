@@ -44,6 +44,10 @@
 #endif
 
 #include <algorithm>
+#include <atomic>
+#include <chrono>
+#include <condition_variable>
+#include <thread>
 #include <cstdarg>
 #include <cstdio>
 #include <cstring>
@@ -69,6 +73,111 @@ void lr_log(enum retro_log_level level, const char *fmt, ...) {
     vsnprintf(buf, sizeof(buf), fmt, ap);
     va_end(ap);
     libretro.log_cb(level, "[Vita3K] %s", buf);
+}
+
+// direct-debug: everything the Direct modes do, with the time since the mount
+// and the thread, to find where they hang or crash (sco8487). A watchdog says
+// which thread has waited for or held a mount's lock for seconds, and on what.
+const auto dbg_epoch = std::chrono::steady_clock::now();
+double dbg_ms() {
+    return std::chrono::duration<double, std::milli>(std::chrono::steady_clock::now() - dbg_epoch).count();
+}
+unsigned dbg_tid() {
+    return static_cast<unsigned>(std::hash<std::thread::id>{}(std::this_thread::get_id()) % 100000);
+}
+void dlog(const char *fmt, ...) {
+    if (!libretro.log_cb)
+        return;
+    va_list ap;
+    va_start(ap, fmt);
+    char buf[4096];
+    vsnprintf(buf, sizeof(buf), fmt, ap);
+    va_end(ap);
+    libretro.log_cb(RETRO_LOG_INFO, "[Vita3K] [direct %10.1f t%05u] %s", dbg_ms(), dbg_tid(), buf);
+}
+
+struct DbgOp {
+    const char *what;
+    std::string file;
+    unsigned tid;
+    double since;
+    double reported = 0;
+    bool holding = false;
+};
+std::mutex s_dbg_mutex;
+std::map<std::uint64_t, DbgOp> s_dbg_ops;
+std::uint64_t s_dbg_next = 0;
+
+// A wait for a mount's lock (held() once it has it) until the scope ends
+struct DbgScope {
+    std::uint64_t id;
+    double start;
+    double locked = -1;
+    const char *what;
+    std::string file;
+    DbgScope(const char *what_, std::string file_)
+        : start(dbg_ms())
+        , what(what_)
+        , file(std::move(file_)) {
+        std::lock_guard lock(s_dbg_mutex);
+        id = s_dbg_next++;
+        s_dbg_ops.emplace(id, DbgOp{ what, file, dbg_tid(), start });
+    }
+    void held() {
+        locked = dbg_ms();
+        if (locked - start > 100)
+            dlog("%s %s: waited %.0f ms for the lock\n", what, file.c_str(), locked - start);
+        std::lock_guard lock(s_dbg_mutex);
+        auto it = s_dbg_ops.find(id);
+        if (it != s_dbg_ops.end()) {
+            it->second.holding = true;
+            it->second.since = locked;
+        }
+    }
+    ~DbgScope() {
+        const double end = dbg_ms();
+        if (locked >= 0 && end - locked > 250)
+            dlog("%s %s: held the lock %.0f ms\n", what, file.c_str(), end - locked);
+        std::lock_guard lock(s_dbg_mutex);
+        s_dbg_ops.erase(id);
+    }
+};
+
+std::mutex s_watchdog_mutex;
+std::condition_variable s_watchdog_cv;
+bool s_watchdog_stop = false;
+// Never destroyed: a joinable std::thread destroyed at exit would end the process
+std::thread &s_watchdog = *new std::thread;
+
+void watchdog_start() {
+    if (s_watchdog.joinable())
+        return;
+    s_watchdog_stop = false;
+    s_watchdog = std::thread([] {
+        std::unique_lock lock(s_watchdog_mutex);
+        while (!s_watchdog_cv.wait_for(lock, std::chrono::seconds(1), [] { return s_watchdog_stop; })) {
+            const double now = dbg_ms();
+            std::lock_guard ops_lock(s_dbg_mutex);
+            for (auto &[id, op] : s_dbg_ops) {
+                if (now - op.since < 3000 || now - op.reported < 5000)
+                    continue;
+                op.reported = now;
+                dlog("WATCHDOG: thread t%05u %s the lock for %.1f s: %s %s\n", op.tid,
+                    op.holding ? "has held" : "has waited for", (now - op.since) / 1000.0, op.what, op.file.c_str());
+            }
+        }
+    });
+}
+
+void watchdog_stop() {
+    if (!s_watchdog.joinable())
+        return;
+    {
+        std::lock_guard lock(s_watchdog_mutex);
+        s_watchdog_stop = true;
+    }
+    s_watchdog_cv.notify_all();
+    s_watchdog.join();
 }
 
 // Files written out in full when the package is laid out, decrypted before the
@@ -697,6 +806,7 @@ static void sync_to_disk(const fs::path &path) {
 void Mount::disk_flush() {
     if (cache_dir.empty())
         return;
+    dlog("writing the cache's lists in %s\n", cache_dir.string().c_str());
     for (auto &[name, f] : disk) {
         if (!f.dirty)
             continue;
@@ -951,11 +1061,20 @@ bool Mount::decrypt_block(const Pending &p, std::uint32_t index, std::vector<std
         if (at >= size)
             return false;
         out.resize(static_cast<std::size_t>(std::min<std::uint64_t>(1 << 20, size - at)));
-        if (disk_read(p, index, at, out))
+        const double t0 = dbg_ms();
+        if (disk_read(p, index, at, out)) {
+            dlog("plain %s #%u: from the cache in %.1f ms\n", p.entry->name.c_str(), index, dbg_ms() - t0);
             return true;
-        if (!source->read(p.entry->offset + at, out.data(), out.size()))
+        }
+        const double t1 = dbg_ms();
+        if (!source->read(p.entry->offset + at, out.data(), out.size())) {
+            dlog("plain %s #%u: source read FAILED after %.1f ms\n", p.entry->name.c_str(), index, dbg_ms() - t1);
             return false;
+        }
+        const double t2 = dbg_ms();
         disk_write(p, index, at, out);
+        dlog("plain %s #%u (%zu bytes): cache miss %.1f, source %.1f, cache write %.1f ms\n", p.entry->name.c_str(), index,
+            out.size(), t1 - t0, t2 - t1, dbg_ms() - t2);
         return true;
     }
     const auto header = p.table->get_header();
@@ -968,10 +1087,17 @@ bool Mount::decrypt_block(const Pending &p, std::uint32_t index, std::vector<std
         return false;
     const std::uint64_t length = single ? size : std::min(block_bytes, size - at);
     out.resize(static_cast<std::size_t>(length));
-    if (disk_read(p, index, at, out))
+    const double t0 = dbg_ms();
+    if (disk_read(p, index, at, out)) {
+        dlog("unicv %s #%u: from the cache in %.1f ms\n", p.entry->name.c_str(), index, dbg_ms() - t0);
         return true;
-    if (!source->read(p.entry->offset + at, out.data(), out.size()))
+    }
+    const double t1 = dbg_ms();
+    if (!source->read(p.entry->offset + at, out.data(), out.size())) {
+        dlog("unicv %s #%u: source read FAILED after %.1f ms\n", p.entry->name.c_str(), index, dbg_ms() - t1);
         return false;
+    }
+    const double t2 = dbg_ms();
     std::uint32_t tail = static_cast<std::uint32_t>(length % sector_size);
     if (tail == 0)
         tail = static_cast<std::uint32_t>(sector_size);
@@ -1007,9 +1133,14 @@ bool Mount::decrypt_block(const Pending &p, std::uint32_t index, std::vector<std
         lr_log(RETRO_LOG_ERROR, "PKG: %s, block %u: %s\n", p.entry->name.c_str(), index, e.what());
         return false;
     }
-    if (work.error < 0)
+    if (work.error < 0) {
+        dlog("unicv %s #%u: pfs_decrypt error %d\n", p.entry->name.c_str(), index, work.error);
         return false;
+    }
+    const double t3 = dbg_ms();
     disk_write(p, index, at, out);
+    dlog("unicv %s #%u (%zu bytes): cache miss %.1f, source %.1f, decrypt %.1f, cache write %.1f ms\n", p.entry->name.c_str(), index,
+        out.size(), t1 - t0, t2 - t1, t3 - t2, dbg_ms() - t3);
     return true;
 }
 
@@ -1027,20 +1158,33 @@ struct Stream final : ServedFile {
         std::vector<std::uint8_t> data;
     };
     std::vector<Cached> cache; // most recent last
+    // direct-debug: reads of this one file on two threads at once
+    std::atomic<int> active{ 0 };
+    std::uint64_t reads = 0, hits = 0;
+
+    ~Stream() override {
+        dlog("close %s: %llu reads, %llu block hits\n", pending.entry->name.c_str(),
+            static_cast<unsigned long long>(reads), static_cast<unsigned long long>(hits));
+    }
 
     const std::vector<std::uint8_t> *block(std::uint32_t index) {
         for (std::size_t i = 0; i < cache.size(); i++) {
             if (cache[i].index == index) {
                 if (i + 1 != cache.size())
                     std::rotate(cache.begin() + i, cache.begin() + i + 1, cache.end());
+                hits++;
                 return &cache.back().data;
             }
         }
         Cached c{ index, {} };
         {
+            DbgScope scope("block", pending.entry->name + " #" + std::to_string(index));
             std::lock_guard lock(mount->mutex);
-            if (!mount->decrypt_block(pending, index, c.data))
+            scope.held();
+            if (!mount->decrypt_block(pending, index, c.data)) {
+                dlog("block %s #%u: FAILED\n", pending.entry->name.c_str(), index);
                 return nullptr;
+            }
         }
         if (cache.size() >= 4)
             cache.erase(cache.begin());
@@ -1049,6 +1193,22 @@ struct Stream final : ServedFile {
     }
 
     std::int64_t read(void *data, std::size_t size) override {
+        const int others = active.fetch_add(1);
+        if (others)
+            dlog("CONCURRENT read of %s: %d other read(s) of the same open file in progress, at %llu, %zu bytes\n",
+                pending.entry->name.c_str(), others, static_cast<unsigned long long>(position), size);
+        reads++;
+        const double start = dbg_ms();
+        const std::int64_t result = read_locked(data, size);
+        const double took = dbg_ms() - start;
+        if (took > 250 || result < 0)
+            dlog("read %s at %llu, %zu bytes: %lld in %.0f ms\n", pending.entry->name.c_str(),
+                static_cast<unsigned long long>(position), size, static_cast<long long>(result), took);
+        active.fetch_sub(1);
+        return result;
+    }
+
+    std::int64_t read_locked(void *data, std::size_t size) {
         char *buf = static_cast<char *>(data);
         const std::uint64_t file_size = pending.entry->size;
         std::size_t done = 0;
@@ -1074,6 +1234,8 @@ struct Stream final : ServedFile {
                                                      : static_cast<std::int64_t>(pending.entry->size);
         if (base + offset < 0)
             return -1;
+        if (active.load())
+            dlog("CONCURRENT seek of %s to %lld during a read\n", pending.entry->name.c_str(), static_cast<long long>(base + offset));
         position = static_cast<std::uint64_t>(base + offset);
         return static_cast<std::int64_t>(position);
     }
@@ -1108,6 +1270,8 @@ std::shared_ptr<ServedFile> make_stream(const std::shared_ptr<Mount> &m, const M
     auto s = std::make_shared<Stream>();
     s->mount = m;
     s->pending = pending;
+    dlog("open %s (%llu bytes) served out of the %s\n", pending.entry->name.c_str(),
+        static_cast<unsigned long long>(pending.entry->size), m->source->kind());
     if (!s->pending.file || !is_encrypted(s->pending.file->file.m_info.header.type))
         s->block_bytes = 1 << 20;
     else {
@@ -1159,7 +1323,9 @@ std::shared_ptr<ServedFile> on_open_file(const fs::path &host, int open_mode) {
     std::shared_ptr<Mount> m = s_mount;
     if (!m || can_write(open_mode))
         return nullptr;
+    DbgScope scope("on_open_file", host.generic_string());
     std::lock_guard lock(m->mutex);
+    scope.held();
     const std::string key = upper(host.lexically_normal().generic_string());
     if (auto r = m->redirects.find(key); r != m->redirects.end()) {
         // An update's file: out of the update's PKG while it is not decrypted,
@@ -1208,7 +1374,9 @@ void on_host_file(const fs::path &host) {
     Mount *m = s_mount.get();
     if (!m)
         return;
+    DbgScope scope("on_host_file", host.generic_string());
     std::lock_guard lock(m->mutex);
+    scope.held();
     const std::string key = upper(host.lexically_normal().generic_string());
     if (m->take_redirect(key, host))
         return;
@@ -1219,6 +1387,7 @@ void on_host_file(const fs::path &host) {
     }
     Mount::Pending p = it->second;
     m->pending.erase(it);
+    dlog("decrypting %s (%llu bytes) whole\n", p.entry->name.c_str(), static_cast<unsigned long long>(p.entry->size));
     if (m->materialize(p))
         lr_log(RETRO_LOG_DEBUG, "PKG: decrypted %s on first read\n", p.entry->name.c_str());
     else
@@ -1232,7 +1401,9 @@ void on_host_open(const fs::path &host, int open_mode) {
     if (!m)
         return;
     {
+        DbgScope scope("on_host_open", host.generic_string());
         std::lock_guard lock(m->mutex);
+        scope.held();
         const std::string key = upper(host.lexically_normal().generic_string());
         if (m->redirects.count(key)) {
             if (can_write(open_mode))
@@ -1663,6 +1834,8 @@ void start(std::shared_ptr<Mount> m, const fs::path &app_dir) {
         start_bytes / 1048576.0, total_bytes / 1048576.0, total_bytes ? 100.0 * start_bytes / total_bytes : 0.0,
         pending_bytes / 1048576.0, m->source->kind());
     s_mount = std::move(m);
+    watchdog_start();
+    dlog("mounted, cache %s\n", s_mount->cache_dir.empty() ? "off" : s_mount->cache_dir.string().c_str());
     vfs::host_file_hook = on_host_file;
     vfs::host_open_hook = on_host_open;
     open_file_hook = on_open_file;
@@ -1810,6 +1983,8 @@ bool mount_update(const fs::path &pkg_path, const std::string &zrif, std::string
 }
 
 void unmount() {
+    dlog("unmount\n");
+    watchdog_stop();
     vfs::host_file_hook = nullptr;
     vfs::host_open_hook = nullptr;
     open_file_hook = nullptr;
