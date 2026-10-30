@@ -631,6 +631,19 @@ static std::string canonical_memory_mapping_option(const char *value) {
     return token;
 }
 
+// The options the game reads only as it starts, other than those checked one
+// by one in apply_config_changes, as they were then: a change to one of them
+// shows the restart notice too (#2, i30817). Each is taken from where the
+// option is written (current_config or the config itself).
+static std::vector<int> start_only_options(const Config &cfg) {
+    const auto &cur = cfg.current_config;
+    return { cur.pstv_mode, cur.ngs_enable, cur.v_sync, cur.file_loading_delay, cur.psn_signed_in,
+        cfg.sys_lang, cfg.sys_date_format, cfg.sys_time_format, cfg.sys_button,
+        cfg.http_enable, cfg.http_timeout_attempts, cfg.http_timeout_sleep_ms,
+        cfg.http_read_end_attempts, cfg.http_read_end_sleep_ms };
+}
+static std::vector<int> s_start_options;
+
 // Memory Mapping the GPU can't do: the renderer takes the best one it can
 // (late_init), as upstream does, but upstream says so only in its log. The
 // option stays as set, as it may come from another device (sco8487).
@@ -3004,19 +3017,6 @@ static void read_core_option(const char *key, const char *default_value, std::fu
         apply_func(default_value);
     }
 }
-
-// The options the game reads only as it starts, other than those checked one
-// by one in apply_config_changes, as they were then: a change to one of them
-// shows the restart notice too (#2, i30817). Each is taken from where the
-// option is written (current_config or the config itself).
-static std::vector<int> start_only_options(const Config &cfg) {
-    const auto &cur = cfg.current_config;
-    return { cur.pstv_mode, cur.ngs_enable, cur.v_sync, cur.file_loading_delay, cur.psn_signed_in,
-        cfg.sys_lang, cfg.sys_date_format, cfg.sys_time_format, cfg.sys_button,
-        cfg.http_enable, cfg.http_timeout_attempts, cfg.http_timeout_sleep_ms,
-        cfg.http_read_end_attempts, cfg.http_read_end_sleep_ms };
-}
-static std::vector<int> s_start_options;
 
 static void apply_config_changes() {
     if (!libretro.cfg)
