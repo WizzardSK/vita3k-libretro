@@ -74,6 +74,7 @@
 #include <limits>
 #include <array>
 #include <atomic>
+#include <chrono>
 #include <thread>
 #include <cstdarg>
 #include <cmath>
@@ -631,6 +632,40 @@ static std::string canonical_memory_mapping_option(const char *value) {
         && token != "page-table" && token != "native-buffer")
         token = "double-buffer";
     return token;
+}
+
+// DEBUG (timing-debug, sco8487): once a second of wall time, how many
+// retro_runs, guest vblanks and game frames (sceDisplaySetFrameBuf) there
+// were, and the longest gap between two retro_runs
+extern bool libretro_vblank_from_timer;
+extern std::atomic<uint64_t> libretro_debug_flips;
+static void debug_timing_tick(EmuEnvState &emuenv) {
+    using clock = std::chrono::steady_clock;
+    static clock::time_point window_start, last_run;
+    static uint64_t runs = 0, vblank_start = 0, flips_start = 0;
+    static double max_gap_ms = 0.0;
+    const auto now = clock::now();
+    if (runs == 0 && window_start == clock::time_point{}) {
+        window_start = last_run = now;
+        vblank_start = emuenv.display.vblank_count;
+        flips_start = libretro_debug_flips.load();
+    }
+    max_gap_ms = std::max(max_gap_ms, std::chrono::duration<double, std::milli>(now - last_run).count());
+    last_run = now;
+    ++runs;
+    const double wall = std::chrono::duration<double>(now - window_start).count();
+    if (wall < 1.0)
+        return;
+    const uint64_t vblanks = emuenv.display.vblank_count;
+    const uint64_t flips = libretro_debug_flips.load();
+    lr_log(RETRO_LOG_INFO, "TIMING wall=%.3fs runs=%llu vblanks=%llu frames=%llu max_run_gap=%.1fms source=%s\n",
+        wall, static_cast<unsigned long long>(runs), static_cast<unsigned long long>(vblanks - vblank_start),
+        static_cast<unsigned long long>(flips - flips_start), max_gap_ms, libretro_vblank_from_timer ? "timer" : "retro_run");
+    window_start = now;
+    runs = 0;
+    vblank_start = vblanks;
+    flips_start = flips;
+    max_gap_ms = 0.0;
 }
 
 static void libretro_log_init() {
@@ -2638,8 +2673,10 @@ RETRO_API void retro_run(void) {
             point.active = false;
     }
 
-    if (libretro.app_started)
+    if (libretro.app_started && !libretro_vblank_from_timer)
         libretro_vblank_tick(emuenv);
+    if (libretro.app_started)
+        debug_timing_tick(emuenv);
 
     if (libretro.active_context != RETRO_HW_CONTEXT_VULKAN
         && libretro.renderer_ready && emuenv.renderer) {
@@ -3139,6 +3176,12 @@ static void read_core_options() {
         libretro.cfg->current_config.memory_mapping = canonical_memory_mapping_option(value);
     });
     
+    // DEBUG (timing-debug): taken before the game starts only
+    read_core_option("vita3k_debug_vblank", "retro_run", [](const char *value) {
+        if (!libretro.app_started)
+            libretro_vblank_from_timer = value && std::string_view(value) == "timer";
+    });
+
     // System Options
     read_core_option("vita3k_pstv_mode", "disabled", [](const char *value) {
         libretro.cfg->current_config.pstv_mode = parse_enabled_option(value, false);

@@ -23,6 +23,7 @@
 #include <kernel/state.h>
 #include <renderer/state.h>
 
+#include <atomic>
 #include <chrono>
 #include <motion/functions.h>
 #include <touch/functions.h>
@@ -73,8 +74,20 @@ static void vblank_sync_thread(EmuEnvState &emuenv) {
     }
 }
 
+#ifdef BUILD_LIBRETRO
+// DEBUG (timing-debug): vblank from upstream's timer thread instead of
+// retro_run, set by the Debug: Vblank Source option before the game starts
+bool libretro_vblank_from_timer = false;
+std::atomic<uint64_t> libretro_debug_flips{ 0 };
+#endif
+
 void start_sync_thread(EmuEnvState &emuenv) {
 #ifdef BUILD_LIBRETRO
+    if (libretro_vblank_from_timer) {
+        LOG_INFO("Libretro DEBUG: vblank from upstream's 60 Hz timer thread");
+        emuenv.display.vblank_thread = std::make_unique<std::thread>(vblank_sync_thread, std::ref(emuenv));
+        return;
+    }
     // retro_run drives vblank instead of a background thread.
     LOG_INFO("Libretro: vblank sync thread not started");
 #else

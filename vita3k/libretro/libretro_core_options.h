@@ -352,6 +352,20 @@ struct retro_core_option_v2_definition option_defs_us[] = {
         "disabled"
     },
     {
+        "vita3k_debug_vblank",
+        "DEBUG: Vblank Source (Restart)",
+        NULL,
+        "timing-debug branch only. retro_run: one vblank per frame RetroArch runs, as the core does. Timer: upstream's own 60 Hz timer thread, as standalone Vita3K. Every second the log gets a TIMING line either way.",
+        NULL,
+        "system",
+        {
+            { "retro_run", "retro_run" },
+            { "timer", "Timer (upstream)" },
+            { NULL, NULL },
+        },
+        "retro_run"
+    },
+    {
         "vita3k_pstv_mode",
         "PS TV Mode",
         NULL,

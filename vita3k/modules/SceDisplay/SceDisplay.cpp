@@ -25,6 +25,7 @@
 #include <renderer/state.h>
 #include <util/lock_and_find.h>
 #include <util/types.h>
+#include <atomic>
 
 #include <util/tracy.h>
 TRACY_MODULE_NAME(SceDisplay);
@@ -120,8 +121,15 @@ EXPORT(int, _sceDisplayGetResolutionInfoInternal) {
     return UNIMPLEMENTED();
 }
 
+#ifdef BUILD_LIBRETRO
+extern std::atomic<uint64_t> libretro_debug_flips; // DEBUG (timing-debug)
+#endif
+
 EXPORT(SceInt32, _sceDisplaySetFrameBuf, const SceDisplayFrameBuf *pFrameBuf, SceDisplaySetBufSync sync, uint32_t *pFrameBuf_size) {
     TRACY_FUNC(_sceDisplaySetFrameBuf, pFrameBuf, sync, pFrameBuf_size);
+#ifdef BUILD_LIBRETRO
+    libretro_debug_flips.fetch_add(1, std::memory_order_relaxed);
+#endif
     if (!pFrameBuf)
         return SCE_DISPLAY_ERROR_OK;
     if (pFrameBuf->size != sizeof(SceDisplayFrameBuf) && pFrameBuf->size != sizeof(SceDisplayFrameBuf2)) {
