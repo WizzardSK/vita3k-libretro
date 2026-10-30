@@ -88,7 +88,7 @@ EXPORT(int, scePowerGetBatteryLifePercent) {
     return 100;
 #else
     int res;
-    SDL_GetPowerInfo(NULL, &res);
+    SDL_GetPowerInfo(nullptr, &res);
     if (res == -1) {
         return 100;
     }
@@ -102,7 +102,7 @@ EXPORT(int, scePowerGetBatteryLifeTime) {
     return INT_MAX;
 #else
     int res;
-    SDL_GetPowerInfo(&res, NULL);
+    SDL_GetPowerInfo(&res, nullptr);
     if (res == -1) {
         return INT_MAX;
     }
@@ -121,7 +121,7 @@ EXPORT(int, scePowerGetBatteryRemainLevel) {
     return SCE_POWER_BATTERY_REMAIN_LEVEL_75_100_PERCENTS;
 #else
     int res;
-    SDL_GetPowerInfo(NULL, &res);
+    SDL_GetPowerInfo(nullptr, &res);
     if (res >= 0) {
         if (res <= 25)
             return SCE_POWER_BATTERY_REMAIN_LEVEL_0_25_PERCENTS;
@@ -185,7 +185,7 @@ EXPORT(int, scePowerIsBatteryCharging) {
 #ifdef BUILD_LIBRETRO
     return 0;
 #else
-    SDL_PowerState info = SDL_GetPowerInfo(NULL, NULL);
+    SDL_PowerState info = SDL_GetPowerInfo(nullptr, nullptr);
     return (info == SDL_POWERSTATE_CHARGING);
 #endif
 }
@@ -195,7 +195,7 @@ EXPORT(int, scePowerIsBatteryExist) {
 #ifdef BUILD_LIBRETRO
     return 1;
 #else
-    SDL_PowerState info = SDL_GetPowerInfo(NULL, NULL);
+    SDL_PowerState info = SDL_GetPowerInfo(nullptr, nullptr);
     return (info != SDL_POWERSTATE_NO_BATTERY);
 #endif
 }
@@ -206,7 +206,7 @@ EXPORT(int, scePowerIsLowBattery) {
     return SCE_FALSE;
 #else
     int res;
-    SDL_GetPowerInfo(NULL, &res);
+    SDL_GetPowerInfo(nullptr, &res);
     if (res <= LOW_BATTERY_PERCENT) {
         return SCE_TRUE;
     }
@@ -229,7 +229,7 @@ EXPORT(int, scePowerIsPowerOnline) {
 #ifdef BUILD_LIBRETRO
     return 1;
 #else
-    SDL_PowerState info = SDL_GetPowerInfo(NULL, NULL);
+    SDL_PowerState info = SDL_GetPowerInfo(nullptr, nullptr);
     return ((info != SDL_POWERSTATE_UNKNOWN) && (info != SDL_POWERSTATE_ON_BATTERY));
 #endif
 }

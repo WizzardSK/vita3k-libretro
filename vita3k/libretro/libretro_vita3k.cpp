@@ -136,7 +136,7 @@ static void install_bundled_files(const fs::path &pref_path) {
         lr_log(RETRO_LOG_ERROR, "The files compiled into the core could not be opened\n");
         return;
     }
-    boost::system::error_code ec;
+    std::error_code ec;
     for (const char *dir : { "data", "shaders-builtin", "icons" })
         fs::remove_all(pref_path / dir, ec);
 
@@ -162,7 +162,7 @@ static void install_bundled_files(const fs::path &pref_path) {
             ok = false;
             continue;
         }
-        fs::ofstream out(path, std::ios::binary | std::ios::trunc);
+        std::ofstream out(path, std::ios::binary | std::ios::trunc);
         out.write(static_cast<const char *>(data), static_cast<std::streamsize>(size));
         mz_free(data);
         if (out)
@@ -384,7 +384,7 @@ static std::vector<TrophyEntry> s_trophy_entries;
 
 static std::vector<std::string> title_trophy_ids(const EmuEnvState &emuenv) {
     std::vector<std::string> ids;
-    boost::system::error_code ec;
+    std::error_code ec;
     const fs::path dir = emuenv.vita_fs_path / "ux0" / "app" / emuenv.io.title_id / "sce_sys" / "trophy";
     for (fs::directory_iterator it(dir, ec), end; !ec && it != end; it.increment(ec))
         ids.push_back(it->path().filename().string());
@@ -524,11 +524,11 @@ static void refresh_trophy_options(EmuEnvState &emuenv) {
     if (emuenv.io.title_id.empty())
         return;
     std::string now = emuenv.io.title_id;
-    boost::system::error_code ec;
+    std::error_code ec;
     const fs::path trophy = emuenv.vita_fs_path / "ux0" / "user" / emuenv.io.user_id / "trophy";
     for (const std::string &id : title_trophy_ids(emuenv)) {
         now += " " + id + (fs::exists(trophy / "conf" / id / "TROP.SFM", ec) ? "+" : "-");
-        const auto stamp = fs::last_write_time(trophy / "data" / id / "TROPUSR.DAT", ec);
+        const auto stamp = fs_utils::to_time_t(fs::last_write_time(trophy / "data" / id / "TROPUSR.DAT", ec));
         now += ec ? std::string("-") : std::to_string(static_cast<long long>(stamp));
         ec.clear();
     }
@@ -541,7 +541,7 @@ static void refresh_trophy_options(EmuEnvState &emuenv) {
 
 static void declare_module_options(const fs::path &pref_path) {
     s_module_names.clear();
-    boost::system::error_code ec;
+    std::error_code ec;
     const fs::path external = pref_path / "vs0" / "sys" / "external";
     if (fs::is_directory(external, ec)) {
         for (const auto &entry : fs::directory_iterator(external, ec)) {
@@ -1752,7 +1752,7 @@ static GameInstallResult open_content() {
         // A Persistent Cache from when the folder was on a file system with them
         // (copied over since) has no use any more (sco8487); what a run without
         // installing left is gone already (remove_dead_runs)
-        boost::system::error_code ec;
+        std::error_code ec;
         if (fs::exists(pref_path / "cache" / "pkg", ec)) {
             fs::remove_all(pref_path / "cache" / "pkg", ec);
             lr_log(RETRO_LOG_INFO, "Run Mode: Persistent Cache removed\n");
@@ -1811,7 +1811,7 @@ static GameInstallResult open_content() {
             if (relative.empty())
                 return host;
             const fs::path over = patch / relative;
-            boost::system::error_code ec;
+            std::error_code ec;
             if (fs::is_regular_file(over, ec) || (fs::is_directory(over, ec) && !fs::exists(host, ec)))
                 return over;
             return host;
@@ -1822,7 +1822,7 @@ static GameInstallResult open_content() {
             const fs::path relative = inside_game(dir);
             if (relative.empty() && dir.lexically_normal() != app && dir.lexically_normal() != app / ".")
                 return names;
-            boost::system::error_code ec;
+            std::error_code ec;
             for (fs::directory_iterator it(patch / relative, ec), end; !ec && it != end; it.increment(ec)) {
                 if (!fs::exists(app / relative / it->path().filename(), ec))
                     names.push_back(it->path().filename().string());
@@ -1842,7 +1842,7 @@ static void close_content() {
     vfs::host_dir_hook = nullptr;
     if (lazy_pkg::mounted()) {
         lazy_pkg::unmount();
-        boost::system::error_code ec;
+        std::error_code ec;
         fs::remove(fs::path(libretro.system_dir) / "ux0" / "libretro_pkg" / ("lazy_" + libretro.installed_title_id), ec);
     }
     content_closed();
@@ -3249,7 +3249,7 @@ static void read_core_options() {
         std::string image;
         for (const char *extension : { ".png", ".jpg", ".jpeg" }) {
             const fs::path path = fs::path(libretro.system_dir) / "camera" / (std::string(side) + extension);
-            boost::system::error_code ec;
+            std::error_code ec;
             if (fs::exists(path, ec)) {
                 image = fs_utils::path_to_utf8(path);
                 break;

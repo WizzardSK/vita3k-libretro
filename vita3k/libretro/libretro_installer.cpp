@@ -131,7 +131,7 @@ static PupKind pup_kind(const fs::path &path) {
 // the core's own folders only the names a PS Vita firmware comes with count:
 // RetroArch's system directory holds other consoles' .pup files too.
 static fs::path find_pup_file(const fs::path &search_dir, PupKind kind, bool vita_names_only = false) {
-    boost::system::error_code ec;
+    std::error_code ec;
     if (!fs::is_directory(search_dir, ec))
         return {};
 
@@ -143,7 +143,7 @@ static fs::path find_pup_file(const fs::path &search_dir, PupKind kind, bool vit
             continue;
         if (vita_names_only && name != "psp2updat.pup" && name != "psvupdat.pup")
             continue;
-        boost::system::error_code file_ec;
+        std::error_code file_ec;
         if (fs::is_regular_file(path, file_ec) && fs::file_size(path, file_ec) > 0)
             found.push_back(path);
     }
@@ -258,7 +258,7 @@ bool check_firmware_installed(const fs::path &pref_path, const fs::path &system_
 }
 
 bool install_firmware_content(const fs::path &pref_path, const fs::path &pup_path) {
-    boost::system::error_code ec;
+    std::error_code ec;
     if (!fs::is_regular_file(pup_path, ec)) {
         lr_log(RETRO_LOG_ERROR, "%s is not a file the core can open directly; copy it into a folder and load it from there\n", pup_path.generic_string().c_str());
         lr_msg("Firmware: load the .pup from a regular directory", 600);
@@ -540,7 +540,7 @@ static bool install_still_encrypted(const fs::path &path) {
 // an update shares and need not carry (sco8487). False, with a message, without one.
 static bool decrypt_nonpdrm_extra(const fs::path &install_path, const fs::path &pref_path, const GameInstallResult &result) {
     const fs::path work_bin = install_path / "sce_sys" / "package" / "work.bin";
-    boost::system::error_code ec;
+    std::error_code ec;
     if (!fs::exists(work_bin, ec)) {
         const fs::path lic_dir = pref_path / "ux0" / "license" / result.title_id;
         fs::path game_license = lic_dir / "work.bin";
@@ -565,7 +565,7 @@ static bool decrypt_nonpdrm_extra(const fs::path &install_path, const fs::path &
 // Whether the drive under pref_path has room for bytes more; a message says it when not
 // (sco8487: refuse rather than fill the drive)
 static bool has_room(const fs::path &pref_path, std::uint64_t bytes) {
-    boost::system::error_code ec;
+    std::error_code ec;
     const fs::space_info space = fs::space(pref_path, ec);
     if (ec || space.available >= bytes)
         return true;
@@ -579,7 +579,7 @@ static bool has_room(const fs::path &pref_path, std::uint64_t bytes) {
 
 static std::uint64_t folder_size(const fs::path &dir) {
     std::uint64_t total = 0;
-    boost::system::error_code ec;
+    std::error_code ec;
     for (fs::recursive_directory_iterator it(dir, ec), end; !ec && it != end; it.increment(ec)) {
         if (fs::is_regular_file(it->path(), ec))
             total += fs::file_size(it->path(), ec);
@@ -765,7 +765,7 @@ static bool content_stat(const fs::path &path, bool *is_directory, std::uint64_t
     const std::string p = path.string();
     if (lr_vfs_is_uri(p))
         return lr_vfs_stat(p, is_directory, size);
-    boost::system::error_code ec;
+    std::error_code ec;
     if (!fs::exists(path, ec))
         return false;
     const bool directory = fs::is_directory(path, ec);
@@ -780,7 +780,7 @@ static bool content_read(const fs::path &path, std::string &out) {
     const std::string p = path.string();
     if (lr_vfs_is_uri(p))
         return lr_vfs_read_file(p, out);
-    fs::ifstream in(path, std::ios::in | std::ios::binary);
+    std::ifstream in(path, std::ios::in | std::ios::binary);
     if (!in)
         return false;
     out.assign(std::istreambuf_iterator<char>(in), std::istreambuf_iterator<char>());
@@ -795,7 +795,7 @@ static std::vector<fs::path> content_list(const fs::path &dir) {
             entries.emplace_back(e);
         return entries;
     }
-    boost::system::error_code ec;
+    std::error_code ec;
     for (fs::directory_iterator it(dir, ec), end; !ec && it != end; it.increment(ec))
         entries.push_back(it->path());
     return entries;
@@ -814,10 +814,10 @@ static std::string zrif_of_license(const std::string &bytes, const fs::path &pre
         return {};
     }
     const fs::path scratch = pref_path / "ux0" / "libretro_license.tmp";
-    boost::system::error_code ec;
+    std::error_code ec;
     fs::create_directories(scratch.parent_path(), ec);
     {
-        fs::ofstream out(scratch, std::ios::out | std::ios::binary | std::ios::trunc);
+        std::ofstream out(scratch, std::ios::out | std::ios::binary | std::ios::trunc);
         out.write(bytes.data(), bytes.size());
     }
     std::string zrif;
@@ -857,7 +857,7 @@ static fs::path lazy_marker(const fs::path &pref_path, const std::string &title_
 void remove_dead_runs(const fs::path &pref_path) {
     const fs::path notes = pref_path / "ux0" / "libretro_pkg";
     const fs::path ux0 = pref_path / "ux0";
-    boost::system::error_code ec;
+    std::error_code ec;
     std::vector<fs::path> entries;
     for (fs::directory_iterator it(notes, ec), end; !ec && it != end; it.increment(ec))
         entries.push_back(it->path());
@@ -881,9 +881,9 @@ void remove_dead_runs(const fs::path &pref_path) {
 // Marked as laid out, before lazy_pkg lays it out
 static void mark_lazy_run(const fs::path &pref_path, const std::string &title_id) {
     const fs::path marker = lazy_marker(pref_path, title_id);
-    boost::system::error_code ec;
+    std::error_code ec;
     fs::create_directories(marker.parent_path(), ec);
-    fs::ofstream(marker).put('\n');
+    std::ofstream(marker).put('\n');
 }
 
 // A license where the console keeps it, ux0/license/<title id>/<content id>.rif,
@@ -892,7 +892,7 @@ static void write_license(const fs::path &pref_path, const std::string &title_id
     if (zrif.empty() || content_id.empty())
         return;
     const fs::path lic_dir = pref_path / "ux0" / "license" / title_id;
-    boost::system::error_code ec;
+    std::error_code ec;
     fs::create_directories(lic_dir, ec);
     std::ofstream lic((lic_dir / (content_id + ".rif")).string(), std::ios::binary);
     zrif2rif(zrif, lic);
@@ -903,7 +903,7 @@ static std::string find_pkg_license(const fs::path &pkg_path, const fs::path &pr
 // Whether a content is encrypted, so that it cannot be used without its license: a PKG
 // always counts as one, a folder or VPK/ZIP when it has a PFS
 static bool needs_license(const fs::path &path) {
-    boost::system::error_code ec;
+    std::error_code ec;
     if (!lr_vfs_is_uri(path.string()) && fs::is_directory(path, ec))
         return fs::is_directory(path / "sce_pfs", ec);
     if (!lazy_pkg::is_archive(path))
@@ -974,7 +974,7 @@ static bool read_installed_sfo(const fs::path &dir, sfo::SfoAppInfo &info) {
 // The "installed once" markers (handle_pkg_game) of what was just deleted, so
 // that loading its PKG installs it again
 static void forget_install_markers(const fs::path &pref_path, const std::function<bool(const std::string &)> &matches) {
-    boost::system::error_code ec;
+    std::error_code ec;
     std::vector<fs::path> gone;
     for (fs::directory_iterator it(pref_path / "ux0" / "libretro_pkg", ec), end; !ec && it != end; it.increment(ec)) {
         if (matches(it->path().filename().string()))
@@ -1017,9 +1017,9 @@ static void mark_forced_install(const fs::path &pref_path, const std::string &ti
         dlc_id = content_id.substr(20);
     else if (category.find("gp") == std::string::npos)
         return;
-    boost::system::error_code ec;
+    std::error_code ec;
     fs::create_directories(pref_path / "ux0" / "libretro_pkg", ec);
-    fs::ofstream(manual_install_mark(pref_path, title_id, dlc_id)) << source.string() << '\n';
+    std::ofstream(manual_install_mark(pref_path, title_id, dlc_id)) << source.string() << '\n';
     drop_shelved_copy(pref_path, title_id, dlc_id);
 }
 
@@ -1065,7 +1065,7 @@ static struct {
 // The shader cache goes too when the user removes the title's data (Remove Content), and
 // stays when only the way it is run changes (Run Mode).
 static void uninstall_game(const fs::path &pref_path, const std::string &title_id, bool shader_cache) {
-    boost::system::error_code ec;
+    std::error_code ec;
     fs::remove_all(pref_path / "ux0" / "app" / title_id, ec);
     if (shader_cache)
         fs::remove_all(pref_path / "cache" / "shaders" / title_id, ec);
@@ -1095,7 +1095,7 @@ static fs::path patch_shelf(const fs::path &pref_path, const std::string &title_
 // taking space until Remove Content (i30817). An update by the version it
 // installed with, a DLC by its ID.
 static void drop_shelved_copy(const fs::path &pref_path, const std::string &title_id, const std::string &dlc_id) {
-    boost::system::error_code ec;
+    std::error_code ec;
     if (!dlc_id.empty()) {
         fs::remove_all(dlc_shelf(pref_path, title_id, dlc_id), ec);
         return;
@@ -1107,7 +1107,7 @@ static void drop_shelved_copy(const fs::path &pref_path, const std::string &titl
 
 // One directory moved to another place on the same memory card
 static bool move_dir(const fs::path &from, const fs::path &to) {
-    boost::system::error_code ec;
+    std::error_code ec;
     fs::remove_all(to, ec);
     fs::create_directories(to.parent_path(), ec);
     fs::rename(from, to, ec);
@@ -1151,7 +1151,7 @@ static std::map<std::string, TitleRecord> load_titles(const fs::path &pref_path)
     return titles;
 }
 static void save_titles(const fs::path &pref_path, const std::map<std::string, TitleRecord> &titles) {
-    boost::system::error_code ec;
+    std::error_code ec;
     fs::create_directories(titles_file(pref_path).parent_path(), ec);
     const fs::path tmp = titles_file(pref_path).string() + ".tmp";
     {
@@ -1180,7 +1180,7 @@ static fs::path removal_note(const fs::path &pref_path, const std::string &title
 // <title>, <title>_update and <title>_<DLC>
 static std::vector<fs::path> persistent_cache_dirs(const fs::path &pref_path, const std::string &title_id) {
     std::vector<fs::path> dirs;
-    boost::system::error_code ec;
+    std::error_code ec;
     for (fs::directory_iterator it(pref_path / "cache" / "pkg", ec), end; !ec && it != end; it.increment(ec)) {
         const std::string name = it->path().filename().string();
         if (name == title_id || name.rfind(title_id + "_", 0) == 0)
@@ -1224,9 +1224,9 @@ void record_title_user_data(const fs::path &pref_path, const std::string &title_
         if (old == text)
             return;
     }
-    boost::system::error_code ec;
+    std::error_code ec;
     fs::create_directories(note.parent_path(), ec);
-    fs::ofstream(note, std::ios::binary | std::ios::trunc) << text;
+    std::ofstream(note, std::ios::binary | std::ios::trunc) << text;
 }
 
 // Every account's saves or trophies of a title. Without a note (a title last
@@ -1236,7 +1236,7 @@ void record_title_user_data(const fs::path &pref_path, const std::string &title_
 static void remove_user_data(const fs::path &pref_path, const std::string &title_id, int which) {
     if (!which)
         return;
-    boost::system::error_code ec;
+    std::error_code ec;
     std::vector<std::string> savedata, trophies;
     {
         std::ifstream in(user_data_note(pref_path, title_id).string());
@@ -1252,7 +1252,7 @@ static void remove_user_data(const fs::path &pref_path, const std::string &title
             trophies.push_back(it->path().filename().string());
     ec.clear();
     for (fs::directory_iterator it(pref_path / "ux0" / "user", ec), end; !ec && it != end; it.increment(ec)) {
-        boost::system::error_code rm;
+        std::error_code rm;
         if (which & USER_DATA_SAVES)
             for (const std::string &name : savedata)
                 fs::remove_all(it->path() / "savedata" / name, rm);
@@ -1268,7 +1268,7 @@ static void remove_user_data(const fs::path &pref_path, const std::string &title
 
 // user_data: the saves and trophies to delete with it (UserDataRemoval)
 static void remove_title_data(const fs::path &pref_path, const std::string &title_id, int user_data) {
-    boost::system::error_code ec;
+    std::error_code ec;
     // before the install goes, which the trophy sets may be read from
     remove_user_data(pref_path, title_id, user_data);
     fs::remove(user_data_note(pref_path, title_id), ec);
@@ -1289,7 +1289,7 @@ static void remove_title_data(const fs::path &pref_path, const std::string &titl
 }
 
 void finish_pending_removals(const fs::path &pref_path) {
-    boost::system::error_code ec;
+    std::error_code ec;
     std::vector<std::string> pending;
     for (fs::directory_iterator it(pref_path / "ux0" / "libretro_pkg", ec), end; !ec && it != end; it.increment(ec)) {
         const std::string name = it->path().filename().string();
@@ -1306,7 +1306,7 @@ void finish_pending_removals(const fs::path &pref_path) {
 // Cache's files are sparse, holding only what was read so far
 static std::uint64_t disk_usage(const fs::path &dir) {
     std::uint64_t total = 0;
-    boost::system::error_code ec;
+    std::error_code ec;
     for (fs::recursive_directory_iterator it(dir, ec), end; !ec && it != end; it.increment(ec)) {
         if (fs::is_regular_file(it->path(), ec))
             total += lazy_pkg::disk_size(it->path());
@@ -1321,11 +1321,11 @@ static std::uint64_t disk_usage(const fs::path &dir) {
 // when the title is closed.
 static std::uint64_t title_size(const fs::path &pref_path, const std::string &title_id, bool laid_out) {
     std::uint64_t size = 0;
-    boost::system::error_code ec;
+    std::error_code ec;
     if (!laid_out)
         size += disk_usage(pref_path / "ux0" / "app" / title_id);
     for (fs::directory_iterator it(pref_path / "ux0" / "addcont" / title_id, ec), end; !ec && it != end; it.increment(ec)) {
-        boost::system::error_code marker_ec;
+        std::error_code marker_ec;
         if (!laid_out || !fs::exists(pref_path / "ux0" / "libretro_pkg" / ("dlc_" + title_id + "_" + it->path().filename().string()), marker_ec))
             size += disk_usage(it->path());
     }
@@ -1379,7 +1379,7 @@ void record_started_title(const fs::path &pref_path, const std::string &title_id
     // goes, as an install goes when Run Mode no longer installs (sco8487);
     // its shader cache stays, every Run Mode uses it
     if (mode != "cache") {
-        boost::system::error_code ec;
+        std::error_code ec;
         const std::vector<fs::path> gone = persistent_cache_dirs(pref_path, title_id);
         for (const auto &dir : gone)
             fs::remove_all(dir, ec);
@@ -1444,7 +1444,7 @@ static void measure_closed_title() {
 // fill titles.tsv when there is none yet (data of a core from before it).
 static std::map<std::string, std::time_t> titles_with_data(const fs::path &pref_path) {
     std::map<std::string, std::time_t> titles;
-    boost::system::error_code ec;
+    std::error_code ec;
     const auto add = [&](const fs::path &parent, bool cache_names) {
         for (fs::directory_iterator it(parent, ec), end; !ec && it != end; it.increment(ec)) {
             std::string id = it->path().filename().string();
@@ -1453,7 +1453,7 @@ static std::map<std::string, std::time_t> titles_with_data(const fs::path &pref_
                 id = id.substr(0, id.find('_'));
             if (id.empty() || !fs::is_directory(it->path(), ec))
                 continue;
-            const std::time_t when = fs::last_write_time(it->path(), ec);
+            const std::time_t when = fs_utils::to_time_t(fs::last_write_time(it->path(), ec));
             auto found = titles.find(id);
             if (found == titles.end())
                 titles.emplace(id, when);
@@ -1481,7 +1481,7 @@ static std::string installed_title_name(const fs::path &pref_path, const std::st
         if (read_installed_sfo(pref_path / "ux0" / dir / title_id, info) && !info.app_title.empty())
             return info.app_title;
     }
-    boost::system::error_code ec;
+    std::error_code ec;
     for (fs::directory_iterator it(pref_path / "cache" / "pkg" / title_id, ec), end; !ec && it != end; it.increment(ec)) {
         if (it->path().extension() != ".bin" || fs::file_size(it->path(), ec) > 1024 * 1024)
             continue;
@@ -1498,7 +1498,7 @@ static std::string installed_title_name(const fs::path &pref_path, const std::st
 // titles.tsv filled from what is on the memory card, once
 static std::map<std::string, TitleRecord> titles_from_disk(const fs::path &pref_path) {
     std::map<std::string, TitleRecord> titles;
-    boost::system::error_code ec;
+    std::error_code ec;
     for (const auto &[id, when] : titles_with_data(pref_path)) {
         TitleRecord &r = titles[id];
         r.first_seen = when;
@@ -1585,7 +1585,7 @@ static ContentPlan plan_content(const fs::path &pkg_path, const std::string &tit
         lr_log(RETRO_LOG_INFO, "Content of %s through the frontend's VFS: %zu entries beside and below it\n",
             title_id.c_str(), candidates.size());
     } else {
-        boost::system::error_code ec;
+        std::error_code ec;
         for (fs::directory_iterator it(pkg_path.parent_path(), ec), end; it != end; it.increment(ec)) {
             if (ec)
                 break;
@@ -1617,7 +1617,7 @@ static ContentPlan plan_content(const fs::path &pkg_path, const std::string &tit
                     continue;
                 for (fs::recursive_directory_iterator it(dir, ec), end; !ec && it != end; it.increment(ec)) {
                     candidates.push_back(it->path().generic_string());
-                    boost::system::error_code sub_ec;
+                    std::error_code sub_ec;
                     if (fs::is_directory(it->path(), sub_ec) && fs::exists(it->path() / "sce_sys" / "param.sfo", sub_ec))
                         it.disable_recursion_pending();
                 }
@@ -1637,7 +1637,7 @@ static ContentPlan plan_content(const fs::path &pkg_path, const std::string &tit
     };
     std::vector<Update> updates;
     std::vector<Dlc> dlcs;
-    boost::system::error_code ec;
+    std::error_code ec;
     const fs::path app = pref_path / "ux0" / "app" / title_id;
     const fs::path patch = pref_path / "ux0" / "patch" / title_id;
     const fs::path addcont = pref_path / "ux0" / "addcont" / title_id;
@@ -1770,7 +1770,7 @@ static ContentPlan plan_content(const fs::path &pkg_path, const std::string &tit
             fs::remove_all(patch, ec);
             std::string marker_name;
             {
-                fs::ifstream note(patch_marker_note(pref_path, title_id));
+                std::ifstream note(patch_marker_note(pref_path, title_id));
                 std::getline(note, marker_name);
             }
             fs::remove(patch_marker_note(pref_path, title_id), ec);
@@ -2035,7 +2035,7 @@ static ContentPlan plan_content(const fs::path &pkg_path, const std::string &tit
             continue;
         const fs::path note = pref_path / "ux0" / "libretro_pkg" / ("manual_" + option.key.substr(sizeof("vita3k_zinstall_") - 1));
         fs::create_directories(note.parent_path(), ec);
-        fs::ofstream(note).put('\n');
+        std::ofstream(note).put('\n');
     }
 
     for (const Dlc &dlc : dlcs) {
@@ -2075,7 +2075,7 @@ static ContentPlan plan_content(const fs::path &pkg_path, const std::string &tit
         // The marker of the PKG it was installed from, by the name noted then
         std::string marker_name;
         {
-            fs::ifstream note(patch_marker_note(pref_path, title_id));
+            std::ifstream note(patch_marker_note(pref_path, title_id));
             std::getline(note, marker_name);
         }
         fs::remove(patch_marker_note(pref_path, title_id), ec);
@@ -2130,12 +2130,12 @@ bool content_options_changed() {
     // and trophies chosen to go with it
     const int user_data = user_data_choice();
     for (const auto &[key, id] : s_loaded_content.removals) {
-        boost::system::error_code ec;
+        std::error_code ec;
         const fs::path note = removal_note(s_loaded_content.pref_path, id);
         if (s_content_value(key) == "enabled") {
             if (!fs::exists(note, ec) || noted_user_data(note) != user_data) {
                 fs::create_directories(note.parent_path(), ec);
-                fs::ofstream(note, std::ios::trunc) << user_data << '\n';
+                std::ofstream(note, std::ios::trunc) << user_data << '\n';
             }
         } else if (fs::exists(note, ec))
             fs::remove(note, ec);
@@ -2174,7 +2174,7 @@ void content_closed() {
         return;
     }
 
-    boost::system::error_code ec;
+    std::error_code ec;
     const fs::path &pref_path = content.pref_path;
     const std::string &title_id = content.title_id;
 
@@ -2213,7 +2213,7 @@ void content_closed() {
             move_dir(patch, patch_shelf(pref_path, title_id, info.app_version));
             std::string marker_name;
             {
-                fs::ifstream note(patch_marker_note(pref_path, title_id));
+                std::ifstream note(patch_marker_note(pref_path, title_id));
                 std::getline(note, marker_name);
             }
             fs::remove(patch_marker_note(pref_path, title_id), ec);
@@ -2272,7 +2272,7 @@ static bool install_pkg_file(const fs::path &pkg_path, EmuEnvState &emuenv, std:
 // An update or DLC PKG from the game's folder installed, as loading it does
 static bool install_extra_pkg(const fs::path &pkg_path, const fs::path &pref_path, int sys_lang, std::string zrif) {
     // An update or DLC in a VPK/ZIP or a folder: installed the way loading it installs it
-    boost::system::error_code ec;
+    std::error_code ec;
     if (lazy_pkg::is_archive(pkg_path) || fs::is_directory(pkg_path, ec))
         return ensure_game_installed(pkg_path, pref_path, sys_lang, false).success;
     auto emuenv = std::make_unique<EmuEnvState>();
@@ -2291,7 +2291,7 @@ static bool install_extra_pkg(const fs::path &pkg_path, const fs::path &pref_pat
 // message has said why.
 static bool apply_content(const ContentPlan &plan, const std::string &title_id, const std::string &zrif, const fs::path &pref_path,
     int sys_lang, bool lazy) {
-    boost::system::error_code ec;
+    std::error_code ec;
     for (const ContentPlan::Dlc &dlc : plan.dlcs) {
         const std::string dlc_zrif = find_pkg_license(fs::path(dlc.path), pref_path);
         if (!lazy) {
@@ -2348,7 +2348,7 @@ static bool apply_content(const ContentPlan &plan, const std::string &title_id, 
 // a <pkg name>.rif, work.bin or <content id>.rif license file, or a 512-byte
 // .bin holding its content ID. Updates and DLC without DRM need none.
 static std::string find_pkg_license(const fs::path &pkg_path, const fs::path &pref_path) {
-    boost::system::error_code ec;
+    std::error_code ec;
     // A folder (a NoNpDrm dump's DLC or update) carries its own, if any
     if (!lr_vfs_is_uri(pkg_path.string()) && fs::is_directory(pkg_path, ec))
         return license_to_zrif(pkg_path / "sce_sys" / "package" / "work.bin", pref_path);
@@ -2477,7 +2477,7 @@ static GameInstallResult handle_pkg_game(const fs::path &pkg_path, const fs::pat
     // off is deleted by now; the rest follows once the game is there.
     const ContentPlan plan = plan_content(pkg_path, title_id, pref_path, run_pkg);
     if (plan.reinstall_game) {
-        boost::system::error_code ec;
+        std::error_code ec;
         fs::remove_all(pref_path / "ux0" / "app" / title_id, ec);
     }
 
@@ -2558,7 +2558,7 @@ static GameInstallResult handle_pkg_game(const fs::path &pkg_path, const fs::pat
     }
 
     fs::create_directories(marker.parent_path());
-    fs::ofstream(marker).put('\n');
+    std::ofstream(marker).put('\n');
 
     result.title_id = emuenv->app_info.app_title_id;
     result.title = emuenv->app_info.app_title;
@@ -2576,7 +2576,7 @@ static GameInstallResult handle_pkg_game(const fs::path &pkg_path, const fs::pat
         else if (is_dlc && result.content_id.size() > 20)
             note = manual_dlc_note(pref_path, result.title_id, result.content_id.substr(20));
         if (!note.empty())
-            fs::ofstream(note).put('\n');
+            std::ofstream(note).put('\n');
         mark_forced_install(pref_path, result.title_id, result.category, result.content_id, pkg_path);
     }
 
@@ -2584,7 +2584,7 @@ static GameInstallResult handle_pkg_game(const fs::path &pkg_path, const fs::pat
     // files when the game starts, installed or run from its PKG; the note says
     // which install it was, for when it goes
     if (result.category.find("gp") != std::string::npos) {
-        fs::ofstream(patch_marker_note(pref_path, result.title_id)) << marker.filename().string() << '\n';
+        std::ofstream(patch_marker_note(pref_path, result.title_id)) << marker.filename().string() << '\n';
         if (!game_installed) {
             lr_log(RETRO_LOG_INFO, "Update %s installed in ux0/patch/%s, laid over the game when it starts\n",
                 result.title.c_str(), result.title_id.c_str());
@@ -2995,7 +2995,7 @@ GameInstallResult ensure_game_installed(const fs::path &game_path, const fs::pat
     // An update or DLC loaded on its own starts its installed game, which then
     // gets its Content options like a game loaded itself (Shoegzer): its
     // update and DLC as they are installed, and Current Title
-    boost::system::error_code ec;
+    std::error_code ec;
     const fs::path app = pref_path / "ux0" / "app" / result.title_id;
     if (result.success && !result.title_id.empty() && s_loaded_content.title_id.empty()
         && fs::exists(app / "eboot.bin", ec)) {

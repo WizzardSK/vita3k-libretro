@@ -50,7 +50,7 @@ static void libretro_adopt_flat_user_data(EmuEnvState &emuenv) {
     const fs::path user_root = emuenv.vita_fs_path / "ux0" / "user";
     const fs::path user_path = user_root / emuenv.io.user_id;
     const auto adopt = [](const fs::path &from, const fs::path &to) {
-        boost::system::error_code ec;
+        std::error_code ec;
         if (!fs::is_directory(from, ec) || fs::is_empty(from, ec) || fs::exists(to, ec))
             return;
         fs::create_directories(to.parent_path(), ec);
