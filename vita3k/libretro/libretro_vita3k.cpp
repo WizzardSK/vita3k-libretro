@@ -3036,7 +3036,8 @@ static void apply_config_changes() {
     const bool cpu_opt_changed = (cfg.cpu_opt != cfg.current_config.cpu_opt);
 
     // The Content options (game, update, DLC) apply when the content is started again
-    const bool content_changed = content_options_changed();
+    bool removal_changed = false;
+    const bool content_changed = content_options_changed(&removal_changed);
     const bool start_options_changed = !s_start_options.empty() && start_only_options(cfg) != s_start_options;
     const bool restart_required = backend_changed || resolution_changed || memory_mapping_changed
         || high_accuracy_changed || modules_mode_changed || cpu_opt_changed || content_changed
@@ -3070,6 +3071,10 @@ static void apply_config_changes() {
             start_options_changed ? 1 : 0);
     }
     
+    // Remove Content deletes when the content is closed or reset (i30817)
+    if (removal_changed && libretro.app_started && !restart_required)
+        lr_message("Vita3K: Remove Content applies when the content is closed or reset.");
+
     // Copy current_config values to main config
     cfg.cpu_opt = cfg.current_config.cpu_opt;
     cfg.modules_mode = cfg.current_config.modules_mode;

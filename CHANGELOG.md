@@ -4,6 +4,7 @@ What changed in the libretro core of this fork, newest first. Changes that come 
 
 ## Unreleased
 
+- Changing a Remove Content option while a game runs brings a notice that it applies when the content is closed or reset (i30817).
 - Memory Mapping the GPU cannot do is named in a notice when the game starts, with the one used instead; the option stays as set. Native Buffer is gone from the list: the core is built without it, and choosing it turned memory mapping off without a word (sco8487).
 - The notice that an option change needs the content restarted also comes for PS TV Mode, NGS Audio Engine, V-Sync, File Loading Delay, PSN Signed In, the system language, date and time formats, Confirm Button and the HTTP options, not only for the GPU, CPU, modules and Content ones (#2, i30817).
 - A game's `eboot.bin` opened through RetroArch's file access (Android's file picker, Samba) is turned away with a message, as its folder is: the core went on to the folder, which it cannot read there, and only found the game's files missing (sco8487).

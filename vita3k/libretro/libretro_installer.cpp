@@ -2117,7 +2117,9 @@ static ContentPlan plan_content(const fs::path &pkg_path, const std::string &tit
 
 // Whether a Content option changed since it was last asked (each takes effect
 // when the content is started again)
-bool content_options_changed() {
+bool content_options_changed(bool *removal_changed) {
+    if (removal_changed)
+        *removal_changed = false;
     if (s_loaded_content.title_id.empty() || !s_content_value)
         return false;
     // Remove Content: a note for each title while it is ON, so that a crash
@@ -2135,20 +2137,28 @@ bool content_options_changed() {
         } else if (fs::exists(note, ec))
             fs::remove(note, ec);
     }
+    // seen since last asked: true where the value differs
+    const auto differs = [](const std::string &key) {
+        const std::string value = s_content_value(key);
+        const auto [it, inserted] = s_loaded_content.seen.try_emplace(key, value);
+        if (inserted || it->second == value)
+            return false;
+        it->second = value;
+        return true;
+    };
     std::vector<std::string> keys = { s_loaded_content.game_key };
     if (!s_loaded_content.update_key.empty())
         keys.push_back(s_loaded_content.update_key);
     for (const auto &dlc : s_loaded_content.dlcs)
         keys.push_back(dlc.key);
     bool changed = false;
-    for (const std::string &key : keys) {
-        const std::string value = s_content_value(key);
-        const auto [it, inserted] = s_loaded_content.seen.try_emplace(key, value);
-        if (!inserted && it->second != value) {
-            it->second = value;
-            changed = true;
-        }
-    }
+    for (const std::string &key : keys)
+        changed |= differs(key);
+    bool removal = differs("vita3k_remove_user_data");
+    for (const auto &[key, id] : s_loaded_content.removals)
+        removal |= differs(key);
+    if (removal_changed)
+        *removal_changed = removal;
     return changed;
 }
 

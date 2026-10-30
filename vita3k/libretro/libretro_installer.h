@@ -77,8 +77,9 @@ void set_content_options_handler(ContentOptionsHandler handler);
 void set_content_option_accessors(std::function<std::string(const std::string &)> get,
     std::function<void(const std::string &, const std::string &)> set);
 // Whether a Content option (game, update, DLC) changed since it was last asked; each takes
-// effect when the content is started again
-bool content_options_changed();
+// effect when the content is started again. removal_changed: whether a Remove Content option
+// did, which takes effect when the content is closed or reset (i30817)
+bool content_options_changed(bool *removal_changed = nullptr);
 // Called when the content is closed, the game stopped and what was laid out
 // for a run without installing removed: deletes what was turned off meanwhile,
 // and measures the title that ran again for Remove Content's list
