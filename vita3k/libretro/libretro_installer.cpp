@@ -93,10 +93,15 @@ FirmwareStatus check_firmware_status(const fs::path &pref_path) {
     const auto sa0_path = pref_path / "sa0";
 
     status.preinst_installed = fs::exists(pd0_path) && !fs::is_empty(pd0_path);
-    status.firmware_installed = fs::exists(vs0_path) && !fs::is_empty(vs0_path);
+    // the firmware by its modules, vs0/sys/external: vs0 holding something
+    // else (app and data alone) passed for an installed firmware, so the
+    // firmware .pup was never installed and the games found no libfiber
+    // (sco8487)
+    const auto external_path = vs0_path / "sys" / "external";
+    status.firmware_installed = fs::exists(external_path) && !fs::is_empty(external_path);
     status.font_installed = fs::exists(sa0_path) && !fs::is_empty(sa0_path);
 
-    lr_log(RETRO_LOG_INFO, "Firmware status: preinst(pd0)=%s firmware(vs0)=%s font(sa0)=%s\n",
+    lr_log(RETRO_LOG_INFO, "Firmware status: preinst(pd0)=%s firmware(vs0/sys/external)=%s font(sa0)=%s\n",
         status.preinst_installed ? "YES" : "NO",
         status.firmware_installed ? "YES" : "NO",
         status.font_installed ? "YES" : "NO");
