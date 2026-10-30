@@ -624,13 +624,30 @@ static std::string canonical_memory_mapping_option(const char *value) {
         token = "external-host";
     if (token == "pagetable")
         token = "page-table";
-    if (token == "nativebuffer")
-        token = "native-buffer";
 
     if (token != "disabled" && token != "double-buffer" && token != "external-host"
-        && token != "page-table" && token != "native-buffer")
+        && token != "page-table")
         token = "double-buffer";
     return token;
+}
+
+// Memory Mapping the GPU can't do: the renderer takes the best one it can
+// (late_init), as upstream does, but upstream says so only in its log. The
+// option stays as set, as it may come from another device (sco8487).
+static void notify_memory_mapping(EmuEnvState &emuenv) {
+    static const char *const names[] = { "Disabled", "Double Buffer", "External Host", "Page Table", "Native Buffer" };
+    static const char *const tokens[] = { "disabled", "double-buffer", "external-host", "page-table", "native-buffer" };
+    const std::string &requested = emuenv.cfg.current_config.memory_mapping;
+    const int used = static_cast<int>(emuenv.renderer->mapping_method);
+    if (used < 0 || used >= static_cast<int>(std::size(names)) || requested == tokens[used])
+        return;
+    const char *requested_name = requested.c_str();
+    for (size_t i = 0; i < std::size(tokens); i++)
+        if (requested == tokens[i])
+            requested_name = names[i];
+    const std::string msg = fmt::format("Vita3K: this GPU has no Memory Mapping {}, {} is used", requested_name, names[used]);
+    lr_log(RETRO_LOG_WARN, "%s\n", msg.c_str());
+    lr_message(msg);
 }
 
 static void libretro_log_init() {
@@ -1075,6 +1092,7 @@ static void context_reset_vulkan() {
             set_libretro_queue_lock(emuenv.renderer.get(), vulkan->handle,
                 vulkan->lock_queue, vulkan->unlock_queue);
             emuenv.renderer->late_init(emuenv.cfg, emuenv.io.app_path, emuenv.mem);
+            notify_memory_mapping(emuenv);
             // Resolution multiplier, filters and the rest, as upstream's
             // app start applies them: without it res_multiplier stayed
             // unset and the first render target was zero-sized
@@ -1238,6 +1256,7 @@ static void context_reset_finalize() {
             lr_trace("context_reset_finalize.app_start_failed", "error=%d", static_cast<int>(run_err));
         } else {
             libretro.app_started = true;
+            s_start_options = start_only_options(*libretro.cfg);
             libretro.pending_main_module_id = -1;
             show_start_image(emuenv);
             lr_log(RETRO_LOG_INFO, "context_reset_finalize: app start complete\n");
@@ -2986,6 +3005,19 @@ static void read_core_option(const char *key, const char *default_value, std::fu
     }
 }
 
+// The options the game reads only as it starts, other than those checked one
+// by one in apply_config_changes, as they were then: a change to one of them
+// shows the restart notice too (#2, i30817). Each is taken from where the
+// option is written (current_config or the config itself).
+static std::vector<int> start_only_options(const Config &cfg) {
+    const auto &cur = cfg.current_config;
+    return { cur.pstv_mode, cur.ngs_enable, cur.v_sync, cur.file_loading_delay, cur.psn_signed_in,
+        cfg.sys_lang, cfg.sys_date_format, cfg.sys_time_format, cfg.sys_button,
+        cfg.http_enable, cfg.http_timeout_attempts, cfg.http_timeout_sleep_ms,
+        cfg.http_read_end_attempts, cfg.http_read_end_sleep_ms };
+}
+static std::vector<int> s_start_options;
+
 static void apply_config_changes() {
     if (!libretro.cfg)
         return;
@@ -3005,8 +3037,10 @@ static void apply_config_changes() {
 
     // The Content options (game, update, DLC) apply when the content is started again
     const bool content_changed = content_options_changed();
+    const bool start_options_changed = !s_start_options.empty() && start_only_options(cfg) != s_start_options;
     const bool restart_required = backend_changed || resolution_changed || memory_mapping_changed
-        || high_accuracy_changed || modules_mode_changed || cpu_opt_changed || content_changed;
+        || high_accuracy_changed || modules_mode_changed || cpu_opt_changed || content_changed
+        || start_options_changed;
 
     if (restart_required && libretro.app_started) {
         lr_log(RETRO_LOG_INFO,
@@ -3026,13 +3060,14 @@ static void apply_config_changes() {
             cfg.current_config.cpu_opt ? 1 : 0);
         lr_message("Vita3K: Some option changes require restarting content to fully apply.");
         lr_log(RETRO_LOG_WARN,
-            "Core option change requires restart (backend=%d, res=%d, mem_map=%d, high_acc=%d, modules=%d, cpu_opt=%d)\n",
+            "Core option change requires restart (backend=%d, res=%d, mem_map=%d, high_acc=%d, modules=%d, cpu_opt=%d, other=%d)\n",
             backend_changed ? 1 : 0,
             resolution_changed ? 1 : 0,
             memory_mapping_changed ? 1 : 0,
             high_accuracy_changed ? 1 : 0,
             modules_mode_changed ? 1 : 0,
-            cpu_opt_changed ? 1 : 0);
+            cpu_opt_changed ? 1 : 0,
+            start_options_changed ? 1 : 0);
     }
     
     // Copy current_config values to main config
