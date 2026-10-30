@@ -1184,8 +1184,89 @@ static std::vector<fs::path> persistent_cache_dirs(const fs::path &pref_path, co
     return dirs;
 }
 
-static void remove_title_data(const fs::path &pref_path, const std::string &title_id) {
+// Remove Content's Delete user saves and trophies of removed titles: which of
+// the two go with a title's data (i30817). A title turned ON keeps the choice
+// in its note (removal_note), so that a removal a crash cut short finishes
+// with the choice it was turned ON with.
+enum UserDataRemoval { USER_DATA_NONE = 0, USER_DATA_SAVES = 1, USER_DATA_TROPHIES = 2 };
+
+static int user_data_choice() {
+    const std::string value = s_content_value ? s_content_value("vita3k_remove_user_data") : std::string();
+    return value == "both" ? USER_DATA_SAVES | USER_DATA_TROPHIES : value == "saves" ? USER_DATA_SAVES : value == "trophies" ? USER_DATA_TROPHIES : USER_DATA_NONE;
+}
+
+static int noted_user_data(const fs::path &note) {
+    std::ifstream in(note.string());
+    int choice = USER_DATA_NONE;
+    in >> choice;
+    return in ? choice & (USER_DATA_SAVES | USER_DATA_TROPHIES) : USER_DATA_NONE;
+}
+
+// A title's save data folder and trophy sets, as record_title_user_data kept
+// them: "savedata <folder>" and "trophy <NP communication ID>" lines
+static fs::path user_data_note(const fs::path &pref_path, const std::string &title_id) {
+    return pref_path / "ux0" / "libretro_pkg" / ("userdata_" + title_id);
+}
+
+void record_title_user_data(const fs::path &pref_path, const std::string &title_id, const std::string &savedata, const std::vector<std::string> &trophy_ids) {
+    std::string text = "savedata " + savedata + "\n";
+    for (const std::string &id : trophy_ids)
+        text += "trophy " + id + "\n";
+    const fs::path note = user_data_note(pref_path, title_id);
+    {
+        std::ifstream in(note.string(), std::ios::binary);
+        const std::string old((std::istreambuf_iterator<char>(in)), std::istreambuf_iterator<char>());
+        if (old == text)
+            return;
+    }
     boost::system::error_code ec;
+    fs::create_directories(note.parent_path(), ec);
+    fs::ofstream(note, std::ios::binary | std::ios::trunc) << text;
+}
+
+// Every account's saves or trophies of a title. Without a note (a title last
+// run by a build before the option) the saves are taken to be in the folder
+// named by its title ID, as most are, and the trophy sets are those of its
+// install, if it has one.
+static void remove_user_data(const fs::path &pref_path, const std::string &title_id, int which) {
+    if (!which)
+        return;
+    boost::system::error_code ec;
+    std::vector<std::string> savedata, trophies;
+    {
+        std::ifstream in(user_data_note(pref_path, title_id).string());
+        std::string kind, name;
+        while (in >> kind >> name)
+            if (name != "." && name != ".." && name.find_first_of("/\\") == std::string::npos)
+                (kind == "savedata" ? savedata : trophies).push_back(name);
+    }
+    if (savedata.empty())
+        savedata.push_back(title_id);
+    if (trophies.empty())
+        for (fs::directory_iterator it(pref_path / "ux0" / "app" / title_id / "sce_sys" / "trophy", ec), end; !ec && it != end; it.increment(ec))
+            trophies.push_back(it->path().filename().string());
+    ec.clear();
+    for (fs::directory_iterator it(pref_path / "ux0" / "user", ec), end; !ec && it != end; it.increment(ec)) {
+        boost::system::error_code rm;
+        if (which & USER_DATA_SAVES)
+            for (const std::string &name : savedata)
+                fs::remove_all(it->path() / "savedata" / name, rm);
+        if (which & USER_DATA_TROPHIES)
+            for (const std::string &id : trophies) {
+                fs::remove_all(it->path() / "trophy" / "conf" / id, rm);
+                fs::remove_all(it->path() / "trophy" / "data" / id, rm);
+            }
+    }
+    lr_log(RETRO_LOG_INFO, "%s: its %s removed (Remove Content)\n", title_id.c_str(),
+        which == (USER_DATA_SAVES | USER_DATA_TROPHIES) ? "saves and trophies are" : which == USER_DATA_SAVES ? "saves are" : "trophies are");
+}
+
+// user_data: the saves and trophies to delete with it (UserDataRemoval)
+static void remove_title_data(const fs::path &pref_path, const std::string &title_id, int user_data) {
+    boost::system::error_code ec;
+    // before the install goes, which the trophy sets may be read from
+    remove_user_data(pref_path, title_id, user_data);
+    fs::remove(user_data_note(pref_path, title_id), ec);
     // the game, its install markers and its shader cache, and whatever was
     // installed for it besides: its update and DLC, also those set aside
     uninstall_game(pref_path, title_id, true);
@@ -1211,7 +1292,7 @@ void finish_pending_removals(const fs::path &pref_path) {
             pending.push_back(name.substr(7));
     }
     for (const std::string &id : pending) {
-        remove_title_data(pref_path, id);
+        remove_title_data(pref_path, id, noted_user_data(removal_note(pref_path, id)));
         lr_log(RETRO_LOG_INFO, "%s: its data is removed (Remove Content, not finished when the core last closed)\n", id.c_str());
     }
 }
@@ -1902,7 +1983,7 @@ static ContentPlan plan_content(const fs::path &pkg_path, const std::string &tit
             if (it == chosen.end() || it->second != "enabled")
                 continue;
             if (id != title_id) {
-                remove_title_data(pref_path, id);
+                remove_title_data(pref_path, id, user_data_choice());
                 deleted.push_back(key);
                 lr_log(RETRO_LOG_INFO, "%s: its data is removed (Remove Content, left on when the last title was not closed)\n", id.c_str());
             }
@@ -2040,14 +2121,16 @@ bool content_options_changed() {
     if (s_loaded_content.title_id.empty() || !s_content_value)
         return false;
     // Remove Content: a note for each title while it is ON, so that a crash
-    // before the close still has it deleted at the next start
+    // before the close still has it deleted at the next start, with the saves
+    // and trophies chosen to go with it
+    const int user_data = user_data_choice();
     for (const auto &[key, id] : s_loaded_content.removals) {
         boost::system::error_code ec;
         const fs::path note = removal_note(s_loaded_content.pref_path, id);
         if (s_content_value(key) == "enabled") {
-            if (!fs::exists(note, ec)) {
+            if (!fs::exists(note, ec) || noted_user_data(note) != user_data) {
                 fs::create_directories(note.parent_path(), ec);
-                fs::ofstream(note).put('\n');
+                fs::ofstream(note, std::ios::trunc) << user_data << '\n';
             }
         } else if (fs::exists(note, ec))
             fs::remove(note, ec);
@@ -2096,7 +2179,7 @@ void content_closed() {
     for (const auto &[key, id] : content.removals) {
         if (s_content_value(key) != "enabled")
             continue;
-        remove_title_data(pref_path, id);
+        remove_title_data(pref_path, id, user_data_choice());
         lr_log(RETRO_LOG_INFO, "%s: its data is removed (Remove Content)\n", id.c_str());
         if (s_set_content_value)
             s_set_content_value(key, "disabled");

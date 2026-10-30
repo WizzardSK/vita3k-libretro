@@ -535,6 +535,7 @@ static void refresh_trophy_options(EmuEnvState &emuenv) {
     if (now == made_from)
         return;
     made_from = now;
+    record_title_user_data(emuenv.vita_fs_path, emuenv.io.title_id, emuenv.io.savedata, title_trophy_ids(emuenv));
     declare_trophy_options(emuenv);
 }
 

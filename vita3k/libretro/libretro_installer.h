@@ -91,6 +91,10 @@ void finish_pending_removals(const fs::path &pref_path);
 // it runs (install, cache or run) and, when it is new to the list or runs
 // another way, the size of its data
 void record_started_title(const fs::path &pref_path, const std::string &title_id, const std::string &name, const std::string &mode);
+// The running title's save data folder and trophy sets (NP communication
+// IDs), kept for Remove Content's Delete user saves and trophies, which may
+// remove the title when it is no longer laid out
+void record_title_user_data(const fs::path &pref_path, const std::string &title_id, const std::string &savedata, const std::vector<std::string> &trophy_ids);
 
 // What runs without installing left laid out in ux0 when they were not closed (the
 // frontend killed): every game, DLC and update layout whose marker under
