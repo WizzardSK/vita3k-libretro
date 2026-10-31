@@ -411,8 +411,25 @@ static bool show_trophy_entries() {
     return true;
 }
 
-static bool RETRO_CALLCONV update_trophy_display() {
-    return show_trophy_entries();
+// The modules under Modules, shown only while Modules Mode (in System) uses
+// them. Also from the display callback: set at load only, switching the mode
+// in the menu showed them from the next start, so with the firmware just
+// installed at the first start the list looked missing (sco8487)
+static bool show_module_options() {
+    if (!libretro.environ_cb)
+        return false;
+    const bool manual_modules = std::string_view(get_core_option_value("vita3k_modules_mode", "0")) != "0";
+    for (const std::string &name : s_module_names) {
+        const std::string key = MODULE_KEY_PREFIX + name;
+        retro_core_option_display display{ key.c_str(), manual_modules };
+        libretro.environ_cb(RETRO_ENVIRONMENT_SET_CORE_OPTIONS_DISPLAY, &display);
+    }
+    return !s_module_names.empty();
+}
+
+static bool RETRO_CALLCONV update_option_display() {
+    const bool trophies = show_trophy_entries();
+    return show_module_options() || trophies;
 }
 
 static void declare_trophy_options(EmuEnvState &emuenv) {
@@ -2072,7 +2089,7 @@ RETRO_API void retro_set_environment(retro_environment_t cb) {
 
     bool categories_supported = false;
     libretro_set_core_options(libretro.environ_cb, &categories_supported);
-    retro_core_options_update_display_callback update_display{ update_trophy_display };
+    retro_core_options_update_display_callback update_display{ update_option_display };
     cb(RETRO_ENVIRONMENT_SET_CORE_OPTIONS_UPDATE_DISPLAY_CALLBACK, &update_display);
     libretro_log_init();
 }
@@ -3186,14 +3203,12 @@ static void read_core_options() {
     // The modules turned on under Modules, shown there only when they are used
     auto &lle_modules = libretro.cfg->current_config.lle_modules;
     lle_modules.clear();
-    const bool manual_modules = libretro.cfg->current_config.modules_mode != static_cast<int>(ModulesMode::AUTOMATIC);
     for (const std::string &name : s_module_names) {
         const std::string key = MODULE_KEY_PREFIX + name;
         if (std::string_view(get_core_option_value(key.c_str(), "disabled")) == "enabled")
             lle_modules.push_back(name);
-        retro_core_option_display display{ key.c_str(), manual_modules };
-        libretro.environ_cb(RETRO_ENVIRONMENT_SET_CORE_OPTIONS_DISPLAY, &display);
     }
+    show_module_options();
     
     read_core_option("vita3k_fps_hack", "disabled", [](const char *value) {
         libretro.cfg->current_config.fps_hack = parse_enabled_option(value, false);
