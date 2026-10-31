@@ -296,6 +296,14 @@ static ExitCode parse(Config &cfg, const fs::path &load_path, const fs::path &ro
 }
 
 ExitCode serialize_config(Config &cfg, const fs::path &output_path) {
+#ifdef BUILD_LIBRETRO
+    // The core's settings are its core options; it neither reads nor writes
+    // config.yml. Writing it at the first start (the controller binds reset)
+    // also crashed on Android, its path being empty (sco8487)
+    (void)cfg;
+    (void)output_path;
+    return Success;
+#endif
     const auto output = check_path(output_path);
     if (output.empty())
         return InvalidApplicationPath;
