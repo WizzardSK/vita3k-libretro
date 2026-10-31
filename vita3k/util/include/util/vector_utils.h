@@ -36,13 +36,14 @@ template <typename T, typename A = std::allocator<T>, typename H = std::hash<T>,
 std::vector<T, A> merge_vectors(const std::vector<T, A> &cur, const std::vector<T, A> &append) {
     std::vector<T, A> new_vector(cur.get_allocator());
     new_vector.reserve(cur.size() + append.size());
-    new_vector.append_range(cur);
-    new_vector.append_range(append);
+    // insert, not append_range: Ubuntu 24.04's libstdc++ 14, which the core builds against for its glibc, lacks it
+    new_vector.insert(new_vector.end(), cur.begin(), cur.end());
+    new_vector.insert(new_vector.end(), append.begin(), append.end());
 
     std::unordered_set<T, H, P, A> s;
     for (auto &&i : new_vector)
         s.insert(std::move(i));
-    new_vector.assign_range(s);
+    new_vector.assign(s.begin(), s.end());
     std::ranges::sort(new_vector, std::less<>{});
     return new_vector;
 }
