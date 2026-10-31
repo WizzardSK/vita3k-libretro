@@ -23,7 +23,6 @@ target_link_libraries(vita3k_libretro PRIVATE
 	audio
 	camera
 	config
-	cppcommon
 	ctrl
 	compat
 	dialog
