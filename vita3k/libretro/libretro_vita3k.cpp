@@ -1351,6 +1351,14 @@ static void context_destroy() {
             glDeleteTextures(1, &libretro.gl_screen_texture);
             libretro.gl_screen_texture = 0;
         }
+        if (libretro.gl_memory_texture) {
+            glDeleteTextures(1, &libretro.gl_memory_texture);
+            libretro.gl_memory_texture = 0;
+        }
+        if (libretro.gl_read_fbo) {
+            glDeleteFramebuffers(1, &libretro.gl_read_fbo);
+            libretro.gl_read_fbo = 0;
+        }
     }
 
     lr_log(RETRO_LOG_INFO, "context_destroy\n");
@@ -2850,7 +2858,7 @@ RETRO_API void retro_run(void) {
         // render_frame does; it used to be shown as black
         if (!surface_tex && frame.base && frame.image_size.x > 0 && frame.image_size.y > 0
             && frame.pitch >= static_cast<uint32_t>(frame.image_size.x)) {
-            static GLuint memory_tex = 0;
+            GLuint &memory_tex = libretro.gl_memory_texture;
             if (!memory_tex)
                 glGenTextures(1, &memory_tex);
             width = static_cast<uint32_t>(frame.image_size.x);
@@ -2883,7 +2891,7 @@ RETRO_API void retro_run(void) {
             glDisable(GL_SCISSOR_TEST);
             glColorMask(GL_TRUE, GL_TRUE, GL_TRUE, GL_TRUE);
 
-            static GLuint read_fbo = 0;
+            GLuint &read_fbo = libretro.gl_read_fbo;
             if (!read_fbo)
                 glGenFramebuffers(1, &read_fbo);
 

@@ -107,6 +107,14 @@ struct LibretroState {
     LibretroVulkanPresentation vk_presentation;
 
     uint32_t gl_screen_texture = 0;
+    // retro_run's own for presenting on OpenGL: the texture a frame written
+    // in memory is uploaded to, and the framebuffer a surface is read through.
+    // Made in the context they are used in and deleted with it: names kept
+    // from a destroyed context left a GL error at the next content's first
+    // frame, which made every surface the renderer created fail (Shoegzer,
+    // black picture with sound at the second load)
+    uint32_t gl_memory_texture = 0;
+    uint32_t gl_read_fbo = 0;
 
     std::vector<uint32_t> frame_buffer;
 };
