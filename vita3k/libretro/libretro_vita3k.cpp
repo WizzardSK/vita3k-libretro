@@ -2313,6 +2313,11 @@ RETRO_API bool retro_load_game(const struct retro_game_info *game) {
     libretro.cfg = std::make_unique<Config>();
     Config &cfg = *libretro.cfg;
     cfg.set_vita_fs_path(root.get_vita_fs_path());
+    // Where upstream's code writes config.yml when it resets something (the
+    // controller binds at the first start): empty, it was "config.yml" in the
+    // working directory, which std::filesystem refuses to create the parent of
+    // and Boost had let through, next to RetroArch (sco8487, Android crash)
+    cfg.config_path = root.get_config_path();
     cfg.backend_renderer = (libretro.active_context == RETRO_HW_CONTEXT_VULKAN) ? "Vulkan" : "OpenGL";
     cfg.audio_backend = "Libretro";
     cfg.console = false;

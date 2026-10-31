@@ -4,6 +4,7 @@ What changed in the libretro core of this fork, newest first. Changes that come 
 
 ## Unreleased
 
+- Android: the first start of a game no longer crashes RetroArch when the core resets its controller bindings: the file it writes then had no folder, which the newer C++ library refuses (sco8487). It goes to system/vita3k/config.
 - Upstream Vita3K merged up to build 4245 (fea7c3718): threads behave as the VitaAutotests found on hardware, with one stop mechanism for them (games whose garbage collector suspends threads, such as Unity's Mono, no longer hit stubs there), memory block fixes, and std::filesystem in place of Boost.Filesystem (sco8487, Poltergeist).
 - The system firmware counts as installed only once its modules are in `vs0/sys/external/`: a `vs0` holding only `app` and `data` passed for it, so the firmware `.pup` was never installed and games that load firmware modules (Poltergeist's libfiber) were missing them (sco8487).
 - A game's `eboot.bin` opened through RetroArch's file access (Android's file picker, Samba) is turned away with a message, as its folder is: the core went on to the folder, which it cannot read there, and only found the game's files missing (sco8487).
