@@ -125,7 +125,7 @@ public:
 
     // An entry's bytes, as they are on the console: still PFS-encrypted where the game is
     bool write_entry(const Entry &e, const fs::path &to, std::uint64_t length) {
-        fs::ofstream out(to, std::ios::binary | std::ios::trunc);
+        std::ofstream out(to, std::ios::binary | std::ios::trunc);
         if (!out)
             return false;
         std::vector<std::uint8_t> buf(1024 * 1024);
@@ -448,7 +448,7 @@ public:
     }
 
     bool open(const fs::path &dir, std::string &error) {
-        boost::system::error_code ec;
+        std::error_code ec;
         std::uint64_t offset = 0;
         for (fs::recursive_directory_iterator it(dir, ec), end; !ec && it != end; it.increment(ec)) {
             Entry e;
@@ -539,7 +539,7 @@ std::optional<std::string> archive_prefix(const fs::path &path) {
 
 // A PKG, VPK or ZIP opened as a source of a content's files
 std::unique_ptr<Source> open_source(const fs::path &path, bool allow_dlc, std::string &error) {
-    boost::system::error_code ec;
+    std::error_code ec;
     if (fs::is_directory(path, ec)) {
         auto reader = std::make_unique<FolderReader>();
         if (!reader->open(path, error))
@@ -723,7 +723,7 @@ void Mount::disk_flush() {
                 continue;
         }
         sync_to_disk(tmp);
-        boost::system::error_code ec;
+        std::error_code ec;
         fs::rename(tmp, idx, ec);
         if (ec)
             fs::remove(tmp, ec);
@@ -779,7 +779,7 @@ void Mount::disk_write(const Pending &p, std::uint32_t index, std::uint64_t at, 
     if (f.blocks.count(index))
         return;
     const fs::path bin = disk_path(p, ".bin");
-    boost::system::error_code ec;
+    std::error_code ec;
     if (!fs::exists(bin, ec)) {
         { std::ofstream create(bin.string(), std::ios::binary); }
         mark_sparse(bin);
@@ -896,12 +896,12 @@ bool Mount::materialize(Pending &p) {
     const fs::path host = app_host / p.entry->name;
     const fs::path part = fs_utils::path_concat(host, ".part");
     {
-        fs::ofstream out(part, std::ios::binary | std::ios::trunc);
+        std::ofstream out(part, std::ios::binary | std::ios::trunc);
         out.write(reinterpret_cast<const char *>(data.data()), static_cast<std::streamsize>(length));
         if (!out)
             return false;
     }
-    boost::system::error_code ec;
+    std::error_code ec;
     fs::rename(part, host, ec);
     return !ec;
 }
@@ -911,7 +911,7 @@ bool Mount::stream_to_place(const Pending &p) {
     const fs::path part = fs_utils::path_concat(host, ".part");
     std::uint64_t written = 0;
     {
-        fs::ofstream out(part, std::ios::binary | std::ios::trunc);
+        std::ofstream out(part, std::ios::binary | std::ios::trunc);
         std::vector<std::uint8_t> block;
         for (std::uint32_t index = 0; out && decrypt_block(p, index, block); index++) {
             out.write(reinterpret_cast<const char *>(block.data()), static_cast<std::streamsize>(block.size()));
@@ -920,7 +920,7 @@ bool Mount::stream_to_place(const Pending &p) {
         if (!out)
             written = 0;
     }
-    boost::system::error_code ec;
+    std::error_code ec;
     if (written != p.entry->size) {
         fs::remove(part, ec);
         return false;
@@ -1149,7 +1149,7 @@ bool Mount::take_redirect(const std::string &key, const fs::path &host) {
     const fs::path target = it->second;
     redirects.erase(it);
     materialize_in_layer(target);
-    boost::system::error_code ec;
+    std::error_code ec;
     fs::copy_file(target, host, fs::copy_options::overwrite_existing, ec);
     return true;
 }
@@ -1319,7 +1319,7 @@ std::shared_ptr<Mount> build_from(std::unique_ptr<Source> source, const std::str
     auto m = std::make_shared<Mount>();
     m->source = std::move(source);
 
-    boost::system::error_code ec;
+    std::error_code ec;
     const bool has_pfs = std::any_of(m->source->entries().begin(), m->source->entries().end(),
         [](const Source::Entry &e) { return string_utils::tolower(e.name).starts_with("sce_pfs/"); });
     if (has_pfs) {
@@ -1537,7 +1537,7 @@ std::shared_ptr<Mount> build(const fs::path &path, const fs::path &app_dir, cons
     auto reader = open_source(path, allow_dlc, error);
     if (!reader)
         return nullptr;
-    boost::system::error_code ec;
+    std::error_code ec;
     const std::string id = std::to_string(fs::file_size(path, ec));
     return build_from(std::move(reader), id, app_dir, zrif, cache_name, error, for_install);
 }
@@ -1546,7 +1546,7 @@ std::shared_ptr<Mount> build(const fs::path &path, const fs::path &app_dir, cons
 // the game's folder, its reads redirected to the file in src_dir (an update,
 // kept or read out of its own PKG). Nothing is copied. Returns the count.
 unsigned overlay_dir(Mount &game, const fs::path &src_dir, bool skip_pfs) {
-    boost::system::error_code ec;
+    std::error_code ec;
     unsigned replaced = 0;
     for (fs::recursive_directory_iterator it(src_dir, ec), end; it != end; it.increment(ec)) {
         if (ec)
@@ -1564,7 +1564,7 @@ unsigned overlay_dir(Mount &game, const fs::path &src_dir, bool skip_pfs) {
         const fs::path to = game.app_host / rel;
         fs::create_directories(to.parent_path(), ec);
         {
-            fs::ofstream create(to, std::ios::binary | std::ios::trunc);
+            std::ofstream create(to, std::ios::binary | std::ios::trunc);
         }
         mark_sparse(to);
         fs::resize_file(to, fs::file_size(it->path(), ec), ec);
@@ -1624,7 +1624,7 @@ bool mount_archive(const fs::path &archive_path, const std::string &prefix, cons
     auto reader = std::make_unique<ArchiveReader>();
     if (!reader->open(archive_path, prefix, error))
         return false;
-    boost::system::error_code ec;
+    std::error_code ec;
     const std::string id = std::to_string(fs::file_size(archive_path, ec)) + " " + prefix;
     std::shared_ptr<Mount> m = build_from(std::move(reader), id, app_dir, zrif, app_dir.filename().string(), error, false);
     if (!m)
@@ -1638,7 +1638,7 @@ namespace {
 // The game's folder served from its mount from now on: an update kept for it
 // laid over it, and the file system hooks set
 void start(std::shared_ptr<Mount> m, const fs::path &app_dir) {
-    boost::system::error_code ec;
+    std::error_code ec;
 
     // An update kept for this game (ux0/patch/<title id>, see the installer):
     // its files over the game's, and those are no longer read from the PKG
@@ -1672,7 +1672,7 @@ void start(std::shared_ptr<Mount> m, const fs::path &app_dir) {
 
 bool install(const fs::path &pkg_path, const fs::path &dir, const std::string &zrif, std::string &error) {
     std::shared_ptr<Mount> m = build(pkg_path, dir, zrif, {}, error, true, true);
-    boost::system::error_code ec;
+    std::error_code ec;
     const auto fail = [&](const std::string &why) {
         error = why;
         fs::remove_all(dir, ec);
@@ -1714,7 +1714,7 @@ bool is_archive(const fs::path &path) {
 
 bool pkg_sfo(const fs::path &pkg_path, std::vector<std::uint8_t> &sfo) {
     std::string error;
-    boost::system::error_code ec;
+    std::error_code ec;
     if (fs::is_directory(pkg_path, ec)) {
         return fs_utils::read_data(pkg_path / "sce_sys" / "param.sfo", sfo) && !sfo.empty();
     }
@@ -1760,7 +1760,7 @@ bool mount_dlc(const fs::path &pkg_path, const std::string &content_id, const st
     const std::string title = s_mount->app_host.filename().string();
     const std::string dlc_id = content_id.size() > 20 ? content_id.substr(20) : content_id;
     const fs::path dir = s_mount->app_host.parent_path().parent_path() / "addcont" / title / dlc_id;
-    boost::system::error_code ec;
+    std::error_code ec;
     // Left by a run the frontend did not end (its marker still there): no
     // installation, it goes
     const fs::path marker = s_mount->app_host.parent_path().parent_path() / "libretro_pkg" / ("dlc_" + title + "_" + dlc_id);
@@ -1813,7 +1813,7 @@ void unmount() {
     vfs::host_file_hook = nullptr;
     vfs::host_open_hook = nullptr;
     open_file_hook = nullptr;
-    boost::system::error_code ec;
+    std::error_code ec;
     for (const auto &layer : s_layers)
         fs::remove_all(layer->app_host, ec);
     s_layers.clear();
@@ -1864,9 +1864,9 @@ static std::string fs_signature(const fs::path &dir) {
 // and where there are no holes it is little to write once (sco8487)
 static bool probe_holes(const fs::path &dir) {
     constexpr std::uint64_t size = 256 * 1024;
-    boost::system::error_code ec;
+    std::error_code ec;
     const fs::path probe = dir / "libretro_holes_probe.tmp";
-    { fs::ofstream create(probe, std::ios::binary | std::ios::trunc); }
+    { std::ofstream create(probe, std::ios::binary | std::ios::trunc); }
     mark_sparse(probe);
     fs::resize_file(probe, size, ec);
     // Unknown counts as supported: the modes keep working either way, they only
@@ -1889,7 +1889,7 @@ static bool probe_holes(const fs::path &dir) {
 }
 
 bool holes_supported(const fs::path &dir) {
-    boost::system::error_code ec;
+    std::error_code ec;
     fs::create_directories(dir / "libretro_pkg", ec);
     // The answer is kept in ux0/libretro_pkg/holes with what file system it is
     // for, and tried again only when that changes (another drive, a copy onto
@@ -1918,7 +1918,7 @@ bool has_cache_root() {
 }
 
 std::uint64_t disk_size(const fs::path &file) {
-    boost::system::error_code ec;
+    std::error_code ec;
 #ifdef _WIN32
     DWORD high = 0;
     const DWORD low = GetCompressedFileSizeW(file.wstring().c_str(), &high);

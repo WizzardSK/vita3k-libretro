@@ -76,7 +76,7 @@ jobs:
         if: matrix.android
         run: |
           sudo apt-get install -y ninja-build
-          ndk=27.3.13750724
+          ndk=29.0.14206865
           [ -d "$ANDROID_SDK_ROOT/ndk/$ndk" ] || yes | "$ANDROID_SDK_ROOT/cmdline-tools/latest/bin/sdkmanager" "ndk;$ndk" >/dev/null
           echo "ANDROID_NDK_HOME=$ANDROID_SDK_ROOT/ndk/$ndk" >> $GITHUB_ENV
           echo "VCPKG_ROOT=$VCPKG_INSTALLATION_ROOT" >> $GITHUB_ENV

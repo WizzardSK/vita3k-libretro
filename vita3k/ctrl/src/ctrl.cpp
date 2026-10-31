@@ -23,10 +23,16 @@
 #include <display/functions.h>
 #include <display/state.h>
 #include <kernel/state.h>
+#include <touch/functions.h>
 #include <util/log.h>
 
 #ifdef BUILD_LIBRETRO
 #include <libretro_input_state.h>
+// The keyboard reaches the game through RetroArch's pad (libretro_input_state),
+// not the standalone's key bindings
+void update_keyboard_state(EmuEnvState &emuenv, const std::function<bool(input::PhysicalKeyCode)> &key_held) {
+}
+
 std::array<ControllerBinding, 15> get_controller_bindings_ext(EmuEnvState &emuenv) {
     return {};
 }
@@ -129,61 +135,81 @@ int ctrl_get(const SceUID thread_id, EmuEnvState &emuenv, int port, SceCtrlData2
     return nb_returned_data;
 }
 #else // !BUILD_LIBRETRO
-#include <SDL3/SDL_keyboard.h>
+void update_keyboard_state(EmuEnvState &emuenv, const std::function<bool(input::PhysicalKeyCode)> &key_held) {
+    const auto &cfg = emuenv.cfg;
+    const auto is_pressed = [&](input::PhysicalKeyCode primary, input::PhysicalKeyCode alternate) {
+        return (primary != input::PhysicalKeyCode::Unbound && key_held(primary))
+            || (alternate != input::PhysicalKeyCode::Unbound && key_held(alternate));
+    };
 
-#if defined(ANDROID) && !defined(BUILD_LIBRETRO)
-#include <SDL3/SDL_joystick.h>
-#include <jni.h>
+    float axes[4];
+    axes[0] = static_cast<float>(
+        -static_cast<int>(is_pressed(cfg.keyboard_leftstick_left, cfg.keyboard_leftstick_left_alt))
+        + static_cast<int>(is_pressed(cfg.keyboard_leftstick_right, cfg.keyboard_leftstick_right_alt)));
+    axes[1] = static_cast<float>(
+        -static_cast<int>(is_pressed(cfg.keyboard_leftstick_up, cfg.keyboard_leftstick_up_alt))
+        + static_cast<int>(is_pressed(cfg.keyboard_leftstick_down, cfg.keyboard_leftstick_down_alt)));
+    axes[2] = static_cast<float>(
+        -static_cast<int>(is_pressed(cfg.keyboard_rightstick_left, cfg.keyboard_rightstick_left_alt))
+        + static_cast<int>(is_pressed(cfg.keyboard_rightstick_right, cfg.keyboard_rightstick_right_alt)));
+    axes[3] = static_cast<float>(
+        -static_cast<int>(is_pressed(cfg.keyboard_rightstick_up, cfg.keyboard_rightstick_up_alt))
+        + static_cast<int>(is_pressed(cfg.keyboard_rightstick_down, cfg.keyboard_rightstick_down_alt)));
 
-static int virtual_joystick_id = -1;
-static SDL_Joystick *virtual_joystick = nullptr;
+    uint32_t buttons = 0;
+    uint32_t buttons_ext = 0;
 
-extern "C" {
+    const auto set_bit_if_pressed = [&](input::PhysicalKeyCode primary, input::PhysicalKeyCode alternate, uint32_t bit, uint32_t &mask) {
+        if (is_pressed(primary, alternate))
+            mask |= bit;
+    };
 
-JNIEXPORT void JNICALL
-Java_org_vita3k_emulator_overlay_InputOverlay_attachController(JNIEnv *env, jobject thiz) {
-    SDL_VirtualJoystickDesc desc;
-    SDL_INIT_INTERFACE(&desc);
-    desc.type = SDL_JOYSTICK_TYPE_GAMEPAD;
-    desc.naxes = SDL_GAMEPAD_AXIS_COUNT;
-    desc.nbuttons = SDL_GAMEPAD_BUTTON_COUNT;
-    desc.name = "Vita3K Virtual Controller";
+    auto set_common_buttons = [&](uint32_t &mask) {
+        set_bit_if_pressed(cfg.keyboard_button_select, cfg.keyboard_button_select_alt, SCE_CTRL_SELECT, mask);
+        set_bit_if_pressed(cfg.keyboard_button_start, cfg.keyboard_button_start_alt, SCE_CTRL_START, mask);
+        set_bit_if_pressed(cfg.keyboard_button_up, cfg.keyboard_button_up_alt, SCE_CTRL_UP, mask);
+        set_bit_if_pressed(cfg.keyboard_button_right, cfg.keyboard_button_right_alt, SCE_CTRL_RIGHT, mask);
+        set_bit_if_pressed(cfg.keyboard_button_down, cfg.keyboard_button_down_alt, SCE_CTRL_DOWN, mask);
+        set_bit_if_pressed(cfg.keyboard_button_left, cfg.keyboard_button_left_alt, SCE_CTRL_LEFT, mask);
+        set_bit_if_pressed(cfg.keyboard_button_triangle, cfg.keyboard_button_triangle_alt, SCE_CTRL_TRIANGLE, mask);
+        set_bit_if_pressed(cfg.keyboard_button_circle, cfg.keyboard_button_circle_alt, SCE_CTRL_CIRCLE, mask);
+        set_bit_if_pressed(cfg.keyboard_button_cross, cfg.keyboard_button_cross_alt, SCE_CTRL_CROSS, mask);
+        set_bit_if_pressed(cfg.keyboard_button_square, cfg.keyboard_button_square_alt, SCE_CTRL_SQUARE, mask);
+        set_bit_if_pressed(cfg.keyboard_button_psbutton, cfg.keyboard_button_psbutton_alt, SCE_CTRL_PSBUTTON, mask);
+    };
 
-    virtual_joystick_id = SDL_AttachVirtualJoystick(&desc);
-    if (virtual_joystick_id == 0)
-        LOG_CRITICAL("Could not create overlay virtual controller: {}", SDL_GetError());
-    else {
-        virtual_joystick = SDL_OpenJoystick(virtual_joystick_id);
-        if (!virtual_joystick)
-            LOG_CRITICAL("Could not create virtual joystick: {}", SDL_GetError());
-    }
+    set_common_buttons(buttons);
+    set_common_buttons(buttons_ext);
+
+    set_bit_if_pressed(cfg.keyboard_button_l1, cfg.keyboard_button_l1_alt, SCE_CTRL_L, buttons);
+    set_bit_if_pressed(cfg.keyboard_button_r1, cfg.keyboard_button_r1_alt, SCE_CTRL_R, buttons);
+
+    set_bit_if_pressed(cfg.keyboard_button_l1, cfg.keyboard_button_l1_alt, SCE_CTRL_L1, buttons_ext);
+    set_bit_if_pressed(cfg.keyboard_button_r1, cfg.keyboard_button_r1_alt, SCE_CTRL_R1, buttons_ext);
+    set_bit_if_pressed(cfg.keyboard_button_l2, cfg.keyboard_button_l2_alt, SCE_CTRL_L2, buttons_ext);
+    set_bit_if_pressed(cfg.keyboard_button_r2, cfg.keyboard_button_r2_alt, SCE_CTRL_R2, buttons_ext);
+    set_bit_if_pressed(cfg.keyboard_button_l3, cfg.keyboard_button_l3_alt, SCE_CTRL_L3, buttons_ext);
+    set_bit_if_pressed(cfg.keyboard_button_r3, cfg.keyboard_button_r3_alt, SCE_CTRL_R3, buttons_ext);
+
+    const bool pinch_modifier_active = is_pressed(cfg.keyboard_pinch_modifier, cfg.keyboard_pinch_modifier_alt)
+        || is_pressed(cfg.keyboard_alternate_pinch_in, cfg.keyboard_alternate_pinch_in_alt)
+        || is_pressed(cfg.keyboard_alternate_pinch_out, cfg.keyboard_alternate_pinch_out_alt);
+    pinch_modifier(emuenv.touch, pinch_modifier_active);
+
+    const bool pinch_in_pressed = is_pressed(cfg.keyboard_alternate_pinch_in, cfg.keyboard_alternate_pinch_in_alt);
+    const bool pinch_out_pressed = is_pressed(cfg.keyboard_alternate_pinch_out, cfg.keyboard_alternate_pinch_out_alt);
+    const float pinch_auto = pinch_in_pressed == pinch_out_pressed ? 0.0f : (pinch_in_pressed ? -0.5f : 0.5f);
+    pinch_automove(emuenv.touch, pinch_auto);
+
+    std::lock_guard<std::mutex> lock(emuenv.ctrl.mutex);
+    auto &kb = emuenv.ctrl.keyboard_state;
+    kb.buttons = buttons;
+    kb.buttons_ext = buttons_ext;
+    kb.axes[0] = axes[0];
+    kb.axes[1] = axes[1];
+    kb.axes[2] = axes[2];
+    kb.axes[3] = axes[3];
 }
-
-JNIEXPORT void JNICALL
-Java_org_vita3k_emulator_overlay_InputOverlay_detachController(JNIEnv *env, jobject thiz) {
-    SDL_CloseJoystick(virtual_joystick);
-    SDL_DetachVirtualJoystick(virtual_joystick_id);
-    virtual_joystick = nullptr;
-    virtual_joystick_id = -1;
-}
-
-JNIEXPORT void JNICALL
-Java_org_vita3k_emulator_overlay_InputOverlay_setAxis(JNIEnv *env, jobject thiz, jint axis, jshort value) {
-    SDL_SetJoystickVirtualAxis(virtual_joystick, axis, value);
-}
-
-JNIEXPORT void JNICALL
-Java_org_vita3k_emulator_overlay_InputOverlay_setButton(JNIEnv *env, jobject thiz, jint button, jboolean value) {
-    if (button < 0)
-        // l2/r2
-        SDL_SetJoystickVirtualAxis(virtual_joystick, -button, value ? SDL_MAX_SINT16 : 0);
-    else
-        SDL_SetJoystickVirtualButton(virtual_joystick, button, value);
-}
-}
-#endif
-
-static uint64_t timestamp;
 
 static int reserve_port(CtrlState &state) {
     for (int i = 0; i < SCE_CTRL_MAX_WIRELESS_NUM; i++) {

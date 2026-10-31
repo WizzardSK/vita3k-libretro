@@ -28,6 +28,7 @@
 #include <io/vfs.h>
 #include <kernel/state.h>
 #include <modules/module_parent.h>
+#include <modules/sysmem_state.h>
 #include <util/fs.h>
 #include <util/log.h>
 #include <util/tracy.h>
@@ -50,7 +51,7 @@ static void libretro_adopt_flat_user_data(EmuEnvState &emuenv) {
     const fs::path user_root = emuenv.vita_fs_path / "ux0" / "user";
     const fs::path user_path = user_root / emuenv.io.user_id;
     const auto adopt = [](const fs::path &from, const fs::path &to) {
-        boost::system::error_code ec;
+        std::error_code ec;
         if (!fs::is_directory(from, ec) || fs::is_empty(from, ec) || fs::exists(to, ec))
             return;
         fs::create_directories(to.parent_path(), ec);
@@ -165,6 +166,7 @@ ExitCode libretro_load_app(int32_t &main_module_id, EmuEnvState &emuenv) {
         sfo::load(emuenv.sfo_handle, param_sfo);
 
     init_exported_vars(emuenv);
+    create_system_font_blocks(emuenv);
     LOG_INFO("Exported vars initialized");
 
     // Load main executable
@@ -266,13 +268,18 @@ ExitCode libretro_run_app(EmuEnvState &emuenv, int32_t main_module_id) {
 
     LOG_INFO("Creating main thread: priority={} stack_size={} affinity={}", priority, stack_size, affinity);
 
-    const ThreadStatePtr main_thread = emuenv.kernel.create_thread(emuenv.mem, emuenv.io.title_id.c_str(), entry_point, priority, affinity, stack_size, nullptr);
+    // As upstream's run_app: a main thread without its own affinity runs on every user core and reports them all
+    if (affinity == SCE_KERNEL_THREAD_CPU_AFFINITY_MASK_DEFAULT)
+        affinity = SCE_KERNEL_CPU_MASK_USER_ALL;
+    const ThreadStatePtr main_thread = emuenv.kernel.create_thread(emuenv.mem, emuenv.io.title_id.c_str(), entry_point, priority, affinity, stack_size, 0, nullptr);
     if (!main_thread) {
         LOG_ERROR("Failed to create main thread!");
         return InitThreadFailed;
     }
     emuenv.main_thread_id = main_thread->id;
     LOG_INFO("Main thread created: id={}", main_thread->id);
+    // Before any guest code runs, module_start functions included, since they can read it too
+    emuenv.set_launch_uri(emuenv.cfg.launch_uri);
 
     // Run module_start for all loaded libraries
     for (auto &[_, module] : emuenv.kernel.loaded_modules) {

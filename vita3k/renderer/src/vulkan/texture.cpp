@@ -201,7 +201,10 @@ void VKTextureCache::prepare_staging_buffer(bool is_configure) {
 #ifdef BUILD_LIBRETRO
             state.locked_queue_submit(state.general_queue, submit_info, current_fence);
 #else
-            state.general_queue.submit(submit_info, current_fence);
+            {
+                std::lock_guard<std::mutex> lock(state.queue_mutex);
+                state.general_queue.submit(submit_info, current_fence);
+            }
 #endif
             context->cmdbuffers_to_submit.clear();
 
@@ -293,9 +296,8 @@ bool VKTextureCache::init(const bool hashless_texture_cache, const fs::path &tex
     support_e5rgb9 = static_cast<bool>(e5rgb9_support.optimalTilingFeatures & vk::FormatFeatureFlagBits::eSampledImage);
     support_a2rgb10 = static_cast<bool>(a2rgb10_support.optimalTilingFeatures & vk::FormatFeatureFlagBits::eSampledImage);
 
-    // powerVR only
-    const vk::FormatProperties pvrt_support = state.physical_device.getFormatProperties(vk::Format::ePvrtc12BppUnormBlockIMG);
-    support_pvrt = static_cast<bool>(pvrt_support.optimalTilingFeatures & vk::FormatFeatureFlagBits::eSampledImage);
+    // TODO: PVRTC is mapped to RGBA8, so keep software decoding until native PVRTC formats are mapped.
+    support_pvrt = false;
 
     // check for dxt support
     const vk::FormatProperties dxt_support = state.physical_device.getFormatProperties(vk::Format::eBc1RgbaSrgbBlock);
@@ -589,7 +591,7 @@ void VKTextureCache::configure_sampler(size_t index, const SceGxmTexture &textur
         .mipLodBias = (static_cast<float>(texture.lod_bias) - 31.f) / 8.f,
         .maxAnisotropy = static_cast<float>(anisotropic_filtering),
         .compareEnable = VK_FALSE,
-        .minLod = static_cast<float>(texture.lod_min0 | (texture.lod_min1 << 2)),
+        .minLod = static_cast<float>(texture.true_lod_min()),
         .maxLod = VK_LOD_CLAMP_NONE,
         .unnormalizedCoordinates = VK_FALSE,
     };
