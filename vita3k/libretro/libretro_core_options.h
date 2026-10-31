@@ -92,15 +92,18 @@ struct retro_core_option_v2_definition option_defs_us[] = {
         "vita3k_backend_renderer",
         "Backend Renderer",
         NULL,
-        "Select the graphics backend. Vulkan is recommended.",
+        "The graphics backend. Auto uses the one of RetroArch's video driver (Settings > Drivers > Video), which the core has to match anyway. Vulkan is recommended.",
         NULL,
         "gpu",
         {
+            { "auto", "Auto (RetroArch's video driver)" },
             { "Vulkan", "Vulkan" },
             { "OpenGL", "OpenGL" },
             { NULL, NULL },
         },
-        "Vulkan"
+        // Not standalone's Vulkan: the core can only run on the context
+        // RetroArch's driver gives it, so following the driver is what works (#2, i30817)
+        "auto"
     },
     {
         "vita3k_resolution_multiplier",
@@ -117,23 +120,6 @@ struct retro_core_option_v2_definition option_defs_us[] = {
             { NULL, NULL },
         },
         "1"
-    },
-    {
-        "vita3k_screen_filter",
-        "Screen Filter",
-        NULL,
-        "Post-processing filter applied to the rendered frame.",
-        NULL,
-        "gpu",
-        {
-            { "Bilinear", "Bilinear" },
-            { "Nearest", "Nearest" },
-            { "Bicubic", "Bicubic" },
-            { "FXAA", "FXAA" },
-            { "FSR", "FSR" },
-            { NULL, NULL },
-        },
-        "Bilinear"
     },
     {
         "vita3k_anisotropic_filtering",
@@ -153,22 +139,8 @@ struct retro_core_option_v2_definition option_defs_us[] = {
         "1"
     },
     {
-        "vita3k_v_sync",
-        "V-Sync",
-        NULL,
-        "Enable or disable vertical sync.",
-        NULL,
-        "gpu",
-        {
-            { "enabled", NULL },
-            { "disabled", NULL },
-            { NULL, NULL },
-        },
-        "enabled"
-    },
-    {
         "vita3k_async_pipeline",
-        "Async Pipeline Compilation",
+        "Async Pipeline Compilation (Vulkan)",
         NULL,
         "Compile shader pipelines asynchronously to reduce stuttering.",
         NULL,
@@ -196,7 +168,7 @@ struct retro_core_option_v2_definition option_defs_us[] = {
     },
     {
         "vita3k_memory_mapping",
-        "Memory Mapping",
+        "Memory Mapping (Vulkan)",
         NULL,
         "GPU memory mapping method. Higher methods improve performance but require GPU support.",
         NULL,
@@ -212,7 +184,7 @@ struct retro_core_option_v2_definition option_defs_us[] = {
     },
     {
         "vita3k_high_accuracy",
-        "High Accuracy Rendering",
+        "High Accuracy Rendering (Vulkan)",
         NULL,
         "Enable more accurate but slower rendering techniques.",
         NULL,
@@ -723,7 +695,7 @@ struct retro_core_option_v2_definition option_defs_us[] = {
         "vita3k_surface_sync",
         "Surface Sync",
         NULL,
-        "GPU memory optimization. May improve performance by 20-40%.",
+        "Copies what the GPU drew back to the Vita's memory, for games that read it there; disabled is faster. Vulkan: only with Memory Mapping on. OpenGL: only at a whole-number Internal Resolution Multiplier, and not on Android.",
         NULL,
         "gpu",
         {

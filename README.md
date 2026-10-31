@@ -45,7 +45,7 @@ The pad is the Vita's buttons and sticks. Games that use the gyroscope and accel
 
 ## Core options
 
-- **GPU**: renderer, internal resolution, screen filter (bilinear, nearest, bicubic, FXAA, FSR), anisotropic filtering, asynchronous pipeline compilation, the shader compile overlay, memory mapping, high-accuracy rendering, surface sync, V-Sync, FPS hack.
+- **GPU**: renderer (Auto follows RetroArch's video driver), internal resolution, anisotropic filtering, the shader compile overlay, surface sync, FPS hack; for Vulkan only, and hidden while the content runs on OpenGL: asynchronous pipeline compilation, memory mapping, high-accuracy rendering. Filtering is left to RetroArch's video settings and shaders.
 - **CPU**: CPU optimizations.
 - **System**: PS TV mode, modules mode, confirm button, system language, date format, time format, file loading delay. The date and time are the host's, as in standalone Vita3K.
 - **Modules**: the firmware's modules (`vs0/sys/external`), each on or off, loaded when Modules Mode (in System) is Auto & Manual or Manual; listed only then. Saved per game with RetroArch's game options, as upstream keeps them per game.

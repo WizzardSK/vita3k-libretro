@@ -411,8 +411,22 @@ static bool show_trophy_entries() {
     return true;
 }
 
-static bool RETRO_CALLCONV update_trophy_display() {
-    return show_trophy_entries();
+// The options only the Vulkan renderer reads, hidden while the content runs
+// on OpenGL; shown before content, when the renderer is not known yet (#2, i30817)
+static bool show_renderer_options() {
+    if (!libretro.environ_cb)
+        return false;
+    const bool vulkan_only_shown = libretro.active_context != RETRO_HW_CONTEXT_OPENGL_CORE;
+    for (const char *key : { "vita3k_async_pipeline", "vita3k_memory_mapping", "vita3k_high_accuracy" }) {
+        retro_core_option_display display{ key, vulkan_only_shown };
+        libretro.environ_cb(RETRO_ENVIRONMENT_SET_CORE_OPTIONS_DISPLAY, &display);
+    }
+    return true;
+}
+
+static bool RETRO_CALLCONV update_option_display() {
+    const bool trophies = show_trophy_entries();
+    return show_renderer_options() || trophies;
 }
 
 static void declare_trophy_options(EmuEnvState &emuenv) {
@@ -2096,7 +2110,7 @@ RETRO_API void retro_set_environment(retro_environment_t cb) {
 
     bool categories_supported = false;
     libretro_set_core_options(libretro.environ_cb, &categories_supported);
-    retro_core_options_update_display_callback update_display{ update_trophy_display };
+    retro_core_options_update_display_callback update_display{ update_option_display };
     cb(RETRO_ENVIRONMENT_SET_CORE_OPTIONS_UPDATE_DISPLAY_CALLBACK, &update_display);
     libretro_log_init();
 }
@@ -2346,6 +2360,7 @@ RETRO_API bool retro_load_game(const struct retro_game_info *game) {
     Config &cfg = *libretro.cfg;
     cfg.set_vita_fs_path(root.get_vita_fs_path());
     cfg.backend_renderer = (libretro.active_context == RETRO_HW_CONTEXT_VULKAN) ? "Vulkan" : "OpenGL";
+    show_renderer_options();
     cfg.audio_backend = "Libretro";
     cfg.console = false;
     cfg.overwrite_config = false;
@@ -3136,27 +3151,31 @@ static void read_core_options() {
     if (!libretro.cfg) return;
     
     // GPU Options
-    read_core_option("vita3k_backend_renderer", "Vulkan", [](const char *value) {
+    read_core_option("vita3k_backend_renderer", "auto", [](const char *value) {
         const std::string token = normalize_option_token(value);
-        libretro.cfg->current_config.backend_renderer = (token == "opengl") ? "OpenGL" : "Vulkan";
+        // Auto: the context RetroArch's driver gave the core
+        const bool opengl = token == "opengl" || (token != "vulkan" && libretro.active_context != RETRO_HW_CONTEXT_VULKAN);
+        libretro.cfg->current_config.backend_renderer = opengl ? "OpenGL" : "Vulkan";
     });
     
     read_core_option("vita3k_resolution_multiplier", "1", [](const char *value) {
         libretro.cfg->current_config.resolution_multiplier = parse_float_option(value, 1.0f);
     });
     
-    read_core_option("vita3k_screen_filter", "Bilinear", [](const char *value) {
-        libretro.cfg->current_config.screen_filter = value;
-    });
-    
+    // No Screen Filter option: on Vulkan the core's screen renderer has no
+    // swapchain of its own and ignores the filter, so RetroArch's filtering
+    // and shaders are the one place for it on both (#2, i30817). The filter
+    // stays at standalone's default.
+
     read_core_option("vita3k_anisotropic_filtering", "1", [](const char *value) {
         libretro.cfg->current_config.anisotropic_filtering = parse_int_option(value, 1);
     });
     
-    read_core_option("vita3k_v_sync", "enabled", [](const char *value) {
-        libretro.cfg->current_config.v_sync = parse_enabled_option(value, true);
-    });
-    
+    // No V-Sync option: RetroArch syncs the display. v_sync stays at
+    // standalone's default (on), where it only makes the OpenGL renderer wait
+    // for the frame before. If upstream turns that default off or removes
+    // v_sync, follow it: off is what the core should then use (#2, i30817).
+
     read_core_option("vita3k_async_pipeline", "enabled", [](const char *value) {
         libretro.cfg->current_config.async_pipeline_compilation = parse_enabled_option(value, true);
     });
