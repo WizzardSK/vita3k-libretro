@@ -4,6 +4,7 @@ What changed in the libretro core of this fork, newest first. Changes that come 
 
 ## Unreleased
 
+- Upstream Vita3K merged up to build 4250 (66ddb35d6): the kernel links a wait queue's waiters in place, the gdb stub describes the ARM, VFP and NEON registers, and ffmpeg-core is updated.
 - Android: the first start of a game no longer crashes RetroArch when the core resets its controller bindings: upstream's code then saved its config.yml, to a path the core left empty, which the newer C++ library refuses. The core writes no config.yml at all now; its settings are its core options (sco8487).
 - Upstream Vita3K merged up to build 4245 (fea7c3718): threads behave as the VitaAutotests found on hardware, with one stop mechanism for them (games whose garbage collector suspends threads, such as Unity's Mono, no longer hit stubs there), memory block fixes, and std::filesystem in place of Boost.Filesystem (sco8487, Poltergeist).
 - OpenGL: a title loaded a second time in the same RetroArch session shows its picture again; it ran with sound and a black screen. The texture and framebuffer the core presents a frame with were kept across contents, and the second content's first frame used them from the first content's context, which was gone: the GL error that left made every surface the renderer created fail. They are now made in each context and deleted with it (#3, Shoegzer).
