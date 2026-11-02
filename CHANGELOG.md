@@ -4,6 +4,7 @@ What changed in the libretro core of this fork, newest first. Changes that come 
 
 ## Unreleased
 
+- Changing a Remove Content option while a game runs brings a notice that it applies when the content is closed or reset (i30817).
 - Memory Mapping the GPU cannot do is named in a notice when the game starts, with the one used instead; the option stays as set. Native Buffer is gone from the list: the core is built without it, and choosing it turned memory mapping off without a word (sco8487).
 - The notice that an option change needs the content restarted also comes for PS TV Mode, NGS Audio Engine, File Loading Delay, PSN Signed In, the system language, date and time formats, Confirm Button and the HTTP options, not only for the GPU, CPU, modules and Content ones (#2, i30817).
 - Upstream Vita3K merged up to build 4250 (66ddb35d6): the kernel links a wait queue's waiters in place, the gdb stub describes the ARM, VFP and NEON registers, and ffmpeg-core is updated.
