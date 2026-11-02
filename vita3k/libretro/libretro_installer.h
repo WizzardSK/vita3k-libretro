@@ -27,8 +27,9 @@
 // ─── Firmware status ────────────────────────────────────────────────────────
 
 struct FirmwareStatus {
-    bool preinst_installed = false; // pd0/ exists and non-empty
-    bool firmware_installed = false; // vs0/ exists and non-empty
+    // each with no install of its .pup left unfinished (ux0/libretro_pkg/pup_<part>)
+    bool preinst_installed = false;  // pd0/ exists and non-empty
+    bool firmware_installed = false; // vs0/sys/external/ exists and non-empty
     bool font_installed = false;     // sa0/ exists and non-empty
 
     bool all_installed() const { return preinst_installed && firmware_installed && font_installed; }

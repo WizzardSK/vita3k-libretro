@@ -85,26 +85,43 @@ static void lr_msg(const char *msg, unsigned frames = 300) {
 
 // ─── Firmware status ────────────────────────────────────────────────────────
 
+static const char *pup_part_name(PupKind kind) {
+    return kind == PupKind::Preinst ? "preinst" : kind == PupKind::Font ? "font" : "firmware";
+}
+
+// A firmware part being installed has a note, ux0/libretro_pkg/pup_<part>,
+// from before its .pup is extracted until the extraction has finished: an
+// install that a crash or a killed frontend cut short leaves the note, and
+// the part is then not taken for installed, however much of it is there. It
+// is installed again from its .pup at the next start, the extraction writing
+// every file anew (sco8487).
+static fs::path pup_install_note(const fs::path &pref_path, PupKind kind) {
+    return pref_path / "ux0" / "libretro_pkg" / (std::string("pup_") + pup_part_name(kind));
+}
+
+static bool part_present(const fs::path &dir, const fs::path &pref_path, PupKind kind, bool &cut_short) {
+    std::error_code ec;
+    cut_short = fs::exists(pup_install_note(pref_path, kind), ec);
+    return !cut_short && fs::is_directory(dir, ec) && !fs::is_empty(dir, ec);
+}
+
 FirmwareStatus check_firmware_status(const fs::path &pref_path) {
     FirmwareStatus status;
+    bool preinst_cut = false, firmware_cut = false, font_cut = false;
 
-    const auto pd0_path = pref_path / "pd0";
-    const auto vs0_path = pref_path / "vs0";
-    const auto sa0_path = pref_path / "sa0";
-
-    status.preinst_installed = fs::exists(pd0_path) && !fs::is_empty(pd0_path);
+    status.preinst_installed = part_present(pref_path / "pd0", pref_path, PupKind::Preinst, preinst_cut);
     // the firmware by its modules, vs0/sys/external: vs0 holding something
     // else (app and data alone) passed for an installed firmware, so the
     // firmware .pup was never installed and the games found no libfiber
     // (sco8487)
-    const auto external_path = vs0_path / "sys" / "external";
-    status.firmware_installed = fs::exists(external_path) && !fs::is_empty(external_path);
-    status.font_installed = fs::exists(sa0_path) && !fs::is_empty(sa0_path);
+    status.firmware_installed = part_present(pref_path / "vs0" / "sys" / "external", pref_path, PupKind::Firmware, firmware_cut);
+    status.font_installed = part_present(pref_path / "sa0", pref_path, PupKind::Font, font_cut);
 
+    const auto state = [](bool installed, bool cut) { return installed ? "YES" : cut ? "NO (install not finished)" : "NO"; };
     lr_log(RETRO_LOG_INFO, "Firmware status: preinst(pd0)=%s firmware(vs0/sys/external)=%s font(sa0)=%s\n",
-        status.preinst_installed ? "YES" : "NO",
-        status.firmware_installed ? "YES" : "NO",
-        status.font_installed ? "YES" : "NO");
+        state(status.preinst_installed, preinst_cut),
+        state(status.firmware_installed, firmware_cut),
+        state(status.font_installed, font_cut));
 
     return status;
 }
@@ -158,6 +175,12 @@ static bool install_pup_file(const fs::path &pref_path, const fs::path &pup_path
     lr_log(RETRO_LOG_INFO, "Installing %s from PUP: %s\n", label, pup_path.generic_string().c_str());
     lr_msg(fmt::format("Installing {}... this may take a minute.", label).c_str(), 600);
 
+    // the note stays when the install fails: what it left is not an installed part
+    const fs::path note = pup_install_note(pref_path, pup_kind(pup_path));
+    std::error_code note_ec;
+    fs::create_directories(note.parent_path(), note_ec);
+    std::ofstream(note).put('\n');
+
     std::string fw_version;
     try {
         fw_version = install_pup(pref_path, pup_path, [label](uint32_t progress) {
@@ -180,6 +203,7 @@ static bool install_pup_file(const fs::path &pref_path, const fs::path &pup_path
     } else {
         lr_log(RETRO_LOG_INFO, "%s version %s installed successfully!\n", label, fw_version.c_str());
     }
+    fs::remove(note, note_ec);
 
     return true;
 }
@@ -212,6 +236,13 @@ static std::string missing_parts(const FirmwareStatus &status) {
 // start, as with other cores' BIOS files (i30817, sco8487). An installed part
 // is left as it is; loading a .pup as content installs over it.
 static void install_missing_firmware(const fs::path &pref_path, const fs::path &system_dir) {
+    // What an install cut short left of its extraction (install_pup deletes
+    // it when it finishes): nothing is being installed now
+    std::error_code ec;
+    if (fs::exists(pref_path / "PUP_DEC", ec)) {
+        fs::remove_all(pref_path / "PUP_DEC", ec);
+        lr_log(RETRO_LOG_INFO, "Removed PUP_DEC, left by a firmware install that was not finished\n");
+    }
     const FirmwareStatus status = check_firmware_status(pref_path);
     const std::tuple<PupKind, const char *, bool> parts[] = {
         { PupKind::Preinst, "Preinstalled package", status.preinst_installed },
@@ -854,10 +885,38 @@ static fs::path lazy_marker(const fs::path &pref_path, const std::string &title_
     return pref_path / "ux0" / "libretro_pkg" / fmt::format("lazy_{}", title_id);
 }
 
+// Directories the core deletes go to ux0/libretro_pkg/trash first, in one
+// rename, and are deleted from there (discard_dir): a deletion that a crash
+// or a killed frontend cut short leaves nothing half there where the
+// directory was, and what is left in trash is deleted at the next start
+static fs::path trash_dir(const fs::path &pref_path) {
+    return pref_path / "ux0" / "libretro_pkg" / "trash";
+}
+
+static void discard_dir(const fs::path &pref_path, const fs::path &dir) {
+    std::error_code ec;
+    if (!fs::exists(dir, ec))
+        return;
+    const fs::path trash = trash_dir(pref_path);
+    fs::create_directories(trash, ec);
+    fs::path to;
+    for (unsigned n = 0; to.empty() || fs::exists(to, ec); n++)
+        to = trash / fmt::format("{}_{}", dir.filename().string(), n);
+    fs::rename(dir, to, ec);
+    // on another file system (a folder linked elsewhere) it cannot be moved
+    // there in one step: deleted where it is, as before
+    fs::remove_all(ec ? dir : to, ec);
+}
+
 void remove_dead_runs(const fs::path &pref_path) {
     const fs::path notes = pref_path / "ux0" / "libretro_pkg";
     const fs::path ux0 = pref_path / "ux0";
     std::error_code ec;
+    if (fs::exists(trash_dir(pref_path), ec)) {
+        fs::remove_all(trash_dir(pref_path), ec);
+        lr_log(RETRO_LOG_INFO, "Deleted what a deletion that was not finished left in ux0/libretro_pkg/trash\n");
+    }
+    ec.clear();
     std::vector<fs::path> entries;
     for (fs::directory_iterator it(notes, ec), end; !ec && it != end; it.increment(ec))
         entries.push_back(it->path());
@@ -1064,12 +1123,14 @@ static struct {
 // of the title's, so that its PKG - and a DLC's, loaded again - installs again.
 // The shader cache goes too when the user removes the title's data (Remove Content), and
 // stays when only the way it is run changes (Run Mode).
+// The markers go first: cut short after them, the game is still there and is
+// uninstalled again or, without them, installed again; never the other way
+// round, an install marker for a game that is gone.
 static void uninstall_game(const fs::path &pref_path, const std::string &title_id, bool shader_cache) {
-    std::error_code ec;
-    fs::remove_all(pref_path / "ux0" / "app" / title_id, ec);
-    if (shader_cache)
-        fs::remove_all(pref_path / "cache" / "shaders" / title_id, ec);
     forget_install_markers(pref_path, [&](const std::string &name) { return name.size() > 16 && name[6] == '-' && name.compare(7, 9, title_id) == 0; });
+    discard_dir(pref_path, pref_path / "ux0" / "app" / title_id);
+    if (shader_cache)
+        discard_dir(pref_path, pref_path / "cache" / "shaders" / title_id);
 }
 
 // Remove Content - what the core wrote for a title besides its saves: the
@@ -1379,10 +1440,9 @@ void record_started_title(const fs::path &pref_path, const std::string &title_id
     // goes, as an install goes when Run Mode no longer installs (sco8487);
     // its shader cache stays, every Run Mode uses it
     if (mode != "cache") {
-        std::error_code ec;
         const std::vector<fs::path> gone = persistent_cache_dirs(pref_path, title_id);
         for (const auto &dir : gone)
-            fs::remove_all(dir, ec);
+            discard_dir(pref_path, dir);
         if (!gone.empty())
             lr_log(RETRO_LOG_INFO, "%s runs %s: its Persistent Cache in cache/pkg is deleted\n",
                 title_id.c_str(), mode == "install" ? "installed" : "without a cache");
@@ -1746,10 +1806,10 @@ static ContentPlan plan_content(const fs::path &pkg_path, const std::string &tit
         for (Dlc &dlc : dlcs) {
             if (!dlc.installed || dlc.path.empty() || fs::exists(manual_install_mark(pref_path, title_id, dlc.dlc_id), ec))
                 continue;
-            fs::remove_all(addcont / dlc.dlc_id, ec);
-            fs::remove_all(dlc_shelf(pref_path, title_id, dlc.dlc_id), ec);
             if (!dlc.content_id.empty())
                 forget_install_markers(pref_path, [&](const std::string &name) { return name.rfind(dlc.content_id + "_", 0) == 0; });
+            discard_dir(pref_path, addcont / dlc.dlc_id);
+            discard_dir(pref_path, dlc_shelf(pref_path, title_id, dlc.dlc_id));
             dlc.installed = dlc.shelved = false;
             lr_log(RETRO_LOG_INFO, "DLC %s of %s: installed from the game's folder, now read out of its PKG as Run Mode says; the installed copy is deleted\n",
                 dlc.dlc_id.c_str(), title_id.c_str());
@@ -1767,15 +1827,15 @@ static ContentPlan plan_content(const fs::path &pkg_path, const std::string &tit
         if (read_installed_sfo(patch, info) && !info.app_version.empty()
             && std::any_of(updates.begin(), updates.end(), [&](const Update &u) {
                    return !u.path.empty() && u.version == info.app_version; })) {
-            fs::remove_all(patch, ec);
             std::string marker_name;
             {
                 std::ifstream note(patch_marker_note(pref_path, title_id));
                 std::getline(note, marker_name);
             }
-            fs::remove(patch_marker_note(pref_path, title_id), ec);
             if (!marker_name.empty())
                 forget_install_markers(pref_path, [&](const std::string &name) { return name == marker_name; });
+            fs::remove(patch_marker_note(pref_path, title_id), ec);
+            discard_dir(pref_path, patch);
             lr_log(RETRO_LOG_INFO, "Update %s of %s: installed from the game's folder, now read out of its PKG as Run Mode says; the installed copy is deleted\n",
                 info.app_version.c_str(), title_id.c_str());
         }
