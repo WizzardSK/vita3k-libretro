@@ -92,15 +92,21 @@ struct retro_core_option_v2_definition option_defs_us[] = {
         "vita3k_backend_renderer",
         "Backend Renderer",
         NULL,
-        "Select the graphics backend. Vulkan is recommended.",
+        "The graphics backend, Vulkan is recommended. Automatic uses the frontend video driver.",
         NULL,
         "gpu",
         {
+            { "auto", "Automatic" },
             { "Vulkan", "Vulkan" },
+#ifndef __APPLE__
+            // macOS has no OpenGL 4.4; upstream offers Vulkan only there too
             { "OpenGL", "OpenGL" },
+#endif
             { NULL, NULL },
         },
-        "Vulkan"
+        // Not standalone's Vulkan: the core can only run on the context
+        // RetroArch's driver gives it, so following the driver is what works (#2, i30817)
+        "auto"
     },
     {
         "vita3k_resolution_multiplier",
@@ -116,24 +122,10 @@ struct retro_core_option_v2_definition option_defs_us[] = {
             { "4", "4x (3840x2176)" },
             { NULL, NULL },
         },
+        // Whole numbers only. A fractional multiplier would turn Disable Surface
+        // Sync on by itself on OpenGL (renderer/src/scene.cpp), which that
+        // option's description would then have to say (#2, i30817)
         "1"
-    },
-    {
-        "vita3k_screen_filter",
-        "Screen Filter",
-        NULL,
-        "Post-processing filter applied to the rendered frame.",
-        NULL,
-        "gpu",
-        {
-            { "Bilinear", "Bilinear" },
-            { "Nearest", "Nearest" },
-            { "Bicubic", "Bicubic" },
-            { "FXAA", "FXAA" },
-            { "FSR", "FSR" },
-            { NULL, NULL },
-        },
-        "Bilinear"
     },
     {
         "vita3k_anisotropic_filtering",
@@ -153,22 +145,8 @@ struct retro_core_option_v2_definition option_defs_us[] = {
         "1"
     },
     {
-        "vita3k_v_sync",
-        "V-Sync",
-        NULL,
-        "Enable or disable vertical sync.",
-        NULL,
-        "gpu",
-        {
-            { "enabled", NULL },
-            { "disabled", NULL },
-            { NULL, NULL },
-        },
-        "enabled"
-    },
-    {
         "vita3k_async_pipeline",
-        "Async Pipeline Compilation",
+        "Async Pipeline Compilation (Vulkan)",
         NULL,
         "Compile shader pipelines asynchronously to reduce stuttering.",
         NULL,
@@ -196,7 +174,7 @@ struct retro_core_option_v2_definition option_defs_us[] = {
     },
     {
         "vita3k_memory_mapping",
-        "Memory Mapping",
+        "Memory Mapping (Vulkan)",
         NULL,
         "GPU memory mapping method. Higher methods improve performance but require GPU support.",
         NULL,
@@ -212,7 +190,7 @@ struct retro_core_option_v2_definition option_defs_us[] = {
     },
     {
         "vita3k_high_accuracy",
-        "High Accuracy Rendering",
+        "High Accuracy Rendering (Vulkan)",
         NULL,
         "Enable more accurate but slower rendering techniques.",
         NULL,
@@ -720,18 +698,41 @@ struct retro_core_option_v2_definition option_defs_us[] = {
         "0"
     },
     {
-        "vita3k_surface_sync",
-        "Surface Sync",
+        "vita3k_disable_surface_sync",
+        "Disable Surface Sync",
         NULL,
-        "GPU memory optimization. May improve performance by 20-40%.",
+        "GPU memory optimization. May improve performance by 20-40%. A few games read back what the GPU drew and render incorrectly when this is on. Vulkan: used only with Memory Mapping on. OpenGL: not used on Android.",
         NULL,
         "gpu",
         {
-            { "enabled", "Enabled (more accurate)" },
-            { "disabled", "Disabled (faster)" },
+            { "disabled", NULL },
+            { "enabled", NULL },
             { NULL, NULL },
         },
-        "enabled"
+        // Off, unlike standalone's on (disable-surface-sync: true): upstream
+        // calls it a speed hack that a few games need off, so the core keeps
+        // the setting that renders every game right (#2, i30817). Hidden on
+        // Android with OpenGL, where the copy is not built.
+        // OpenGL also turns it on by itself at a fractional Internal Resolution
+        // Multiplier; the core offers whole numbers only, so the description
+        // leaves that out - add it if fractional ones come.
+        "disabled"
+    },
+    {
+        "vita3k_disable_mask_bit",
+        "Disable Mask Bit (OpenGL)",
+        NULL,
+        "A workaround for a black screen on some AMD integrated GPUs. Some games that use the mask bit then render incorrectly, so leave it off unless necessary.",
+        NULL,
+        "gpu",
+        {
+            { "disabled", NULL },
+            { "enabled", NULL },
+            { NULL, NULL },
+        },
+        // Standalone's disable-mask-bit (off), read when the OpenGL renderer
+        // starts. Last of the GPU options, hidden on Vulkan and on macOS (#2, i30817)
+        "disabled"
     },
     {
         "vita3k_file_loading_delay",

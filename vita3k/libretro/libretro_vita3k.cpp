@@ -211,6 +211,7 @@ static std::vector<ContentOption> s_kept_network_options;
 static std::vector<ContentOption> s_kept_trophy_options;
 
 static bool show_trophy_entries();
+static bool RETRO_CALLCONV update_option_display();
 
 static std::map<std::string, std::string> declare_extra_options(const std::vector<ContentOption> &options, std::vector<ContentOption> &kept_for) {
     static std::vector<retro_core_option_v2_definition> definitions;
@@ -280,8 +281,11 @@ static std::map<std::string, std::string> declare_extra_options(const std::vecto
     options_us.definitions = definitions.data();
     bool categories_supported = false;
     libretro_set_core_options(libretro.environ_cb, &categories_supported);
-    // Declaring shows every option again
-    show_trophy_entries();
+    // Declaring shows every option again: the trophies, the renderer's
+    // options and the modules are hidden again as they were. With the
+    // trophies alone, Disable Mask Bit (OpenGL) showed on Vulkan until an
+    // option changed and RetroArch asked for the display again (#2, i30817)
+    update_option_display();
 
     for (const ContentOption &option : kept_for) {
         if (!option.set_value.empty()) {
@@ -411,6 +415,32 @@ static bool show_trophy_entries() {
     return true;
 }
 
+// The options only the Vulkan renderer reads, hidden while the content runs
+// on OpenGL; shown before content, when the renderer is not known yet (#2, i30817)
+static bool show_renderer_options() {
+    if (!libretro.environ_cb)
+        return false;
+    const bool vulkan_only_shown = libretro.active_context != RETRO_HW_CONTEXT_OPENGL_CORE;
+    for (const char *key : { "vita3k_async_pipeline", "vita3k_memory_mapping", "vita3k_high_accuracy" }) {
+        retro_core_option_display display{ key, vulkan_only_shown };
+        libretro.environ_cb(RETRO_ENVIRONMENT_SET_CORE_OPTIONS_DISPLAY, &display);
+    }
+    // and the one only the OpenGL renderer reads, of which macOS has none
+#ifdef __APPLE__
+    const bool opengl_only_shown = false;
+#else
+    const bool opengl_only_shown = libretro.active_context != RETRO_HW_CONTEXT_VULKAN;
+#endif
+    retro_core_option_display mask_bit{ "vita3k_disable_mask_bit", opengl_only_shown };
+    libretro.environ_cb(RETRO_ENVIRONMENT_SET_CORE_OPTIONS_DISPLAY, &mask_bit);
+#ifdef __ANDROID__
+    // OpenGL on Android has no surface copy to turn off (renderer/src/scene.cpp)
+    retro_core_option_display surface_sync{ "vita3k_disable_surface_sync", vulkan_only_shown };
+    libretro.environ_cb(RETRO_ENVIRONMENT_SET_CORE_OPTIONS_DISPLAY, &surface_sync);
+#endif
+    return true;
+}
+
 // The modules under Modules, shown only while Modules Mode (in System) uses
 // them. Also from the display callback: set at load only, switching the mode
 // in the menu showed them from the next start, so with the firmware just
@@ -429,7 +459,9 @@ static bool show_module_options() {
 
 static bool RETRO_CALLCONV update_option_display() {
     const bool trophies = show_trophy_entries();
-    return show_module_options() || trophies;
+    const bool renderer = show_renderer_options();
+    const bool modules = show_module_options();
+    return renderer || modules || trophies;
 }
 
 static void declare_trophy_options(EmuEnvState &emuenv) {
@@ -648,6 +680,31 @@ static std::string canonical_memory_mapping_option(const char *value) {
     return token;
 }
 
+// The options the game reads only as it starts, other than those checked one
+// by one in apply_config_changes, as they were then: a change to one of them
+// shows the restart notice too (#2, i30817). Each is taken from where the
+// option is written (current_config or the config itself).
+static std::vector<int> start_only_options(const Config &cfg) {
+    const auto &cur = cfg.current_config;
+    return { cur.pstv_mode, cur.ngs_enable, cur.file_loading_delay, cur.psn_signed_in,
+        cfg.sys_lang, cfg.sys_date_format, cfg.sys_time_format, cfg.sys_button,
+        cfg.http_enable, cfg.http_timeout_attempts, cfg.http_timeout_sleep_ms,
+        cfg.http_read_end_attempts, cfg.http_read_end_sleep_ms };
+}
+static std::vector<int> s_start_options;
+
+// The same for the options kept as their values: Backend Renderer, read for
+// the context at load (the renderer follows the context, so backend_renderer
+// never differs from it), Run Mode and Include Subdirectories, read when the
+// content is opened, and Disable Mask Bit, when the OpenGL renderer starts
+static std::vector<std::string> start_only_values() {
+    std::vector<std::string> values;
+    for (const char *key : { "vita3k_backend_renderer", "vita3k_pkg_mode", "vita3k_content_subdirs", "vita3k_disable_mask_bit" })
+        values.emplace_back(get_core_option_value(key, ""));
+    return values;
+}
+static std::vector<std::string> s_start_values;
+
 // Memory Mapping the GPU can't do: the renderer takes the best one it can
 // (late_init), as upstream does, but upstream says so only in its log. The
 // option stays as set, as it may come from another device (sco8487).
@@ -662,7 +719,7 @@ static void notify_memory_mapping(EmuEnvState &emuenv) {
     for (size_t i = 0; i < std::size(tokens); i++)
         if (requested == tokens[i])
             requested_name = names[i];
-    const std::string msg = fmt::format("Vita3K: this GPU has no Memory Mapping {}, {} is used", requested_name, names[used]);
+    const std::string msg = fmt::format("This GPU has no Memory Mapping {}, {} is used", requested_name, names[used]);
     lr_log(RETRO_LOG_WARN, "%s\n", msg.c_str());
     lr_message(msg);
 }
@@ -1274,6 +1331,7 @@ static void context_reset_finalize() {
         } else {
             libretro.app_started = true;
             s_start_options = start_only_options(*libretro.cfg);
+            s_start_values = start_only_values();
             libretro.pending_main_module_id = -1;
             show_start_image(emuenv);
             lr_log(RETRO_LOG_INFO, "context_reset_finalize: app start complete\n");
@@ -2061,38 +2119,55 @@ static bool try_set_hw_opengl() {
     return true;
 }
 
+// macOS has no OpenGL 4.4, so this build has no OpenGL renderer to offer
+// there (upstream offers Vulkan only on macOS too)
+#ifdef __APPLE__
+static constexpr bool k_opengl_available = false;
+#else
+static constexpr bool k_opengl_available = true;
+#endif
+
+// The context the core runs on: the renderer Backend Renderer names, or with
+// Automatic the one of RetroArch's video driver. When RetroArch cannot give that
+// one (its driver is another and it may not switch drivers for a core), the
+// other is taken with a notice saying so; with neither, the load fails with a
+// message saying what to set, before the core has set anything up (#2, i30817)
 static bool libretro_init_hw_render() {
-    const char *backend_option = get_core_option_value("vita3k_backend_renderer", "Vulkan");
-    const bool force_opengl = (strcmp(backend_option, "OpenGL") == 0);
-    const bool force_vulkan = (strcmp(backend_option, "Vulkan") == 0);
+    const char *backend_option = get_core_option_value("vita3k_backend_renderer", "auto");
+    const bool force_opengl = k_opengl_available && strcmp(backend_option, "OpenGL") == 0;
+    const bool force_vulkan = strcmp(backend_option, "Vulkan") == 0;
 
-    if (force_opengl) {
-        if (try_set_hw_opengl()) return true;
-        if (try_set_hw_vulkan()) return true;
-    } else if (force_vulkan) {
-        if (try_set_hw_vulkan()) return true;
-        if (try_set_hw_opengl()) return true;
+    bool want_opengl = force_opengl;
+    if (!force_opengl && !force_vulkan) {
+        unsigned preferred = RETRO_HW_CONTEXT_NONE;
+        if (!libretro.environ_cb(RETRO_ENVIRONMENT_GET_PREFERRED_HW_RENDER, &preferred))
+            preferred = RETRO_HW_CONTEXT_VULKAN;
+        want_opengl = k_opengl_available
+            && (preferred == RETRO_HW_CONTEXT_OPENGL_CORE
+                || preferred == RETRO_HW_CONTEXT_OPENGL
+                || preferred == RETRO_HW_CONTEXT_OPENGLES2
+                || preferred == RETRO_HW_CONTEXT_OPENGLES3
+                || preferred == RETRO_HW_CONTEXT_OPENGLES_VERSION);
     }
 
-    unsigned preferred = RETRO_HW_CONTEXT_NONE;
-    if (!libretro.environ_cb(RETRO_ENVIRONMENT_GET_PREFERRED_HW_RENDER, &preferred))
-        preferred = RETRO_HW_CONTEXT_VULKAN;
+    if (want_opengl ? try_set_hw_opengl() : try_set_hw_vulkan())
+        return true;
 
-    bool is_gl_preferred = (preferred == RETRO_HW_CONTEXT_OPENGL_CORE
-                         || preferred == RETRO_HW_CONTEXT_OPENGL
-                         || preferred == RETRO_HW_CONTEXT_OPENGLES2
-                         || preferred == RETRO_HW_CONTEXT_OPENGLES3
-                         || preferred == RETRO_HW_CONTEXT_OPENGLES_VERSION);
-
-    if (is_gl_preferred) {
-        if (try_set_hw_opengl()) return true;
-        if (try_set_hw_vulkan()) return true;
-    } else {
-        if (try_set_hw_vulkan()) return true;
-        if (try_set_hw_opengl()) return true;
+    const char *wanted = want_opengl ? "OpenGL" : "Vulkan";
+    const char *why = (force_opengl || force_vulkan) ? "Backend Renderer asks for" : "RetroArch's video driver is";
+    if (want_opengl ? try_set_hw_vulkan() : (k_opengl_available && try_set_hw_opengl())) {
+        const std::string msg = fmt::format("{} {}, but RetroArch could not give the core {}; running on {}",
+            why, wanted, wanted, want_opengl ? "Vulkan" : "OpenGL");
+        lr_log(RETRO_LOG_WARN, "%s\n", msg.c_str());
+        lr_message(msg);
+        return true;
     }
 
-    lr_log(RETRO_LOG_ERROR, "Failed to set any HW render context! Neither Vulkan nor OpenGL accepted.\n");
+    const std::string msg = k_opengl_available
+        ? std::string("RetroArch gave the core neither Vulkan nor OpenGL 4.4. Set Settings > Drivers > Video to vulkan or glcore.")
+        : std::string("RetroArch did not give the core Vulkan. Set Settings > Drivers > Video to vulkan.");
+    lr_log(RETRO_LOG_ERROR, "%s\n", msg.c_str());
+    lr_message(msg);
     return false;
 }
 
@@ -2358,6 +2433,7 @@ RETRO_API bool retro_load_game(const struct retro_game_info *game) {
     Config &cfg = *libretro.cfg;
     cfg.set_vita_fs_path(root.get_vita_fs_path());
     cfg.backend_renderer = (libretro.active_context == RETRO_HW_CONTEXT_VULKAN) ? "Vulkan" : "OpenGL";
+    show_renderer_options();
     cfg.audio_backend = "Libretro";
     cfg.console = false;
     cfg.overwrite_config = false;
@@ -3030,19 +3106,6 @@ static void read_core_option(const char *key, const char *default_value, std::fu
     }
 }
 
-// The options the game reads only as it starts, other than those checked one
-// by one in apply_config_changes, as they were then: a change to one of them
-// shows the restart notice too (#2, i30817). Each is taken from where the
-// option is written (current_config or the config itself).
-static std::vector<int> start_only_options(const Config &cfg) {
-    const auto &cur = cfg.current_config;
-    return { cur.pstv_mode, cur.ngs_enable, cur.v_sync, cur.file_loading_delay, cur.psn_signed_in,
-        cfg.sys_lang, cfg.sys_date_format, cfg.sys_time_format, cfg.sys_button,
-        cfg.http_enable, cfg.http_timeout_attempts, cfg.http_timeout_sleep_ms,
-        cfg.http_read_end_attempts, cfg.http_read_end_sleep_ms };
-}
-static std::vector<int> s_start_options;
-
 static void apply_config_changes() {
     if (!libretro.cfg)
         return;
@@ -3063,7 +3126,8 @@ static void apply_config_changes() {
     // The Content options (game, update, DLC) apply when the content is started again
     bool removal_changed = false;
     const bool content_changed = content_options_changed(&removal_changed);
-    const bool start_options_changed = !s_start_options.empty() && start_only_options(cfg) != s_start_options;
+    const bool start_options_changed = (!s_start_options.empty() && start_only_options(cfg) != s_start_options)
+        || (!s_start_values.empty() && start_only_values() != s_start_values);
     const bool restart_required = backend_changed || resolution_changed || memory_mapping_changed
         || high_accuracy_changed || modules_mode_changed || cpu_opt_changed || content_changed
         || start_options_changed;
@@ -3084,7 +3148,7 @@ static void apply_config_changes() {
             cfg.current_config.modules_mode,
             cfg.cpu_opt ? 1 : 0,
             cfg.current_config.cpu_opt ? 1 : 0);
-        lr_message("Vita3K: Some option changes require restarting content to fully apply.");
+        lr_message("Some option changes require restarting content to fully apply.");
         lr_log(RETRO_LOG_WARN,
             "Core option change requires restart (backend=%d, res=%d, mem_map=%d, high_acc=%d, modules=%d, cpu_opt=%d, other=%d)\n",
             backend_changed ? 1 : 0,
@@ -3098,7 +3162,7 @@ static void apply_config_changes() {
     
     // Remove Content deletes when the content is closed or reset (i30817)
     if (removal_changed && libretro.app_started && !restart_required)
-        lr_message("Vita3K: Remove Content applies when the content is closed or reset.");
+        lr_message("Remove Content applies when the content is closed or reset.");
 
     // Copy current_config values to main config
     cfg.cpu_opt = cfg.current_config.cpu_opt;
@@ -3107,7 +3171,6 @@ static void apply_config_changes() {
     cfg.audio_volume = cfg.current_config.audio_volume;
     cfg.ngs_enable = cfg.current_config.ngs_enable;
     cfg.pstv_mode = cfg.current_config.pstv_mode;
-    cfg.sys_button = cfg.sys_button;
     cfg.fps_hack = cfg.current_config.fps_hack;
     cfg.file_loading_delay = cfg.current_config.file_loading_delay;
     cfg.psn_signed_in = cfg.current_config.psn_signed_in;
@@ -3149,8 +3212,8 @@ static void apply_config_changes() {
     lr_log(RETRO_LOG_INFO, "Applied core options changes:\n");
     lr_log(RETRO_LOG_INFO, "  Backend: %s\n", cfg.backend_renderer.c_str());
     lr_log(RETRO_LOG_INFO, "  Resolution: %.1fx\n", cfg.resolution_multiplier);
-    lr_log(RETRO_LOG_INFO, "  Screen Filter: %s\n", cfg.screen_filter.c_str());
-    lr_log(RETRO_LOG_INFO, "  Surface Sync: %s\n", cfg.disable_surface_sync ? "disabled" : "enabled");
+    lr_log(RETRO_LOG_INFO, "  Disable Surface Sync: %s\n", cfg.disable_surface_sync ? "on" : "off");
+    lr_log(RETRO_LOG_INFO, "  Disable Mask Bit: %s\n", cfg.current_config.disable_mask_bit ? "on" : "off");
     lr_log(RETRO_LOG_INFO, "  FPS Hack: %s\n", cfg.fps_hack ? "enabled" : "disabled");
     lr_log(RETRO_LOG_INFO, "  Memory Mapping: %s\n", cfg.memory_mapping.c_str());
     lr_log(RETRO_LOG_INFO, "  CPU Opt: %s\n", cfg.cpu_opt ? "enabled" : "disabled");
@@ -3161,27 +3224,30 @@ static void read_core_options() {
     if (!libretro.cfg) return;
     
     // GPU Options
-    read_core_option("vita3k_backend_renderer", "Vulkan", [](const char *value) {
-        const std::string token = normalize_option_token(value);
-        libretro.cfg->current_config.backend_renderer = (token == "opengl") ? "OpenGL" : "Vulkan";
-    });
+    // Backend Renderer is read once, for the context (libretro_init_hw_render);
+    // the renderer is the one of the context the core got, which is the one
+    // asked for unless RetroArch could not give it: a forced OpenGL that fell
+    // back to Vulkan must not run the OpenGL renderer on it
+    libretro.cfg->current_config.backend_renderer = libretro.active_context == RETRO_HW_CONTEXT_VULKAN ? "Vulkan" : "OpenGL";
     
     read_core_option("vita3k_resolution_multiplier", "1", [](const char *value) {
         libretro.cfg->current_config.resolution_multiplier = parse_float_option(value, 1.0f);
     });
     
-    read_core_option("vita3k_screen_filter", "Bilinear", [](const char *value) {
-        libretro.cfg->current_config.screen_filter = value;
-    });
-    
+    // No Screen Filter option: on Vulkan the core's screen renderer has no
+    // swapchain of its own and ignores the filter, so RetroArch's filtering
+    // and shaders are the one place for it on both (#2, i30817). The filter
+    // stays at standalone's default.
+
     read_core_option("vita3k_anisotropic_filtering", "1", [](const char *value) {
         libretro.cfg->current_config.anisotropic_filtering = parse_int_option(value, 1);
     });
     
-    read_core_option("vita3k_v_sync", "enabled", [](const char *value) {
-        libretro.cfg->current_config.v_sync = parse_enabled_option(value, true);
-    });
-    
+    // No V-Sync option: RetroArch syncs the display. v_sync stays at
+    // standalone's default (on), where it only makes the OpenGL renderer wait
+    // for the frame before. If upstream turns that default off or removes
+    // v_sync, follow it: off is what the core should then use (#2, i30817).
+
     read_core_option("vita3k_async_pipeline", "enabled", [](const char *value) {
         libretro.cfg->current_config.async_pipeline_compilation = parse_enabled_option(value, true);
     });
@@ -3191,9 +3257,12 @@ static void read_core_options() {
         libretro.cfg->show_compile_shaders = parse_enabled_option(value, true);
     });
 
-    read_core_option("vita3k_surface_sync", "enabled", [](const char *value) {
-        // Inverted logic: disable_surface_sync = !surface_sync_enabled
-        libretro.cfg->current_config.disable_surface_sync = !parse_enabled_option(value, true);
+    read_core_option("vita3k_disable_surface_sync", "disabled", [](const char *value) {
+        libretro.cfg->current_config.disable_surface_sync = parse_enabled_option(value, false);
+    });
+
+    read_core_option("vita3k_disable_mask_bit", "disabled", [](const char *value) {
+        libretro.cfg->current_config.disable_mask_bit = parse_enabled_option(value, false);
     });
     
     read_core_option("vita3k_high_accuracy", "disabled", [](const char *value) {
