@@ -375,7 +375,6 @@ struct retro_core_option_v2_definition option_defs_ar[] = {
             { "double-buffer", OPTION_VAL_DOUBLE_BUFFER_AR },
             { "external-host", OPTION_VAL_EXTERNAL_HOST_AR },
             { "page-table", OPTION_VAL_PAGE_TABLE_AR },
-            { "native-buffer", OPTION_VAL_NATIVE_BUFFER_AR },
             { NULL, NULL },
         },
         "double-buffer"
@@ -1247,7 +1246,6 @@ struct retro_core_option_v2_definition option_defs_ast[] = {
             { "double-buffer", OPTION_VAL_DOUBLE_BUFFER_AST },
             { "external-host", OPTION_VAL_EXTERNAL_HOST_AST },
             { "page-table", OPTION_VAL_PAGE_TABLE_AST },
-            { "native-buffer", OPTION_VAL_NATIVE_BUFFER_AST },
             { NULL, NULL },
         },
         "double-buffer"
@@ -2119,7 +2117,6 @@ struct retro_core_option_v2_definition option_defs_be[] = {
             { "double-buffer", OPTION_VAL_DOUBLE_BUFFER_BE },
             { "external-host", OPTION_VAL_EXTERNAL_HOST_BE },
             { "page-table", OPTION_VAL_PAGE_TABLE_BE },
-            { "native-buffer", OPTION_VAL_NATIVE_BUFFER_BE },
             { NULL, NULL },
         },
         "double-buffer"
@@ -2991,7 +2988,6 @@ struct retro_core_option_v2_definition option_defs_bg[] = {
             { "double-buffer", OPTION_VAL_DOUBLE_BUFFER_BG },
             { "external-host", OPTION_VAL_EXTERNAL_HOST_BG },
             { "page-table", OPTION_VAL_PAGE_TABLE_BG },
-            { "native-buffer", OPTION_VAL_NATIVE_BUFFER_BG },
             { NULL, NULL },
         },
         "double-buffer"
@@ -3863,7 +3859,6 @@ struct retro_core_option_v2_definition option_defs_ca[] = {
             { "double-buffer", OPTION_VAL_DOUBLE_BUFFER_CA },
             { "external-host", OPTION_VAL_EXTERNAL_HOST_CA },
             { "page-table", OPTION_VAL_PAGE_TABLE_CA },
-            { "native-buffer", OPTION_VAL_NATIVE_BUFFER_CA },
             { NULL, NULL },
         },
         "double-buffer"
@@ -4735,7 +4730,6 @@ struct retro_core_option_v2_definition option_defs_chs[] = {
             { "double-buffer", OPTION_VAL_DOUBLE_BUFFER_CHS },
             { "external-host", OPTION_VAL_EXTERNAL_HOST_CHS },
             { "page-table", OPTION_VAL_PAGE_TABLE_CHS },
-            { "native-buffer", OPTION_VAL_NATIVE_BUFFER_CHS },
             { NULL, NULL },
         },
         "double-buffer"
@@ -5607,7 +5601,6 @@ struct retro_core_option_v2_definition option_defs_cht[] = {
             { "double-buffer", OPTION_VAL_DOUBLE_BUFFER_CHT },
             { "external-host", OPTION_VAL_EXTERNAL_HOST_CHT },
             { "page-table", OPTION_VAL_PAGE_TABLE_CHT },
-            { "native-buffer", OPTION_VAL_NATIVE_BUFFER_CHT },
             { NULL, NULL },
         },
         "double-buffer"
@@ -6479,7 +6472,6 @@ struct retro_core_option_v2_definition option_defs_cs[] = {
             { "double-buffer", OPTION_VAL_DOUBLE_BUFFER_CS },
             { "external-host", OPTION_VAL_EXTERNAL_HOST_CS },
             { "page-table", OPTION_VAL_PAGE_TABLE_CS },
-            { "native-buffer", OPTION_VAL_NATIVE_BUFFER_CS },
             { NULL, NULL },
         },
         "double-buffer"
@@ -7351,7 +7343,6 @@ struct retro_core_option_v2_definition option_defs_cy[] = {
             { "double-buffer", OPTION_VAL_DOUBLE_BUFFER_CY },
             { "external-host", OPTION_VAL_EXTERNAL_HOST_CY },
             { "page-table", OPTION_VAL_PAGE_TABLE_CY },
-            { "native-buffer", OPTION_VAL_NATIVE_BUFFER_CY },
             { NULL, NULL },
         },
         "double-buffer"
@@ -8223,7 +8214,6 @@ struct retro_core_option_v2_definition option_defs_da[] = {
             { "double-buffer", OPTION_VAL_DOUBLE_BUFFER_DA },
             { "external-host", OPTION_VAL_EXTERNAL_HOST_DA },
             { "page-table", OPTION_VAL_PAGE_TABLE_DA },
-            { "native-buffer", OPTION_VAL_NATIVE_BUFFER_DA },
             { NULL, NULL },
         },
         "double-buffer"
@@ -9095,7 +9085,6 @@ struct retro_core_option_v2_definition option_defs_de[] = {
             { "double-buffer", OPTION_VAL_DOUBLE_BUFFER_DE },
             { "external-host", OPTION_VAL_EXTERNAL_HOST_DE },
             { "page-table", OPTION_VAL_PAGE_TABLE_DE },
-            { "native-buffer", OPTION_VAL_NATIVE_BUFFER_DE },
             { NULL, NULL },
         },
         "double-buffer"
@@ -9967,7 +9956,6 @@ struct retro_core_option_v2_definition option_defs_el[] = {
             { "double-buffer", OPTION_VAL_DOUBLE_BUFFER_EL },
             { "external-host", OPTION_VAL_EXTERNAL_HOST_EL },
             { "page-table", OPTION_VAL_PAGE_TABLE_EL },
-            { "native-buffer", OPTION_VAL_NATIVE_BUFFER_EL },
             { NULL, NULL },
         },
         "double-buffer"
@@ -10839,7 +10827,6 @@ struct retro_core_option_v2_definition option_defs_en[] = {
             { "double-buffer", OPTION_VAL_DOUBLE_BUFFER_EN },
             { "external-host", OPTION_VAL_EXTERNAL_HOST_EN },
             { "page-table", OPTION_VAL_PAGE_TABLE_EN },
-            { "native-buffer", OPTION_VAL_NATIVE_BUFFER_EN },
             { NULL, NULL },
         },
         "double-buffer"
@@ -11711,7 +11698,6 @@ struct retro_core_option_v2_definition option_defs_eo[] = {
             { "double-buffer", OPTION_VAL_DOUBLE_BUFFER_EO },
             { "external-host", OPTION_VAL_EXTERNAL_HOST_EO },
             { "page-table", OPTION_VAL_PAGE_TABLE_EO },
-            { "native-buffer", OPTION_VAL_NATIVE_BUFFER_EO },
             { NULL, NULL },
         },
         "double-buffer"
@@ -12583,7 +12569,6 @@ struct retro_core_option_v2_definition option_defs_es[] = {
             { "double-buffer", OPTION_VAL_DOUBLE_BUFFER_ES },
             { "external-host", OPTION_VAL_EXTERNAL_HOST_ES },
             { "page-table", OPTION_VAL_PAGE_TABLE_ES },
-            { "native-buffer", OPTION_VAL_NATIVE_BUFFER_ES },
             { NULL, NULL },
         },
         "double-buffer"
@@ -13455,7 +13440,6 @@ struct retro_core_option_v2_definition option_defs_fa[] = {
             { "double-buffer", OPTION_VAL_DOUBLE_BUFFER_FA },
             { "external-host", OPTION_VAL_EXTERNAL_HOST_FA },
             { "page-table", OPTION_VAL_PAGE_TABLE_FA },
-            { "native-buffer", OPTION_VAL_NATIVE_BUFFER_FA },
             { NULL, NULL },
         },
         "double-buffer"
@@ -14327,7 +14311,6 @@ struct retro_core_option_v2_definition option_defs_fi[] = {
             { "double-buffer", OPTION_VAL_DOUBLE_BUFFER_FI },
             { "external-host", OPTION_VAL_EXTERNAL_HOST_FI },
             { "page-table", OPTION_VAL_PAGE_TABLE_FI },
-            { "native-buffer", OPTION_VAL_NATIVE_BUFFER_FI },
             { NULL, NULL },
         },
         "double-buffer"
@@ -15199,7 +15182,6 @@ struct retro_core_option_v2_definition option_defs_fr[] = {
             { "double-buffer", OPTION_VAL_DOUBLE_BUFFER_FR },
             { "external-host", OPTION_VAL_EXTERNAL_HOST_FR },
             { "page-table", OPTION_VAL_PAGE_TABLE_FR },
-            { "native-buffer", OPTION_VAL_NATIVE_BUFFER_FR },
             { NULL, NULL },
         },
         "double-buffer"
@@ -16071,7 +16053,6 @@ struct retro_core_option_v2_definition option_defs_ga[] = {
             { "double-buffer", OPTION_VAL_DOUBLE_BUFFER_GA },
             { "external-host", OPTION_VAL_EXTERNAL_HOST_GA },
             { "page-table", OPTION_VAL_PAGE_TABLE_GA },
-            { "native-buffer", OPTION_VAL_NATIVE_BUFFER_GA },
             { NULL, NULL },
         },
         "double-buffer"
@@ -16943,7 +16924,6 @@ struct retro_core_option_v2_definition option_defs_gl[] = {
             { "double-buffer", OPTION_VAL_DOUBLE_BUFFER_GL },
             { "external-host", OPTION_VAL_EXTERNAL_HOST_GL },
             { "page-table", OPTION_VAL_PAGE_TABLE_GL },
-            { "native-buffer", OPTION_VAL_NATIVE_BUFFER_GL },
             { NULL, NULL },
         },
         "double-buffer"
@@ -17815,7 +17795,6 @@ struct retro_core_option_v2_definition option_defs_he[] = {
             { "double-buffer", OPTION_VAL_DOUBLE_BUFFER_HE },
             { "external-host", OPTION_VAL_EXTERNAL_HOST_HE },
             { "page-table", OPTION_VAL_PAGE_TABLE_HE },
-            { "native-buffer", OPTION_VAL_NATIVE_BUFFER_HE },
             { NULL, NULL },
         },
         "double-buffer"
@@ -18687,7 +18666,6 @@ struct retro_core_option_v2_definition option_defs_hr[] = {
             { "double-buffer", OPTION_VAL_DOUBLE_BUFFER_HR },
             { "external-host", OPTION_VAL_EXTERNAL_HOST_HR },
             { "page-table", OPTION_VAL_PAGE_TABLE_HR },
-            { "native-buffer", OPTION_VAL_NATIVE_BUFFER_HR },
             { NULL, NULL },
         },
         "double-buffer"
@@ -19559,7 +19537,6 @@ struct retro_core_option_v2_definition option_defs_hu[] = {
             { "double-buffer", OPTION_VAL_DOUBLE_BUFFER_HU },
             { "external-host", OPTION_VAL_EXTERNAL_HOST_HU },
             { "page-table", OPTION_VAL_PAGE_TABLE_HU },
-            { "native-buffer", OPTION_VAL_NATIVE_BUFFER_HU },
             { NULL, NULL },
         },
         "double-buffer"
@@ -20431,7 +20408,6 @@ struct retro_core_option_v2_definition option_defs_id[] = {
             { "double-buffer", OPTION_VAL_DOUBLE_BUFFER_ID },
             { "external-host", OPTION_VAL_EXTERNAL_HOST_ID },
             { "page-table", OPTION_VAL_PAGE_TABLE_ID },
-            { "native-buffer", OPTION_VAL_NATIVE_BUFFER_ID },
             { NULL, NULL },
         },
         "double-buffer"
@@ -21303,7 +21279,6 @@ struct retro_core_option_v2_definition option_defs_it[] = {
             { "double-buffer", OPTION_VAL_DOUBLE_BUFFER_IT },
             { "external-host", OPTION_VAL_EXTERNAL_HOST_IT },
             { "page-table", OPTION_VAL_PAGE_TABLE_IT },
-            { "native-buffer", OPTION_VAL_NATIVE_BUFFER_IT },
             { NULL, NULL },
         },
         "double-buffer"
@@ -22175,7 +22150,6 @@ struct retro_core_option_v2_definition option_defs_ja[] = {
             { "double-buffer", OPTION_VAL_DOUBLE_BUFFER_JA },
             { "external-host", OPTION_VAL_EXTERNAL_HOST_JA },
             { "page-table", OPTION_VAL_PAGE_TABLE_JA },
-            { "native-buffer", OPTION_VAL_NATIVE_BUFFER_JA },
             { NULL, NULL },
         },
         "double-buffer"
@@ -23047,7 +23021,6 @@ struct retro_core_option_v2_definition option_defs_ko[] = {
             { "double-buffer", OPTION_VAL_DOUBLE_BUFFER_KO },
             { "external-host", OPTION_VAL_EXTERNAL_HOST_KO },
             { "page-table", OPTION_VAL_PAGE_TABLE_KO },
-            { "native-buffer", OPTION_VAL_NATIVE_BUFFER_KO },
             { NULL, NULL },
         },
         "double-buffer"
@@ -23919,7 +23892,6 @@ struct retro_core_option_v2_definition option_defs_nl[] = {
             { "double-buffer", OPTION_VAL_DOUBLE_BUFFER_NL },
             { "external-host", OPTION_VAL_EXTERNAL_HOST_NL },
             { "page-table", OPTION_VAL_PAGE_TABLE_NL },
-            { "native-buffer", OPTION_VAL_NATIVE_BUFFER_NL },
             { NULL, NULL },
         },
         "double-buffer"
@@ -24791,7 +24763,6 @@ struct retro_core_option_v2_definition option_defs_no[] = {
             { "double-buffer", OPTION_VAL_DOUBLE_BUFFER_NO },
             { "external-host", OPTION_VAL_EXTERNAL_HOST_NO },
             { "page-table", OPTION_VAL_PAGE_TABLE_NO },
-            { "native-buffer", OPTION_VAL_NATIVE_BUFFER_NO },
             { NULL, NULL },
         },
         "double-buffer"
@@ -25663,7 +25634,6 @@ struct retro_core_option_v2_definition option_defs_or[] = {
             { "double-buffer", OPTION_VAL_DOUBLE_BUFFER_OR },
             { "external-host", OPTION_VAL_EXTERNAL_HOST_OR },
             { "page-table", OPTION_VAL_PAGE_TABLE_OR },
-            { "native-buffer", OPTION_VAL_NATIVE_BUFFER_OR },
             { NULL, NULL },
         },
         "double-buffer"
@@ -26535,7 +26505,6 @@ struct retro_core_option_v2_definition option_defs_pl[] = {
             { "double-buffer", OPTION_VAL_DOUBLE_BUFFER_PL },
             { "external-host", OPTION_VAL_EXTERNAL_HOST_PL },
             { "page-table", OPTION_VAL_PAGE_TABLE_PL },
-            { "native-buffer", OPTION_VAL_NATIVE_BUFFER_PL },
             { NULL, NULL },
         },
         "double-buffer"
@@ -27407,7 +27376,6 @@ struct retro_core_option_v2_definition option_defs_pt_br[] = {
             { "double-buffer", OPTION_VAL_DOUBLE_BUFFER_PT_BR },
             { "external-host", OPTION_VAL_EXTERNAL_HOST_PT_BR },
             { "page-table", OPTION_VAL_PAGE_TABLE_PT_BR },
-            { "native-buffer", OPTION_VAL_NATIVE_BUFFER_PT_BR },
             { NULL, NULL },
         },
         "double-buffer"
@@ -28279,7 +28247,6 @@ struct retro_core_option_v2_definition option_defs_pt_pt[] = {
             { "double-buffer", OPTION_VAL_DOUBLE_BUFFER_PT_PT },
             { "external-host", OPTION_VAL_EXTERNAL_HOST_PT_PT },
             { "page-table", OPTION_VAL_PAGE_TABLE_PT_PT },
-            { "native-buffer", OPTION_VAL_NATIVE_BUFFER_PT_PT },
             { NULL, NULL },
         },
         "double-buffer"
@@ -29151,7 +29118,6 @@ struct retro_core_option_v2_definition option_defs_ru[] = {
             { "double-buffer", OPTION_VAL_DOUBLE_BUFFER_RU },
             { "external-host", OPTION_VAL_EXTERNAL_HOST_RU },
             { "page-table", OPTION_VAL_PAGE_TABLE_RU },
-            { "native-buffer", OPTION_VAL_NATIVE_BUFFER_RU },
             { NULL, NULL },
         },
         "double-buffer"
@@ -30023,7 +29989,6 @@ struct retro_core_option_v2_definition option_defs_sk[] = {
             { "double-buffer", OPTION_VAL_DOUBLE_BUFFER_SK },
             { "external-host", OPTION_VAL_EXTERNAL_HOST_SK },
             { "page-table", OPTION_VAL_PAGE_TABLE_SK },
-            { "native-buffer", OPTION_VAL_NATIVE_BUFFER_SK },
             { NULL, NULL },
         },
         "double-buffer"
@@ -30895,7 +30860,6 @@ struct retro_core_option_v2_definition option_defs_sr[] = {
             { "double-buffer", OPTION_VAL_DOUBLE_BUFFER_SR },
             { "external-host", OPTION_VAL_EXTERNAL_HOST_SR },
             { "page-table", OPTION_VAL_PAGE_TABLE_SR },
-            { "native-buffer", OPTION_VAL_NATIVE_BUFFER_SR },
             { NULL, NULL },
         },
         "double-buffer"
@@ -31767,7 +31731,6 @@ struct retro_core_option_v2_definition option_defs_sv[] = {
             { "double-buffer", OPTION_VAL_DOUBLE_BUFFER_SV },
             { "external-host", OPTION_VAL_EXTERNAL_HOST_SV },
             { "page-table", OPTION_VAL_PAGE_TABLE_SV },
-            { "native-buffer", OPTION_VAL_NATIVE_BUFFER_SV },
             { NULL, NULL },
         },
         "double-buffer"
@@ -32639,7 +32602,6 @@ struct retro_core_option_v2_definition option_defs_th[] = {
             { "double-buffer", OPTION_VAL_DOUBLE_BUFFER_TH },
             { "external-host", OPTION_VAL_EXTERNAL_HOST_TH },
             { "page-table", OPTION_VAL_PAGE_TABLE_TH },
-            { "native-buffer", OPTION_VAL_NATIVE_BUFFER_TH },
             { NULL, NULL },
         },
         "double-buffer"
@@ -33511,7 +33473,6 @@ struct retro_core_option_v2_definition option_defs_tr[] = {
             { "double-buffer", OPTION_VAL_DOUBLE_BUFFER_TR },
             { "external-host", OPTION_VAL_EXTERNAL_HOST_TR },
             { "page-table", OPTION_VAL_PAGE_TABLE_TR },
-            { "native-buffer", OPTION_VAL_NATIVE_BUFFER_TR },
             { NULL, NULL },
         },
         "double-buffer"
@@ -34383,7 +34344,6 @@ struct retro_core_option_v2_definition option_defs_tt[] = {
             { "double-buffer", OPTION_VAL_DOUBLE_BUFFER_TT },
             { "external-host", OPTION_VAL_EXTERNAL_HOST_TT },
             { "page-table", OPTION_VAL_PAGE_TABLE_TT },
-            { "native-buffer", OPTION_VAL_NATIVE_BUFFER_TT },
             { NULL, NULL },
         },
         "double-buffer"
@@ -35255,7 +35215,6 @@ struct retro_core_option_v2_definition option_defs_uk[] = {
             { "double-buffer", OPTION_VAL_DOUBLE_BUFFER_UK },
             { "external-host", OPTION_VAL_EXTERNAL_HOST_UK },
             { "page-table", OPTION_VAL_PAGE_TABLE_UK },
-            { "native-buffer", OPTION_VAL_NATIVE_BUFFER_UK },
             { NULL, NULL },
         },
         "double-buffer"
@@ -36127,7 +36086,6 @@ struct retro_core_option_v2_definition option_defs_val[] = {
             { "double-buffer", OPTION_VAL_DOUBLE_BUFFER_VAL },
             { "external-host", OPTION_VAL_EXTERNAL_HOST_VAL },
             { "page-table", OPTION_VAL_PAGE_TABLE_VAL },
-            { "native-buffer", OPTION_VAL_NATIVE_BUFFER_VAL },
             { NULL, NULL },
         },
         "double-buffer"
@@ -36999,7 +36957,6 @@ struct retro_core_option_v2_definition option_defs_vn[] = {
             { "double-buffer", OPTION_VAL_DOUBLE_BUFFER_VN },
             { "external-host", OPTION_VAL_EXTERNAL_HOST_VN },
             { "page-table", OPTION_VAL_PAGE_TABLE_VN },
-            { "native-buffer", OPTION_VAL_NATIVE_BUFFER_VN },
             { NULL, NULL },
         },
         "double-buffer"

@@ -206,7 +206,6 @@ struct retro_core_option_v2_definition option_defs_us[] = {
             { "double-buffer", "Double Buffer" },
             { "external-host", "External Host" },
             { "page-table", "Page Table" },
-            { "native-buffer", "Native Buffer" },
             { NULL, NULL },
         },
         "double-buffer"
