@@ -40,6 +40,7 @@
 #include <sys/mount.h>
 #else
 #include <sys/vfs.h>
+#include <linux/falloc.h>
 #endif
 #endif
 
@@ -83,15 +84,62 @@ std::string upper(std::string s) {
 
 // NTFS leaves holes only in a file marked sparse; elsewhere every file can
 // have them
-void mark_sparse(const fs::path &path) {
+bool mark_sparse(const fs::path &path) {
 #ifdef _WIN32
-    HANDLE h = CreateFileW(path.wstring().c_str(), GENERIC_READ | GENERIC_WRITE, FILE_SHARE_READ, nullptr,
+    HANDLE h = CreateFileW(path.wstring().c_str(), GENERIC_READ | GENERIC_WRITE, FILE_SHARE_READ | FILE_SHARE_WRITE, nullptr,
         OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, nullptr);
-    if (h != INVALID_HANDLE_VALUE) {
-        DWORD returned = 0;
-        DeviceIoControl(h, FSCTL_SET_SPARSE, nullptr, 0, nullptr, 0, &returned, nullptr);
-        CloseHandle(h);
+    if (h == INVALID_HANDLE_VALUE) {
+        lr_log(RETRO_LOG_WARN, "sparse: cannot open %s (error %lu)\n", path.string().c_str(), GetLastError());
+        return false;
     }
+    DWORD returned = 0;
+    const BOOL ok = DeviceIoControl(h, FSCTL_SET_SPARSE, nullptr, 0, nullptr, 0, &returned, nullptr);
+    if (!ok)
+        lr_log(RETRO_LOG_WARN, "sparse: %s not marked sparse (error %lu)\n", path.string().c_str(), GetLastError());
+    CloseHandle(h);
+    return ok != 0;
+#else
+    (void)path;
+    return true;
+#endif
+}
+
+// The ranges of a file outside the ones listed given back to the disk, in
+// a file whose holes the system keeps (NTFS: marked sparse first): a cache
+// file that once took all its size, as a Windows one did whose sparse flag
+// was gone (nanitaro, issue #6), shrinks to the blocks it holds
+void release_gaps(const fs::path &path, std::uint64_t size, const std::vector<std::pair<std::uint64_t, std::uint64_t>> &kept) {
+    std::vector<std::pair<std::uint64_t, std::uint64_t>> gaps;
+    std::uint64_t at = 0;
+    for (const auto &[from, to] : kept) {
+        if (from > at)
+            gaps.emplace_back(at, from);
+        at = std::max(at, to);
+    }
+    if (size > at)
+        gaps.emplace_back(at, size);
+    if (gaps.empty())
+        return;
+#ifdef _WIN32
+    HANDLE h = CreateFileW(path.wstring().c_str(), GENERIC_READ | GENERIC_WRITE, FILE_SHARE_READ | FILE_SHARE_WRITE, nullptr,
+        OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, nullptr);
+    if (h == INVALID_HANDLE_VALUE)
+        return;
+    for (const auto &[from, to] : gaps) {
+        FILE_ZERO_DATA_INFORMATION zero{};
+        zero.FileOffset.QuadPart = static_cast<LONGLONG>(from);
+        zero.BeyondFinalZero.QuadPart = static_cast<LONGLONG>(to);
+        DWORD returned = 0;
+        DeviceIoControl(h, FSCTL_SET_ZERO_DATA, &zero, sizeof(zero), nullptr, 0, &returned, nullptr);
+    }
+    CloseHandle(h);
+#elif defined(__linux__)
+    const int fd = ::open(path.string().c_str(), O_RDWR);
+    if (fd < 0)
+        return;
+    for (const auto &[from, to] : gaps)
+        ::fallocate(fd, FALLOC_FL_PUNCH_HOLE | FALLOC_FL_KEEP_SIZE, static_cast<off_t>(from), static_cast<off_t>(to - from));
+    ::close(fd);
 #else
     (void)path;
 #endif
@@ -612,8 +660,13 @@ struct Mount {
     struct DiskFile {
         bool loaded = false;
         bool dirty = false;
+        // its .bin made sparse, and what it does not hold given back, once a run
+        bool sparse_checked = false;
         std::set<std::uint32_t> blocks;
     };
+    // How many bytes a block of the file covers in its cache (decrypt_block's
+    // blocks)
+    std::uint64_t block_bytes_of(const Pending &p) const;
     std::map<std::string, DiskFile> disk;
     fs::path disk_path(const Pending &p, const char *ext) const;
     fs::path disk_path(const std::string &name, const char *ext) const;
@@ -763,6 +816,16 @@ Mount::DiskFile &Mount::disk_file(const Pending &p) {
     return f;
 }
 
+std::uint64_t Mount::block_bytes_of(const Pending &p) const {
+    if (!p.file || !is_encrypted(p.file->file.m_info.header.type) || !p.table)
+        return 1 << 20;
+    const auto header = p.table->get_header();
+    const std::uint64_t per_block = header->get_binTreeNumMaxAvail();
+    if (header->get_numSectors() <= per_block)
+        return std::max<std::uint64_t>(p.entry->size, 1);
+    return per_block * header->get_fileSectorSize();
+}
+
 bool Mount::disk_read(const Pending &p, std::uint32_t index, std::uint64_t at, std::vector<std::uint8_t> &out) {
     if (cache_dir.empty() || !disk_file(p).blocks.count(index))
         return false;
@@ -783,6 +846,20 @@ void Mount::disk_write(const Pending &p, std::uint32_t index, std::uint64_t at, 
     if (!fs::exists(bin, ec)) {
         { std::ofstream create(bin.string(), std::ios::binary); }
         mark_sparse(bin);
+        f.sparse_checked = true;
+    } else if (!f.sparse_checked) {
+        // a cache of an earlier run: sparse again, its unlisted parts released
+        f.sparse_checked = true;
+        if (mark_sparse(bin)) {
+            const std::uint64_t bytes = block_bytes_of(p);
+            const std::uint64_t size = fs::file_size(bin, ec);
+            std::vector<std::pair<std::uint64_t, std::uint64_t>> kept;
+            for (const std::uint32_t block : f.blocks)
+                kept.emplace_back(std::uint64_t(block) * bytes, std::min<std::uint64_t>(std::uint64_t(block + 1) * bytes, p.entry->size));
+            if (!ec)
+                release_gaps(bin, size, kept);
+            lr_log(RETRO_LOG_INFO, "PKG: cache of %s sparse, %zu blocks kept\n", p.entry->name.c_str(), f.blocks.size());
+        }
     }
     {
         std::fstream out(bin.string(), std::ios::binary | std::ios::in | std::ios::out);
