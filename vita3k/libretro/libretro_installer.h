@@ -85,6 +85,23 @@ bool content_options_changed(bool *removal_changed = nullptr);
 // for a run without installing removed: deletes what was turned off meanwhile,
 // and measures the title that ran again for Remove Content's list
 void content_closed();
+// The core's folder moved from from to to at a Storage Location change
+// (sco8487) (the firmware .pup files and camera images stay in system_dir), or a
+// move cut short gone on with from to's journal; true once all is across
+bool move_storage(const fs::path &from, const fs::path &to, const fs::path &system_dir, bool to_has_holes);
+// What the core's folder takes on the disk, without what stays in system_dir
+// (and without the Persistent Caches and Direct layouts, which a location
+// without sparse files does not take)
+std::uint64_t storage_usage(const fs::path &dir, const fs::path &system_dir, bool without_sparse_only);
+// Whether two folders (or the nearest of their parents that exist) are on one
+// file system, where the move is a rename and needs no space
+bool same_file_system(const fs::path &a, const fs::path &b);
+// The space free where path is (or would be)
+std::uint64_t free_space(const fs::path &path);
+// Storage Limit (#6, sco8487): past it, the titles played longest ago lose
+// what Remove Content deletes (saves and trophies as its option says), never
+// current_title; by titles.tsv's sizes, called after content_closed
+void enforce_storage_limit(const fs::path &pref_path, const std::string &current_title);
 // Remove Content (i30817): the titles turned ON whose data a crash or a killed
 // frontend left in place, or deleted only in part, are deleted now; called
 // before the content is started

@@ -749,7 +749,7 @@ static std::vector<int> s_start_options;
 // content is opened, and Disable Mask Bit, when the OpenGL renderer starts
 static std::vector<std::string> start_only_values() {
     std::vector<std::string> values;
-    for (const char *key : { "vita3k_backend_renderer", "vita3k_pkg_mode", "vita3k_content_subdirs", "vita3k_disable_mask_bit" })
+    for (const char *key : { "vita3k_backend_renderer", "vita3k_pkg_mode", "vita3k_content_subdirs", "vita3k_disable_mask_bit", "vita3k_storage_location" })
         values.emplace_back(get_core_option_value(key, ""));
     return values;
 }
@@ -1917,7 +1917,7 @@ static void request_guest_shutdown(EmuEnvState &emuenv, const char *reason) {
 // The content prepared for a run: the game's entries in Content declared, and
 // its PKG installed or mounted as Run Mode and those entries say
 static GameInstallResult open_content() {
-    const fs::path pref_path = fs::path(libretro.system_dir);
+    const fs::path pref_path = fs_utils::utf8_to_path(libretro.vita_dir);
     remove_dead_runs(pref_path);
     // A game loaded before may have left its own options declared
     options_us.definitions = option_defs_us;
@@ -2030,9 +2030,10 @@ static void close_content() {
     if (lazy_pkg::mounted()) {
         lazy_pkg::unmount();
         std::error_code ec;
-        fs::remove(fs::path(libretro.system_dir) / "ux0" / "libretro_pkg" / ("lazy_" + libretro.installed_title_id), ec);
+        fs::remove(fs_utils::utf8_to_path(libretro.vita_dir) / "ux0" / "libretro_pkg" / ("lazy_" + libretro.installed_title_id), ec);
     }
     content_closed();
+    enforce_storage_limit(fs_utils::utf8_to_path(libretro.vita_dir), libretro.installed_title_id);
 }
 
 // The emulator goes, its memory with it; that memory's fault handler (mem.cpp)
@@ -2543,13 +2544,12 @@ static void RETRO_CALLCONV libretro_keyboard_event(bool down, unsigned keycode, 
 // The paths and the configuration, made when the load starts: before the
 // content is prepared, so that the renderer for the load progress has them
 // (sco8487); finish_load goes on with them. Kept while an emulator uses them.
-static void make_root_and_config(const fs::path &pref_path) {
-    if (libretro.emuenv)
-        return;
-    libretro.root_paths = std::make_unique<Root>();
+// The paths pointed at a folder: set on the objects in place, so that a
+// renderer made with them keeps them (a move refused on the preparation's
+// thread points them back at the folder the data stays in)
+static void point_root_and_config(const fs::path &pref_path) {
     Root &root = *libretro.root_paths;
-
-        root.set_vita_fs_path(pref_path);
+    root.set_vita_fs_path(pref_path);
     root.set_log_path(pref_path / "log");
     root.set_config_path(pref_path / "config");
     root.set_cache_path(pref_path / "cache");
@@ -2565,10 +2565,16 @@ static void make_root_and_config(const fs::path &pref_path) {
     fs::create_directories(pref_path / "ux0" / "user" / "00" / "savedata");
     fs::create_directories(pref_path / "ux0" / "addcont");
     fs::create_directories(pref_path / "ux0" / "patch");
+    libretro.cfg->set_vita_fs_path(root.get_vita_fs_path());
+}
 
+static void make_root_and_config(const fs::path &pref_path) {
+    if (libretro.emuenv)
+        return;
+    libretro.root_paths = std::make_unique<Root>();
     libretro.cfg = std::make_unique<Config>();
+    point_root_and_config(pref_path);
     Config &cfg = *libretro.cfg;
-    cfg.set_vita_fs_path(root.get_vita_fs_path());
     cfg.backend_renderer = (libretro.active_context == RETRO_HW_CONTEXT_VULKAN) ? "Vulkan" : "OpenGL";
     show_renderer_options();
     cfg.audio_backend = "Libretro";
@@ -2577,11 +2583,104 @@ static void make_root_and_config(const fs::path &pref_path) {
     read_core_options();
 }
 
+// Storage Location (#6, nanitaro, sco8487): the core's folder in RetroArch's
+// system directory or in its save directory, which the user can point
+// anywhere (RetroArch tells a core no cache directory)
+static std::string storage_dir_for(std::string_view location) {
+    if (location == "saves") {
+        const char *save = nullptr;
+        if (libretro.environ_cb(RETRO_ENVIRONMENT_GET_SAVE_DIRECTORY, &save) && save && *save)
+            return std::string(save) + "/vita3k";
+        lr_log(RETRO_LOG_WARN, "Storage Location: RetroArch gave no save directory, the storage stays in %s\n", libretro.system_dir.c_str());
+    }
+    return libretro.system_dir;
+}
+static std::string selected_storage_dir() {
+    return storage_dir_for(get_core_option_value("vita3k_storage_location", "system"));
+}
+// The folder the core last used, in system/vita3k whatever the location:
+// where a Storage Location change moves the data from at the next start
+static fs::path storage_note() {
+    return fs_utils::utf8_to_path(libretro.system_dir) / "storage_location.txt";
+}
+
+// Storage Location offers the other location only where all the data fits
+// (one file system: a rename, always): otherwise that value is left out and
+// the description says why (sco8487). Set on the preparation's thread before
+// the options are declared again.
+static std::string s_storage_info;
+// The option's definition in one language's list (the English one, and the
+// language RetroArch shows, whose own texts it takes when it has them)
+static retro_core_option_v2_definition *storage_location_def(retro_core_option_v2_definition *defs) {
+    for (retro_core_option_v2_definition *d = defs; d && d->key; ++d)
+        if (!std::strcmp(d->key, "vita3k_storage_location"))
+            return d;
+    return nullptr;
+}
+
+static void offer_storage_locations(const fs::path &system_dir) {
+    retro_core_option_v2_definition *def = storage_location_def(option_defs_us);
+    const unsigned language = s_text_language;
+    retro_core_option_v2_definition *local = language != RETRO_LANGUAGE_ENGLISH && options_intl[language]
+        ? storage_location_def(options_intl[language]->definitions)
+        : nullptr;
+    if (!def)
+        return;
+    static const retro_core_option_v2_definition original = *def;
+    static const retro_core_option_v2_definition original_local = local ? *local : retro_core_option_v2_definition{};
+    *def = original;
+    if (local)
+        *local = original_local;
+    const bool in_saves = libretro.vita_dir != libretro.system_dir;
+    const std::string other = storage_dir_for(in_saves ? "system" : "saves");
+    if (other == libretro.vita_dir || same_file_system(fs_utils::utf8_to_path(libretro.vita_dir), fs_utils::utf8_to_path(other)))
+        return;
+    // at least what moves to a location without sparse files (whether it has
+    // them is known only once the move tries it; a move that does not fit
+    // then is refused with a message)
+    const std::uint64_t need = storage_usage(fs_utils::utf8_to_path(libretro.vita_dir), system_dir, true);
+    if (need <= free_space(fs_utils::utf8_to_path(other)))
+        return;
+    // only the location in use left in the list, and the description saying
+    // why, in both lists
+    const char *kept = in_saves ? "saves" : "system";
+    for (retro_core_option_v2_definition *d : { def, local }) {
+        if (!d)
+            continue;
+        size_t n = 0;
+        retro_core_option_value values[RETRO_NUM_CORE_OPTION_VALUES_MAX] = {};
+        for (const retro_core_option_value *v = d->values; v->value; ++v)
+            if (!std::strcmp(v->value, kept))
+                values[n++] = *v;
+        std::copy(std::begin(values), std::end(values), d->values);
+        d->default_value = kept;
+    }
+    s_storage_info = lr_textf("msg_storage_no_space_info", lr_text(in_saves ? "msg_storage_system_dir" : "msg_storage_save_dir"));
+    def->info = s_storage_info.c_str();
+    if (local)
+        local->info = s_storage_info.c_str();
+    lr_log(RETRO_LOG_INFO, "Storage Location: %s has not the space for the data (%.1f GB needed), not offered\n", other.c_str(), need / 1e9);
+}
+
 // The content prepared on the preparation's thread (see job_environ): at a
-// load, and at a reset, which is a close and a load
+// load, and at a reset, which is a close and a load. The Storage Location set
+// is taken at both; when it is not the one last used, the data is moved there
+// on the thread first, if there is the space for it (sco8487).
 static void start_load_job(bool close_first) {
-    const fs::path pref_path = fs::path(libretro.system_dir);
-    const fs::path system_dir = fs::path(libretro.system_dir);
+    const std::string target = selected_storage_dir();
+    const std::string from = close_first ? libretro.vita_dir : [] {
+        std::string last;
+        std::ifstream in(storage_note());
+        std::getline(in, last);
+        return last;
+    }();
+    std::string target_dir = target;
+    bool move = !from.empty() && from != target;
+    if (!close_first)
+        libretro.vita_dir = target_dir;
+    lr_log(RETRO_LOG_INFO, "Storage: %s%s\n", target_dir.c_str(), move ? (" (data moved from " + from + ")").c_str() : "");
+    const fs::path pref_path = fs_utils::utf8_to_path(target_dir);
+    const fs::path system_dir = fs_utils::utf8_to_path(libretro.system_dir);
     const fs::path game_path = fs_utils::utf8_to_path(libretro.game_path);
     fs::create_directories(pref_path);
 
@@ -2602,7 +2701,7 @@ static void start_load_job(bool close_first) {
     s_job.progress_changed = false;
     s_job.active = true;
     lr_load_progress_main(lr_text(s_job.firmware_content ? "msg_preparing_firmware" : "msg_preparing_title"));
-    s_job.thread = std::thread([pref_path, system_dir, game_path]() {
+    s_job.thread = std::thread([pref_path, system_dir, game_path, target_dir, from, move]() {
         t_load_job = true;
         try {
             if (s_job.close_first) {
@@ -2611,13 +2710,44 @@ static void start_load_job(bool close_first) {
                 libretro.installed_title_id.clear();
                 libretro.installed_title.clear();
             }
+            // the space checked after the close, whose Remove Content removals
+            // leave less to move (sco8487); filled meanwhile by something else,
+            // nothing is moved and the storage stays where it is
+            std::string storage = target_dir;
+            bool to_has_holes = true;
+            if (move && !same_file_system(fs_utils::utf8_to_path(from), pref_path)) {
+                // a location without sparse files (FAT32, exFAT) takes no
+                // Persistent Cache: it is left out of the move and the count
+                to_has_holes = lazy_pkg::holes_supported(pref_path / "ux0");
+                const std::uint64_t need = storage_usage(fs_utils::utf8_to_path(from), system_dir, !to_has_holes);
+                if (need > free_space(pref_path)) {
+                    const bool to_saves = target_dir != libretro.system_dir;
+                    const std::string msg = lr_textf("msg_storage_no_space_move", lr_text(to_saves ? "msg_storage_save_dir" : "msg_storage_system_dir"),
+                        lr_text(to_saves ? "msg_storage_system_dir" : "msg_storage_save_dir"));
+                    lr_log(RETRO_LOG_ERROR, "%s (%.1f GB needed)\n", msg.c_str(), need / 1e9);
+                    lr_message(msg);
+                    storage = from;
+                    point_root_and_config(fs_utils::utf8_to_path(from));
+                }
+            }
+            libretro.vita_dir = storage;
+            const fs::path storage_path = fs_utils::utf8_to_path(storage);
+            // the move, or one cut short going on (its journal in the target)
+            if (storage != from && (move || fs::exists(storage_path / "libretro_move.txt")))
+                move_storage(move ? fs_utils::utf8_to_path(from) : fs::path(), storage_path, system_dir,
+                    lazy_pkg::holes_supported(storage_path / "ux0"));
+            {
+                std::ofstream note(storage_note(), std::ios::trunc);
+                note << libretro.vita_dir << '\n';
+            }
+            offer_storage_locations(system_dir);
             if (s_job.firmware_content) {
-                install_firmware_content(pref_path, game_path);
+                install_firmware_content(storage_path, game_path);
             } else {
                 // the firmware checked without a step of its own, a file check
                 // (sco8487); a part installed shows "Preparing the firmware"
                 lr_load_progress(lr_text("msg_preparing_title"));
-                if (!check_firmware_installed(pref_path, system_dir)) {
+                if (!check_firmware_installed(storage_path, system_dir)) {
                     lr_log(RETRO_LOG_WARN, "Firmware not found — expect errors\n");
                     lr_trace("retro_load_game.firmware", "firmware not found at %s", system_dir.generic_string().c_str());
                 }
@@ -2675,7 +2805,7 @@ RETRO_API bool retro_load_game(const struct retro_game_info *game) {
 // The rest of the load, once the content is prepared: in retro_run, as a
 // reset loads the content again there
 static bool finish_load() {
-    const fs::path pref_path = fs::path(libretro.system_dir);
+    const fs::path pref_path = fs_utils::utf8_to_path(libretro.vita_dir);
     const fs::path game_path = fs_utils::utf8_to_path(libretro.game_path);
     if (s_job.firmware_content)
         return false;

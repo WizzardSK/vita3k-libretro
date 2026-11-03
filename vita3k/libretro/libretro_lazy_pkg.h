@@ -42,6 +42,8 @@ void set_cache_root(const fs::path &cache_root);
 bool has_cache_root();
 // The space a file takes on the disk: of a sparse file, only its parts written
 std::uint64_t disk_size(const fs::path &file);
+// A file made ready to keep holes (NTFS: marked sparse; elsewhere a no-op)
+bool make_sparse(const fs::path &path);
 
 // Whether files in dir can have holes: parts of the right size that take no
 // disk space until written. Run Without Installing and Persistent Cache lay a

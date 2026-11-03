@@ -75,6 +75,9 @@ struct LibretroState {
     std::vector<int16_t> audio_buffer;
 
     std::string system_dir;
+    // The Vita's storage and the core's data (Vita3K's pref path): system_dir,
+    // or vita3k in RetroArch's save directory (Storage Location), set at load
+    std::string vita_dir;
 
     std::string game_path;
     std::string installed_title_id;

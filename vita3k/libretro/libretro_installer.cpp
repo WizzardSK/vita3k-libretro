@@ -48,6 +48,9 @@
 #include <cstring>
 #include <ctime>
 #include <fstream>
+#ifndef _WIN32
+#include <sys/stat.h>
+#endif
 #include <iterator>
 #include <map>
 #include <tuple>
@@ -1248,6 +1251,8 @@ static bool move_dir(const fs::path &from, const fs::path &to) {
 // way, and again when it is closed or reset.
 struct TitleRecord {
     std::time_t first_seen = 0;
+    // its last start, for Storage Limit (lists without it: first_seen)
+    std::time_t last_played = 0;
     std::string mode; // install, cache or run
     std::uint64_t size = 0;
     std::string name;
@@ -1262,16 +1267,23 @@ static std::map<std::string, TitleRecord> load_titles(const fs::path &pref_path)
     while (std::getline(in, line)) {
         std::vector<std::string> f;
         size_t start = 0;
-        for (size_t tab; (tab = line.find('\t', start)) != std::string::npos && f.size() < 4; start = tab + 1)
+        for (size_t tab; (tab = line.find('\t', start)) != std::string::npos && f.size() < 5; start = tab + 1)
             f.push_back(line.substr(start, tab - start));
         f.push_back(line.substr(start));
-        if (f.size() != 5 || f[0].empty())
+        // id, first seen, mode, size, [last played,] name: the lists of
+        // earlier builds have no last played
+        if (f.size() < 5 || f[0].empty())
             continue;
+        if (f.size() == 6 && f[4].find_first_not_of("0123456789") != std::string::npos) {
+            f[4] += '\t' + f[5];
+            f.pop_back();
+        }
         TitleRecord r;
         r.first_seen = static_cast<std::time_t>(std::strtoll(f[1].c_str(), nullptr, 10));
         r.mode = f[2];
         r.size = std::strtoull(f[3].c_str(), nullptr, 10);
-        r.name = f[4];
+        r.last_played = f.size() == 6 ? static_cast<std::time_t>(std::strtoll(f[4].c_str(), nullptr, 10)) : r.first_seen;
+        r.name = f.back();
         titles[f[0]] = r;
     }
     return titles;
@@ -1283,7 +1295,8 @@ static void save_titles(const fs::path &pref_path, const std::map<std::string, T
     {
         std::ofstream out(tmp.string(), std::ios::trunc);
         for (const auto &[id, r] : titles)
-            out << id << '\t' << static_cast<long long>(r.first_seen) << '\t' << r.mode << '\t' << r.size << '\t' << r.name << '\n';
+            out << id << '\t' << static_cast<long long>(r.first_seen) << '\t' << r.mode << '\t' << r.size << '\t'
+                << static_cast<long long>(r.last_played) << '\t' << r.name << '\n';
     }
     fs::rename(tmp, titles_file(pref_path), ec);
 }
@@ -1513,13 +1526,13 @@ void record_started_title(const fs::path &pref_path, const std::string &title_id
     auto titles = load_titles(pref_path);
     const bool fresh = !titles.contains(title_id);
     TitleRecord &r = titles[title_id];
+    r.last_played = std::time(nullptr);
     // new to the list, or run another way: a new line, measured now
     if (fresh || r.mode != mode) {
-        r.first_seen = std::time(nullptr);
+        r.first_seen = r.last_played;
         r.mode = mode;
         r.size = title_size(pref_path, title_id, mode != "install");
-    } else if (name.empty() || r.name == name)
-        return;
+    }
     if (!name.empty())
         r.name = name;
     save_titles(pref_path, titles);
@@ -1558,6 +1571,278 @@ static void measure_closed_title() {
         found->second.size = size;
         save_titles(title.pref_path, titles);
     }
+}
+
+// A Storage Location change moves the core's folder from one location to
+// the other (sco8487). On one file system each top-level entry is
+// renamed (nothing half done); across file systems it is copied file by file,
+// sparse files as sparse, each finished file noted in a journal in the new
+// folder, and the old folder deleted only once all is across, so a move cut
+// short goes on from the journal at the next start.
+static fs::path move_journal(const fs::path &to) {
+    return to / "libretro_move.txt";
+}
+
+// What stays in system/vita3k when the folder leaves it: the firmware's .pup
+// files and the camera images, read from there whatever the location
+static bool stays_in_system_dir(const fs::path &from, const fs::path &system_dir, const std::string &name) {
+    if (from.lexically_normal() != system_dir.lexically_normal())
+        return false;
+    const std::string lower = string_utils::tolower(name);
+    return lower == "camera" || lower == "storage_location.txt"
+        || (lower.size() > 4 && lower.compare(lower.size() - 4, 4, ".pup") == 0);
+}
+
+// One file copied; a sparse one (less on the disk than its size) keeps its
+// holes: runs of zeros are skipped, not written
+static bool copy_file_sparse(const fs::path &src, const fs::path &dst) {
+    std::error_code ec;
+    const std::uint64_t size = fs::file_size(src, ec);
+    if (ec)
+        return false;
+    const bool sparse = lazy_pkg::disk_size(src) < size;
+    fs::create_directories(dst.parent_path(), ec);
+    {
+        std::ofstream create(dst, std::ios::binary | std::ios::trunc);
+        if (!create)
+            return false;
+    }
+    if (sparse)
+        lazy_pkg::make_sparse(dst);
+    std::ifstream in(src, std::ios::binary);
+    std::fstream out(dst, std::ios::binary | std::ios::in | std::ios::out);
+    if (!in || !out)
+        return false;
+    std::vector<char> buf(1 << 20);
+    std::uint64_t at = 0;
+    while (at < size) {
+        in.read(buf.data(), static_cast<std::streamsize>(buf.size()));
+        const std::streamsize n = in.gcount();
+        if (n <= 0)
+            return false;
+        const bool zeros = sparse && std::all_of(buf.begin(), buf.begin() + n, [](char c) { return c == 0; });
+        if (!zeros) {
+            out.seekp(static_cast<std::streamoff>(at));
+            out.write(buf.data(), n);
+            if (!out)
+                return false;
+        }
+        at += static_cast<std::uint64_t>(n);
+    }
+    out.close();
+    fs::resize_file(dst, size, ec);
+    return !ec;
+}
+
+// What can live only on a file system with sparse files, relative to the
+// core's folder: the Persistent Caches and what a Direct run lays out (left
+// by a run not closed). Moved to a location without them, it is deleted
+// instead, as the first start there deletes it anyway (sco8487).
+static std::vector<std::string> sparse_only_parts(const fs::path &dir) {
+    std::vector<std::string> parts{ "cache/pkg" };
+    std::error_code ec;
+    for (fs::directory_iterator it(dir / "ux0" / "libretro_pkg", ec), end; !ec && it != end; it.increment(ec)) {
+        const std::string name = it->path().filename().string();
+        if (name.starts_with("lazy_"))
+            parts.push_back("ux0/app/" + name.substr(5));
+        else if (name.starts_with("dlc_") && name.size() > 4 + 9 + 1 && name[4 + 9] == '_')
+            parts.push_back("ux0/addcont/" + name.substr(4, 9) + "/" + name.substr(4 + 9 + 1));
+    }
+    return parts;
+}
+static bool under_any(const std::string &rel, const std::vector<std::string> &parts) {
+    for (const std::string &part : parts)
+        if (rel == part || (rel.size() > part.size() && rel.compare(0, part.size(), part) == 0 && rel[part.size()] == '/'))
+            return true;
+    return false;
+}
+
+std::uint64_t storage_usage(const fs::path &dir, const fs::path &system_dir, bool without_sparse_only) {
+    std::uint64_t total = 0;
+    std::error_code ec;
+    for (fs::directory_iterator it(dir, ec), end; !ec && it != end; it.increment(ec)) {
+        if (stays_in_system_dir(dir, system_dir, it->path().filename().string()))
+            continue;
+        std::error_code file_ec;
+        total += it->is_directory(file_ec) ? disk_usage(it->path()) : lazy_pkg::disk_size(it->path());
+    }
+    if (without_sparse_only)
+        for (const std::string &part : sparse_only_parts(dir)) {
+            const std::uint64_t size = disk_usage(dir / part);
+            total -= std::min(total, size);
+        }
+    return total;
+}
+
+// The nearest folder of path that exists (the other location may not yet)
+static fs::path existing_ancestor(fs::path path) {
+    std::error_code ec;
+    path = fs::absolute(path, ec);
+    while (!path.empty() && !fs::exists(path, ec) && path.has_parent_path() && path.parent_path() != path)
+        path = path.parent_path();
+    return path;
+}
+
+bool same_file_system(const fs::path &a, const fs::path &b) {
+    const fs::path pa = existing_ancestor(a), pb = existing_ancestor(b);
+#ifdef _WIN32
+    return string_utils::tolower(pa.root_name().string()) == string_utils::tolower(pb.root_name().string());
+#else
+    struct stat sa{}, sb{};
+    return ::stat(pa.string().c_str(), &sa) == 0 && ::stat(pb.string().c_str(), &sb) == 0 && sa.st_dev == sb.st_dev;
+#endif
+}
+
+std::uint64_t free_space(const fs::path &path) {
+    std::error_code ec;
+    const fs::space_info space = fs::space(existing_ancestor(path), ec);
+    return ec ? 0 : space.available;
+}
+
+bool move_storage(const fs::path &from_hint, const fs::path &to, const fs::path &system_dir, bool to_has_holes) {
+    std::error_code ec;
+    const fs::path journal = move_journal(to);
+    fs::path from = from_hint;
+    std::set<std::string> done;
+    bool copied = false;
+    {
+        std::ifstream in(journal);
+        std::string line;
+        while (std::getline(in, line)) {
+            if (line.rfind("from\t", 0) == 0)
+                from = fs_utils::utf8_to_path(line.substr(5));
+            else if (line.rfind("done\t", 0) == 0)
+                done.insert(line.substr(5));
+            else if (line == "copied")
+                copied = true;
+        }
+    }
+    if (from.empty() || !fs::is_directory(from, ec) || from.lexically_normal() == to.lexically_normal()) {
+        fs::remove(journal, ec);
+        return false;
+    }
+    lr_load_progress(lr_text("msg_moving_data"));
+    fs::create_directories(to, ec);
+    const bool fresh = !fs::exists(journal, ec);
+    std::ofstream log(journal, std::ios::app);
+    if (fresh)
+        log << "from\t" << fs_utils::path_to_utf8(from) << "\n" << std::flush;
+    lr_log(RETRO_LOG_INFO, "Storage move: %s -> %s%s\n", fs_utils::path_to_utf8(from).c_str(), fs_utils::path_to_utf8(to).c_str(),
+        fresh ? "" : " (going on with a move cut short)");
+
+    if (!copied) {
+        // to a location without sparse files: what lives only with them stays
+        // behind and goes with the old folder
+        const std::vector<std::string> skipped = to_has_holes ? std::vector<std::string>() : sparse_only_parts(from);
+        std::vector<fs::path> entries;
+        for (fs::directory_iterator it(from, ec), end; !ec && it != end; it.increment(ec))
+            entries.push_back(it->path());
+        for (const fs::path &entry : entries) {
+            const std::string name = entry.filename().string();
+            if (stays_in_system_dir(from, system_dir, name))
+                continue;
+            const fs::path target = to / entry.filename();
+            std::error_code rename_ec;
+            if (!fs::exists(target, rename_ec)) {
+                fs::rename(entry, target, rename_ec);
+                if (!rename_ec)
+                    continue;
+            }
+            // another file system, or the target there already: file by file,
+            // what is there already overwritten by what moves
+            if (fs::is_regular_file(entry, rename_ec)) {
+                const std::string rel = name;
+                if (!done.count(rel)) {
+                    if (!copy_file_sparse(entry, target)) {
+                        lr_log(RETRO_LOG_ERROR, "Storage move: %s could not be copied, the move stops (it goes on at the next start)\n", rel.c_str());
+                        return false;
+                    }
+                    log << "done\t" << rel << "\n" << std::flush;
+                }
+                continue;
+            }
+            for (fs::recursive_directory_iterator it(entry, ec), end; !ec && it != end; it.increment(ec)) {
+                std::error_code file_ec;
+                const fs::path rel_path = it->path().lexically_relative(from);
+                const std::string rel = rel_path.generic_string();
+                if (under_any(rel, skipped)) {
+                    if (it->is_directory(file_ec))
+                        it.disable_recursion_pending();
+                    continue;
+                }
+                if (it->is_directory(file_ec)) {
+                    fs::create_directories(to / rel_path, file_ec);
+                    continue;
+                }
+                if (done.count(rel))
+                    continue;
+                if (!copy_file_sparse(it->path(), to / rel_path)) {
+                    lr_log(RETRO_LOG_ERROR, "Storage move: %s could not be copied, the move stops (it goes on at the next start)\n", rel.c_str());
+                    return false;
+                }
+                log << "done\t" << rel << "\n" << std::flush;
+            }
+            if (ec) {
+                lr_log(RETRO_LOG_ERROR, "Storage move: %s could not be read, the move stops (it goes on at the next start)\n", name.c_str());
+                return false;
+            }
+        }
+        log << "copied\n" << std::flush;
+    }
+    // all is across: the old folder goes, but for what stays in system/vita3k
+    for (fs::directory_iterator it(from, ec), end; !ec && it != end; it.increment(ec)) {
+        if (stays_in_system_dir(from, system_dir, it->path().filename().string()))
+            continue;
+        std::error_code rm_ec;
+        fs::remove_all(it->path(), rm_ec);
+    }
+    if (from.lexically_normal() != system_dir.lexically_normal())
+        fs::remove(from, ec);
+    log.close();
+    fs::remove(journal, ec);
+    lr_log(RETRO_LOG_INFO, "Storage move: done\n");
+    return true;
+}
+
+void enforce_storage_limit(const fs::path &pref_path, const std::string &current_title) {
+    const std::string value = s_content_value ? s_content_value("vita3k_storage_limit") : std::string();
+    const std::uint64_t gb = std::strtoull(value.c_str(), nullptr, 10);
+    if (!gb)
+        return;
+    // GB as Remove Content's sizes and the system's file manager count them:
+    // of 1024 on Windows, of 1000 elsewhere (sco8487)
+#ifdef _WIN32
+    const std::uint64_t limit = gb << 30;
+#else
+    const std::uint64_t limit = gb * 1000000000ull;
+#endif
+    // the titles of the folder in use, by the sizes Remove Content shows
+    // (what it would delete, without saves and trophies), measured when each
+    // was last closed
+    const auto titles = load_titles(pref_path);
+    std::uint64_t total = 0;
+    std::vector<std::pair<std::time_t, std::string>> oldest;
+    for (const auto &[id, r] : titles) {
+        total += r.size;
+        if (id != current_title)
+            oldest.emplace_back(r.last_played, id);
+    }
+    if (total <= limit)
+        return;
+    std::sort(oldest.begin(), oldest.end());
+    const int user_data = user_data_choice();
+    for (const auto &[last, id] : oldest) {
+        if (total <= limit)
+            break;
+        const std::uint64_t size = titles.at(id).size;
+        removing_titles();
+        remove_title_data(pref_path, id, user_data);
+        total -= std::min(total, size);
+        lr_log(RETRO_LOG_INFO, "Storage Limit (%llu GB): %s removed, %s\n", static_cast<unsigned long long>(gb), id.c_str(),
+            human_size(size).c_str());
+    }
+    if (total > limit)
+        lr_log(RETRO_LOG_INFO, "Storage Limit (%llu GB): still over it with the current title alone\n", static_cast<unsigned long long>(gb));
 }
 
 // Every title the core holds data of that Remove Content deletes - an install,

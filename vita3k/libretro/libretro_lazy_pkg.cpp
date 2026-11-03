@@ -2021,4 +2021,9 @@ bool mounted() {
     return s_mount != nullptr;
 }
 
+// A file made ready to keep holes (NTFS: marked sparse; elsewhere a no-op)
+bool make_sparse(const fs::path &path) {
+    return mark_sparse(path);
+}
+
 } // namespace lazy_pkg

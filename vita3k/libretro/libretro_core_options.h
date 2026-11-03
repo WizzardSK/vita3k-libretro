@@ -89,6 +89,11 @@ struct retro_core_option_v2_category option_cats_us[] = {
     { "msg_preparing_firmware", "Preparing the firmware", NULL },
     { "msg_closing_title", "Closing the title", "A step of the load progress. Title means a game, its update and its DLC together." },
     { "msg_removing_titles", "Removing titles", "A step of the load progress. Title means a game, its update and its DLC together." },
+    { "msg_moving_data", "Moving data", "A step of the load progress: the core's directory moved to the other Storage Location." },
+    { "msg_storage_no_space_info", "The vita3k directory is in RetroArch's system or save directory. Currently {} doesn't have enough space to move all the data, so you cannot change to it. Remove Content, and reboot, to retry with less data.", NULL },
+    { "msg_storage_no_space_move", "Not enough space in {} to move the data there; the storage stays in {}.", NULL },
+    { "msg_storage_system_dir", "RetroArch's system directory", NULL },
+    { "msg_storage_save_dir", "RetroArch's save directory", NULL },
     { "msg_changing_run_mode", "Changing Run Mode", NULL },
     { "msg_installing_title", "Installing the title", "A step of the load progress. Title means a game, its update and its DLC together." },
     { "msg_installing_dlc", "Installing the DLC", NULL },
@@ -376,6 +381,25 @@ struct retro_core_option_v2_definition option_defs_us[] = {
         "no"
     },
     {
+        "vita3k_storage_limit",
+        "Storage Limit",
+        NULL,
+        "Set the storage limit for all titles. When a new title exceeds this limit, the system automatically removes the least recently played titles, ensuring it never deletes the current title (saves or trophies only if the option to delete them is On).",
+        NULL,
+        "remove",
+        {
+            { "disabled", "Off" },
+            { "5", "5 GB" },
+            { "10", "10 GB" },
+            { "20", "20 GB" },
+            { "50", "50 GB" },
+            { "100", "100 GB" },
+            { "200", "200 GB" },
+            { NULL, NULL },
+        },
+        "disabled"
+    },
+    {
         "vita3k_content_subdirs",
         "Include Subdirectories",
         NULL,
@@ -389,6 +413,20 @@ struct retro_core_option_v2_definition option_defs_us[] = {
             { NULL, NULL },
         },
         "disabled"
+    },
+    {
+        "vita3k_storage_location",
+        "Storage Location (Restart)",
+        NULL,
+        "The vita3k directory is in RetroArch's system or save directory. If the user has the save directory in a remote, larger or faster storage they can switch this to use it. The firmware's .pup files and camera images are still read from system/vita3k.",
+        NULL,
+        "system",
+        {
+            { "system", "System Directory" },
+            { "saves", "Save Directory" },
+            { NULL, NULL },
+        },
+        "system"
     },
     {
         "vita3k_pstv_mode",
