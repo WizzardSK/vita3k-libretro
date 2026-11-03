@@ -416,7 +416,7 @@ struct retro_core_option_v2_definition option_defs_us[] = {
     },
     {
         "vita3k_storage_location",
-        "Storage Location (Restart)",
+        "Storage Location",
         NULL,
         "The vita3k directory is in RetroArch's system or save directory. If the user has the save directory in a remote, larger or faster storage they can switch this to use it. The firmware's .pup files and camera images are still read from system/vita3k.",
         NULL,
