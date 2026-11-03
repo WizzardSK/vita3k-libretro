@@ -46,7 +46,10 @@ if(ANDROID)
 	endif()
 else()
 	if((ARCHITECTURE STREQUAL "x86_64") OR APPLE)
-		option(USE_DISCORD_RICH_PRESENCE "Build Vita3K with Discord Rich Presence" ON)
+		# Off: a core with it needs discord_game_sdk.dll beside it, and
+		# RetroArch then fails to open it ("The specified module could not
+		# be found", nanitaro #6); the buildbot's script had it off already
+		option(USE_DISCORD_RICH_PRESENCE "Build Vita3K with Discord Rich Presence" OFF)
 	endif()
 endif()
 
