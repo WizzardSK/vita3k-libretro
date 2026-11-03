@@ -120,3 +120,13 @@ struct LibretroState {
 };
 
 extern LibretroState libretro;
+
+// The content's preparation (firmware, install, Run Mode change) runs on a
+// thread of its own while RetroArch keeps drawing (libretro_vita3k.cpp,
+// start_load_job). What it is doing, a step without a percent (the steps are
+// of very unequal lengths), for the load card (Vulkan) or the frontend's
+// progress message.
+void lr_load_progress(const std::string &what);
+// Whether that preparation was given up (the content closed meanwhile): a
+// long step that can stop between files stops, and its work counts as not done
+bool lr_load_cancelled();

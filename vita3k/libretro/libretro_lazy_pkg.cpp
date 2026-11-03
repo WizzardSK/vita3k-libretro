@@ -1,6 +1,7 @@
 #include "libretro_lazy_pkg.h"
 
 #include "libretro_state.h"
+#include "libretro_text.h"
 
 #include <io/filesystem.h>
 #include <io/util.h>
@@ -1767,7 +1768,13 @@ bool install(const fs::path &pkg_path, const fs::path &dir, const std::string &z
         return fail(fmt::format("{} {:.1f} GiB needed, {:.1f} GiB free", NO_ROOM, total / 1073741824.0,
             space.available / 1073741824.0));
     int reported = -1;
+    // (the step, "Installing the title", is set by the caller: no file name,
+    // which can be any length, and no percent, which goes by files of very
+    // unequal sizes; sco8487)
     for (auto &pending : m->pending) {
+        // the content closed meanwhile: the install is left as one never made
+        if (lr_load_cancelled())
+            return fail("cancelled");
         Mount::Pending &p = pending.second;
         // An icv file has one hash tree over all of it and is decrypted whole
         if (!(m->streamable(p) ? m->stream_to_place(p) : m->materialize(p)))

@@ -27,7 +27,7 @@ All three download under the same name, so rename the preinstalled package and t
 
 When a game is loaded, the core installs each part that is not installed yet from its `.pup` there, and says which parts are still missing. A part already installed is left as it is; one whose install was cut short (RetroArch closed or crashed during it) does not count as installed, and is installed again from its `.pup`.
 
-A `.pup` can also be loaded from RetroArch like a game, under any name: the core installs it over what is installed, so a newer system firmware updates it, says which parts of the firmware are still missing, and starts nothing.
+A `.pup` can also be loaded from RetroArch like a game, under any name: the core installs it over what is installed, so a newer system firmware updates it, says which parts of the firmware are still missing, and starts nothing. Installs, and what a Run Mode change deletes, run while RetroArch keeps running, with their progress shown in RetroArch's message; the game starts when they are done.
 
 ## Content
 

@@ -118,4 +118,7 @@ struct GameInstallResult {
 /// laid out to be read where it lies (lazy_pkg); else it is installed into
 /// ux0. Its updates and DLC are declared in Content and used as chosen there.
 /// An update or DLC loaded on its own is installed.
+// A start's install steps begin: the loaded content's kind is read anew
+// (called before ensure_game_installed for the loaded content)
+void begin_install_steps();
 GameInstallResult ensure_game_installed(const fs::path &game_path, const fs::path &pref_path, int sys_lang, bool run_pkg = false);

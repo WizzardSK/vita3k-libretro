@@ -17,6 +17,7 @@
 
 #include "libretro_state.h"
 #include "libretro_core_options.h"
+#include "libretro_text.h"
 #include "libretro_input.h"
 #include "libretro_installer.h"
 #include "libretro_vfs.h"
@@ -25,6 +26,7 @@
 #include "libretro_game_loader.h"
 #include "libretro_accounts.h"
 #include "libretro_input_state.h"
+#include "libretro_load_overlay.h"
 
 #include <app/functions.h>
 #include <camera/camera.h>
@@ -74,6 +76,7 @@
 #include <limits>
 #include <array>
 #include <atomic>
+#include <condition_variable>
 #include <thread>
 #include <cstdarg>
 #include <cmath>
@@ -100,6 +103,46 @@ static void read_core_options();
 static void stop_render_thread();
 static void request_guest_shutdown(EmuEnvState &emuenv, const char *reason);
 static bool perform_core_reset();
+static bool present_vulkan_frame(uint64_t run_index, bool trace_this_tick);
+static bool load_job_active();
+
+// The renderer made while the content is prepared (Vulkan), to draw the load
+// progress with Vita3K's overlays before there is an emulator: it becomes the
+// emulator's renderer in finish_load, its overlays the emulator's (sco8487)
+static std::unique_ptr<renderer::State> s_boot_renderer;
+static std::unique_ptr<overlay::display_manager> s_boot_overlays;
+static std::shared_ptr<overlay::libretro_load_progress> s_load_overlay;
+
+static void drop_boot_renderer();
+
+// The core's own texts: categories msg_... of the core options
+static std::atomic<unsigned> s_text_language{ RETRO_LANGUAGE_ENGLISH };
+
+void lr_text_set_language(unsigned language) {
+    s_text_language = language < RETRO_LANGUAGE_LAST ? language : RETRO_LANGUAGE_ENGLISH;
+}
+
+static const char *find_text(const retro_core_options_v2 *options, const char *key) {
+    if (!options || !options->categories)
+        return nullptr;
+    for (const retro_core_option_v2_category *c = options->categories; c->key; ++c)
+        if (!std::strcmp(c->key, key))
+            return c->desc;
+    return nullptr;
+}
+
+const char *lr_text_us(const char *key) {
+    const char *text = find_text(&options_us, key);
+    return text ? text : key;
+}
+
+const char *lr_text(const char *key) {
+    const unsigned language = s_text_language;
+    if (language != RETRO_LANGUAGE_ENGLISH)
+        if (const char *text = find_text(options_intl[language], key))
+            return text;
+    return lr_text_us(key);
+}
 
 static void lr_message(const std::string &msg, unsigned frames = 240) {
     if (!libretro.environ_cb)
@@ -211,6 +254,8 @@ static std::vector<ContentOption> s_kept_network_options;
 static std::vector<ContentOption> s_kept_trophy_options;
 
 static bool show_trophy_entries();
+static bool s_job_active_elsewhere();
+static void start_load_job(bool close_first = false);
 static bool RETRO_CALLCONV update_option_display();
 
 static std::map<std::string, std::string> declare_extra_options(const std::vector<ContentOption> &options, std::vector<ContentOption> &kept_for) {
@@ -458,6 +503,11 @@ static bool show_module_options() {
 }
 
 static bool RETRO_CALLCONV update_option_display() {
+    // while the content is prepared its thread declares the options; from
+    // the frontend's thread meanwhile the lists it fills in are not to be
+    // read, and the display is set again once it is done (finish_load)
+    if (s_job_active_elsewhere())
+        return false;
     const bool trophies = show_trophy_entries();
     const bool renderer = show_renderer_options();
     const bool modules = show_module_options();
@@ -719,7 +769,7 @@ static void notify_memory_mapping(EmuEnvState &emuenv) {
     for (size_t i = 0; i < std::size(tokens); i++)
         if (requested == tokens[i])
             requested_name = names[i];
-    const std::string msg = fmt::format("This GPU has no Memory Mapping {}, {} is used", requested_name, names[used]);
+    const std::string msg = lr_textf("msg_no_memory_mapping", requested_name, names[used]);
     lr_log(RETRO_LOG_WARN, "%s\n", msg.c_str());
     lr_message(msg);
 }
@@ -1114,6 +1164,26 @@ static void apply_renderer_config(EmuEnvState &emuenv) {
     app::apply_renderer_config(emuenv);
 }
 
+// The renderer made ready for the emulator: upstream's late_init and app
+// start (the renderer just made, or the load progress' one handed over)
+static void attach_renderer(EmuEnvState &emuenv) {
+    emuenv.renderer->late_init(emuenv.cfg, emuenv.io.app_path, emuenv.mem);
+    notify_memory_mapping(emuenv);
+    // Resolution multiplier, filters and the rest, as upstream's
+    // app start applies them: without it res_multiplier stayed
+    // unset and the first render target was zero-sized
+    apply_renderer_config(emuenv);
+    if (!emuenv.io.title_id.empty()) {
+        emuenv.renderer->set_app(emuenv.io.title_id.c_str(), emuenv.self_name.c_str());
+        // The shader cache is the title's; its hash list says which renderer
+        // features its shaders were built for, and reading it drops a cache
+        // built for others. Upstream reads it when it starts a title (the
+        // precompile, which the core does not run); without it the core took
+        // shaders built without memory mapping into pipelines with it.
+        renderer::get_shaders_cache_hashs(*emuenv.renderer);
+    }
+}
+
 static void context_reset_vulkan() {
     lr_trace("context_reset_vulkan.enter", "renderer_ready=%d emuenv=%d", libretro.renderer_ready ? 1 : 0, libretro.emuenv ? 1 : 0);
 
@@ -1165,21 +1235,18 @@ static void context_reset_vulkan() {
             }
             set_libretro_queue_lock(emuenv.renderer.get(), vulkan->handle,
                 vulkan->lock_queue, vulkan->unlock_queue);
-            emuenv.renderer->late_init(emuenv.cfg, emuenv.io.app_path, emuenv.mem);
-            notify_memory_mapping(emuenv);
-            // Resolution multiplier, filters and the rest, as upstream's
-            // app start applies them: without it res_multiplier stayed
-            // unset and the first render target was zero-sized
-            apply_renderer_config(emuenv);
-            if (!emuenv.io.title_id.empty()) {
-                emuenv.renderer->set_app(emuenv.io.title_id.c_str(), emuenv.self_name.c_str());
-                // The shader cache is the title's; its hash list says which renderer
-                // features its shaders were built for, and reading it drops a cache
-                // built for others. Upstream reads it when it starts a title (the
-                // precompile, which the core does not run); without it the core took
-                // shaders built without memory mapping into pipelines with it.
-                renderer::get_shaders_cache_hashs(*emuenv.renderer);
-            }
+            attach_renderer(emuenv);
+        }
+    } else if (load_job_active() && libretro.cfg && libretro.root_paths && !s_boot_renderer) {
+        // the content is still prepared: a renderer for the load progress
+        if (renderer::init(libretro_frame_host(), s_boot_renderer, renderer::Backend::Vulkan, *libretro.cfg, *libretro.root_paths)) {
+            set_libretro_queue_lock(s_boot_renderer.get(), vulkan->handle, vulkan->lock_queue, vulkan->unlock_queue);
+            s_boot_overlays = std::make_unique<overlay::display_manager>();
+            s_boot_renderer->overlay_manager = s_boot_overlays.get();
+            lr_log(RETRO_LOG_INFO, "Vulkan renderer made for the load progress\n");
+        } else {
+            lr_log(RETRO_LOG_WARN, "No renderer for the load progress: RetroArch's message shows it\n");
+            s_boot_renderer.reset();
         }
     }
 
@@ -1435,6 +1502,7 @@ static void context_destroy() {
     libretro.renderer_ready = false;
 
     stop_render_thread();
+    drop_boot_renderer();
 
     if (libretro.active_context == RETRO_HW_CONTEXT_VULKAN) {
         libretro_vk_destroy_presentation_resources();
@@ -1702,6 +1770,19 @@ static void libretro_free_presentation_images(renderer::vulkan::VKState *vk_stat
     s_present.fence = nullptr;
 }
 
+// The load progress' renderer given up (the content closed, or the context
+// lost, while it was prepared): its images first, then the renderer
+static void drop_boot_renderer() {
+    s_load_overlay.reset();
+    if (s_boot_renderer) {
+        auto *vk_state = dynamic_cast<renderer::vulkan::VKState *>(s_boot_renderer.get());
+        libretro_free_presentation_images(vk_state);
+        s_boot_renderer->cleanup();
+        s_boot_renderer.reset();
+    }
+    s_boot_overlays.reset();
+}
+
 static void stop_render_thread() {
     if (!libretro.render_thread)
         return;
@@ -1885,6 +1966,7 @@ static GameInstallResult open_content() {
     // the game's title and details in the System Language
     const int sys_lang = std::clamp(parse_int_option(get_core_option_value("vita3k_sys_lang", "1"), SCE_SYSTEM_PARAM_LANG_ENGLISH_US), 0, static_cast<int>(SCE_SYSTEM_PARAM_LANG_TURKISH));
     finish_pending_removals(pref_path);
+    begin_install_steps();
     const GameInstallResult result = ensure_game_installed(fs_utils::utf8_to_path(libretro.game_path), pref_path, sys_lang, pkg_mode_name == "run" || pkg_mode_name == "cache");
     if (result.success)
         // an update or DLC loaded on its own has its kind added to the name
@@ -1933,6 +2015,9 @@ static GameInstallResult open_content() {
         };
         lr_log(RETRO_LOG_INFO, "The update in %s is laid over the installed game\n", patch.generic_string().c_str());
     }
+    // what was to install is installed: the rest of the start is preparing
+    // again (sco8487)
+    lr_load_progress(lr_text("msg_preparing_title"));
     return result;
 }
 
@@ -1984,49 +2069,18 @@ static bool perform_core_reset() {
     libretro.pending_main_module_id = -1;
 
     // The content goes the same way too, so that what was chosen in Content
-    // is applied and nothing of the run before is kept
-    close_content();
-    const GameInstallResult install_result = open_content();
-    if (!install_result.success) {
-        lr_log(RETRO_LOG_ERROR, "perform_core_reset: failed to prepare the content again\n");
-        libretro.game_loaded = false;
-        return false;
-    }
-    libretro.installed_title_id = install_result.title_id;
-    libretro.installed_title = install_result.title;
-    libretro.cfg->run_app_path = libretro.installed_title_id;
+    // is applied and nothing of the run before is kept: closed and prepared
+    // again on the preparation's thread (so that what the close removes shows
+    // in the load progress, sco8487), after which the rest of the load runs as
+    // at a load (finish_load)
+    libretro.game_loaded = false;
+    start_load_job(true);
+    // RetroArch's context stays: the renderer for the load progress is made
+    // now, as context_reset makes it at a load
+    if (libretro.active_context == RETRO_HW_CONTEXT_VULKAN)
+        context_reset();
 
-    libretro.emuenv = std::make_unique<EmuEnvState>();
-    EmuEnvState &emuenv = *libretro.emuenv;
-
-    if (!libretro_init_emuenv(emuenv, *libretro.root_paths)) {
-        lr_log(RETRO_LOG_ERROR, "perform_core_reset: failed to reinitialize EmuEnvState\n");
-        libretro.game_loaded = false;
-        drop_emuenv();
-        return false;
-    }
-
-    apply_config_changes();
-
-    int32_t main_module_id = -1;
-    const ExitCode load_err = libretro_load_app(main_module_id, emuenv);
-    if (load_err != Success) {
-        lr_log(RETRO_LOG_ERROR, "perform_core_reset: failed to reload app (error %d)\n", static_cast<int>(load_err));
-        libretro.game_loaded = false;
-        drop_emuenv();
-        return false;
-    }
-
-    libretro.pending_main_module_id = main_module_id;
-    libretro.app_started = false;
-
-    context_reset();
-
-    lr_log(RETRO_LOG_INFO,
-        "perform_core_reset: complete (renderer_ready=%d, app_started=%d, pending_main_module_id=%d)\n",
-        libretro.renderer_ready ? 1 : 0,
-        libretro.app_started ? 1 : 0,
-        libretro.pending_main_module_id);
+    lr_log(RETRO_LOG_INFO, "perform_core_reset: the content is prepared again while RetroArch runs\n");
     return true;
 }
 
@@ -2154,25 +2208,166 @@ static bool libretro_init_hw_render() {
         return true;
 
     const char *wanted = want_opengl ? "OpenGL" : "Vulkan";
-    const char *why = (force_opengl || force_vulkan) ? "Backend Renderer asks for" : "RetroArch's video driver is";
     if (want_opengl ? try_set_hw_vulkan() : (k_opengl_available && try_set_hw_opengl())) {
-        const std::string msg = fmt::format("{} {}, but RetroArch could not give the core {}; running on {}",
-            why, wanted, wanted, want_opengl ? "Vulkan" : "OpenGL");
+        const std::string msg = lr_textf((force_opengl || force_vulkan) ? "msg_backend_option_unavailable" : "msg_video_driver_unavailable",
+            wanted, want_opengl ? "Vulkan" : "OpenGL");
         lr_log(RETRO_LOG_WARN, "%s\n", msg.c_str());
         lr_message(msg);
         return true;
     }
 
     const std::string msg = k_opengl_available
-        ? std::string("RetroArch gave the core neither Vulkan nor OpenGL 4.4. Set Settings > Drivers > Video to vulkan or glcore.")
-        : std::string("RetroArch did not give the core Vulkan. Set Settings > Drivers > Video to vulkan.");
+        ? std::string(lr_text("msg_no_vulkan_or_opengl"))
+        : std::string(lr_text("msg_no_vulkan"));
     lr_log(RETRO_LOG_ERROR, "%s\n", msg.c_str());
     lr_message(msg);
     return false;
 }
 
+// ─── The content's preparation, on a thread of its own ─────────────────────
+//
+// The firmware's install, the content's install and what a Run Mode change
+// deletes and lays out take from seconds to minutes. Done inside
+// retro_load_game, RetroArch showed nothing until they were over, a message
+// only after them, and could not close the content meanwhile (sco8487). They
+// run on a thread instead (start_load_job): retro_load_game returns at once,
+// retro_run shows what is being done (a card drawn with Vita3K's overlays on
+// Vulkan, RetroArch's progress message otherwise), and
+// once the thread is done the rest of the load (the emulator, the game's
+// modules, the renderer) runs in retro_run, as a reset does. Closing the
+// content meanwhile stops a PKG install between files; anything else is left
+// to finish first. What a stop leaves is safe either way: an install or a
+// deletion cut short is redone at the next start (install notes, trash).
+//
+// That code calls the frontend (options, messages) as it did inside
+// retro_load_game. The frontend takes those calls on its own thread only, so
+// on the preparation's thread they are handed to retro_run, which makes them
+// and gives back the answer (job_environ); every other thread calls the
+// frontend as before.
+static retro_environment_t s_frontend_environ = nullptr;
+static thread_local bool t_load_job = false;
+
+static struct {
+    std::thread thread;
+    bool active = false; // started, and the rest of the load not run yet
+    std::atomic<bool> done{ false };
+    std::atomic<bool> cancel{ false };
+    // a firmware package loaded as content: installed, no game to start
+    bool firmware_content = false;
+    // a reset: the content closed first, on the thread too, so that what that
+    // removes (Remove Content, Run Mode changes) shows in the progress
+    bool close_first = false;
+    GameInstallResult result;
+    // one call to the frontend handed over at a time
+    std::mutex mutex;
+    std::condition_variable cv;
+    bool asked = false, answered = false, answer = false;
+    unsigned cmd = 0;
+    void *data = nullptr;
+    // what is being done, under mutex
+    std::string what;
+    bool progress_changed = false;
+} s_job;
+
+static bool RETRO_CALLCONV job_environ(unsigned cmd, void *data) {
+    if (!t_load_job)
+        return s_frontend_environ(cmd, data);
+    std::unique_lock lock(s_job.mutex);
+    if (s_job.cancel)
+        return false;
+    s_job.cmd = cmd;
+    s_job.data = data;
+    s_job.asked = true;
+    s_job.answered = false;
+    s_job.cv.wait(lock, [] { return s_job.answered || s_job.cancel.load(); });
+    const bool answer = s_job.answered && s_job.answer;
+    s_job.asked = s_job.answered = false;
+    return answer;
+}
+
+// retro_run's side: the call the preparation's thread waits on, made
+static void serve_job_environ() {
+    std::lock_guard lock(s_job.mutex);
+    if (!s_job.asked || s_job.answered)
+        return;
+    s_job.answer = s_frontend_environ(s_job.cmd, s_job.data);
+    s_job.answered = true;
+    s_job.cv.notify_all();
+}
+
+void lr_load_progress(const std::string &what) {
+    if (!t_load_job)
+        return;
+    std::lock_guard lock(s_job.mutex);
+    if (s_job.what == what)
+        return;
+    s_job.what = what;
+    s_job.progress_changed = true;
+}
+
+static bool load_job_active() {
+    return s_job.active && !s_job.done;
+}
+
+bool lr_load_cancelled() {
+    return t_load_job && s_job.cancel.load();
+}
+
+static bool s_job_active_elsewhere() {
+    return s_job.active && !s_job.done && !t_load_job;
+}
+
+// The first step's name, set before the thread starts
+static void lr_load_progress_main(const std::string &what) {
+    std::lock_guard lock(s_job.mutex);
+    s_job.what = what;
+    s_job.progress_changed = true;
+}
+
+// RetroArch's progress message (no load card: OpenGL, or no renderer for it)
+static void lr_load_progress_show(const std::string &what) {
+    if (what.empty())
+        return;
+    const std::string text = what + "...";
+    unsigned version = 0;
+    if (!libretro.environ_cb(RETRO_ENVIRONMENT_GET_MESSAGE_INTERFACE_VERSION, &version) || version < 1) {
+        retro_message msg{ text.c_str(), 120 };
+        libretro.environ_cb(RETRO_ENVIRONMENT_SET_MESSAGE, &msg);
+        return;
+    }
+    retro_message_ext msg{};
+    msg.msg = text.c_str();
+    msg.duration = 2000;
+    msg.priority = 3;
+    msg.level = RETRO_LOG_INFO;
+    msg.target = RETRO_MESSAGE_TARGET_OSD;
+    msg.type = RETRO_MESSAGE_TYPE_PROGRESS;
+    msg.progress = -1;
+    libretro.environ_cb(RETRO_ENVIRONMENT_SET_MESSAGE_EXT, &msg);
+}
+
+// The preparation given up and its thread joined: the content closed or the
+// core unloaded while it ran
+static void stop_load_job() {
+    if (!s_job.thread.joinable())
+        return;
+    {
+        std::lock_guard lock(s_job.mutex);
+        s_job.cancel = true;
+        s_job.cv.notify_all();
+    }
+    lr_log(RETRO_LOG_INFO, "Content closed while it was being prepared: waiting for the current step to end\n");
+    s_job.thread.join();
+    s_job.active = false;
+    // prepared before the stop came: closed as a loaded content is
+    // (close_content goes by the title's ID)
+    if (s_job.result.success && libretro.installed_title_id.empty())
+        libretro.installed_title_id = s_job.result.title_id;
+}
+
 RETRO_API void retro_set_environment(retro_environment_t cb) {
-    libretro.environ_cb = cb;
+    s_frontend_environ = cb;
+    libretro.environ_cb = job_environ;
 
     // Content behind a URI (saf://, the Play Store build) through the
     // frontend's VFS
@@ -2301,6 +2496,7 @@ RETRO_API void retro_init(void) {
 
 RETRO_API void retro_deinit(void) {
     lr_log(RETRO_LOG_INFO, "retro_deinit()\n");
+    stop_load_job();
     lr_trace("retro_deinit.enter",
         "initialized=%d game_loaded=%d emuenv=%d app_started=%d",
         libretro.initialized ? 1 : 0,
@@ -2344,71 +2540,12 @@ RETRO_API void retro_deinit(void) {
 
 static void RETRO_CALLCONV libretro_keyboard_event(bool down, unsigned keycode, uint32_t character, uint16_t modifiers);
 
-RETRO_API bool retro_load_game(const struct retro_game_info *game) {
-    if (!game || !game->path) {
-        lr_log(RETRO_LOG_ERROR, "No game path provided\n");
-        return false;
-    }
-
-    lr_log(RETRO_LOG_INFO, "retro_load_game: %s\n", game->path);
-
-    // Keys for the name entry of Rename Active Account
-    {
-        retro_keyboard_callback keyboard{ libretro_keyboard_event };
-        libretro.environ_cb(RETRO_ENVIRONMENT_SET_KEYBOARD_CALLBACK, &keyboard);
-    }
-    lr_trace("retro_load_game.begin", "path=%s", game->path);
-    libretro.game_path = game->path;
-
-    enum retro_pixel_format fmt = RETRO_PIXEL_FORMAT_XRGB8888;
-    if (!libretro.environ_cb(RETRO_ENVIRONMENT_SET_PIXEL_FORMAT, &fmt)) {
-        lr_log(RETRO_LOG_ERROR, "XRGB8888 pixel format not supported\n");
-        return false;
-    }
-
-    if (!libretro_init_hw_render()) {
-        lr_log(RETRO_LOG_ERROR, "retro_load_game: failed to initialize HW render context\n");
-        lr_trace("retro_load_game.error", "libretro_init_hw_render failed");
-        return false;
-    }
-    lr_trace("retro_load_game.hw_context", "active_context=%d", static_cast<int>(libretro.active_context));
-
-    const fs::path pref_path = fs::path(libretro.system_dir);
-    const fs::path system_dir = fs::path(libretro.system_dir);
-    const fs::path game_path = fs_utils::utf8_to_path(libretro.game_path);
-    fs::create_directories(pref_path);
-
-    // A firmware package loaded as content is installed, and there is no game
-    // to start; RetroArch then reports that nothing was loaded, after the
-    // core's own message saying what was installed
-    std::string extension = game_path.extension().string();
-    std::transform(extension.begin(), extension.end(), extension.begin(), [](unsigned char c) { return static_cast<char>(std::tolower(c)); });
-    if (extension == ".pup") {
-        install_firmware_content(pref_path, game_path);
-        return false;
-    }
-
-    if (!check_firmware_installed(pref_path, system_dir)) {
-        lr_log(RETRO_LOG_WARN, "Firmware not found — expect errors\n");
-        lr_trace("retro_load_game.firmware", "firmware not found at %s", system_dir.generic_string().c_str());
-    }
-
-    GameInstallResult install_result = open_content();
-
-    if (!install_result.success) {
-        lr_log(RETRO_LOG_ERROR, "Game installation/verification failed.\n");
-        lr_trace("retro_load_game.error", "ensure_game_installed failed for %s", game_path.generic_string().c_str());
-        return false;
-    }
-
-    lr_trace("retro_load_game.install",
-        "title_id=%s title=%s",
-        install_result.title_id.c_str(),
-        install_result.title.c_str());
-
-    libretro.installed_title_id = install_result.title_id;
-    libretro.installed_title = install_result.title;
-
+// The paths and the configuration, made when the load starts: before the
+// content is prepared, so that the renderer for the load progress has them
+// (sco8487); finish_load goes on with them. Kept while an emulator uses them.
+static void make_root_and_config(const fs::path &pref_path) {
+    if (libretro.emuenv)
+        return;
     libretro.root_paths = std::make_unique<Root>();
     Root &root = *libretro.root_paths;
 
@@ -2437,6 +2574,130 @@ RETRO_API bool retro_load_game(const struct retro_game_info *game) {
     cfg.audio_backend = "Libretro";
     cfg.console = false;
     cfg.overwrite_config = false;
+    read_core_options();
+}
+
+// The content prepared on the preparation's thread (see job_environ): at a
+// load, and at a reset, which is a close and a load
+static void start_load_job(bool close_first) {
+    const fs::path pref_path = fs::path(libretro.system_dir);
+    const fs::path system_dir = fs::path(libretro.system_dir);
+    const fs::path game_path = fs_utils::utf8_to_path(libretro.game_path);
+    fs::create_directories(pref_path);
+
+    // A firmware package loaded as content is installed, and there is no game
+    // to start: once it is, the content is closed again (finish_load), after
+    // the core's own message saying what was installed
+    std::string extension = game_path.extension().string();
+    std::transform(extension.begin(), extension.end(), extension.begin(), [](unsigned char c) { return static_cast<char>(std::tolower(c)); });
+
+    make_root_and_config(pref_path);
+
+    s_job.done = false;
+    s_job.cancel = false;
+    s_job.firmware_content = extension == ".pup";
+    s_job.close_first = close_first;
+    s_job.result = {};
+    s_job.what.clear();
+    s_job.progress_changed = false;
+    s_job.active = true;
+    lr_load_progress_main(lr_text(s_job.firmware_content ? "msg_preparing_firmware" : "msg_preparing_title"));
+    s_job.thread = std::thread([pref_path, system_dir, game_path]() {
+        t_load_job = true;
+        try {
+            if (s_job.close_first) {
+                lr_load_progress(lr_text("msg_closing_title"));
+                close_content();
+                libretro.installed_title_id.clear();
+                libretro.installed_title.clear();
+            }
+            if (s_job.firmware_content) {
+                install_firmware_content(pref_path, game_path);
+            } else {
+                // the firmware checked without a step of its own, a file check
+                // (sco8487); a part installed shows "Preparing the firmware"
+                lr_load_progress(lr_text("msg_preparing_title"));
+                if (!check_firmware_installed(pref_path, system_dir)) {
+                    lr_log(RETRO_LOG_WARN, "Firmware not found — expect errors\n");
+                    lr_trace("retro_load_game.firmware", "firmware not found at %s", system_dir.generic_string().c_str());
+                }
+                lr_load_progress(lr_text("msg_preparing_title"));
+                s_job.result = open_content();
+            }
+        } catch (const std::exception &e) {
+            lr_log(RETRO_LOG_ERROR, "Preparing the content failed: %s\n", e.what());
+            s_job.result.success = false;
+        }
+        s_job.done = true;
+    });
+}
+
+RETRO_API bool retro_load_game(const struct retro_game_info *game) {
+    if (!game || !game->path) {
+        lr_log(RETRO_LOG_ERROR, "No game path provided\n");
+        return false;
+    }
+
+    lr_log(RETRO_LOG_INFO, "retro_load_game: %s\n", game->path);
+    {
+        unsigned language = RETRO_LANGUAGE_ENGLISH;
+        if (!libretro.environ_cb(RETRO_ENVIRONMENT_GET_LANGUAGE, &language))
+            language = RETRO_LANGUAGE_ENGLISH;
+        lr_text_set_language(language);
+    }
+
+    // Keys for the name entry of Rename Active Account
+    {
+        retro_keyboard_callback keyboard{ libretro_keyboard_event };
+        libretro.environ_cb(RETRO_ENVIRONMENT_SET_KEYBOARD_CALLBACK, &keyboard);
+    }
+    lr_trace("retro_load_game.begin", "path=%s", game->path);
+    libretro.game_path = game->path;
+
+    enum retro_pixel_format fmt = RETRO_PIXEL_FORMAT_XRGB8888;
+    if (!libretro.environ_cb(RETRO_ENVIRONMENT_SET_PIXEL_FORMAT, &fmt)) {
+        lr_log(RETRO_LOG_ERROR, "XRGB8888 pixel format not supported\n");
+        return false;
+    }
+
+    if (!libretro_init_hw_render()) {
+        lr_log(RETRO_LOG_ERROR, "retro_load_game: failed to initialize HW render context\n");
+        lr_trace("retro_load_game.error", "libretro_init_hw_render failed");
+        return false;
+    }
+    lr_trace("retro_load_game.hw_context", "active_context=%d", static_cast<int>(libretro.active_context));
+
+    start_load_job();
+    lr_log(RETRO_LOG_INFO, "retro_load_game: the content is prepared while RetroArch runs\n");
+    return true;
+}
+
+// The rest of the load, once the content is prepared: in retro_run, as a
+// reset loads the content again there
+static bool finish_load() {
+    const fs::path pref_path = fs::path(libretro.system_dir);
+    const fs::path game_path = fs_utils::utf8_to_path(libretro.game_path);
+    if (s_job.firmware_content)
+        return false;
+    const GameInstallResult install_result = s_job.result;
+
+    if (!install_result.success) {
+        lr_log(RETRO_LOG_ERROR, "Game installation/verification failed.\n");
+        lr_trace("retro_load_game.error", "ensure_game_installed failed for %s", game_path.generic_string().c_str());
+        return false;
+    }
+
+    lr_trace("retro_load_game.install",
+        "title_id=%s title=%s",
+        install_result.title_id.c_str(),
+        install_result.title.c_str());
+
+    libretro.installed_title_id = install_result.title_id;
+    libretro.installed_title = install_result.title;
+
+    make_root_and_config(pref_path);
+    Root &root = *libretro.root_paths;
+    Config &cfg = *libretro.cfg;
     cfg.run_app_path = libretro.installed_title_id;
 
     declare_module_options(pref_path);
@@ -2477,6 +2738,28 @@ RETRO_API bool retro_load_game(const struct retro_game_info *game) {
     
     libretro.game_loaded = true;
 
+    update_option_display();
+
+    // The renderer and the game's start, as at a reset: RetroArch set the
+    // context up when the load returned, before there was an emulator to
+    // give it a renderer
+    if (s_boot_renderer) {
+        // the load progress' renderer becomes the emulator's, with its
+        // overlays: it is not made again (sco8487)
+        if (s_boot_overlays)
+            s_boot_overlays->remove<overlay::libretro_load_progress>();
+        s_load_overlay.reset();
+        emuenv.overlay_manager = std::move(s_boot_overlays);
+        emuenv.renderer = std::move(s_boot_renderer);
+        attach_renderer(emuenv);
+        if (libretro.renderer_ready)
+            context_reset_finalize();
+    } else {
+        if (libretro.renderer_ready)
+            context_destroy();
+        context_reset();
+    }
+
     lr_trace("retro_load_game.complete",
         "game_loaded=%d app_started=%d pending_main_module_id=%d",
         libretro.game_loaded ? 1 : 0,
@@ -2484,6 +2767,57 @@ RETRO_API bool retro_load_game(const struct retro_game_info *game) {
         libretro.pending_main_module_id);
 
     return true;
+}
+
+// retro_run while the content is prepared: the call the thread waits on
+// made, what it is doing shown, and the rest of the load run once it is done.
+// A load that failed closes the content again, with the message saying why.
+static void run_load_job() {
+    serve_job_environ();
+    if (libretro.input_poll_cb)
+        libretro.input_poll_cb();
+    std::string what;
+    bool changed = false;
+    {
+        std::lock_guard lock(s_job.mutex);
+        changed = s_job.progress_changed;
+        s_job.progress_changed = false;
+        what = s_job.what;
+    }
+    auto *boot_vk = dynamic_cast<renderer::vulkan::VKState *>(s_boot_renderer.get());
+    if (boot_vk && s_boot_overlays && libretro.renderer_ready) {
+        // Vita3K's overlay with the step, drawn over black and handed over as
+        // the game's frames are (sco8487)
+        if (!s_load_overlay) {
+            s_load_overlay = s_boot_overlays->create<overlay::libretro_load_progress>();
+            changed = true;
+        }
+        if (changed)
+            s_load_overlay->set_step(what);
+        libretro_copy_frame_for_presentation(*boot_vk, nullptr, vk::Format::eUndefined, nullptr, 0, 0, 0,
+            DEFAULT_RES_WIDTH, DEFAULT_RES_HEIGHT);
+        present_vulkan_frame(0, false);
+    } else {
+        static unsigned frames_since_shown = 0;
+        // shown again now and then, so that it stays up while a step is long
+        if (changed || ++frames_since_shown >= 60) {
+            frames_since_shown = 0;
+            lr_load_progress_show(what);
+        }
+        // nothing to show yet: the frontend keeps drawing its message over black
+        if (libretro.video_cb)
+            libretro.video_cb(nullptr, s_reported_width ? s_reported_width : 960, s_reported_height ? s_reported_height : 544, 0);
+    }
+
+    if (!s_job.done)
+        return;
+    s_job.thread.join();
+    s_job.active = false;
+    serve_job_environ();
+    if (!finish_load()) {
+        lr_log(RETRO_LOG_INFO, "The content is closed again: %s\n", s_job.firmware_content ? "a firmware package has no game to start" : "it could not be prepared");
+        libretro.environ_cb(RETRO_ENVIRONMENT_SHUTDOWN, nullptr);
+    }
 }
 
 RETRO_API bool retro_load_game_special(unsigned game_type, const struct retro_game_info *info, size_t num_info) {
@@ -2495,6 +2829,8 @@ RETRO_API bool retro_load_game_special(unsigned game_type, const struct retro_ga
 
 RETRO_API void retro_unload_game(void) {
     lr_log(RETRO_LOG_INFO, "retro_unload_game()\n");
+    stop_load_job();
+    drop_boot_renderer();
     lr_trace("retro_unload_game.enter", "game_loaded=%d emuenv=%d", libretro.game_loaded ? 1 : 0, libretro.emuenv ? 1 : 0);
 
     if (libretro.emuenv) {
@@ -2672,7 +3008,7 @@ static bool libretro_update_name_entry(EmuEnvState &emuenv) {
 
     if (s_name_entry.cancel) {
         s_name_entry.active = false;
-        lr_status("Account not renamed", 3000);
+        lr_status(lr_text("msg_account_not_renamed"), 3000);
         return true;
     }
     if (s_name_entry.accept) {
@@ -2681,27 +3017,199 @@ static bool libretro_update_name_entry(EmuEnvState &emuenv) {
         while (!text.empty() && text.back() == U' ')
             text.pop_back();
         if (text.empty()) {
-            lr_status("A name needs at least one character", 3000);
+            lr_status(lr_text("msg_account_name_empty"), 3000);
             return true;
         }
         s_name_entry.active = false;
         const std::string new_name = utf32_to_utf8(text);
         if (libretro_accounts_rename(emuenv, s_name_entry.id, new_name))
-            lr_status(fmt::format("Account {} is now named {}", s_name_entry.id, new_name), 5000);
+            lr_status(lr_textf("msg_account_renamed", s_name_entry.id, new_name), 5000);
         else
-            lr_status("Cannot rename: the account was not found", 4000);
+            lr_status(lr_text("msg_account_not_found"), 4000);
         return true;
     }
     // Shown again before it runs out, so it stays up while the entry is open
     if (s_name_entry.changed || ++s_name_entry.shown >= 120) {
         s_name_entry.changed = false;
         s_name_entry.shown = 0;
-        lr_status(fmt::format("Account name: {}_  (Start/Enter accepts, Select/Esc cancels)", utf32_to_utf8(s_name_entry.text)), 3000);
+        lr_status(lr_textf("msg_account_name_entry", utf32_to_utf8(s_name_entry.text)), 3000);
     }
     return true;
 }
 
+// The image retro_run hands RetroArch (Vulkan): the newest frame published
+// by the render thread or, while the content is prepared, by run_load_job
+static bool present_vulkan_frame(uint64_t run_index, bool trace_this_tick) {
+    auto &vkp = libretro.vk_presentation;
+    const auto *vulkan = vkp.vulkan;
+    if (!libretro_vk_validate_functions()) {
+        lr_trace("retro_run.vk_abort", "missing required Vulkan functions at tick=%llu", static_cast<unsigned long long>(run_index));
+        return false;
+    }
+
+    uint32_t new_mask = vulkan->get_sync_index_mask(vulkan->handle);
+    uint32_t new_count = 0;
+    for (uint32_t i = 0; i < 32; i++)
+        if (new_mask & (1u << i))
+            new_count = i + 1;
+    if (new_count != vkp.num_images && new_count > 0) {
+        lr_trace("retro_run.vk_swapchain_resize", "old_num_images=%u new_num_images=%u", vkp.num_images, new_count);
+        libretro_vk_destroy_presentation_resources();
+        libretro_vk_create_presentation_resources();
+    }
+
+    // The images handed over take the size of the game's rendered
+    // surface, which Internal Resolution Multiplier scales. They were
+    // fixed at 960x544, so a 2x-4x render was shrunk back to 960x544 on
+    // its way to the frontend and the multiplier showed nothing.
+    {
+        uint32_t surface_w, surface_h;
+        {
+            std::lock_guard<std::mutex> lock(libretro.rendered_frame_mutex);
+            surface_w = libretro.vk_surface_width;
+            surface_h = libretro.vk_surface_height;
+        }
+        if (surface_w && surface_h && surface_w <= 960 * 4 && surface_h <= 544 * 4
+            && (surface_w != vkp.width || surface_h != vkp.height)) {
+            lr_log(RETRO_LOG_INFO, "presentation images %ux%u -> %ux%u\n", vkp.width, vkp.height, surface_w, surface_h);
+            libretro_vk_destroy_presentation_resources();
+            vkp.width = surface_w;
+            vkp.height = surface_h;
+            libretro_vk_create_presentation_resources();
+        }
+    }
+
+    vulkan->wait_sync_index(vulkan->handle);
+    uint32_t index = vulkan->get_sync_index(vulkan->handle);
+    if (index >= vkp.num_images)
+        index = 0;
+
+    if (trace_this_tick) {
+        lr_trace("retro_run.vk_sync",
+            "tick=%llu sync_index=%u num_images=%u width=%u height=%u",
+            static_cast<unsigned long long>(run_index),
+            index,
+            vkp.num_images,
+            vkp.width,
+            vkp.height);
+    }
+
+    VkCommandBuffer cmd = vkp.cmd_buffers[index];
+    // RetroArch's sync index does not tell when the core's own work for
+    // it is done (the validation layer: the command buffer still in use
+    // when reset); the core's fence for that index does
+    if (vkp.fence_pending[index]) {
+        vkfn.WaitForFences(vulkan->device, 1, &vkp.fences[index], VK_TRUE, UINT64_MAX);
+        vkfn.ResetFences(vulkan->device, 1, &vkp.fences[index]);
+        vkp.fence_pending[index] = false;
+    }
+
+    VkCommandBufferBeginInfo begin_info = { VK_STRUCTURE_TYPE_COMMAND_BUFFER_BEGIN_INFO };
+    begin_info.flags = VK_COMMAND_BUFFER_USAGE_ONE_TIME_SUBMIT_BIT;
+    vkfn.ResetCommandBuffer(cmd, 0);
+    vkfn.BeginCommandBuffer(cmd, &begin_info);
+
+    VkImage src_image = VK_NULL_HANDLE;
+    uint32_t src_w = 0, src_h = 0, src_ox = 0, src_oy = 0;
+    {
+        std::lock_guard<std::mutex> lock(libretro.rendered_frame_mutex);
+        if (libretro.has_new_frame && libretro.vk_surface_image != VK_NULL_HANDLE) {
+            // the render thread does not write this one while it is ours
+            s_present.reading = s_present.published;
+            src_image = libretro.vk_surface_image;
+            src_w = libretro.vk_surface_width;
+            src_h = libretro.vk_surface_height;
+            src_ox = libretro.vk_surface_offset_x;
+            src_oy = libretro.vk_surface_offset_y;
+        }
+    }
+
+    VkImageMemoryBarrier barrier = { VK_STRUCTURE_TYPE_IMAGE_MEMORY_BARRIER };
+    barrier.srcAccessMask = 0;
+    barrier.dstAccessMask = VK_ACCESS_TRANSFER_WRITE_BIT;
+    barrier.oldLayout = VK_IMAGE_LAYOUT_UNDEFINED;
+    barrier.newLayout = VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL;
+    barrier.image = vkp.vk_images[index];
+    barrier.subresourceRange = { VK_IMAGE_ASPECT_COLOR_BIT, 0, 1, 0, 1 };
+    barrier.srcQueueFamilyIndex = VK_QUEUE_FAMILY_IGNORED;
+    barrier.dstQueueFamilyIndex = VK_QUEUE_FAMILY_IGNORED;
+    // after RetroArch's reads of this image from its last use
+    vkfn.CmdPipelineBarrier(cmd, VK_PIPELINE_STAGE_ALL_COMMANDS_BIT, VK_PIPELINE_STAGE_TRANSFER_BIT,
+        0, 0, nullptr, 0, nullptr, 1, &barrier);
+
+    if (src_image != VK_NULL_HANDLE && src_w > 0 && src_h > 0) {
+        if (trace_this_tick) {
+            lr_trace("retro_run.vk_blit",
+                "tick=%llu src_image=%p src_w=%u src_h=%u src_ox=%u src_oy=%u",
+                static_cast<unsigned long long>(run_index),
+                src_image,
+                src_w,
+                src_h,
+                src_ox,
+                src_oy);
+        }
+
+        VkImageMemoryBarrier src_barrier = { VK_STRUCTURE_TYPE_IMAGE_MEMORY_BARRIER };
+        src_barrier.srcAccessMask = VK_ACCESS_TRANSFER_WRITE_BIT;
+        src_barrier.dstAccessMask = VK_ACCESS_TRANSFER_READ_BIT;
+        src_barrier.oldLayout = VK_IMAGE_LAYOUT_GENERAL;
+        src_barrier.newLayout = VK_IMAGE_LAYOUT_GENERAL;
+        src_barrier.image = src_image;
+        src_barrier.subresourceRange = { VK_IMAGE_ASPECT_COLOR_BIT, 0, 1, 0, 1 };
+        src_barrier.srcQueueFamilyIndex = VK_QUEUE_FAMILY_IGNORED;
+        src_barrier.dstQueueFamilyIndex = VK_QUEUE_FAMILY_IGNORED;
+        vkfn.CmdPipelineBarrier(cmd, VK_PIPELINE_STAGE_TRANSFER_BIT, VK_PIPELINE_STAGE_TRANSFER_BIT,
+            0, 0, nullptr, 0, nullptr, 1, &src_barrier);
+
+        VkImageBlit blit_region = {};
+        blit_region.srcSubresource = { VK_IMAGE_ASPECT_COLOR_BIT, 0, 0, 1 };
+        blit_region.srcOffsets[0] = { (int32_t)src_ox, (int32_t)src_oy, 0 };
+        blit_region.srcOffsets[1] = { (int32_t)(src_ox + src_w), (int32_t)(src_oy + src_h), 1 };
+        blit_region.dstSubresource = { VK_IMAGE_ASPECT_COLOR_BIT, 0, 0, 1 };
+        blit_region.dstOffsets[0] = { 0, 0, 0 };
+        blit_region.dstOffsets[1] = { (int32_t)vkp.width, (int32_t)vkp.height, 1 };
+
+        vkfn.CmdBlitImage(cmd, src_image, VK_IMAGE_LAYOUT_GENERAL,
+            vkp.vk_images[index], VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL,
+            1, &blit_region, VK_FILTER_LINEAR);
+
+    } else {
+        VkClearColorValue black = { { 0.0f, 0.0f, 0.0f, 1.0f } };
+        VkImageSubresourceRange range = { VK_IMAGE_ASPECT_COLOR_BIT, 0, 1, 0, 1 };
+        vkfn.CmdClearColorImage(cmd, vkp.vk_images[index], VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL, &black, 1, &range);
+    }
+
+    barrier.srcAccessMask = VK_ACCESS_TRANSFER_WRITE_BIT;
+    barrier.dstAccessMask = VK_ACCESS_SHADER_READ_BIT;
+    barrier.oldLayout = VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL;
+    barrier.newLayout = VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL;
+    vkfn.CmdPipelineBarrier(cmd, VK_PIPELINE_STAGE_TRANSFER_BIT, VK_PIPELINE_STAGE_FRAGMENT_SHADER_BIT,
+        0, 0, nullptr, 0, nullptr, 1, &barrier);
+
+    vkfn.EndCommandBuffer(cmd);
+
+    // Submitted here, ahead of RetroArch's frame on the same queue, whose
+    // read of the image the barrier above orders after the blit
+    VkSubmitInfo submit = { VK_STRUCTURE_TYPE_SUBMIT_INFO };
+    submit.commandBufferCount = 1;
+    submit.pCommandBuffers = &cmd;
+    vulkan->lock_queue(vulkan->handle);
+    vkfn.QueueSubmit(vulkan->queue, 1, &submit, vkp.fences[index]);
+    vulkan->unlock_queue(vulkan->handle);
+    vkp.fence_pending[index] = true;
+
+    vkp.images[index].image_layout = VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL;
+    vulkan->set_image(vulkan->handle, &vkp.images[index], 0, nullptr, VK_QUEUE_FAMILY_IGNORED);
+    report_frame_size(vkp.width, vkp.height);
+    libretro.video_cb(RETRO_HW_FRAME_BUFFER_VALID, vkp.width, vkp.height, 0);
+    return true;
+}
+
 RETRO_API void retro_run(void) {
+    if (s_job.active) {
+        run_load_job();
+        return;
+    }
     if (!libretro.game_loaded || !libretro.emuenv)
         return;
 
@@ -2772,166 +3280,8 @@ RETRO_API void retro_run(void) {
 
     if (libretro.renderer_ready && libretro.active_context == RETRO_HW_CONTEXT_VULKAN
         && vulkan && vkp.num_images > 0) {
-        if (!libretro_vk_validate_functions()) {
-            lr_trace("retro_run.vk_abort", "missing required Vulkan functions at tick=%llu", static_cast<unsigned long long>(run_index));
+        if (!present_vulkan_frame(run_index, trace_this_tick))
             return;
-        }
-
-        uint32_t new_mask = vulkan->get_sync_index_mask(vulkan->handle);
-        uint32_t new_count = 0;
-        for (uint32_t i = 0; i < 32; i++)
-            if (new_mask & (1u << i))
-                new_count = i + 1;
-        if (new_count != vkp.num_images && new_count > 0) {
-            lr_trace("retro_run.vk_swapchain_resize", "old_num_images=%u new_num_images=%u", vkp.num_images, new_count);
-            libretro_vk_destroy_presentation_resources();
-            libretro_vk_create_presentation_resources();
-        }
-
-        // The images handed over take the size of the game's rendered
-        // surface, which Internal Resolution Multiplier scales. They were
-        // fixed at 960x544, so a 2x-4x render was shrunk back to 960x544 on
-        // its way to the frontend and the multiplier showed nothing.
-        {
-            uint32_t surface_w, surface_h;
-            {
-                std::lock_guard<std::mutex> lock(libretro.rendered_frame_mutex);
-                surface_w = libretro.vk_surface_width;
-                surface_h = libretro.vk_surface_height;
-            }
-            if (surface_w && surface_h && surface_w <= 960 * 4 && surface_h <= 544 * 4
-                && (surface_w != vkp.width || surface_h != vkp.height)) {
-                lr_log(RETRO_LOG_INFO, "presentation images %ux%u -> %ux%u\n", vkp.width, vkp.height, surface_w, surface_h);
-                libretro_vk_destroy_presentation_resources();
-                vkp.width = surface_w;
-                vkp.height = surface_h;
-                libretro_vk_create_presentation_resources();
-            }
-        }
-
-        vulkan->wait_sync_index(vulkan->handle);
-        uint32_t index = vulkan->get_sync_index(vulkan->handle);
-        if (index >= vkp.num_images)
-            index = 0;
-
-        if (trace_this_tick) {
-            lr_trace("retro_run.vk_sync",
-                "tick=%llu sync_index=%u num_images=%u width=%u height=%u",
-                static_cast<unsigned long long>(run_index),
-                index,
-                vkp.num_images,
-                vkp.width,
-                vkp.height);
-        }
-
-        VkCommandBuffer cmd = vkp.cmd_buffers[index];
-        // RetroArch's sync index does not tell when the core's own work for
-        // it is done (the validation layer: the command buffer still in use
-        // when reset); the core's fence for that index does
-        if (vkp.fence_pending[index]) {
-            vkfn.WaitForFences(vulkan->device, 1, &vkp.fences[index], VK_TRUE, UINT64_MAX);
-            vkfn.ResetFences(vulkan->device, 1, &vkp.fences[index]);
-            vkp.fence_pending[index] = false;
-        }
-
-        VkCommandBufferBeginInfo begin_info = { VK_STRUCTURE_TYPE_COMMAND_BUFFER_BEGIN_INFO };
-        begin_info.flags = VK_COMMAND_BUFFER_USAGE_ONE_TIME_SUBMIT_BIT;
-        vkfn.ResetCommandBuffer(cmd, 0);
-        vkfn.BeginCommandBuffer(cmd, &begin_info);
-
-        VkImage src_image = VK_NULL_HANDLE;
-        uint32_t src_w = 0, src_h = 0, src_ox = 0, src_oy = 0;
-        {
-            std::lock_guard<std::mutex> lock(libretro.rendered_frame_mutex);
-            if (libretro.has_new_frame && libretro.vk_surface_image != VK_NULL_HANDLE) {
-                // the render thread does not write this one while it is ours
-                s_present.reading = s_present.published;
-                src_image = libretro.vk_surface_image;
-                src_w = libretro.vk_surface_width;
-                src_h = libretro.vk_surface_height;
-                src_ox = libretro.vk_surface_offset_x;
-                src_oy = libretro.vk_surface_offset_y;
-            }
-        }
-
-        VkImageMemoryBarrier barrier = { VK_STRUCTURE_TYPE_IMAGE_MEMORY_BARRIER };
-        barrier.srcAccessMask = 0;
-        barrier.dstAccessMask = VK_ACCESS_TRANSFER_WRITE_BIT;
-        barrier.oldLayout = VK_IMAGE_LAYOUT_UNDEFINED;
-        barrier.newLayout = VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL;
-        barrier.image = vkp.vk_images[index];
-        barrier.subresourceRange = { VK_IMAGE_ASPECT_COLOR_BIT, 0, 1, 0, 1 };
-        barrier.srcQueueFamilyIndex = VK_QUEUE_FAMILY_IGNORED;
-        barrier.dstQueueFamilyIndex = VK_QUEUE_FAMILY_IGNORED;
-        // after RetroArch's reads of this image from its last use
-        vkfn.CmdPipelineBarrier(cmd, VK_PIPELINE_STAGE_ALL_COMMANDS_BIT, VK_PIPELINE_STAGE_TRANSFER_BIT,
-            0, 0, nullptr, 0, nullptr, 1, &barrier);
-
-        if (src_image != VK_NULL_HANDLE && src_w > 0 && src_h > 0) {
-            if (trace_this_tick) {
-                lr_trace("retro_run.vk_blit",
-                    "tick=%llu src_image=%p src_w=%u src_h=%u src_ox=%u src_oy=%u",
-                    static_cast<unsigned long long>(run_index),
-                    src_image,
-                    src_w,
-                    src_h,
-                    src_ox,
-                    src_oy);
-            }
-
-            VkImageMemoryBarrier src_barrier = { VK_STRUCTURE_TYPE_IMAGE_MEMORY_BARRIER };
-            src_barrier.srcAccessMask = VK_ACCESS_TRANSFER_WRITE_BIT;
-            src_barrier.dstAccessMask = VK_ACCESS_TRANSFER_READ_BIT;
-            src_barrier.oldLayout = VK_IMAGE_LAYOUT_GENERAL;
-            src_barrier.newLayout = VK_IMAGE_LAYOUT_GENERAL;
-            src_barrier.image = src_image;
-            src_barrier.subresourceRange = { VK_IMAGE_ASPECT_COLOR_BIT, 0, 1, 0, 1 };
-            src_barrier.srcQueueFamilyIndex = VK_QUEUE_FAMILY_IGNORED;
-            src_barrier.dstQueueFamilyIndex = VK_QUEUE_FAMILY_IGNORED;
-            vkfn.CmdPipelineBarrier(cmd, VK_PIPELINE_STAGE_TRANSFER_BIT, VK_PIPELINE_STAGE_TRANSFER_BIT,
-                0, 0, nullptr, 0, nullptr, 1, &src_barrier);
-
-            VkImageBlit blit_region = {};
-            blit_region.srcSubresource = { VK_IMAGE_ASPECT_COLOR_BIT, 0, 0, 1 };
-            blit_region.srcOffsets[0] = { (int32_t)src_ox, (int32_t)src_oy, 0 };
-            blit_region.srcOffsets[1] = { (int32_t)(src_ox + src_w), (int32_t)(src_oy + src_h), 1 };
-            blit_region.dstSubresource = { VK_IMAGE_ASPECT_COLOR_BIT, 0, 0, 1 };
-            blit_region.dstOffsets[0] = { 0, 0, 0 };
-            blit_region.dstOffsets[1] = { (int32_t)vkp.width, (int32_t)vkp.height, 1 };
-
-            vkfn.CmdBlitImage(cmd, src_image, VK_IMAGE_LAYOUT_GENERAL,
-                vkp.vk_images[index], VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL,
-                1, &blit_region, VK_FILTER_LINEAR);
-
-        } else {
-            VkClearColorValue black = { { 0.0f, 0.0f, 0.0f, 1.0f } };
-            VkImageSubresourceRange range = { VK_IMAGE_ASPECT_COLOR_BIT, 0, 1, 0, 1 };
-            vkfn.CmdClearColorImage(cmd, vkp.vk_images[index], VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL, &black, 1, &range);
-        }
-
-        barrier.srcAccessMask = VK_ACCESS_TRANSFER_WRITE_BIT;
-        barrier.dstAccessMask = VK_ACCESS_SHADER_READ_BIT;
-        barrier.oldLayout = VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL;
-        barrier.newLayout = VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL;
-        vkfn.CmdPipelineBarrier(cmd, VK_PIPELINE_STAGE_TRANSFER_BIT, VK_PIPELINE_STAGE_FRAGMENT_SHADER_BIT,
-            0, 0, nullptr, 0, nullptr, 1, &barrier);
-
-        vkfn.EndCommandBuffer(cmd);
-
-        // Submitted here, ahead of RetroArch's frame on the same queue, whose
-        // read of the image the barrier above orders after the blit
-        VkSubmitInfo submit = { VK_STRUCTURE_TYPE_SUBMIT_INFO };
-        submit.commandBufferCount = 1;
-        submit.pCommandBuffers = &cmd;
-        vulkan->lock_queue(vulkan->handle);
-        vkfn.QueueSubmit(vulkan->queue, 1, &submit, vkp.fences[index]);
-        vulkan->unlock_queue(vulkan->handle);
-        vkp.fence_pending[index] = true;
-
-        vkp.images[index].image_layout = VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL;
-        vulkan->set_image(vulkan->handle, &vkp.images[index], 0, nullptr, VK_QUEUE_FAMILY_IGNORED);
-        report_frame_size(vkp.width, vkp.height);
-        libretro.video_cb(RETRO_HW_FRAME_BUFFER_VALID, vkp.width, vkp.height, 0);
     } else if (libretro.renderer_ready
             && (libretro.active_context == RETRO_HW_CONTEXT_OPENGL_CORE
              || libretro.active_context == RETRO_HW_CONTEXT_OPENGL)) {
@@ -3148,7 +3498,7 @@ static void apply_config_changes() {
             cfg.current_config.modules_mode,
             cfg.cpu_opt ? 1 : 0,
             cfg.current_config.cpu_opt ? 1 : 0);
-        lr_message("Some option changes require restarting content to fully apply.");
+        lr_message(lr_text("msg_restart_needed"));
         lr_log(RETRO_LOG_WARN,
             "Core option change requires restart (backend=%d, res=%d, mem_map=%d, high_acc=%d, modules=%d, cpu_opt=%d, other=%d)\n",
             backend_changed ? 1 : 0,
@@ -3162,7 +3512,7 @@ static void apply_config_changes() {
     
     // Remove Content deletes when the content is closed or reset (i30817)
     if (removal_changed && libretro.app_started && !restart_required)
-        lr_message("Remove Content applies when the content is closed or reset.");
+        lr_message(lr_text("msg_remove_content_applies_later"));
 
     // Copy current_config values to main config
     cfg.cpu_opt = cfg.current_config.cpu_opt;
@@ -3418,6 +3768,11 @@ RETRO_API bool retro_unserialize(const void *data, size_t size) {
 }
 
 RETRO_API void retro_reset(void) {
+    // while the content is prepared there is nothing to reset yet
+    if (s_job.active) {
+        lr_log(RETRO_LOG_INFO, "retro_reset: the content is still being prepared, nothing to reset\n");
+        return;
+    }
     lr_log(RETRO_LOG_INFO,
         "retro_reset requested (game_loaded=%d, emuenv=%d) -> scheduling deferred reset\n",
         libretro.game_loaded ? 1 : 0,

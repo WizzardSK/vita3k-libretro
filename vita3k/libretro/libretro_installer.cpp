@@ -16,6 +16,7 @@
 // 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 #include "libretro_installer.h"
+#include "libretro_text.h"
 
 #include <cstdarg>
 #include <set>
@@ -81,6 +82,52 @@ static void lr_msg(const char *msg, unsigned frames = 300) {
     rmsg.msg = msg;
     rmsg.frames = frames;
     libretro.environ_cb(RETRO_ENVIRONMENT_SET_MESSAGE, &rmsg);
+}
+
+// The install steps follow what was loaded (sco8487): a game shows
+// "Installing the title" for whatever its start installs (a PKG, a VPK/ZIP or
+// folder, a NoNpDrm decryption, the update and DLC chosen in Content); an
+// update or DLC loaded on its own, installed whatever Run Mode says, shows
+// "Installing the update" or "Installing the DLC" for all of its start.
+// In memory for one start only (begin_install_steps).
+static bool s_content_kind_known = false;
+static const char *s_forced_step = nullptr;
+
+void begin_install_steps() {
+    s_content_kind_known = false;
+    s_forced_step = nullptr;
+}
+
+static void install_step(const char *key) {
+    lr_load_progress(lr_text(s_forced_step ? s_forced_step : key));
+}
+// The kind of what was loaded, once read from its param.sfo or PKG: the
+// first kind read in a start is the loaded content's (what its start installs
+// besides is read later)
+static void note_content_kind(const std::string &category) {
+    if (s_content_kind_known)
+        return;
+    s_content_kind_known = true;
+    if (category.find("gp") != std::string::npos)
+        s_forced_step = "msg_installing_update";
+    else if (category.find("ac") != std::string::npos)
+        s_forced_step = "msg_installing_dlc";
+    else
+        return;
+    install_step(s_forced_step);
+}
+
+// An update or DLC loaded on its own whose game is not installed: said once
+// the content has closed (a game, or one whose game starts, has no message;
+// the load progress showed the install, sco8487)
+static void installed_alone_message(const fs::path &pref_path, const GameInstallResult &result) {
+    std::error_code ec;
+    if (fs::exists(pref_path / "ux0" / "app" / result.title_id / "eboot.bin", ec))
+        return;
+    if (result.category.find("gp") != std::string::npos)
+        lr_msg(lr_text("msg_update_installed"), 600);
+    else if (result.category.find("ac") != std::string::npos)
+        lr_msg(lr_text("msg_dlc_installed"), 600);
 }
 
 // ─── Firmware status ────────────────────────────────────────────────────────
@@ -171,9 +218,12 @@ static fs::path find_pup_file(const fs::path &search_dir, PupKind kind, bool vit
     return found.front();
 }
 
-static bool install_pup_file(const fs::path &pref_path, const fs::path &pup_path, const char *label) {
+// A firmware part installed from its .pup; name_key is its name in messages
+// (msg_part_...). Its step in the load progress is "Preparing the firmware" for
+// every part and a .pup loaded as content alike (sco8487).
+static bool install_pup_file(const fs::path &pref_path, const fs::path &pup_path, const char *name_key) {
+    const char *label = lr_text_us(name_key);
     lr_log(RETRO_LOG_INFO, "Installing %s from PUP: %s\n", label, pup_path.generic_string().c_str());
-    lr_msg(fmt::format("Installing {}... this may take a minute.", label).c_str(), 600);
 
     // the note stays when the install fails: what it left is not an installed part
     const fs::path note = pup_install_note(pref_path, pup_kind(pup_path));
@@ -183,18 +233,21 @@ static bool install_pup_file(const fs::path &pref_path, const fs::path &pup_path
 
     std::string fw_version;
     try {
+        // without a percent: install_pup's steps (10, 20, 30, 70, 100) are
+        // of very unequal lengths, so a bar stood still and then jumped (sco8487)
+        lr_load_progress(lr_text("msg_preparing_firmware"));
         fw_version = install_pup(pref_path, pup_path, [label](uint32_t progress) {
             lr_log(RETRO_LOG_INFO, "%s install progress: %u%%\n", label, progress);
         });
     } catch (const std::exception &e) {
         lr_log(RETRO_LOG_ERROR, "%s installation threw exception: %s\n", label, e.what());
         lr_log(RETRO_LOG_ERROR, "PUP file may be corrupted or wrong format: %s\n", pup_path.generic_string().c_str());
-        lr_msg(fmt::format("{} installation failed (exception)!", label).c_str(), 600);
+        lr_msg(lr_textf("msg_part_install_failed", lr_text(name_key)).c_str(), 600);
         return false;
     } catch (...) {
         lr_log(RETRO_LOG_ERROR, "%s installation threw unknown exception\n", label);
         lr_log(RETRO_LOG_ERROR, "PUP file may be corrupted or wrong format: %s\n", pup_path.generic_string().c_str());
-        lr_msg(fmt::format("{} installation failed!", label).c_str(), 600);
+        lr_msg(lr_textf("msg_part_install_failed", lr_text(name_key)).c_str(), 600);
         return false;
     }
 
@@ -223,11 +276,11 @@ static fs::path firmware_pup(const fs::path &pref_path, const fs::path &system_d
 static std::string missing_parts(const FirmwareStatus &status) {
     std::string missing;
     if (!status.firmware_installed)
-        missing += missing.empty() ? "system firmware" : ", system firmware";
+        missing += lr_text("msg_missing_system_firmware");
     if (!status.preinst_installed)
-        missing += missing.empty() ? "preinstalled package" : ", preinstalled package";
+        missing += (missing.empty() ? "" : ", ") + std::string(lr_text("msg_missing_preinst"));
     if (!status.font_installed)
-        missing += missing.empty() ? "fonts" : ", fonts";
+        missing += (missing.empty() ? "" : ", ") + std::string(lr_text("msg_missing_fonts"));
     return missing;
 }
 
@@ -245,16 +298,16 @@ static void install_missing_firmware(const fs::path &pref_path, const fs::path &
     }
     const FirmwareStatus status = check_firmware_status(pref_path);
     const std::tuple<PupKind, const char *, bool> parts[] = {
-        { PupKind::Preinst, "Preinstalled package", status.preinst_installed },
-        { PupKind::Firmware, "System firmware", status.firmware_installed },
-        { PupKind::Font, "Font package", status.font_installed },
+        { PupKind::Preinst, "msg_part_preinst", status.preinst_installed },
+        { PupKind::Firmware, "msg_part_system_firmware", status.firmware_installed },
+        { PupKind::Font, "msg_part_font_package", status.font_installed },
     };
-    for (const auto &[kind, label, installed] : parts) {
+    for (const auto &[kind, name_key, installed] : parts) {
         if (installed)
             continue;
         const fs::path pup = firmware_pup(pref_path, system_dir, kind);
         if (!pup.empty())
-            install_pup_file(pref_path, pup, label);
+            install_pup_file(pref_path, pup, name_key);
     }
 }
 
@@ -284,7 +337,7 @@ bool check_firmware_installed(const fs::path &pref_path, const fs::path &system_
         lr_log(level, "  - the system firmware, any .pup name without preinst or font in it (vs0/) → https://www.playstation.com/en-us/support/hardware/psvita/system-software\n");
     if (!status.font_installed)
         lr_log(level, "  - font.pup, or any .pup name with font in it (sa0/) → https://bit.ly/48ouDaa\n");
-    lr_msg(fmt::format("Firmware missing: {}. Put the .pup files in system/vita3k; they are installed at the next start.", missing_parts(status)).c_str(), 600);
+    lr_msg(lr_textf("msg_firmware_missing", missing_parts(status)).c_str(), 600);
     return status.firmware_installed;
 }
 
@@ -292,16 +345,16 @@ bool install_firmware_content(const fs::path &pref_path, const fs::path &pup_pat
     std::error_code ec;
     if (!fs::is_regular_file(pup_path, ec)) {
         lr_log(RETRO_LOG_ERROR, "%s is not a file the core can open directly; copy it into a folder and load it from there\n", pup_path.generic_string().c_str());
-        lr_msg("Firmware: load the .pup from a regular directory", 600);
+        lr_msg(lr_text("msg_firmware_regular_dir"), 600);
         return false;
     }
     fs::create_directories(pref_path, ec);
-    if (!install_pup_file(pref_path, pup_path, "Firmware package"))
+    if (!install_pup_file(pref_path, pup_path, "msg_part_firmware_package"))
         return false;
     const std::string missing = missing_parts(check_firmware_status(pref_path));
     const std::string text = missing.empty()
-        ? std::string("Firmware installed: all three parts are there. Load a game.")
-        : "Firmware package installed. Still missing: " + missing + " - load that .pup too.";
+        ? std::string(lr_text("msg_firmware_installed_all"))
+        : lr_textf("msg_firmware_still_missing", missing);
     lr_log(RETRO_LOG_INFO, "%s\n", text.c_str());
     lr_msg(text.c_str(), 600);
     return true;
@@ -366,7 +419,7 @@ static std::vector<std::string> find_archive_content_paths(const ZipPtr &zip) {
         // Check for Vitamin dumps (unsupported)
         if (filename.find("sce_module/steroid.suprx") != std::string::npos) {
             lr_log(RETRO_LOG_ERROR, "Vitamin dump detected - these are not supported!\n");
-            lr_msg("Vitamin dumps are not supported!", 600);
+            lr_msg(lr_text("msg_vitamin_unsupported"), 600);
             return {};
         }
 
@@ -487,11 +540,7 @@ static bool decrypt_nonpdrm_app(const fs::path &install_path, const fs::path &pr
     std::vector<uint8_t> &work_bin_data, std::string &app_zRIF, bool keep_license = true) {
     const auto work_bin = install_path / "sce_sys" / "package" / "work.bin";
     lr_log(RETRO_LOG_INFO, "Detected NoNpDrm encrypted content, decrypting PFS layer...\n");
-    {
-        char msg[256];
-        snprintf(msg, sizeof(msg), "Decrypting %s...", result.title.c_str());
-        lr_msg(msg, 600);
-    }
+    install_step("msg_installing_title");
 
     // Save work.bin before decryption (decryption replaces the directory)
     {
@@ -514,7 +563,7 @@ static bool decrypt_nonpdrm_app(const fs::path &install_path, const fs::path &pr
     int dec_result = execute(app_zRIF, src_str, dst_str, f00d_enc_type, f00d_arg);
     if (dec_result < 0) {
         lr_log(RETRO_LOG_ERROR, "PFS decryption failed (error %d)!\n", dec_result);
-        lr_msg("NoNpDrm decryption failed!", 300);
+        lr_msg(lr_text("msg_nonpdrm_failed"), 300);
         fs::path dst_path(dst_str);
         if (fs::exists(dst_path))
             fs::remove_all(dst_path);
@@ -580,7 +629,7 @@ static bool decrypt_nonpdrm_extra(const fs::path &install_path, const fs::path &
         if (result.category.find("gp") == std::string::npos || !fs::exists(game_license, ec)) {
             lr_log(RETRO_LOG_ERROR, "%s is encrypted and has no license: neither its own sce_sys/package/work.bin nor, for an update, its game's in %s\n",
                 install_path.generic_string().c_str(), lic_dir.generic_string().c_str());
-            lr_msg("This update or DLC is encrypted and its license is missing (install the game first, or add its work.bin)", 600);
+            lr_msg(lr_text("msg_update_dlc_no_license"), 600);
             return false;
         }
         fs::create_directories(work_bin.parent_path(), ec);
@@ -601,10 +650,7 @@ static bool has_room(const fs::path &pref_path, std::uint64_t bytes) {
     if (ec || space.available >= bytes)
         return true;
     lr_log(RETRO_LOG_ERROR, "Not enough free space: %.1f MiB needed, %.1f MiB free\n", bytes / 1048576.0, space.available / 1048576.0);
-    lr_msg(fmt::format("Not enough free space to install: {:.1f} GiB needed, {:.1f} GiB free", bytes / 1073741824.0,
-               space.available / 1073741824.0)
-               .c_str(),
-        600);
+    lr_msg(lr_textf("msg_no_space", bytes / 1073741824.0, space.available / 1073741824.0).c_str(), 600);
     return false;
 }
 
@@ -634,7 +680,7 @@ static GameInstallResult handle_folder_game(const fs::path &game_path, const fs:
     if (content_dir.empty()) {
         lr_log(RETRO_LOG_ERROR, "No sce_sys/param.sfo found in folder or subfolders: %s\n", game_path.generic_string().c_str());
         lr_log(RETRO_LOG_ERROR, "Expected: <folder>/sce_sys/param.sfo or <folder>/app/<ID>/sce_sys/param.sfo\n");
-        lr_msg("No param.sfo found in the game's directory!", 300);
+        lr_msg(lr_text("msg_no_param_sfo_dir"), 300);
         return result;
     }
 
@@ -646,7 +692,7 @@ static GameInstallResult handle_folder_game(const fs::path &game_path, const fs:
     const auto sfo_path = content_dir / "sce_sys" / "param.sfo";
     if (!fs::exists(sfo_path)) {
         lr_log(RETRO_LOG_ERROR, "No sce_sys/param.sfo found at: %s\n", sfo_path.generic_string().c_str());
-        lr_msg("No param.sfo found!", 300);
+        lr_msg(lr_text("msg_no_param_sfo"), 300);
         return result;
     }
 
@@ -655,7 +701,7 @@ static GameInstallResult handle_folder_game(const fs::path &game_path, const fs:
     std::ifstream sfo_file(sfo_path.native(), std::ios::binary);
     if (!sfo_file) {
         lr_log(RETRO_LOG_ERROR, "Failed to open param.sfo: %s\n", sfo_path.generic_string().c_str());
-        lr_msg("Failed to read game info!", 300);
+        lr_msg(lr_text("msg_game_info_failed"), 300);
         return result;
     }
     std::vector<uint8_t> sfo_data((std::istreambuf_iterator<char>(sfo_file)), std::istreambuf_iterator<char>());
@@ -666,13 +712,14 @@ static GameInstallResult handle_folder_game(const fs::path &game_path, const fs:
 
     if (app_info.app_title_id.empty()) {
         lr_log(RETRO_LOG_ERROR, "Could not determine title_id from param.sfo\n");
-        lr_msg("Invalid param.sfo - no title_id!", 300);
+        lr_msg(lr_text("msg_no_title_id"), 300);
         return result;
     }
 
     result.title_id = app_info.app_title_id;
     result.title = app_info.app_title;
     result.category = app_info.app_category;
+    note_content_kind(result.category);
     result.content_id = app_info.app_content_id;
 
     lr_log(RETRO_LOG_INFO, "Game: '%s' [%s] (category: %s)\n",
@@ -682,7 +729,7 @@ static GameInstallResult handle_folder_game(const fs::path &game_path, const fs:
     if (fs::is_directory(content_dir / "sce_pfs") && !fs::exists(content_dir / "sce_sys" / "package" / "work.bin")) {
         lr_log(RETRO_LOG_ERROR, "%s is encrypted and its license, sce_sys/package/work.bin, is missing\n",
             content_dir.generic_string().c_str());
-        lr_msg("This game is encrypted and its license (sce_sys/package/work.bin) is missing", 600);
+        lr_msg(lr_text("msg_game_no_license"), 600);
         return result;
     }
 
@@ -724,18 +771,14 @@ static GameInstallResult handle_folder_game(const fs::path &game_path, const fs:
         || app_info.app_category == "ac") {
         if (!fs::exists(app_path) || fs::is_empty(app_path)) {
             lr_log(RETRO_LOG_ERROR, "Base game not installed — install app before patch/DLC\n");
-            lr_msg("Install base game first!", 300);
+            lr_msg(lr_text("msg_install_base_first"), 300);
             return result;
         }
     }
 
     lr_log(RETRO_LOG_INFO, "Installing '%s' [%s] to: %s\n",
         result.title.c_str(), result.title_id.c_str(), install_path.generic_string().c_str());
-    {
-        char msg[256];
-        snprintf(msg, sizeof(msg), "Installing %s [%s]...", result.title.c_str(), result.title_id.c_str());
-        lr_msg(msg, 600);
-    }
+    install_step("msg_installing_title");
 
     // An encrypted one twice over for a while: decrypting writes a second copy
     if (!has_room(pref_path, folder_size(content_dir) * (fs::is_directory(content_dir / "sce_pfs") ? 2 : 1)))
@@ -746,7 +789,7 @@ static GameInstallResult handle_folder_game(const fs::path &game_path, const fs:
         lr_log(RETRO_LOG_INFO, "App folder copy completed.\n");
     } catch (const fs::filesystem_error &e) {
         lr_log(RETRO_LOG_ERROR, "Failed to copy game folder: %s\n", e.what());
-        lr_msg("Failed to copy the game's directory!", 300);
+        lr_msg(lr_text("msg_copy_dir_failed"), 300);
         return result;
     }
 
@@ -774,16 +817,12 @@ static GameInstallResult handle_folder_game(const fs::path &game_path, const fs:
     if (fs::exists(install_path) && !fs::is_empty(install_path)) {
         lr_log(RETRO_LOG_INFO, "'%s' [%s] installed successfully!\n",
             result.title.c_str(), result.title_id.c_str());
-        {
-            char msg[256];
-            snprintf(msg, sizeof(msg), "%s installed!", result.title.c_str());
-            lr_msg(msg, 300);
-        }
+        installed_alone_message(pref_path, result);
         result.success = true;
     } else {
         lr_log(RETRO_LOG_ERROR, "Installation verification failed at: %s\n",
             install_path.generic_string().c_str());
-        lr_msg("Installation failed!", 300);
+        lr_msg(lr_text("msg_install_failed"), 300);
     }
 
     return result;
@@ -908,27 +947,53 @@ static void discard_dir(const fs::path &pref_path, const fs::path &dir) {
     fs::remove_all(ec ? dir : to, ec);
 }
 
+// One step, "Removing titles", without a percent, for all the removals of a
+// start, or of a close or a reset, whatever left them: Remove Content, a run
+// or install cut short, the trash of a deletion cut short. Mostly one or two
+// titles, so a count would only jump (sco8487)
+static void removing_titles() {
+    lr_load_progress(lr_text("msg_removing_titles"));
+}
+
+// The titles whose Remove Content was not finished when the core last closed
+static std::vector<std::string> pending_removal_ids(const fs::path &pref_path) {
+    std::error_code ec;
+    std::vector<std::string> pending;
+    for (fs::directory_iterator it(pref_path / "ux0" / "libretro_pkg", ec), end; !ec && it != end; it.increment(ec)) {
+        const std::string name = it->path().filename().string();
+        if (name.rfind("remove_", 0) == 0 && name.size() > 7)
+            pending.push_back(name.substr(7));
+    }
+    return pending;
+}
+
 void remove_dead_runs(const fs::path &pref_path) {
     const fs::path notes = pref_path / "ux0" / "libretro_pkg";
     const fs::path ux0 = pref_path / "ux0";
     std::error_code ec;
-    if (fs::exists(trash_dir(pref_path), ec)) {
-        fs::remove_all(trash_dir(pref_path), ec);
-        lr_log(RETRO_LOG_INFO, "Deleted what a deletion that was not finished left in ux0/libretro_pkg/trash\n");
-    }
+    const bool trash = fs::exists(trash_dir(pref_path), ec);
     ec.clear();
-    std::vector<fs::path> entries;
-    for (fs::directory_iterator it(notes, ec), end; !ec && it != end; it.increment(ec))
-        entries.push_back(it->path());
-    for (const fs::path &entry : entries) {
+    // what a run not closed left laid out: entry, and the layout it is for
+    std::vector<std::pair<fs::path, fs::path>> dead;
+    for (fs::directory_iterator it(notes, ec), end; !ec && it != end; it.increment(ec)) {
+        const fs::path &entry = it->path();
         const std::string name = entry.filename().string();
         fs::path layout;
         if (name.starts_with("lazy_"))
             layout = ux0 / "app" / name.substr(5);
         else if (name.starts_with("dlc_") && name.size() > 4 + 9 + 1 && name[4 + 9] == '_')
             layout = ux0 / "addcont" / name.substr(4, 9) / name.substr(4 + 9 + 1);
-        else if (!name.starts_with("update_") || !fs::is_directory(entry, ec))
+        else if (std::error_code dir_ec; !name.starts_with("update_") || !fs::is_directory(entry, dir_ec))
             continue; // (update_choice_<title> is a note, not a layout)
+        dead.emplace_back(entry, layout);
+    }
+    if (trash) {
+        removing_titles();
+        fs::remove_all(trash_dir(pref_path), ec);
+        lr_log(RETRO_LOG_INFO, "Deleted what a deletion that was not finished left in ux0/libretro_pkg/trash\n");
+    }
+    for (const auto &[entry, layout] : dead) {
+        removing_titles();
         if (!layout.empty())
             fs::remove_all(layout, ec);
         fs::remove_all(entry, ec);
@@ -1350,14 +1415,9 @@ static void remove_title_data(const fs::path &pref_path, const std::string &titl
 }
 
 void finish_pending_removals(const fs::path &pref_path) {
-    std::error_code ec;
-    std::vector<std::string> pending;
-    for (fs::directory_iterator it(pref_path / "ux0" / "libretro_pkg", ec), end; !ec && it != end; it.increment(ec)) {
-        const std::string name = it->path().filename().string();
-        if (name.rfind("remove_", 0) == 0 && name.size() > 7)
-            pending.push_back(name.substr(7));
-    }
+    const std::vector<std::string> pending = pending_removal_ids(pref_path);
     for (const std::string &id : pending) {
+        removing_titles();
         remove_title_data(pref_path, id, noted_user_data(removal_note(pref_path, id)));
         lr_log(RETRO_LOG_INFO, "%s: its data is removed (Remove Content, not finished when the core last closed)\n", id.c_str());
     }
@@ -1441,6 +1501,8 @@ void record_started_title(const fs::path &pref_path, const std::string &title_id
     // its shader cache stays, every Run Mode uses it
     if (mode != "cache") {
         const std::vector<fs::path> gone = persistent_cache_dirs(pref_path, title_id);
+        if (!gone.empty())
+            lr_load_progress(lr_text("msg_changing_run_mode"));
         for (const auto &dir : gone)
             discard_dir(pref_path, dir);
         if (!gone.empty())
@@ -1713,6 +1775,7 @@ static ContentPlan plan_content(const fs::path &pkg_path, const std::string &tit
     if (run_pkg && fs::exists(app / "eboot.bin", ec)
         && (lazy_pkg::is_archive(pkg_path) || fs::is_directory(pkg_path, ec)
             || !find_pkg_license(pkg_path, pref_path).empty())) {
+        lr_load_progress(lr_text("msg_changing_run_mode"));
         uninstall_game(pref_path, title_id, false);
         lr_log(RETRO_LOG_INFO, "%s was installed and Run Mode runs it from its PKG: ux0/app/%s is deleted, the game is read out of its PKG\n",
             title_id.c_str(), title_id.c_str());
@@ -2048,6 +2111,7 @@ static ContentPlan plan_content(const fs::path &pkg_path, const std::string &tit
             if (it == chosen.end() || it->second != "enabled")
                 continue;
             if (id != title_id) {
+                removing_titles();
                 remove_title_data(pref_path, id, user_data_choice());
                 deleted.push_back(key);
                 lr_log(RETRO_LOG_INFO, "%s: its data is removed (Remove Content, left on when the last title was not closed)\n", id.c_str());
@@ -2254,6 +2318,7 @@ void content_closed() {
     for (const auto &[key, id] : content.removals) {
         if (s_content_value(key) != "enabled")
             continue;
+        removing_titles();
         remove_title_data(pref_path, id, user_data_choice());
         lr_log(RETRO_LOG_INFO, "%s: its data is removed (Remove Content)\n", id.c_str());
         if (s_set_content_value)
@@ -2326,7 +2391,7 @@ static bool install_pkg_file(const fs::path &pkg_path, EmuEnvState &emuenv, std:
     std::string error;
     if (!lazy_pkg::install(pkg_path, dir, zrif, error)) {
         lr_log(RETRO_LOG_ERROR, "PKG: %s could not be installed: %s\n", pkg_path.generic_string().c_str(), error.c_str());
-        lr_msg(fmt::format("PKG install failed: {}", error).c_str(), 600);
+        lr_msg(lr_textf("msg_pkg_install_failed", error).c_str(), 600);
         return false;
     }
     if (app.app_category == "ac")
@@ -2365,7 +2430,7 @@ static bool apply_content(const ContentPlan &plan, const std::string &title_id, 
     for (const ContentPlan::Dlc &dlc : plan.dlcs) {
         const std::string dlc_zrif = find_pkg_license(fs::path(dlc.path), pref_path);
         if (!lazy) {
-            lr_msg("Installing DLC...", 300);
+            install_step("msg_installing_title");
             if (install_extra_pkg(fs::path(dlc.path), pref_path, sys_lang, dlc_zrif)) {
                 lr_log(RETRO_LOG_INFO, "DLC %s installed\n", dlc.path.c_str());
                 if (dlc.content_id.size() > 20)
@@ -2382,7 +2447,7 @@ static bool apply_content(const ContentPlan &plan, const std::string &title_id, 
             write_license(pref_path, title_id, dlc.content_id, dlc_zrif);
         else if (error.rfind(lazy_pkg::NO_ROOM, 0) == 0) {
             lr_log(RETRO_LOG_ERROR, "DLC %s: %s\n", dlc.path.c_str(), error.c_str());
-            lr_msg(fmt::format("Not started, no room for a DLC: {}", error).c_str(), 600);
+            lr_msg(lr_textf("msg_no_room_dlc", error).c_str(), 600);
             return false;
         } else
             lr_log(RETRO_LOG_INFO, "PKG: DLC %s not laid out: %s\n", dlc.path.c_str(), error.c_str());
@@ -2391,7 +2456,7 @@ static bool apply_content(const ContentPlan &plan, const std::string &title_id, 
     if (plan.update_path.empty())
         return true;
     if (!lazy) {
-        lr_msg("Installing update...", 300);
+        install_step("msg_installing_title");
         if (install_extra_pkg(fs::path(plan.update_path), pref_path, sys_lang, zrif)) {
             lr_log(RETRO_LOG_INFO, "Update %s (version %s) installed\n", plan.update_path.c_str(), plan.update_version.c_str());
             fs::remove(manual_install_mark(pref_path, title_id), ec);
@@ -2405,7 +2470,7 @@ static bool apply_content(const ContentPlan &plan, const std::string &title_id, 
         lr_log(RETRO_LOG_INFO, "PKG: update %s (version %s) laid over the game\n", plan.update_path.c_str(), plan.update_version.c_str());
     else if (error.rfind(lazy_pkg::NO_ROOM, 0) == 0) {
         lr_log(RETRO_LOG_ERROR, "Update %s: %s\n", plan.update_path.c_str(), error.c_str());
-        lr_msg(fmt::format("Not started, no room for the update: {}", error).c_str(), 600);
+        lr_msg(lr_textf("msg_no_room_update", error).c_str(), 600);
         return false;
     } else
         lr_log(RETRO_LOG_WARN, "PKG: update %s could not be laid over the game: %s\n", plan.update_path.c_str(), error.c_str());
@@ -2534,7 +2599,7 @@ static GameInstallResult handle_pkg_game(const fs::path &pkg_path, const fs::pat
     }
     if (content_id.size() < 16) {
         lr_log(RETRO_LOG_ERROR, "%s is not a PS Vita PKG\n", pkg_path.generic_string().c_str());
-        lr_msg("Not a PS Vita PKG!", 300);
+        lr_msg(lr_text("msg_not_vita_pkg"), 300);
         return result;
     }
     std::uint64_t pkg_size = 0;
@@ -2562,6 +2627,7 @@ static GameInstallResult handle_pkg_game(const fs::path &pkg_path, const fs::pat
             sfo::get_param_info(info, sfo, sys_lang);
             result.title = info.app_title;
             result.category = info.app_category;
+            note_content_kind(result.category);
         }
         apply_content(plan, title_id, find_pkg_license(pkg_path, pref_path), pref_path, sys_lang, false);
         return result;
@@ -2572,7 +2638,7 @@ static GameInstallResult handle_pkg_game(const fs::path &pkg_path, const fs::pat
     // Run without installing: a game's PKG not installed in any form
     if (run_pkg && !zrif.empty() && !fs::exists(pref_path / "ux0" / "app" / title_id / "eboot.bin")) {
         std::string error;
-        lr_msg("Preparing the PKG...", 300);
+        install_step("msg_preparing_title");
         const fs::path app_dir = pref_path / "ux0" / "app" / title_id;
         mark_lazy_run(pref_path, title_id);
         if (lazy_pkg::mount(pkg_path, app_dir, zrif, error)) {
@@ -2587,6 +2653,8 @@ static GameInstallResult handle_pkg_game(const fs::path &pkg_path, const fs::pat
                 sfo::get_param_info(info, sfo, sys_lang);
                 result.title = info.app_title;
                 result.category = info.app_category;
+                note_content_kind(result.category);
+            note_content_kind(result.category);
             }
             if (!apply_content(plan, title_id, zrif, pref_path, sys_lang, true)) {
                 lazy_pkg::unmount();
@@ -2599,7 +2667,7 @@ static GameInstallResult handle_pkg_game(const fs::path &pkg_path, const fs::pat
         if (error.rfind(lazy_pkg::NO_ROOM, 0) == 0) {
             // No room for the game run without installing: not started, as an install that does not fit
             lr_log(RETRO_LOG_ERROR, "%s: %s\n", pkg_path.generic_string().c_str(), error.c_str());
-            lr_msg(fmt::format("Not started: {}", error).c_str(), 600);
+            lr_msg(lr_textf("msg_not_started", error).c_str(), 600);
             return result;
         }
         lr_log(RETRO_LOG_WARN, "PKG: cannot run %s without installing it (%s), installing it instead\n",
@@ -2614,7 +2682,7 @@ static GameInstallResult handle_pkg_game(const fs::path &pkg_path, const fs::pat
     // uncaught "Invalid argument" right after the PFS was decrypted (sco: every
     // PKG install crashed at 80%)
     emuenv->cache_path = pref_path / "cache";
-    lr_msg("Installing PKG... this may take a while", 600);
+    install_step("msg_installing_title");
     // Whether the game this may be an update for is installed
     const bool game_installed = fs::exists(pref_path / "ux0" / "app" / title_id / "eboot.bin");
     const bool ok = install_pkg_file(pkg_path, *emuenv, zrif);
@@ -2623,7 +2691,7 @@ static GameInstallResult handle_pkg_game(const fs::path &pkg_path, const fs::pat
             pkg_path.generic_string().c_str(), fs_utils::path_to_utf8(pkg_path.stem()).c_str(), fs_utils::path_to_utf8(pkg_path.stem()).c_str());
         // The reason is in the message install_pkg_file gave; without a license it is that
         if (zrif.empty())
-            lr_msg("PKG install failed! A game needs its license (zRIF or work.bin) next to the PKG - see log", 600);
+            lr_msg(lr_text("msg_pkg_needs_license"), 600);
         return result;
     }
 
@@ -2633,6 +2701,7 @@ static GameInstallResult handle_pkg_game(const fs::path &pkg_path, const fs::pat
     result.title_id = emuenv->app_info.app_title_id;
     result.title = emuenv->app_info.app_title;
     result.category = emuenv->app_info.app_category;
+    note_content_kind(result.category);
     result.content_id = emuenv->app_info.app_content_id;
 
     // An update or DLC installed by loading its own PKG: noted, so that the
@@ -2658,7 +2727,7 @@ static GameInstallResult handle_pkg_game(const fs::path &pkg_path, const fs::pat
         if (!game_installed) {
             lr_log(RETRO_LOG_INFO, "Update %s installed in ux0/patch/%s, laid over the game when it starts\n",
                 result.title.c_str(), result.title_id.c_str());
-            lr_msg("Update installed. It is applied when the game is started.", 600);
+            lr_msg(lr_text("msg_update_installed"), 600);
             return result;
         }
     }
@@ -2667,7 +2736,7 @@ static GameInstallResult handle_pkg_game(const fs::path &pkg_path, const fs::pat
     // if that is installed already
     if (!fs::exists(pref_path / "ux0" / "app" / result.title_id / "eboot.bin")) {
         lr_log(RETRO_LOG_ERROR, "Installed %s, but the game %s is not installed.\n", result.title.c_str(), result.title_id.c_str());
-        lr_msg("Installed. Start the game's own PKG or VPK to play.", 600);
+        lr_msg(lr_text("msg_dlc_installed"), 600);
         return result;
     }
     lr_log(RETRO_LOG_INFO, "Installed %s [%s] from PKG\n", result.title.c_str(), result.title_id.c_str());
@@ -2701,7 +2770,7 @@ static GameInstallResult handle_folder_content(const fs::path &game_path, const 
 
     if (run_pkg && !fs::exists(app_path / "eboot.bin")) {
         std::string error;
-        lr_msg("Preparing the game...", 300);
+        install_step("msg_preparing_title");
         mark_lazy_run(pref_path, info.title_id);
         if (lazy_pkg::mount_folder(content_dir, app_path, zrif, error)) {
             write_license(pref_path, info.title_id, info.content_id, zrif);
@@ -2715,6 +2784,7 @@ static GameInstallResult handle_folder_content(const fs::path &game_path, const 
             result.title_id = info.title_id;
             result.title = info.title;
             result.category = info.category;
+            note_content_kind(result.category);
             result.content_id = info.content_id;
             return result;
         }
@@ -2722,7 +2792,7 @@ static GameInstallResult handle_folder_content(const fs::path &game_path, const 
         if (error.rfind(lazy_pkg::NO_ROOM, 0) == 0) {
             // No room for the game run without installing: not started, as an install that does not fit
             lr_log(RETRO_LOG_ERROR, "%s: %s\n", content_dir.generic_string().c_str(), error.c_str());
-            lr_msg(fmt::format("Not started: {}", error).c_str(), 600);
+            lr_msg(lr_textf("msg_not_started", error).c_str(), 600);
             return GameInstallResult{};
         }
         lr_log(RETRO_LOG_WARN, "Folder: cannot run %s where it lies (%s), installing it instead\n",
@@ -2746,7 +2816,7 @@ static GameInstallResult install_or_open(const fs::path &game_path, const fs::pa
     bool game_is_directory = false;
     if (!content_stat(game_path, &game_is_directory, nullptr)) {
         lr_log(RETRO_LOG_ERROR, "Game path does not exist: %s\n", game_path.generic_string().c_str());
-        lr_msg("Game path not found!", 300);
+        lr_msg(lr_text("msg_game_path_not_found"), 300);
         return result;
     }
 
@@ -2759,7 +2829,7 @@ static GameInstallResult install_or_open(const fs::path &game_path, const fs::pa
     const bool eboot = !game_is_directory && game_path.filename() == "eboot.bin";
     if ((game_is_directory || eboot) && lr_vfs_is_uri(game_path.string())) {
         lr_log(RETRO_LOG_ERROR, "A game folder through the frontend's VFS is not supported: %s\n", game_path.generic_string().c_str());
-        lr_msg("A game folder opened through RetroArch's file access (Android's file picker, Samba) is not supported; load the .vpk, .zip or .pkg", 400);
+        lr_msg(lr_text("msg_folder_through_vfs"), 400);
         return result;
     }
     if (game_is_directory)
@@ -2777,7 +2847,7 @@ static GameInstallResult install_or_open(const fs::path &game_path, const fs::pa
             return handle_folder_content(game_path.parent_path(), pref_path, sys_lang, run_pkg);
         }
         lr_log(RETRO_LOG_ERROR, "Unsupported game format: %s (expected .vpk, .zip, .pkg, or folder)\n", extension.c_str());
-        lr_msg("Unsupported format! Use .vpk, .zip, .pkg, or a game directory", 300);
+        lr_msg(lr_text("msg_unsupported_format"), 300);
         return result;
     }
 
@@ -2786,7 +2856,7 @@ static GameInstallResult install_or_open(const fs::path &game_path, const fs::pa
     FILE *fp = FOPEN(game_path.c_str(), "rb");
     if (!fp) {
         lr_log(RETRO_LOG_ERROR, "Failed to open game archive: %s\n", game_path.generic_string().c_str());
-        lr_msg("Failed to open game file!", 300);
+        lr_msg(lr_text("msg_open_failed"), 300);
         return result;
     }
 
@@ -2798,7 +2868,7 @@ static GameInstallResult install_or_open(const fs::path &game_path, const fs::pa
             game_path.generic_string().c_str(),
             mz_zip_get_error_string(mz_zip_get_last_error(zip.get())));
         fclose(fp);
-        lr_msg("Failed to read game archive!", 300);
+        lr_msg(lr_text("msg_archive_read_failed"), 300);
         return result;
     }
 
@@ -2808,7 +2878,7 @@ static GameInstallResult install_or_open(const fs::path &game_path, const fs::pa
         lr_log(RETRO_LOG_ERROR, "No valid game content found in archive\n");
         lr_log(RETRO_LOG_ERROR, "Archive must contain sce_sys/param.sfo\n");
         fclose(fp);
-        lr_msg("No valid game content in archive!", 300);
+        lr_msg(lr_text("msg_archive_no_content"), 300);
         return result;
     }
 
@@ -2840,13 +2910,14 @@ static GameInstallResult install_or_open(const fs::path &game_path, const fs::pa
     if (app_info.app_title_id.empty()) {
         lr_log(RETRO_LOG_ERROR, "Could not determine title_id from archive\n");
         fclose(fp);
-        lr_msg("Could not read game info from archive!", 300);
+        lr_msg(lr_text("msg_archive_info_failed"), 300);
         return result;
     }
 
     result.title_id = app_info.app_title_id;
     result.title = app_info.app_title;
     result.category = app_info.app_category;
+    note_content_kind(result.category);
     result.content_id = app_info.app_content_id;
 
     lr_log(RETRO_LOG_INFO, "Game: '%s' [%s] (category: %s, content_id: %s)\n",
@@ -2869,7 +2940,7 @@ static GameInstallResult install_or_open(const fs::path &game_path, const fs::pa
                 && std::string_view(st.m_filename).starts_with(game_content_path + "sce_pfs/")) {
                 lr_log(RETRO_LOG_ERROR, "%s is encrypted and its license, sce_sys/package/work.bin, is missing\n",
                     game_path.generic_string().c_str());
-                lr_msg("This game is encrypted and its license (sce_sys/package/work.bin) is missing", 600);
+                lr_msg(lr_text("msg_game_no_license"), 600);
                 fclose(fp);
                 return result;
             }
@@ -2886,7 +2957,7 @@ static GameInstallResult install_or_open(const fs::path &game_path, const fs::pa
     if (run_pkg && is_game && !fs::exists(app_path / "eboot.bin")) {
         const std::string &zrif = archive_license;
         std::string error;
-        lr_msg("Preparing the game...", 300);
+        install_step("msg_preparing_title");
         mark_lazy_run(pref_path, result.title_id);
         if (lazy_pkg::mount_archive(game_path, game_content_path, app_path, zrif, error)) {
             write_license(pref_path, result.title_id, result.content_id, zrif);
@@ -2903,7 +2974,7 @@ static GameInstallResult install_or_open(const fs::path &game_path, const fs::pa
         if (error.rfind(lazy_pkg::NO_ROOM, 0) == 0) {
             // No room for the game run without installing: not started, as an install that does not fit
             lr_log(RETRO_LOG_ERROR, "%s: %s\n", game_path.generic_string().c_str(), error.c_str());
-            lr_msg(fmt::format("Not started: {}", error).c_str(), 600);
+            lr_msg(lr_textf("msg_not_started", error).c_str(), 600);
             fclose(fp);
             return GameInstallResult{};
         }
@@ -2949,7 +3020,7 @@ static GameInstallResult install_or_open(const fs::path &game_path, const fs::pa
         || app_info.app_category == "ac") {
         if (!fs::exists(app_path) || fs::is_empty(app_path)) {
             lr_log(RETRO_LOG_ERROR, "Base game not installed — install app before patch/DLC\n");
-            lr_msg("Install base game first!", 300);
+            lr_msg(lr_text("msg_install_base_first"), 300);
             fclose(fp);
             return result;
         }
@@ -2957,11 +3028,7 @@ static GameInstallResult install_or_open(const fs::path &game_path, const fs::pa
 
     lr_log(RETRO_LOG_INFO, "Installing '%s' [%s] to: %s\n",
         result.title.c_str(), result.title_id.c_str(), output_path.generic_string().c_str());
-    {
-        char msg[256];
-        snprintf(msg, sizeof(msg), "Installing %s [%s]...", result.title.c_str(), result.title_id.c_str());
-        lr_msg(msg, 600);
-    }
+    install_step("msg_installing_title");
 
     // Room for what is extracted, or nothing is
     {
@@ -2988,7 +3055,7 @@ static GameInstallResult install_or_open(const fs::path &game_path, const fs::pa
     if (!extract_archive_content(zip, game_content_path, output_path)) {
         lr_log(RETRO_LOG_ERROR, "Failed to extract game content!\n");
         fclose(fp);
-        lr_msg("Failed to extract game!", 300);
+        lr_msg(lr_text("msg_extract_failed"), 300);
         return result;
     }
 
@@ -3045,16 +3112,12 @@ static GameInstallResult install_or_open(const fs::path &game_path, const fs::pa
     if (fs::exists(output_path) && !fs::is_empty(output_path)) {
         lr_log(RETRO_LOG_INFO, "'%s' [%s] installed successfully!\n",
             result.title.c_str(), result.title_id.c_str());
-        {
-            char msg[256];
-            snprintf(msg, sizeof(msg), "%s installed!", result.title.c_str());
-            lr_msg(msg, 300);
-        }
+        installed_alone_message(pref_path, result);
         result.success = true;
     } else {
         lr_log(RETRO_LOG_ERROR, "Installation verification failed at: %s\n",
             output_path.generic_string().c_str());
-        lr_msg("Installation failed!", 300);
+        lr_msg(lr_text("msg_install_failed"), 300);
     }
 
     return result;
