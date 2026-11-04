@@ -239,6 +239,12 @@ struct retro_core_option_v2_definition option_defs_us[] = {
         },
         "enabled"
     },
+    // Native Buffer is left out: upstream does not build it here, and chosen it
+    // crashed the core; test it again when upstream changes its Native Buffer
+    // code. Page Table stays, though on a Mali GPU (moto g05, Dragon's Crown)
+    // it garbles the picture, in the standalone Vita3K for Android too; it may
+    // work on other GPUs. Test it again on Mali when upstream changes its Page
+    // Table code (sco8487, 4.11.2026).
     {
         "vita3k_memory_mapping",
         "Memory Mapping (Vulkan)",
