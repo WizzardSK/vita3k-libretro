@@ -2584,16 +2584,26 @@ static void make_root_and_config(const fs::path &pref_path) {
 }
 
 // Storage Location (#6, nanitaro, sco8487): the core's folder in RetroArch's
-// system directory or in its save directory, which the user can point
-// anywhere (RetroArch tells a core no cache directory)
+// system directory or in its download directory (the core assets directory),
+// which the user can point anywhere. Not the save directory, which holds
+// small files that get uploaded to cloud storage, nor the cache directory,
+// which RetroArch empties and users put on RAM drives (#7, i30817).
 static std::string storage_dir_for(std::string_view location) {
-    if (location == "saves") {
-        const char *save = nullptr;
-        if (libretro.environ_cb(RETRO_ENVIRONMENT_GET_SAVE_DIRECTORY, &save) && save && *save)
-            return std::string(save) + "/vita3k";
-        lr_log(RETRO_LOG_WARN, "Storage Location: RetroArch gave no save directory, the storage stays in %s\n", libretro.system_dir.c_str());
+    if (location == "downloads") {
+        const char *downloads = nullptr;
+        if (libretro.environ_cb(RETRO_ENVIRONMENT_GET_CORE_ASSETS_DIRECTORY, &downloads) && downloads && *downloads)
+            return std::string(downloads) + "/vita3k";
+        lr_log(RETRO_LOG_WARN, "Storage Location: RetroArch gave no download directory, the storage stays in %s\n", libretro.system_dir.c_str());
     }
     return libretro.system_dir;
+}
+// Where the other Storage Location was before the download directory:
+// vita3k in RetroArch's save directory (#7, i30817)
+static std::string old_save_storage_dir() {
+    const char *save = nullptr;
+    if (libretro.environ_cb(RETRO_ENVIRONMENT_GET_SAVE_DIRECTORY, &save) && save && *save)
+        return std::string(save) + "/vita3k";
+    return {};
 }
 static std::string selected_storage_dir() {
     return storage_dir_for(get_core_option_value("vita3k_storage_location", "system"));
@@ -2631,8 +2641,8 @@ static void offer_storage_locations(const fs::path &system_dir) {
     *def = original;
     if (local)
         *local = original_local;
-    const bool in_saves = libretro.vita_dir != libretro.system_dir;
-    const std::string other = storage_dir_for(in_saves ? "system" : "saves");
+    const bool in_downloads = libretro.vita_dir != libretro.system_dir;
+    const std::string other = storage_dir_for(in_downloads ? "system" : "downloads");
     if (other == libretro.vita_dir || same_file_system(fs_utils::utf8_to_path(libretro.vita_dir), fs_utils::utf8_to_path(other)))
         return;
     // at least what moves to a location without sparse files (whether it has
@@ -2643,7 +2653,7 @@ static void offer_storage_locations(const fs::path &system_dir) {
         return;
     // only the location in use left in the list, and the description saying
     // why, in both lists
-    const char *kept = in_saves ? "saves" : "system";
+    const char *kept = in_downloads ? "downloads" : "system";
     for (retro_core_option_v2_definition *d : { def, local }) {
         if (!d)
             continue;
@@ -2655,7 +2665,7 @@ static void offer_storage_locations(const fs::path &system_dir) {
         std::copy(std::begin(values), std::end(values), d->values);
         d->default_value = kept;
     }
-    s_storage_info = lr_textf("msg_storage_no_space_info", lr_text(in_saves ? "msg_storage_system_dir" : "msg_storage_save_dir"));
+    s_storage_info = lr_textf("msg_storage_no_space_info", lr_text(in_downloads ? "msg_storage_system_dir" : "msg_storage_download_dir"));
     def->info = s_storage_info.c_str();
     if (local)
         local->info = s_storage_info.c_str();
@@ -2667,15 +2677,27 @@ static void offer_storage_locations(const fs::path &system_dir) {
 // is taken at both; when it is not the one last used, the data is moved there
 // on the thread first, if there is the space for it (sco8487).
 static void start_load_job(bool close_first) {
-    const std::string target = selected_storage_dir();
     const std::string from = close_first ? libretro.vita_dir : [] {
         std::string last;
         std::ifstream in(storage_note());
         std::getline(in, last);
         return last;
     }();
-    std::string target_dir = target;
-    bool move = !from.empty() && from != target;
+    std::string target_dir = selected_storage_dir();
+    // a storage still in the save directory, where builds before #7 put the
+    // other location, moves to the download directory, and the option, which
+    // RetroArch set back to System Directory as it no longer knows the old
+    // value, is set to Download Directory
+    if (!from.empty() && from == old_save_storage_dir() && from != libretro.system_dir) {
+        const std::string downloads = storage_dir_for("downloads");
+        if (downloads != libretro.system_dir) {
+            target_dir = downloads;
+            retro_variable set{ "vita3k_storage_location", "downloads" };
+            libretro.environ_cb(RETRO_ENVIRONMENT_SET_VARIABLE, &set);
+            lr_log(RETRO_LOG_INFO, "Storage Location: the save directory is no longer one, the data moves to the download directory\n");
+        }
+    }
+    bool move = !from.empty() && from != target_dir;
     if (!close_first)
         libretro.vita_dir = target_dir;
     lr_log(RETRO_LOG_INFO, "Storage: %s%s\n", target_dir.c_str(), move ? (" (data moved from " + from + ")").c_str() : "");
@@ -2721,9 +2743,10 @@ static void start_load_job(bool close_first) {
                 to_has_holes = lazy_pkg::holes_supported(pref_path / "ux0");
                 const std::uint64_t need = storage_usage(fs_utils::utf8_to_path(from), system_dir, !to_has_holes);
                 if (need > free_space(pref_path)) {
-                    const bool to_saves = target_dir != libretro.system_dir;
-                    const std::string msg = lr_textf("msg_storage_no_space_move", lr_text(to_saves ? "msg_storage_save_dir" : "msg_storage_system_dir"),
-                        lr_text(to_saves ? "msg_storage_system_dir" : "msg_storage_save_dir"));
+                    const auto dir_text = [&](const std::string &dir) {
+                        return lr_text(dir == libretro.system_dir ? "msg_storage_system_dir" : "msg_storage_download_dir");
+                    };
+                    const std::string msg = lr_textf("msg_storage_no_space_move", dir_text(target_dir), dir_text(from));
                     lr_log(RETRO_LOG_ERROR, "%s (%.1f GB needed)\n", msg.c_str(), need / 1e9);
                     lr_message(msg);
                     storage = from;
