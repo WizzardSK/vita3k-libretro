@@ -71,6 +71,33 @@ std::function<void(const fs::path &, int)> host_open_hook;
 std::function<fs::path(const fs::path &)> host_path_hook;
 std::function<std::vector<std::string>(const fs::path &)> host_dir_hook;
 
+fs::path user_data_root;
+const std::vector<fs::path> user_data_paths{ "ux0/user", "ux0/picture", "vd0/registry/system.dreg" };
+
+fs::path user_data_redirect(const fs::path &vita_fs_path, const fs::path &host) {
+    if (user_data_root.empty())
+        return host;
+    const fs::path relative = host.lexically_normal().lexically_relative(vita_fs_path.lexically_normal());
+    if (relative.empty() || *relative.begin() == "..")
+        return host;
+    for (const fs::path &prefix : user_data_paths) {
+        auto r = relative.begin(), p = prefix.begin();
+        while (p != prefix.end() && r != relative.end() && *p == *r)
+            ++p, ++r;
+        if (p == prefix.end())
+            return (user_data_root / relative).lexically_normal();
+    }
+    return host;
+}
+
+fs::path user_data_path(const fs::path &vita_fs_path, const fs::path &relative) {
+    return user_data_redirect(vita_fs_path, vita_fs_path / relative);
+}
+
+fs::path user_data_dir(const fs::path &vita_fs_path, const std::string &user_id, const std::string &kind) {
+    return user_data_path(vita_fs_path, fs::path("ux0") / "user" / user_id / kind);
+}
+
 bool read_file(const VitaIoDevice device, FileBuffer &buf, const fs::path &vita_fs_path, const fs::path &vfs_file_path) {
     const auto host_file_path = device::construct_emulated_path(device, vfs_file_path, vita_fs_path);
     if (host_file_hook)
@@ -173,7 +200,7 @@ void init_device_paths(IOState &io) {
 }
 
 bool init_savedata_app_path(IOState &io, const fs::path &vita_fs_path) {
-    const fs::path user_id_path{ vita_fs_path / "ux0" / "user" / io.user_id };
+    const fs::path user_id_path{ vfs::user_data_path(vita_fs_path, fs::path("ux0") / "user" / io.user_id) };
     const fs::path savedata_path{ user_id_path / "savedata" };
     const fs::path savedata_game_path{ savedata_path / io.savedata };
 

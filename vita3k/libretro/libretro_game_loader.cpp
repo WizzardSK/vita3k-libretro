@@ -49,7 +49,7 @@
 // holds every title's files together and cannot be told apart, and a title
 // only reads its own. The old folders are left as they are.
 static void libretro_adopt_flat_user_data(EmuEnvState &emuenv) {
-    const fs::path user_root = emuenv.vita_fs_path / "ux0" / "user";
+    const fs::path user_root = vfs::user_data_path(emuenv.vita_fs_path, "ux0/user");
     const fs::path user_path = user_root / emuenv.io.user_id;
     const auto adopt = [](const fs::path &from, const fs::path &to) {
         std::error_code ec;

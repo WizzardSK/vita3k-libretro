@@ -25,6 +25,7 @@
 #include <config/state.h>
 #include <emuenv/state.h>
 #include <io/functions.h>
+#include <io/vfs.h>
 #include <packages/functions.h>
 #include <packages/license.h>
 #include <packages/pkg.h>
@@ -1390,7 +1391,8 @@ static void remove_user_data(const fs::path &pref_path, const std::string &title
         for (fs::directory_iterator it(pref_path / "ux0" / "app" / title_id / "sce_sys" / "trophy", ec), end; !ec && it != end; it.increment(ec))
             trophies.push_back(it->path().filename().string());
     ec.clear();
-    for (fs::directory_iterator it(pref_path / "ux0" / "user", ec), end; !ec && it != end; it.increment(ec)) {
+    // the accounts where they are kept (the save directory, vfs::user_data_root)
+    for (fs::directory_iterator it(vfs::user_data_path(pref_path, "ux0/user"), ec), end; !ec && it != end; it.increment(ec)) {
         std::error_code rm;
         if (which & USER_DATA_SAVES)
             for (const std::string &name : savedata)
@@ -1697,6 +1699,65 @@ std::uint64_t free_space(const fs::path &path) {
     std::error_code ec;
     const fs::space_info space = fs::space(existing_ancestor(path), ec);
     return ec ? 0 : space.available;
+}
+
+// One file or folder of the user data moved from the storage to the save
+// directory: a folder the save directory lacks in one rename (a copy across file
+// systems, the original deleted once all is across), one it has merged entry
+// by entry; a file it already has stays as it is there, with a warning.
+static void merge_move(const fs::path &from, const fs::path &to, const fs::path &storage) {
+    std::error_code ec;
+    if (fs::is_directory(from, ec) && fs::is_directory(to, ec)) {
+        std::vector<fs::path> entries;
+        for (fs::directory_iterator it(from, ec), end; !ec && it != end; it.increment(ec))
+            entries.push_back(it->path());
+        for (const fs::path &entry : entries)
+            merge_move(entry, to / entry.filename(), storage);
+        std::error_code e;
+        if (fs::is_empty(from, e))
+            fs::remove(from, e);
+        return;
+    }
+    const std::string name = from.lexically_relative(storage).generic_string();
+    if (fs::exists(to, ec)) {
+        lr_log(RETRO_LOG_WARN, "%s is already in the save directory; the copy in the storage stays\n", name.c_str());
+        return;
+    }
+    fs::create_directories(to.parent_path(), ec);
+    fs::rename(from, to, ec);
+    if (ec) {
+        std::error_code cp;
+        if (fs::is_directory(from, cp))
+            fs::copy(from, to, fs::copy_options::recursive, cp);
+        else
+            fs::copy_file(from, to, cp);
+        if (cp) {
+            std::error_code rm;
+            fs::remove_all(to, rm);
+            lr_log(RETRO_LOG_ERROR, "Could not move %s to the save directory: %s\n", name.c_str(), cp.message().c_str());
+            return;
+        }
+        fs::remove_all(from, cp);
+    }
+    lr_log(RETRO_LOG_INFO, "Moved %s to the save directory\n", name.c_str());
+}
+
+bool has_user_data_to_move(const fs::path &storage) {
+    std::error_code ec;
+    for (const fs::path &relative : vfs::user_data_paths) {
+        const fs::path path = storage / relative;
+        if (fs::is_regular_file(path, ec) || (fs::is_directory(path, ec) && !fs::is_empty(path, ec)))
+            return true;
+    }
+    return false;
+}
+
+void move_user_data(const fs::path &storage, const fs::path &root) {
+    for (const fs::path &relative : vfs::user_data_paths) {
+        std::error_code ec;
+        if (fs::exists(storage / relative, ec))
+            merge_move(storage / relative, root / relative, storage);
+    }
 }
 
 bool move_storage(const fs::path &from_hint, const fs::path &to, const fs::path &system_dir, bool to_has_holes) {

@@ -89,7 +89,7 @@ struct retro_core_option_v2_category option_cats_us[] = {
     { "msg_preparing_firmware", "Preparing the firmware", NULL },
     { "msg_closing_title", "Closing the title", "A step of the load progress. Title means a game, its update and its DLC together." },
     { "msg_removing_titles", "Removing titles", "A step of the load progress. Title means a game, its update and its DLC together." },
-    { "msg_moving_data", "Moving data", "A step of the load progress: the core's directory moved to the other Storage Location." },
+    { "msg_moving_data", "Moving data", "A step of the load progress: the core's directory moved to the other Storage Location, or the accounts with their saves and trophies, the photo album and the registry moved to RetroArch's save directory." },
     { "msg_storage_no_space_info", "The vita3k directory is in RetroArch's system or download directory. Currently {} doesn't have enough space to move all the data, so you cannot change to it. Remove Content, and reboot, to retry with less data.", NULL },
     { "msg_storage_no_space_move", "Not enough space in {} to move the data there; the storage stays in {}.", NULL },
     { "msg_storage_system_dir", "RetroArch's system directory", NULL },

@@ -17,6 +17,7 @@
 
 #include <array>
 #include <regex>
+#include <io/vfs.h>
 #include <regmgr/functions.h>
 #include <sstream>
 
@@ -391,7 +392,7 @@ void init_regmgr(RegMgrState &regmgr, const fs::path &vita_fs_path) {
     init_reg_template(regmgr, reg);
 
     // Initialize the system.dreg
-    regmgr.system_dreg_path = vita_fs_path / "vd0/registry/system.dreg";
+    regmgr.system_dreg_path = vfs::user_data_path(vita_fs_path, "vd0/registry/system.dreg");
     fs::create_directories(regmgr.system_dreg_path.parent_path());
     regmgr.system_dreg.clear();
     if (!load_system_dreg(regmgr)) {

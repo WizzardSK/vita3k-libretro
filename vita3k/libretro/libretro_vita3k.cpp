@@ -624,7 +624,7 @@ static void refresh_trophy_options(EmuEnvState &emuenv) {
         return;
     std::string now = emuenv.io.title_id;
     std::error_code ec;
-    const fs::path trophy = emuenv.vita_fs_path / "ux0" / "user" / emuenv.io.user_id / "trophy";
+    const fs::path trophy = vfs::user_data_dir(emuenv.vita_fs_path, emuenv.io.user_id, "trophy");
     for (const std::string &id : title_trophy_ids(emuenv)) {
         now += " " + id + (fs::exists(trophy / "conf" / id / "TROP.SFM", ec) ? "+" : "-");
         const auto stamp = fs_utils::to_time_t(fs::last_write_time(trophy / "data" / id / "TROPUSR.DAT", ec));
@@ -2597,9 +2597,10 @@ static std::string storage_dir_for(std::string_view location) {
     }
     return libretro.system_dir;
 }
-// Where the other Storage Location was before the download directory:
-// vita3k in RetroArch's save directory (#7, i30817)
-static std::string old_save_storage_dir() {
+// vita3k in RetroArch's save directory: where the user data (accounts, saves,
+// trophies, photo album, registry) is kept, and where the other Storage
+// Location was before the download directory (#7, i30817)
+static std::string save_dir_vita3k() {
     const char *save = nullptr;
     if (libretro.environ_cb(RETRO_ENVIRONMENT_GET_SAVE_DIRECTORY, &save) && save && *save)
         return std::string(save) + "/vita3k";
@@ -2688,7 +2689,7 @@ static void start_load_job(bool close_first) {
     // other location, moves to the download directory, and the option, which
     // RetroArch set back to System Directory as it no longer knows the old
     // value, is set to Download Directory
-    if (!from.empty() && from == old_save_storage_dir() && from != libretro.system_dir) {
+    if (!from.empty() && from == save_dir_vita3k() && from != libretro.system_dir) {
         const std::string downloads = storage_dir_for("downloads");
         if (downloads != libretro.system_dir) {
             target_dir = downloads;
@@ -2698,6 +2699,11 @@ static void start_load_job(bool close_first) {
         }
     }
     bool move = !from.empty() && from != target_dir;
+    // what the user makes (vfs::user_data_paths: the accounts with their saves
+    // and trophies, the photo album, the registry) is kept in RetroArch's save
+    // directory, which can be synced to cloud storage, in its vita3k folder
+    // (#7, i30817); asked for here, on the main thread
+    const std::string save_root = save_dir_vita3k();
     if (!close_first)
         libretro.vita_dir = target_dir;
     lr_log(RETRO_LOG_INFO, "Storage: %s%s\n", target_dir.c_str(), move ? (" (data moved from " + from + ")").c_str() : "");
@@ -2723,7 +2729,7 @@ static void start_load_job(bool close_first) {
     s_job.progress_changed = false;
     s_job.active = true;
     lr_load_progress_main(lr_text(s_job.firmware_content ? "msg_preparing_firmware" : "msg_preparing_title"));
-    s_job.thread = std::thread([pref_path, system_dir, game_path, target_dir, from, move]() {
+    s_job.thread = std::thread([pref_path, system_dir, game_path, target_dir, from, move, save_root]() {
         t_load_job = true;
         try {
             if (s_job.close_first) {
@@ -2764,6 +2770,20 @@ static void start_load_job(bool close_first) {
                 note << libretro.vita_dir << '\n';
             }
             offer_storage_locations(system_dir);
+            // There unless the storage itself is still that folder (a
+            // Storage Location move to the download directory refused for
+            // lack of space): then they stay in it until that move is done.
+            // What the storage holds (from builds before, or a standalone
+            // Vita3K folder copied in) is moved there at every start.
+            if (!save_root.empty() && save_root != storage) {
+                vfs::user_data_root = fs_utils::utf8_to_path(save_root);
+                if (has_user_data_to_move(storage_path)) {
+                    lr_load_progress(lr_text("msg_moving_data"));
+                    move_user_data(storage_path, vfs::user_data_root);
+                }
+            } else {
+                vfs::user_data_root.clear();
+            }
             if (s_job.firmware_content) {
                 install_firmware_content(storage_path, game_path);
             } else {

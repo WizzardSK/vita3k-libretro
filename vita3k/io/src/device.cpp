@@ -99,7 +99,7 @@ fs::path construct_emulated_path(const VitaIoDevice dev, const fs::path &path, c
     if (redirect_pwd && dev == VitaIoDevice::host0) {
         return fs::current_path() / path;
     }
-    const fs::path host_path = fs_utils::construct_file_name(base_path, get_device_string(dev, false), path, ext);
+    const fs::path host_path = vfs::user_data_redirect(base_path, fs_utils::construct_file_name(base_path, get_device_string(dev, false), path, ext));
     return vfs::host_path_hook ? vfs::host_path_hook(host_path) : host_path;
 }
 

@@ -18,6 +18,7 @@
 #include <np/trophy/collection.h>
 
 #include <io/functions.h>
+#include <io/vfs.h>
 #include <util/log.h>
 
 #include <fmt/format.h>
@@ -27,7 +28,7 @@ namespace np::trophy {
 namespace {
 
 fs::path trophy_base_path(const CollectionSource &source) {
-    return source.vita_fs_path / "ux0/user" / source.user_id / "trophy";
+    return vfs::user_data_dir(source.vita_fs_path, source.user_id, "trophy");
 }
 
 void initialize_locked_progress(Context &context) {

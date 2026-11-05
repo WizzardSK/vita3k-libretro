@@ -20,6 +20,7 @@
 #include <config/state.h>
 #include <emuenv/state.h>
 #include <io/state.h>
+#include <io/vfs.h>
 #include <packages/sfo.h>
 #include <util/fs.h>
 #include <util/log.h>
@@ -356,7 +357,7 @@ void load_app_times(EmuEnvState &emuenv) {
     std::lock_guard<std::mutex> lock(state.mutex);
 
     state.app_times.clear();
-    const auto time_path{ emuenv.vita_fs_path / "ux0/user/time.xml" };
+    const auto time_path{ vfs::user_data_path(emuenv.vita_fs_path, "ux0/user/time.xml") };
     if (!fs::exists(time_path))
         return;
 
@@ -409,7 +410,7 @@ void save_app_times(EmuEnvState &emuenv) {
         }
     }
 
-    const auto time_path{ emuenv.vita_fs_path / "ux0/user/time.xml" };
+    const auto time_path{ vfs::user_data_path(emuenv.vita_fs_path, "ux0/user/time.xml") };
     if (!doc.save_file(time_path.c_str()))
         LOG_ERROR("Failed to write {}", time_path);
 }
@@ -497,7 +498,7 @@ void delete_app(EmuEnvState &emuenv, const std::string &app_path) {
         if (fs::exists(patch))
             fs::remove_all(patch);
 
-        const auto savedata{ emuenv.vita_fs_path / "ux0/user" / emuenv.io.user_id / "savedata" / app_entry.savedata };
+        const auto savedata{ vfs::user_data_dir(emuenv.vita_fs_path, emuenv.io.user_id, "savedata") / app_entry.savedata };
         if (fs::exists(savedata))
             fs::remove_all(savedata);
 

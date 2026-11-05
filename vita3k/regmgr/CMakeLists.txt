@@ -10,3 +10,4 @@ add_library(
 target_include_directories(regmgr PUBLIC include)
 target_include_directories(regmgr PRIVATE)
 target_link_libraries(regmgr PUBLIC util)
+target_link_libraries(regmgr PRIVATE io)

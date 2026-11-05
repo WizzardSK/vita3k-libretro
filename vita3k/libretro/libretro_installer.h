@@ -89,6 +89,14 @@ void content_closed();
 // (sco8487) (the firmware .pup files and camera images stay in system_dir), or a
 // move cut short gone on with from to's journal; true once all is across
 bool move_storage(const fs::path &from, const fs::path &to, const fs::path &system_dir, bool to_has_holes);
+// Whether the storage holds user data (vfs::user_data_paths: the accounts with
+// their saves and trophies, the photo album, the registry) to move to RetroArch's
+// save directory
+bool has_user_data_to_move(const fs::path &storage);
+// That user data moved from the storage to root (vfs::user_data_root), merged
+// with what root has: a file root already has is left where it is in the
+// storage, with a warning (sco8487)
+void move_user_data(const fs::path &storage, const fs::path &root);
 // What the core's folder takes on the disk, without what stays in system_dir
 // (and without the Persistent Caches and Direct layouts, which a location
 // without sparse files does not take)
