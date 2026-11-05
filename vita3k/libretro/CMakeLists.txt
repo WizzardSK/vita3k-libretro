@@ -42,6 +42,7 @@ target_link_libraries(vita3k_libretro PRIVATE
 	packages
 	patch
 	psvpfsparser
+	regmgr
 	renderer
 	shader
 	touch

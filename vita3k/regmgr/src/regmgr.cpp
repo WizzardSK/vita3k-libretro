@@ -392,6 +392,7 @@ void init_regmgr(RegMgrState &regmgr, const fs::path &vita_fs_path) {
 
     // Initialize the system.dreg
     regmgr.system_dreg_path = vita_fs_path / "vd0/registry/system.dreg";
+    fs::create_directories(regmgr.system_dreg_path.parent_path());
     regmgr.system_dreg.clear();
     if (!load_system_dreg(regmgr)) {
         LOG_WARN("Failed to load system.dreg, attempting to create it");

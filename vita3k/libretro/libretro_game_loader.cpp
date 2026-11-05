@@ -34,6 +34,7 @@
 #include <util/tracy.h>
 #include <packages/license.h>
 #include <packages/sfo.h>
+#include <regmgr/functions.h>
 #include <renderer/shaders.h>
 #include <renderer/state.h>
 #include <util/log.h>
@@ -74,6 +75,11 @@ bool libretro_init_emuenv(EmuEnvState &emuenv, const Root &root_paths) {
         return false;
     }
     LOG_INFO("app::init succeeded");
+    // The registry: upstream starts it from its GUI, which the core has not,
+    // so every sceRegMgr call of a game ran on an empty one (reads found
+    // nothing, writes were dropped). Its template comes with the firmware;
+    // system.dreg is made from it when missing.
+    regmgr::init_regmgr(emuenv.regmgr, emuenv.vita_fs_path);
 
     // Set the app path to the installed title_id
     emuenv.io.app_path = libretro.installed_title_id;
