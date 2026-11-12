@@ -4361,7 +4361,7 @@ struct retro_core_options_v2 options_bg = {
 #define CATEGORY_MSG_MISSING_PREINST_LABEL_CA "preginstal·lant el paquet"
 #define CATEGORY_MSG_MISSING_FONTS_LABEL_CA "tipografies"
 #define CATEGORY_MSG_FIRMWARE_MISSING_LABEL_CA NULL
-#define CATEGORY_MSG_FIRMWARE_REGULAR_DIR_LABEL_CA NULL
+#define CATEGORY_MSG_FIRMWARE_REGULAR_DIR_LABEL_CA "Firmware: carrega el fitxer .pup des d'un directori normal"
 #define CATEGORY_MSG_FIRMWARE_INSTALLED_ALL_LABEL_CA NULL
 #define CATEGORY_MSG_FIRMWARE_STILL_MISSING_LABEL_CA NULL
 #define CATEGORY_MSG_VITAMIN_UNSUPPORTED_LABEL_CA "Els abocats Vitamin no tenen suport!"
@@ -4382,8 +4382,8 @@ struct retro_core_options_v2 options_bg = {
 #define CATEGORY_MSG_NOT_VITA_PKG_LABEL_CA "No és un PKG de PS Vita!"
 #define CATEGORY_MSG_NOT_STARTED_LABEL_CA "No s'ha iniciat: {}"
 #define CATEGORY_MSG_PKG_NEEDS_LICENSE_LABEL_CA NULL
-#define CATEGORY_MSG_UPDATE_INSTALLED_LABEL_CA NULL
-#define CATEGORY_MSG_DLC_INSTALLED_LABEL_CA NULL
+#define CATEGORY_MSG_UPDATE_INSTALLED_LABEL_CA "Actualització instal·lada. S'aplica en iniciar el joc."
+#define CATEGORY_MSG_DLC_INSTALLED_LABEL_CA "DLC instal·lat. S'aplica en iniciar el joc."
 #define CATEGORY_MSG_GAME_PATH_NOT_FOUND_LABEL_CA "No s'ha trobat la ruta del joc!"
 #define CATEGORY_MSG_FOLDER_THROUGH_VFS_LABEL_CA NULL
 #define CATEGORY_MSG_UNSUPPORTED_FORMAT_LABEL_CA NULL
@@ -5396,7 +5396,7 @@ struct retro_core_options_v2 options_ca = {
 #define CATEGORY_NETWORK_INFO_0_CHS "网络选项"
 #define CATEGORY_INSTALL_LABEL_CHS "游戏"
 #define CATEGORY_INSTALL_INFO_0_CHS "管理指定游戏标题的数据，以及所有更新和可下载内容 (DLC)。"
-#define CATEGORY_REMOVE_LABEL_CHS NULL
+#define CATEGORY_REMOVE_LABEL_CHS "删除内容"
 #define CATEGORY_REMOVE_INFO_0_CHS NULL
 #define CATEGORY_CAMERA_LABEL_CHS "摄像头"
 #define CATEGORY_CAMERA_INFO_0_CHS "PS Vita 前置和后置摄像头所拍摄到的画面。"
@@ -5406,12 +5406,12 @@ struct retro_core_options_v2 options_ca = {
 #define CATEGORY_TROPHIES_INFO_0_CHS "当前游戏标题的奖杯信息。"
 #define CATEGORY_MODULES_LABEL_CHS "模块"
 #define CATEGORY_MODULES_INFO_0_CHS "当“系统”中的“模块模式”设为“自动与手动”或“手动”时所要加载的固件模块 (vs0/sys/external)。"
-#define CATEGORY_MSG_PREPARING_TITLE_LABEL_CHS NULL
+#define CATEGORY_MSG_PREPARING_TITLE_LABEL_CHS "正在准备标题"
 #define CATEGORY_MSG_PREPARING_TITLE_INFO_0_CHS NULL
-#define CATEGORY_MSG_PREPARING_FIRMWARE_LABEL_CHS NULL
-#define CATEGORY_MSG_CLOSING_TITLE_LABEL_CHS NULL
-#define CATEGORY_MSG_REMOVING_TITLES_LABEL_CHS NULL
-#define CATEGORY_MSG_MOVING_DATA_LABEL_CHS NULL
+#define CATEGORY_MSG_PREPARING_FIRMWARE_LABEL_CHS "准备固件"
+#define CATEGORY_MSG_CLOSING_TITLE_LABEL_CHS "结束标题"
+#define CATEGORY_MSG_REMOVING_TITLES_LABEL_CHS "移除标题"
+#define CATEGORY_MSG_MOVING_DATA_LABEL_CHS "正在移动数据"
 #define CATEGORY_MSG_MOVING_DATA_INFO_0_CHS NULL
 #define CATEGORY_MSG_STORAGE_NO_SPACE_INFO_LABEL_CHS NULL
 #define CATEGORY_MSG_STORAGE_NO_SPACE_MOVE_LABEL_CHS NULL
@@ -5444,16 +5444,16 @@ struct retro_core_options_v2 options_ca = {
 #define CATEGORY_MSG_GAME_NO_LICENSE_LABEL_CHS NULL
 #define CATEGORY_MSG_INSTALL_BASE_FIRST_LABEL_CHS NULL
 #define CATEGORY_MSG_COPY_DIR_FAILED_LABEL_CHS NULL
-#define CATEGORY_MSG_INSTALL_FAILED_LABEL_CHS NULL
+#define CATEGORY_MSG_INSTALL_FAILED_LABEL_CHS "安装失败!"
 #define CATEGORY_MSG_PKG_INSTALL_FAILED_LABEL_CHS NULL
 #define CATEGORY_MSG_NO_ROOM_DLC_LABEL_CHS NULL
 #define CATEGORY_MSG_NO_ROOM_UPDATE_LABEL_CHS NULL
-#define CATEGORY_MSG_NOT_VITA_PKG_LABEL_CHS NULL
+#define CATEGORY_MSG_NOT_VITA_PKG_LABEL_CHS "不是PS Vita PKG！"
 #define CATEGORY_MSG_NOT_STARTED_LABEL_CHS NULL
 #define CATEGORY_MSG_PKG_NEEDS_LICENSE_LABEL_CHS NULL
 #define CATEGORY_MSG_UPDATE_INSTALLED_LABEL_CHS NULL
 #define CATEGORY_MSG_DLC_INSTALLED_LABEL_CHS NULL
-#define CATEGORY_MSG_GAME_PATH_NOT_FOUND_LABEL_CHS NULL
+#define CATEGORY_MSG_GAME_PATH_NOT_FOUND_LABEL_CHS "找不到游戏路径！"
 #define CATEGORY_MSG_FOLDER_THROUGH_VFS_LABEL_CHS NULL
 #define CATEGORY_MSG_UNSUPPORTED_FORMAT_LABEL_CHS NULL
 #define CATEGORY_MSG_OPEN_FAILED_LABEL_CHS NULL
@@ -5542,10 +5542,10 @@ struct retro_core_options_v2 options_ca = {
 #define OPTION_VAL_200_CHS NULL
 #define VITA3K_CONTENT_SUBDIRS_LABEL_CHS "控制奖杯的排序方式。"
 #define VITA3K_CONTENT_SUBDIRS_INFO_0_CHS "开启：加载游戏目录及其子目录中的更新和 DLC。\n关闭：仅加载游戏目录中的更新和 DLC。"
-#define VITA3K_STORAGE_LOCATION_LABEL_CHS NULL
+#define VITA3K_STORAGE_LOCATION_LABEL_CHS "存储位置"
 #define VITA3K_STORAGE_LOCATION_INFO_0_CHS NULL
-#define OPTION_VAL_SYSTEM_CHS NULL
-#define OPTION_VAL_DOWNLOADS_CHS NULL
+#define OPTION_VAL_SYSTEM_CHS "系统目录"
+#define OPTION_VAL_DOWNLOADS_CHS "下载目录"
 #define VITA3K_PSTV_MODE_LABEL_CHS "PS TV 模式"
 #define VITA3K_PSTV_MODE_INFO_0_CHS "模拟 PlayStation TV 主机而非 PS Vita 手持设备。"
 #define VITA3K_MODULES_MODE_LABEL_CHS "系统模块加载模式"
@@ -10757,7 +10757,7 @@ struct retro_core_options_v2 options_da = {
 #define CATEGORY_MSG_CLOSING_TITLE_LABEL_DE "Titel wird geschlossen"
 #define CATEGORY_MSG_REMOVING_TITLES_LABEL_DE "Titel werden entfernt"
 #define CATEGORY_MSG_MOVING_DATA_LABEL_DE "Daten verschieben"
-#define CATEGORY_MSG_MOVING_DATA_INFO_0_DE NULL
+#define CATEGORY_MSG_MOVING_DATA_INFO_0_DE "Ein Schritt des Ladefortschritts: Das Verzeichnis des Cores wurde an den anderen Speicherort verschoben oder die Konten einschließlich ihrer Speicherstände und Trophäen, das Fotoalbum und die Registrierung wurden in das Speicherverzeichnis von RetroArch verschoben."
 #define CATEGORY_MSG_STORAGE_NO_SPACE_INFO_LABEL_DE "Das vita3k-Verzeichnis befindet sich im System- oder Downloadverzeichnis von RetroArch. Derzeit ist auf {} nicht genügend Speicherplatz vorhanden, um alle Daten zu verschieben. Ein Wechsel dorthin ist daher nicht möglich. „Inhalt entfernen“ ausführen und RetroArch neu starten, um den Vorgang mit weniger Daten erneut zu versuchen."
 #define CATEGORY_MSG_STORAGE_NO_SPACE_MOVE_LABEL_DE "Nicht genügend Speicherplatz in {}, um die Daten dorthin zu verschieben. Der Speicherort bleibt daher {}."
 #define CATEGORY_MSG_STORAGE_SYSTEM_DIR_LABEL_DE "Systemverzeichnis von RetroArch"
@@ -15033,11 +15033,11 @@ struct retro_core_options_v2 options_eo = {
 #define CATEGORY_MSG_CLOSING_TITLE_LABEL_ES "Cerrando título"
 #define CATEGORY_MSG_REMOVING_TITLES_LABEL_ES "Eliminando títulos"
 #define CATEGORY_MSG_MOVING_DATA_LABEL_ES "Moviendo datos"
-#define CATEGORY_MSG_MOVING_DATA_INFO_0_ES NULL
-#define CATEGORY_MSG_STORAGE_NO_SPACE_INFO_LABEL_ES NULL
+#define CATEGORY_MSG_MOVING_DATA_INFO_0_ES "Un paso del proceso de carga: el directorio del núcleo se moverá a la otra ubicación de almacenamiento; o se moverán las cuentas con sus datos guardados, trofeos, álbum de fotos y registro al directorio de archivos de guardado de RetroArch."
+#define CATEGORY_MSG_STORAGE_NO_SPACE_INFO_LABEL_ES "El directorio vita3k se encuentra en los directorios del sistema o de descargas de RetroArch. {} no tiene espacio libre para mover todos los datos, así que no puedes usar este almacenamiento. Elimina contenidos y reinicia para volver a intentarlo con más espacio libre."
 #define CATEGORY_MSG_STORAGE_NO_SPACE_MOVE_LABEL_ES "No hay espacio suficiente en {} para mover los datos, así que el almacenamiento permanecerá en {}."
 #define CATEGORY_MSG_STORAGE_SYSTEM_DIR_LABEL_ES "Directorio del sistema de RetroArch"
-#define CATEGORY_MSG_STORAGE_DOWNLOAD_DIR_LABEL_ES NULL
+#define CATEGORY_MSG_STORAGE_DOWNLOAD_DIR_LABEL_ES "Directorio de descargas de RetroArch"
 #define CATEGORY_MSG_CHANGING_RUN_MODE_LABEL_ES "Cambiando modo de ejecución"
 #define CATEGORY_MSG_INSTALLING_TITLE_LABEL_ES "Instalando título"
 #define CATEGORY_MSG_INSTALLING_DLC_LABEL_ES "Instalando contenido descargable"
@@ -15164,9 +15164,9 @@ struct retro_core_options_v2 options_eo = {
 #define VITA3K_CONTENT_SUBDIRS_LABEL_ES "Incluir subdirectorios"
 #define VITA3K_CONTENT_SUBDIRS_INFO_0_ES "Activado: carga las actualizaciones y los DLC que se encuentren en el directorio del título y en sus subdirectorios.\nDesactivado: carga las actualizaciones y los DLC que solo estén en el directorio del título."
 #define VITA3K_STORAGE_LOCATION_LABEL_ES "Ubicación de almacenamiento"
-#define VITA3K_STORAGE_LOCATION_INFO_0_ES NULL
+#define VITA3K_STORAGE_LOCATION_INFO_0_ES "El directorio vita3k se ubicará en los directorios del sistema o de descargas de RetroArch. Si tienes el directorio de descargas en un almacenamiento remoto, más grande o más rápido, con esta opción podrás usarlo. Los archivos .PUP del firmware y las imágenes de las cámaras se seguirán leyendo de system/vita3k."
 #define OPTION_VAL_SYSTEM_ES "Directorio del sistema"
-#define OPTION_VAL_DOWNLOADS_ES NULL
+#define OPTION_VAL_DOWNLOADS_ES "Directorio de descargas"
 #define VITA3K_PSTV_MODE_LABEL_ES "Modo PS TV"
 #define VITA3K_PSTV_MODE_INFO_0_ES "Emula una PlayStation TV en lugar de una PS Vita."
 #define VITA3K_MODULES_MODE_LABEL_ES "Modo de módulos"
@@ -19309,7 +19309,7 @@ struct retro_core_options_v2 options_fr = {
 #define CATEGORY_MSG_CLOSING_TITLE_LABEL_GA "An teideal a dhúnadh"
 #define CATEGORY_MSG_REMOVING_TITLES_LABEL_GA "Teidil a bhaint"
 #define CATEGORY_MSG_MOVING_DATA_LABEL_GA "Sonraí a aistriú"
-#define CATEGORY_MSG_MOVING_DATA_INFO_0_GA NULL
+#define CATEGORY_MSG_MOVING_DATA_INFO_0_GA "Céim sa phróiseas luchtaithe: aistríodh eolaire an chroí go dtí an Suíomh Stórála eile, nó aistríodh na cuntais — mar aon lena gcuid comhad sábhála agus trófaithe — an t-albam grianghraf, agus an clárlann go dtí eolaire sábhála RetroArch."
 #define CATEGORY_MSG_STORAGE_NO_SPACE_INFO_LABEL_GA "Tá an comhadlann vita3k suite i gcomhadlann chórais nó i gcomhadlann íoslódála RetroArch. Faoi láthair, níl dóthain spáis ag {} chun na sonraí go léir a aistriú, mar sin ní féidir aistriú chuige. Bain ábhar amach agus atosaigh an córas chun triail eile a bhaint as le níos lú sonraí."
 #define CATEGORY_MSG_STORAGE_NO_SPACE_MOVE_LABEL_GA "Níl dóthain spáis i {} chun na sonraí a aistriú ansin; fanann an stór i {}."
 #define CATEGORY_MSG_STORAGE_SYSTEM_DIR_LABEL_GA "Eolaire córais RetroArch"
@@ -33370,7 +33370,7 @@ struct retro_core_options_v2 options_pl = {
 #define OPTION_VAL_13_PT_BR NULL
 #define OPTION_VAL_14_PT_BR NULL
 #define OPTION_VAL_15_PT_BR NULL
-#define OPTION_VAL_16_VITA3K_SYS_LANG_PT_BR NULL
+#define OPTION_VAL_16_VITA3K_SYS_LANG_PT_BR "Polonês"
 #define OPTION_VAL_17_PT_BR NULL
 #define OPTION_VAL_18_PT_BR NULL
 #define OPTION_VAL_19_PT_BR NULL
@@ -36398,7 +36398,7 @@ struct retro_core_options_v2 options_ru = {
 #define CATEGORY_INSTALL_LABEL_SK "Obsah"
 #define CATEGORY_INSTALL_INFO_0_SK "Správa dát daného titulu, ako aj jeho aktualizácií a stiahnuteľného obsahu."
 #define CATEGORY_REMOVE_LABEL_SK "Odstrániť obsah"
-#define CATEGORY_REMOVE_INFO_0_SK NULL
+#define CATEGORY_REMOVE_INFO_0_SK "Vyberie tituly s nainštalovanými dátami a vyrovnávacími pamäťami, ktoré sa vymažú pri zatvorení alebo resete jadra. Neodstraňuje pôvodné médiá."
 #define CATEGORY_CAMERA_LABEL_SK "Kamera"
 #define CATEGORY_CAMERA_INFO_0_SK "Čo vidia predná a zadná kamera konzoly Vita."
 #define CATEGORY_ACCOUNTS_LABEL_SK "Účty"
@@ -36407,75 +36407,75 @@ struct retro_core_options_v2 options_ru = {
 #define CATEGORY_TROPHIES_INFO_0_SK "Trofeje aktuálneho titulu."
 #define CATEGORY_MODULES_LABEL_SK "Moduly"
 #define CATEGORY_MODULES_INFO_0_SK "Moduly firmvéru (vs0/sys/external), ktoré sa načítajú, keď je Režim modulov (v Systéme) Automaticky a ručne alebo Ručne."
-#define CATEGORY_MSG_PREPARING_TITLE_LABEL_SK NULL
-#define CATEGORY_MSG_PREPARING_TITLE_INFO_0_SK NULL
-#define CATEGORY_MSG_PREPARING_FIRMWARE_LABEL_SK NULL
-#define CATEGORY_MSG_CLOSING_TITLE_LABEL_SK NULL
-#define CATEGORY_MSG_REMOVING_TITLES_LABEL_SK NULL
-#define CATEGORY_MSG_MOVING_DATA_LABEL_SK NULL
-#define CATEGORY_MSG_MOVING_DATA_INFO_0_SK NULL
-#define CATEGORY_MSG_STORAGE_NO_SPACE_INFO_LABEL_SK NULL
-#define CATEGORY_MSG_STORAGE_NO_SPACE_MOVE_LABEL_SK NULL
-#define CATEGORY_MSG_STORAGE_SYSTEM_DIR_LABEL_SK NULL
-#define CATEGORY_MSG_STORAGE_DOWNLOAD_DIR_LABEL_SK NULL
-#define CATEGORY_MSG_CHANGING_RUN_MODE_LABEL_SK NULL
-#define CATEGORY_MSG_INSTALLING_TITLE_LABEL_SK NULL
-#define CATEGORY_MSG_INSTALLING_DLC_LABEL_SK NULL
-#define CATEGORY_MSG_INSTALLING_UPDATE_LABEL_SK NULL
-#define CATEGORY_MSG_PART_PREINST_LABEL_SK NULL
-#define CATEGORY_MSG_PART_SYSTEM_FIRMWARE_LABEL_SK NULL
-#define CATEGORY_MSG_PART_FONT_PACKAGE_LABEL_SK NULL
-#define CATEGORY_MSG_PART_FIRMWARE_PACKAGE_LABEL_SK NULL
-#define CATEGORY_MSG_PART_INSTALL_FAILED_LABEL_SK NULL
-#define CATEGORY_MSG_MISSING_SYSTEM_FIRMWARE_LABEL_SK NULL
-#define CATEGORY_MSG_MISSING_PREINST_LABEL_SK NULL
-#define CATEGORY_MSG_MISSING_FONTS_LABEL_SK NULL
-#define CATEGORY_MSG_FIRMWARE_MISSING_LABEL_SK NULL
-#define CATEGORY_MSG_FIRMWARE_REGULAR_DIR_LABEL_SK NULL
-#define CATEGORY_MSG_FIRMWARE_INSTALLED_ALL_LABEL_SK NULL
-#define CATEGORY_MSG_FIRMWARE_STILL_MISSING_LABEL_SK NULL
-#define CATEGORY_MSG_VITAMIN_UNSUPPORTED_LABEL_SK NULL
-#define CATEGORY_MSG_NONPDRM_FAILED_LABEL_SK NULL
-#define CATEGORY_MSG_UPDATE_DLC_NO_LICENSE_LABEL_SK NULL
-#define CATEGORY_MSG_NO_SPACE_LABEL_SK NULL
-#define CATEGORY_MSG_NO_PARAM_SFO_DIR_LABEL_SK NULL
-#define CATEGORY_MSG_NO_PARAM_SFO_LABEL_SK NULL
-#define CATEGORY_MSG_GAME_INFO_FAILED_LABEL_SK NULL
-#define CATEGORY_MSG_NO_TITLE_ID_LABEL_SK NULL
-#define CATEGORY_MSG_GAME_NO_LICENSE_LABEL_SK NULL
-#define CATEGORY_MSG_INSTALL_BASE_FIRST_LABEL_SK NULL
-#define CATEGORY_MSG_COPY_DIR_FAILED_LABEL_SK NULL
-#define CATEGORY_MSG_INSTALL_FAILED_LABEL_SK NULL
-#define CATEGORY_MSG_PKG_INSTALL_FAILED_LABEL_SK NULL
-#define CATEGORY_MSG_NO_ROOM_DLC_LABEL_SK NULL
-#define CATEGORY_MSG_NO_ROOM_UPDATE_LABEL_SK NULL
-#define CATEGORY_MSG_NOT_VITA_PKG_LABEL_SK NULL
-#define CATEGORY_MSG_NOT_STARTED_LABEL_SK NULL
-#define CATEGORY_MSG_PKG_NEEDS_LICENSE_LABEL_SK NULL
-#define CATEGORY_MSG_UPDATE_INSTALLED_LABEL_SK NULL
-#define CATEGORY_MSG_DLC_INSTALLED_LABEL_SK NULL
-#define CATEGORY_MSG_GAME_PATH_NOT_FOUND_LABEL_SK NULL
-#define CATEGORY_MSG_FOLDER_THROUGH_VFS_LABEL_SK NULL
-#define CATEGORY_MSG_UNSUPPORTED_FORMAT_LABEL_SK NULL
-#define CATEGORY_MSG_OPEN_FAILED_LABEL_SK NULL
-#define CATEGORY_MSG_ARCHIVE_READ_FAILED_LABEL_SK NULL
-#define CATEGORY_MSG_ARCHIVE_NO_CONTENT_LABEL_SK NULL
-#define CATEGORY_MSG_ARCHIVE_INFO_FAILED_LABEL_SK NULL
-#define CATEGORY_MSG_EXTRACT_FAILED_LABEL_SK NULL
-#define CATEGORY_MSG_ACCOUNT_NOT_RENAMED_LABEL_SK NULL
-#define CATEGORY_MSG_ACCOUNT_NAME_EMPTY_LABEL_SK NULL
-#define CATEGORY_MSG_ACCOUNT_RENAMED_LABEL_SK NULL
-#define CATEGORY_MSG_ACCOUNT_NOT_FOUND_LABEL_SK NULL
-#define CATEGORY_MSG_ACCOUNT_NAME_ENTRY_LABEL_SK NULL
-#define CATEGORY_MSG_RESTART_NEEDED_LABEL_SK NULL
-#define CATEGORY_MSG_REMOVE_CONTENT_APPLIES_LATER_LABEL_SK NULL
-#define CATEGORY_MSG_NO_MEMORY_MAPPING_LABEL_SK NULL
-#define CATEGORY_MSG_BACKEND_OPTION_UNAVAILABLE_LABEL_SK NULL
-#define CATEGORY_MSG_VIDEO_DRIVER_UNAVAILABLE_LABEL_SK NULL
-#define CATEGORY_MSG_NO_VULKAN_OR_OPENGL_LABEL_SK NULL
-#define CATEGORY_MSG_NO_VULKAN_LABEL_SK NULL
+#define CATEGORY_MSG_PREPARING_TITLE_LABEL_SK "Príprava titulu"
+#define CATEGORY_MSG_PREPARING_TITLE_INFO_0_SK "Krok priebehu načítania. Titul znamená hru spolu s jej aktualizáciou a DLC."
+#define CATEGORY_MSG_PREPARING_FIRMWARE_LABEL_SK "Príprava firmvéru"
+#define CATEGORY_MSG_CLOSING_TITLE_LABEL_SK "Zatváranie titulu"
+#define CATEGORY_MSG_REMOVING_TITLES_LABEL_SK "Odstraňovanie titulov"
+#define CATEGORY_MSG_MOVING_DATA_LABEL_SK "Presúvanie dát"
+#define CATEGORY_MSG_MOVING_DATA_INFO_0_SK "Krok priebehu načítania: adresár jadra sa presunul do druhého Umiestnenia úložiska, alebo sa účty s uloženými pozíciami a trofejami, fotoalbum a register presunuli do adresára uložených pozícií RetroArchu."
+#define CATEGORY_MSG_STORAGE_NO_SPACE_INFO_LABEL_SK "Adresár vita3k je v systémovom adresári alebo v adresári sťahovania RetroArchu. {} momentálne nemá dosť miesta na presun všetkých dát, takže naň nemôžete prepnúť. Na nový pokus s menším množstvom dát použite Odstrániť obsah a reštartujte."
+#define CATEGORY_MSG_STORAGE_NO_SPACE_MOVE_LABEL_SK "V {} nie je dosť miesta na presun dát; úložisko zostáva v {}."
+#define CATEGORY_MSG_STORAGE_SYSTEM_DIR_LABEL_SK "systémový adresár RetroArchu"
+#define CATEGORY_MSG_STORAGE_DOWNLOAD_DIR_LABEL_SK "adresár sťahovania RetroArchu"
+#define CATEGORY_MSG_CHANGING_RUN_MODE_LABEL_SK "Zmena spôsobu spustenia"
+#define CATEGORY_MSG_INSTALLING_TITLE_LABEL_SK "Inštalácia titulu"
+#define CATEGORY_MSG_INSTALLING_DLC_LABEL_SK "Inštalácia DLC"
+#define CATEGORY_MSG_INSTALLING_UPDATE_LABEL_SK "Inštalácia aktualizácie"
+#define CATEGORY_MSG_PART_PREINST_LABEL_SK "Predinštalovaný balík"
+#define CATEGORY_MSG_PART_SYSTEM_FIRMWARE_LABEL_SK "Systémový firmvér"
+#define CATEGORY_MSG_PART_FONT_PACKAGE_LABEL_SK "Balík písiem"
+#define CATEGORY_MSG_PART_FIRMWARE_PACKAGE_LABEL_SK "Balík firmvéru"
+#define CATEGORY_MSG_PART_INSTALL_FAILED_LABEL_SK "Inštalácia {} zlyhala!"
+#define CATEGORY_MSG_MISSING_SYSTEM_FIRMWARE_LABEL_SK "systémový firmvér"
+#define CATEGORY_MSG_MISSING_PREINST_LABEL_SK "predinštalovaný balík"
+#define CATEGORY_MSG_MISSING_FONTS_LABEL_SK "písma"
+#define CATEGORY_MSG_FIRMWARE_MISSING_LABEL_SK "Chýba firmvér: {}. Vložte súbory .pup do system/vita3k; nainštalujú sa pri ďalšom spustení."
+#define CATEGORY_MSG_FIRMWARE_REGULAR_DIR_LABEL_SK "Firmvér: načítajte .pup z bežného adresára"
+#define CATEGORY_MSG_FIRMWARE_INSTALLED_ALL_LABEL_SK "Firmvér nainštalovaný: všetky tri časti sú na mieste. Načítajte hru."
+#define CATEGORY_MSG_FIRMWARE_STILL_MISSING_LABEL_SK "Balík firmvéru nainštalovaný. Stále chýba: {} - načítajte aj ten .pup."
+#define CATEGORY_MSG_VITAMIN_UNSUPPORTED_LABEL_SK "Dumpy Vitamin nie sú podporované!"
+#define CATEGORY_MSG_NONPDRM_FAILED_LABEL_SK "Dešifrovanie NoNpDrm zlyhalo!"
+#define CATEGORY_MSG_UPDATE_DLC_NO_LICENSE_LABEL_SK "Táto aktualizácia alebo DLC je šifrovaná a chýba jej licencia (najprv nainštalujte hru alebo pridajte jej work.bin)"
+#define CATEGORY_MSG_NO_SPACE_LABEL_SK "Nedostatok voľného miesta na inštaláciu: potrebných {:.1f} GiB, voľných {:.1f} GiB"
+#define CATEGORY_MSG_NO_PARAM_SFO_DIR_LABEL_SK "V adresári hry sa nenašiel param.sfo!"
+#define CATEGORY_MSG_NO_PARAM_SFO_LABEL_SK "Nenašiel sa param.sfo!"
+#define CATEGORY_MSG_GAME_INFO_FAILED_LABEL_SK "Nepodarilo sa prečítať informácie o hre!"
+#define CATEGORY_MSG_NO_TITLE_ID_LABEL_SK "Neplatný param.sfo - chýba title_id!"
+#define CATEGORY_MSG_GAME_NO_LICENSE_LABEL_SK "Táto hra je šifrovaná a chýba jej licencia (sce_sys/package/work.bin)"
+#define CATEGORY_MSG_INSTALL_BASE_FIRST_LABEL_SK "Najprv nainštalujte základnú hru!"
+#define CATEGORY_MSG_COPY_DIR_FAILED_LABEL_SK "Nepodarilo sa skopírovať adresár hry!"
+#define CATEGORY_MSG_INSTALL_FAILED_LABEL_SK "Inštalácia zlyhala!"
+#define CATEGORY_MSG_PKG_INSTALL_FAILED_LABEL_SK "Inštalácia PKG zlyhala: {}"
+#define CATEGORY_MSG_NO_ROOM_DLC_LABEL_SK "Nespustené, nie je miesto pre DLC: {}"
+#define CATEGORY_MSG_NO_ROOM_UPDATE_LABEL_SK "Nespustené, nie je miesto pre aktualizáciu: {}"
+#define CATEGORY_MSG_NOT_VITA_PKG_LABEL_SK "Nie je to PKG pre PS Vita!"
+#define CATEGORY_MSG_NOT_STARTED_LABEL_SK "Nespustené: {}"
+#define CATEGORY_MSG_PKG_NEEDS_LICENSE_LABEL_SK "Inštalácia PKG zlyhala! Hra potrebuje svoju licenciu (zRIF alebo work.bin) vedľa PKG - pozrite log"
+#define CATEGORY_MSG_UPDATE_INSTALLED_LABEL_SK "Aktualizácia nainštalovaná. Použije sa pri spustení hry."
+#define CATEGORY_MSG_DLC_INSTALLED_LABEL_SK "DLC nainštalované. Použije sa pri spustení hry."
+#define CATEGORY_MSG_GAME_PATH_NOT_FOUND_LABEL_SK "Cesta k hre sa nenašla!"
+#define CATEGORY_MSG_FOLDER_THROUGH_VFS_LABEL_SK "Priečinok s hrou otvorený cez prístup k súborom RetroArchu (výber súborov v Androide, Samba) nie je podporovaný; načítajte .vpk, .zip alebo .pkg"
+#define CATEGORY_MSG_UNSUPPORTED_FORMAT_LABEL_SK "Nepodporovaný formát! Použite .vpk, .zip, .pkg alebo adresár hry"
+#define CATEGORY_MSG_OPEN_FAILED_LABEL_SK "Nepodarilo sa otvoriť súbor hry!"
+#define CATEGORY_MSG_ARCHIVE_READ_FAILED_LABEL_SK "Nepodarilo sa prečítať archív hry!"
+#define CATEGORY_MSG_ARCHIVE_NO_CONTENT_LABEL_SK "V archíve nie je platný obsah hry!"
+#define CATEGORY_MSG_ARCHIVE_INFO_FAILED_LABEL_SK "Z archívu sa nepodarilo prečítať informácie o hre!"
+#define CATEGORY_MSG_EXTRACT_FAILED_LABEL_SK "Nepodarilo sa rozbaliť hru!"
+#define CATEGORY_MSG_ACCOUNT_NOT_RENAMED_LABEL_SK "Účet nebol premenovaný"
+#define CATEGORY_MSG_ACCOUNT_NAME_EMPTY_LABEL_SK "Meno musí mať aspoň jeden znak"
+#define CATEGORY_MSG_ACCOUNT_RENAMED_LABEL_SK "Účet {} sa teraz volá {}"
+#define CATEGORY_MSG_ACCOUNT_NOT_FOUND_LABEL_SK "Nedá sa premenovať: účet sa nenašiel"
+#define CATEGORY_MSG_ACCOUNT_NAME_ENTRY_LABEL_SK "Meno účtu: {}_  (Start/Enter potvrdí, Select/Esc zruší)"
+#define CATEGORY_MSG_RESTART_NEEDED_LABEL_SK "Niektoré zmeny nastavení vyžadujú reštart obsahu, aby sa úplne prejavili."
+#define CATEGORY_MSG_REMOVE_CONTENT_APPLIES_LATER_LABEL_SK "Odstrániť obsah sa vykoná pri zatvorení alebo resete obsahu."
+#define CATEGORY_MSG_NO_MEMORY_MAPPING_LABEL_SK "Toto GPU nemá Mapovanie pamäte {}, používa sa {}"
+#define CATEGORY_MSG_BACKEND_OPTION_UNAVAILABLE_LABEL_SK "Renderer žiada {0}, ale RetroArch nemohol jadru dať {0}; beží na {1}"
+#define CATEGORY_MSG_VIDEO_DRIVER_UNAVAILABLE_LABEL_SK "Video ovládač RetroArchu je {0}, ale RetroArch nemohol jadru dať {0}; beží na {1}"
+#define CATEGORY_MSG_NO_VULKAN_OR_OPENGL_LABEL_SK "RetroArch nedal jadru ani Vulkan, ani OpenGL 4.4. Nastavte Nastavenia > Ovládače > Video na vulkan alebo glcore."
+#define CATEGORY_MSG_NO_VULKAN_LABEL_SK "RetroArch nedal jadru Vulkan. Nastavte Nastavenia > Ovládače > Video na vulkan."
 #define VITA3K_BACKEND_RENDERER_LABEL_SK "Renderer"
-#define VITA3K_BACKEND_RENDERER_INFO_0_SK NULL
+#define VITA3K_BACKEND_RENDERER_INFO_0_SK "Grafický backend, odporúča sa Vulkan. Automaticky použije video ovládač frontendu."
 #define OPTION_VAL_AUTO_SK "Automaticky"
 #define OPTION_VAL_VULKAN_SK NULL
 #define OPTION_VAL_OPENGL_SK NULL
@@ -36492,15 +36492,15 @@ struct retro_core_options_v2 options_ru = {
 #define OPTION_VAL_4_VITA3K_ANISOTROPIC_FILTERING_SK NULL
 #define OPTION_VAL_8_SK NULL
 #define OPTION_VAL_16_SK NULL
-#define VITA3K_ASYNC_PIPELINE_LABEL_SK NULL
+#define VITA3K_ASYNC_PIPELINE_LABEL_SK "Asynchrónna kompilácia pipeline (Vulkan)"
 #define VITA3K_ASYNC_PIPELINE_INFO_0_SK "Kompiluje pipeline shaderov asynchrónne, aby sa znížilo trhanie."
 #define VITA3K_COMPILE_OVERLAY_LABEL_SK "Prekrytie kompilácie shaderov"
-#define VITA3K_MEMORY_MAPPING_LABEL_SK NULL
+#define VITA3K_MEMORY_MAPPING_LABEL_SK "Mapovanie pamäte (Vulkan)"
 #define VITA3K_MEMORY_MAPPING_INFO_0_SK "Spôsob mapovania pamäte GPU. Vyššie metódy zlepšujú výkon, ale vyžadujú podporu GPU."
 #define OPTION_VAL_DOUBLE_BUFFER_SK "Dvojitý zásobník"
 #define OPTION_VAL_EXTERNAL_HOST_SK "Externý hostiteľ"
 #define OPTION_VAL_PAGE_TABLE_SK "Tabuľka stránok"
-#define VITA3K_HIGH_ACCURACY_LABEL_SK NULL
+#define VITA3K_HIGH_ACCURACY_LABEL_SK "Vysoko presné vykresľovanie (Vulkan)"
 #define VITA3K_HIGH_ACCURACY_INFO_0_SK "Zapne presnejšie, ale pomalšie techniky vykresľovania."
 #define VITA3K_CPU_OPT_LABEL_SK "Optimalizácie CPU (Dynarmic JIT)"
 #define VITA3K_CPU_OPT_INFO_0_SK "Zapne Dynarmic JIT pre rýchlejšiu emuláciu procesora."
@@ -36527,14 +36527,14 @@ struct retro_core_options_v2 options_ru = {
 #define OPTION_VAL_TYPE_SK "Podľa stupňa"
 #define OPTION_VAL_NAME_SK "Podľa názvu"
 #define OPTION_VAL_DATE_SK "Podľa dátumu získania"
-#define VITA3K_REMOVE_USER_DATA_LABEL_SK NULL
-#define VITA3K_REMOVE_USER_DATA_INFO_0_SK NULL
+#define VITA3K_REMOVE_USER_DATA_LABEL_SK "Vymazať uložené pozície a trofeje odstránených titulov"
+#define VITA3K_REMOVE_USER_DATA_INFO_0_SK "Upozornenie: toto nastavenie sa automaticky nevypne."
 #define OPTION_VAL_NO_SK "Nie"
-#define OPTION_VAL_SAVES_SK NULL
-#define OPTION_VAL_TROPHIES_SK NULL
+#define OPTION_VAL_SAVES_SK "Iba uložené pozície"
+#define OPTION_VAL_TROPHIES_SK "Iba trofeje"
 #define OPTION_VAL_BOTH_SK "Obe"
-#define VITA3K_STORAGE_LIMIT_LABEL_SK NULL
-#define VITA3K_STORAGE_LIMIT_INFO_0_SK NULL
+#define VITA3K_STORAGE_LIMIT_LABEL_SK "Limit úložiska"
+#define VITA3K_STORAGE_LIMIT_INFO_0_SK "Nastaví limit úložiska pre všetky tituly. Keď nový titul tento limit prekročí, systém automaticky odstráni najdlhšie nehrané tituly, pričom nikdy nevymaže aktuálny titul (uložené pozície alebo trofeje iba vtedy, ak je voľba na ich vymazanie zapnutá)."
 #define OPTION_VAL_5_SK NULL
 #define OPTION_VAL_10_SK NULL
 #define OPTION_VAL_20_SK NULL
@@ -36543,10 +36543,10 @@ struct retro_core_options_v2 options_ru = {
 #define OPTION_VAL_200_SK NULL
 #define VITA3K_CONTENT_SUBDIRS_LABEL_SK "Zahrnúť podadresáre"
 #define VITA3K_CONTENT_SUBDIRS_INFO_0_SK "ZAPNUTÉ: Načíta aktualizácie a DLC v adresári titulu a v jeho podadresároch.\nVYPNUTÉ: Načíta aktualizácie a DLC iba v adresári titulu."
-#define VITA3K_STORAGE_LOCATION_LABEL_SK NULL
-#define VITA3K_STORAGE_LOCATION_INFO_0_SK NULL
-#define OPTION_VAL_SYSTEM_SK NULL
-#define OPTION_VAL_DOWNLOADS_SK NULL
+#define VITA3K_STORAGE_LOCATION_LABEL_SK "Umiestnenie úložiska"
+#define VITA3K_STORAGE_LOCATION_INFO_0_SK "Adresár vita3k je v systémovom adresári alebo v adresári sťahovania RetroArchu. Ak má používateľ adresár sťahovania na vzdialenom, väčšom alebo rýchlejšom úložisku, môže ho týmto prepnúť. Súbory firmvéru .pup a obrázky kamery sa stále čítajú zo system/vita3k."
+#define OPTION_VAL_SYSTEM_SK "Systémový adresár"
+#define OPTION_VAL_DOWNLOADS_SK "Adresár sťahovania"
 #define VITA3K_PSTV_MODE_LABEL_SK "Režim PS TV"
 #define VITA3K_PSTV_MODE_INFO_0_SK "Emuluje PlayStation TV namiesto PS Vita."
 #define VITA3K_MODULES_MODE_LABEL_SK "Režim modulov"
@@ -36557,7 +36557,7 @@ struct retro_core_options_v2 options_ru = {
 #define VITA3K_FPS_HACK_INFO_0_SK "Pokúsi sa spustiť hry uzamknuté na 30 fps pri 60 fps. Môže spôsobiť problémy."
 #define VITA3K_SYS_BUTTON_LABEL_SK "Potvrdzovacie tlačidlo"
 #define VITA3K_SYS_BUTTON_INFO_0_SK "Ktoré tlačidlo sa používa na potvrdenie."
-#define OPTION_VAL_0_SK NULL
+#define OPTION_VAL_0_SK "Kruh"
 #define OPTION_VAL_1_VITA3K_SYS_BUTTON_SK "Kríž"
 #define VITA3K_SYS_LANG_LABEL_SK "Jazyk systému"
 #define VITA3K_SYS_LANG_INFO_0_SK "Jazyk konzoly, ktorý hry používajú pre svoje texty a v ktorom sa zobrazujú systémové dialógy. Prejaví sa pri ďalšom spustení hry."
@@ -36648,10 +36648,10 @@ struct retro_core_options_v2 options_ru = {
 #define VITA3K_BACK_CAMERA_INFO_0_SK "Čo vidí zadná kamera konzoly Vita. Kamera hostiteľa: kamera RetroArchu (v Nastavenia > Súkromie musí byť zapnuté Povoliť kameru a pre túto platformu musí existovať ovládač kamery). Obrázok: system/vita3k/camera/back.png alebo back.jpg. Jednofarebná: Farba zadnej kamery. Keď zdroj nie je dostupný, použije sa ďalší. Prejaví sa, keď hra nabudúce otvorí kameru."
 #define VITA3K_BACK_CAMERA_COLOR_LABEL_SK "Farba zadnej kamery"
 #define VITA3K_BACK_CAMERA_COLOR_INFO_0_SK "Farba, ktorú zadná kamera zobrazuje pri voľbe Jednofarebná."
-#define VITA3K_DISABLE_SURFACE_SYNC_LABEL_SK NULL
-#define VITA3K_DISABLE_SURFACE_SYNC_INFO_0_SK NULL
-#define VITA3K_DISABLE_MASK_BIT_LABEL_SK NULL
-#define VITA3K_DISABLE_MASK_BIT_INFO_0_SK NULL
+#define VITA3K_DISABLE_SURFACE_SYNC_LABEL_SK "Vypnúť synchronizáciu povrchov"
+#define VITA3K_DISABLE_SURFACE_SYNC_INFO_0_SK "Optimalizácia pamäte GPU. Môže zlepšiť výkon o 20-40 %. Niekoľko hier číta späť to, čo GPU nakreslilo, a pri zapnutí sa vykresľuje nesprávne. Vulkan: použije sa iba so zapnutým Mapovaním pamäte. OpenGL: nepoužíva sa na Androide."
+#define VITA3K_DISABLE_MASK_BIT_LABEL_SK "Vypnúť maskovací bit (OpenGL)"
+#define VITA3K_DISABLE_MASK_BIT_INFO_0_SK "Obchádza čiernu obrazovku na niektorých integrovaných GPU AMD. Niektoré hry, ktoré maskovací bit používajú, sa potom vykresľujú nesprávne, preto ho nechajte vypnutý, ak to nie je nutné."
 #define VITA3K_FILE_LOADING_DELAY_LABEL_SK "Oneskorenie načítania súborov"
 #define VITA3K_FILE_LOADING_DELAY_INFO_0_SK "Oneskorenie načítania súborov v milisekundách. Pomáha pri hrách citlivých na časovanie."
 #define OPTION_VAL_0_VITA3K_FILE_LOADING_DELAY_SK NULL
@@ -38551,11 +38551,11 @@ struct retro_core_options_v2 options_sr = {
 #define CATEGORY_MSG_CLOSING_TITLE_LABEL_SV "Stänger titeln"
 #define CATEGORY_MSG_REMOVING_TITLES_LABEL_SV "Tar bort titlar"
 #define CATEGORY_MSG_MOVING_DATA_LABEL_SV "Flyttar data"
-#define CATEGORY_MSG_MOVING_DATA_INFO_0_SV NULL
-#define CATEGORY_MSG_STORAGE_NO_SPACE_INFO_LABEL_SV NULL
+#define CATEGORY_MSG_MOVING_DATA_INFO_0_SV "Ett steg i inläsningsförloppet: kärnans katalog flyttades till den andra lagringsplatsen, eller kontona med sina sparfiler och troféer, fotoalbumet och registret flyttades till RetroArchs katalog för sparfiler."
+#define CATEGORY_MSG_STORAGE_NO_SPACE_INFO_LABEL_SV "Vita3K-katalogen finns i RetroArchs system- eller nedladdningskatalog. För närvarande har {} inte tillräckligt med utrymme för att flytta alla data, så du kan inte byta till den. Ta bort innehåll och starta sedan om för att försöka på nytt med mindre data."
 #define CATEGORY_MSG_STORAGE_NO_SPACE_MOVE_LABEL_SV "Det finns inte tillräckligt med utrymme i {} för att flytta data dit; lagringen finns kvar i {}."
 #define CATEGORY_MSG_STORAGE_SYSTEM_DIR_LABEL_SV "RetroArchs systemkatalog"
-#define CATEGORY_MSG_STORAGE_DOWNLOAD_DIR_LABEL_SV NULL
+#define CATEGORY_MSG_STORAGE_DOWNLOAD_DIR_LABEL_SV "RetroArchs nedladdningskatalog"
 #define CATEGORY_MSG_CHANGING_RUN_MODE_LABEL_SV "Ändrar körläge"
 #define CATEGORY_MSG_INSTALLING_TITLE_LABEL_SV "Installerar titel"
 #define CATEGORY_MSG_INSTALLING_DLC_LABEL_SV "Installerar DLC"
@@ -38682,9 +38682,9 @@ struct retro_core_options_v2 options_sr = {
 #define VITA3K_CONTENT_SUBDIRS_LABEL_SV "Inkludera underkataloger"
 #define VITA3K_CONTENT_SUBDIRS_INFO_0_SV "PÅ: Läser in uppdateringar och DLC i titelns katalog och underkataloger.\nAV: Läser bara in uppdateringar och DLC i titelns katalog."
 #define VITA3K_STORAGE_LOCATION_LABEL_SV "Lagringsplats"
-#define VITA3K_STORAGE_LOCATION_INFO_0_SV NULL
+#define VITA3K_STORAGE_LOCATION_INFO_0_SV "Vita3K-katalogen finns i RetroArchs system- eller nedladdningskatalog. Om användaren har nedladdningskatalogen på en extern, större eller snabbare lagringsenhet kan den användas i stället. Firmwarefilerna .pup och kamerabilderna läses fortfarande från system/vita3k."
 #define OPTION_VAL_SYSTEM_SV "Systemkatalog"
-#define OPTION_VAL_DOWNLOADS_SV NULL
+#define OPTION_VAL_DOWNLOADS_SV "Nedladdningskatalog"
 #define VITA3K_PSTV_MODE_LABEL_SV "PS TV-läge"
 #define VITA3K_PSTV_MODE_INFO_0_SV "Emulera en PlayStation TV i stället för en PS Vita."
 #define VITA3K_MODULES_MODE_LABEL_SV "Modulläge"
@@ -42800,35 +42800,35 @@ struct retro_core_options_v2 options_tt = {
 /* RETRO_LANGUAGE_UK */
 
 #define CATEGORY_GPU_LABEL_UK NULL
-#define CATEGORY_GPU_INFO_0_UK NULL
+#define CATEGORY_GPU_INFO_0_UK "Параметри візуалізації графіки."
 #define CATEGORY_CPU_LABEL_UK NULL
-#define CATEGORY_CPU_INFO_0_UK NULL
+#define CATEGORY_CPU_INFO_0_UK "Параметри емуляції процесора."
 #define CATEGORY_SYSTEM_LABEL_UK "Система"
-#define CATEGORY_SYSTEM_INFO_0_UK NULL
+#define CATEGORY_SYSTEM_INFO_0_UK "Параметри емуляції системи."
 #define CATEGORY_AUDIO_LABEL_UK "Звук"
-#define CATEGORY_AUDIO_INFO_0_UK NULL
+#define CATEGORY_AUDIO_INFO_0_UK "Параметри аудіовиходу."
 #define CATEGORY_NETWORK_LABEL_UK "Мережа"
-#define CATEGORY_NETWORK_INFO_0_UK NULL
+#define CATEGORY_NETWORK_INFO_0_UK "Параметри мережі."
 #define CATEGORY_INSTALL_LABEL_UK "Вміст"
-#define CATEGORY_INSTALL_INFO_0_UK NULL
-#define CATEGORY_REMOVE_LABEL_UK NULL
-#define CATEGORY_REMOVE_INFO_0_UK NULL
+#define CATEGORY_INSTALL_INFO_0_UK "Керуйте даними для даного заголовку, а також будь-які оновлення і завантажувальний контент."
+#define CATEGORY_REMOVE_LABEL_UK "Видалити вміст"
+#define CATEGORY_REMOVE_INFO_0_UK "Вибирає назви з встановленими даними та кешовані для видалення ядра чи скидання. Вона не видаляє оригінальний носій."
 #define CATEGORY_CAMERA_LABEL_UK "Камера"
-#define CATEGORY_CAMERA_INFO_0_UK NULL
+#define CATEGORY_CAMERA_INFO_0_UK "Те, що бачать передні та задні камери."
 #define CATEGORY_ACCOUNTS_LABEL_UK "Облікові записи"
-#define CATEGORY_ACCOUNTS_INFO_0_UK NULL
+#define CATEGORY_ACCOUNTS_INFO_0_UK "Облікові записи вітах (користувачі) в ux0/користувач, кожен з власними заощадженнями та трофеями."
 #define CATEGORY_TROPHIES_LABEL_UK NULL
-#define CATEGORY_TROPHIES_INFO_0_UK NULL
+#define CATEGORY_TROPHIES_INFO_0_UK "Поточні права назви."
 #define CATEGORY_MODULES_LABEL_UK NULL
 #define CATEGORY_MODULES_INFO_0_UK NULL
 #define CATEGORY_MSG_PREPARING_TITLE_LABEL_UK NULL
 #define CATEGORY_MSG_PREPARING_TITLE_INFO_0_UK NULL
-#define CATEGORY_MSG_PREPARING_FIRMWARE_LABEL_UK NULL
-#define CATEGORY_MSG_CLOSING_TITLE_LABEL_UK NULL
-#define CATEGORY_MSG_REMOVING_TITLES_LABEL_UK NULL
-#define CATEGORY_MSG_MOVING_DATA_LABEL_UK NULL
-#define CATEGORY_MSG_MOVING_DATA_INFO_0_UK NULL
-#define CATEGORY_MSG_STORAGE_NO_SPACE_INFO_LABEL_UK NULL
+#define CATEGORY_MSG_PREPARING_FIRMWARE_LABEL_UK "Підготовка прошивки"
+#define CATEGORY_MSG_CLOSING_TITLE_LABEL_UK "Закриття заголовку"
+#define CATEGORY_MSG_REMOVING_TITLES_LABEL_UK "Видалення назв"
+#define CATEGORY_MSG_MOVING_DATA_LABEL_UK "Переміщення даних"
+#define CATEGORY_MSG_MOVING_DATA_INFO_0_UK "Крок процесу завантаження: базовий каталог переміщено в інше місце зберігання, або облікові записи зі своїми збереженнями й трофеями, фотоальбомом та реєстром переміщено до каталогу збереження RetroArch."
+#define CATEGORY_MSG_STORAGE_NO_SPACE_INFO_LABEL_UK "Каталог vita3k в системі RetroArch's або каталозі завантаження. Зараз {} не має достатньо вільного місця, щоб перемістити всі дані, тому ви не можете змінити цей параметр. Видалити вміст і перезавантажити, щоб повторити з меншою кількістю даних."
 #define CATEGORY_MSG_STORAGE_NO_SPACE_MOVE_LABEL_UK NULL
 #define CATEGORY_MSG_STORAGE_SYSTEM_DIR_LABEL_UK NULL
 #define CATEGORY_MSG_STORAGE_DOWNLOAD_DIR_LABEL_UK NULL
@@ -42846,15 +42846,15 @@ struct retro_core_options_v2 options_tt = {
 #define CATEGORY_MSG_MISSING_FONTS_LABEL_UK NULL
 #define CATEGORY_MSG_FIRMWARE_MISSING_LABEL_UK NULL
 #define CATEGORY_MSG_FIRMWARE_REGULAR_DIR_LABEL_UK NULL
-#define CATEGORY_MSG_FIRMWARE_INSTALLED_ALL_LABEL_UK NULL
+#define CATEGORY_MSG_FIRMWARE_INSTALLED_ALL_LABEL_UK "Встановлена прошивка: усі три частини вже є. Завантажте гру."
 #define CATEGORY_MSG_FIRMWARE_STILL_MISSING_LABEL_UK NULL
 #define CATEGORY_MSG_VITAMIN_UNSUPPORTED_LABEL_UK NULL
-#define CATEGORY_MSG_NONPDRM_FAILED_LABEL_UK NULL
-#define CATEGORY_MSG_UPDATE_DLC_NO_LICENSE_LABEL_UK NULL
-#define CATEGORY_MSG_NO_SPACE_LABEL_UK NULL
-#define CATEGORY_MSG_NO_PARAM_SFO_DIR_LABEL_UK NULL
-#define CATEGORY_MSG_NO_PARAM_SFO_LABEL_UK NULL
-#define CATEGORY_MSG_GAME_INFO_FAILED_LABEL_UK NULL
+#define CATEGORY_MSG_NONPDRM_FAILED_LABEL_UK "Не вдалося розшифрувати NopDrm!"
+#define CATEGORY_MSG_UPDATE_DLC_NO_LICENSE_LABEL_UK "Це оновлення або DLC зашифровані і його ліцензія відсутня (спочатку встановіть гру, або додайте свою work.bin)"
+#define CATEGORY_MSG_NO_SPACE_LABEL_UK "Не вистачає вільного місця для установки: {:,1 f} GiB потрібно {: {:.1f} GiB безкоштовно"
+#define CATEGORY_MSG_NO_PARAM_SFO_DIR_LABEL_UK "В каталозі гри не знайдено param.sfo!"
+#define CATEGORY_MSG_NO_PARAM_SFO_LABEL_UK "Не знайдено param.sfo!"
+#define CATEGORY_MSG_GAME_INFO_FAILED_LABEL_UK "Не вдалося прочитати відомості про гру!"
 #define CATEGORY_MSG_NO_TITLE_ID_LABEL_UK NULL
 #define CATEGORY_MSG_GAME_NO_LICENSE_LABEL_UK NULL
 #define CATEGORY_MSG_INSTALL_BASE_FIRST_LABEL_UK NULL
